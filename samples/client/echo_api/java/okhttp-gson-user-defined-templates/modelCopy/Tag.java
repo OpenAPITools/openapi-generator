@@ -13,7 +13,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +24,7 @@ import org.openapitools.client.JSON;
 /**
  * Tag
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Tag {
   public Tag() {
   }
@@ -78,12 +77,12 @@ public class Tag {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Tag
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Tag
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Tag.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -129,22 +128,22 @@ public class Tag {
     }
   }
 
- /**
-  * Create an instance of Tag given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Tag
-  * @throws IOException if the JSON string is invalid with respect to Tag
-  */
+  /**
+   * Create an instance of Tag given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Tag
+   * @throws IOException if the JSON string is invalid with respect to Tag
+   */
   public static Tag fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Tag.class);
   }
 
- /**
-  * Convert an instance of Tag to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Tag to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

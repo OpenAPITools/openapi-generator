@@ -34,7 +34,9 @@ namespace {{modelPackage}}
     [DataContract]
     {{#discriminator}}
     {{#useNewtonsoft}}
+    {{#mappedModels.size}}
     [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
+    {{/mappedModels.size}}
     {{/useNewtonsoft}}
     {{#useSwashbuckle}}
     [SwaggerDiscriminator("{{{discriminatorName}}}")]
@@ -65,7 +67,7 @@ namespace {{modelPackage}}
         /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}{{#example}}
-        /// <example>{{.}}</example>{{/example}}{{#required}}
+        /* <example>{{.}}</example> */{{/example}}{{#required}}
         [Required]{{/required}}{{#pattern}}
         [RegularExpression("{{{.}}}")]{{/pattern}}{{#minLength}}{{#maxLength}}
         [StringLength({{maxLength}}, MinimumLength={{minLength}})]{{/maxLength}}{{/minLength}}{{#minLength}}{{^maxLength}}
@@ -77,7 +79,7 @@ namespace {{modelPackage}}
         public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^isEnum}}
-        public {{{dataType}}}{{#nullableReferenceTypes}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
+        public {{{dataType}}}{{#nullableReferenceTypes}}{{^isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^-last}}
 

@@ -1,0 +1,82 @@
+{
+  "info": {
+      "title": "Files.com API",
+      "contact": {
+          "name": "Files.com Customer Success Team",
+          "email": "support@files.com"
+      },
+      "version": "0.0.1"
+  },
+  "swagger": "2.0",
+  "produces": [
+      "application/json",
+      "application/msgpack",
+      "application/xml"
+  ],
+  "securityDefinitions": {
+      "api_key": {
+          "type": "apiKey",
+          "description": "API Key - supports user-based or site-wide API keys",
+          "name": "XFilesAPIKey",
+          "in": "header"
+      }
+  },
+  "host": "app.files.com",
+  "basePath": "/api/rest/v1",
+  "tags": [
+      {
+          "name": "api_key",
+          "description": "Operations about api_keys"
+      },
+      {
+          "name": "API Keys",
+          "description": "Operations about API Keys"
+      },
+      {
+          "name": "a_p_i_k_e_y_s",
+          "description": "Operations about API keys"
+      }
+  ],
+  "paths": {
+      "/api_keys/{id}": {
+          "get": {
+              "summary": "Show API Key",
+              "description": "Show API Key",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "in": "path",
+                      "name": "id",
+                      "description": "Api Key ID.",
+                      "type": "integer",
+                      "format": "int32",
+                      "required": true,
+                      "x-ms-summary": "Api Key ID."
+                  }
+              ],
+              "responses": {
+                  "400": {
+                      "description": "Bad Request",
+                      "x-ms-summary": "Bad Request"
+                  }
+              },
+              "tags": [
+                  "api_keys",
+                  "API Keys",
+                  "a_p_i_k_e_y_s"
+              ],
+              "operationId": "GetApiKeysId",
+              "x-authentication": [
+                  "self_managed"
+              ],
+              "x-category": [
+                  "developers"
+              ]
+          }
+      }
+  }
+  ,
+  "definitions": {}
+}

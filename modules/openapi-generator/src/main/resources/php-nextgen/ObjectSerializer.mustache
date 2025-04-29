@@ -56,7 +56,7 @@ class ObjectSerializer
      *
      * @return scalar|object|array|null serialized form of $data
      */
-    public static function sanitizeForSerialization(mixed $data, string $type = null, string $format = null): mixed
+    public static function sanitizeForSerialization(mixed $data, ?string $type = null, ?string $format = null): mixed
     {
         if (is_scalar($data) || null === $data) {
             return $data;
@@ -188,6 +188,9 @@ class ObjectSerializer
             # For boolean values, '' is considered empty
             'bool','boolean' => !in_array($value, [false, 0], true),
 
+            # For string values, '' is considered empty.
+            'string' => $value === '',
+
             # For all the other types, any value at this point can be considered empty.
             default => true
         };
@@ -258,6 +261,11 @@ class ObjectSerializer
 
         $value = $flattenArray($value, $paramName);
 
+        // https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values
+        if ($openApiType === 'array' && $style === 'deepObject' && $explode) {
+            return $value;
+        }
+
         if ($openApiType === 'object' && ($style === 'deepObject' || $explode)) {
             return $value;
         }
@@ -305,24 +313,6 @@ class ObjectSerializer
         }
 
         return self::toString($value);
-    }
-
-    /**
-     * Take value and turn it into a string suitable for inclusion in
-     * the http body (form parameter). If it's a string, pass through unchanged
-     * If it's a datetime object, format it in ISO8601
-     *
-     * @param string|\SplFileObject $value the value of the form parameter
-     *
-     * @return string the form string
-     */
-    public static function toFormValue(string|\SplFileObject $value): string
-    {
-        if ($value instanceof \SplFileObject) {
-            return $value->getRealPath();
-        } else {
-            return self::toString($value);
-        }
     }
 
     /**
@@ -380,7 +370,7 @@ class ObjectSerializer
      *
      * @return mixed a single or an array of $class instances
      */
-    public static function deserialize(mixed $data, string $class, array $httpHeaders = null): mixed
+    public static function deserialize(mixed $data, string $class, ?array $httpHeaders = null): mixed
     {
         if (null === $data) {
             return null;
@@ -440,6 +430,10 @@ class ObjectSerializer
             } else {
                 return null;
             }
+        }
+
+        if ($class === '\Psr\Http\Message\StreamInterface') {
+            return Utils::streamFor($data);
         }
 
         if ($class === '\SplFileObject') {

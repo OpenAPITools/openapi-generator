@@ -13,39 +13,43 @@
 
 // this model was generated using model.mustache
 package sample.cask.model
+
 import scala.util.control.NonFatal
 
 // see https://com-lihaoyi.github.io/upickle/
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-case class Tag(
-  id: Option[Long] = None ,
 
+        
+case class Tag(
+    id: Option[Long] = None ,
     name: Option[String] = None 
 
-  ) {
 
-  def asJson: String = asData.asJson
+) {
 
-  def asData : TagData = {
-    TagData(
-            id = id.getOrElse(0),
-            name = name.getOrElse("")
-    )
-  }
+def asJsonString: String = asData.asJsonString
+def asJson: ujson.Value = asData.asJson
+
+def asData : TagData = {
+TagData(
+    id = id.getOrElse(0) /*  1 */,
+    name = name.getOrElse("") /*  1 */
+
+)
+}
+}
+
+object Tag {
+given RW[Tag] = summon[RW[ujson.Value]].bimap[Tag](_.asJson, json => read[TagData](json).asModel)
+
+enum Fields(val fieldName : String) extends Field(fieldName) {
+    case id extends Fields("id")
+    case name extends Fields("name")
+}
+
 
 }
 
-object Tag{
-
-    given RW[Tag] = TagData.readWriter.bimap[Tag](_.asData, _.asModel)
-
-    enum Fields(fieldName : String) extends Field(fieldName) {
-            case id extends Fields("id")
-            case name extends Fields("name")
-    }
-
-
-}
 

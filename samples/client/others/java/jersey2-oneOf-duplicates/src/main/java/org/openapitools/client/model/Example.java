@@ -48,7 +48,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 @JsonDeserialize(using = Example.ExampleDeserializer.class)
 @JsonSerialize(using = Example.ExampleSerializer.class)
 public class Example extends AbstractOpenApiSchema {
@@ -135,7 +135,7 @@ public class Example extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public Example() {
         super("oneOf", Boolean.FALSE);
@@ -156,7 +156,7 @@ public class Example extends AbstractOpenApiSchema {
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return Example.schemas;
     }
 
@@ -196,9 +196,9 @@ public class Example extends AbstractOpenApiSchema {
      * @return The actual instance of `List<BigDecimal>`
      * @throws ClassCastException if the instance is not `List<BigDecimal>`
      */
-        public List<BigDecimal> getListBigDecimal() throws ClassCastException {
+    public List<BigDecimal> getListBigDecimal() throws ClassCastException {
         return (List<BigDecimal>)super.getActualInstance();
-        }
+    }
 
     /**
      * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
@@ -207,9 +207,9 @@ public class Example extends AbstractOpenApiSchema {
      * @return The actual instance of `List<Integer>`
      * @throws ClassCastException if the instance is not `List<Integer>`
      */
-        public List<Integer> getListInteger() throws ClassCastException {
+    public List<Integer> getListInteger() throws ClassCastException {
         return (List<Integer>)super.getActualInstance();
-        }
+    }
 
 }
 

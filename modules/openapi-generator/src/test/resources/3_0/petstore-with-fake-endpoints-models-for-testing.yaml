@@ -1485,10 +1485,11 @@ components:
         photoUrls:
           type: array
           xml:
-            name: photoUrl
             wrapped: true
           items:
             type: string
+            xml:
+              name: photoUrl
           uniqueItems: true
         tags:
           type: array

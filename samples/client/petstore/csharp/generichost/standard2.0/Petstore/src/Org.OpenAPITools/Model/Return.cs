@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of VarReturn
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> VarReturnOption { get; private set; }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Unsafe
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> UnsafeOption { get; private set; }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -169,8 +169,7 @@ namespace Org.OpenAPITools.Model
                             varAbstract = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "return":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varReturn = new Option<int?>(utf8JsonReader.GetInt32());
+                            varReturn = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "unsafe":
                             varUnsafe = new Option<string>(utf8JsonReader.GetString());

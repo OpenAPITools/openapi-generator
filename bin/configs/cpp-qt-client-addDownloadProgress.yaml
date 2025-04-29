@@ -1,0 +1,9 @@
+generatorName: cpp-qt-client
+outputDir: samples/client/petstore/cpp-qt-addDownloadProgress
+inputSpec: modules/openapi-generator/src/test/resources/3_0/cpp-qt/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-qt-client
+additionalProperties:
+  packageName: CppQtPetstoreClient
+  cppNamespace: test_namespace
+  modelNamePrefix: PFX
+  addDownloadProgress: true

@@ -66,7 +66,7 @@ class TestManual(unittest.TestCase):
             enum_nonref_string_header="success",
             enum_ref_string_header="failure",
         )
-        self.assertDictContainsSubset(expected_header, e.headers)
+        self.assertLessEqual(expected_header.items(), e.headers.items())
 
     def testEnumQueryParameters(self):
         api_instance = openapi_client.QueryApi()

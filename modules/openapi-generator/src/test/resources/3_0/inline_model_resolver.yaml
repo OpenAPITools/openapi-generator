@@ -455,6 +455,18 @@ paths:
                           type: string
 components:
   requestBodies: {}
+  responses:
+    JustAnotherResponse:
+      description: just another response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              uuid:
+                type: integer
+              label:
+                type: string
   schemas:
     Users:
       type: array

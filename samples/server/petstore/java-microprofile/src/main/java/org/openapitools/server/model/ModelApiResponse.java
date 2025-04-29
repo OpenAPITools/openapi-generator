@@ -12,6 +12,8 @@
 
 package org.openapitools.server.model;
 
+import java.util.Objects;
+import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -28,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ApiResponse")
 /**
   * Describes the result of uploading an image resource
- **/
+  */
 
 public class ModelApiResponse  {
   
@@ -44,10 +46,10 @@ public class ModelApiResponse  {
   
   private String message;
 
- /**
+  /**
    * Get code
    * @return code
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getCode() {
@@ -55,8 +57,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set code
-  **/
+   * Set code
+   */
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCode(Integer code) {
@@ -68,10 +70,10 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get type
    * @return type
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getType() {
@@ -79,8 +81,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set type
-  **/
+   * Set type
+   */
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setType(String type) {
@@ -92,10 +94,10 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get message
    * @return message
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getMessage() {
@@ -103,8 +105,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set message
-  **/
+   * Set message
+   */
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMessage(String message) {
@@ -116,10 +118,28 @@ public class ModelApiResponse  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ModelApiResponse _apiResponse = (ModelApiResponse) o;
+    return Objects.equals(this.code, _apiResponse.code) &&
+        Objects.equals(this.type, _apiResponse.type) &&
+        Objects.equals(this.message, _apiResponse.message);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(code, type, message);
+  }
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

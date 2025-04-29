@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.EntityRef;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,10 +24,10 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class FooRef extends EntityRef implements FooRefOrValue {
 
-  private String foorefPropA;
+  private @Nullable String foorefPropA;
 
   public FooRef() {
     super();
@@ -47,7 +48,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
   /**
    * Get foorefPropA
    * @return foorefPropA
-  */
+   */
   
   @Schema(name = "foorefPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foorefPropA")
@@ -147,7 +148,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     }
 
     protected Builder copyOf(FooRef value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setFoorefPropA(value.foorefPropA);
       return this;
     }

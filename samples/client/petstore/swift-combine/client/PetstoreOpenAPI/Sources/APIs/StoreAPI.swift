@@ -54,10 +54,10 @@ open class StoreAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                var path = "/store/order/{orderId}"
-                path = path.replacingOccurrences(of: "{orderId}", with: orderId)
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                var localVarPath = "/store/order/{orderId}"
+                localVarPath = localVarPath.replacingOccurrences(of: "{orderId}", with: orderId)
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -88,7 +88,7 @@ open class StoreAPI {
     /// - GET /store/inventory
     /// - Returns a map of status codes to quantities
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - returns: AnyPublisher<[String: Int], Error> 
     open func getInventory() -> AnyPublisher<[String: Int], Error> {
@@ -97,9 +97,9 @@ open class StoreAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                let path = "/store/inventory"
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let localVarPath = "/store/inventory"
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -143,10 +143,10 @@ open class StoreAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                var path = "/store/order/{orderId}"
-                path = path.replacingOccurrences(of: "{orderId}", with: "\(orderId)")
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                var localVarPath = "/store/order/{orderId}"
+                localVarPath = localVarPath.replacingOccurrences(of: "{orderId}", with: "\(orderId)")
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -195,9 +195,9 @@ open class StoreAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                let path = "/store/order"
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let localVarPath = "/store/order"
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }

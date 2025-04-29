@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Status
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<StatusEnum?> StatusOption { get; private set; }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Complete
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> CompleteOption { get; private set; }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> IdOption { get; private set; }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PetId
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> PetIdOption { get; private set; }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Quantity
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> QuantityOption { get; private set; }
 
         /// <summary>
@@ -203,13 +203,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ShipDate
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> ShipDateOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
-        /// <example>2020-02-02T20:20:20.000222Z</example>
+        /* <example>2020-02-02T20:20:20.000222Z</example> */
         [JsonPropertyName("shipDate")]
         public DateTime? ShipDate { get { return this.ShipDateOption; } set { this.ShipDateOption = new Option<DateTime?>(value); } }
 
@@ -243,7 +243,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -299,24 +299,19 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "complete":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                complete = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            complete = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "id":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = new Option<long?>(utf8JsonReader.GetInt64());
+                            id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (long?)null : utf8JsonReader.GetInt64());
                             break;
                         case "petId":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                petId = new Option<long?>(utf8JsonReader.GetInt64());
+                            petId = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (long?)null : utf8JsonReader.GetInt64());
                             break;
                         case "quantity":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                quantity = new Option<int?>(utf8JsonReader.GetInt32());
+                            quantity = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "shipDate":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                shipDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            shipDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "status":
                             string statusRawValue = utf8JsonReader.GetString();

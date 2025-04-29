@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,30 +48,31 @@ import org.openapitools.client.JSON;
 /**
  * BasquePig
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class BasquePig {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
+  @javax.annotation.Nonnull
   private String className;
 
   public BasquePig() {
   }
 
-  public BasquePig className(String className) {
+  public BasquePig className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @javax.annotation.Nonnull
   public String getClassName() {
     return className;
   }
 
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 
@@ -175,12 +175,12 @@ public class BasquePig {
     openapiRequiredFields.add("className");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to BasquePig
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to BasquePig
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!BasquePig.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -272,22 +272,22 @@ public class BasquePig {
     }
   }
 
- /**
-  * Create an instance of BasquePig given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of BasquePig
-  * @throws IOException if the JSON string is invalid with respect to BasquePig
-  */
+  /**
+   * Create an instance of BasquePig given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of BasquePig
+   * @throws IOException if the JSON string is invalid with respect to BasquePig
+   */
   public static BasquePig fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, BasquePig.class);
   }
 
- /**
-  * Convert an instance of BasquePig to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of BasquePig to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

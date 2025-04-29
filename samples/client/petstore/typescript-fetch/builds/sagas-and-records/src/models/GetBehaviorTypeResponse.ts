@@ -18,12 +18,14 @@ import {
     BehaviorTypeFromJSON,
     BehaviorTypeFromJSONTyped,
     BehaviorTypeToJSON,
+    BehaviorTypeToJSONTyped,
 } from './BehaviorType';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -45,6 +47,8 @@ export interface GetBehaviorTypeResponse {
      */
     data?: BehaviorType;
 }
+
+
 
 /**
  * Check if a given object implements the GetBehaviorTypeResponse interface.
@@ -69,10 +73,15 @@ export function GetBehaviorTypeResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function GetBehaviorTypeResponseToJSON(value?: GetBehaviorTypeResponse | null): any {
+export function GetBehaviorTypeResponseToJSON(json: any): GetBehaviorTypeResponse {
+    return GetBehaviorTypeResponseToJSONTyped(json, false);
+}
+
+export function GetBehaviorTypeResponseToJSONTyped(value?: GetBehaviorTypeResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

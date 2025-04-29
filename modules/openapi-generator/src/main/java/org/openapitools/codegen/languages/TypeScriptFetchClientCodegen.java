@@ -41,6 +41,7 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -58,6 +59,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String KEBAB_CASE = "kebab-case";
     public static final String CAMEL_CASE = "camelCase";
     public static final String PASCAL_CASE = "PascalCase";
+    public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
+    public static final String VALIDATION_ATTRIBUTES = "validationAttributes";
 
     @Getter @Setter
     protected String npmRepository = null;
@@ -90,7 +93,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Getter @Setter
     protected String inferEntityFromUniqueIdWithName = null;
     @Setter protected boolean packageAsSourceOnlyLibrary = false;
-
+    @Getter @Setter
+    protected Boolean generateValidationAttributes = false;
 
     public TypeScriptFetchClientCodegen() {
         super();
@@ -120,6 +124,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_SWITCH_DESC).defaultValue(""));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'PascalCase', 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
+        this.cliOptions.add(new CliOption(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, "Setting this property to true will add brackets to array attribute names, e.g. my_values[].", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(VALIDATION_ATTRIBUTES, "Setting this property to true will generate the validation attributes of model properties.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -169,6 +175,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public Boolean getStringEnums() {
         return this.stringEnums;
     }
+
     public void setStringEnums(Boolean stringEnums) {
         this.stringEnums = stringEnums;
     }
@@ -305,6 +312,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
             }
         }
+
+        setGenerateValidationAttributes(convertPropertyToBooleanAndWriteBack(VALIDATION_ATTRIBUTES));
     }
 
     @Override
@@ -385,8 +394,32 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         for (ModelsMap entry : result.values()) {
             for (ModelMap model : entry.getModels()) {
                 ExtendedCodegenModel codegenModel = (ExtendedCodegenModel) model.getModel();
-                model.put("hasImports", codegenModel.imports.size() > 0);
+                boolean importsPresent = !codegenModel.imports.isEmpty();
+
+                // When legacyDiscriminatorBehaviour = false, DefaultCodegen will add the mapped models of the
+                // discriminator to codegenModel.imports, causing us to duplicate the import if we don't remove them
+                CodegenDiscriminator discriminator = codegenModel.discriminator;
+                boolean mappedDiscriminatorModelsPresent = nonNull(discriminator)
+                        && nonNull(discriminator.getMappedModels());
+                if (importsPresent && mappedDiscriminatorModelsPresent) {
+                    Set<String> mappedDiscriminatorModelNames = discriminator.getMappedModels()
+                            .stream()
+                            .map(CodegenDiscriminator.MappedModel::getModelName)
+                            .collect(Collectors.toSet());
+                    Set<String> filteredImports = codegenModel.imports
+                            .stream()
+                            .filter(modelImport ->
+                                    !mappedDiscriminatorModelNames.contains(modelImport))
+                            .collect(Collectors.toSet());
+
+                    codegenModel.imports.clear();
+                    codegenModel.imports.addAll(filteredImports);
+                }
+
+                model.put("hasImports", importsPresent);
                 model.put("tsImports", toTsImports(codegenModel, parseImports(codegenModel)));
+
+
                 allModels.add(codegenModel);
                 if (codegenModel.isEntity) {
                     entityModelClassnames.add(codegenModel.classname);
@@ -445,7 +478,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 HashMap<String, String> tsImport = new HashMap<>();
                 // TVG: This is used as class name in the import statements of the model file
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(im));
+                tsImport.put("filename", convertUsingFileNamingConvention(im));
                 tsImports.add(tsImport);
             }
         }
@@ -654,13 +687,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         this.addOperationModelImportInformation(operations);
+        this.escapeOperationIds(operations);
         this.updateOperationParameterForEnum(operations);
         if (this.getSagasAndRecords()) {
             this.updateOperationParameterForSagaAndRecords(operations);
         }
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
-        this.escapeOperationIds(operations);
+
         return operations;
     }
 
@@ -748,16 +782,30 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
             }
         }
+
+        List<CodegenProperty> oneOfsList = Optional.ofNullable(cm.getComposedSchemas())
+                .map(CodegenComposedSchemas::getOneOf)
+                .orElse(Collections.emptyList());
+
+        cm.oneOfModels = oneOfsList.stream()
+                .filter(CodegenProperty::getIsModel)
+                .map(CodegenProperty::getBaseType)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(TreeSet::new));
+
+        cm.oneOfArrays = oneOfsList.stream()
+                .filter(CodegenProperty::getIsArray)
+                .map(CodegenProperty::getComplexType)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(TreeSet::new));
+
         if (!cm.oneOf.isEmpty()) {
             // For oneOfs only import $refs within the oneOf
-            TreeSet<String> oneOfRefs = new TreeSet<>();
-            for (String im : cm.imports) {
-                if (cm.oneOf.contains(im)) {
-                    oneOfRefs.add(im);
-                }
-            }
-            cm.imports = oneOfRefs;
+            cm.imports = cm.imports.stream()
+                    .filter(im -> cm.oneOfModels.contains(im) || cm.oneOfArrays.contains(im))
+                    .collect(Collectors.toCollection(TreeSet::new));
         }
+
         return cm;
     }
 
@@ -802,10 +850,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     newItemsDataType = "string";
                     var.dataTypeAlternate = var.dataTypeAlternate.replace("number", newItemsDataType);
                 }
-
-                if (var.itemsAreNullable()) {
-                    var.dataTypeAlternate = var.dataTypeAlternate.replace(newItemsDataType, newItemsDataType + " | null");
-                }
             } else if (var.isEnum) {
                 var.dataTypeAlternate = var.datatypeWithEnum;
             } else if (var.isModel) {
@@ -821,10 +865,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
         return parentIsEntity;
-    }
-
-    private boolean itemsAreNullable(ExtendedCodegenProperty var) {
-        return var.items.isNullable || (var.items.items != null && var.items.items.isNullable);
     }
 
     private void escapeOperationIds(OperationsMap operations) {
@@ -923,10 +963,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                         newItemsDataType = "string";
                         param.dataTypeAlternate = param.dataTypeAlternate.replace("number", newItemsDataType);
                     }
-
-                    if (param.itemsAreNullable()) {
-                        param.dataTypeAlternate = param.dataTypeAlternate.replace(newItemsDataType, newItemsDataType + " | null");
-                    }
                 } else if (param.isEnum) {
                     param.dataTypeAlternate = param.datatypeWithEnum;
                 } else if (param.isModel) {
@@ -1020,16 +1056,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return false;
     }
 
-    private static boolean itemsAreNullable(CodegenProperty items) {
-        if (items == null) {
-            return true;
-        }
-        if (items.items != null) {
-            return itemsAreNullable(items.items);
-        }
-        return items.isNullable;
-    }
-
     private static String getItemsDataType(CodegenProperty items) {
         if (items == null) {
             return null;
@@ -1040,7 +1066,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return items.dataType;
     }
 
-    class ExtendedCodegenParameter extends CodegenParameter {
+    public class ExtendedCodegenParameter extends CodegenParameter {
         public String dataTypeAlternate;
         public boolean isUniqueId; // this parameter represents a unique id (x-isUniqueId: true)
         public List<CodegenProperty> readOnlyVars; // a list of read-only properties
@@ -1048,10 +1074,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         public boolean itemsAreUniqueId() {
             return TypeScriptFetchClientCodegen.itemsAreUniqueId(this.items);
-        }
-
-        public boolean itemsAreNullable() {
-            return TypeScriptFetchClientCodegen.itemsAreNullable(this.items);
         }
 
         public String getItemsDataType() {
@@ -1118,6 +1140,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isMap = cp.isMap;
             this.isFile = cp.isFile;
             this.isEnum = cp.isEnum;
+            this.isEnumRef = cp.isEnumRef;
             this._enum = cp._enum;
             this.allowableValues = cp.allowableValues;
             this.items = cp.items;
@@ -1192,7 +1215,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    class ExtendedCodegenProperty extends CodegenProperty {
+    public class ExtendedCodegenProperty extends CodegenProperty {
         public String dataTypeAlternate;
         public boolean isEntity; //Is a model containing an "id" property marked as isUniqueId and which matches the 'x-entityId' value.
         public boolean isUniqueId; // The property represents a unique id (x-isUniqueId: true)
@@ -1201,10 +1224,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         public boolean itemsAreUniqueId() {
             return TypeScriptFetchClientCodegen.itemsAreUniqueId(this.items);
-        }
-
-        public boolean itemsAreNullable() {
-            return TypeScriptFetchClientCodegen.itemsAreNullable(this.items);
         }
 
         public String getItemsDataType() {
@@ -1278,6 +1297,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isArray = cp.isArray;
             this.isMap = cp.isMap;
             this.isEnum = cp.isEnum;
+            this.isEnumRef = cp.isEnumRef;
             this.isReadOnly = cp.isReadOnly;
             this.isWriteOnly = cp.isWriteOnly;
             this.isNullable = cp.isNullable;
@@ -1348,7 +1368,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    class ExtendedCodegenOperation extends CodegenOperation {
+    public class ExtendedCodegenOperation extends CodegenOperation {
         boolean hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray;
         String returnTypeAlternate, returnBaseTypeAlternate, returnPassthrough;
 
@@ -1465,9 +1485,15 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    class ExtendedCodegenModel extends CodegenModel {
+    public class ExtendedCodegenModel extends CodegenModel {
         @Getter @Setter
         public Set<String> modelImports = new TreeSet<String>();
+
+        @Getter @Setter
+        public Set<String> oneOfModels = new TreeSet<>();
+        @Getter @Setter
+        public Set<String> oneOfArrays = new TreeSet<>();
+
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
         public boolean hasReturnPassthroughVoid;
@@ -1564,6 +1590,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.setItems(cm.getItems());
             this.setAdditionalProperties(cm.getAdditionalProperties());
             this.setIsModel(cm.getIsModel());
+            this.setComposedSchemas(cm.getComposedSchemas());
         }
 
         @Override
@@ -1600,5 +1627,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             sb.append(", hasReturnPassthroughVoid=").append(hasReturnPassthroughVoid);
             return sb.toString();
         }
+    }
+
+    @Override
+    protected String getLicenseNameDefaultValue() {
+        return null;
     }
 }

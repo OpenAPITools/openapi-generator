@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Mealy
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> MealyOption { get; private set; }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -132,8 +132,7 @@ namespace Org.OpenAPITools.Model
                             cultivar = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "mealy":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mealy = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            mealy = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         default:
                             break;

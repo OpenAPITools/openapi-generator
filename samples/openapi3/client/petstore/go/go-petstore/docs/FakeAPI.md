@@ -21,6 +21,7 @@ Method | HTTP request | Description
 [**TestInlineFreeformAdditionalProperties**](FakeAPI.md#TestInlineFreeformAdditionalProperties) | **Post** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**TestJsonFormData**](FakeAPI.md#TestJsonFormData) | **Get** /fake/jsonFormData | test json serialization of form data
 [**TestQueryDeepObject**](FakeAPI.md#TestQueryDeepObject) | **Get** /fake/deep_object_test | 
+[**TestQueryDeepObjectAnyof**](FakeAPI.md#TestQueryDeepObjectAnyof) | **Get** /fake/deep_object_anyof_test | 
 [**TestQueryParameterCollectionFormat**](FakeAPI.md#TestQueryParameterCollectionFormat) | **Put** /fake/test-query-parameters | 
 [**TestStringMapReference**](FakeAPI.md#TestStringMapReference) | **Post** /fake/stringMap-reference | test referenced string map
 [**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](FakeAPI.md#TestUniqueItemsHeaderAndQueryParameterCollectionFormat) | **Put** /fake/test-unique-parameters | 
@@ -1158,6 +1159,68 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **testPet** | [**Pet**](Pet.md) |  | 
  **inputOptions** | [**Category**](Category.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestQueryDeepObjectAnyof
+
+> TestQueryDeepObjectAnyof(ctx).Filter(filter).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	filter := *openapiclient.NewFilterAny() // FilterAny |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.FakeAPI.TestQueryDeepObjectAnyof(context.Background()).Filter(filter).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestQueryDeepObjectAnyof``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestQueryDeepObjectAnyofRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **filter** | [**FilterAny**](FilterAny.md) |  | 
 
 ### Return type
 

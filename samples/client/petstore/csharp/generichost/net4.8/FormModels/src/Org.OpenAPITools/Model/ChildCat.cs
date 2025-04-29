@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ChildCat(Option<string> name = default) : base()
         {
+            PetType = (ChildCatAllOfPetType)Enum.Parse(typeof(ChildCatAllOfPetType), this.GetType().Name);
             NameOption = name;
             OnCreated();
         }
@@ -46,14 +47,14 @@ namespace Org.OpenAPITools.Model
         /// The discriminator
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public new ChildCatAllOfPetType PetType { get; } = (ChildCatAllOfPetType)Enum.Parse(typeof(ChildCatAllOfPetType), "ChildCat");
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public new ChildCatAllOfPetType PetType { get; }
 
         /// <summary>
         /// Used to track the state of Name
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> NameOption { get; private set; }
 
         /// <summary>

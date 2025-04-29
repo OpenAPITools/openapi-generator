@@ -3,10 +3,10 @@ lazy val root = (project in file(".")).
     organization := "org.openapitools",
     name := "petstore-rest-assured-jackson",
     version := "1.0.0",
-    scalaVersion := "2.11.4",
+    scalaVersion := "2.11.12",
     scalacOptions ++= Seq("-feature"),
-    javacOptions in compile ++= Seq("-Xlint:deprecation"),
-    publishArtifact in (Compile, packageDoc) := false,
+    compile / javacOptions ++= Seq("-Xlint:deprecation"),
+    Compile / packageDoc / publishArtifact := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
       "io.swagger" % "swagger-annotations" % "1.6.6",
@@ -22,7 +22,7 @@ lazy val root = (project in file(".")).
       "jakarta.validation" % "jakarta.validation-api" % "3.0.2" % "compile",
       "org.hibernate" % "hibernate-validator" % "6.0.19.Final" % "compile",
     "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5" % "compile",
-      "junit" % "junit" % "4.13.2" % "test",
+      "org.junit.jupiter" % "junit-jupiter-api" % "5.10.3" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
   )

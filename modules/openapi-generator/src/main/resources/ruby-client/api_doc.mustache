@@ -37,9 +37,9 @@ require '{{{gemName}}}'
   # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
   config.access_token = 'YOUR_BEARER_TOKEN'{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
   # Configure API key authorization: {{{name}}}
-  config.api_key['{{{name}}}'] = 'YOUR API KEY'
+  config.api_key['{{{keyParamName}}}'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['{{{name}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
+  # config.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
   # Configure OAuth2 access token for authorization: {{{name}}}
   config.access_token = 'YOUR ACCESS TOKEN'{{/isOAuth}}
 {{/authMethods}}end

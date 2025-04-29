@@ -258,6 +258,13 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: Content-Type
+          in: header
+          style: simple
+          description: Content type header parameter
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: successful operation
@@ -1092,6 +1099,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FreeFormObjectTestClass'
+  /fake/free-form-query-parameters:
+    get:
+      parameters:
+        - in: "query"
+          name: "fixed"
+          schema:
+            type: "string"
+        - in: "query"
+          name: "free-form"
+          schema:
+            type: "object"
+          style: "form"
+      responses:
+        200:
+          description: OK
   /fake/test-query-parameters:
     put:
       tags:
@@ -1217,7 +1239,7 @@ paths:
       operationId: getParameterNameMapping
       parameters:
         - name: _type
-          in: header 
+          in: header
           description: _type
           required: true
           schema:
@@ -1230,7 +1252,7 @@ paths:
           schema:
             type: string
         - name: type_
-          in: header 
+          in: header
           description: type_
           required: true
           schema:
@@ -1246,7 +1268,7 @@ paths:
       operationId: getParameterStringNumber
       parameters:
         - name: string_number
-          in: header 
+          in: header
           description: string number
           required: true
           schema:
@@ -1325,7 +1347,7 @@ paths:
     post:
       tags:
         - fake
-      summary: fake uploads an image with ref request bodies
+      summary: fake reference parameter
       description: ''
       operationId: fake-upload-ref-request-bodies
       parameters:
@@ -1349,7 +1371,18 @@ paths:
             - 'read:pets'
       requestBody:
         $ref: '#/components/requestBodies/upload_body'
-
+  '/fake/pet/{petId}/reference/parameter':
+    post:
+      tags:
+        - fake
+      summary: fake reference parameter
+      description: ''
+      operationId: fake-ref-parameter
+      parameters:
+        - $ref: '#/components/parameters/pet_id'
+      responses:
+        '200':
+          description: successful operation
   /values:
     get:
       tags:
@@ -1408,6 +1441,16 @@ servers:
   - url: https://127.0.0.1/no_variable
     description: The local server without variables
 components:
+  parameters:
+    pet_id:
+      name: petId
+      in: path
+      description: to test oneOf in parameter $ref
+      required: true
+      schema:
+        oneOf:
+          - type: string
+          - type: integer
   requestBodies:
     upload_body:
       content:
@@ -2202,6 +2245,13 @@ components:
         - $ref: '#/components/schemas/Pig'
       discriminator:
         propertyName: className
+    mammal_anyof:
+      anyOf:
+        - $ref: '#/components/schemas/whale'
+        - $ref: '#/components/schemas/zebra'
+        - $ref: '#/components/schemas/Pig'
+      discriminator:
+        propertyName: className
     whale:
       type: object
       properties:
@@ -2598,6 +2648,17 @@ components:
                     name:
                       type: string
         category_allOf_ref:
+          allOf:
+            - $ref: '#/components/schemas/Category'
+        category_allOf_ref_description:
+          description: |
+            Adding description to property using allOf
+          allOf:
+            - $ref: '#/components/schemas/Category'
+        category_allOf_ref_description_readonly:
+          description: |
+            Adding description to readonly property using allOf
+          readOnly: true
           allOf:
             - $ref: '#/components/schemas/Category'
         name:

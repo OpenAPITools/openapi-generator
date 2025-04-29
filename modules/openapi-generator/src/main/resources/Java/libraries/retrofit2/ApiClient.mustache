@@ -1,3 +1,5 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
 {{#gson}}
@@ -22,7 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 {{/useRxJava2}}
 {{#useRxJava3}}
-import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 {{/useRxJava3}}
 {{#gson}}
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -44,7 +46,9 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
+{{#jsr310}}
 import java.time.format.DateTimeFormatter;
+{{/jsr310}}
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.HashMap;

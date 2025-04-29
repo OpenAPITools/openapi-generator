@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: testing oneOf without discriminator
+servers:
+  - url: http://localhost:3000
+paths:
+  /test:
+    get:
+      operationId: test
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+  /test-array:
+    get:
+      operationId: testArray
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestArrayResponse'
+components:
+  schemas:
+    TestArrayResponse:
+      oneOf:
+        - type: array
+          items:
+            $ref: "#/components/schemas/TestA"
+        - type: array
+          items:
+            $ref: "#/components/schemas/TestB"
+        - type: array
+          items:
+            type: string
+    TestResponse:
+      oneOf:
+        - $ref: "#/components/schemas/TestA"
+        - $ref: "#/components/schemas/TestB"
+        - type: string
+    TestA:
+      type: object
+      properties:
+        foo:
+          type: string
+      required:
+        - foo
+    TestB:
+      type: object
+      properties:
+        bar:
+          type: string
+      required:
+        - bar

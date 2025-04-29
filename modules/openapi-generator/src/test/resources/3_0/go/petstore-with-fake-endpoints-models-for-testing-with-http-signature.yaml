@@ -1233,6 +1233,22 @@ paths:
       responses:
         '200':
           description: OK
+  /fake/deep_object_anyof_test:
+    get:
+      tags:
+        - fake
+      operationId: test_query_deep_object_anyof
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/FilterAny'
+          explode: false
+      responses:
+        '200':
+          description: OK
   /fake/parameter-name-mapping:
     get:
       tags:
@@ -1268,6 +1284,29 @@ paths:
       responses:
         200:
           description: OK
+  /fake/wrapped-integer-ref:
+    post:
+      operationId: someOpsRequiringRefInt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - ids
+              properties:
+                MyIDs:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/IDsWrapper/properties/id'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1352,6 +1391,40 @@ components:
       type: http
       scheme: signature
   schemas:
+    FilterTypeRegex:
+      type: object
+      properties:
+        regex:
+          type: string
+      required:
+      - type
+    FilterTypeRange:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: string
+      required:
+      - type
+    FilterAny:
+      anyOf:
+      - $ref: '#/components/schemas/FilterTypeRegex'
+      - $ref: '#/components/schemas/FilterTypeRange'
+      discriminator:
+        mapping:
+          set: '#/components/schemas/FilterTypeRegex'
+          range: '#/components/schemas/FilterTypeRange'
+        propertyName: type
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        date:
+          type: string
+          format: date-time
     MapWithDateTime:
       type: object
       additionalProperties:
@@ -1655,6 +1728,9 @@ components:
           description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
           type: string
           pattern: '/^image_\d{1,3}$/i'
+        pattern_with_backtick:
+          type: string
+          pattern: "^$|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
     EnumClass:
       type: string
       default: '-efg'
@@ -2042,6 +2118,13 @@ components:
           type: string
       required:
         - className
+    fruitJuice:
+      type: object
+      required:
+        - fruit
+      properties:
+        fruit:
+          $ref: '#/components/schemas/gmFruit'
     gmFruit:
        properties:
           color:
@@ -2125,6 +2208,12 @@ components:
       type: array
       items:
         type: string
+    AnyOfPrimitiveType:
+      anyOf:
+      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - type: integer
+        format: int32
+      - $ref: '#/components/schemas/OneOfArrayOfString'
     # `dup-prop` is defined in both parent and child models
     #  but not identical: optional vs required
     DuplicatedPropChild:
@@ -2185,3 +2274,14 @@ components:
             type: object
         - type: object
         - type: "null"
+    IDsWrapper:
+      type: object
+      properties:
+        id:
+          type: integer
+    OneOfWithComplexType:
+      oneOf:
+        - type: string
+        - type: array
+          items:
+            type: string

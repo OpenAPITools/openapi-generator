@@ -20,7 +20,7 @@ import json
 from datetime import date, datetime
 from decimal import Decimal
 from pydantic import BaseModel, ConfigDict, Field, StrictBytes, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing import Any, ClassVar, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
@@ -39,7 +39,7 @@ class FormatTest(BaseModel):
     string: Optional[Annotated[str, Field(strict=True)]] = None
     string_with_double_quote_pattern: Optional[Annotated[str, Field(strict=True)]] = None
     byte: Optional[Union[StrictBytes, StrictStr]] = None
-    binary: Optional[Union[StrictBytes, StrictStr]] = None
+    binary: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None
     var_date: date = Field(alias="date")
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
     uuid: Optional[StrictStr] = None

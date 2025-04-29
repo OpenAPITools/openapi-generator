@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Children
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Child>> ChildrenOption { get; private set; }
 
         /// <summary>
@@ -56,13 +56,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("children")]
         public List<Child> Children { get { return this.ChildrenOption; } set { this.ChildrenOption = new Option<List<Child>>(value); } }
-
-        /// <summary>
-        /// The discriminator
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public new string Type { get; } = "Adult";
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -122,8 +115,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "children":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                children = new Option<List<Child>>(JsonSerializer.Deserialize<List<Child>>(ref utf8JsonReader, jsonSerializerOptions));
+                            children = new Option<List<Child>>(JsonSerializer.Deserialize<List<Child>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "firstName":
                             firstName = new Option<string>(utf8JsonReader.GetString());

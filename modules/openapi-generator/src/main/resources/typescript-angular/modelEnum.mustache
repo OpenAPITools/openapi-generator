@@ -2,19 +2,29 @@
 export enum {{classname}} {
 {{#allowableValues}}
 {{#enumVars}}
+{{#enumDescription}}
+
+    /**
+     * {{.}}
+     */{{/enumDescription}}
     {{name}} = {{{value}}}{{^-last}},{{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
 }
 {{/stringEnums}}
 {{^stringEnums}}
-export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
-
 export const {{classname}} = {
 {{#allowableValues}}
 {{#enumVars}}
-    {{name}}: {{{value}}} as {{classname}}{{^-last}},{{/-last}}
+{{#enumDescription}}
+
+    /**
+     * {{.}}
+     */
+{{/enumDescription}}
+    {{name}}: {{{value}}}{{^-last}},{{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
-};
+} as const;
+export type {{classname}} = typeof {{classname}}[keyof typeof {{classname}}];
 {{/stringEnums}}

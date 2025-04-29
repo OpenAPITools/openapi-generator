@@ -28,7 +28,7 @@ export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[k
 export function instanceOfOuterEnumIntegerDefaultValue(value: any): boolean {
     for (const key in OuterEnumIntegerDefaultValue) {
         if (Object.prototype.hasOwnProperty.call(OuterEnumIntegerDefaultValue, key)) {
-            if ((OuterEnumIntegerDefaultValue as Record<string, OuterEnumIntegerDefaultValue>)[key] === value) {
+            if (OuterEnumIntegerDefaultValue[key as keyof typeof OuterEnumIntegerDefaultValue] === value) {
                 return true;
             }
         }
@@ -46,5 +46,9 @@ export function OuterEnumIntegerDefaultValueFromJSONTyped(json: any, ignoreDiscr
 
 export function OuterEnumIntegerDefaultValueToJSON(value?: OuterEnumIntegerDefaultValue | null): any {
     return value as any;
+}
+
+export function OuterEnumIntegerDefaultValueToJSONTyped(value: any, ignoreDiscriminator: boolean): OuterEnumIntegerDefaultValue {
+    return value as OuterEnumIntegerDefaultValue;
 }
 

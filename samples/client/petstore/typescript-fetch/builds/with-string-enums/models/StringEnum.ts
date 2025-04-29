@@ -27,7 +27,7 @@ export enum StringEnum {
 export function instanceOfStringEnum(value: any): boolean {
     for (const key in StringEnum) {
         if (Object.prototype.hasOwnProperty.call(StringEnum, key)) {
-            if ((StringEnum as Record<string, StringEnum>)[key] === value) {
+            if (StringEnum[key as keyof typeof StringEnum] === value) {
                 return true;
             }
         }
@@ -45,5 +45,9 @@ export function StringEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 
 export function StringEnumToJSON(value?: StringEnum | null): any {
     return value as any;
+}
+
+export function StringEnumToJSONTyped(value: any, ignoreDiscriminator: boolean): StringEnum {
+    return value as StringEnum;
 }
 

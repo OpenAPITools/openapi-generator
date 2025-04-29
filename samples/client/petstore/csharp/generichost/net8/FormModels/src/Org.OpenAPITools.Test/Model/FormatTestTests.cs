@@ -90,6 +90,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'StringFormattedAsDecimalRequired'
+        /// </summary>
+        [Fact]
+        public void StringFormattedAsDecimalRequiredTest()
+        {
+            // TODO unit test for the property 'StringFormattedAsDecimalRequired'
+        }
+
+        /// <summary>
         /// Test the property 'Binary'
         /// </summary>
         [Fact]
@@ -144,12 +153,57 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Int32Range'
+        /// </summary>
+        [Fact]
+        public void Int32RangeTest()
+        {
+            // TODO unit test for the property 'Int32Range'
+        }
+
+        /// <summary>
         /// Test the property 'Int64'
         /// </summary>
         [Fact]
         public void Int64Test()
         {
             // TODO unit test for the property 'Int64'
+        }
+
+        /// <summary>
+        /// Test the property 'Int64Negative'
+        /// </summary>
+        [Fact]
+        public void Int64NegativeTest()
+        {
+            // TODO unit test for the property 'Int64Negative'
+        }
+
+        /// <summary>
+        /// Test the property 'Int64NegativeExclusive'
+        /// </summary>
+        [Fact]
+        public void Int64NegativeExclusiveTest()
+        {
+            // TODO unit test for the property 'Int64NegativeExclusive'
+        }
+
+        /// <summary>
+        /// Test the property 'Int64Positive'
+        /// </summary>
+        [Fact]
+        public void Int64PositiveTest()
+        {
+            // TODO unit test for the property 'Int64Positive'
+        }
+
+        /// <summary>
+        /// Test the property 'Int64PositiveExclusive'
+        /// </summary>
+        [Fact]
+        public void Int64PositiveExclusiveTest()
+        {
+            // TODO unit test for the property 'Int64PositiveExclusive'
         }
 
         /// <summary>
@@ -195,6 +249,15 @@ namespace Org.OpenAPITools.Test.Model
         public void StringTest()
         {
             // TODO unit test for the property 'String'
+        }
+
+        /// <summary>
+        /// Test the property 'StringFormattedAsDecimal'
+        /// </summary>
+        [Fact]
+        public void StringFormattedAsDecimalTest()
+        {
+            // TODO unit test for the property 'StringFormattedAsDecimal'
         }
 
         /// <summary>

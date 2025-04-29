@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,21 +22,21 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class HasOnlyReadOnly {
 
-  private String bar;
+  private @Nullable String bar;
 
-  private String foo;
+  private @Nullable String foo;
 
   public HasOnlyReadOnly() {
     super();
   }
 
   /**
-  * Constructor with all args parameters
-  */
-  public HasOnlyReadOnly(String bar, String foo) {
+   * Constructor with all args parameters
+   */
+  public HasOnlyReadOnly(@Nullable String bar, @Nullable String foo) {
       this.bar = bar;
       this.foo = foo;
   }
@@ -48,7 +49,7 @@ public class HasOnlyReadOnly {
   /**
    * Get bar
    * @return bar
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
@@ -68,7 +69,7 @@ public class HasOnlyReadOnly {
   /**
    * Get foo
    * @return foo
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("foo")

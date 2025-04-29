@@ -85,15 +85,15 @@ namespace Org.OpenAPITools.Model
             }
             set
             {
-                if (value.GetType() == typeof(EquilateralTriangle))
+                if (value.GetType() == typeof(EquilateralTriangle) || value is EquilateralTriangle)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(IsoscelesTriangle))
+                else if (value.GetType() == typeof(IsoscelesTriangle) || value is IsoscelesTriangle)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(ScaleneTriangle))
+                else if (value.GetType() == typeof(ScaleneTriangle) || value is ScaleneTriangle)
                 {
                     this._actualInstance = value;
                 }

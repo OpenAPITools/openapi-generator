@@ -16,7 +16,7 @@
 package org.openapitools.client.apis
 
 import java.io.IOException
-import okhttp3.OkHttpClient
+import okhttp3.Call
 import okhttp3.HttpUrl
 
 
@@ -36,7 +36,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
+class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -50,7 +50,16 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      enum class QueryDefaultEnumFindPetsByStatus(val value: kotlin.String) {
          @Json(name = "A") A("A"),
          @Json(name = "B") B("B"),
-         @Json(name = "C") C("C")
+         @Json(name = "C") C("C");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
      }
 
     /**
@@ -59,7 +68,16 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      enum class HeaderDefaultEnumFindPetsByStatus(val value: kotlin.String) {
          @Json(name = "A") A("A"),
          @Json(name = "B") B("B"),
-         @Json(name = "C") C("C")
+         @Json(name = "C") C("C");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
      }
 
     /**
@@ -68,10 +86,20 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      enum class CookieDefaultEnumFindPetsByStatus(val value: kotlin.String) {
          @Json(name = "A") A("A"),
          @Json(name = "B") B("B"),
-         @Json(name = "C") C("C")
+         @Json(name = "C") C("C");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
      }
 
     /**
+     * GET /test/parameters/{path_default}/{path_nullable}
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param pathDefault path default
@@ -116,6 +144,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
     }
 
     /**
+     * GET /test/parameters/{path_default}/{path_nullable}
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param pathDefault path default

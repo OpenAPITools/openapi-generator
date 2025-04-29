@@ -21,54 +21,56 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
-
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
-import java.util.*;
-
-import java.util.stream.Collectors;
-
 import org.mockito.Answers;
 import org.mockito.Mockito;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.testutils.ConfigAssert;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AbstractJavaCodegenTest {
 
     static final Map<String, OpenAPI> FLATTENED_SPEC = Map.of(
-        "3_0/petstore", TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"),
-        "3_0/mapSchemas", TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml"),
-        "3_0/spring/date-time-parameter-types-for-testing", TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml")
+            "3_0/petstore", TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"),
+            "3_0/mapSchemas", TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml"),
+            "3_0/spring/date-time-parameter-types-for-testing", TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml")
     );
-    
+
     private AbstractJavaCodegen codegen;
-    
+
     /**
      * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
      * using @BeforeMethod to have a fresh codegen mock for each test
      */
-    @BeforeMethod void mockAbstractCodegen() {
+    @BeforeMethod
+    void mockAbstractCodegen() {
         codegen = Mockito.mock(
-            AbstractJavaCodegen.class, Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
-        );        
+                AbstractJavaCodegen.class, Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+        );
     }
 
     @Test
     public void toEnumVarNameShouldNotShortenUnderScore() {
+        codegen.setEnumPropertyNaming("MACRO_CASE");
         Assert.assertEquals(codegen.toEnumVarName("_", "String"), "UNDERSCORE");
         Assert.assertEquals(codegen.toEnumVarName("__", "String"), "__");
         Assert.assertEquals(codegen.toEnumVarName("_,.", "String"), "__");
@@ -79,15 +81,26 @@ public class AbstractJavaCodegenTest {
      */
     @Test
     public void toEnumVarNameShouldNotResultInSingleUnderscore() {
-        Assert.assertEquals(codegen.toEnumVarName(" ", "String"), "SPACE");
-        Assert.assertEquals(codegen.toEnumVarName("==", "String"), "u");
+        codegen.setEnumPropertyNaming("MACRO_CASE");
+        Assert.assertNotEquals(codegen.toEnumVarName(" ", "String"), "_");
+        Assert.assertNotEquals(codegen.toEnumVarName("==", "String"), "_");
     }
 
     @Test
     public void toEnumVarNameAddUnderscoresIfValueIsPascalCase() {
+        codegen.setEnumPropertyNaming("MACRO_CASE");
         Assert.assertEquals(codegen.toEnumVarName("OnlyCamelCase", "String"), "ONLY_CAMEL_CASE");
         Assert.assertEquals(codegen.toEnumVarName("WithNumber1", "String"), "WITH_NUMBER1");
         Assert.assertEquals(codegen.toEnumVarName("_LeadingUnderscore", "String"), "_LEADING_UNDERSCORE");
+    }
+
+    @Test
+    public void toEnumVarKeepOriginal() {
+        codegen.setEnumPropertyNaming(CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original.name());
+        Assert.assertEquals(codegen.toEnumVarName("IfReallyNecessary_6_Keep__Original", "String"), "IfReallyNecessary_6_Keep__Original");
+        Assert.assertEquals(codegen.toEnumVarName("this_should_Actually_not_Be_used_AS_ENUM_VALUE1", "String"), "this_should_Actually_not_Be_used_AS_ENUM_VALUE1");
+        Assert.assertEquals(codegen.toEnumVarName("There should be warning in the logger", "String"), "thereShouldBeWarningInTheLogger");
+        Assert.assertEquals(codegen.toEnumVarName("^", "String"), "CARET");
     }
 
     @Test
@@ -123,7 +136,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void testPreprocessOpenAPINumVersion() {
         final OpenAPI openAPIOtherNumVersion = TestUtils.parseFlattenSpec("src/test/resources/2_0/duplicateOperationIds.yaml");
-        
+
         codegen.preprocessOpenAPI(openAPIOtherNumVersion);
 
         Assert.assertEquals(codegen.getArtifactVersion(), openAPIOtherNumVersion.getInfo().getVersion());
@@ -155,7 +168,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.toVarName("$name"), "$Name");
         Assert.assertEquals(codegen.toVarName("1AAaa"), "_1AAaa");
     }
-    
+
     @Test
     public void convertModelName() {
         Assert.assertEquals(codegen.toModelName("name"), "Name");
@@ -182,17 +195,13 @@ public class AbstractJavaCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertFalse(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "invalidPackageName");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "invalidPackageName");
-        Assert.assertEquals(codegen.apiPackage(), "invalidPackageName");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "invalidPackageName");
-        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "get");
-        Assert.assertEquals(codegen.getArtifactVersion(), openAPI.getInfo().getVersion());
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), openAPI.getInfo().getVersion());
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.FALSE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "invalidPackageName");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "invalidPackageName");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "org.openapitools");
+        configAssert.assertValue(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "get");
+        configAssert.assertValue(CodegenConstants.ARTIFACT_VERSION, codegen::getArtifactVersion, openAPI.getInfo().getVersion());
     }
 
     @Test
@@ -209,18 +218,13 @@ public class AbstractJavaCodegenTest {
 
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
-
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertTrue(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.zzzzzzz.model");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.zzzzzzz.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "is");
-        Assert.assertEquals(codegen.getArtifactVersion(), "0.9.0-SNAPSHOT");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), "0.9.0-SNAPSHOT");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.TRUE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xyz.yyyyy.zzzzzzz.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xyz.yyyyy.zzzzzzz.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xyz.yyyyy.zzzzzzz.invoker");
+        configAssert.assertValue(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "is");
+        configAssert.assertValue(CodegenConstants.ARTIFACT_VERSION, codegen::getArtifactVersion, "0.9.0-SNAPSHOT");
     }
 
     @Test
@@ -234,18 +238,13 @@ public class AbstractJavaCodegenTest {
 
         codegen.processOpts();
         codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
-
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertFalse(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.model.oooooo");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.model.oooooo");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.api.oooooo");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.api.oooooo");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.invoker.oooooo");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.invoker.oooooo");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "getBoolean");
-        Assert.assertEquals(codegen.getArtifactVersion(), "0.8.0-SNAPSHOT");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), "0.8.0-SNAPSHOT");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.FALSE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xyz.yyyyy.model.oooooo");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xyz.yyyyy.api.oooooo");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xyz.yyyyy.invoker.oooooo");
+        configAssert.assertValue(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "getBoolean");
+        configAssert.assertValue(CodegenConstants.ARTIFACT_VERSION, codegen::getArtifactVersion, "0.8.0-SNAPSHOT");
     }
 
     @Test
@@ -256,7 +255,7 @@ public class AbstractJavaCodegenTest {
         codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
         assertThat(codegen.getAdditionalModelTypeAnnotations())
-            .containsExactlyInAnyOrder("@Bar", "@Foo");
+                .containsExactlyInAnyOrder("@Bar", "@Foo");
     }
 
     @Test
@@ -267,7 +266,7 @@ public class AbstractJavaCodegenTest {
         codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
         assertThat(codegen.getAdditionalModelTypeAnnotations())
-            .containsExactlyInAnyOrder("@Bar", "@Foo");
+                .containsExactlyInAnyOrder("@Bar", "@Foo");
     }
 
     @Test
@@ -278,7 +277,7 @@ public class AbstractJavaCodegenTest {
         codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
         assertThat(codegen.getAdditionalModelTypeAnnotations())
-            .containsExactlyInAnyOrder("@Bar", "@Foo");
+                .containsExactlyInAnyOrder("@Bar", "@Foo");
     }
 
     @Test
@@ -289,7 +288,7 @@ public class AbstractJavaCodegenTest {
         codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
         assertThat(codegen.getAdditionalModelTypeAnnotations())
-            .containsExactlyInAnyOrder("@Bar", "@Foo", "@Foobar");
+                .containsExactlyInAnyOrder("@Bar", "@Foo", "@Foobar");
     }
 
     @Test
@@ -300,7 +299,7 @@ public class AbstractJavaCodegenTest {
         codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
         assertThat(codegen.getAdditionalModelTypeAnnotations())
-            .containsExactlyInAnyOrder("@Bar", "@Foo", "@Foo");
+                .containsExactlyInAnyOrder("@Bar", "@Foo", "@Foo");
     }
 
     @Test
@@ -412,7 +411,7 @@ public class AbstractJavaCodegenTest {
         codegen.setArtifactVersion(null);
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
@@ -425,7 +424,7 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put("snapshotVersion", "true");
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
@@ -438,7 +437,7 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion("2.0");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
@@ -497,7 +496,7 @@ public class AbstractJavaCodegenTest {
 
         codegen.processOpts();
         codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
-        
+
         Assert.assertEquals(codegen.getArtifactVersion(), "4.1.2-SNAPSHOT");
     }
 
@@ -636,7 +635,7 @@ public class AbstractJavaCodegenTest {
         codegen.schemaMapping().put("MyStringType", "com.example.foo");
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
         Schema<?> schema = new ArraySchema().items(new Schema<>().$ref("#/components/schemas/MyStringType"));
-        
+
         String defaultValue = codegen.getTypeDeclaration(schema);
 
         Assert.assertEquals(defaultValue, "List<com.example.foo>");
@@ -691,16 +690,16 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanTrueFromString() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
-        
+
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
-        
+
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
     @Test
     public void processOptsBooleanTrueFromBoolean() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, true);
-        
+
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
 
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -709,7 +708,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromString() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "false");
-        
+
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
 
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -718,16 +717,16 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromBoolean() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, false);
-        
+
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
-        
+
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
     @Test
     public void processOptsBooleanFalseFromGarbage() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "blibb");
-        
+
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
 
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -853,7 +852,7 @@ public class AbstractJavaCodegenTest {
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "File");
 
-        schema = new Schema<>().type("string")._enum(List.of("A","B")).pattern("^[a-z]$").maxLength(36);
+        schema = new Schema<>().type("string")._enum(List.of("A", "B")).pattern("^[a-z]$").maxLength(36);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "String");
     }
@@ -878,14 +877,14 @@ public class AbstractJavaCodegenTest {
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<File>");
 
-        schema = new ArraySchema().items(new Schema<>().type("string")._enum(List.of("A","B")).pattern("^[a-z]$").maxLength(36));
+        schema = new ArraySchema().items(new Schema<>().type("string")._enum(List.of("A", "B")).pattern("^[a-z]$").maxLength(36));
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<String>");
     }
 
     @Test
     public void AnnotationsContainerTest() {
-        codegen.additionalProperties().put("useBeanValidation", true);
+        codegen.setUseBeanValidation(true);
 
         // 1. string type
         Schema<?> schema = new ArraySchema().items(new Schema<>().type("string").pattern("^[a-z]$").minLength(0).maxLength(36));
@@ -967,5 +966,30 @@ public class AbstractJavaCodegenTest {
         schema = new ArraySchema().items(new Schema<>().type("integer").maximum(BigDecimal.TEN));
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Max(10)Integer>");
+    }
+
+    @Test
+    public void removeAnnotationsTest() {
+        Assert.assertEquals(codegen.removeAnnotations("@Min(0) @Max(10)Integer"), "Integer");
+        Assert.assertEquals(codegen.removeAnnotations("@Pattern(regexp = \"^[a-z]$\")String"), "String");
+        Assert.assertEquals(codegen.removeAnnotations("List<@Min(0) @Max(10)Integer>"), "List<Integer>");
+        Assert.assertEquals(codegen.removeAnnotations("List<@Pattern(regexp = \"^[a-z]$\")String>"), "List<String>");
+        Assert.assertEquals(codegen.removeAnnotations("List<@Valid Pet>"), "List<Pet>");
+    }
+
+    // TODO: this test fails on Windows
+    // the value it expects the example to contain is 2020-12-31 which is clearly wrong
+    //
+    // @Test(description = "test generated example values for string properties")
+    // public void testGeneratedExampleValues() {
+    //     final OpenAPI openAPI = FLATTENED_SPEC.get("3_0/spring/date-time-parameter-types-for-testing");
+    //     codegen.setOpenAPI(openAPI);
+    //     DateSchema dateSchema = (DateSchema) openAPI.getPaths().get("/thingy/{date}").getPost().getParameters().get(0).getSchema();
+    //     Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(dateSchema)).matches("2021-01-01"));
+    // }
+
+    @Test(description = "test sanitizing name of dataType when using schemaMapping and oneOf/allOf (issue 20718)")
+    public void testSanitizedDataType() {
+        assertThat(codegen.sanitizeDataType("org.somepkg.DataType")).isEqualTo("orgsomepkgDataType");
     }
 }

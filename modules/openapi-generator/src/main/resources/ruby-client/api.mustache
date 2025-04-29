@@ -188,7 +188,7 @@ module {{moduleName}}
       header_params = opts[:header_params] || {}
       {{#hasProduces}}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept([{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}])
+      header_params['Accept'] = @api_client.select_header_accept([{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}]) unless header_params['Accept']
       {{/hasProduces}}
       {{#hasConsumes}}
       # HTTP header 'Content-Type'

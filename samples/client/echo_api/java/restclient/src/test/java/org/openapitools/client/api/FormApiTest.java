@@ -14,8 +14,8 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.TestFormObjectMultipartRequestMarker;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for FormApi
  */
-@Ignore
+@Disabled
 public class FormApiTest {
 
     private final FormApi api = new FormApi();

@@ -21,22 +21,21 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for AdditionalPropertiesString
  */
-public class AdditionalPropertiesStringTest {
+class AdditionalPropertiesStringTest {
     private final AdditionalPropertiesString model = new AdditionalPropertiesString();
 
     /**
      * Model tests for AdditionalPropertiesString
      */
     @Test
-    public void testAdditionalPropertiesString() {
+    void testAdditionalPropertiesString() {
         // TODO: test AdditionalPropertiesString
     }
 
@@ -44,7 +43,7 @@ public class AdditionalPropertiesStringTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 

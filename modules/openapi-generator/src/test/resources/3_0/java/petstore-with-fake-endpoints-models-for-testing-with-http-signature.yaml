@@ -1981,6 +1981,13 @@ components:
         - $ref: '#/components/schemas/Pig'
       discriminator:
         propertyName: className
+    mammal_anyof:
+      anyOf:
+        - $ref: '#/components/schemas/whale'
+        - $ref: '#/components/schemas/zebra'
+        - $ref: '#/components/schemas/Pig'
+      discriminator:
+        propertyName: className
     whale:
       type: object
       properties:

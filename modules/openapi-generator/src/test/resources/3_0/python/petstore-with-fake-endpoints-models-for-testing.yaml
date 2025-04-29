@@ -1552,6 +1552,41 @@ paths:
               schema:
                 type: string
                 format: byte
+  /fake/upload_file_with_additional_properties:
+    post:
+      tags:
+        - fake
+      summary: uploads a file and additional properties using multipart/form-data
+      description: ''
+      operationId: uploadFileWithAdditionalProperties
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  description: file to upload
+                  type: string
+                  format: binary
+                object:
+                  description: Additional object
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                count:
+                  description: Integer count
+                  type: integer
+              required:
+                - file
   /import_test/return_datetime:
     get:
       tags:
@@ -1915,6 +1950,13 @@ components:
       properties:
         _class:
           type: string
+    Hunting__Dog:
+      allOf:
+        - $ref: '#/components/schemas/Creature'
+        - type: object
+          properties:
+            isTrained:
+              type: boolean
     Dog:
       allOf:
         - $ref: '#/components/schemas/Animal'
@@ -2060,35 +2102,15 @@ components:
           enum:
             - 1.1
             - -1.2
-        enum_number_vendor_ext:
+        enum_string_single_member:
+          type: string
+          enum:
+            - 'abc'
+        enum_integer_single_member:
           type: integer
           format: int32
           enum:
-            - 42
-            - 18
-            - 56
-          x-enum-descriptions:
-            - 'Description for 42'
-            - 'Description for 18'
-            - 'Description for 56'
-          x-enum-varnames:
-            - FortyTwo
-            - Eigtheen
-            - FiftySix
-        enum_string_vendor_ext:
-          type: string
-          enum:
-            - FOO
-            - Bar
-            - baz
-          x-enum-descriptions:
-            - 'Description for FOO'
-            - 'Description for Bar'
-            - 'Description for baz'
-          x-enum-varnames:
-            - FOOVar
-            - BarVar
-            - bazVar
+            - 100
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
         outerEnumInteger:
@@ -2097,6 +2119,10 @@ components:
           $ref: '#/components/schemas/OuterEnumDefaultValue'
         outerEnumIntegerDefaultValue:
           $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
+        enumNumberVendorExt:
+          $ref: '#/components/schemas/EnumNumberVendorExt'
+        enumStringVendorExt:
+          $ref: '#/components/schemas/EnumStringVendorExt'
     AdditionalPropertiesClass:
       type: object
       properties:
@@ -2253,6 +2279,18 @@ components:
             enum:
               - fish
               - crab
+    MultiArrays:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        files:
+          type: array
+          description: Another array of objects in addition to tags (mypy check to not to reuse the same iterator)
+          items:
+            $ref: '#/components/schemas/File'
     FreeFormObject:
       type: object
       description: A schema consisting only of additional properties
@@ -2276,6 +2314,35 @@ components:
       - 1
       - 2
       example: 2
+    EnumNumberVendorExt:
+      type: integer
+      format: int32
+      enum:
+        - 42
+        - 18
+        - 56
+      x-enum-descriptions:
+        - 'Description for 42'
+        - 'Description for 18'
+        - 'Description for 56'
+      x-enum-varnames:
+        - FortyTwo
+        - Eigtheen
+        - FiftySix
+    EnumStringVendorExt:
+      type: string
+      enum:
+        - FOO
+        - Bar
+        - baz
+      x-enum-descriptions:
+        - 'Description for FOO'
+        - 'Description for Bar'
+        - 'Description for baz'
+      x-enum-varnames:
+        - FOO_XEnumVarname
+        - BarVar_XEnumVarname
+        - bazVar_XEnumVarname
     OuterEnumDefaultValue:
       type: string
       enum:
@@ -2793,3 +2860,40 @@ components:
             _value:
               type: string
       type: object
+    TestEnum:
+      type: string
+      enum:
+        - ONE
+        - TWO
+        - THREE
+        - foUr
+    TestEnumWithDefault:
+      type: string
+      enum:
+        - EIN
+        - ZWEI
+        - DREI
+      default: ZWEI
+    TestModelWithEnumDefault:
+      type: object
+      required:
+        - test_enum
+      properties:
+        test_enum:
+          $ref: "#/components/schemas/TestEnum"
+        test_string:
+          type: string
+          example: "Just some string"
+        test_enum_with_default:
+          $ref: "#/components/schemas/TestEnumWithDefault"
+        test_string_with_default:
+          type: string
+          example: "More string"
+          default: "ahoy matey"
+        test_inline_defined_enum_with_default:
+          type: string
+          enum:
+            - A
+            - B
+            - C
+          default: B

@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Client
         public enum ApiKeyHeader
         {
             /// <summary>
-            /// The api_key header
+            /// The api-key header
             /// </summary>
             Api_key,
             /// <summary>
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Client
             switch(value)
             {
                 case ApiKeyHeader.Api_key:
-                    return "api_key";
+                    return "api-key";
                 case ApiKeyHeader.Api_key_query:
                     return "api_key_query";
                 default:
@@ -131,17 +131,6 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Sanitize filename by removing the path
-        /// </summary>
-        /// <param name="filename">Filename</param>
-        /// <returns>Filename</returns>
-        public static string SanitizeFilename(string filename)
-        {
-            Match match = Regex.Match(filename, @".*[/\\](.*)$");
-            return match.Success ? match.Groups[1].Value : filename;
-        }
-
-        /// <summary>
         /// If parameter is DateTime, output in a formatted string (default ISO 8601), customizable with Configuration.DateTime.
         /// If parameter is a list, join the list with ",".
         /// Otherwise just return the string.
@@ -169,6 +158,8 @@ namespace Org.OpenAPITools.Client
                     : "false";
             if (obj is ChildCat.PetTypeEnum childCatPetTypeEnum)
                 return ChildCat.PetTypeEnumToJsonValue(childCatPetTypeEnum);
+            if (obj is CopyActivity.SchemaEnum copyActivitySchemaEnum)
+                return CopyActivity.SchemaEnumToJsonValue(copyActivitySchemaEnum);
             if (obj is EnumArrays.ArrayEnumEnum enumArraysArrayEnumEnum)
                 return EnumArrays.ArrayEnumEnumToJsonValue(enumArraysArrayEnumEnum);
             if (obj is EnumArrays.JustSymbolEnum enumArraysJustSymbolEnum)
@@ -225,6 +216,10 @@ namespace Org.OpenAPITools.Client
                 return RequiredClass.RequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNullableEnumIntegerOnlyEnum).ToString();
             if (obj is RequiredClass.RequiredNullableEnumStringEnum requiredClassRequiredNullableEnumStringEnum)
                 return RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClassRequiredNullableEnumStringEnum);
+            if (obj is TestDescendants.ObjectTypeEnum testDescendantsObjectTypeEnum)
+                return TestDescendants.ObjectTypeEnumToJsonValue(testDescendantsObjectTypeEnum);
+            if (obj is TestResultCode testResultCode)
+                return TestResultCodeValueConverter.ToJsonValue(testResultCode);
             if (obj is Zebra.TypeEnum zebraTypeEnum)
                 return Zebra.TypeEnumToJsonValue(zebraTypeEnum);
             if (obj is ZeroBasedEnum zeroBasedEnum)
@@ -284,7 +279,7 @@ namespace Org.OpenAPITools.Client
         /// <returns>Encoded string.</returns>
         public static string Base64Encode(string text)
         {
-            return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
+            return Convert.ToBase64String(global::System.Text.Encoding.UTF8.GetBytes(text));
         }
 
         /// <summary>
@@ -343,7 +338,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Provides a case-insensitive check that a provided content type is a known JSON-like content type.
         /// </summary>
-        public static readonly Regex JsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+        private static readonly Regex JsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
         /// <summary>
         /// Check if the given MIME is a JSON MIME.

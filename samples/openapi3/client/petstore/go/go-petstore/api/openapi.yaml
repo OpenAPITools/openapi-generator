@@ -1190,6 +1190,22 @@ paths:
           description: OK
       tags:
       - fake
+  /fake/deep_object_anyof_test:
+    get:
+      operationId: test_query_deep_object_anyof
+      parameters:
+      - explode: false
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: '#/components/schemas/FilterAny'
+        style: deepObject
+      responses:
+        "200":
+          description: OK
+      tags:
+      - fake
   /fake/parameter-name-mapping:
     get:
       operationId: getParameterNameMapping
@@ -1233,6 +1249,22 @@ paths:
       summary: parameter name mapping test
       tags:
       - fake
+  /fake/wrapped-integer-ref:
+    post:
+      operationId: someOpsRequiringRefInt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/someOpsRequiringRefInt_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: success
 components:
   requestBodies:
     UserArray:
@@ -1262,6 +1294,40 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
+    FilterTypeRegex:
+      properties:
+        regex:
+          type: string
+      required:
+      - type
+      type: object
+    FilterTypeRange:
+      properties:
+        data:
+          items:
+            type: string
+          type: array
+      required:
+      - type
+      type: object
+    FilterAny:
+      anyOf:
+      - $ref: '#/components/schemas/FilterTypeRegex'
+      - $ref: '#/components/schemas/FilterTypeRange'
+      discriminator:
+        mapping:
+          set: '#/components/schemas/FilterTypeRegex'
+          range: '#/components/schemas/FilterTypeRange'
+        propertyName: type
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        date:
+          format: date-time
+          type: string
     MapWithDateTime:
       additionalProperties:
         items:
@@ -1615,6 +1681,10 @@ components:
           description: A string starting with 'image_' (case insensitive) and one
             to three digits following i.e. Image_01.
           pattern: "/^image_\\d{1,3}$/i"
+          type: string
+        pattern_with_backtick:
+          pattern: "^$|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\
+            .[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
           type: string
       required:
       - byte
@@ -2030,6 +2100,13 @@ components:
       required:
       - className
       type: object
+    fruitJuice:
+      properties:
+        fruit:
+          $ref: '#/components/schemas/gmFruit'
+      required:
+      - fruit
+      type: object
     gmFruit:
       anyOf:
       - $ref: '#/components/schemas/apple'
@@ -2113,6 +2190,12 @@ components:
       items:
         type: string
       type: array
+    AnyOfPrimitiveType:
+      anyOf:
+      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - format: int32
+        type: integer
+      - $ref: '#/components/schemas/OneOfArrayOfString'
     DuplicatedPropChild:
       allOf:
       - $ref: '#/components/schemas/DuplicatedPropParent'
@@ -2171,6 +2254,17 @@ components:
           type: object
         type: array
       - type: object
+    IDsWrapper:
+      properties:
+        id:
+          type: integer
+      type: object
+    OneOfWithComplexType:
+      oneOf:
+      - type: string
+      - items:
+          type: string
+        type: array
     _foo_get_default_response:
       example:
         string:
@@ -2323,6 +2417,15 @@ components:
           type: string
       required:
       - requiredFile
+      type: object
+    someOpsRequiringRefInt_request:
+      properties:
+        MyIDs:
+          items:
+            $ref: '#/components/schemas/IDsWrapper/properties/id'
+          type: array
+      required:
+      - ids
       type: object
   securitySchemes:
     petstore_auth:

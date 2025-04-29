@@ -1,0 +1,28 @@
+openapi: 3.0.3
+
+info:
+  title: Test OAuth code generation
+  description: Tests OAuth code generation
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /api/something:
+    get:
+      responses:
+        204:
+          description: Success!
+
+components:
+  securitySchemes:
+    oAuth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: ''
+          scopes: {}
+
+security:
+  - oAuth: []

@@ -7,12 +7,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.xml.bind.annotation.*;
@@ -28,18 +30,17 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Order")
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Order {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private Long petId;
+  private @Nullable Long petId;
 
-  private Integer quantity;
+  private @Nullable Integer quantity;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime shipDate;
+  private @Nullable OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -51,7 +52,7 @@ public class Order {
     
     DELIVERED("delivered");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -78,7 +79,7 @@ public class Order {
     }
   }
 
-  private StatusEnum status;
+  private @Nullable StatusEnum status;
 
   private Boolean complete = false;
 
@@ -87,9 +88,9 @@ public class Order {
   }
 
   /**
-  * Constructor with all args parameters
-  */
-  public Order(Long id, Long petId, Integer quantity, OffsetDateTime shipDate, StatusEnum status, Boolean complete) {
+   * Constructor with all args parameters
+   */
+  public Order(@Nullable Long id, @Nullable Long petId, @Nullable Integer quantity, @Nullable OffsetDateTime shipDate, @Nullable StatusEnum status, Boolean complete) {
       this.id = id;
       this.petId = petId;
       this.quantity = quantity;
@@ -106,11 +107,12 @@ public class Order {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
+  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -127,11 +129,12 @@ public class Order {
   /**
    * Get petId
    * @return petId
-  */
+   */
   
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
   @JacksonXmlProperty(localName = "petId")
+  @XmlElement(name = "petId")
   public Long getPetId() {
     return petId;
   }
@@ -148,11 +151,12 @@ public class Order {
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
   @JacksonXmlProperty(localName = "quantity")
+  @XmlElement(name = "quantity")
   public Integer getQuantity() {
     return quantity;
   }
@@ -169,11 +173,12 @@ public class Order {
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   @Valid 
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
   @JacksonXmlProperty(localName = "shipDate")
+  @XmlElement(name = "shipDate")
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -190,11 +195,12 @@ public class Order {
   /**
    * Order Status
    * @return status
-  */
+   */
   
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
+  @XmlElement(name = "status")
   public StatusEnum getStatus() {
     return status;
   }
@@ -211,11 +217,12 @@ public class Order {
   /**
    * Get complete
    * @return complete
-  */
+   */
   
   @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("complete")
   @JacksonXmlProperty(localName = "complete")
+  @XmlElement(name = "complete")
   public Boolean getComplete() {
     return complete;
   }

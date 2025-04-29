@@ -292,7 +292,7 @@ for this project used jakarta.validation-api -->
     <swagger-core-version>1.5.22</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <junit-version>4.13.2</junit-version>
-    <logback-version>1.4.14</logback-version>
+    <logback-version>1.5.13</logback-version>
 {{#useBeanValidation}}
     <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
@@ -302,14 +302,14 @@ for this project used jakarta.validation-api -->
 {{#generateSpringBootApplication}}
     <spring.boot-version>1.5.9.RELEASE</spring.boot-version>
 {{/generateSpringBootApplication}}
-    <cxf-version>3.3.0</cxf-version>
+    <cxf-version>3.5.9</cxf-version>
     <jackson-jaxrs-version>2.17.1</jackson-jaxrs-version>
-        {{#useJakartaEe}}
-        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
-        {{/useJakartaEe}}
-        {{^useJakartaEe}}
-        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
-        {{/useJakartaEe}}
+    {{#useJakartaEe}}
+    <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+    {{/useJakartaEe}}
+    {{^useJakartaEe}}
+    <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+    {{/useJakartaEe}}
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

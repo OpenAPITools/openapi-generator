@@ -12,6 +12,8 @@
 
 package org.openapitools.server.model;
 
+import java.util.Objects;
+import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 /**
   * A pet for sale in the pet store
- **/
+  */
 
 public class Pet  {
   
@@ -93,15 +95,15 @@ public class Pet  {
 
   public static final String JSON_PROPERTY_STATUS = "status";
  /**
-   * pet status in the store
-  **/
+  * pet status in the store
+  */
   
   private StatusEnum status;
 
- /**
+  /**
    * Get id
    * @return id
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
@@ -109,8 +111,8 @@ public class Pet  {
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
@@ -122,10 +124,10 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * Get category
    * @return category
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Category getCategory() {
@@ -133,8 +135,8 @@ public class Pet  {
   }
 
   /**
-    * Set category
-  **/
+   * Set category
+   */
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCategory(Category category) {
@@ -146,10 +148,10 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * Get name
    * @return name
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getName() {
@@ -157,8 +159,8 @@ public class Pet  {
   }
 
   /**
-    * Set name
-  **/
+   * Set name
+   */
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(String name) {
@@ -170,10 +172,10 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public List<String> getPhotoUrls() {
@@ -181,8 +183,8 @@ public class Pet  {
   }
 
   /**
-    * Set photoUrls
-  **/
+   * Set photoUrls
+   */
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPhotoUrls(List<String> photoUrls) {
@@ -202,10 +204,10 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * Get tags
    * @return tags
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<Tag> getTags() {
@@ -213,8 +215,8 @@ public class Pet  {
   }
 
   /**
-    * Set tags
-  **/
+   * Set tags
+   */
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setTags(List<Tag> tags) {
@@ -234,11 +236,11 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * pet status in the store
    * @return status
    * @deprecated
-  **/
+   **/
   @Deprecated
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -247,8 +249,8 @@ public class Pet  {
   }
 
   /**
-    * Set status
-  **/
+   * Set status
+   */
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(StatusEnum status) {
@@ -260,10 +262,31 @@ public class Pet  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Pet pet = (Pet) o;
+    return Objects.equals(this.id, pet.id) &&
+        Objects.equals(this.category, pet.category) &&
+        Objects.equals(this.name, pet.name) &&
+        Objects.equals(this.photoUrls, pet.photoUrls) &&
+        Objects.equals(this.tags, pet.tags) &&
+        Objects.equals(this.status, pet.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, category, name, photoUrls, tags, status);
+  }
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

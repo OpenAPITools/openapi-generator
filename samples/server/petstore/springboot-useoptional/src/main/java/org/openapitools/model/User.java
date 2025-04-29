@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ import javax.annotation.Generated;
  * User
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class User {
 
   private Optional<Long> id = Optional.empty();
@@ -39,14 +40,14 @@ public class User {
   private Optional<Integer> userStatus = Optional.empty();
 
   public User id(Long id) {
-    this.id = Optional.of(id);
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -59,14 +60,14 @@ public class User {
   }
 
   public User username(String username) {
-    this.username = Optional.of(username);
+    this.username = Optional.ofNullable(username);
     return this;
   }
 
   /**
    * Get username
    * @return username
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("username")
@@ -79,14 +80,14 @@ public class User {
   }
 
   public User firstName(String firstName) {
-    this.firstName = Optional.of(firstName);
+    this.firstName = Optional.ofNullable(firstName);
     return this;
   }
 
   /**
    * Get firstName
    * @return firstName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
@@ -99,14 +100,14 @@ public class User {
   }
 
   public User lastName(String lastName) {
-    this.lastName = Optional.of(lastName);
+    this.lastName = Optional.ofNullable(lastName);
     return this;
   }
 
   /**
    * Get lastName
    * @return lastName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
@@ -119,14 +120,14 @@ public class User {
   }
 
   public User email(String email) {
-    this.email = Optional.of(email);
+    this.email = Optional.ofNullable(email);
     return this;
   }
 
   /**
    * Get email
    * @return email
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("email")
@@ -139,14 +140,14 @@ public class User {
   }
 
   public User password(String password) {
-    this.password = Optional.of(password);
+    this.password = Optional.ofNullable(password);
     return this;
   }
 
   /**
    * Get password
    * @return password
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("password")
@@ -159,14 +160,14 @@ public class User {
   }
 
   public User phone(String phone) {
-    this.phone = Optional.of(phone);
+    this.phone = Optional.ofNullable(phone);
     return this;
   }
 
   /**
    * Get phone
    * @return phone
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
@@ -179,14 +180,14 @@ public class User {
   }
 
   public User userStatus(Integer userStatus) {
-    this.userStatus = Optional.of(userStatus);
+    this.userStatus = Optional.ofNullable(userStatus);
     return this;
   }
 
   /**
    * User Status
    * @return userStatus
-  */
+   */
   
   @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")

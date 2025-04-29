@@ -198,7 +198,7 @@ function Test-BodyMultipartFormdataArrayOfBinary {
         if (!$Files) {
             throw "Error! The required parameter `Files` missing when calling test_body_multipart_formdata_arrayOfBinary."
         }
-        $LocalVarFormParameters['files'] = $Files
+        $LocalVarFormParameters['files'] = $Files | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
 
         $LocalVarResult = Invoke-ApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -273,7 +273,7 @@ function Test-BodyMultipartFormdataSingleBinary {
         $LocalVarUri = '/body/application/octetstream/single_binary'
 
         if ($MyFile) {
-            $LocalVarFormParameters['my-file'] = $MyFile
+            $LocalVarFormParameters['my-file'] = $MyFile | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
         }
 
         $LocalVarResult = Invoke-ApiClient -Method 'POST' `

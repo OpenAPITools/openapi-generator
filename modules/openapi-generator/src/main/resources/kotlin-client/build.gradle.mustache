@@ -99,6 +99,11 @@ idea {
     }
 }
 {{/idea}}
+{{#explicitApi}}
+kotlin {
+    explicitApi()
+}
+{{/explicitApi}}
 {{#jvm-spring-webclient}}{{#useSpringBoot3}}
 kotlin {
     jvmToolchain {
@@ -155,9 +160,6 @@ dependencies {
     implementation "io.ktor:ktor-serialization-jackson:$ktor_version"
     {{/jackson}}
     {{/jvm-ktor}}
-    {{#jvm-okhttp3}}
-    implementation "com.squareup.okhttp3:okhttp:3.14.9"
-    {{/jvm-okhttp3}}
     {{#jvm-okhttp4}}
     implementation "com.squareup.okhttp3:okhttp:4.12.0"
     {{/jvm-okhttp4}}

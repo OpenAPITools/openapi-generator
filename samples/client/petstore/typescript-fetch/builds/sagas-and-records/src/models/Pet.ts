@@ -18,24 +18,28 @@ import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+    CategoryToJSONTyped,
 } from './Category';
 import type { DeploymentRequestStatus } from './DeploymentRequestStatus';
 import {
     DeploymentRequestStatusFromJSON,
     DeploymentRequestStatusFromJSONTyped,
     DeploymentRequestStatusToJSON,
+    DeploymentRequestStatusToJSONTyped,
 } from './DeploymentRequestStatus';
 import type { Tag } from './Tag';
 import {
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
+    TagToJSONTyped,
 } from './Tag';
 import type { WarningCode } from './WarningCode';
 import {
     WarningCodeFromJSON,
     WarningCodeFromJSONTyped,
     WarningCodeToJSON,
+    WarningCodeToJSONTyped,
 } from './WarningCode';
 
 /**
@@ -166,10 +170,10 @@ export interface Pet {
     status: PetStatusEnum;
     /**
      * An array of all 15-minute time slots in 24 hours.
-     * @type {Array<Array<number>>}
+     * @type {Array<Array<number | null>>}
      * @memberof Pet
      */
-    regions?: Array<Array<number>>;
+    regions?: Array<Array<number | null>>;
 }
 
 
@@ -239,10 +243,15 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
     };
 }
 
-export function PetToJSON(value?: Pet | null): any {
+export function PetToJSON(json: any): Pet {
+    return PetToJSONTyped(json, false);
+}
+
+export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

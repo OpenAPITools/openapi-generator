@@ -7,8 +7,7 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 
 ### Requirements
 
-PHP 7.4 and later.
-Should also work with PHP 8.0.
+PHP 8.1 and later.
 
 ### Composer
 
@@ -75,6 +74,7 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**call123TestSpecialTags**](docs/Api/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](docs/Api/DefaultApi.md#fooget) | **GET** /foo | 
 *FakeApi* | [**fakeBigDecimalMap**](docs/Api/FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
+*FakeApi* | [**fakeEnumEndpoint**](docs/Api/FakeApi.md#fakeenumendpoint) | **GET** /fake/enum/endpoint | test endpoint with enum parameter
 *FakeApi* | [**fakeHealthGet**](docs/Api/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHttpSignatureTest**](docs/Api/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/Api/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -82,6 +82,11 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/Api/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/Api/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**fakeWith400And4xxRangeResponseEndpoint**](docs/Api/FakeApi.md#fakewith400and4xxrangeresponseendpoint) | **POST** /fake/with_400_and_4xx_range_response/endpoint | test endpoint with 400 and 400-499 range response http code with dataType
+*FakeApi* | [**fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint**](docs/Api/FakeApi.md#fakewith400and4xxrangeresponseno4xxdatatypeendpoint) | **POST** /fake/with_400_and_4xx_range_response_no_4xx_datatype/endpoint | test endpoint with 400 and 400-499 range response http code without dataType
+*FakeApi* | [**fakeWith400ResponseEndpoint**](docs/Api/FakeApi.md#fakewith400responseendpoint) | **POST** /fake/with_400_response/endpoint | test endpoint with 400 response http code with dataType
+*FakeApi* | [**fakeWith4xxRangeResponseEndpoint**](docs/Api/FakeApi.md#fakewith4xxrangeresponseendpoint) | **POST** /fake/with_4xx_range_response/endpoint | test endpoint with 400-499 range response http code with dataType
+*FakeApi* | [**fakeWith4xxRangeResponseNo4xxDatatypeEndpoint**](docs/Api/FakeApi.md#fakewith4xxrangeresponseno4xxdatatypeendpoint) | **POST** /fake/with_4xx_range_response_no_4xx_datatype/endpoint | test endpoint with 400-499 range response http code without dataType
 *FakeApi* | [**getParameterNameMapping**](docs/Api/FakeApi.md#getparameternamemapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
 *FakeApi* | [**testAdditionalPropertiesReference**](docs/Api/FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithBinary**](docs/Api/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
@@ -106,6 +111,8 @@ Class | Method | HTTP request | Description
 *PetApi* | [**updatePetWithForm**](docs/Api/PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**uploadFile**](docs/Api/PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
 *PetApi* | [**uploadFileWithRequiredFile**](docs/Api/PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+*PetApi* | [**uploadImageFullFormData**](docs/Api/PetApi.md#uploadimagefullformdata) | **POST** /pet/{petId}/uploadImageFullFormData | uploads an image attached to a Pet object as formdata
+*PetApi* | [**uploadImageFullFormDataNested**](docs/Api/PetApi.md#uploadimagefullformdatanested) | **POST** /pet/{petId}/uploadImageFullFormDataNested | uploads an image attached to a Pet object as formdata
 *StoreApi* | [**deleteOrder**](docs/Api/StoreApi.md#deleteorder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *StoreApi* | [**getInventory**](docs/Api/StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | [**getOrderById**](docs/Api/StoreApi.md#getorderbyid) | **GET** /store/order/{order_id} | Find purchase order by ID
@@ -138,6 +145,8 @@ Class | Method | HTTP request | Description
 - [EnumArrays](docs/Model/EnumArrays.md)
 - [EnumClass](docs/Model/EnumClass.md)
 - [EnumTest](docs/Model/EnumTest.md)
+- [EnumWithNameAndDescription](docs/Model/EnumWithNameAndDescription.md)
+- [ErrorResponse](docs/Model/ErrorResponse.md)
 - [FakeBigDecimalMap200Response](docs/Model/FakeBigDecimalMap200Response.md)
 - [File](docs/Model/File.md)
 - [FileSchemaTestClass](docs/Model/FileSchemaTestClass.md)
@@ -163,6 +172,7 @@ Class | Method | HTTP request | Description
 - [OuterEnumIntegerDefaultValue](docs/Model/OuterEnumIntegerDefaultValue.md)
 - [OuterObjectWithEnumProperty](docs/Model/OuterObjectWithEnumProperty.md)
 - [Pet](docs/Model/Pet.md)
+- [PetWithFile](docs/Model/PetWithFile.md)
 - [PropertyNameMapping](docs/Model/PropertyNameMapping.md)
 - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
 - [SingleRefType](docs/Model/SingleRefType.md)
@@ -227,5 +237,5 @@ vendor/bin/phpunit
 This PHP package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
 
 - API version: `1.0.0`
-    - Generator version: `7.7.0-SNAPSHOT`
+    - Generator version: `7.14.0-SNAPSHOT`
 - Build package: `org.openapitools.codegen.languages.PhpClientCodegen`

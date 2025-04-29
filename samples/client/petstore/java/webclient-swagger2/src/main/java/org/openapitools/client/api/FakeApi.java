@@ -22,24 +22,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -60,6 +62,7 @@ public class FakeApi {
         this.apiClient = apiClient;
     }
 
+    
     /**
      * 
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
@@ -124,6 +127,7 @@ public class FakeApi {
     public ResponseSpec fakeBigDecimalMapWithResponseSpec() throws WebClientResponseException {
         return fakeBigDecimalMapRequestCreation();
     }
+
     /**
      * Health check endpoint
      * 
@@ -188,6 +192,7 @@ public class FakeApi {
     public ResponseSpec fakeHealthGetWithResponseSpec() throws WebClientResponseException {
         return fakeHealthGetRequestCreation();
     }
+
     /**
      * test http signature authentication
      * 
@@ -197,7 +202,7 @@ public class FakeApi {
      * @param header1 header parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeHttpSignatureTestRequestCreation(Pet pet, String query1, String header1) throws WebClientResponseException {
+    private ResponseSpec fakeHttpSignatureTestRequestCreation(@javax.annotation.Nonnull Pet pet, @javax.annotation.Nullable String query1, @javax.annotation.Nullable String header1) throws WebClientResponseException {
         Object postBody = pet;
         // verify the required parameter 'pet' is set
         if (pet == null) {
@@ -238,7 +243,7 @@ public class FakeApi {
      * @param header1 header parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> fakeHttpSignatureTest(Pet pet, String query1, String header1) throws WebClientResponseException {
+    public Mono<Void> fakeHttpSignatureTest(@javax.annotation.Nonnull Pet pet, @javax.annotation.Nullable String query1, @javax.annotation.Nullable String header1) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return fakeHttpSignatureTestRequestCreation(pet, query1, header1).bodyToMono(localVarReturnType);
     }
@@ -252,7 +257,7 @@ public class FakeApi {
      * @param header1 header parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> fakeHttpSignatureTestWithHttpInfo(Pet pet, String query1, String header1) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> fakeHttpSignatureTestWithHttpInfo(@javax.annotation.Nonnull Pet pet, @javax.annotation.Nullable String query1, @javax.annotation.Nullable String header1) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return fakeHttpSignatureTestRequestCreation(pet, query1, header1).toEntity(localVarReturnType);
     }
@@ -267,9 +272,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeHttpSignatureTestWithResponseSpec(Pet pet, String query1, String header1) throws WebClientResponseException {
+    public ResponseSpec fakeHttpSignatureTestWithResponseSpec(@javax.annotation.Nonnull Pet pet, @javax.annotation.Nullable String query1, @javax.annotation.Nullable String header1) throws WebClientResponseException {
         return fakeHttpSignatureTestRequestCreation(pet, query1, header1);
     }
+
     /**
      * 
      * Test serialization of outer boolean types
@@ -278,7 +284,7 @@ public class FakeApi {
      * @return Boolean
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeOuterBooleanSerializeRequestCreation(Boolean body) throws WebClientResponseException {
+    private ResponseSpec fakeOuterBooleanSerializeRequestCreation(@javax.annotation.Nullable Boolean body) throws WebClientResponseException {
         Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -311,7 +317,7 @@ public class FakeApi {
      * @return Boolean
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Boolean> fakeOuterBooleanSerialize(Boolean body) throws WebClientResponseException {
+    public Mono<Boolean> fakeOuterBooleanSerialize(@javax.annotation.Nullable Boolean body) throws WebClientResponseException {
         ParameterizedTypeReference<Boolean> localVarReturnType = new ParameterizedTypeReference<Boolean>() {};
         return fakeOuterBooleanSerializeRequestCreation(body).bodyToMono(localVarReturnType);
     }
@@ -324,7 +330,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;Boolean&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws WebClientResponseException {
+    public Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerializeWithHttpInfo(@javax.annotation.Nullable Boolean body) throws WebClientResponseException {
         ParameterizedTypeReference<Boolean> localVarReturnType = new ParameterizedTypeReference<Boolean>() {};
         return fakeOuterBooleanSerializeRequestCreation(body).toEntity(localVarReturnType);
     }
@@ -337,9 +343,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeOuterBooleanSerializeWithResponseSpec(Boolean body) throws WebClientResponseException {
+    public ResponseSpec fakeOuterBooleanSerializeWithResponseSpec(@javax.annotation.Nullable Boolean body) throws WebClientResponseException {
         return fakeOuterBooleanSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of object with outer number type
@@ -348,7 +355,7 @@ public class FakeApi {
      * @return OuterComposite
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeOuterCompositeSerializeRequestCreation(OuterComposite outerComposite) throws WebClientResponseException {
+    private ResponseSpec fakeOuterCompositeSerializeRequestCreation(@javax.annotation.Nullable OuterComposite outerComposite) throws WebClientResponseException {
         Object postBody = outerComposite;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -381,7 +388,7 @@ public class FakeApi {
      * @return OuterComposite
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite) throws WebClientResponseException {
+    public Mono<OuterComposite> fakeOuterCompositeSerialize(@javax.annotation.Nullable OuterComposite outerComposite) throws WebClientResponseException {
         ParameterizedTypeReference<OuterComposite> localVarReturnType = new ParameterizedTypeReference<OuterComposite>() {};
         return fakeOuterCompositeSerializeRequestCreation(outerComposite).bodyToMono(localVarReturnType);
     }
@@ -394,7 +401,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;OuterComposite&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite) throws WebClientResponseException {
+    public Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerializeWithHttpInfo(@javax.annotation.Nullable OuterComposite outerComposite) throws WebClientResponseException {
         ParameterizedTypeReference<OuterComposite> localVarReturnType = new ParameterizedTypeReference<OuterComposite>() {};
         return fakeOuterCompositeSerializeRequestCreation(outerComposite).toEntity(localVarReturnType);
     }
@@ -407,9 +414,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeOuterCompositeSerializeWithResponseSpec(OuterComposite outerComposite) throws WebClientResponseException {
+    public ResponseSpec fakeOuterCompositeSerializeWithResponseSpec(@javax.annotation.Nullable OuterComposite outerComposite) throws WebClientResponseException {
         return fakeOuterCompositeSerializeRequestCreation(outerComposite);
     }
+
     /**
      * 
      * Test serialization of outer number types
@@ -418,7 +426,7 @@ public class FakeApi {
      * @return BigDecimal
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeOuterNumberSerializeRequestCreation(BigDecimal body) throws WebClientResponseException {
+    private ResponseSpec fakeOuterNumberSerializeRequestCreation(@javax.annotation.Nullable BigDecimal body) throws WebClientResponseException {
         Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -451,7 +459,7 @@ public class FakeApi {
      * @return BigDecimal
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) throws WebClientResponseException {
+    public Mono<BigDecimal> fakeOuterNumberSerialize(@javax.annotation.Nullable BigDecimal body) throws WebClientResponseException {
         ParameterizedTypeReference<BigDecimal> localVarReturnType = new ParameterizedTypeReference<BigDecimal>() {};
         return fakeOuterNumberSerializeRequestCreation(body).bodyToMono(localVarReturnType);
     }
@@ -464,7 +472,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;BigDecimal&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws WebClientResponseException {
+    public Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerializeWithHttpInfo(@javax.annotation.Nullable BigDecimal body) throws WebClientResponseException {
         ParameterizedTypeReference<BigDecimal> localVarReturnType = new ParameterizedTypeReference<BigDecimal>() {};
         return fakeOuterNumberSerializeRequestCreation(body).toEntity(localVarReturnType);
     }
@@ -477,9 +485,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeOuterNumberSerializeWithResponseSpec(BigDecimal body) throws WebClientResponseException {
+    public ResponseSpec fakeOuterNumberSerializeWithResponseSpec(@javax.annotation.Nullable BigDecimal body) throws WebClientResponseException {
         return fakeOuterNumberSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of outer string types
@@ -488,7 +497,7 @@ public class FakeApi {
      * @return String
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeOuterStringSerializeRequestCreation(String body) throws WebClientResponseException {
+    private ResponseSpec fakeOuterStringSerializeRequestCreation(@javax.annotation.Nullable String body) throws WebClientResponseException {
         Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -521,7 +530,7 @@ public class FakeApi {
      * @return String
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<String> fakeOuterStringSerialize(String body) throws WebClientResponseException {
+    public Mono<String> fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws WebClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<String>() {};
         return fakeOuterStringSerializeRequestCreation(body).bodyToMono(localVarReturnType);
     }
@@ -534,7 +543,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<String>> fakeOuterStringSerializeWithHttpInfo(String body) throws WebClientResponseException {
+    public Mono<ResponseEntity<String>> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body) throws WebClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<String>() {};
         return fakeOuterStringSerializeRequestCreation(body).toEntity(localVarReturnType);
     }
@@ -547,9 +556,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeOuterStringSerializeWithResponseSpec(String body) throws WebClientResponseException {
+    public ResponseSpec fakeOuterStringSerializeWithResponseSpec(@javax.annotation.Nullable String body) throws WebClientResponseException {
         return fakeOuterStringSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of enum (int) properties with examples
@@ -558,7 +568,7 @@ public class FakeApi {
      * @return OuterObjectWithEnumProperty
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakePropertyEnumIntegerSerializeRequestCreation(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws WebClientResponseException {
+    private ResponseSpec fakePropertyEnumIntegerSerializeRequestCreation(@javax.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws WebClientResponseException {
         Object postBody = outerObjectWithEnumProperty;
         // verify the required parameter 'outerObjectWithEnumProperty' is set
         if (outerObjectWithEnumProperty == null) {
@@ -595,7 +605,7 @@ public class FakeApi {
      * @return OuterObjectWithEnumProperty
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws WebClientResponseException {
+    public Mono<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(@javax.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws WebClientResponseException {
         ParameterizedTypeReference<OuterObjectWithEnumProperty> localVarReturnType = new ParameterizedTypeReference<OuterObjectWithEnumProperty>() {};
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty).bodyToMono(localVarReturnType);
     }
@@ -608,7 +618,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;OuterObjectWithEnumProperty&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<OuterObjectWithEnumProperty>> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws WebClientResponseException {
+    public Mono<ResponseEntity<OuterObjectWithEnumProperty>> fakePropertyEnumIntegerSerializeWithHttpInfo(@javax.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws WebClientResponseException {
         ParameterizedTypeReference<OuterObjectWithEnumProperty> localVarReturnType = new ParameterizedTypeReference<OuterObjectWithEnumProperty>() {};
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty).toEntity(localVarReturnType);
     }
@@ -621,9 +631,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakePropertyEnumIntegerSerializeWithResponseSpec(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws WebClientResponseException {
+    public ResponseSpec fakePropertyEnumIntegerSerializeWithResponseSpec(@javax.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws WebClientResponseException {
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty);
     }
+
     /**
      * test referenced additionalProperties
      * 
@@ -631,7 +642,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testAdditionalPropertiesReferenceRequestCreation(Map<String, Object> requestBody) throws WebClientResponseException {
+    private ResponseSpec testAdditionalPropertiesReferenceRequestCreation(@javax.annotation.Nonnull Map<String, Object> requestBody) throws WebClientResponseException {
         Object postBody = requestBody;
         // verify the required parameter 'requestBody' is set
         if (requestBody == null) {
@@ -665,7 +676,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testAdditionalPropertiesReference(Map<String, Object> requestBody) throws WebClientResponseException {
+    public Mono<Void> testAdditionalPropertiesReference(@javax.annotation.Nonnull Map<String, Object> requestBody) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testAdditionalPropertiesReferenceRequestCreation(requestBody).bodyToMono(localVarReturnType);
     }
@@ -677,7 +688,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testAdditionalPropertiesReferenceWithHttpInfo(@javax.annotation.Nonnull Map<String, Object> requestBody) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testAdditionalPropertiesReferenceRequestCreation(requestBody).toEntity(localVarReturnType);
     }
@@ -690,9 +701,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testAdditionalPropertiesReferenceWithResponseSpec(Map<String, Object> requestBody) throws WebClientResponseException {
+    public ResponseSpec testAdditionalPropertiesReferenceWithResponseSpec(@javax.annotation.Nonnull Map<String, Object> requestBody) throws WebClientResponseException {
         return testAdditionalPropertiesReferenceRequestCreation(requestBody);
     }
+
     /**
      * 
      * For this test, the body has to be a binary file.
@@ -700,7 +712,7 @@ public class FakeApi {
      * @param body image to upload
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyWithBinaryRequestCreation(File body) throws WebClientResponseException {
+    private ResponseSpec testBodyWithBinaryRequestCreation(@javax.annotation.Nullable File body) throws WebClientResponseException {
         Object postBody = body;
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -734,7 +746,7 @@ public class FakeApi {
      * @param body image to upload
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testBodyWithBinary(File body) throws WebClientResponseException {
+    public Mono<Void> testBodyWithBinary(@javax.annotation.Nullable File body) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testBodyWithBinaryRequestCreation(body).bodyToMono(localVarReturnType);
     }
@@ -746,7 +758,7 @@ public class FakeApi {
      * @param body image to upload
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testBodyWithBinaryWithHttpInfo(File body) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testBodyWithBinaryWithHttpInfo(@javax.annotation.Nullable File body) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testBodyWithBinaryRequestCreation(body).toEntity(localVarReturnType);
     }
@@ -759,9 +771,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testBodyWithBinaryWithResponseSpec(File body) throws WebClientResponseException {
+    public ResponseSpec testBodyWithBinaryWithResponseSpec(@javax.annotation.Nullable File body) throws WebClientResponseException {
         return testBodyWithBinaryRequestCreation(body);
     }
+
     /**
      * 
      * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
@@ -769,7 +782,7 @@ public class FakeApi {
      * @param fileSchemaTestClass The fileSchemaTestClass parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyWithFileSchemaRequestCreation(FileSchemaTestClass fileSchemaTestClass) throws WebClientResponseException {
+    private ResponseSpec testBodyWithFileSchemaRequestCreation(@javax.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws WebClientResponseException {
         Object postBody = fileSchemaTestClass;
         // verify the required parameter 'fileSchemaTestClass' is set
         if (fileSchemaTestClass == null) {
@@ -803,7 +816,7 @@ public class FakeApi {
      * @param fileSchemaTestClass The fileSchemaTestClass parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws WebClientResponseException {
+    public Mono<Void> testBodyWithFileSchema(@javax.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testBodyWithFileSchemaRequestCreation(fileSchemaTestClass).bodyToMono(localVarReturnType);
     }
@@ -815,7 +828,7 @@ public class FakeApi {
      * @param fileSchemaTestClass The fileSchemaTestClass parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testBodyWithFileSchemaWithHttpInfo(@javax.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testBodyWithFileSchemaRequestCreation(fileSchemaTestClass).toEntity(localVarReturnType);
     }
@@ -828,9 +841,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testBodyWithFileSchemaWithResponseSpec(FileSchemaTestClass fileSchemaTestClass) throws WebClientResponseException {
+    public ResponseSpec testBodyWithFileSchemaWithResponseSpec(@javax.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws WebClientResponseException {
         return testBodyWithFileSchemaRequestCreation(fileSchemaTestClass);
     }
+
     /**
      * 
      * 
@@ -839,7 +853,7 @@ public class FakeApi {
      * @param user The user parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyWithQueryParamsRequestCreation(String query, User user) throws WebClientResponseException {
+    private ResponseSpec testBodyWithQueryParamsRequestCreation(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User user) throws WebClientResponseException {
         Object postBody = user;
         // verify the required parameter 'query' is set
         if (query == null) {
@@ -880,7 +894,7 @@ public class FakeApi {
      * @param user The user parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testBodyWithQueryParams(String query, User user) throws WebClientResponseException {
+    public Mono<Void> testBodyWithQueryParams(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testBodyWithQueryParamsRequestCreation(query, user).bodyToMono(localVarReturnType);
     }
@@ -893,7 +907,7 @@ public class FakeApi {
      * @param user The user parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testBodyWithQueryParamsWithHttpInfo(String query, User user) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testBodyWithQueryParamsWithHttpInfo(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testBodyWithQueryParamsRequestCreation(query, user).toEntity(localVarReturnType);
     }
@@ -907,9 +921,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testBodyWithQueryParamsWithResponseSpec(String query, User user) throws WebClientResponseException {
+    public ResponseSpec testBodyWithQueryParamsWithResponseSpec(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User user) throws WebClientResponseException {
         return testBodyWithQueryParamsRequestCreation(query, user);
     }
+
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -918,7 +933,7 @@ public class FakeApi {
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testClientModelRequestCreation(Client client) throws WebClientResponseException {
+    private ResponseSpec testClientModelRequestCreation(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         Object postBody = client;
         // verify the required parameter 'client' is set
         if (client == null) {
@@ -955,7 +970,7 @@ public class FakeApi {
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> testClientModel(Client client) throws WebClientResponseException {
+    public Mono<Client> testClientModel(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return testClientModelRequestCreation(client).bodyToMono(localVarReturnType);
     }
@@ -968,7 +983,7 @@ public class FakeApi {
      * @return ResponseEntity&lt;Client&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Client>> testClientModelWithHttpInfo(Client client) throws WebClientResponseException {
+    public Mono<ResponseEntity<Client>> testClientModelWithHttpInfo(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return testClientModelRequestCreation(client).toEntity(localVarReturnType);
     }
@@ -981,9 +996,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testClientModelWithResponseSpec(Client client) throws WebClientResponseException {
+    public ResponseSpec testClientModelWithResponseSpec(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         return testClientModelRequestCreation(client);
     }
+
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -1005,7 +1021,7 @@ public class FakeApi {
      * @param paramCallback None
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEndpointParametersRequestCreation(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws WebClientResponseException {
+    private ResponseSpec testEndpointParametersRequestCreation(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'number' is set
         if (number == null) {
@@ -1094,7 +1110,7 @@ public class FakeApi {
      * @param paramCallback None
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws WebClientResponseException {
+    public Mono<Void> testEndpointParameters(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback).bodyToMono(localVarReturnType);
     }
@@ -1120,7 +1136,7 @@ public class FakeApi {
      * @param paramCallback None
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testEndpointParametersWithHttpInfo(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback).toEntity(localVarReturnType);
     }
@@ -1147,9 +1163,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEndpointParametersWithResponseSpec(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws WebClientResponseException {
+    public ResponseSpec testEndpointParametersWithResponseSpec(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) throws WebClientResponseException {
         return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
+
     /**
      * To test enum parameters
      * To test enum parameters
@@ -1166,7 +1183,7 @@ public class FakeApi {
      * @param enumFormString Form parameter enum test (string)
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEnumParametersRequestCreation(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
+    private ResponseSpec testEnumParametersRequestCreation(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<EnumClass> enumQueryModelArray, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws WebClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -1221,7 +1238,7 @@ public class FakeApi {
      * @param enumFormString Form parameter enum test (string)
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
+    public Mono<Void> testEnumParameters(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<EnumClass> enumQueryModelArray, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString).bodyToMono(localVarReturnType);
     }
@@ -1242,7 +1259,7 @@ public class FakeApi {
      * @param enumFormString Form parameter enum test (string)
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testEnumParametersWithHttpInfo(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<EnumClass> enumQueryModelArray, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString).toEntity(localVarReturnType);
     }
@@ -1264,9 +1281,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEnumParametersWithResponseSpec(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
+    public ResponseSpec testEnumParametersWithResponseSpec(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<EnumClass> enumQueryModelArray, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws WebClientResponseException {
         return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
     }
+
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -1279,7 +1297,7 @@ public class FakeApi {
      * @param int64Group Integer in group parameters
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testGroupParametersRequestCreation(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws WebClientResponseException {
+    private ResponseSpec testGroupParametersRequestCreation(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'requiredStringGroup' is set
         if (requiredStringGroup == null) {
@@ -1334,7 +1352,7 @@ public class FakeApi {
      * @param int64Group Integer in group parameters
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws WebClientResponseException {
+    public Mono<Void> testGroupParameters(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testGroupParametersRequestCreation(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group).bodyToMono(localVarReturnType);
     }
@@ -1351,7 +1369,7 @@ public class FakeApi {
      * @param int64Group Integer in group parameters
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testGroupParametersWithHttpInfo(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testGroupParametersRequestCreation(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group).toEntity(localVarReturnType);
     }
@@ -1369,9 +1387,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testGroupParametersWithResponseSpec(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws WebClientResponseException {
+    public ResponseSpec testGroupParametersWithResponseSpec(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group) throws WebClientResponseException {
         return testGroupParametersRequestCreation(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
+
     /**
      * test inline additionalProperties
      * 
@@ -1379,7 +1398,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testInlineAdditionalPropertiesRequestCreation(Map<String, String> requestBody) throws WebClientResponseException {
+    private ResponseSpec testInlineAdditionalPropertiesRequestCreation(@javax.annotation.Nonnull Map<String, String> requestBody) throws WebClientResponseException {
         Object postBody = requestBody;
         // verify the required parameter 'requestBody' is set
         if (requestBody == null) {
@@ -1413,7 +1432,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testInlineAdditionalProperties(Map<String, String> requestBody) throws WebClientResponseException {
+    public Mono<Void> testInlineAdditionalProperties(@javax.annotation.Nonnull Map<String, String> requestBody) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testInlineAdditionalPropertiesRequestCreation(requestBody).bodyToMono(localVarReturnType);
     }
@@ -1425,7 +1444,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testInlineAdditionalPropertiesWithHttpInfo(@javax.annotation.Nonnull Map<String, String> requestBody) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testInlineAdditionalPropertiesRequestCreation(requestBody).toEntity(localVarReturnType);
     }
@@ -1438,9 +1457,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testInlineAdditionalPropertiesWithResponseSpec(Map<String, String> requestBody) throws WebClientResponseException {
+    public ResponseSpec testInlineAdditionalPropertiesWithResponseSpec(@javax.annotation.Nonnull Map<String, String> requestBody) throws WebClientResponseException {
         return testInlineAdditionalPropertiesRequestCreation(requestBody);
     }
+
     /**
      * test inline free-form additionalProperties
      * 
@@ -1448,7 +1468,7 @@ public class FakeApi {
      * @param testInlineFreeformAdditionalPropertiesRequest request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testInlineFreeformAdditionalPropertiesRequestCreation(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+    private ResponseSpec testInlineFreeformAdditionalPropertiesRequestCreation(@javax.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
         Object postBody = testInlineFreeformAdditionalPropertiesRequest;
         // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
         if (testInlineFreeformAdditionalPropertiesRequest == null) {
@@ -1482,7 +1502,7 @@ public class FakeApi {
      * @param testInlineFreeformAdditionalPropertiesRequest request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+    public Mono<Void> testInlineFreeformAdditionalProperties(@javax.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest).bodyToMono(localVarReturnType);
     }
@@ -1494,7 +1514,7 @@ public class FakeApi {
      * @param testInlineFreeformAdditionalPropertiesRequest request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testInlineFreeformAdditionalPropertiesWithHttpInfo(@javax.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest).toEntity(localVarReturnType);
     }
@@ -1507,9 +1527,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testInlineFreeformAdditionalPropertiesWithResponseSpec(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
+    public ResponseSpec testInlineFreeformAdditionalPropertiesWithResponseSpec(@javax.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
         return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest);
     }
+
     /**
      * test json serialization of form data
      * 
@@ -1518,7 +1539,7 @@ public class FakeApi {
      * @param param2 field2
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testJsonFormDataRequestCreation(String param, String param2) throws WebClientResponseException {
+    private ResponseSpec testJsonFormDataRequestCreation(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'param' is set
         if (param == null) {
@@ -1562,7 +1583,7 @@ public class FakeApi {
      * @param param2 field2
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testJsonFormData(String param, String param2) throws WebClientResponseException {
+    public Mono<Void> testJsonFormData(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testJsonFormDataRequestCreation(param, param2).bodyToMono(localVarReturnType);
     }
@@ -1575,7 +1596,7 @@ public class FakeApi {
      * @param param2 field2
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testJsonFormDataWithHttpInfo(String param, String param2) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testJsonFormDataWithHttpInfo(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testJsonFormDataRequestCreation(param, param2).toEntity(localVarReturnType);
     }
@@ -1589,9 +1610,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testJsonFormDataWithResponseSpec(String param, String param2) throws WebClientResponseException {
+    public ResponseSpec testJsonFormDataWithResponseSpec(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) throws WebClientResponseException {
         return testJsonFormDataRequestCreation(param, param2);
     }
+
     /**
      * test nullable parent property
      * 
@@ -1599,7 +1621,7 @@ public class FakeApi {
      * @param childWithNullable request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testNullableRequestCreation(ChildWithNullable childWithNullable) throws WebClientResponseException {
+    private ResponseSpec testNullableRequestCreation(@javax.annotation.Nonnull ChildWithNullable childWithNullable) throws WebClientResponseException {
         Object postBody = childWithNullable;
         // verify the required parameter 'childWithNullable' is set
         if (childWithNullable == null) {
@@ -1633,7 +1655,7 @@ public class FakeApi {
      * @param childWithNullable request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testNullable(ChildWithNullable childWithNullable) throws WebClientResponseException {
+    public Mono<Void> testNullable(@javax.annotation.Nonnull ChildWithNullable childWithNullable) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testNullableRequestCreation(childWithNullable).bodyToMono(localVarReturnType);
     }
@@ -1645,7 +1667,7 @@ public class FakeApi {
      * @param childWithNullable request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testNullableWithHttpInfo(ChildWithNullable childWithNullable) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testNullableWithHttpInfo(@javax.annotation.Nonnull ChildWithNullable childWithNullable) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testNullableRequestCreation(childWithNullable).toEntity(localVarReturnType);
     }
@@ -1658,9 +1680,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testNullableWithResponseSpec(ChildWithNullable childWithNullable) throws WebClientResponseException {
+    public ResponseSpec testNullableWithResponseSpec(@javax.annotation.Nonnull ChildWithNullable childWithNullable) throws WebClientResponseException {
         return testNullableRequestCreation(childWithNullable);
     }
+
     /**
      * 
      * To test the collection format in query parameters
@@ -1674,7 +1697,7 @@ public class FakeApi {
      * @param language The language parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryParameterCollectionFormatRequestCreation(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws WebClientResponseException {
+    private ResponseSpec testQueryParameterCollectionFormatRequestCreation(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable Map<String, String> language) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'pipe' is set
         if (pipe == null) {
@@ -1740,7 +1763,7 @@ public class FakeApi {
      * @param language The language parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws WebClientResponseException {
+    public Mono<Void> testQueryParameterCollectionFormat(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable Map<String, String> language) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testQueryParameterCollectionFormatRequestCreation(pipe, ioutil, http, url, context, allowEmpty, language).bodyToMono(localVarReturnType);
     }
@@ -1758,7 +1781,7 @@ public class FakeApi {
      * @param language The language parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testQueryParameterCollectionFormatWithHttpInfo(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable Map<String, String> language) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testQueryParameterCollectionFormatRequestCreation(pipe, ioutil, http, url, context, allowEmpty, language).toEntity(localVarReturnType);
     }
@@ -1777,9 +1800,10 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws WebClientResponseException {
+    public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable Map<String, String> language) throws WebClientResponseException {
         return testQueryParameterCollectionFormatRequestCreation(pipe, ioutil, http, url, context, allowEmpty, language);
     }
+
     /**
      * test referenced string map
      * 
@@ -1787,7 +1811,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testStringMapReferenceRequestCreation(Map<String, String> requestBody) throws WebClientResponseException {
+    private ResponseSpec testStringMapReferenceRequestCreation(@javax.annotation.Nonnull Map<String, String> requestBody) throws WebClientResponseException {
         Object postBody = requestBody;
         // verify the required parameter 'requestBody' is set
         if (requestBody == null) {
@@ -1821,7 +1845,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testStringMapReference(Map<String, String> requestBody) throws WebClientResponseException {
+    public Mono<Void> testStringMapReference(@javax.annotation.Nonnull Map<String, String> requestBody) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testStringMapReferenceRequestCreation(requestBody).bodyToMono(localVarReturnType);
     }
@@ -1833,7 +1857,7 @@ public class FakeApi {
      * @param requestBody request body
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testStringMapReferenceWithHttpInfo(@javax.annotation.Nonnull Map<String, String> requestBody) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return testStringMapReferenceRequestCreation(requestBody).toEntity(localVarReturnType);
     }
@@ -1846,7 +1870,7 @@ public class FakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testStringMapReferenceWithResponseSpec(Map<String, String> requestBody) throws WebClientResponseException {
+    public ResponseSpec testStringMapReferenceWithResponseSpec(@javax.annotation.Nonnull Map<String, String> requestBody) throws WebClientResponseException {
         return testStringMapReferenceRequestCreation(requestBody);
     }
 }

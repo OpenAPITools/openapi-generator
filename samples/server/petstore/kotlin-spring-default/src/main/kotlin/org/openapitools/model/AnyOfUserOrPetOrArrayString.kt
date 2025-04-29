@@ -1,6 +1,7 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
@@ -77,17 +78,25 @@ data class AnyOfUserOrPetOrArrayString(
     @Schema(example = "null", description = "pet status in the store")
     @Deprecated(message = "")
     @get:JsonProperty("status") val status: AnyOfUserOrPetOrArrayString.Status? = null
-) {
+    ) {
 
     /**
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
 
-        @JsonProperty("available") available("available"),
-        @JsonProperty("pending") pending("pending"),
-        @JsonProperty("sold") sold("sold")
+        available("available"),
+        pending("pending"),
+        sold("sold");
+
+        companion object {
+            @JvmStatic
+            @JsonCreator
+            fun forValue(value: kotlin.String): Status {
+                return values().first{it -> it.value == value}
+            }
+        }
     }
 
 }

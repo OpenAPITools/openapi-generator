@@ -12,33 +12,33 @@ use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Claims,
                       FakeOuterNumberSerializeResponse,
                       FakeOuterStringSerializeResponse,
                       FakeResponseWithNumericalDescriptionResponse,
-                      HyphenParamResponse,
                       TestBodyWithQueryParamsResponse,
                       TestClientModelResponse,
                       TestEndpointParametersResponse,
                       TestEnumParametersResponse,
                       TestInlineAdditionalPropertiesResponse,
                       TestJsonFormDataResponse,
+                      HyphenParamResponse,
                       TestClassnameResponse,
                       AddPetResponse,
-                      DeletePetResponse,
                       FindPetsByStatusResponse,
                       FindPetsByTagsResponse,
-                      GetPetByIdResponse,
                       UpdatePetResponse,
+                      DeletePetResponse,
+                      GetPetByIdResponse,
                       UpdatePetWithFormResponse,
                       UploadFileResponse,
-                      DeleteOrderResponse,
                       GetInventoryResponse,
-                      GetOrderByIdResponse,
                       PlaceOrderResponse,
+                      DeleteOrderResponse,
+                      GetOrderByIdResponse,
                       CreateUserResponse,
                       CreateUsersWithArrayInputResponse,
                       CreateUsersWithListInputResponse,
-                      DeleteUserResponse,
-                      GetUserByNameResponse,
                       LoginUserResponse,
                       LogoutUserResponse,
+                      DeleteUserResponse,
+                      GetUserByNameResponse,
                       UpdateUserResponse,
                      };
 use clap::{App, Arg};
@@ -68,31 +68,31 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-                "Call123example", 
-                "FakeOuterBooleanSerialize", 
-                "FakeOuterCompositeSerialize", 
-                "FakeOuterNumberSerialize", 
-                "FakeOuterStringSerialize", 
-                "FakeResponseWithNumericalDescription", 
-                "HyphenParam", 
-                "TestEndpointParameters", 
-                "TestEnumParameters", 
-                "TestJsonFormData", 
-                "DeletePet", 
-                "FindPetsByStatus", 
-                "FindPetsByTags", 
-                "GetPetById", 
-                "UpdatePetWithForm", 
-                "UploadFile", 
-                "DeleteOrder", 
-                "GetInventory", 
-                "GetOrderById", 
-                "CreateUsersWithArrayInput", 
-                "CreateUsersWithListInput", 
-                "DeleteUser", 
-                "GetUserByName", 
-                "LoginUser", 
-                "LogoutUser", 
+                "Call123example",
+                "FakeOuterBooleanSerialize",
+                "FakeOuterCompositeSerialize",
+                "FakeOuterNumberSerialize",
+                "FakeOuterStringSerialize",
+                "FakeResponseWithNumericalDescription",
+                "TestEndpointParameters",
+                "TestEnumParameters",
+                "TestJsonFormData",
+                "HyphenParam",
+                "FindPetsByStatus",
+                "FindPetsByTags",
+                "DeletePet",
+                "GetPetById",
+                "UpdatePetWithForm",
+                "UploadFile",
+                "GetInventory",
+                "DeleteOrder",
+                "GetOrderById",
+                "CreateUsersWithArrayInput",
+                "CreateUsersWithListInput",
+                "LoginUser",
+                "LogoutUser",
+                "DeleteUser",
+                "GetUserByName",
             ])
             .required(true)
             .index(1))
@@ -115,21 +115,21 @@ fn main() {
     // In a real (production) system this Bearer token should be obtained via an external Identity/Authentication-server
     // Ensure that you set the correct algorithm and encodingkey that matches what is used on the server side.
     // See https://github.com/Keats/jsonwebtoken for more information
-
     let auth_token = build_token(
             Claims {
-                sub: "tester@acme.com".to_owned(), 
+                sub: "tester@acme.com".to_owned(),
                 company: "ACME".to_owned(),
                 iss: "my_identity_provider".to_owned(),
                 // added a very long expiry time
                 aud: "org.acme.Resource_Server".to_string(),
                 exp: 10000000000,
                 // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
-                scopes: [
+                scopes:
+                  [
                             "write:pets",
                             "read:pets",
-                ].join(", ")
-            }, 
+                  ].join::<&str>(", ")
+            },
             b"secret").unwrap();
 
     let auth_data = if !auth_token.is_empty() {
@@ -206,12 +206,6 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        Some("HyphenParam") => {
-            let result = rt.block_on(client.hyphen_param(
-                  "hyphen_param_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
         /* Disabled because there's no example.
         Some("TestBodyWithQueryParams") => {
             let result = rt.block_on(client.test_body_with_query_params(
@@ -251,12 +245,12 @@ fn main() {
         Some("TestEnumParameters") => {
             let result = rt.block_on(client.test_enum_parameters(
                   Some(&Vec::new()),
-                  Some("enum_header_string_example".to_string()),
+                  None,
                   Some(&Vec::new()),
-                  Some("enum_query_string_example".to_string()),
-                  Some(56),
-                  Some(1.2),
-                  Some("enum_form_string_example".to_string())
+                  None,
+                  None,
+                  None,
+                  None
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -272,6 +266,12 @@ fn main() {
             let result = rt.block_on(client.test_json_form_data(
                   "param_example".to_string(),
                   "param2_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("HyphenParam") => {
+            let result = rt.block_on(client.hyphen_param(
+                  "hyphen_param_example".to_string()
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -291,13 +291,6 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
-        Some("DeletePet") => {
-            let result = rt.block_on(client.delete_pet(
-                  789,
-                  Some("api_key_example".to_string())
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
         Some("FindPetsByStatus") => {
             let result = rt.block_on(client.find_pets_by_status(
                   &Vec::new()
@@ -310,12 +303,6 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        Some("GetPetById") => {
-            let result = rt.block_on(client.get_pet_by_id(
-                  789
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
         /* Disabled because there's no example.
         Some("UpdatePet") => {
             let result = rt.block_on(client.update_pet(
@@ -324,6 +311,19 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+        Some("DeletePet") => {
+            let result = rt.block_on(client.delete_pet(
+                  789,
+                  Some("api_key_example".to_string())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("GetPetById") => {
+            let result = rt.block_on(client.get_pet_by_id(
+                  789
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("UpdatePetWithForm") => {
             let result = rt.block_on(client.update_pet_with_form(
                   789,
@@ -340,20 +340,8 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        Some("DeleteOrder") => {
-            let result = rt.block_on(client.delete_order(
-                  "order_id_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
         Some("GetInventory") => {
             let result = rt.block_on(client.get_inventory(
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("GetOrderById") => {
-            let result = rt.block_on(client.get_order_by_id(
-                  789
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -365,6 +353,18 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+        Some("DeleteOrder") => {
+            let result = rt.block_on(client.delete_order(
+                  "order_id_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("GetOrderById") => {
+            let result = rt.block_on(client.get_order_by_id(
+                  789
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         /* Disabled because there's no example.
         Some("CreateUser") => {
             let result = rt.block_on(client.create_user(
@@ -385,18 +385,6 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        Some("DeleteUser") => {
-            let result = rt.block_on(client.delete_user(
-                  "username_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("GetUserByName") => {
-            let result = rt.block_on(client.get_user_by_name(
-                  "username_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
         Some("LoginUser") => {
             let result = rt.block_on(client.login_user(
                   "username_example".to_string(),
@@ -406,6 +394,18 @@ fn main() {
         },
         Some("LogoutUser") => {
             let result = rt.block_on(client.logout_user(
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("DeleteUser") => {
+            let result = rt.block_on(client.delete_user(
+                  "username_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("GetUserByName") => {
+            let result = rt.block_on(client.get_user_by_name(
+                  "username_example".to_string()
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

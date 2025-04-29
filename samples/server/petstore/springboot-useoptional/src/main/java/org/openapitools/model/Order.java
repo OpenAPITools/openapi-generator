@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,7 +23,7 @@ import javax.annotation.Generated;
  * Order
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Order {
 
   private Optional<Long> id = Optional.empty();
@@ -44,7 +45,7 @@ public class Order {
     
     DELIVERED("delivered");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -76,14 +77,14 @@ public class Order {
   private Optional<Boolean> complete = Optional.of(false);
 
   public Order id(Long id) {
-    this.id = Optional.of(id);
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -96,14 +97,14 @@ public class Order {
   }
 
   public Order petId(Long petId) {
-    this.petId = Optional.of(petId);
+    this.petId = Optional.ofNullable(petId);
     return this;
   }
 
   /**
    * Get petId
    * @return petId
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
@@ -116,14 +117,14 @@ public class Order {
   }
 
   public Order quantity(Integer quantity) {
-    this.quantity = Optional.of(quantity);
+    this.quantity = Optional.ofNullable(quantity);
     return this;
   }
 
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
@@ -136,14 +137,14 @@ public class Order {
   }
 
   public Order shipDate(OffsetDateTime shipDate) {
-    this.shipDate = Optional.of(shipDate);
+    this.shipDate = Optional.ofNullable(shipDate);
     return this;
   }
 
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
@@ -156,14 +157,14 @@ public class Order {
   }
 
   public Order status(StatusEnum status) {
-    this.status = Optional.of(status);
+    this.status = Optional.ofNullable(status);
     return this;
   }
 
   /**
    * Order Status
    * @return status
-  */
+   */
   
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
@@ -176,14 +177,14 @@ public class Order {
   }
 
   public Order complete(Boolean complete) {
-    this.complete = Optional.of(complete);
+    this.complete = Optional.ofNullable(complete);
     return this;
   }
 
   /**
    * Get complete
    * @return complete
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("complete")

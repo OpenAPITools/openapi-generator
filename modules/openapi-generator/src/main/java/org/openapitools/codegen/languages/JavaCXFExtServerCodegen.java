@@ -17,42 +17,35 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
+import com.fasterxml.jackson.core.JsonPointer;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.mifmif.common.regex.Generex;
+import io.swagger.v3.oas.models.media.Schema;
 import lombok.Setter;
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.SupportingFile;
+import org.apache.commons.text.StringEscapeUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.CXFExtServerFeatures;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.JsonCache;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.JsonCache.CacheException;
 import org.openapitools.codegen.utils.JsonCache.Root.MergePolicy;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonPointer;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.mifmif.common.regex.Generex;
-
-import io.swagger.v3.oas.models.media.Schema;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * An Apache CXF-based JAX-RS server with extended capabilities.
@@ -438,7 +431,6 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
      * @param var
      * @param localVars
      * @param models
-     *
      * @return <code>localVar</code> with a numeric suffix if necessary to ensure uniqueness.
      */
     private String appendLocalVariable(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
@@ -753,7 +745,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             BigDecimal exclusiveMin = new BigDecimal(var != null && var.exclusiveMinimum ? 1 : 0);
             BigDecimal inclusiveMax = new BigDecimal(var == null || !var.exclusiveMaximum ? 1 : 0);
             long randomLong = min.add(exclusiveMin).add(
-                    max.add(inclusiveMax).subtract(min).subtract(exclusiveMin).multiply(BigDecimal.valueOf(Math.random())))
+                            max.add(inclusiveMax).subtract(min).subtract(exclusiveMin).multiply(BigDecimal.valueOf(Math.random())))
                     .longValue();
 
             if (loadTestDataFromFile) {
@@ -1289,11 +1281,11 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataCache.root().flush(out);
-                    String testDataJson = out.toString("UTF-8");
+                    String testDataJson = out.toString(StandardCharsets.UTF_8);
                     objs.put("test-data.json", testDataJson);
                     supportingFiles.add(new SupportingFile("testData.mustache", testDataFile.getAbsolutePath()));
                 }
-            } catch (CacheException | UnsupportedEncodingException e) {
+            } catch (CacheException e) {
                 LOGGER.error("Error writing JSON test data file " + testDataFile, e);
             }
 
@@ -1301,12 +1293,12 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataControlCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataControlCache.root().flush(out);
-                    String testDataControlJson = out.toString("UTF-8");
+                    String testDataControlJson = out.toString(StandardCharsets.UTF_8);
                     objs.put("test-data-control.json", testDataControlJson);
                     supportingFiles
                             .add(new SupportingFile("testDataControl.mustache", testDataControlFile.getAbsolutePath()));
                 }
-            } catch (CacheException | UnsupportedEncodingException e) {
+            } catch (CacheException e) {
                 LOGGER.error("Error writing JSON test data control file " + testDataControlFile, e);
             }
         }
@@ -1318,13 +1310,10 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(GENERATE_SPRING_APPLICATION)) {
-            this.setSupportMultipleSpringServices(
-                    convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_SPRING_SERVICES));
-        }
-        if (additionalProperties.containsKey(GENERATE_OPERATION_BODY)) {
-            boolean generateOperationBody = convertPropertyToBooleanAndWriteBack(GENERATE_OPERATION_BODY);
-            this.setGenerateOperationBody(generateOperationBody);
+        convertPropertyToBooleanAndWriteBack(GENERATE_SPRING_APPLICATION, this::setSupportMultipleSpringServices);
+
+        convertPropertyToBooleanAndWriteBack(GENERATE_OPERATION_BODY, this::setGenerateOperationBody);
+        if (generateOperationBody) {
 
             boolean loadTestDataFromFile = convertPropertyToBooleanAndWriteBack(LOAD_TEST_DATA_FROM_FILE);
             this.setLoadTestDataFromFile(loadTestDataFromFile);

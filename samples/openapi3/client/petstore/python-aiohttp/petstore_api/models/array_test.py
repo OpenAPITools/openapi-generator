@@ -76,10 +76,10 @@ class ArrayTest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in array_array_of_model (list of list)
         _items = []
         if self.array_array_of_model:
-            for _item in self.array_array_of_model:
-                if _item:
+            for _item_array_array_of_model in self.array_array_of_model:
+                if _item_array_array_of_model:
                     _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item if _inner_item is not None]
+                         [_inner_item.to_dict() for _inner_item in _item_array_array_of_model if _inner_item is not None]
                     )
             _dict['array_array_of_model'] = _items
         return _dict

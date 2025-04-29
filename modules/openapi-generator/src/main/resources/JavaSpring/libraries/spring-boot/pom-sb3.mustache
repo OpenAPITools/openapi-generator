@@ -11,18 +11,18 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         {{#springDocDocumentationProvider}}
-        <springdoc.version>2.2.0</springdoc.version>
+        <springdoc.version>2.6.0</springdoc.version>
         {{/springDocDocumentationProvider}}
         {{^springDocDocumentationProvider}}
         {{#swagger2AnnotationLibrary}}
-        <swagger-annotations.version>2.2.15</swagger-annotations.version>
+        <swagger-annotations.version>2.2.22</swagger-annotations.version>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
         {{#useSwaggerUI}}
-        <swagger-ui.version>5.3.1</swagger-ui.version>
+        <swagger-ui.version>5.17.14</swagger-ui.version>
         {{/useSwaggerUI}}
         {{#virtualService}}
-        <virtualan.version>2.5.2</virtualan.version>
+        <virtualan.version>2.5.5</virtualan.version>
         {{/virtualService}}
     </properties>
 {{#parentOverridden}}
@@ -57,8 +57,8 @@
 
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
-        {{^interfaceOnly}}
         <plugins>
+            {{^interfaceOnly}}
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -76,6 +76,21 @@
                     {{/lombok}}
                 </configuration>
             </plugin>
+            {{/interfaceOnly}}
+            {{#interfaceOnly}}
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            {{/interfaceOnly}}
             {{#apiFirst}}
             <plugin>
                 <groupId>org.openapitools</groupId>
@@ -109,7 +124,6 @@
             </plugin>
             {{/apiFirst}}
         </plugins>
-        {{/interfaceOnly}}
     </build>
     <dependencies>
         <dependency>

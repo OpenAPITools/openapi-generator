@@ -5,12 +5,14 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.xml.bind.annotation.*;
@@ -27,24 +29,23 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "ModelApiResponse")
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ModelApiResponse {
 
-  private Integer code;
+  private @Nullable Integer code;
 
-  private String type;
+  private @Nullable String type;
 
-  private String message;
+  private @Nullable String message;
 
   public ModelApiResponse() {
     super();
   }
 
   /**
-  * Constructor with all args parameters
-  */
-  public ModelApiResponse(Integer code, String type, String message) {
+   * Constructor with all args parameters
+   */
+  public ModelApiResponse(@Nullable Integer code, @Nullable String type, @Nullable String message) {
       this.code = code;
       this.type = type;
       this.message = message;
@@ -58,11 +59,12 @@ public class ModelApiResponse {
   /**
    * Get code
    * @return code
-  */
+   */
   
   @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
   @JacksonXmlProperty(localName = "code")
+  @XmlElement(name = "code")
   public Integer getCode() {
     return code;
   }
@@ -79,11 +81,12 @@ public class ModelApiResponse {
   /**
    * Get type
    * @return type
-  */
+   */
   
   @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
   @JacksonXmlProperty(localName = "type")
+  @XmlElement(name = "type")
   public String getType() {
     return type;
   }
@@ -100,11 +103,12 @@ public class ModelApiResponse {
   /**
    * Get message
    * @return message
-  */
+   */
   
   @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")
   @JacksonXmlProperty(localName = "message")
+  @XmlElement(name = "message")
   public String getMessage() {
     return message;
   }

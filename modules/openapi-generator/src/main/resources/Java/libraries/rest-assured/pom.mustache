@@ -331,8 +331,8 @@
         {{/performBeanValidation}}
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
@@ -358,14 +358,13 @@
         {{/jackson}}
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        <beanvalidation-version>3.0.2</beanvalidation-version>
         {{/useJakartaEe}}
         {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
         {{/useJakartaEe}}
-        {{#useBeanValidation}}
-        <beanvalidation-version>3.0.2</beanvalidation-version>
-        {{/useBeanValidation}}
         <okio-version>3.6.0</okio-version>
-        <junit-version>4.13.2</junit-version>
+        <junit-version>5.10.3</junit-version>
     </properties>
 </project>

@@ -13,6 +13,8 @@
 
 package org.openapitools.client.api;
 
+import java.util.List;
+import java.util.Map;
 import org.openapitools.client.model.Order;
 
 import org.junit.jupiter.api.BeforeAll;

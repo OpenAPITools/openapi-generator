@@ -2,6 +2,9 @@
 
 from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
+from pydantic import Field, StrictBytes, StrictInt, StrictStr, field_validator
+from typing import Any, List, Optional, Tuple, Union
+from typing_extensions import Annotated
 from openapi_server.models.api_response import ApiResponse
 from openapi_server.models.pet import Pet
 from openapi_server.security_api import get_token_petstore_auth, get_token_api_key
@@ -12,70 +15,70 @@ class BasePetApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BasePetApi.subclasses = BasePetApi.subclasses + (cls,)
-    def add_pet(
+    async def add_pet(
         self,
-        pet: Pet,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
     ) -> Pet:
         """"""
         ...
 
 
-    def delete_pet(
+    async def delete_pet(
         self,
-        petId: int,
-        api_key: str,
+        petId: Annotated[StrictInt, Field(description="Pet id to delete")],
+        api_key: Optional[StrictStr],
     ) -> None:
         """"""
         ...
 
 
-    def find_pets_by_status(
+    async def find_pets_by_status(
         self,
-        status: List[str],
+        status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
     ) -> List[Pet]:
         """Multiple status values can be provided with comma separated strings"""
         ...
 
 
-    def find_pets_by_tags(
+    async def find_pets_by_tags(
         self,
-        tags: List[str],
+        tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
     ) -> List[Pet]:
         """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."""
         ...
 
 
-    def get_pet_by_id(
+    async def get_pet_by_id(
         self,
-        petId: int,
+        petId: Annotated[StrictInt, Field(description="ID of pet to return")],
     ) -> Pet:
         """Returns a single pet"""
         ...
 
 
-    def update_pet(
+    async def update_pet(
         self,
-        pet: Pet,
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
     ) -> Pet:
         """"""
         ...
 
 
-    def update_pet_with_form(
+    async def update_pet_with_form(
         self,
-        petId: int,
-        name: str,
-        status: str,
+        petId: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
+        name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")],
+        status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")],
     ) -> None:
         """"""
         ...
 
 
-    def upload_file(
+    async def upload_file(
         self,
-        petId: int,
-        additional_metadata: str,
-        file: str,
+        petId: Annotated[StrictInt, Field(description="ID of pet to update")],
+        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")],
+        file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="file to upload")],
     ) -> ApiResponse:
         """"""
         ...

@@ -1,8 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import java.util.Arrays;
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.CliOption;
@@ -11,7 +8,17 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 
+import java.util.Arrays;
+import java.util.List;
 
+/**
+ * @deprecated WARNING! This generator is outdated. Please use the official generator for Micronaut:
+ * <a href="https://github.com/micronaut-projects/micronaut-openapi">micronaut-openapi</a> with the help of the plugin for
+ * <a href="https://github.com/micronaut-projects/micronaut-gradle-plugin">Gradle</a> and
+ * <a href="https://github.com/micronaut-projects/micronaut-maven-plugin">Maven</a>.
+ */
+@SuppressWarnings("removal")
+@Deprecated(forRemoval = true)
 public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
     public static final String OPT_CONFIGURE_AUTH = "configureAuth";
@@ -60,28 +67,20 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Java Micronaut Client.";
+        return "Generates a Java Micronaut Client. IMPORTANT: this generator has been deprecated. Please use the official one instead: https://github.com/micronaut-projects/micronaut-openapi.";
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(OPT_CONFIGURE_AUTH)) {
-            this.configureAuthorization = convertPropertyToBoolean(OPT_CONFIGURE_AUTH);
-        }
-        writePropertyBack(OPT_CONFIGURE_AUTH, configureAuthorization);
+        convertPropertyToBooleanAndWriteBack(OPT_CONFIGURE_AUTH, value -> this.configureAuthorization = value);
 
         // Write property that is present in server
         writePropertyBack(OPT_USE_AUTH, true);
 
         writePropertyBack(OPT_CONFIGURE_AUTH_FILTER_PATTERN, false);
         writePropertyBack(OPT_CONFIGURE_CLIENT_ID, false);
-
-        if(additionalProperties.containsKey(BASE_PATH_SEPARATOR)) {
-            basePathSeparator = additionalProperties.get(BASE_PATH_SEPARATOR).toString();
-        }
-        writePropertyBack(BASE_PATH_SEPARATOR, basePathSeparator);
+        convertPropertyToStringAndWriteBack(BASE_PATH_SEPARATOR, this::setBasePathSeparator);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
 

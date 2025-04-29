@@ -722,7 +722,7 @@ export class FakeApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['dateTime'] != null) {
-            formParams.append('dateTime', requestParameters['dateTime'] as any);
+            formParams.append('dateTime', (requestParameters['dateTime'] as any).toISOString());
         }
 
         if (requestParameters['password'] != null) {

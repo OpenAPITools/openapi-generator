@@ -85,15 +85,15 @@ namespace Org.OpenAPITools.Model
             }
             set
             {
-                if (value.GetType() == typeof(Pig))
+                if (value.GetType() == typeof(Pig) || value is Pig)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(Whale))
+                else if (value.GetType() == typeof(Whale) || value is Whale)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(Zebra))
+                else if (value.GetType() == typeof(Zebra) || value is Zebra)
                 {
                     this._actualInstance = value;
                 }

@@ -36,40 +36,54 @@ namespace Org.OpenAPITools.Model
         /// <param name="date">date</param>
         /// <param name="number">number</param>
         /// <param name="password">password</param>
+        /// <param name="stringFormattedAsDecimalRequired">stringFormattedAsDecimalRequired</param>
         /// <param name="binary">binary</param>
         /// <param name="dateTime">dateTime</param>
         /// <param name="decimal">decimal</param>
         /// <param name="double">double</param>
         /// <param name="float">float</param>
         /// <param name="int32">int32</param>
+        /// <param name="int32Range">int32Range</param>
         /// <param name="int64">int64</param>
+        /// <param name="int64Negative">int64Negative</param>
+        /// <param name="int64NegativeExclusive">int64NegativeExclusive</param>
+        /// <param name="int64Positive">int64Positive</param>
+        /// <param name="int64PositiveExclusive">int64PositiveExclusive</param>
         /// <param name="integer">integer</param>
         /// <param name="patternWithBackslash">None</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros.</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</param>
         /// <param name="string">string</param>
+        /// <param name="stringFormattedAsDecimal">stringFormattedAsDecimal</param>
         /// <param name="unsignedInteger">unsignedInteger</param>
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(byte[] @byte, DateTime date, decimal number, string password, Option<System.IO.Stream> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<float?> @float = default, Option<int?> int32 = default, Option<long?> int64 = default, Option<int?> integer = default, Option<string> patternWithBackslash = default, Option<string> patternWithDigits = default, Option<string> patternWithDigitsAndDelimiter = default, Option<string> @string = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
+        public FormatTest(byte[] @byte, DateTime date, decimal number, string password, decimal stringFormattedAsDecimalRequired, Option<System.IO.Stream> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<float?> @float = default, Option<int?> int32 = default, Option<int?> int32Range = default, Option<long?> int64 = default, Option<long?> int64Negative = default, Option<long?> int64NegativeExclusive = default, Option<long?> int64Positive = default, Option<long?> int64PositiveExclusive = default, Option<int?> integer = default, Option<string> patternWithBackslash = default, Option<string> patternWithDigits = default, Option<string> patternWithDigitsAndDelimiter = default, Option<string> @string = default, Option<decimal?> stringFormattedAsDecimal = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
         {
             Byte = @byte;
             Date = date;
             Number = number;
             Password = password;
+            StringFormattedAsDecimalRequired = stringFormattedAsDecimalRequired;
             BinaryOption = binary;
             DateTimeOption = dateTime;
             DecimalOption = @decimal;
             DoubleOption = @double;
             FloatOption = @float;
             Int32Option = int32;
+            Int32RangeOption = int32Range;
             Int64Option = int64;
+            Int64NegativeOption = int64Negative;
+            Int64NegativeExclusiveOption = int64NegativeExclusive;
+            Int64PositiveOption = int64Positive;
+            Int64PositiveExclusiveOption = int64PositiveExclusive;
             IntegerOption = integer;
             PatternWithBackslashOption = patternWithBackslash;
             PatternWithDigitsOption = patternWithDigits;
             PatternWithDigitsAndDelimiterOption = patternWithDigitsAndDelimiter;
             StringOption = @string;
+            StringFormattedAsDecimalOption = stringFormattedAsDecimal;
             UnsignedIntegerOption = unsignedInteger;
             UnsignedLongOption = unsignedLong;
             UuidOption = uuid;
@@ -87,7 +101,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        /* <example>Sun Feb 02 00:00:00 UTC 2020</example> */
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
 
@@ -104,10 +118,16 @@ namespace Org.OpenAPITools.Model
         public string Password { get; set; }
 
         /// <summary>
+        /// Gets or Sets StringFormattedAsDecimalRequired
+        /// </summary>
+        [JsonPropertyName("string_formatted_as_decimal_required")]
+        public decimal StringFormattedAsDecimalRequired { get; set; }
+
+        /// <summary>
         /// Used to track the state of Binary
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<System.IO.Stream> BinaryOption { get; private set; }
 
         /// <summary>
@@ -120,13 +140,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DateTime
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> DateTimeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
-        /// <example>2007-12-03T10:15:30+01:00</example>
+        /* <example>2007-12-03T10:15:30+01:00</example> */
         [JsonPropertyName("dateTime")]
         public DateTime? DateTime { get { return this.DateTimeOption; } set { this.DateTimeOption = new Option<DateTime?>(value); } }
 
@@ -134,7 +154,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Decimal
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<decimal?> DecimalOption { get; private set; }
 
         /// <summary>
@@ -147,7 +167,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Double
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<double?> DoubleOption { get; private set; }
 
         /// <summary>
@@ -160,7 +180,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Float
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<float?> FloatOption { get; private set; }
 
         /// <summary>
@@ -173,7 +193,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Int32
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> Int32Option { get; private set; }
 
         /// <summary>
@@ -183,10 +203,23 @@ namespace Org.OpenAPITools.Model
         public int? Int32 { get { return this.Int32Option; } set { this.Int32Option = new Option<int?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Int32Range
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<int?> Int32RangeOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Int32Range
+        /// </summary>
+        [JsonPropertyName("int32Range")]
+        public int? Int32Range { get { return this.Int32RangeOption; } set { this.Int32RangeOption = new Option<int?>(value); } }
+
+        /// <summary>
         /// Used to track the state of Int64
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> Int64Option { get; private set; }
 
         /// <summary>
@@ -196,10 +229,62 @@ namespace Org.OpenAPITools.Model
         public long? Int64 { get { return this.Int64Option; } set { this.Int64Option = new Option<long?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Int64Negative
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<long?> Int64NegativeOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Int64Negative
+        /// </summary>
+        [JsonPropertyName("int64Negative")]
+        public long? Int64Negative { get { return this.Int64NegativeOption; } set { this.Int64NegativeOption = new Option<long?>(value); } }
+
+        /// <summary>
+        /// Used to track the state of Int64NegativeExclusive
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<long?> Int64NegativeExclusiveOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Int64NegativeExclusive
+        /// </summary>
+        [JsonPropertyName("int64NegativeExclusive")]
+        public long? Int64NegativeExclusive { get { return this.Int64NegativeExclusiveOption; } set { this.Int64NegativeExclusiveOption = new Option<long?>(value); } }
+
+        /// <summary>
+        /// Used to track the state of Int64Positive
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<long?> Int64PositiveOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Int64Positive
+        /// </summary>
+        [JsonPropertyName("int64Positive")]
+        public long? Int64Positive { get { return this.Int64PositiveOption; } set { this.Int64PositiveOption = new Option<long?>(value); } }
+
+        /// <summary>
+        /// Used to track the state of Int64PositiveExclusive
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<long?> Int64PositiveExclusiveOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Int64PositiveExclusive
+        /// </summary>
+        [JsonPropertyName("int64PositiveExclusive")]
+        public long? Int64PositiveExclusive { get { return this.Int64PositiveExclusiveOption; } set { this.Int64PositiveExclusiveOption = new Option<long?>(value); } }
+
+        /// <summary>
         /// Used to track the state of Integer
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> IntegerOption { get; private set; }
 
         /// <summary>
@@ -212,7 +297,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PatternWithBackslash
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> PatternWithBackslashOption { get; private set; }
 
         /// <summary>
@@ -226,7 +311,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PatternWithDigits
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> PatternWithDigitsOption { get; private set; }
 
         /// <summary>
@@ -240,7 +325,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PatternWithDigitsAndDelimiter
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> PatternWithDigitsAndDelimiterOption { get; private set; }
 
         /// <summary>
@@ -254,7 +339,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of String
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> StringOption { get; private set; }
 
         /// <summary>
@@ -264,10 +349,23 @@ namespace Org.OpenAPITools.Model
         public string String { get { return this.StringOption; } set { this.StringOption = new Option<string>(value); } }
 
         /// <summary>
+        /// Used to track the state of StringFormattedAsDecimal
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<decimal?> StringFormattedAsDecimalOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets StringFormattedAsDecimal
+        /// </summary>
+        [JsonPropertyName("string_formatted_as_decimal")]
+        public decimal? StringFormattedAsDecimal { get { return this.StringFormattedAsDecimalOption; } set { this.StringFormattedAsDecimalOption = new Option<decimal?>(value); } }
+
+        /// <summary>
         /// Used to track the state of UnsignedInteger
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<uint?> UnsignedIntegerOption { get; private set; }
 
         /// <summary>
@@ -280,7 +378,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of UnsignedLong
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<ulong?> UnsignedLongOption { get; private set; }
 
         /// <summary>
@@ -293,13 +391,13 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Uuid
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Guid?> UuidOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /* <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example> */
         [JsonPropertyName("uuid")]
         public Guid? Uuid { get { return this.UuidOption; } set { this.UuidOption = new Option<Guid?>(value); } }
 
@@ -321,18 +419,25 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
+            sb.Append("  StringFormattedAsDecimalRequired: ").Append(StringFormattedAsDecimalRequired).Append("\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Decimal: ").Append(Decimal).Append("\n");
             sb.Append("  Double: ").Append(Double).Append("\n");
             sb.Append("  Float: ").Append(Float).Append("\n");
             sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  Int32Range: ").Append(Int32Range).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
+            sb.Append("  Int64Negative: ").Append(Int64Negative).Append("\n");
+            sb.Append("  Int64NegativeExclusive: ").Append(Int64NegativeExclusive).Append("\n");
+            sb.Append("  Int64Positive: ").Append(Int64Positive).Append("\n");
+            sb.Append("  Int64PositiveExclusive: ").Append(Int64PositiveExclusive).Append("\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
             sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
             sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  StringFormattedAsDecimal: ").Append(StringFormattedAsDecimal).Append("\n");
             sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
             sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
@@ -346,78 +451,114 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Number (decimal) maximum
             if (this.Number > (decimal)543.2)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
+                yield return new ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
             }
 
             // Number (decimal) minimum
             if (this.Number < (decimal)32.1)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
+                yield return new ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
             // Password (string) maxLength
             if (this.Password != null && this.Password.Length > 64)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
+                yield return new ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
             }
 
             // Password (string) minLength
             if (this.Password != null && this.Password.Length < 10)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
+                yield return new ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
             }
 
             // Double (double) maximum
             if (this.DoubleOption.IsSet && this.DoubleOption.Value > (double)123.4)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
+                yield return new ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
             }
 
             // Double (double) minimum
             if (this.DoubleOption.IsSet && this.DoubleOption.Value < (double)67.8)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
+                yield return new ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
             }
 
             // Float (float) maximum
             if (this.FloatOption.IsSet && this.FloatOption.Value > (float)987.6)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
+                yield return new ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
             }
 
             // Float (float) minimum
             if (this.FloatOption.IsSet && this.FloatOption.Value < (float)54.3)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
+                yield return new ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
             }
 
             // Int32 (int) maximum
             if (this.Int32Option.IsSet && this.Int32Option.Value > (int)200)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
+                yield return new ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
             }
 
             // Int32 (int) minimum
             if (this.Int32Option.IsSet && this.Int32Option.Value < (int)20)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
+                yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
+            }
+
+            // Int32Range (int) maximum
+            if (this.Int32RangeOption.IsSet && this.Int32RangeOption.Value > (int)2147483647)
+            {
+                yield return new ValidationResult("Invalid value for Int32Range, must be a value less than or equal to 2147483647.", new [] { "Int32Range" });
+            }
+
+            // Int32Range (int) minimum
+            if (this.Int32RangeOption.IsSet && this.Int32RangeOption.Value < (int)-2147483648)
+            {
+                yield return new ValidationResult("Invalid value for Int32Range, must be a value greater than or equal to -2147483648.", new [] { "Int32Range" });
+            }
+
+            // Int64Negative (long) maximum
+            if (this.Int64NegativeOption.IsSet && this.Int64NegativeOption.Value > (long)-2147483649)
+            {
+                yield return new ValidationResult("Invalid value for Int64Negative, must be a value less than or equal to -2147483649.", new [] { "Int64Negative" });
+            }
+
+            // Int64NegativeExclusive (long) maximum
+            if (this.Int64NegativeExclusiveOption.IsSet && this.Int64NegativeExclusiveOption.Value <= (long)-2147483648)
+            {
+                yield return new ValidationResult("Invalid value for Int64NegativeExclusive, must be a value less than -2147483648.", new [] { "Int64NegativeExclusive" });
+            }
+
+            // Int64Positive (long) minimum
+            if (this.Int64PositiveOption.IsSet && this.Int64PositiveOption.Value < (long)2147483648)
+            {
+                yield return new ValidationResult("Invalid value for Int64Positive, must be a value greater than or equal to 2147483648.", new [] { "Int64Positive" });
+            }
+
+            // Int64PositiveExclusive (long) minimum
+            if (this.Int64PositiveExclusiveOption.IsSet && this.Int64PositiveExclusiveOption.Value < (long)2147483647)
+            {
+                yield return new ValidationResult("Invalid value for Int64PositiveExclusive, must be a value greater than 2147483647.", new [] { "Int64PositiveExclusive" });
             }
 
             // Integer (int) maximum
             if (this.IntegerOption.IsSet && this.IntegerOption.Value > (int)100)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
+                yield return new ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
             }
 
             // Integer (int) minimum
             if (this.IntegerOption.IsSet && this.IntegerOption.Value < (int)10)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
+                yield return new ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
             if (this.PatternWithBackslashOption.Value != null) {
@@ -463,13 +604,13 @@ namespace Org.OpenAPITools.Model
             // UnsignedInteger (uint) maximum
             if (this.UnsignedIntegerOption.IsSet && this.UnsignedIntegerOption.Value > (uint)200)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
+                yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
             }
 
             // UnsignedInteger (uint) minimum
             if (this.UnsignedIntegerOption.IsSet && this.UnsignedIntegerOption.Value < (uint)20)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
+                yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
             }
 
             yield break;
@@ -512,18 +653,25 @@ namespace Org.OpenAPITools.Model
             Option<DateTime?> date = default;
             Option<decimal?> number = default;
             Option<string> password = default;
+            Option<decimal?> stringFormattedAsDecimalRequired = default;
             Option<System.IO.Stream> binary = default;
             Option<DateTime?> dateTime = default;
             Option<decimal?> varDecimal = default;
             Option<double?> varDouble = default;
             Option<float?> varFloat = default;
             Option<int?> int32 = default;
+            Option<int?> int32Range = default;
             Option<long?> int64 = default;
+            Option<long?> int64Negative = default;
+            Option<long?> int64NegativeExclusive = default;
+            Option<long?> int64Positive = default;
+            Option<long?> int64PositiveExclusive = default;
             Option<int?> integer = default;
             Option<string> patternWithBackslash = default;
             Option<string> patternWithDigits = default;
             Option<string> patternWithDigitsAndDelimiter = default;
             Option<string> varString = default;
+            Option<decimal?> stringFormattedAsDecimal = default;
             Option<uint?> unsignedInteger = default;
             Option<ulong?> unsignedLong = default;
             Option<Guid?> uuid = default;
@@ -544,51 +692,58 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "byte":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varByte = new Option<byte[]>(JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions));
+                            varByte = new Option<byte[]>(JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "date":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                date = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            date = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "number":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                number = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                            number = new Option<decimal?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (decimal?)null : utf8JsonReader.GetDecimal());
                             break;
                         case "password":
                             password = new Option<string>(utf8JsonReader.GetString());
                             break;
+                        case "string_formatted_as_decimal_required":
+                            stringFormattedAsDecimalRequired = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                            break;
                         case "binary":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                binary = new Option<System.IO.Stream>(JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions));
+                            binary = new Option<System.IO.Stream>(JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "dateTime":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateTime = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            dateTime = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "decimal":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varDecimal = new Option<decimal?>(JsonSerializer.Deserialize<decimal>(ref utf8JsonReader, jsonSerializerOptions));
+                            varDecimal = new Option<decimal?>(JsonSerializer.Deserialize<decimal>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "double":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varDouble = new Option<double?>(utf8JsonReader.GetDouble());
+                            varDouble = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
                             break;
                         case "float":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varFloat = new Option<float?>((float)utf8JsonReader.GetDouble());
+                            varFloat = new Option<float?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (float?)null : (float)utf8JsonReader.GetDouble());
                             break;
                         case "int32":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                int32 = new Option<int?>(utf8JsonReader.GetInt32());
+                            int32 = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
+                            break;
+                        case "int32Range":
+                            int32Range = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "int64":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                int64 = new Option<long?>(utf8JsonReader.GetInt64());
+                            int64 = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (long?)null : utf8JsonReader.GetInt64());
+                            break;
+                        case "int64Negative":
+                            int64Negative = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
+                            break;
+                        case "int64NegativeExclusive":
+                            int64NegativeExclusive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
+                            break;
+                        case "int64Positive":
+                            int64Positive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
+                            break;
+                        case "int64PositiveExclusive":
+                            int64PositiveExclusive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "integer":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                integer = new Option<int?>(utf8JsonReader.GetInt32());
+                            integer = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "pattern_with_backslash":
                             patternWithBackslash = new Option<string>(utf8JsonReader.GetString());
@@ -602,17 +757,17 @@ namespace Org.OpenAPITools.Model
                         case "string":
                             varString = new Option<string>(utf8JsonReader.GetString());
                             break;
+                        case "string_formatted_as_decimal":
+                            stringFormattedAsDecimal = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                            break;
                         case "unsigned_integer":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                unsignedInteger = new Option<uint?>(utf8JsonReader.GetUInt32());
+                            unsignedInteger = new Option<uint?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (uint?)null : utf8JsonReader.GetUInt32());
                             break;
                         case "unsigned_long":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                unsignedLong = new Option<ulong?>(utf8JsonReader.GetUInt64());
+                            unsignedLong = new Option<ulong?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (ulong?)null : utf8JsonReader.GetUInt64());
                             break;
                         case "uuid":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                uuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            uuid = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Guid?)null : utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;
@@ -632,6 +787,9 @@ namespace Org.OpenAPITools.Model
             if (!password.IsSet)
                 throw new ArgumentException("Property is required for class FormatTest.", nameof(password));
 
+            if (!stringFormattedAsDecimalRequired.IsSet)
+                throw new ArgumentException("Property is required for class FormatTest.", nameof(stringFormattedAsDecimalRequired));
+
             if (varByte.IsSet && varByte.Value == null)
                 throw new ArgumentNullException(nameof(varByte), "Property is not nullable for class FormatTest.");
 
@@ -643,6 +801,9 @@ namespace Org.OpenAPITools.Model
 
             if (password.IsSet && password.Value == null)
                 throw new ArgumentNullException(nameof(password), "Property is not nullable for class FormatTest.");
+
+            if (stringFormattedAsDecimalRequired.IsSet && stringFormattedAsDecimalRequired.Value == null)
+                throw new ArgumentNullException(nameof(stringFormattedAsDecimalRequired), "Property is not nullable for class FormatTest.");
 
             if (binary.IsSet && binary.Value == null)
                 throw new ArgumentNullException(nameof(binary), "Property is not nullable for class FormatTest.");
@@ -662,8 +823,23 @@ namespace Org.OpenAPITools.Model
             if (int32.IsSet && int32.Value == null)
                 throw new ArgumentNullException(nameof(int32), "Property is not nullable for class FormatTest.");
 
+            if (int32Range.IsSet && int32Range.Value == null)
+                throw new ArgumentNullException(nameof(int32Range), "Property is not nullable for class FormatTest.");
+
             if (int64.IsSet && int64.Value == null)
                 throw new ArgumentNullException(nameof(int64), "Property is not nullable for class FormatTest.");
+
+            if (int64Negative.IsSet && int64Negative.Value == null)
+                throw new ArgumentNullException(nameof(int64Negative), "Property is not nullable for class FormatTest.");
+
+            if (int64NegativeExclusive.IsSet && int64NegativeExclusive.Value == null)
+                throw new ArgumentNullException(nameof(int64NegativeExclusive), "Property is not nullable for class FormatTest.");
+
+            if (int64Positive.IsSet && int64Positive.Value == null)
+                throw new ArgumentNullException(nameof(int64Positive), "Property is not nullable for class FormatTest.");
+
+            if (int64PositiveExclusive.IsSet && int64PositiveExclusive.Value == null)
+                throw new ArgumentNullException(nameof(int64PositiveExclusive), "Property is not nullable for class FormatTest.");
 
             if (integer.IsSet && integer.Value == null)
                 throw new ArgumentNullException(nameof(integer), "Property is not nullable for class FormatTest.");
@@ -680,6 +856,9 @@ namespace Org.OpenAPITools.Model
             if (varString.IsSet && varString.Value == null)
                 throw new ArgumentNullException(nameof(varString), "Property is not nullable for class FormatTest.");
 
+            if (stringFormattedAsDecimal.IsSet && stringFormattedAsDecimal.Value == null)
+                throw new ArgumentNullException(nameof(stringFormattedAsDecimal), "Property is not nullable for class FormatTest.");
+
             if (unsignedInteger.IsSet && unsignedInteger.Value == null)
                 throw new ArgumentNullException(nameof(unsignedInteger), "Property is not nullable for class FormatTest.");
 
@@ -689,7 +868,7 @@ namespace Org.OpenAPITools.Model
             if (uuid.IsSet && uuid.Value == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
 
-            return new FormatTest(varByte.Value, date.Value.Value, number.Value.Value, password.Value, binary, dateTime, varDecimal, varDouble, varFloat, int32, int64, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid);
+            return new FormatTest(varByte.Value, date.Value.Value, number.Value.Value, password.Value, stringFormattedAsDecimalRequired.Value.Value, binary, dateTime, varDecimal, varDouble, varFloat, int32, int32Range, int64, int64Negative, int64NegativeExclusive, int64Positive, int64PositiveExclusive, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, stringFormattedAsDecimal, unsignedInteger, unsignedLong, uuid);
         }
 
         /// <summary>
@@ -745,6 +924,8 @@ namespace Org.OpenAPITools.Model
 
             writer.WriteString("password", formatTest.Password);
 
+            writer.WriteString("string_formatted_as_decimal_required", formatTest.StringFormattedAsDecimalRequired.ToString());
+
             if (formatTest.BinaryOption.IsSet)
             {
                 writer.WritePropertyName("binary");
@@ -767,8 +948,23 @@ namespace Org.OpenAPITools.Model
             if (formatTest.Int32Option.IsSet)
                 writer.WriteNumber("int32", formatTest.Int32Option.Value.Value);
 
+            if (formatTest.Int32RangeOption.IsSet)
+                writer.WriteNumber("int32Range", formatTest.Int32RangeOption.Value.Value);
+
             if (formatTest.Int64Option.IsSet)
                 writer.WriteNumber("int64", formatTest.Int64Option.Value.Value);
+
+            if (formatTest.Int64NegativeOption.IsSet)
+                writer.WriteNumber("int64Negative", formatTest.Int64NegativeOption.Value.Value);
+
+            if (formatTest.Int64NegativeExclusiveOption.IsSet)
+                writer.WriteNumber("int64NegativeExclusive", formatTest.Int64NegativeExclusiveOption.Value.Value);
+
+            if (formatTest.Int64PositiveOption.IsSet)
+                writer.WriteNumber("int64Positive", formatTest.Int64PositiveOption.Value.Value);
+
+            if (formatTest.Int64PositiveExclusiveOption.IsSet)
+                writer.WriteNumber("int64PositiveExclusive", formatTest.Int64PositiveExclusiveOption.Value.Value);
 
             if (formatTest.IntegerOption.IsSet)
                 writer.WriteNumber("integer", formatTest.IntegerOption.Value.Value);
@@ -784,6 +980,9 @@ namespace Org.OpenAPITools.Model
 
             if (formatTest.StringOption.IsSet)
                 writer.WriteString("string", formatTest.String);
+
+            if (formatTest.StringFormattedAsDecimalOption.IsSet)
+                writer.WriteString("string_formatted_as_decimal", formatTest.StringFormattedAsDecimal.ToString());
 
             if (formatTest.UnsignedIntegerOption.IsSet)
                 writer.WriteNumber("unsigned_integer", formatTest.UnsignedIntegerOption.Value.Value);

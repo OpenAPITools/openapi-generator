@@ -32,23 +32,30 @@
         <profile>
             <id>resource</id>
             <properties>
-                <inputSpec>petstore.yaml</inputSpec>
+                <inputSpec>petstore-on-classpath.yaml</inputSpec>
             </properties>
         </profile>
         <profile>
-            <id>url</id>
+            <id>resource-external-ref</id>
+            <properties>
+                <!-- Directory schemas inside schema-external-ref to not shadow JARs schema directory   -->
+                <inputSpec>schema-external-ref/petstore-on-classpath.yaml</inputSpec>
+            </properties>
+        </profile>
+        <profile>
+            <id>jar</id>
             <properties>
                 <inputSpec>jar:file:${basedir}/local-repo/petstore/schema/1/schema-1.jar!/petstore.yaml</inputSpec>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>petstore</groupId>
+                    <artifactId>schema</artifactId>
+                    <version>1</version>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
-    <dependencies>
-        <dependency>
-            <groupId>petstore</groupId>
-            <artifactId>schema</artifactId>
-            <version>1</version>
-        </dependency>
-    </dependencies>
     <build>
         <finalName>common-maven</finalName>
         <plugins>

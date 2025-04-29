@@ -50,4 +50,4 @@ jobs:
           (cd http-echo-server && npm install && npm start &)
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: mvn clean package
+        run: mvn clean package --no-transfer-progress

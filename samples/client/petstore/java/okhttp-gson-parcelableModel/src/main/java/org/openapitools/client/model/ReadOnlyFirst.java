@@ -39,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,14 +50,16 @@ import org.openapitools.client.JSON;
 /**
  * ReadOnlyFirst
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ReadOnlyFirst implements Parcelable {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
+  @javax.annotation.Nullable
   private String bar;
 
   public static final String SERIALIZED_NAME_BAZ = "baz";
   @SerializedName(SERIALIZED_NAME_BAZ)
+  @javax.annotation.Nullable
   private String baz;
 
   public ReadOnlyFirst() {
@@ -71,10 +72,10 @@ public class ReadOnlyFirst implements Parcelable {
     this.bar = bar;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
   public String getBar() {
     return bar;
@@ -82,21 +83,21 @@ public class ReadOnlyFirst implements Parcelable {
 
 
 
-  public ReadOnlyFirst baz(String baz) {
+  public ReadOnlyFirst baz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
     return this;
   }
 
-   /**
+  /**
    * Get baz
    * @return baz
-  **/
+   */
   @javax.annotation.Nullable
   public String getBaz() {
     return baz;
   }
 
-  public void setBaz(String baz) {
+  public void setBaz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
   }
 
@@ -178,12 +179,12 @@ public class ReadOnlyFirst implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ReadOnlyFirst
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ReadOnlyFirst
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ReadOnlyFirst.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -236,22 +237,22 @@ public class ReadOnlyFirst implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of ReadOnlyFirst given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ReadOnlyFirst
-  * @throws IOException if the JSON string is invalid with respect to ReadOnlyFirst
-  */
+  /**
+   * Create an instance of ReadOnlyFirst given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ReadOnlyFirst
+   * @throws IOException if the JSON string is invalid with respect to ReadOnlyFirst
+   */
   public static ReadOnlyFirst fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ReadOnlyFirst.class);
   }
 
- /**
-  * Convert an instance of ReadOnlyFirst to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ReadOnlyFirst to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

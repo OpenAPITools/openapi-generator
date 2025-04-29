@@ -2,8 +2,8 @@
 <extensions>
     <extension>
         <groupId>com.gradle</groupId>
-        <artifactId>gradle-enterprise-maven-extension</artifactId>
-        <version>1.20.1</version>
+        <artifactId>develocity-maven-extension</artifactId>
+        <version>1.21.6</version>
     </extension>
     <extension>
         <groupId>com.gradle</groupId>

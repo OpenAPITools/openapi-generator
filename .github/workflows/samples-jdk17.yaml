@@ -8,9 +8,13 @@ on:
       - samples/client/petstore/java-helidon-client/v3/se/**
       - samples/client/petstore/spring-http-interface-reactive/**
       - samples/client/petstore/spring-http-interface/**
+      - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
+      - samples/client/petstore/spring-http-interface-noResponseEntity/**
       - samples/client/petstore/java/webclient-jakarta/**
+      - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
+      - samples/server/petstore/java-camel/**
       - samples/server/petstore/java-helidon-server/v3/mp/**
       - samples/server/petstore/java-helidon-server/v3/se/**
   pull_request:
@@ -21,9 +25,13 @@ on:
       - samples/client/petstore/java-helidon-client/v3/se/**
       - samples/client/petstore/spring-http-interface-reactive/**
       - samples/client/petstore/spring-http-interface/**
+      - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
+      - samples/client/petstore/spring-http-interface-noResponseEntity/**
       - samples/client/petstore/java/webclient-jakarta/**
+      - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
+      - samples/server/petstore/java-camel/**
       - samples/server/petstore/java-helidon-server/v3/mp/**
       - samples/server/petstore/java-helidon-server/v3/se/**
 jobs:
@@ -40,13 +48,15 @@ jobs:
           - samples/client/petstore/java-helidon-client/v3/se
           - samples/client/petstore/spring-http-interface-reactive
           - samples/client/petstore/spring-http-interface
+          - samples/client/petstore/spring-http-interface-reactive-noResponseEntity
+          - samples/client/petstore/spring-http-interface-noResponseEntity
           - samples/client/petstore/java/webclient-jakarta
+          - samples/client/petstore/java/microprofile-rest-client-outer-enum
           # servers
           - samples/openapi3/server/petstore/springboot-3
+          - samples/server/petstore/java-camel/
           - samples/server/petstore/java-helidon-server/v3/mp/
           - samples/server/petstore/java-helidon-server/v3/se
-          - samples/client/petstore/spring-http-interface-reactive
-          - samples/client/petstore/spring-http-interface
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -63,4 +73,4 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: mvn clean package
+        run: mvn clean package --no-transfer-progress

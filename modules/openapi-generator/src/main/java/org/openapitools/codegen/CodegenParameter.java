@@ -17,16 +17,11 @@
 
 package org.openapitools.codegen;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 import io.swagger.v3.oas.models.examples.Example;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.*;
 
 /**
  * Describes a single operation parameter in the OAS specification.
@@ -50,7 +45,9 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary,
             isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject, isAnyType, isShort, isUnboundedInteger;
     public boolean isArray, isMap;
-    /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
+    /**
+     * datatype is the generic inner parameter of a std::optional for C++, or Optional (Java)
+     */
     public boolean isOptional;
     public boolean isFile;
     public boolean isEnum;
@@ -291,7 +288,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation,
                 getMaxProperties(), getMinProperties(), isNullable, isDeprecated, required, getMaximum(),
                 getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(),
-                getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf, isNull,isVoid,
+                getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf, isNull, isVoid,
                 additionalPropertiesIsAnyType, hasVars, hasRequired, isShort, isUnboundedInteger,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, schema, content,
                 requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties,

@@ -2,3 +2,8 @@ generatorName: typescript-axios
 outputDir: samples/client/petstore/typescript-axios/builds/with-complex-headers
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-complex-headers.yaml
 templateDir: modules/openapi-generator/src/main/resources/typescript-axios
+additionalProperties:
+  npmVersion: 1.0.0
+  npmName: '@openapitools/typescript-axios-petstore'
+  npmRepository: https://skimdb.npmjs.com/registry
+  snapshot: false

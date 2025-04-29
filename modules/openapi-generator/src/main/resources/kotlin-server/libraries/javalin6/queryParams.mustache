@@ -1,0 +1,1 @@
+{{#isQueryParam}}{{#isArray}}ctx.queryParams("{{baseName}}"){{/isArray}}{{^isArray}}ctx.queryParamAsClass<{{{dataType}}}>("{{baseName}}"){{^required}}.allowNullable(){{/required}}.get(){{>paramDefault}}{{/isArray}}{{/isQueryParam}}

@@ -1,0 +1,76 @@
+// Create headers from top-level content type header.
+let multipart_headers = match swagger::multipart::related::create_multipart_headers(header.headers.get(CONTENT_TYPE)) {
+    Ok(headers) => headers,
+    Err(e) => {
+        return Err(ApiError(e));
+    }
+};
+
+// &*body expresses the body as a byteslice, &mut provides a
+// mutable reference to that byteslice.
+let nodes = match read_multipart_body(&mut&*body, &multipart_headers, false) {
+    Ok(nodes) => nodes,
+    Err(e) => {
+        return Err(ApiError(format!("Could not read multipart body for {{operationId}}: {}", e)));
+    }
+};
+
+{{#formParams}}
+let mut param_{{{paramName}}} = None;
+{{/formParams}}
+
+for node in nodes {
+    if let Node::Part(part) = node {
+        let content_type = part.content_type().map(|x| format!("{}",x));
+        match content_type.as_ref().map(|x| x.as_str()) {
+{{#formParams}}
+  {{^isBinary}}
+            Some("{{{contentType}}}") if param_{{{paramName}}}.is_none() => {
+                // Extract JSON part.
+                let deserializer = &mut serde_json::Deserializer::from_slice(part.body.as_slice());
+                let json_data: {{{dataType}}} = match serde_ignored::deserialize(deserializer, |path| {
+                    warn!("Ignoring unknown field in JSON part: {}", path);
+                }) {
+                    Ok(json_data) => json_data,
+                    Err(e) => return Err(ApiError(format!("Couldn't parse body parameter {{dataType}} - doesn't match schema: {}", e)))
+                };
+                // Push JSON part to return object.
+                param_{{{paramName}}}.get_or_insert(json_data);
+            },
+  {{/isBinary}}
+  {{#isBinary}}
+            Some("{{{contentType}}}") if param_{{{paramName}}}.is_none() => {
+                param_{{{paramName}}}.get_or_insert(swagger::ByteArray(part.body));
+            },
+  {{/isBinary}}
+{{/formParams}}
+            Some(content_type) => {
+                warn!("Ignoring unexpected content type: {}", content_type);
+            },
+            None => {
+                warn!("Missing content type");
+            },
+        }
+    } else {
+        return Err(ApiError(format!("Unexpected part in multipart body for {{operationId}}: {:?}", node)));
+    }
+}
+{{#formParams}}
+  {{#-first}}
+
+// Check that the required multipart chunks are present.
+  {{/-first}}
+  {{#required}}
+let param_{{{paramName}}} = match param_{{{paramName}}} {
+    Some(x) => x,
+    None => return Err(ApiError("Missing required multipart/related parameter {{{paramName}}}"))
+};
+  {{/required}}
+{{/formParams}}
+  {{^vendorExtensions.x-consumes-basic}}
+              let body = {{{dataType}}} {
+    {{#formParams}}
+                  {{{paramName}}}: param_{{{paramName}}},
+    {{/formParams}}
+              };
+  {{/vendorExtensions.x-consumes-basic}}

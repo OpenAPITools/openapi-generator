@@ -20,7 +20,7 @@ tasks.bootJar {
 
 {{/interfaceOnly}}
 plugins {
-    val kotlinVersion = "1.7.10"
+    val kotlinVersion = "1.9.25"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
@@ -36,8 +36,8 @@ dependencies {
         implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion"){{/reactive}}{{#springDocDocumentationProvider}}{{#useSwaggerUI}}
-        implementation("org.springdoc:springdoc-openapi-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-ui:2.2.0"){{/useSwaggerUI}}{{^useSwaggerUI}}
-        implementation("org.springdoc:springdoc-openapi-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-core:2.2.0-M5"){{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#springFoxDocumentationProvider}}
+        implementation("org.springdoc:springdoc-openapi-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-ui:2.6.0"){{/useSwaggerUI}}{{^useSwaggerUI}}
+        implementation("org.springdoc:springdoc-openapi-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-api:2.6.0"){{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#springFoxDocumentationProvider}}
         implementation("io.springfox:springfox-swagger2:2.9.2"){{/springFoxDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
         implementation("org.webjars:swagger-ui:4.10.3")
         implementation("org.webjars:webjars-locator-core"){{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springFoxDocumentationProvider}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
@@ -58,6 +58,6 @@ dependencies {
         exclude(module = "junit")
     }
 {{#reactive}}
-    testImplementation`("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
 {{/reactive}}
 }

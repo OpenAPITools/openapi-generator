@@ -32,7 +32,7 @@ class Dog {
     
     name: r'className',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -44,7 +44,7 @@ class Dog {
     defaultValue: 'red',
     name: r'color',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -56,7 +56,7 @@ class Dog {
     
     name: r'breed',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 

@@ -1,0 +1,34 @@
+name: Samples C# .Net 8 FastEndpoints Server
+
+on:
+  push:
+    paths:
+      - samples/server/petstore/aspnet/fastendpoints/**
+      - samples/server/petstore/aspnet/fastendpoints-*/**
+  pull_request:
+    paths:
+      - samples/server/petstore/aspnet/fastendpoints/**
+      - samples/server/petstore/aspnet/fastendpoints-*/**
+jobs:
+  build:
+    name: Build .Net 8 FastEndpoints servers
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/server/petstore/aspnet/fastendpoints
+          - samples/server/petstore/aspnet/fastendpoints-useApiVersioning
+          - samples/server/petstore/aspnet/fastendpoints-useAuthentication
+          - samples/server/petstore/aspnet/fastendpoints-useProblemDetails
+          - samples/server/petstore/aspnet/fastendpoints-useRecords
+          - samples/server/petstore/aspnet/fastendpoints-useResponseCaching
+          - samples/server/petstore/aspnet/fastendpoints-useValidators
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4.3.1
+        with:
+          dotnet-version: '8.0.x'
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: dotnet build Org.OpenAPITools.sln

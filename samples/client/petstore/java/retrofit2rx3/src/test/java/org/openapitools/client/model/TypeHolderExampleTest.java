@@ -18,28 +18,26 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for TypeHolderExample
  */
-public class TypeHolderExampleTest {
+class TypeHolderExampleTest {
     private final TypeHolderExample model = new TypeHolderExample();
 
     /**
      * Model tests for TypeHolderExample
      */
     @Test
-    public void testTypeHolderExample() {
+    void testTypeHolderExample() {
         // TODO: test TypeHolderExample
     }
 
@@ -47,7 +45,7 @@ public class TypeHolderExampleTest {
      * Test the property 'stringItem'
      */
     @Test
-    public void stringItemTest() {
+    void stringItemTest() {
         // TODO: test stringItem
     }
 
@@ -55,7 +53,7 @@ public class TypeHolderExampleTest {
      * Test the property 'numberItem'
      */
     @Test
-    public void numberItemTest() {
+    void numberItemTest() {
         // TODO: test numberItem
     }
 
@@ -63,7 +61,7 @@ public class TypeHolderExampleTest {
      * Test the property 'floatItem'
      */
     @Test
-    public void floatItemTest() {
+    void floatItemTest() {
         // TODO: test floatItem
     }
 
@@ -71,7 +69,7 @@ public class TypeHolderExampleTest {
      * Test the property 'integerItem'
      */
     @Test
-    public void integerItemTest() {
+    void integerItemTest() {
         // TODO: test integerItem
     }
 
@@ -79,7 +77,7 @@ public class TypeHolderExampleTest {
      * Test the property 'boolItem'
      */
     @Test
-    public void boolItemTest() {
+    void boolItemTest() {
         // TODO: test boolItem
     }
 
@@ -87,7 +85,7 @@ public class TypeHolderExampleTest {
      * Test the property 'arrayItem'
      */
     @Test
-    public void arrayItemTest() {
+    void arrayItemTest() {
         // TODO: test arrayItem
     }
 

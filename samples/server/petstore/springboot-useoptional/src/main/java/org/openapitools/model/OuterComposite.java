@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -20,7 +21,7 @@ import javax.annotation.Generated;
  * OuterComposite
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class OuterComposite {
 
   private Optional<BigDecimal> myNumber = Optional.empty();
@@ -30,14 +31,14 @@ public class OuterComposite {
   private Optional<Boolean> myBoolean = Optional.empty();
 
   public OuterComposite myNumber(BigDecimal myNumber) {
-    this.myNumber = Optional.of(myNumber);
+    this.myNumber = Optional.ofNullable(myNumber);
     return this;
   }
 
   /**
    * Get myNumber
    * @return myNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
@@ -50,14 +51,14 @@ public class OuterComposite {
   }
 
   public OuterComposite myString(String myString) {
-    this.myString = Optional.of(myString);
+    this.myString = Optional.ofNullable(myString);
     return this;
   }
 
   /**
    * Get myString
    * @return myString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_string")
@@ -70,14 +71,14 @@ public class OuterComposite {
   }
 
   public OuterComposite myBoolean(Boolean myBoolean) {
-    this.myBoolean = Optional.of(myBoolean);
+    this.myBoolean = Optional.ofNullable(myBoolean);
     return this;
   }
 
   /**
    * Get myBoolean
    * @return myBoolean
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -20,7 +21,7 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Name {
 
   private Integer name;
@@ -50,7 +51,7 @@ public class Name {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
@@ -63,14 +64,14 @@ public class Name {
   }
 
   public Name snakeCase(Integer snakeCase) {
-    this.snakeCase = Optional.of(snakeCase);
+    this.snakeCase = Optional.ofNullable(snakeCase);
     return this;
   }
 
   /**
    * Get snakeCase
    * @return snakeCase
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
@@ -83,14 +84,14 @@ public class Name {
   }
 
   public Name property(String property) {
-    this.property = Optional.of(property);
+    this.property = Optional.ofNullable(property);
     return this;
   }
 
   /**
    * Get property
    * @return property
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("property")
@@ -103,14 +104,14 @@ public class Name {
   }
 
   public Name _123number(Integer _123number) {
-    this._123number = Optional.of(_123number);
+    this._123number = Optional.ofNullable(_123number);
     return this;
   }
 
   /**
    * Get _123number
    * @return _123number
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")

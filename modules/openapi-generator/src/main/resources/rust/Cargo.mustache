@@ -28,7 +28,7 @@ repository = "{{.}}"
 documentation = "{{.}}"
 {{/documentationUrl}}
 {{#homePageUrl}}
-homepage = "{{.}}
+homepage = "{{.}}"
 {{/homePageUrl}}
 
 [dependencies]
@@ -37,11 +37,21 @@ serde = { version = "^1.0", features = ["derive"] }
 serde_with = { version = "^3.8", default-features = false, features = ["base64", "std", "macros"] }
 {{/serdeWith}}
 serde_json = "^1.0"
+serde_repr = "^0.1"
 url = "^2.5"
+{{#hasUUIDs}}
 uuid = { version = "^1.8", features = ["serde", "v4"] }
+{{/hasUUIDs}}
 {{#hyper}}
+{{#hyper0x}}
 hyper = { version = "~0.14", features = ["full"] }
 hyper-tls = "~0.5"
+{{/hyper0x}}
+{{^hyper0x}}
+hyper = { version = "^1.3.1", features = ["full"] }
+hyper-util = { version = "0.1.5", features = ["client", "client-legacy", "http1", "http2"] }
+http-body-util = { version = "0.1.2" }
+{{/hyper0x}}
 http = "~0.2"
 base64 = "~0.7.0"
 futures = "^0.3"
@@ -53,15 +63,47 @@ secrecy = "0.8.0"
 {{/withAWSV4Signature}}
 {{#reqwest}}
 {{^supportAsync}}
-reqwest = { version = "^0.12", features = ["json", "blocking", "multipart"] }
+reqwest = { version = "^0.12", default-features = false, features = ["json", "blocking", "multipart"] }
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.3", features = ["json", "blocking", "multipart"] }
+reqwest-middleware = { version = "^0.4", features = ["json", "blocking", "multipart"] }
 {{/supportMiddleware}}
 {{/supportAsync}}
 {{#supportAsync}}
-reqwest = { version = "^0.12", features = ["json", "multipart"] }
+reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.3", features = ["json", "multipart"] }
+reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 {{/supportMiddleware}}
+{{#supportTokenSource}}
+async-trait = "^0.1"
+# TODO: propose to Yoshidan to externalize this as non google related crate, so that it can easily be extended for other cloud providers.
+google-cloud-token = "^0.1"
+{{/supportTokenSource}}
 {{/supportAsync}}
 {{/reqwest}}
+{{#reqwestTrait}}
+async-trait = "^0.1"
+reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
+{{#supportMiddleware}}
+reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
+{{/supportMiddleware}}
+{{#supportTokenSource}}
+# TODO: propose to Yoshidan to externalize this as non google related crate, so that it can easily be extended for other cloud providers.
+google-cloud-token = "^0.1"
+{{/supportTokenSource}}
+{{#mockall}}
+mockall = { version = "^0.13", optional = true}
+{{/mockall}}
+{{#useBonBuilder}}
+bon = { version = "2.3", optional = true }
+{{/useBonBuilder}}
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls = ["reqwest/rustls-tls"]
+{{#mockall}}
+mockall = ["dep:mockall"]
+{{/mockall}}
+{{#useBonBuilder}}
+bon = ["dep:bon"]
+{{/useBonBuilder}}
+{{/reqwestTrait}}

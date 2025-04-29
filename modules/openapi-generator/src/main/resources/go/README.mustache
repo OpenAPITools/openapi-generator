@@ -109,7 +109,7 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: {{{keyParamName}}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 
-Note, each API key must be added to a map of `map[string]APIKey` where the key is: {{keyParamName}} and passed in as the auth context for each request.
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: {{name}} and passed in as the auth context for each request.
 
 Example
 
@@ -118,7 +118,7 @@ auth := context.WithValue(
 		context.Background(),
 		{{packageName}}.ContextAPIKeys,
 		map[string]{{packageName}}.APIKey{
-			"{{keyParamName}}": {Key: "API_KEY_STRING"},
+			"{{name}}": {Key: "API_KEY_STRING"},
 		},
 	)
 r, err := client.Service.Operation(auth, args)

@@ -32,6 +32,18 @@ type DefaultAPI interface {
 	// FooGetExecute executes the request
 	//  @return FooGetDefaultResponse
 	FooGetExecute(r ApiFooGetRequest) (*FooGetDefaultResponse, *http.Response, error)
+
+	/*
+	SomeOpsRequiringRefInt Method for SomeOpsRequiringRefInt
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSomeOpsRequiringRefIntRequest
+	*/
+	SomeOpsRequiringRefInt(ctx context.Context) ApiSomeOpsRequiringRefIntRequest
+
+	// SomeOpsRequiringRefIntExecute executes the request
+	//  @return map[string]interface{}
+	SomeOpsRequiringRefIntExecute(r ApiSomeOpsRequiringRefIntRequest) (map[string]interface{}, *http.Response, error)
 }
 
 // DefaultAPIService DefaultAPI service
@@ -149,6 +161,114 @@ func (a *DefaultAPIService) FooGetExecute(r ApiFooGetRequest) (*FooGetDefaultRes
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiSomeOpsRequiringRefIntRequest struct {
+	ctx context.Context
+	ApiService DefaultAPI
+	someOpsRequiringRefIntRequest *SomeOpsRequiringRefIntRequest
+}
+
+func (r ApiSomeOpsRequiringRefIntRequest) SomeOpsRequiringRefIntRequest(someOpsRequiringRefIntRequest SomeOpsRequiringRefIntRequest) ApiSomeOpsRequiringRefIntRequest {
+	r.someOpsRequiringRefIntRequest = &someOpsRequiringRefIntRequest
+	return r
+}
+
+func (r ApiSomeOpsRequiringRefIntRequest) Execute() (map[string]interface{}, *http.Response, error) {
+	return r.ApiService.SomeOpsRequiringRefIntExecute(r)
+}
+
+/*
+SomeOpsRequiringRefInt Method for SomeOpsRequiringRefInt
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiSomeOpsRequiringRefIntRequest
+*/
+func (a *DefaultAPIService) SomeOpsRequiringRefInt(ctx context.Context) ApiSomeOpsRequiringRefIntRequest {
+	return ApiSomeOpsRequiringRefIntRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return map[string]interface{}
+func (a *DefaultAPIService) SomeOpsRequiringRefIntExecute(r ApiSomeOpsRequiringRefIntRequest) (map[string]interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  map[string]interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.SomeOpsRequiringRefInt")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/wrapped-integer-ref"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.someOpsRequiringRefIntRequest == nil {
+		return localVarReturnValue, nil, reportError("someOpsRequiringRefIntRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.someOpsRequiringRefIntRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 

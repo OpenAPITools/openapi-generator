@@ -18,6 +18,7 @@ import {
     SingleRefTypeFromJSON,
     SingleRefTypeFromJSONTyped,
     SingleRefTypeToJSON,
+    SingleRefTypeToJSONTyped,
 } from './SingleRefType';
 
 /**
@@ -39,6 +40,8 @@ export interface AllOfWithSingleRef {
      */
     singleRefType?: SingleRefType;
 }
+
+
 
 /**
  * Check if a given object implements the AllOfWithSingleRef interface.
@@ -62,10 +65,15 @@ export function AllOfWithSingleRefFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function AllOfWithSingleRefToJSON(value?: AllOfWithSingleRef | null): any {
+export function AllOfWithSingleRefToJSON(json: any): AllOfWithSingleRef {
+    return AllOfWithSingleRefToJSONTyped(json, false);
+}
+
+export function AllOfWithSingleRefToJSONTyped(value?: AllOfWithSingleRef | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'username': value['username'],

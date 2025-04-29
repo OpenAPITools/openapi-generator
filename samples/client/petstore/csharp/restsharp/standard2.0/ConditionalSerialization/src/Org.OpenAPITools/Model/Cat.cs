@@ -31,7 +31,6 @@ namespace Org.OpenAPITools.Model
     /// Cat
     /// </summary>
     [DataContract(Name = "Cat")]
-    [JsonConverter(typeof(JsonSubtypes), "ClassName")]
     public partial class Cat : Animal, IEquatable<Cat>, IValidatableObject
     {
         /// <summary>
@@ -48,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="declawed">declawed.</param>
         /// <param name="className">className (required) (default to &quot;Cat&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Cat(bool declawed = default(bool), string className = @"Cat", string color = @"red") : base(className, color)
+        public Cat(bool declawed = default, string className = @"Cat", string color = @"red") : base(className, color)
         {
             this._Declawed = declawed;
             if (this.Declawed != null)
@@ -155,7 +154,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -165,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             foreach (var x in base.BaseValidate(validationContext))
             {

@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * Zebra
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Zebra {
   /**
    * Gets or Sets type
@@ -107,49 +106,51 @@ public class Zebra {
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
+  @javax.annotation.Nullable
   private TypeEnum type;
 
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
+  @javax.annotation.Nonnull
   private String className;
 
   public Zebra() {
   }
 
-  public Zebra type(TypeEnum type) {
+  public Zebra type(@javax.annotation.Nullable TypeEnum type) {
     this.type = type;
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
   public TypeEnum getType() {
     return type;
   }
 
-  public void setType(TypeEnum type) {
+  public void setType(@javax.annotation.Nullable TypeEnum type) {
     this.type = type;
   }
 
 
-  public Zebra className(String className) {
+  public Zebra className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @javax.annotation.Nonnull
   public String getClassName() {
     return className;
   }
 
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 
@@ -255,12 +256,12 @@ public class Zebra {
     openapiRequiredFields.add("className");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Zebra
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Zebra
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Zebra.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -359,22 +360,22 @@ public class Zebra {
     }
   }
 
- /**
-  * Create an instance of Zebra given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Zebra
-  * @throws IOException if the JSON string is invalid with respect to Zebra
-  */
+  /**
+   * Create an instance of Zebra given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Zebra
+   * @throws IOException if the JSON string is invalid with respect to Zebra
+   */
   public static Zebra fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Zebra.class);
   }
 
- /**
-  * Convert an instance of Zebra to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Zebra to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

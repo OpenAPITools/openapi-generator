@@ -33,6 +33,7 @@ class DefaultApi (
     private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     /**
+     * POST /test
      * Tests default values
      * Tests default values of different parameters
      * @param pi0  (default to 10)

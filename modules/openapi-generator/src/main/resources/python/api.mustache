@@ -101,7 +101,9 @@ class {{classname}}:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, Union[str, bytes]] = {}
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -165,6 +167,9 @@ class {{classname}}:
             if isinstance({{paramName}}, str):
                 with open({{paramName}}, "rb") as _fp:
                     _body_params = _fp.read()
+            elif isinstance({{paramName}}, tuple):
+                # drop the filename from the tuple
+                _body_params = {{paramName}}[1]
             else:
                 _body_params = {{paramName}}
             {{/isBinary}}
@@ -176,7 +181,7 @@ class {{classname}}:
         {{#constantParams}}
         {{#isQueryParam}}
         # Set client side default value of Query Param "{{baseName}}".
-        _query_params['{{baseName}}'] = {{#_enum}}'{{{.}}}'{{/_enum}}
+        _query_params.append(('{{baseName}}', {{#_enum}}'{{{.}}}'{{/_enum}}))
         {{/isQueryParam}}
         {{#isHeaderParam}}
         # Set client side default value of Header Param "{{baseName}}".
@@ -186,11 +191,12 @@ class {{classname}}:
 
         {{#hasProduces}}
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [{{#produces}}
-                '{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [{{#produces}}
+                    '{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}
+                ]
+            )
         {{/hasProduces}}
 
         {{#hasConsumes}}

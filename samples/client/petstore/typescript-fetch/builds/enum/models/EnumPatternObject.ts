@@ -18,12 +18,14 @@ import {
     NumberEnumFromJSON,
     NumberEnumFromJSONTyped,
     NumberEnumToJSON,
+    NumberEnumToJSONTyped,
 } from './NumberEnum';
 import type { StringEnum } from './StringEnum';
 import {
     StringEnumFromJSON,
     StringEnumFromJSONTyped,
     StringEnumToJSON,
+    StringEnumToJSONTyped,
 } from './StringEnum';
 
 /**
@@ -43,7 +45,7 @@ export interface EnumPatternObject {
      * @type {StringEnum}
      * @memberof EnumPatternObject
      */
-    nullableStringEnum?: StringEnum;
+    nullableStringEnum?: StringEnum | null;
     /**
      * 
      * @type {NumberEnum}
@@ -55,8 +57,10 @@ export interface EnumPatternObject {
      * @type {NumberEnum}
      * @memberof EnumPatternObject
      */
-    nullableNumberEnum?: NumberEnum;
+    nullableNumberEnum?: NumberEnum | null;
 }
+
+
 
 /**
  * Check if a given object implements the EnumPatternObject interface.
@@ -82,10 +86,15 @@ export function EnumPatternObjectFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function EnumPatternObjectToJSON(value?: EnumPatternObject | null): any {
+export function EnumPatternObjectToJSON(json: any): EnumPatternObject {
+    return EnumPatternObjectToJSONTyped(json, false);
+}
+
+export function EnumPatternObjectToJSONTyped(value?: EnumPatternObject | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'string-enum': StringEnumToJSON(value['stringEnum']),

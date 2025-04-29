@@ -73,8 +73,10 @@ from petstore_api.models.dog import Dog
 from petstore_api.models.dummy_model import DummyModel
 from petstore_api.models.enum_arrays import EnumArrays
 from petstore_api.models.enum_class import EnumClass
+from petstore_api.models.enum_number_vendor_ext import EnumNumberVendorExt
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
+from petstore_api.models.enum_string_vendor_ext import EnumStringVendorExt
 from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.feeding import Feeding
 from petstore_api.models.file import File
@@ -85,6 +87,7 @@ from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.health_check_result import HealthCheckResult
+from petstore_api.models.hunting_dog import HuntingDog
 from petstore_api.models.info import Info
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 from petstore_api.models.input_all_of import InputAllOf
@@ -97,6 +100,7 @@ from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_api_response import ModelApiResponse
 from petstore_api.models.model_field import ModelField
 from petstore_api.models.model_return import ModelReturn
+from petstore_api.models.multi_arrays import MultiArrays
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.nullable_property import NullableProperty
@@ -130,12 +134,16 @@ from petstore_api.models.special_name import SpecialName
 from petstore_api.models.tag import Tag
 from petstore_api.models.task import Task
 from petstore_api.models.task_activity import TaskActivity
+from petstore_api.models.test_enum import TestEnum
+from petstore_api.models.test_enum_with_default import TestEnumWithDefault
 from petstore_api.models.test_error_responses_with_model400_response import TestErrorResponsesWithModel400Response
 from petstore_api.models.test_error_responses_with_model404_response import TestErrorResponsesWithModel404Response
 from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
+from petstore_api.models.test_model_with_enum_default import TestModelWithEnumDefault
 from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker
 from petstore_api.models.tiger import Tiger
 from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties
 from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties
+from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
 from petstore_api.models.user import User
 from petstore_api.models.with_nested_one_of import WithNestedOneOf

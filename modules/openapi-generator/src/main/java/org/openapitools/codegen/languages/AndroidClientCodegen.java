@@ -459,8 +459,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         if (additionalProperties.containsKey(USE_ANDROID_MAVEN_GRADLE_PLUGIN)) {
             this.setUseAndroidMavenGradlePlugin(Boolean.valueOf((String) additionalProperties
                     .get(USE_ANDROID_MAVEN_GRADLE_PLUGIN)));
-        } else {
-            additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
         }
 
         if (additionalProperties.containsKey(ANDROID_GRADLE_VERSION)) {
@@ -483,8 +481,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             this.setSerializableModel(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
         }
 
-        // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
+        // need to put back boolean properties into additionalProperties as the values in additionalProperties are strings
         additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+        additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
 
         //make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -524,7 +523,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        // supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("apiInvoker.mustache",

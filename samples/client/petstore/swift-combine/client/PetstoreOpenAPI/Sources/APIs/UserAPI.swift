@@ -32,7 +32,7 @@ open class UserAPI {
     /// - POST /user
     /// - This can only be done by the logged in user.
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - parameter user: (body) Created user object 
     /// - returns: AnyPublisher<Void, Error> 
@@ -42,9 +42,9 @@ open class UserAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                let path = "/user"
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let localVarPath = "/user"
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -68,7 +68,7 @@ open class UserAPI {
     /// - POST /user/createWithArray
     /// - 
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - parameter user: (body) List of user object 
     /// - returns: AnyPublisher<Void, Error> 
@@ -78,9 +78,9 @@ open class UserAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                let path = "/user/createWithArray"
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let localVarPath = "/user/createWithArray"
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -104,7 +104,7 @@ open class UserAPI {
     /// - POST /user/createWithList
     /// - 
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - parameter user: (body) List of user object 
     /// - returns: AnyPublisher<Void, Error> 
@@ -114,9 +114,9 @@ open class UserAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                let path = "/user/createWithList"
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let localVarPath = "/user/createWithList"
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -155,7 +155,7 @@ open class UserAPI {
     /// - DELETE /user/{username}
     /// - This can only be done by the logged in user.
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - parameter username: (path) The name that needs to be deleted 
     /// - returns: AnyPublisher<Void, Error> 
@@ -165,10 +165,10 @@ open class UserAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                var path = "/user/{username}"
-                path = path.replacingOccurrences(of: "{username}", with: username)
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                var localVarPath = "/user/{username}"
+                localVarPath = localVarPath.replacingOccurrences(of: "{username}", with: username)
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -221,10 +221,10 @@ open class UserAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                var path = "/user/{username}"
-                path = path.replacingOccurrences(of: "{username}", with: username)
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                var localVarPath = "/user/{username}"
+                localVarPath = localVarPath.replacingOccurrences(of: "{username}", with: username)
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -275,9 +275,9 @@ open class UserAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                let path = "/user/login"
-                let url = baseURL.appendingPathComponent(path)
-                var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let localVarPath = "/user/login"
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                var components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 var queryItems: [URLQueryItem] = []
                 queryItems.append(URLQueryItem(name: "username", value: username))
                 queryItems.append(URLQueryItem(name: "password", value: password))
@@ -309,7 +309,7 @@ open class UserAPI {
     /// - GET /user/logout
     /// - 
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - returns: AnyPublisher<Void, Error> 
     open func logoutUser() -> AnyPublisher<Void, Error> {
@@ -318,9 +318,9 @@ open class UserAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                let path = "/user/logout"
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let localVarPath = "/user/logout"
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -357,7 +357,7 @@ open class UserAPI {
     /// - PUT /user/{username}
     /// - This can only be done by the logged in user.
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - parameter username: (path) name that need to be deleted 
     /// - parameter user: (body) Updated user object 
@@ -368,10 +368,10 @@ open class UserAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                var path = "/user/{username}"
-                path = path.replacingOccurrences(of: "{username}", with: username)
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                var localVarPath = "/user/{username}"
+                localVarPath = localVarPath.replacingOccurrences(of: "{username}", with: username)
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }

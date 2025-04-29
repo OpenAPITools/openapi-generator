@@ -39,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,14 +50,16 @@ import org.openapitools.client.JSON;
 /**
  * HasOnlyReadOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class HasOnlyReadOnly implements Parcelable {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
+  @javax.annotation.Nullable
   private String bar;
 
   public static final String SERIALIZED_NAME_FOO = "foo";
   @SerializedName(SERIALIZED_NAME_FOO)
+  @javax.annotation.Nullable
   private String foo;
 
   public HasOnlyReadOnly() {
@@ -73,10 +74,10 @@ public class HasOnlyReadOnly implements Parcelable {
     this.foo = foo;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
   public String getBar() {
     return bar;
@@ -84,10 +85,10 @@ public class HasOnlyReadOnly implements Parcelable {
 
 
 
-   /**
+  /**
    * Get foo
    * @return foo
-  **/
+   */
   @javax.annotation.Nullable
   public String getFoo() {
     return foo;
@@ -172,12 +173,12 @@ public class HasOnlyReadOnly implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to HasOnlyReadOnly
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to HasOnlyReadOnly
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!HasOnlyReadOnly.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -230,22 +231,22 @@ public class HasOnlyReadOnly implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of HasOnlyReadOnly given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of HasOnlyReadOnly
-  * @throws IOException if the JSON string is invalid with respect to HasOnlyReadOnly
-  */
+  /**
+   * Create an instance of HasOnlyReadOnly given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of HasOnlyReadOnly
+   * @throws IOException if the JSON string is invalid with respect to HasOnlyReadOnly
+   */
   public static HasOnlyReadOnly fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, HasOnlyReadOnly.class);
   }
 
- /**
-  * Convert an instance of HasOnlyReadOnly to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of HasOnlyReadOnly to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

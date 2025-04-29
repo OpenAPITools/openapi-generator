@@ -32,30 +32,33 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   NumberPropertiesOnly.JSON_PROPERTY_FLOAT,
   NumberPropertiesOnly.JSON_PROPERTY_DOUBLE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String JSON_PROPERTY_NUMBER = "number";
+  @jakarta.annotation.Nullable
   private BigDecimal number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
+  @jakarta.annotation.Nullable
   private Float _float;
 
   public static final String JSON_PROPERTY_DOUBLE = "double";
+  @jakarta.annotation.Nullable
   private Double _double;
 
   public NumberPropertiesOnly() {
   }
 
-  public NumberPropertiesOnly number(BigDecimal number) {
+  public NumberPropertiesOnly number(@jakarta.annotation.Nullable BigDecimal number) {
     
     this.number = number;
     return this;
   }
 
-   /**
+  /**
    * Get number
    * @return number
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -67,20 +70,20 @@ public class NumberPropertiesOnly {
 
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNumber(BigDecimal number) {
+  public void setNumber(@jakarta.annotation.Nullable BigDecimal number) {
     this.number = number;
   }
 
-  public NumberPropertiesOnly _float(Float _float) {
+  public NumberPropertiesOnly _float(@jakarta.annotation.Nullable Float _float) {
     
     this._float = _float;
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * @return _float
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -92,22 +95,22 @@ public class NumberPropertiesOnly {
 
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFloat(Float _float) {
+  public void setFloat(@jakarta.annotation.Nullable Float _float) {
     this._float = _float;
   }
 
-  public NumberPropertiesOnly _double(Double _double) {
+  public NumberPropertiesOnly _double(@jakarta.annotation.Nullable Double _double) {
     
     this._double = _double;
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 0.8
    * maximum: 50.2
    * @return _double
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -119,9 +122,10 @@ public class NumberPropertiesOnly {
 
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDouble(Double _double) {
+  public void setDouble(@jakarta.annotation.Nullable Double _double) {
     this._double = _double;
   }
+
 
   @Override
   public boolean equals(Object o) {

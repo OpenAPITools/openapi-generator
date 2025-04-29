@@ -49,6 +49,11 @@
   infoLink: "https://www.askul.co.jp/"
   pinned: true
 -
+  caption: aspectivo
+  image: "img/companies/aspectivo.png"
+  infoLink: "https://aspectivo.ai/"
+  pinned: false 
+-
   caption: Amazon Web Services (AWS)
   image: "img/companies/aws.png"
   infoLink: "https://aws.amazon.com/"
@@ -134,6 +139,11 @@
   infoLink: "https://www.coinapi.io/"
   pinned: false
 -
+  caption: ConfigCat
+  image: "img/companies/configcat.svg"
+  infoLink: "https://configcat.com/"
+  pinned: false
+-
   caption: Commencis
   image: "img/companies/commencis.png"
   infoLink: "https://www.commencis.com/"
@@ -167,6 +177,11 @@
   caption: Deeproute.ai
   image: "img/companies/deeproute_logo.jpg"
   infoLink: "https://www.deeproute.ai/"
+  pinned: false
+-
+  caption: Develocity
+  image: "img/companies/develocity.png"
+  infoLink: "https://gradle.com/"
   pinned: false
 -
   caption: "dmTECH GmbH"
@@ -264,11 +279,6 @@
   infoLink: "https://www.godaddy.com/"
   pinned: false
 -
-  caption: Gradle Enterprise
-  image: "img/companies/gradle-enterprise.png"
-  infoLink: "https://gradle.com/"
-  pinned: false
--
   caption: "Gumtree"
   image: "img/companies/gumtree.png"
   infoLink: "https://gumtree.com/"
@@ -301,7 +311,7 @@
 -
   caption: "Landeshauptstadt München - it@M"
   image: "img/companies/it-at-m.png"
-  infoLink: "https://muenchen.digital/it-at-m/"
+  infoLink: "https://opensource.muenchen.de/software/openapi-generator.html"
   pinned: false
 -
   caption: "Linode"
@@ -549,14 +559,19 @@
   infoLink: "https://www.tencent.com/"
   pinned: false
 -
+  caption: The University of Aizu
+  image: "img/companies/uoa.png"
+  infoLink: "https://www.u-aizu.ac.jp/en/"
+  pinned: false
+-
   caption: TileDB
   image: "img/companies/tiledb.png"
   infoLink: "https://www.tiledb.com/"
   pinned: false
 -
-  caption: The University of Aizu
-  image: "img/companies/uoa.png"
-  infoLink: "https://www.u-aizu.ac.jp/en/"
+  caption: TINQIN 
+  image: "img/companies/tinqin.png"
+  infoLink: "https://www.tinqin.com/"
   pinned: false
 -
   caption: "TravelTime platform"

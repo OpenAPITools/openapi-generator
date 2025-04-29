@@ -85,6 +85,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/operation}}
     }
     {{#operation}}
+    {{^vendorExtensions.x-duplicates}}
     {{#responses}}
     {{#-first}}
 
@@ -115,6 +116,7 @@ namespace {{packageName}}.{{apiPackage}}
     }
     {{/-first}}
     {{/responses}}
+    {{/vendorExtensions.x-duplicates}}
     {{/operation}}
 
     /// <summary>
@@ -134,7 +136,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         public event EventHandler<ExceptionEventArgs>{{nrt?}} OnError{{operationId}};
 
-        internal void ExecuteOn{{operationId}}({{classname}}.{{operationId}}ApiResponse apiResponse)
+        internal void ExecuteOn{{operationId}}({{#vendorExtensions.x-duplicates}}{{.}}{{/vendorExtensions.x-duplicates}}{{^vendorExtensions.x-duplicates}}{{classname}}{{/vendorExtensions.x-duplicates}}.{{operationId}}ApiResponse apiResponse)
         {
             On{{operationId}}?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
@@ -303,30 +305,30 @@ namespace {{packageName}}.{{apiPackage}}
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
+        private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exceptionLocalVar  string pathFormatLocalVar  string pathLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
-            bool suppressDefaultLog = false;
-            OnError{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  exception  pathFormat  path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+            bool suppressDefaultLogLocalVar = false;
+            OnError{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLogLocalVar  exceptionLocalVar  pathFormatLocalVar  pathLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 {{>OnErrorDefaultImplementation}}
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLogLocalVar  Exception exceptionLocalVar  string pathFormatLocalVar  string pathLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// {{summary}} {{notes}}
@@ -380,7 +382,9 @@ namespace {{packageName}}.{{apiPackage}}
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress{{nrt!}}.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "{{path}}";
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "{{{path}}}"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "{{{path}}}");
                     {{/servers}}
                     {{#servers}}
                     {{#-first}}
@@ -436,7 +440,6 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#queryParams}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
-                        // here too
                         parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{paramName}}.Value);
 
                     {{/required}}
@@ -620,9 +623,9 @@ namespace {{packageName}}.{{apiPackage}}
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
 
-                        ILogger<{{operationId}}ApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<{{operationId}}ApiResponse>();
+                        ILogger<{{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<{{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse>();
 
-                        {{operationId}}ApiResponse apiResponseLocalVar = new{{^net60OrLater}} {{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{path}}", requestedAtLocalVar, _jsonSerializerOptions);
+                        {{#vendorExtensions.x-duplicates}}{{.}}.{{/vendorExtensions.x-duplicates}}{{operationId}}ApiResponse apiResponseLocalVar = new{{^net60OrLater}} {{operationId}}ApiResponse{{/net60OrLater}}(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{{path}}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
@@ -675,12 +678,13 @@ namespace {{packageName}}.{{apiPackage}}
             }
             catch(Exception e)
             {
-                OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}e  "{{path}}"  uriBuilderLocalVar.Path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+                OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}e  "{{{path}}}"  uriBuilderLocalVar.Path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
                 Events.ExecuteOnError{{operationId}}(e);
                 throw;
             }
             {{/lambda.trimLineBreaks}}
         }
+        {{^vendorExtensions.x-duplicates}}
         {{#responses}}
         {{#-first}}
 
@@ -710,7 +714,7 @@ namespace {{packageName}}.{{apiPackage}}
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
             {{#responses}}
 
             {{#vendorExtensions.x-http-status-is-default}}
@@ -725,7 +729,19 @@ namespace {{packageName}}.{{apiPackage}}
             /// Returns true if the response is {{code}} {{vendorExtensions.x-http-status}}
             /// </summary>
             /// <returns></returns>
+            {{#vendorExtensions.x-http-status-range}}
+            public bool Is{{vendorExtensions.x-http-status}}
+            {
+                get
+                {
+                    int statusCode = (int)StatusCode;
+                    return {{vendorExtensions.x-http-status-range}}00 >= statusCode && {{vendorExtensions.x-http-status-range}}99 <= statusCode;
+                }
+            }
+            {{/vendorExtensions.x-http-status-range}}
+            {{^vendorExtensions.x-http-status-range}}
             public bool Is{{vendorExtensions.x-http-status}} => {{code}} == (int)StatusCode;
+            {{/vendorExtensions.x-http-status-range}}
             {{/vendorExtensions.x-http-status-is-default}}
             {{#dataType}}
 
@@ -756,7 +772,7 @@ namespace {{packageName}}.{{apiPackage}}
                     result = {{vendorExtensions.x-http-status}}();
                 } catch (Exception e)
                 {
-                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode){{code}});
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode){{#vendorExtensions.x-http-status-range}}{{.}}{{/vendorExtensions.x-http-status-range}}{{^vendorExtensions.x-http-status-range}}{{code}}{{/vendorExtensions.x-http-status-range}});
                 }
 
                 return result != null;
@@ -781,6 +797,7 @@ namespace {{packageName}}.{{apiPackage}}
         }
         {{/-first}}
         {{/responses}}
+        {{/vendorExtensions.x-duplicates}}
         {{/operation}}
     }
     {{/operations}}

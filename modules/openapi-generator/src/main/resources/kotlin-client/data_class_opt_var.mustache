@@ -9,12 +9,15 @@
     @SerializedName("{{{vendorExtensions.x-base-name-literal}}}")
     {{/gson}}
     {{#jackson}}
-    @field:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
+    @get:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
     {{/jackson}}
     {{#kotlinx_serialization}}
     {{^isEnum}}{{^isArray}}{{^isPrimitiveType}}{{^isModel}}@Contextual {{/isModel}}{{/isPrimitiveType}}{{/isArray}}{{/isEnum}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}")
     {{/kotlinx_serialization}}
     {{/multiplatform}}
+    {{#vendorExtensions.x-field-extra-annotation}}
+    {{{vendorExtensions.x-field-extra-annotation}}}
+    {{/vendorExtensions.x-field-extra-annotation}}
     {{#deprecated}}
     @Deprecated(message = "This property is deprecated.")
     {{/deprecated}}

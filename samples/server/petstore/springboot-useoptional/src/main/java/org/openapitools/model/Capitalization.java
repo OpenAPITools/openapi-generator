@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ import javax.annotation.Generated;
  * Capitalization
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Capitalization {
 
   private Optional<String> smallCamel = Optional.empty();
@@ -35,14 +36,14 @@ public class Capitalization {
   private Optional<String> ATT_NAME = Optional.empty();
 
   public Capitalization smallCamel(String smallCamel) {
-    this.smallCamel = Optional.of(smallCamel);
+    this.smallCamel = Optional.ofNullable(smallCamel);
     return this;
   }
 
   /**
    * Get smallCamel
    * @return smallCamel
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("smallCamel")
@@ -55,14 +56,14 @@ public class Capitalization {
   }
 
   public Capitalization capitalCamel(String capitalCamel) {
-    this.capitalCamel = Optional.of(capitalCamel);
+    this.capitalCamel = Optional.ofNullable(capitalCamel);
     return this;
   }
 
   /**
    * Get capitalCamel
    * @return capitalCamel
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
@@ -75,14 +76,14 @@ public class Capitalization {
   }
 
   public Capitalization smallSnake(String smallSnake) {
-    this.smallSnake = Optional.of(smallSnake);
+    this.smallSnake = Optional.ofNullable(smallSnake);
     return this;
   }
 
   /**
    * Get smallSnake
    * @return smallSnake
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
@@ -95,14 +96,14 @@ public class Capitalization {
   }
 
   public Capitalization capitalSnake(String capitalSnake) {
-    this.capitalSnake = Optional.of(capitalSnake);
+    this.capitalSnake = Optional.ofNullable(capitalSnake);
     return this;
   }
 
   /**
    * Get capitalSnake
    * @return capitalSnake
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
@@ -115,14 +116,14 @@ public class Capitalization {
   }
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
-    this.scAETHFlowPoints = Optional.of(scAETHFlowPoints);
+    this.scAETHFlowPoints = Optional.ofNullable(scAETHFlowPoints);
     return this;
   }
 
   /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
@@ -135,14 +136,14 @@ public class Capitalization {
   }
 
   public Capitalization ATT_NAME(String ATT_NAME) {
-    this.ATT_NAME = Optional.of(ATT_NAME);
+    this.ATT_NAME = Optional.ofNullable(ATT_NAME);
     return this;
   }
 
   /**
    * Name of the pet 
    * @return ATT_NAME
-  */
+   */
   
   @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")

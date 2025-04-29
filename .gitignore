@@ -1,4 +1,5 @@
 .mvn/.gradle-enterprise/
+.mvn/.develocity/
 .scannerwork/
 .vscode
 *.iml
@@ -219,6 +220,7 @@ samples/client/petstore/kotlin*/src/main/kotlin/test/
 samples/client/petstore/kotlin*/build/
 samples/server/others/kotlin-server/jaxrs-spec/build/
 samples/client/echo_api/kotlin-jvm-spring-3-restclient/build/
+samples/client/echo_api/kotlin-jvm-okhttp/build/
 
 # haskell
 .stack-work

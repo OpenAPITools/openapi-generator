@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Client
         /// Places the token in the header.
         /// </summary>
         /// <param name="request"></param>
-        public virtual void UseInHeader(System.Net.Http.HttpRequestMessage request)
+        public virtual void UseInHeader(global::System.Net.Http.HttpRequestMessage request)
         {
             request.Headers.Add(ClientUtils.ApiKeyHeaderToString(Header), _raw);
         }
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="request"></param>
         /// <param name="uriBuilder"></param>
         /// <param name="parseQueryString"></param>
-        public virtual void UseInQuery(System.Net.Http.HttpRequestMessage request, UriBuilder uriBuilder, System.Collections.Specialized.NameValueCollection parseQueryString)
+        public virtual void UseInQuery(global::System.Net.Http.HttpRequestMessage request, UriBuilder uriBuilder, System.Collections.Specialized.NameValueCollection parseQueryString)
         {
             parseQueryString[ClientUtils.ApiKeyHeaderToString(Header)] = Uri.EscapeDataString(_raw).ToString();
         }

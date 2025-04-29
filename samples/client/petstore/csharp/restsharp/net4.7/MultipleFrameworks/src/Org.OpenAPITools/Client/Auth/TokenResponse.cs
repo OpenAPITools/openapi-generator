@@ -8,6 +8,7 @@
  */
 
 
+using System;
 using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Client.Auth
@@ -18,5 +19,14 @@ namespace Org.OpenAPITools.Client.Auth
         public string TokenType { get; set; }
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }
+        [JsonProperty("expires_in")]
+        public int? ExpiresIn { get; set; }
+        [JsonProperty("created")]
+        public DateTime? Created { get; set; }
+
+        [JsonProperty("refresh_token")]
+        public string RefreshToken { get; set; }
+
+        public DateTime? ExpiresAt => ExpiresIn == null ? null : Created?.AddSeconds(ExpiresIn.Value);
     }
 }

@@ -18,6 +18,7 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+    AnimalToJSONTyped,
 } from './Animal';
 
 /**
@@ -69,10 +70,15 @@ export function MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json: a
     };
 }
 
-export function MixedPropertiesAndAdditionalPropertiesClassToJSON(value?: MixedPropertiesAndAdditionalPropertiesClass | null): any {
+export function MixedPropertiesAndAdditionalPropertiesClassToJSON(json: any): MixedPropertiesAndAdditionalPropertiesClass {
+    return MixedPropertiesAndAdditionalPropertiesClassToJSONTyped(json, false);
+}
+
+export function MixedPropertiesAndAdditionalPropertiesClassToJSONTyped(value?: MixedPropertiesAndAdditionalPropertiesClass | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'uuid': value['uuid'],

@@ -21,7 +21,7 @@ data class Client(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("client") val client: kotlin.String? = null
-) {
+    ) {
 
 }
 

@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
@@ -32,10 +33,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
@@ -168,6 +168,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if (StringUtils.isEmpty(System.getenv("PHP_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PHP_POST_PROCESS_FILE not defined so the PHP code may not be properly formatted. To define it, try 'export PHP_POST_PROCESS_FILE=\"/usr/local/bin/prettier --write\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'PHP_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PACKAGE_NAME)) {
@@ -371,7 +373,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         } else if (StringUtils.isNotBlank(p.get$ref())) { // model
             String type = super.getTypeDeclaration(p);
             return (!languageSpecificPrimitives.contains(type))
-                    ? "\\" + modelPackage + "\\" + type : type;
+                    ? "\\" + modelPackage + "\\" + toModelName(type) : type;
         }
         return super.getTypeDeclaration(p);
     }
@@ -385,6 +387,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    protected String getParameterDataType(Parameter parameter, Schema schema) {
+        return getTypeDeclaration(schema);
+    }
+
+    @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
@@ -392,6 +399,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if (openAPIType == null) {
             LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
             openAPIType = "UNKNOWN_OPENAPI_TYPE";
+        }
+
+        if ((p.getAnyOf() != null && !p.getAnyOf().isEmpty()) || (p.getOneOf() != null && !p.getOneOf().isEmpty())) {
+            return openAPIType;
         }
 
         if (typeMapping.containsKey(openAPIType)) {
@@ -428,7 +439,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         // translate @ for properties (like @type) to at_.
-        // Otherwise an additional "type" property will leed to duplcates
+        // Otherwise an additional "type" property will lead to duplicates
         name = name.replaceAll("^@", "at_");
 
         // sanitize name
@@ -494,6 +505,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toModelName(String name) {
+
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // memoization
         String origName = name;
         if (schemaKeyToModelNameCache.containsKey(origName)) {
@@ -634,9 +650,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         if ("String".equalsIgnoreCase(type) || p.isString) {
             if (example == null) {
-                example = "'" + p.paramName + "_example'";
+                example = "'" + escapeTextInSingleQuotes(p.paramName) + "_example'";
+            } else {
+                example = escapeText(example);
             }
-            example = escapeText(example);
         } else if ("Integer".equals(type) || "int".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -653,17 +670,17 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             if (example == null) {
                 example = "/path/to/file.txt";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = "'" + escapeTextInSingleQuotes(example) + "'";
         } else if ("\\Date".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";
             }
-            example = "new \\DateTime(\"" + escapeText(example) + "\")";
+            example = "new \\DateTime('" + escapeTextInSingleQuotes(example) + "')";
         } else if ("\\DateTime".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
-            example = "new \\DateTime(\"" + escapeText(example) + "\")";
+            example = "new \\DateTime('" + escapeTextInSingleQuotes(example) + "')";
         } else if ("object".equals(type)) {
             example = "new \\stdClass";
         } else if (!languageSpecificPrimitives.contains(type)) {
@@ -685,11 +702,33 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
+        if (vendorExtensions != null) {
+            if (vendorExtensions.containsKey("x-enum-varnames")) {
+                List<String> values = (List<String>) vendorExtensions.get("x-enum-varnames");
+                int size = Math.min(enumVars.size(), values.size());
+
+                for (int i = 0; i < size; i++) {
+                    enumVars.get(i).put("name", toEnumVarName(values.get(i), dataType));
+                }
+            }
+
+            if (vendorExtensions.containsKey("x-enum-descriptions")) {
+                List<String> values = (List<String>) vendorExtensions.get("x-enum-descriptions");
+                int size = Math.min(enumVars.size(), values.size());
+                for (int i = 0; i < size; i++) {
+                    enumVars.get(i).put("enumDescription", values.get(i));
+                }
+            }
+        }
+    }
+
+    @Override
     public String toEnumValue(String value, String datatype) {
         if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
-            return "\'" + escapeText(value) + "\'";
+            return "'" + escapeTextInSingleQuotes(value) + "'";
         }
     }
 
@@ -704,11 +743,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             return enumNameMapping.get(name);
         }
 
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "EMPTY";
         }
 
-        if (name.trim().length() == 0) {
+        if (name.trim().isEmpty()) {
             return "SPACE_" + name.length();
         }
 
@@ -719,11 +758,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // number
         if ("int".equals(datatype) || "float".equals(datatype)) {
-            String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
+            if (name.matches("\\d.*")) { // starts with number
+                name = "NUMBER_" + name;
+            }
+            name = name.replaceAll("-", "MINUS_");
+            name = name.replaceAll("\\+", "PLUS_");
+            name = name.replaceAll("\\.", "_DOT_");
         }
 
         // string
@@ -800,6 +840,16 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return super.escapeText(input).trim();
     }
 
+    @Override
+    public String escapeTextInSingleQuotes(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // Unescape double quotes because PHP keeps the backslashes if a character does not need to be escaped
+        return super.escapeTextInSingleQuotes(input).replace("\\\"", "\"");
+    }
+
     public void escapeMediaType(List<CodegenOperation> operationList) {
         for (CodegenOperation op : operationList) {
             if (!op.hasProduces) {
@@ -827,6 +877,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -836,21 +887,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
         // only process files with php extension
         if ("php".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = phpPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                int exitValue = p.exitValue();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{phpPostProcessFile, file.toString()});
         }
     }
 
@@ -880,5 +917,29 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.PHP;
+    }
+
+    @Override
+    public String toOneOfName(List<String> names, Schema composedSchema) {
+        List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
+
+        List<String> types = new ArrayList<>();
+        for (Schema s : schemas) {
+            types.add(getTypeDeclaration(s));
+        }
+
+        return String.join("|", types);
+    }
+
+    @Override
+    public String toAllOfName(List<String> names, Schema composedSchema) {
+        List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
+
+        List<String> types = new ArrayList<>();
+        for (Schema s : schemas) {
+            types.add(getTypeDeclaration(s));
+        }
+
+        return String.join("&", types);
     }
 }

@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
@@ -37,9 +38,7 @@ import org.springframework.http.HttpStatus;
 {{#useResponseEntity}}
 import org.springframework.http.ResponseEntity;
 {{/useResponseEntity}}
-{{#useBeanValidation}}
-import org.springframework.validation.annotation.Validated;
-{{/useBeanValidation}}
+{{#useBeanValidation}}{{^useSpringBuiltInValidation}}import org.springframework.validation.annotation.Validated;{{/useSpringBuiltInValidation}}{{/useBeanValidation}}
 {{#useSpringController}}
 {{#useResponseEntity}}
 import org.springframework.stereotype.Controller;
@@ -79,12 +78,13 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.CompletableFuture;
 {{/async}}
+{{#returnSuccessCode}}
+import java.util.concurrent.atomic.AtomicInteger;
+{{/returnSuccessCode}}
 import {{javaxPackage}}.annotation.Generated;
 
 {{>generatedAnnotation}}
-{{#useBeanValidation}}
-@Validated
-{{/useBeanValidation}}
+{{#useBeanValidation}}{{^useSpringBuiltInValidation}}@Validated{{/useSpringBuiltInValidation}}{{/useBeanValidation}}
 {{#useSpringController}}
 {{#useResponseEntity}}
 @Controller
@@ -171,7 +171,19 @@ public interface {{classname}} {
             {{#responses}}
             @ApiResponse(responseCode = {{#isDefault}}"default"{{/isDefault}}{{^isDefault}}"{{{code}}}"{{/isDefault}}, description = "{{{message}}}"{{#baseType}}, content = {
                 {{#produces}}
-                @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}){{^-last}},{{/-last}}
+                @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}{{^isJson}}){{^-last}},{{/-last}}{{/isJson}}{{#isJson}}{{^examples.0}}){{^-last}},{{/-last}}{{/examples.0}}{{#examples.0}}, examples = {
+                {{#examples}}
+                    @ExampleObject(
+                        name = "{{{exampleName}}}",
+                        value = "{{{exampleValue}}}"
+                    ){{^-last}},{{/-last}}
+                {{/examples}}
+                {{#-last}}
+                })
+                {{/-last}}
+                {{^-last}}
+                }),
+                {{/-last}}{{/examples.0}}{{/isJson}}
                 {{/produces}}
             }{{/baseType}}){{^-last}},{{/-last}}
             {{/responses}}
@@ -233,7 +245,7 @@ public interface {{classname}} {
     @RequestMapping(
         method = RequestMethod.{{httpMethod}},
         value = "{{{path}}}"{{#singleContentTypes}}{{#hasProduces}},
-        produces = { {{#vendorExtensions.x-accepts}}"{{.}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{/hasProduces}}{{#hasConsumes}},
+        produces = { {{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
         produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }{{/hasConsumes}}{{/singleContentTypes}}{{#hasVersionHeaders}},

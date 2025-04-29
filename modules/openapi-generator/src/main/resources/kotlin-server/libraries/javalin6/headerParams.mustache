@@ -1,0 +1,1 @@
+{{#isHeaderParam}}ctx.header("{{baseName}}"){{#required}}{{^defaultValue}} ?: throw io.javalin.http.BadRequestResponse("Required header {{baseName}} not present") {{/defaultValue}}{{#defaultValue}}{{>paramDefault}}{{/defaultValue}}{{/required}}{{/isHeaderParam}}

@@ -18,12 +18,14 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 import type { PetPartType } from './PetPartType';
 import {
     PetPartTypeFromJSON,
     PetPartTypeFromJSONTyped,
     PetPartTypeToJSON,
+    PetPartTypeToJSONTyped,
 } from './PetPartType';
 
 /**
@@ -45,6 +47,8 @@ export interface GetPetPartTypeResponse {
      */
     data?: PetPartType;
 }
+
+
 
 /**
  * Check if a given object implements the GetPetPartTypeResponse interface.
@@ -69,10 +73,15 @@ export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function GetPetPartTypeResponseToJSON(value?: GetPetPartTypeResponse | null): any {
+export function GetPetPartTypeResponseToJSON(json: any): GetPetPartTypeResponse {
+    return GetPetPartTypeResponseToJSONTyped(json, false);
+}
+
+export function GetPetPartTypeResponseToJSONTyped(value?: GetPetPartTypeResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

@@ -62,50 +62,50 @@ public:
     /**
     * @param[in]  pfx_pet PFXPet [required]
     */
-    void addPet(const PFXPet &pfx_pet);
+    virtual void addPet(const PFXPet &pfx_pet);
 
 
-    void allPets();
+    virtual void allPets();
 
     /**
     * @param[in]  pet_id qint64 [required]
     * @param[in]  api_key QString [optional]
     */
-    void deletePet(const qint64 &pet_id, const ::test_namespace::OptionalParam<QString> &api_key = ::test_namespace::OptionalParam<QString>());
+    virtual void deletePet(const qint64 &pet_id, const ::test_namespace::OptionalParam<QString> &api_key = ::test_namespace::OptionalParam<QString>());
 
     /**
     * @param[in]  status QList<QString> [required]
     */
-    void findPetsByStatus(const QList<QString> &status);
+    virtual void findPetsByStatus(const QList<QString> &status);
 
     /**
     * @param[in]  tags QList<QString> [required]
     */
-    Q_DECL_DEPRECATED void findPetsByTags(const QList<QString> &tags);
+    Q_DECL_DEPRECATED virtual void findPetsByTags(const QList<QString> &tags);
 
     /**
     * @param[in]  pet_id qint64 [required]
     */
-    void getPetById(const qint64 &pet_id);
+    virtual void getPetById(const qint64 &pet_id);
 
     /**
     * @param[in]  pfx_pet PFXPet [required]
     */
-    void updatePet(const PFXPet &pfx_pet);
+    virtual void updatePet(const PFXPet &pfx_pet);
 
     /**
     * @param[in]  pet_id qint64 [required]
     * @param[in]  name QString [optional]
     * @param[in]  status QString [optional]
     */
-    void updatePetWithForm(const qint64 &pet_id, const ::test_namespace::OptionalParam<QString> &name = ::test_namespace::OptionalParam<QString>(), const ::test_namespace::OptionalParam<QString> &status = ::test_namespace::OptionalParam<QString>());
+    virtual void updatePetWithForm(const qint64 &pet_id, const ::test_namespace::OptionalParam<QString> &name = ::test_namespace::OptionalParam<QString>(), const ::test_namespace::OptionalParam<QString> &status = ::test_namespace::OptionalParam<QString>());
 
     /**
     * @param[in]  pet_id qint64 [required]
     * @param[in]  additional_metadata QString [optional]
     * @param[in]  file PFXHttpFileElement [optional]
     */
-    void uploadFile(const qint64 &pet_id, const ::test_namespace::OptionalParam<QString> &additional_metadata = ::test_namespace::OptionalParam<QString>(), const ::test_namespace::OptionalParam<PFXHttpFileElement> &file = ::test_namespace::OptionalParam<PFXHttpFileElement>());
+    virtual void uploadFile(const qint64 &pet_id, const ::test_namespace::OptionalParam<QString> &additional_metadata = ::test_namespace::OptionalParam<QString>(), const ::test_namespace::OptionalParam<PFXHttpFileElement> &file = ::test_namespace::OptionalParam<PFXHttpFileElement>());
 
 
 private:
@@ -151,6 +151,7 @@ Q_SIGNALS:
     void updatePetSignal();
     void updatePetWithFormSignal();
     void uploadFileSignal(PFXApiResponse summary);
+
 
     void addPetSignalFull(PFXHttpRequestWorker *worker);
     void allPetsSignalFull(PFXHttpRequestWorker *worker, QSet<PFXPet> summary);

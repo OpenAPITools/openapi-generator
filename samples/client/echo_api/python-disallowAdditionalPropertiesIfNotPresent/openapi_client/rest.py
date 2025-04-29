@@ -77,6 +77,7 @@ class RESTClientObject:
             "ca_certs": configuration.ssl_ca_cert,
             "cert_file": configuration.cert_file,
             "key_file": configuration.key_file,
+            "ca_cert_data": configuration.ca_cert_data,
         }
         if configuration.assert_hostname is not None:
             pool_args['assert_hostname'] = (
@@ -179,7 +180,7 @@ class RESTClientObject:
                 ):
                     request_body = None
                     if body is not None:
-                        request_body = json.dumps(body)
+                        request_body = json.dumps(body, ensure_ascii=False)
                     r = self.pool_manager.request(
                         method,
                         url,
@@ -226,7 +227,7 @@ class RESTClientObject:
                         headers=headers,
                         preload_content=False
                     )
-                elif headers['Content-Type'] == 'text/plain' and isinstance(body, bool):
+                elif headers['Content-Type'].startswith('text/') and isinstance(body, bool):
                     request_body = "true" if body else "false"
                     r = self.pool_manager.request(
                         method,

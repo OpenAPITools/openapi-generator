@@ -28,14 +28,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
  */
-public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterTest {
+class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterTest {
     private final TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter model = new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter();
 
     /**
      * Model tests for TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
      */
     @Test
-    public void testTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
+    void testTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
         // TODO: test TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
     }
 
@@ -43,7 +43,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterTest {
      * Test the property 'values'
      */
     @Test
-    public void valuesTest() {
+    void valuesTest() {
         // TODO: test values
     }
 

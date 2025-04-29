@@ -72,9 +72,9 @@ class SecondCircularAllOfRef(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in circular_all_of_ref (list)
         _items = []
         if self.circular_all_of_ref:
-            for _item in self.circular_all_of_ref:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_circular_all_of_ref in self.circular_all_of_ref:
+                if _item_circular_all_of_ref:
+                    _items.append(_item_circular_all_of_ref.to_dict())
             _dict['circularAllOfRef'] = _items
         return _dict
 

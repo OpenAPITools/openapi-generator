@@ -28,7 +28,7 @@ export type PetPartType = typeof PetPartType[keyof typeof PetPartType];
 export function instanceOfPetPartType(value: any): boolean {
     for (const key in PetPartType) {
         if (Object.prototype.hasOwnProperty.call(PetPartType, key)) {
-            if ((PetPartType as Record<string, PetPartType>)[key] === value) {
+            if (PetPartType[key as keyof typeof PetPartType] === value) {
                 return true;
             }
         }
@@ -46,5 +46,9 @@ export function PetPartTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean
 
 export function PetPartTypeToJSON(value?: PetPartType | null): any {
     return value as any;
+}
+
+export function PetPartTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): PetPartType {
+    return value as PetPartType;
 }
 

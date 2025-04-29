@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="RolesReportsHashRole" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        public RolesReportsHashRole(string name = default(string))
+        public RolesReportsHashRole(string name = default)
         {
             this.Name = name;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -123,7 +123,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -14,8 +14,6 @@ package org.openapitools.client.api;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import jakarta.ws.rs.*;
@@ -33,7 +31,9 @@ import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
+import java.util.List;
 import java.time.LocalDate;
+import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;

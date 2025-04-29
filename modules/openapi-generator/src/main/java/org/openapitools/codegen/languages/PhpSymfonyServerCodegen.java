@@ -232,15 +232,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     }
 
     @Override
-    public String escapeText(String input) {
-        if (input != null) {
-            // Trim the string to avoid leading and trailing spaces.
-            return super.escapeText(input).trim();
-        }
-        return input;
-    }
-
-    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -574,15 +565,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             return name;
         } else {
             return modelPackage() + "\\" + name;
-        }
-    }
-
-    @Override
-    public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "float".equals(datatype)) {
-            return value;
-        } else {
-            return "\"" + escapeText(value) + "\"";
         }
     }
 

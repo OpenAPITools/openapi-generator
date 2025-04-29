@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Property
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> PropertyOption { get; private set; }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of SnakeCase
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> SnakeCaseOption { get; }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Var123Number
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> Var123NumberOption { get; }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -211,19 +211,16 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varName = new Option<int?>(utf8JsonReader.GetInt32());
+                            varName = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "property":
                             property = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "snake_case":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                snakeCase = new Option<int?>(utf8JsonReader.GetInt32());
+                            snakeCase = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "123Number":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                var123Number = new Option<int?>(utf8JsonReader.GetInt32());
+                            var123Number = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;

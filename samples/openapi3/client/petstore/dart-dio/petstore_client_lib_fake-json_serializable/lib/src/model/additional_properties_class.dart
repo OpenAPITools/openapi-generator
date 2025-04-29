@@ -27,7 +27,7 @@ class AdditionalPropertiesClass {
     
     name: r'map_property',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -39,7 +39,7 @@ class AdditionalPropertiesClass {
     
     name: r'map_of_map_property',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 

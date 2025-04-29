@@ -39,7 +39,7 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
-     final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
 
@@ -368,5 +368,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.NIM; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.NIM;
+    }
 }

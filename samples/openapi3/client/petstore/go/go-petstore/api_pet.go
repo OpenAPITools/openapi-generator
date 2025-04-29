@@ -328,7 +328,7 @@ func (a *PetAPIService) DeletePetExecute(r ApiDeletePetRequest) (*http.Response,
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.apiKey != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "api_key", r.apiKey, "")
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "api_key", r.apiKey, "simple", "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -414,7 +414,7 @@ func (a *PetAPIService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) ([
 		return localVarReturnValue, nil, reportError("status is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "csv")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "csv")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -527,7 +527,7 @@ func (a *PetAPIService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) ([]Pet
 		return localVarReturnValue, nil, reportError("tags is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "tags", r.tags, "csv")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "tags", r.tags, "form", "csv")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -878,10 +878,10 @@ func (a *PetAPIService) UpdatePetWithFormExecute(r ApiUpdatePetWithFormRequest) 
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.name != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "")
+		parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
 	}
 	if r.status != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "status", r.status, "")
+		parameterAddToHeaderOrQuery(localVarFormParams, "status", r.status, "", "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -992,7 +992,7 @@ func (a *PetAPIService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse,
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.additionalMetadata != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "additionalMetadata", r.additionalMetadata, "")
+		parameterAddToHeaderOrQuery(localVarFormParams, "additionalMetadata", r.additionalMetadata, "", "")
 	}
 	var fileLocalVarFormFileName string
 	var fileLocalVarFileName     string
@@ -1130,7 +1130,7 @@ func (a *PetAPIService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.additionalMetadata != nil {
-		parameterAddToHeaderOrQuery(localVarFormParams, "additionalMetadata", r.additionalMetadata, "")
+		parameterAddToHeaderOrQuery(localVarFormParams, "additionalMetadata", r.additionalMetadata, "", "")
 	}
 	var requiredFileLocalVarFormFileName string
 	var requiredFileLocalVarFileName     string

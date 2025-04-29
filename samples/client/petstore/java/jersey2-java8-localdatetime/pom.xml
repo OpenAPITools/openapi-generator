@@ -323,6 +323,7 @@
             <artifactId>jersey-apache-connector</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+
         <!-- test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -338,6 +339,7 @@
         <jackson-databind-version>2.17.1</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
         <junit-version>5.10.0</junit-version>
         <scribejava-apis-version>8.3.3</scribejava-apis-version>
         <spotless.version>2.21.0</spotless.version>

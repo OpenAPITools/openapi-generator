@@ -47,15 +47,11 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
 
-    @Getter protected boolean useBeanValidation = false;
-
     @Getter protected boolean useGenericResponse = false;
 
     @Getter protected boolean useGzipFeatureForTests = false;
 
     @Getter protected boolean useLoggingFeatureForTests = false;
-
-    @Getter private boolean useJackson = false;
 
     @Setter protected boolean useAbstractionForFiles = false;
 
@@ -64,7 +60,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
         supportsInheritance = true;
 
-        sourceFolder = "src"+ File.separator +"gen"+ File.separator +"java";
+        sourceFolder = "src" + File.separator + "gen" + File.separator + "java";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-client";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
@@ -102,35 +98,16 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION));
-        }
-
-        if (additionalProperties.containsKey(USE_GENERIC_RESPONSE)) {
-            this.setUseGenericResponse(convertPropertyToBooleanAndWriteBack(USE_GENERIC_RESPONSE));
-        }
-
-        if (additionalProperties.containsKey(USE_GZIP_FEATURE_FOR_TESTS)) {
-            this.setUseGzipFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS));
-        }
-
-        if (additionalProperties.containsKey(USE_LOGGING_FEATURE_FOR_TESTS)) {
-            this.setUseLoggingFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
-        }
-
-        if (additionalProperties.containsKey(JACKSON)) {
-            useJackson = convertPropertyToBooleanAndWriteBack(JACKSON);
-        }
-
-        if (additionalProperties.containsKey(USE_ABSTRACTION_FOR_FILES)) {
-            this.setUseAbstractionForFiles(convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES));
-        }
+        convertPropertyToBooleanAndWriteBack(USE_GENERIC_RESPONSE, this::setUseGenericResponse);
+        convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS, this::setUseGzipFeatureForTests);
+        convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS, this::setUseLoggingFeatureForTests);
+        convertPropertyToBooleanAndWriteBack(JACKSON, this::setJackson);
+        convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES, this::setUseAbstractionForFiles);
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-            .doNotOverwrite());
+                .doNotOverwrite());
     }
 
     @Override
@@ -155,11 +132,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         super.postProcessModelProperty(model, property);
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
-        model.imports.remove("JsonSerialize");
-        model.imports.remove("ToStringSerializer");
 
-
-        if (useJackson) {
+        if (jackson) {
             //Add jackson imports when model has inner enum
             if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonCreator");
@@ -171,7 +145,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
                 if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
                     property.getVendorExtensions().put("x-is-jackson-optional-nullable", true);
                     findByName(property.name, model.readOnlyVars)
-                        .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
+                            .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
                     model.imports.add("JsonNullable");
                     model.imports.add("JsonIgnore");
                 }
@@ -190,10 +164,6 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         return "Generates a Java JAXRS Client based on Apache CXF framework.";
     }
 
-    @Override
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
 
     @Override
     public void setUseGzipFeatureForTests(boolean useGzipFeatureForTests) {

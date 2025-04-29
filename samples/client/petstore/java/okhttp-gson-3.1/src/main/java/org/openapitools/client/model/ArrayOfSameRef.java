@@ -40,7 +40,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,24 +51,27 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfSameRef
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ArrayOfSameRef {
   public static final String SERIALIZED_NAME_ARRAY_FOO_ONE = "arrayFooOne";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_ONE)
+  @javax.annotation.Nullable
   private List<Tag> arrayFooOne = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_FOO_TWO = "arrayFooTwo";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_TWO)
+  @javax.annotation.Nullable
   private List<Tag> arrayFooTwo = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_FOO_THREE = "arrayFooThree";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_THREE)
+  @javax.annotation.Nullable
   private List<Tag> arrayFooThree = new ArrayList<>();
 
   public ArrayOfSameRef() {
   }
 
-  public ArrayOfSameRef arrayFooOne(List<Tag> arrayFooOne) {
+  public ArrayOfSameRef arrayFooOne(@javax.annotation.Nullable List<Tag> arrayFooOne) {
     this.arrayFooOne = arrayFooOne;
     return this;
   }
@@ -82,21 +84,21 @@ public class ArrayOfSameRef {
     return this;
   }
 
-   /**
+  /**
    * Get arrayFooOne
    * @return arrayFooOne
-  **/
+   */
   @javax.annotation.Nullable
   public List<Tag> getArrayFooOne() {
     return arrayFooOne;
   }
 
-  public void setArrayFooOne(List<Tag> arrayFooOne) {
+  public void setArrayFooOne(@javax.annotation.Nullable List<Tag> arrayFooOne) {
     this.arrayFooOne = arrayFooOne;
   }
 
 
-  public ArrayOfSameRef arrayFooTwo(List<Tag> arrayFooTwo) {
+  public ArrayOfSameRef arrayFooTwo(@javax.annotation.Nullable List<Tag> arrayFooTwo) {
     this.arrayFooTwo = arrayFooTwo;
     return this;
   }
@@ -109,21 +111,21 @@ public class ArrayOfSameRef {
     return this;
   }
 
-   /**
+  /**
    * Get arrayFooTwo
    * @return arrayFooTwo
-  **/
+   */
   @javax.annotation.Nullable
   public List<Tag> getArrayFooTwo() {
     return arrayFooTwo;
   }
 
-  public void setArrayFooTwo(List<Tag> arrayFooTwo) {
+  public void setArrayFooTwo(@javax.annotation.Nullable List<Tag> arrayFooTwo) {
     this.arrayFooTwo = arrayFooTwo;
   }
 
 
-  public ArrayOfSameRef arrayFooThree(List<Tag> arrayFooThree) {
+  public ArrayOfSameRef arrayFooThree(@javax.annotation.Nullable List<Tag> arrayFooThree) {
     this.arrayFooThree = arrayFooThree;
     return this;
   }
@@ -136,16 +138,16 @@ public class ArrayOfSameRef {
     return this;
   }
 
-   /**
+  /**
    * Get arrayFooThree
    * @return arrayFooThree
-  **/
+   */
   @javax.annotation.Nullable
   public List<Tag> getArrayFooThree() {
     return arrayFooThree;
   }
 
-  public void setArrayFooThree(List<Tag> arrayFooThree) {
+  public void setArrayFooThree(@javax.annotation.Nullable List<Tag> arrayFooThree) {
     this.arrayFooThree = arrayFooThree;
   }
 
@@ -253,12 +255,12 @@ public class ArrayOfSameRef {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ArrayOfSameRef
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ArrayOfSameRef
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ArrayOfSameRef.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -382,22 +384,22 @@ public class ArrayOfSameRef {
     }
   }
 
- /**
-  * Create an instance of ArrayOfSameRef given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ArrayOfSameRef
-  * @throws IOException if the JSON string is invalid with respect to ArrayOfSameRef
-  */
+  /**
+   * Create an instance of ArrayOfSameRef given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ArrayOfSameRef
+   * @throws IOException if the JSON string is invalid with respect to ArrayOfSameRef
+   */
   public static ArrayOfSameRef fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayOfSameRef.class);
   }
 
- /**
-  * Convert an instance of ArrayOfSameRef to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ArrayOfSameRef to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **call123testSpecialTags**
 ```swift
-    open class func call123testSpecialTags(body: Client, completion: @escaping (_ data: Client?, _ error: Error?) -> Void)
+    internal class func call123testSpecialTags(body: Client, completion: @escaping (_ data: Client?, _ error: Error?) -> Void)
 ```
 
 To test special tags

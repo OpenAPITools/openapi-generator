@@ -6,4 +6,6 @@ generateAliasAsModel: true
 additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: ops-v3
+globalProperties:
+  skipFormModel: false
 enablePostProcessFile: true

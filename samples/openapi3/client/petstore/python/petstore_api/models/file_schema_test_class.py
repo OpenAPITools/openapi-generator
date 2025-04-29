@@ -79,9 +79,9 @@ class FileSchemaTestClass(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in files (list)
         _items = []
         if self.files:
-            for _item in self.files:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_files in self.files:
+                if _item_files:
+                    _items.append(_item_files.to_dict())
             _dict['files'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

@@ -39,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,16 +50,17 @@ import org.openapitools.client.JSON;
 /**
  * SimpleModelWithArrayProperty
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class SimpleModelWithArrayProperty {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRINGS = "arrayOfStrings";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRINGS)
+  @javax.annotation.Nonnull
   private List<String> arrayOfStrings = new ArrayList<>();
 
   public SimpleModelWithArrayProperty() {
   }
 
-  public SimpleModelWithArrayProperty arrayOfStrings(List<String> arrayOfStrings) {
+  public SimpleModelWithArrayProperty arrayOfStrings(@javax.annotation.Nonnull List<String> arrayOfStrings) {
     this.arrayOfStrings = arrayOfStrings;
     return this;
   }
@@ -73,16 +73,16 @@ public class SimpleModelWithArrayProperty {
     return this;
   }
 
-   /**
+  /**
    * Get arrayOfStrings
    * @return arrayOfStrings
-  **/
+   */
   @javax.annotation.Nonnull
   public List<String> getArrayOfStrings() {
     return arrayOfStrings;
   }
 
-  public void setArrayOfStrings(List<String> arrayOfStrings) {
+  public void setArrayOfStrings(@javax.annotation.Nonnull List<String> arrayOfStrings) {
     this.arrayOfStrings = arrayOfStrings;
   }
 
@@ -185,12 +185,12 @@ public class SimpleModelWithArrayProperty {
     openapiRequiredFields.add("arrayOfStrings");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to SimpleModelWithArrayProperty
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to SimpleModelWithArrayProperty
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!SimpleModelWithArrayProperty.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -285,22 +285,22 @@ public class SimpleModelWithArrayProperty {
     }
   }
 
- /**
-  * Create an instance of SimpleModelWithArrayProperty given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of SimpleModelWithArrayProperty
-  * @throws IOException if the JSON string is invalid with respect to SimpleModelWithArrayProperty
-  */
+  /**
+   * Create an instance of SimpleModelWithArrayProperty given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of SimpleModelWithArrayProperty
+   * @throws IOException if the JSON string is invalid with respect to SimpleModelWithArrayProperty
+   */
   public static SimpleModelWithArrayProperty fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, SimpleModelWithArrayProperty.class);
   }
 
- /**
-  * Convert an instance of SimpleModelWithArrayProperty to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of SimpleModelWithArrayProperty to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

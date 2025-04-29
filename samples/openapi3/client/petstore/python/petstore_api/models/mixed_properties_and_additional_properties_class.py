@@ -78,9 +78,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each value in map (dict)
         _field_dict = {}
         if self.map:
-            for _key in self.map:
-                if self.map[_key]:
-                    _field_dict[_key] = self.map[_key].to_dict()
+            for _key_map in self.map:
+                if self.map[_key_map]:
+                    _field_dict[_key_map] = self.map[_key_map].to_dict()
             _dict['map'] = _field_dict
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

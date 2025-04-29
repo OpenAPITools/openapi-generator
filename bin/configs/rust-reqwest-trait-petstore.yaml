@@ -1,0 +1,11 @@
+generatorName: rust
+outputDir: samples/client/petstore/rust/reqwest-trait/petstore
+library: reqwest-trait
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  topLevelApiClient: true
+  packageName: petstore-reqwest
+  mockall: true
+enumNameMappings:
+  delivered: shipped

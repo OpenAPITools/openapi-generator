@@ -18,6 +18,7 @@ import {
     PartFromJSON,
     PartFromJSONTyped,
     PartToJSON,
+    PartToJSONTyped,
 } from './Part';
 
 /**
@@ -64,10 +65,15 @@ export function MatchingPartsFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function MatchingPartsToJSON(value?: MatchingParts | null): any {
+export function MatchingPartsToJSON(json: any): MatchingParts {
+    return MatchingPartsToJSONTyped(json, false);
+}
+
+export function MatchingPartsToJSONTyped(value?: MatchingParts | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'connected': ((value['connected'] as Array<any>).map(PartToJSON)),

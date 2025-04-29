@@ -25,6 +25,7 @@ from pydantic import Field, StrictBool, StrictBytes, StrictFloat, StrictInt, Str
 
 from typing import Any, Dict, List, Optional, Union
 
+from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.client import Client
 from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
@@ -36,6 +37,7 @@ from petstore_api.models.pet import Pet
 from petstore_api.models.tag import Tag
 from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
 from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker
+from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
 from petstore_api.models.user import User
 
 from petstore_api.api_client import ApiClient
@@ -5223,6 +5225,169 @@ class FakeApi:
 
         return self.api_client.call_api(
             '/fake/stringMap-reference', 'POST',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
+    def upload_file_with_additional_properties(self, file : Annotated[Union[StrictBytes, StrictStr], Field(..., description="file to upload")], object : Optional[UploadFileWithAdditionalPropertiesRequestObject] = None, count : Annotated[Optional[StrictInt], Field(description="Integer count")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """uploads a file and additional properties using multipart/form-data  # noqa: E501
+
+          # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.upload_file_with_additional_properties(file, object, count, async_req=True)
+        >>> result = thread.get()
+
+        :param file: file to upload (required)
+        :type file: bytearray
+        :param object:
+        :type object: UploadFileWithAdditionalPropertiesRequestObject
+        :param count: Integer count
+        :type count: int
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: ApiResponse
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the upload_file_with_additional_properties_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.upload_file_with_additional_properties_with_http_info(file, object, count, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def upload_file_with_additional_properties_with_http_info(self, file : Annotated[Union[StrictBytes, StrictStr], Field(..., description="file to upload")], object : Optional[UploadFileWithAdditionalPropertiesRequestObject] = None, count : Annotated[Optional[StrictInt], Field(description="Integer count")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """uploads a file and additional properties using multipart/form-data  # noqa: E501
+
+          # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.upload_file_with_additional_properties_with_http_info(file, object, count, async_req=True)
+        >>> result = thread.get()
+
+        :param file: file to upload (required)
+        :type file: bytearray
+        :param object:
+        :type object: UploadFileWithAdditionalPropertiesRequestObject
+        :param count: Integer count
+        :type count: int
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(ApiResponse, status_code(int), headers(HTTPHeaderDict))
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'file',
+            'object',
+            'count'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method upload_file_with_additional_properties" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+
+        # process the query parameters
+        _query_params = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        if _params['file'] is not None:
+            _files['file'] = _params['file']
+
+        if _params['object'] is not None:
+            _form_params.append(('object', _params['object']))
+
+        if _params['count'] is not None:
+            _form_params.append(('count', _params['count']))
+
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # set the HTTP header `Content-Type`
+        _content_types_list = _params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['multipart/form-data']))
+        if _content_types_list:
+                _header_params['Content-Type'] = _content_types_list
+
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {
+            '200': "ApiResponse",
+        }
+
+        return self.api_client.call_api(
+            '/fake/upload_file_with_additional_properties', 'POST',
             _path_params,
             _query_params,
             _header_params,

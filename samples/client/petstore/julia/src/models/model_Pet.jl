@@ -30,30 +30,42 @@ Base.@kwdef mutable struct Pet <: OpenAPI.APIModel
     status::Union{Nothing, String} = nothing
 
     function Pet(id, category, name, photoUrls, tags, status, )
-        OpenAPI.validate_property(Pet, Symbol("id"), id)
-        OpenAPI.validate_property(Pet, Symbol("category"), category)
-        OpenAPI.validate_property(Pet, Symbol("name"), name)
-        OpenAPI.validate_property(Pet, Symbol("photoUrls"), photoUrls)
-        OpenAPI.validate_property(Pet, Symbol("tags"), tags)
-        OpenAPI.validate_property(Pet, Symbol("status"), status)
-        return new(id, category, name, photoUrls, tags, status, )
+        o = new(id, category, name, photoUrls, tags, status, )
+        OpenAPI.validate_properties(o)
+        return o
     end
 end # type Pet
 
 const _property_types_Pet = Dict{Symbol,String}(Symbol("id")=>"Int64", Symbol("category")=>"Category", Symbol("name")=>"String", Symbol("photoUrls")=>"Vector{String}", Symbol("tags")=>"Vector{Tag}", Symbol("status")=>"String", )
 OpenAPI.property_type(::Type{ Pet }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_Pet[name]))}
 
-function check_required(o::Pet)
+function OpenAPI.check_required(o::Pet)
     o.name === nothing && (return false)
     o.photoUrls === nothing && (return false)
     true
 end
 
+function OpenAPI.validate_properties(o::Pet)
+    OpenAPI.validate_property(Pet, Symbol("id"), o.id)
+    OpenAPI.validate_property(Pet, Symbol("category"), o.category)
+    OpenAPI.validate_property(Pet, Symbol("name"), o.name)
+    OpenAPI.validate_property(Pet, Symbol("photoUrls"), o.photoUrls)
+    OpenAPI.validate_property(Pet, Symbol("tags"), o.tags)
+    OpenAPI.validate_property(Pet, Symbol("status"), o.status)
+end
+
 function OpenAPI.validate_property(::Type{ Pet }, name::Symbol, val)
+
     if name === Symbol("id")
         OpenAPI.validate_param(name, "Pet", :format, val, "int64")
     end
+
+
+
+
+
     if name === Symbol("status")
         OpenAPI.validate_param(name, "Pet", :enum, val, ["available", "pending", "sold"])
     end
+
 end

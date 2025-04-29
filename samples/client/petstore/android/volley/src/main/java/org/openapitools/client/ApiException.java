@@ -58,4 +58,12 @@ public class ApiException extends Exception {
   public void setMessage(String message) {
     this.message = message;
   }
+
+  @Override
+  public String toString() {
+    return "ApiException{" +
+           "code=" + code +
+           ", message=" + message +
+           '}';
+  }
 }

@@ -1,0 +1,128 @@
+{{>php_file_header}}
+
+namespace {{controllerPackage}};
+
+use Crell\Serde\SerdeCommon;
+use Illuminate\Routing\Controller;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+
+use {{apiPackage}}\{{classname}};
+
+{{#operations}}
+class {{controllerName}} extends Controller
+{
+    /**
+     * Constructor
+     */
+    public function __construct(
+        private readonly {{classname}} $api,
+        private readonly SerdeCommon $serde = new SerdeCommon(),
+    )
+    {
+    }
+
+    {{#operation}}
+    /**
+     * Operation {{{operationId}}}
+     *
+     * {{{summary}}}.
+     *
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
+     */
+    public function {{operationId}}(Request $request{{#pathParams}}, {{dataType}} ${{paramName}}{{/pathParams}}): JsonResponse
+    {
+        {{>api_validation}}
+
+        {{#allParams}}
+        {{^isPathParam}}
+        {{#isFile}}
+        ${{paramName}} = $request->file('{{paramName}}');
+        {{/isFile}}
+        {{#isBoolean}}
+        ${{paramName}} = $request->bool('{{paramName}}');
+        {{/isBoolean}}
+        {{#isInteger}}
+        ${{paramName}} = $request->integer('{{paramName}}');
+        {{/isInteger}}
+        {{#isLong}}
+        ${{paramName}} = $request->integer('{{paramName}}');
+        {{/isLong}}
+        {{#isNumber}}
+        ${{paramName}} = $request->float('{{paramName}}');
+        {{/isNumber}}
+        {{#isFloat}}
+        ${{paramName}} = $request->float('{{paramName}}');
+        {{/isFloat}}
+        {{#isDouble}}
+        ${{paramName}} = $request->float('{{paramName}}');
+        {{/isDouble}}
+        {{#isString}}
+        ${{paramName}} = $request->string('{{paramName}}')->value();
+        {{/isString}}
+        {{#isByteArray}}
+        ${{paramName}} = $request->string('{{paramName}}')->value();
+        {{/isByteArray}}
+        {{#isDateTime}}
+        ${{paramName}} = $request->date('{{paramName}}');
+        {{/isDateTime}}
+        {{#isDate}}
+        ${{paramName}} = $request->date('{{paramName}}');
+        {{/isDate}}
+        {{#isArray}}
+        ${{paramName}} = $request->get('{{paramName}}');
+        {{/isArray}}
+        {{#isMap}}
+        ${{paramName}} = $request->get('{{paramName}}');
+        {{/isMap}}
+        {{^isPrimitiveType}}
+        {{^isContainer}}
+        ${{paramName}} = $this->serde->deserialize($request->getContent(), from: 'json', to: {{dataType}}::class);
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+        {{/isPathParam}}
+
+        {{/allParams}}
+        try {
+            $apiResult = $this->api->{{operationId}}({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        } catch (\Exception $exception) {
+            // This shouldn't happen
+            report($exception);
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+
+        {{#responses}}
+        {{#isArray}}
+        if (is_array($apiResult)) {
+            $serialized = array_map(fn ($item) => $this->serde->serialize($item, format: 'array'), $apiResult);
+            return response()->json($serialized, {{code}});
+        }
+
+        {{/isArray}}
+        {{#isMap}}
+        if (is_array($apiResult)) {
+            $serialized = array_map(fn ($item) => $this->serde->serialize($item, format: 'array'), $apiResult);
+            return response()->json($serialized, {{code}});
+        }
+
+        {{/isMap}}
+        {{^isArray}}
+        {{^isMap}}
+        if ($apiResult instanceof {{dataType}}) {
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), {{code}});
+        }
+
+        {{/isMap}}
+        {{/isArray}}
+        {{/responses}}
+
+        // This shouldn't happen
+        return response()->abort(500);
+    }
+    {{/operation}}
+}
+{{/operations}}

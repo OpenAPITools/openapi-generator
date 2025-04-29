@@ -18,8 +18,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|aspnetCoreVersion|ASP.NET Core version: 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)|<dl><dt>**2.0**</dt><dd>ASP.NET Core 2.0</dd><dt>**2.1**</dt><dd>ASP.NET Core 2.1</dd><dt>**2.2**</dt><dd>ASP.NET Core 2.2</dd><dt>**3.0**</dt><dd>ASP.NET Core 3.0</dd><dt>**3.1**</dt><dd>ASP.NET Core 3.1</dd><dt>**5.0**</dt><dd>ASP.NET Core 5.0</dd><dt>**6.0**</dt><dd>ASP.NET Core 6.0</dd></dl>|3.1|
+|aspnetCoreVersion|ASP.NET Core version: 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)|<dl><dt>**2.0**</dt><dd>ASP.NET Core 2.0</dd><dt>**2.1**</dt><dd>ASP.NET Core 2.1</dd><dt>**2.2**</dt><dd>ASP.NET Core 2.2</dd><dt>**3.0**</dt><dd>ASP.NET Core 3.0</dd><dt>**3.1**</dt><dd>ASP.NET Core 3.1</dd><dt>**5.0**</dt><dd>ASP.NET Core 5.0</dd><dt>**6.0**</dt><dd>ASP.NET Core 6.0</dd><dt>**7.0**</dt><dd>ASP.NET Core 7.0</dd><dt>**8.0**</dt><dd>ASP.NET Core 8.0</dd></dl>|8.0|
 |buildTarget|Target to build an application or library|<dl><dt>**program**</dt><dd>Generate code for a standalone server</dd><dt>**library**</dt><dd>Generate code for a server abstract class library</dd></dl>|program|
+|centralizedPackageVersionManagement|Option to control the usage of centralized package version management. https://devblogs.microsoft.com/nuget/introducing-central-package-management/#disabling-central-package-management|<dl><dt>**optout**</dt><dd>Opt out of centralized package version management. Set this if you have a Directory.Packages.pros file but want this project to ignore it.</dd><dt>**default**</dt><dd>Property in project won't be used</dd><dt>**enable**</dt><dd>Centralized package version management will be used</dd></dl>|null|
 |classModifier|Class Modifier for controller classes: Empty string or abstract.| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
 |enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
@@ -45,7 +46,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|swashbuckleVersion|Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0|<dl><dt>**3.0.0**</dt><dd>Swashbuckle 3.0.0</dd><dt>**4.0.0**</dt><dd>Swashbuckle 4.0.0</dd><dt>**5.0.0**</dt><dd>Swashbuckle 5.0.0</dd><dt>**6.4.0**</dt><dd>Swashbuckle 6.4.0</dd></dl>|3.0.0|
+|swashbuckleVersion|Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0|<dl><dt>**3.0.0**</dt><dd>Swashbuckle 3.0.0</dd><dt>**4.0.0**</dt><dd>Swashbuckle 4.0.0</dd><dt>**5.0.0**</dt><dd>Swashbuckle 5.0.0</dd><dt>**6.4.0**</dt><dd>Swashbuckle 6.4.0</dd></dl>|6.4.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeForDate|Use DateTime to model date properties even if DateOnly supported. (.net 6.0+ only)| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|

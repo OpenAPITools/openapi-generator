@@ -1,4 +1,5 @@
-<?php
+{{>php_file_header}}
+
 {{#models}}
 {{#model}}
 /**
@@ -12,6 +13,11 @@ namespace {{modelPackage}};
  * @description {{{.}}}
 {{/description}}
  */
-{{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>model_generic}}{{/isEnum}}
+{{#isEnum}}
+{{>model_enum}}
+{{/isEnum}}
+{{^isEnum}}
+{{>model_generic}}
+{{/isEnum}}
 {{/model}}
 {{/models}}

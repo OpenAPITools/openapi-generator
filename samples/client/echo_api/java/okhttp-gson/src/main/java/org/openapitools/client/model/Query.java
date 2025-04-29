@@ -39,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,10 +50,11 @@ import org.openapitools.client.JSON;
 /**
  * Query
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Query {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   /**
@@ -113,31 +113,32 @@ public class Query {
 
   public static final String SERIALIZED_NAME_OUTCOMES = "outcomes";
   @SerializedName(SERIALIZED_NAME_OUTCOMES)
+  @javax.annotation.Nullable
   private List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
 
   public Query() {
   }
 
-  public Query id(Long id) {
+  public Query id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Query
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public Query outcomes(List<OutcomesEnum> outcomes) {
+  public Query outcomes(@javax.annotation.Nullable List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
     return this;
   }
@@ -150,16 +151,16 @@ public class Query {
     return this;
   }
 
-   /**
+  /**
    * Get outcomes
    * @return outcomes
-  **/
+   */
   @javax.annotation.Nullable
   public List<OutcomesEnum> getOutcomes() {
     return outcomes;
   }
 
-  public void setOutcomes(List<OutcomesEnum> outcomes) {
+  public void setOutcomes(@javax.annotation.Nullable List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
   }
 
@@ -218,12 +219,12 @@ public class Query {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Query
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Query
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Query.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -238,22 +239,22 @@ public class Query {
   }
 
 
- /**
-  * Create an instance of Query given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Query
-  * @throws IOException if the JSON string is invalid with respect to Query
-  */
+  /**
+   * Create an instance of Query given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Query
+   * @throws IOException if the JSON string is invalid with respect to Query
+   */
   public static Query fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Query.class);
   }
 
- /**
-  * Convert an instance of Query to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Query to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

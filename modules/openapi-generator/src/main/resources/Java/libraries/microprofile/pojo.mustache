@@ -1,10 +1,9 @@
 {{#withXml}}
-@XmlAccessorType(XmlAccessType.FIELD)
-{{#hasVars}} @XmlType(name = "{{classname}}", propOrder =
-    { {{#vars}}"{{name}}"{{^-last}}, {{/-last}}{{/vars}}
-}){{/hasVars}}
+{{#hasVars}}@XmlType(name = "{{classname}}", propOrder =
+    { {{#vars}}"{{name}}"{{^-last}}, {{/-last}}{{/vars}} }
+){{/hasVars}}
 {{^hasVars}}@XmlType(name = "{{classname}}"){{/hasVars}}
-{{^parent}}@XmlRootElement(name="{{classname}}"){{/parent}}
+{{> xmlAnnotation }}
 {{/withXml}}
 {{#jackson}}
 @JsonPropertyOrder({
@@ -21,9 +20,9 @@
 {{#description}}
 /**
   * {{{.}}}
- **/
+  */
 {{/description}}
-{{>additionalModelTypeAnnotations}}
+{{>additionalModelTypeAnnotations}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
@@ -35,15 +34,18 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
 {{/jackson}}
 {{#withXml}}
-  @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
+  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+  {{#isXmlWrapped}}
+  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+  {{/isXmlWrapped}}
 {{/withXml}}
 {{#description}}
  /**
-   * {{{.}}}
-  **/
+  * {{{.}}}
+  */
 {{/description}}
   {{^withXml}}
-  {{#jsonb}}@JsonbProperty("{{baseName}}"){{/jsonb}}
+  {{#jsonb}}{{^isDiscriminator}}@JsonbProperty("{{baseName}}"){{/isDiscriminator}}{{#isDiscriminator}}{{#jsonbPolymorphism}}@JsonbTransient{{/jsonbPolymorphism}}{{^jsonbPolymorphism}}@JsonbProperty("{{baseName}}"){{/jsonbPolymorphism}}{{/isDiscriminator}}{{/jsonb}}
   {{/withXml}}
 {{#vendorExtensions.x-field-extra-annotation}}
 {{{vendorExtensions.x-field-extra-annotation}}}
@@ -71,7 +73,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   }
   {{/withXml}}{{/vendorExtensions.x-has-readonly-properties}}
   {{#vars}}
- /**
+  /**
   {{#description}}
    * {{.}}
   {{/description}}
@@ -88,7 +90,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{#deprecated}}
    * @deprecated
   {{/deprecated}}
-  **/
+   **/
 {{#deprecated}}
   @Deprecated
 {{/deprecated}}
@@ -112,8 +114,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 
   {{^isReadOnly}}
   /**
-    * Set {{name}}
-  **/
+   * Set {{name}}
+   */
 {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
 {{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
@@ -146,28 +148,5 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{/isReadOnly}}
 
   {{/vars}}
-
-  /**
-    * Create a string representation of this pojo.
-  **/
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class {{classname}} {\n");
-    {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
-    {{#vars}}sb.append("    {{name}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{name}}){{/isPassword}}).append("\n");
-    {{/vars}}sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+{{>pojoOverrides}}
 }

@@ -19,7 +19,7 @@
 
 | Name | Value |
 |---- | -----|
-| SOME_OBJ_IDENTIFIER | &quot;SomeObjIdentifier&quot; |
+| SOMEOBJIDENTIFIER | &quot;SomeObjIdentifier&quot; |
 
 
 ## Implemented Interfaces

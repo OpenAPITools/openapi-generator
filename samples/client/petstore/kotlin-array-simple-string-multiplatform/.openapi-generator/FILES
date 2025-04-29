@@ -21,7 +21,3 @@ src/commonMain/kotlin/org/openapitools/client/infrastructure/OctetByteArray.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/PartConfig.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestConfig.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestMethod.kt
-src/commonTest/kotlin/util/Coroutine.kt
-src/iosTest/kotlin/util/Coroutine.kt
-src/jsTest/kotlin/util/Coroutine.kt
-src/jvmTest/kotlin/util/Coroutine.kt

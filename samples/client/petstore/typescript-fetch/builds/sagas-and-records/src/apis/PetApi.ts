@@ -76,7 +76,7 @@ export interface UpdatePetRequest {
 
 export interface UpdatePetRegionsRequest {
     petId: number;
-    newRegions: Array<Array<number>>;
+    newRegions: Array<Array<number | null>>;
 }
 
 export interface UpdatePetWithFormRequest {
@@ -509,7 +509,7 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Updates the pet regions.
      */
-    async updatePetRegions(petId: number, newRegions: Array<Array<number>>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PetRegionsResponse> {
+    async updatePetRegions(petId: number, newRegions: Array<Array<number | null>>, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PetRegionsResponse> {
         const response = await this.updatePetRegionsRaw({ petId: petId, newRegions: newRegions }, initOverrides);
         return await response.value();
     }

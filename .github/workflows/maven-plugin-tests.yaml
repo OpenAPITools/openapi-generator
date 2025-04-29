@@ -39,6 +39,7 @@ jobs:
         run: |
           ./mvnw clean install -DskipTests -Dmaven.javadoc.skip=true
           ./mvnw --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+          ./mvnw --no-snapshot-updates --quiet clean install -f modules/openapi-generator-maven-plugin/examples/multi-module/sample-external-ref-schema/pom.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
           ./mvnw --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
           ./mvnw --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
           ./mvnw --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error

@@ -1,0 +1,55 @@
+package {{package}}
+
+import {{javaxPackage}}.inject.Inject
+import {{javaxPackage}}.inject.Singleton
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.Valid
+import {{javaxPackage}}.validation.constraints.DecimalMax
+import {{javaxPackage}}.validation.constraints.DecimalMin
+import {{javaxPackage}}.validation.constraints.Email
+import {{javaxPackage}}.validation.constraints.Max
+import {{javaxPackage}}.validation.constraints.Min
+import {{javaxPackage}}.validation.constraints.NotNull
+import {{javaxPackage}}.validation.constraints.Pattern
+import {{javaxPackage}}.validation.constraints.Size
+{{/useBeanValidation}}
+import misk.web.Delete
+import misk.web.Description
+import misk.web.Get
+import misk.web.HttpCall
+import misk.web.Patch
+import misk.web.PathParam
+import misk.web.Post
+import misk.web.Put
+import misk.web.QueryParam
+import misk.web.RequestBody
+import misk.web.RequestContentType
+import misk.web.RequestHeader
+import misk.web.ResponseContentType
+import misk.web.actions.WebAction
+import misk.web.interceptors.LogRequestResponse
+import misk.web.mediatype.MediaTypes
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#operations}}
+/**
+ * Generated file, please change {{classname}}Impl.
+ */
+@Singleton
+class {{classname}}Action @Inject constructor(
+    private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
+) : WebAction, {{classname}} {
+{{#operation}}
+
+    @{{httpMethod}}("{{path}}")
+    @Description("{{{summary}}}"){{#hasConsumes}}
+    @RequestContentType({{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
+    @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
+    @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
+    override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
+        TODO()
+    }
+{{/operation}}
+}
+{{/operations}}

@@ -13,7 +13,7 @@
         <swagger-annotations.version>1.6.6</swagger-annotations.version>{{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}
         <swagger-annotations.version>2.2.0</swagger-annotations.version>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}{{/springFoxDocumentationProvider}}
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
-        <jakarta-annotation.version>2.1.0</jakarta-annotation.version>
+        <javax-annotation.version>1.3.2</javax-annotation.version>
         <kotlin-test-junit5.version>1.6.21</kotlin-test-junit5.version>
 
         <kotlin.version>1.6.21</kotlin.version>
@@ -35,6 +35,18 @@
                     <execution>
                         <goals>
                             <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>{{/interfaceOnly}}
+            {{#interfaceOnly}}<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -168,13 +180,13 @@
 {{#useBeanValidation}}
         <!-- Bean Validation API support -->
         <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
         </dependency>{{/useBeanValidation}}
         <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-            <version>${jakarta-annotation.version}</version>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax-annotation.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

@@ -40,7 +40,7 @@ class Order(BaseModel):
         if value is None:
             return value
 
-        if value not in ('placed', 'approved', 'delivered'):
+        if value not in ('placed', 'approved', 'delivered',):
             raise ValueError("must be one of enum values ('placed', 'approved', 'delivered')")
         return value
 

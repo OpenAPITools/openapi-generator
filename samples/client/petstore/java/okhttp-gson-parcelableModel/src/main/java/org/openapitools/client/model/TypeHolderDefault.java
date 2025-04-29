@@ -42,7 +42,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -54,108 +53,113 @@ import org.openapitools.client.JSON;
 /**
  * TypeHolderDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class TypeHolderDefault implements Parcelable {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
+  @javax.annotation.Nonnull
   private String stringItem = "what";
 
   public static final String SERIALIZED_NAME_NUMBER_ITEM = "number_item";
   @SerializedName(SERIALIZED_NAME_NUMBER_ITEM)
+  @javax.annotation.Nonnull
   private BigDecimal numberItem;
 
   public static final String SERIALIZED_NAME_INTEGER_ITEM = "integer_item";
   @SerializedName(SERIALIZED_NAME_INTEGER_ITEM)
+  @javax.annotation.Nonnull
   private Integer integerItem;
 
   public static final String SERIALIZED_NAME_BOOL_ITEM = "bool_item";
   @SerializedName(SERIALIZED_NAME_BOOL_ITEM)
+  @javax.annotation.Nonnull
   private Boolean boolItem = true;
 
   public static final String SERIALIZED_NAME_ARRAY_ITEM = "array_item";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
+  @javax.annotation.Nonnull
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault() {
   }
 
-  public TypeHolderDefault stringItem(String stringItem) {
+  public TypeHolderDefault stringItem(@javax.annotation.Nonnull String stringItem) {
     this.stringItem = stringItem;
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @javax.annotation.Nonnull
   public String getStringItem() {
     return stringItem;
   }
 
-  public void setStringItem(String stringItem) {
+  public void setStringItem(@javax.annotation.Nonnull String stringItem) {
     this.stringItem = stringItem;
   }
 
 
-  public TypeHolderDefault numberItem(BigDecimal numberItem) {
+  public TypeHolderDefault numberItem(@javax.annotation.Nonnull BigDecimal numberItem) {
     this.numberItem = numberItem;
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @javax.annotation.Nonnull
   public BigDecimal getNumberItem() {
     return numberItem;
   }
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(@javax.annotation.Nonnull BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
 
-  public TypeHolderDefault integerItem(Integer integerItem) {
+  public TypeHolderDefault integerItem(@javax.annotation.Nonnull Integer integerItem) {
     this.integerItem = integerItem;
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @javax.annotation.Nonnull
   public Integer getIntegerItem() {
     return integerItem;
   }
 
-  public void setIntegerItem(Integer integerItem) {
+  public void setIntegerItem(@javax.annotation.Nonnull Integer integerItem) {
     this.integerItem = integerItem;
   }
 
 
-  public TypeHolderDefault boolItem(Boolean boolItem) {
+  public TypeHolderDefault boolItem(@javax.annotation.Nonnull Boolean boolItem) {
     this.boolItem = boolItem;
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @javax.annotation.Nonnull
   public Boolean getBoolItem() {
     return boolItem;
   }
 
-  public void setBoolItem(Boolean boolItem) {
+  public void setBoolItem(@javax.annotation.Nonnull Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
 
-  public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
+  public TypeHolderDefault arrayItem(@javax.annotation.Nonnull List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
     return this;
   }
@@ -168,16 +172,16 @@ public class TypeHolderDefault implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @javax.annotation.Nonnull
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
 
-  public void setArrayItem(List<Integer> arrayItem) {
+  public void setArrayItem(@javax.annotation.Nonnull List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
 
@@ -279,12 +283,12 @@ public class TypeHolderDefault implements Parcelable {
     openapiRequiredFields.add("array_item");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to TypeHolderDefault
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to TypeHolderDefault
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!TypeHolderDefault.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -347,22 +351,22 @@ public class TypeHolderDefault implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of TypeHolderDefault given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of TypeHolderDefault
-  * @throws IOException if the JSON string is invalid with respect to TypeHolderDefault
-  */
+  /**
+   * Create an instance of TypeHolderDefault given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of TypeHolderDefault
+   * @throws IOException if the JSON string is invalid with respect to TypeHolderDefault
+   */
   public static TypeHolderDefault fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, TypeHolderDefault.class);
   }
 
- /**
-  * Convert an instance of TypeHolderDefault to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of TypeHolderDefault to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

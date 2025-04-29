@@ -38,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,30 +49,31 @@ import org.openapitools.client.JSON;
 /**
  * AllOfModelArrayAnyOfAllOfAttributes
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfAttributes {
   public static final String SERIALIZED_NAME_C = "C";
   @SerializedName(SERIALIZED_NAME_C)
+  @javax.annotation.Nullable
   private AllOfModelArrayAnyOfAllOfAttributesC C;
 
   public AllOfModelArrayAnyOfAllOfAttributes() {
   }
 
-  public AllOfModelArrayAnyOfAllOfAttributes C(AllOfModelArrayAnyOfAllOfAttributesC C) {
+  public AllOfModelArrayAnyOfAllOfAttributes C(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfAttributesC C) {
     this.C = C;
     return this;
   }
 
-   /**
+  /**
    * Get C
    * @return C
-  **/
+   */
   @javax.annotation.Nullable
   public AllOfModelArrayAnyOfAllOfAttributesC getC() {
     return C;
   }
 
-  public void setC(AllOfModelArrayAnyOfAllOfAttributesC C) {
+  public void setC(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfAttributesC C) {
     this.C = C;
   }
 
@@ -175,12 +175,12 @@ public class AllOfModelArrayAnyOfAllOfAttributes {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOfAllOfAttributes
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOfAllOfAttributes
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AllOfModelArrayAnyOfAllOfAttributes.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -266,22 +266,22 @@ public class AllOfModelArrayAnyOfAllOfAttributes {
     }
   }
 
- /**
-  * Create an instance of AllOfModelArrayAnyOfAllOfAttributes given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AllOfModelArrayAnyOfAllOfAttributes
-  * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOfAllOfAttributes
-  */
+  /**
+   * Create an instance of AllOfModelArrayAnyOfAllOfAttributes given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AllOfModelArrayAnyOfAllOfAttributes
+   * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOfAllOfAttributes
+   */
   public static AllOfModelArrayAnyOfAllOfAttributes fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AllOfModelArrayAnyOfAllOfAttributes.class);
   }
 
- /**
-  * Convert an instance of AllOfModelArrayAnyOfAllOfAttributes to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AllOfModelArrayAnyOfAllOfAttributes to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

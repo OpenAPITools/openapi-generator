@@ -290,8 +290,8 @@
         </dependency>
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
@@ -307,10 +307,10 @@
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <javax.ws.rs-api-version>2.1.1</javax.ws.rs-api-version>
         <play-version>2.6.7</play-version>
-        <retrofit-version>2.5.0</retrofit-version>
+        <retrofit-version>2.11.0</retrofit-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <beanvalidation-version>3.0.2</beanvalidation-version>
         <oltu-version>1.0.1</oltu-version>
-        <junit-version>4.13.2</junit-version>
+        <junit-version>5.10.3</junit-version>
     </properties>
 </project>

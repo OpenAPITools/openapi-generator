@@ -48,24 +48,24 @@ class Tag
         /**
      * @var int|null
      * @SerializedName("id")
-     * @Assert\Type("int")
      * @Type("int")
-     */
+    */
+    #[Assert\Type("int")]
     protected ?int $id = null;
 
     /**
      * @var string|null
      * @SerializedName("name")
-     * @Assert\Type("string")
      * @Type("string")
-     */
+    */
+    #[Assert\Type("string")]
     protected ?string $name = null;
 
     /**
      * Constructor
      * @param array|null $data Associated array of property values initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         if (is_array($data)) {
             $this->id = array_key_exists('id', $data) ? $data['id'] : $this->id;
@@ -83,21 +83,22 @@ class Tag
         return $this->id;
     }
 
-
-
     /**
-     * Sets id.
-     *
-     * @param int|null $id
-     *
-     * @return $this
-     */
+    * Sets id.
+    *
+    * @param int|null $id
+    *
+    * @return $this
+    */
     public function setId(?int $id = null): self
     {
         $this->id = $id;
 
         return $this;
     }
+
+
+
 
     /**
      * Gets name.
@@ -109,21 +110,22 @@ class Tag
         return $this->name;
     }
 
-
-
     /**
-     * Sets name.
-     *
-     * @param string|null $name
-     *
-     * @return $this
-     */
+    * Sets name.
+    *
+    * @param string|null $name
+    *
+    * @return $this
+    */
     public function setName(?string $name = null): self
     {
         $this->name = $name;
 
         return $this;
     }
+
+
+
 }
 
 

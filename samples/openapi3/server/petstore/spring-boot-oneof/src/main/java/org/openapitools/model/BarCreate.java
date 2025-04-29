@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.Entity;
 import org.openapitools.model.FooRefOrValue;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -26,14 +27,14 @@ import javax.annotation.Generated;
 
 
 @JsonTypeName("Bar_Create")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class BarCreate extends Entity {
 
-  private String barPropA;
+  private @Nullable String barPropA;
 
-  private String fooPropB;
+  private @Nullable String fooPropB;
 
-  private FooRefOrValue foo;
+  private @Nullable FooRefOrValue foo;
 
   public BarCreate() {
     super();
@@ -54,7 +55,7 @@ public class BarCreate extends Entity {
   /**
    * Get barPropA
    * @return barPropA
-  */
+   */
   
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("barPropA")
@@ -74,7 +75,7 @@ public class BarCreate extends Entity {
   /**
    * Get fooPropB
    * @return fooPropB
-  */
+   */
   
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
@@ -94,7 +95,7 @@ public class BarCreate extends Entity {
   /**
    * Get foo
    * @return foo
-  */
+   */
   @Valid 
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
@@ -188,7 +189,7 @@ public class BarCreate extends Entity {
     }
 
     protected Builder copyOf(BarCreate value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setBarPropA(value.barPropA);
       this.instance.setFooPropB(value.fooPropB);
       this.instance.setFoo(value.foo);

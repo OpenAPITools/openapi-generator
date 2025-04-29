@@ -27,11 +27,12 @@ import java.util.StringJoiner;
 /**
  * Defines the template definition for a "supporting file", that is any file which is generic and not bound to
  * api/model definitions and their relevant docs or tests.
- *
+ * <p>
  * Supporting files are generated once for an entire application while api/model bound definitions are generated multiple
  * times according to their target use.
  */
-@Getter public class SupportingFile extends TemplateDefinition {
+@Getter
+public class SupportingFile extends TemplateDefinition {
     private boolean canOverwrite = true;
 
     public SupportingFile(String templateFile, String destinationFilename) {

@@ -38,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
@@ -110,27 +109,28 @@ public class BigCat extends Cat {
 
   public static final String SERIALIZED_NAME_KIND = "kind";
   @SerializedName(SERIALIZED_NAME_KIND)
+  @javax.annotation.Nullable
   private KindEnum kind;
 
   public BigCat() {
     this.className = this.getClass().getSimpleName();
   }
 
-  public BigCat kind(KindEnum kind) {
+  public BigCat kind(@javax.annotation.Nullable KindEnum kind) {
     this.kind = kind;
     return this;
   }
 
-   /**
+  /**
    * Get kind
    * @return kind
-  **/
+   */
   @javax.annotation.Nullable
   public KindEnum getKind() {
     return kind;
   }
 
-  public void setKind(KindEnum kind) {
+  public void setKind(@javax.annotation.Nullable KindEnum kind) {
     this.kind = kind;
   }
 
@@ -192,12 +192,12 @@ public class BigCat extends Cat {
     openapiRequiredFields.add("className");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to BigCat
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to BigCat
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!BigCat.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -250,22 +250,22 @@ public class BigCat extends Cat {
     }
   }
 
- /**
-  * Create an instance of BigCat given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of BigCat
-  * @throws IOException if the JSON string is invalid with respect to BigCat
-  */
+  /**
+   * Create an instance of BigCat given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of BigCat
+   * @throws IOException if the JSON string is invalid with respect to BigCat
+   */
   public static BigCat fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, BigCat.class);
   }
 
- /**
-  * Convert an instance of BigCat to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of BigCat to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

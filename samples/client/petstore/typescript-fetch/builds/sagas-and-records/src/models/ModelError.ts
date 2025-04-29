@@ -18,6 +18,7 @@ import {
     ItemIdFromJSON,
     ItemIdFromJSONTyped,
     ItemIdToJSON,
+    ItemIdToJSONTyped,
 } from './ItemId';
 
 /**
@@ -77,10 +78,15 @@ export function ModelErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function ModelErrorToJSON(value?: ModelError | null): any {
+export function ModelErrorToJSON(json: any): ModelError {
+    return ModelErrorToJSONTyped(json, false);
+}
+
+export function ModelErrorToJSONTyped(value?: ModelError | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'type': value['type'],

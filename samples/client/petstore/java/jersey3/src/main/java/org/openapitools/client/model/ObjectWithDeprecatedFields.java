@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -41,35 +43,39 @@ import org.openapitools.client.JSON;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
+  @jakarta.annotation.Nullable
   private String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
   @Deprecated
+  @jakarta.annotation.Nullable
   private BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
   @Deprecated
+  @jakarta.annotation.Nullable
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
   @Deprecated
+  @jakarta.annotation.Nullable
   private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() { 
   }
 
-  public ObjectWithDeprecatedFields uuid(String uuid) {
+  public ObjectWithDeprecatedFields uuid(@jakarta.annotation.Nullable String uuid) {
     this.uuid = uuid;
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -82,22 +88,22 @@ public class ObjectWithDeprecatedFields {
 
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUuid(String uuid) {
+  public void setUuid(@jakarta.annotation.Nullable String uuid) {
     this.uuid = uuid;
   }
 
 
   @Deprecated
-  public ObjectWithDeprecatedFields id(BigDecimal id) {
+  public ObjectWithDeprecatedFields id(@jakarta.annotation.Nullable BigDecimal id) {
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
    * @deprecated
-  **/
+   */
   @Deprecated
   @jakarta.annotation.Nullable
   @Valid
@@ -113,22 +119,22 @@ public class ObjectWithDeprecatedFields {
   @Deprecated
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(BigDecimal id) {
+  public void setId(@jakarta.annotation.Nullable BigDecimal id) {
     this.id = id;
   }
 
 
   @Deprecated
-  public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
+  public ObjectWithDeprecatedFields deprecatedRef(@jakarta.annotation.Nullable DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
     return this;
   }
 
-   /**
+  /**
    * Get deprecatedRef
    * @return deprecatedRef
    * @deprecated
-  **/
+   */
   @Deprecated
   @jakarta.annotation.Nullable
   @Valid
@@ -144,13 +150,13 @@ public class ObjectWithDeprecatedFields {
   @Deprecated
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
+  public void setDeprecatedRef(@jakarta.annotation.Nullable DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
 
 
   @Deprecated
-  public ObjectWithDeprecatedFields bars(List<String> bars) {
+  public ObjectWithDeprecatedFields bars(@jakarta.annotation.Nullable List<String> bars) {
     this.bars = bars;
     return this;
   }
@@ -163,11 +169,11 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get bars
    * @return bars
    * @deprecated
-  **/
+   */
   @Deprecated
   @jakarta.annotation.Nullable
 
@@ -182,7 +188,7 @@ public class ObjectWithDeprecatedFields {
   @Deprecated
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBars(List<String> bars) {
+  public void setBars(@jakarta.annotation.Nullable List<String> bars) {
     this.bars = bars;
   }
 
@@ -192,22 +198,12 @@ public class ObjectWithDeprecatedFields {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ObjectWithDeprecatedFields objectWithDeprecatedFields = (ObjectWithDeprecatedFields) o;
-    return Objects.equals(this.uuid, objectWithDeprecatedFields.uuid) &&
-        Objects.equals(this.id, objectWithDeprecatedFields.id) &&
-        Objects.equals(this.deprecatedRef, objectWithDeprecatedFields.deprecatedRef) &&
-        Objects.equals(this.bars, objectWithDeprecatedFields.bars);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, id, deprecatedRef, bars);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

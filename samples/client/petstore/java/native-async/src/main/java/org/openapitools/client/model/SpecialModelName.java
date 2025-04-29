@@ -36,30 +36,31 @@ import org.openapitools.client.ApiClient;
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME,
   SpecialModelName.JSON_PROPERTY_SPECIAL_MODEL_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
+  @javax.annotation.Nullable
   private Long $specialPropertyName;
 
   public static final String JSON_PROPERTY_SPECIAL_MODEL_NAME = "_special_model.name_";
+  @javax.annotation.Nullable
   private String specialModelName;
 
   public SpecialModelName() { 
   }
 
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+  public SpecialModelName $specialPropertyName(@javax.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
 
-   /**
+  /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
@@ -67,24 +68,23 @@ public class SpecialModelName {
 
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
+  public void set$SpecialPropertyName(@javax.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 
 
-  public SpecialModelName specialModelName(String specialModelName) {
+  public SpecialModelName specialModelName(@javax.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;
     return this;
   }
 
-   /**
+  /**
    * Get specialModelName
    * @return specialModelName
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getSpecialModelName() {
     return specialModelName;
   }
@@ -92,7 +92,7 @@ public class SpecialModelName {
 
   @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSpecialModelName(String specialModelName) {
+  public void setSpecialModelName(@javax.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;
   }
 
@@ -173,12 +173,12 @@ public class SpecialModelName {
 
     // add `$special[property.name]` to the URL query string
     if (get$SpecialPropertyName() != null) {
-      joiner.add(String.format("%s$special[property.name]%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(get$SpecialPropertyName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s$special[property.name]%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get$SpecialPropertyName()))));
     }
 
     // add `_special_model.name_` to the URL query string
     if (getSpecialModelName() != null) {
-      joiner.add(String.format("%s_special_model.name_%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpecialModelName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s_special_model.name_%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSpecialModelName()))));
     }
 
     return joiner.toString();

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -20,19 +21,19 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model with \"_class\" property")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ClassModel {
 
-  private String propertyClass;
+  private @Nullable String propertyClass;
 
   public ClassModel() {
     super();
   }
 
   /**
-  * Constructor with all args parameters
-  */
-  public ClassModel(String propertyClass) {
+   * Constructor with all args parameters
+   */
+  public ClassModel(@Nullable String propertyClass) {
       this.propertyClass = propertyClass;
   }
 
@@ -44,7 +45,7 @@ public class ClassModel {
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("_class")

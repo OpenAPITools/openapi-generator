@@ -6,20 +6,21 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.languages.AbstractKotlinCodegen;
-import org.openapitools.codegen.languages.KotlinClientCodegen;
-import org.openapitools.codegen.languages.KotlinServerCodegen;
-import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
-import org.openapitools.codegen.languages.KotlinVertxServerCodegen;
+import org.openapitools.codegen.languages.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.VendorExtension.X_CLASS_EXTRA_ANNOTATION;
+import static org.openapitools.codegen.VendorExtension.X_FIELD_EXTRA_ANNOTATION;
 
 public class KotlinModelCodegenTest {
 
@@ -109,5 +110,21 @@ public class KotlinModelCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/UniqueArray.kt"),
                 "var array: kotlin.collections.MutableSet<kotlin.String>");
+    }
+
+    @Test(dataProvider = "generators")
+    public void xFieldExtraAnnotation(AbstractKotlinCodegen codegen) throws IOException {
+        assumeThat(codegen.getSupportedVendorExtensions().contains(X_FIELD_EXTRA_ANNOTATION)).isTrue();
+        String outputPath = generateModels(codegen, "src/test/resources/3_0/issue_11772.yml", true);
+        Path ktClassPath = Paths.get(outputPath + "/src/main/kotlin/models/Employee.kt");
+        assertThat(ktClassPath).content().contains("@javax.persistence.Id");
+    }
+
+    @Test(dataProvider = "generators")
+    public void xClassExtraAnnotation(AbstractKotlinCodegen codegen) throws IOException {
+        assumeThat(codegen.getSupportedVendorExtensions().contains(X_CLASS_EXTRA_ANNOTATION)).isTrue();
+        String outputPath = generateModels(codegen, "src/test/resources/3_0/issue_11772.yml", true);
+        Path ktClassPath = Paths.get(outputPath + "/src/main/kotlin/models/Employee.kt");
+        assertThat(ktClassPath).content().contains("@javax.persistence.MappedSuperclass");
     }
 }

@@ -5,12 +5,12 @@ description = "OpenAPI Petstore"
 authors = ["OpenAPI Generator Community <team@openapitools.org>"]
 license = "Apache-2.0"
 readme = "README.md"
-repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
+repository = "https://GIT_HOST/GIT_USER_ID/GIT_REPO_ID"
 keywords = ["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"]
 include = ["petstore_api/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 
 urllib3 = ">= 1.25.3"
 python-dateutil = ">=2.8.2"

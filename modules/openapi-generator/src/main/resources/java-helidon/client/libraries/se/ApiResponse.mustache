@@ -1,11 +1,15 @@
 {{>licenseInfo}}
 package {{invokerPackage}};
 
-import java.util.concurrent.ExecutionException;
+{{#x-helidon-v3}}import java.util.concurrent.ExecutionException;
+{{/x-helidon-v3}}
 
 import io.helidon.common.GenericType;
-import io.helidon.common.reactive.Single;
+{{#x-helidon-v3}}import io.helidon.common.reactive.Single;
 import io.helidon.webclient.WebClientResponse;
+{{/x-helidon-v3}}{{!
+}}{{^x-helidon-v3}}import io.helidon.webclient.api.HttpClientResponse;
+{{/x-helidon-v3}}
 
 {{#appName}}
 /**
@@ -18,17 +22,17 @@ import io.helidon.webclient.WebClientResponse;
 {{/appName}}
 public interface ApiResponse<T> {
 
-  static <T> ApiResponse<T> create(GenericType<T> responseType, Single<WebClientResponse> webClientResponse) {
+  static <T> ApiResponse<T> create(GenericType<T> responseType, {{#x-helidon-v3}}Single<WebClientResponse>{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientResponse{{/x-helidon-v3}} webClientResponse) {
     return new ApiResponseBase<>(responseType, webClientResponse);
   }
 
   /**
-   * @returns reactive access to the {@link WebClientResponse} describing the response from the server
+   * @returns reactive access to the {@link {{#x-helidon-v3}}Web{{/x-helidon-v3}}{{^x-helidon-v3}}Http{{/x-helidon-v3}}ClientResponse} describing the response from the server
    */
-  Single<WebClientResponse> webClientResponse();
+  {{#x-helidon-v3}}Single<WebClientResponse>{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientResponse{{/x-helidon-v3}} webClientResponse();
 
   /**
-   * @return reactive access to the value returned in the response from the server
+   * @return {{#x-helidon-v3}}reactive {{/x-helidon-v3}}access to the value returned in the response from the server
    */
-  Single<T> result() throws ExecutionException, InterruptedException;
+  {{#x-helidon-v3}}Single<T>{{/x-helidon-v3}}{{^x-helidon-v3}}T{{/x-helidon-v3}} result(){{#x-helidon-v3}} throws ExecutionException, InterruptedException{{/x-helidon-v3}};
 }

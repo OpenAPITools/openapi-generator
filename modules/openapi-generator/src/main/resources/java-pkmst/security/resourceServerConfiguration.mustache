@@ -32,9 +32,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     {{#resourcePaths}}
         http.
         anonymous().disable()
-        .requestMatchers().antMatchers(HttpMethod.GET, "/{{path}}/**")
+        .requestMatchers().antMatchers(HttpMethod.GET, "/{{{path}}}/**")
         .and().authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/{{path}}/**").access("hasRole('ADMIN')")
+        .antMatchers(HttpMethod.GET, "/{{{path}}}/**").access("hasRole('ADMIN')")
         .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
         {{/resourcePaths}}
     }

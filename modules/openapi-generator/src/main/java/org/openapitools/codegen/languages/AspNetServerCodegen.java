@@ -64,8 +64,14 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
+    public static final String CENTRALIZED_PACKAGE_VERSION_MANAGEMENT = "centralizedPackageVersionManagement";
+    public static final String USE_PACKAGE_VERSIONS = "usePackageVersions";
+    public static final String DEFAULT = "default";
+    public static final String ENABLE = "enable";
+    public static final String OPTOUT = "optout";
 
-    @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter
+    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
     protected final Logger LOGGER = LoggerFactory.getLogger(AspNetServerCodegen.class);
@@ -91,6 +97,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     private boolean useNewtonsoft = true;
     private boolean useDefaultRouting = true;
     private String newtonsoftVersion = "3.0.0";
+    private CliOption centralizedPackageVersionManagement = new CliOption(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT, "Option to control the usage of centralized package version management. https://devblogs.microsoft.com/nuget/introducing-central-package-management/#disabling-central-package-management");
 
     public AspNetServerCodegen() {
         super();
@@ -186,7 +193,9 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("3.1", "ASP.NET Core 3.1");
         aspnetCoreVersion.addEnum("5.0", "ASP.NET Core 5.0");
         aspnetCoreVersion.addEnum("6.0", "ASP.NET Core 6.0");
-        aspnetCoreVersion.setDefault("3.1");
+        aspnetCoreVersion.addEnum("7.0", "ASP.NET Core 7.0");
+        aspnetCoreVersion.addEnum("8.0", "ASP.NET Core 8.0");
+        aspnetCoreVersion.setDefault("8.0");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         cliOptions.add(aspnetCoreVersion);
 
@@ -194,7 +203,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         swashbuckleVersion.addEnum("4.0.0", "Swashbuckle 4.0.0");
         swashbuckleVersion.addEnum("5.0.0", "Swashbuckle 5.0.0");
         swashbuckleVersion.addEnum("6.4.0", "Swashbuckle 6.4.0");
-        swashbuckleVersion.setDefault("3.0.0");
+        swashbuckleVersion.setDefault("6.4.0");
         swashbuckleVersion.setOptValue(swashbuckleVersion.getDefault());
         cliOptions.add(swashbuckleVersion);
 
@@ -246,6 +255,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         addSwitch(USE_NEWTONSOFT,
                 "Uses the Newtonsoft JSON library.",
                 useNewtonsoft);
+
 
         addOption(NEWTONSOFT_VERSION,
                 "Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+",
@@ -299,13 +309,24 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         modelClassModifier.setDefault("partial");
         modelClassModifier.setOptValue(modelClassModifier.getDefault());
         addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
+
+        addCentralizedPackageManagementOption();
+    }
+
+    private void addCentralizedPackageManagementOption() {
+        Map<String, String> centralizedPackageVersionManagementOptions = new HashMap<>();
+        centralizedPackageVersionManagementOptions.put(DEFAULT, "Property in project won't be used");
+        centralizedPackageVersionManagementOptions.put(ENABLE, "Centralized package version management will be used");
+        centralizedPackageVersionManagementOptions.put(OPTOUT, "Opt out of centralized package version management. Set this if you have a Directory.Packages.pros file but want this project to ignore it.");
+        centralizedPackageVersionManagement.setEnum(centralizedPackageVersionManagementOptions);
+        cliOptions.add(centralizedPackageVersionManagement);
     }
 
     @Deprecated
     @Override
     protected Set<String> getNullableTypes() {
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-            "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
+                "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
     }
 
     @Override
@@ -427,7 +448,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("typeConverter.mustache", packageFolder + File.separator + "Converters", "CustomEnumConverter.cs"));
         }
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.")) {
+        if (!aspnetCoreVersion.getOptValue().startsWith("2.")) {
             supportingFiles.add(new SupportingFile("OpenApi" + File.separator + "TypeExtensions.mustache", packageFolder + File.separator + "OpenApi", "TypeExtensions.cs"));
         }
 
@@ -461,6 +482,30 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", packageFolder + File.separator + "Formatters", "InputFormatterStream.cs"));
 
         this.setTypeMapping();
+
+
+        setCentralizedPackageManagementOption();
+    }
+
+    private void setCentralizedPackageManagementOption() {
+        additionalProperties.put(USE_PACKAGE_VERSIONS, true);
+
+        if (additionalProperties.containsKey(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT)) {
+            switch ((String) additionalProperties.get(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT)) {
+                case DEFAULT:
+                    additionalProperties.remove(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT);
+                    break;
+                case ENABLE:
+                    additionalProperties.replace(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT, "true");
+                    additionalProperties.put(USE_PACKAGE_VERSIONS, false);
+                    break;
+                case OPTOUT:
+                    additionalProperties.replace(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT, "false");
+                    break;
+                default:
+                    throw new RuntimeException("Invalid value `" + additionalProperties.get(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT) + "` for the option `centralizedPackageVersionManagement`. Please refer to the documentation for more information.");
+            }
+        }
     }
 
     @Override
@@ -681,7 +726,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     private void setAspnetCoreVersion(String packageFolder) {
         setCliOption(aspnetCoreVersion);
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.")) {
+        if (!aspnetCoreVersion.getOptValue().startsWith("2.")) {
             compatibilityVersion = null;
         } else if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
             compatibilityVersion = null;
@@ -698,6 +743,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
     private String determineTemplateVersion(String frameworkVersion) {
         switch (frameworkVersion) {
+            case "8.0":
+            case "7.0":
             case "6.0":
             case "5.0":
             case "3.1":
@@ -800,14 +847,14 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             additionalProperties.put(TARGET_FRAMEWORK, "netcoreapp" + aspnetCoreVersion);
         }
 
-        setAddititonalPropertyForFramework();
+        setAdditionalPropertyForFramework();
     }
 
-    private void setAddititonalPropertyForFramework() {
-        String targetFramework = ((String)additionalProperties.get(TARGET_FRAMEWORK));
+    private void setAdditionalPropertyForFramework() {
+        String targetFramework = ((String) additionalProperties.get(TARGET_FRAMEWORK));
         if (targetFramework.startsWith("net6.0") ||
-            targetFramework.startsWith("net7.0") || 
-            targetFramework.startsWith("net8.0")) {
+                targetFramework.startsWith("net7.0") ||
+                targetFramework.startsWith("net8.0")) {
             additionalProperties.put(NET_60_OR_LATER, true);
         }
     }

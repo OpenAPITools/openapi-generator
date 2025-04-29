@@ -13,6 +13,7 @@ package petstore
 import (
 	"encoding/json"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // IncidentData - struct for IncidentData
@@ -52,7 +53,11 @@ func (dst *IncidentData) UnmarshalJSON(data []byte) error {
 		if string(jsonArrayOfMapmapOfStringAny) == "{}" { // empty struct
 			dst.ArrayOfMapmapOfStringAny = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.ArrayOfMapmapOfStringAny); err != nil {
+				dst.ArrayOfMapmapOfStringAny = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.ArrayOfMapmapOfStringAny = nil
@@ -65,7 +70,11 @@ func (dst *IncidentData) UnmarshalJSON(data []byte) error {
 		if string(jsonMapmapOfStringAny) == "{}" { // empty struct
 			dst.MapmapOfStringAny = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.MapmapOfStringAny); err != nil {
+				dst.MapmapOfStringAny = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.MapmapOfStringAny = nil
@@ -108,6 +117,20 @@ func (obj *IncidentData) GetActualInstance() (interface{}) {
 
 	if obj.MapmapOfStringAny != nil {
 		return obj.MapmapOfStringAny
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj IncidentData) GetActualInstanceValue() (interface{}) {
+	if obj.ArrayOfMapmapOfStringAny != nil {
+		return *obj.ArrayOfMapmapOfStringAny
+	}
+
+	if obj.MapmapOfStringAny != nil {
+		return *obj.MapmapOfStringAny
 	}
 
 	// all schemas are nil

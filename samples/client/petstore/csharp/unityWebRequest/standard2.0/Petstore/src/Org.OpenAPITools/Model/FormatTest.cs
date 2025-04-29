@@ -40,6 +40,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="integer">integer.</param>
         /// <param name="int32">int32.</param>
+        /// <param name="int32Range">int32Range.</param>
+        /// <param name="int64Positive">int64Positive.</param>
+        /// <param name="int64Negative">int64Negative.</param>
+        /// <param name="int64PositiveExclusive">int64PositiveExclusive.</param>
+        /// <param name="int64NegativeExclusive">int64NegativeExclusive.</param>
         /// <param name="unsignedInteger">unsignedInteger.</param>
         /// <param name="int64">int64.</param>
         /// <param name="unsignedLong">unsignedLong.</param>
@@ -57,7 +62,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        /// <param name="stringFormattedAsDecimal">stringFormattedAsDecimal.</param>
+        /// <param name="stringFormattedAsDecimalRequired">stringFormattedAsDecimalRequired (required).</param>
+        public FormatTest(int integer = default, int int32 = default, int int32Range = default, int int64Positive = default, int int64Negative = default, int int64PositiveExclusive = default, int int64NegativeExclusive = default, uint unsignedInteger = default, long int64 = default, ulong unsignedLong = default, decimal number = default, float varFloat = default, double varDouble = default, decimal varDecimal = default, string varString = default, byte[] varByte = default, System.IO.Stream binary = default, DateTime date = default, DateTime dateTime = default, Guid uuid = default, string password = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default, string patternWithBackslash = default, decimal stringFormattedAsDecimal = default, decimal stringFormattedAsDecimalRequired = default)
         {
             this.Number = number;
             // to ensure "varByte" is required (not null)
@@ -73,8 +80,14 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             }
             this.Password = password;
+            this.StringFormattedAsDecimalRequired = stringFormattedAsDecimalRequired;
             this.Integer = integer;
             this.Int32 = int32;
+            this.Int32Range = int32Range;
+            this.Int64Positive = int64Positive;
+            this.Int64Negative = int64Negative;
+            this.Int64PositiveExclusive = int64PositiveExclusive;
+            this.Int64NegativeExclusive = int64NegativeExclusive;
             this.UnsignedInteger = unsignedInteger;
             this.Int64 = int64;
             this.UnsignedLong = unsignedLong;
@@ -88,6 +101,7 @@ namespace Org.OpenAPITools.Model
             this.PatternWithDigits = patternWithDigits;
             this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
             this.PatternWithBackslash = patternWithBackslash;
+            this.StringFormattedAsDecimal = stringFormattedAsDecimal;
         }
 
         /// <summary>
@@ -101,6 +115,36 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "int32", EmitDefaultValue = false)]
         public int Int32 { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Int32Range
+        /// </summary>
+        [DataMember(Name = "int32Range", EmitDefaultValue = false)]
+        public int Int32Range { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Int64Positive
+        /// </summary>
+        [DataMember(Name = "int64Positive", EmitDefaultValue = false)]
+        public long Int64Positive { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Int64Negative
+        /// </summary>
+        [DataMember(Name = "int64Negative", EmitDefaultValue = false)]
+        public long Int64Negative { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Int64PositiveExclusive
+        /// </summary>
+        [DataMember(Name = "int64PositiveExclusive", EmitDefaultValue = false)]
+        public long Int64PositiveExclusive { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Int64NegativeExclusive
+        /// </summary>
+        [DataMember(Name = "int64NegativeExclusive", EmitDefaultValue = false)]
+        public long Int64NegativeExclusive { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedInteger
@@ -165,7 +209,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        /*
+        <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        */
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
@@ -173,14 +219,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
-        /// <example>2007-12-03T10:15:30+01:00</example>
+        /*
+        <example>2007-12-03T10:15:30+01:00</example>
+        */
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
         public DateTime DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /*
+        <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        */
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
         public Guid Uuid { get; set; }
 
@@ -212,6 +262,18 @@ namespace Org.OpenAPITools.Model
         public string PatternWithBackslash { get; set; }
 
         /// <summary>
+        /// Gets or Sets StringFormattedAsDecimal
+        /// </summary>
+        [DataMember(Name = "string_formatted_as_decimal", EmitDefaultValue = false)]
+        public decimal StringFormattedAsDecimal { get; set; }
+
+        /// <summary>
+        /// Gets or Sets StringFormattedAsDecimalRequired
+        /// </summary>
+        [DataMember(Name = "string_formatted_as_decimal_required", IsRequired = true, EmitDefaultValue = true)]
+        public decimal StringFormattedAsDecimalRequired { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -221,6 +283,11 @@ namespace Org.OpenAPITools.Model
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
             sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  Int32Range: ").Append(Int32Range).Append("\n");
+            sb.Append("  Int64Positive: ").Append(Int64Positive).Append("\n");
+            sb.Append("  Int64Negative: ").Append(Int64Negative).Append("\n");
+            sb.Append("  Int64PositiveExclusive: ").Append(Int64PositiveExclusive).Append("\n");
+            sb.Append("  Int64NegativeExclusive: ").Append(Int64NegativeExclusive).Append("\n");
             sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
             sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
@@ -238,6 +305,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
             sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
+            sb.Append("  StringFormattedAsDecimal: ").Append(StringFormattedAsDecimal).Append("\n");
+            sb.Append("  StringFormattedAsDecimalRequired: ").Append(StringFormattedAsDecimalRequired).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -280,6 +349,26 @@ namespace Org.OpenAPITools.Model
                 (
                     this.Int32 == input.Int32 ||
                     this.Int32.Equals(input.Int32)
+                ) && 
+                (
+                    this.Int32Range == input.Int32Range ||
+                    this.Int32Range.Equals(input.Int32Range)
+                ) && 
+                (
+                    this.Int64Positive == input.Int64Positive ||
+                    this.Int64Positive.Equals(input.Int64Positive)
+                ) && 
+                (
+                    this.Int64Negative == input.Int64Negative ||
+                    this.Int64Negative.Equals(input.Int64Negative)
+                ) && 
+                (
+                    this.Int64PositiveExclusive == input.Int64PositiveExclusive ||
+                    this.Int64PositiveExclusive.Equals(input.Int64PositiveExclusive)
+                ) && 
+                (
+                    this.Int64NegativeExclusive == input.Int64NegativeExclusive ||
+                    this.Int64NegativeExclusive.Equals(input.Int64NegativeExclusive)
                 ) && 
                 (
                     this.UnsignedInteger == input.UnsignedInteger ||
@@ -358,6 +447,14 @@ namespace Org.OpenAPITools.Model
                     this.PatternWithBackslash == input.PatternWithBackslash ||
                     (this.PatternWithBackslash != null &&
                     this.PatternWithBackslash.Equals(input.PatternWithBackslash))
+                ) && 
+                (
+                    this.StringFormattedAsDecimal == input.StringFormattedAsDecimal ||
+                    this.StringFormattedAsDecimal.Equals(input.StringFormattedAsDecimal)
+                ) && 
+                (
+                    this.StringFormattedAsDecimalRequired == input.StringFormattedAsDecimalRequired ||
+                    this.StringFormattedAsDecimalRequired.Equals(input.StringFormattedAsDecimalRequired)
                 );
         }
 
@@ -372,6 +469,11 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Integer.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int32.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int32Range.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64Positive.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64Negative.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64PositiveExclusive.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64NegativeExclusive.GetHashCode();
                 hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int64.GetHashCode();
                 hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
@@ -419,6 +521,8 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
                 }
+                hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
+                hashCode = (hashCode * 59) + this.StringFormattedAsDecimalRequired.GetHashCode();
                 return hashCode;
             }
         }

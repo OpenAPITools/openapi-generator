@@ -141,16 +141,18 @@ namespace Org.OpenAPITools.Client
             foreach (var parameter in requestOptions.QueryParameters)
             {
 #if (NETCOREAPP)
+                string framework = RuntimeInformation.FrameworkDescription;
+                string key = framework.StartsWith(".NET 9")?parameter.Key:HttpUtility.UrlEncode(parameter.Key);
                 if (parameter.Value.Count > 1)
                 { // array
                     foreach (var value in parameter.Value)
                     {
-                        httpValues.Add(HttpUtility.UrlEncode(parameter.Key) + "[]", value);
+                        httpValues.Add(key + "[]", value);
                     }
                 }
                 else
                 {
-                    httpValues.Add(HttpUtility.UrlEncode(parameter.Key), parameter.Value[0]);
+                    httpValues.Add(key, parameter.Value[0]);
                 }
 #else
                 if (parameter.Value.Count > 1)
@@ -356,7 +358,7 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Convert ANS1 format to DER format. Not recommended to use because it generate inavlid signature occationally.
+        /// Convert ANS1 format to DER format. Not recommended to use because it generate invalid signature occasionally.
         /// </summary>
         /// <param name="signedBytes"></param>
         /// <returns></returns>
@@ -465,7 +467,7 @@ namespace Org.OpenAPITools.Client
                 binkey = Convert.FromBase64String(pvkstr);
                 return binkey;
             }
-            catch (System.FormatException)
+            catch (global::System.FormatException)
             {
                 StringReader str = new StringReader(pvkstr);
 
@@ -495,7 +497,7 @@ namespace Org.OpenAPITools.Client
                 {   //should have b64 encrypted RSA key now
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
-                catch (System.FormatException)
+                catch (global::System.FormatException)
                 {   //data is not in base64 format
                     return null;
                 }

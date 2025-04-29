@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Client
         /// Instantiates a TokenContainer
         /// </summary>
         /// <param name="tokens"></param>
-        public TokenContainer(System.Collections.Generic.IEnumerable<TTokenBase> tokens)
+        public TokenContainer(global::System.Collections.Generic.IEnumerable<TTokenBase> tokens)
         {
             Tokens = tokens.ToList();
         }

@@ -25,7 +25,7 @@ public class {{classname}}Test {
     public void {{operationId}}TestJson() throws Exception {
         String contentType = "application/json";
         String accept = "application/json";
-        String url = API_URL + "{{path}}";
+        String url = API_URL + "{{{path}}}";
         HttpRequest httpRequest = Unirest.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}(url);{{#hasConsumes}}
         httpRequest = httpRequest.header("Content-Type", contentType);{{/hasConsumes}}{{#hasProduces}}
         httpRequest = httpRequest.header("Accept", accept);{{/hasProduces}}{{#pathParams}}
@@ -45,7 +45,7 @@ public class {{classname}}Test {
     public void {{operationId}}TestXml() throws Exception {
         String contentType = "application/xml";
         String accept = "application/xml";
-        String url = API_URL + "{{path}}";
+        String url = API_URL + "{{{path}}}";
         HttpRequest httpRequest = Unirest.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}(url);{{#hasConsumes}}
         httpRequest = httpRequest.header("Content-Type", contentType);{{/hasConsumes}}{{#hasProduces}}
         httpRequest = httpRequest.header("Accept", accept);{{/hasProduces}}{{#pathParams}}

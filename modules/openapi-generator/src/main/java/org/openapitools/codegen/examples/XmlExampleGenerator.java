@@ -172,7 +172,7 @@ public class XmlExampleGenerator {
 
     /**
      * Get the example string value for the given schema.
-     *
+     * <p>
      * If an example value was not provided in the specification, a default will be generated.
      *
      * @param schema Schema to get example string for

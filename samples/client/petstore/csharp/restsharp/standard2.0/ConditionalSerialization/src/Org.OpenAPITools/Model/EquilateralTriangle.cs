@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType (required).</param>
         /// <param name="triangleType">triangleType (required).</param>
-        public EquilateralTriangle(string shapeType = default(string), string triangleType = default(string))
+        public EquilateralTriangle(string shapeType = default, string triangleType = default)
         {
             // to ensure "shapeType" is required (not null)
             if (shapeType == null)
@@ -190,7 +190,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

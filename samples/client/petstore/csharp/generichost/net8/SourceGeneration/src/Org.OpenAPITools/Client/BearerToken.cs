@@ -31,7 +31,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="request"></param>
         /// <param name="headerName"></param>
-        public virtual void UseInHeader(System.Net.Http.HttpRequestMessage request, string headerName)
+        public virtual void UseInHeader(global::System.Net.Http.HttpRequestMessage request, string headerName)
         {
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _raw);
         }

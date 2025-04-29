@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -129,12 +129,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "a_objVariableobject":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                aObjVariableobject = new Option<List<Dictionary<string, Object>>>(JsonSerializer.Deserialize<List<Dictionary<string, Object>>>(ref utf8JsonReader, jsonSerializerOptions));
+                            aObjVariableobject = new Option<List<Dictionary<string, Object>>>(JsonSerializer.Deserialize<List<Dictionary<string, Object>>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "pkiNotificationtestID":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                pkiNotificationtestID = new Option<int?>(utf8JsonReader.GetInt32());
+                            pkiNotificationtestID = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;

@@ -14,6 +14,7 @@ import os
 import time
 import unittest
 import datetime
+from decimal import Decimal
 
 import pytest as pytest
 
@@ -129,6 +130,15 @@ class DeserializationTests(unittest.TestCase):
 
         deserialized = self.deserialize(response, "datetime", 'application/json')
         self.assertTrue(isinstance(deserialized, datetime.datetime))
+
+    def test_deserialize_decimal(self):
+        """ deserialize decimal """
+        data = 1.1
+        response = json.dumps(data)
+
+        deserialized = self.deserialize(response, "decimal", 'application/json')
+        self.assertTrue(isinstance(deserialized, Decimal))
+        self.assertEqual(deserialized, Decimal(1.1))
 
     def test_deserialize_pet(self):
         """ deserialize pet """
@@ -291,3 +301,41 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized.class_name, "Cat")
         self.assertEqual(deserialized.declawed, True)
         self.assertEqual(deserialized.to_json(), '{"className": "Cat", "color": "red", "declawed": true}')
+
+    def test_deserialize_content_type(self):
+
+        response = json.dumps({"a": "a"})
+        
+        deserialized = self.deserialize(response, "Dict[str, str]", 'application/json')
+        self.assertTrue(isinstance(deserialized, dict))
+
+        
+        deserialized = self.deserialize(response, "Dict[str, str]", 'application/vnd.api+json')
+        self.assertTrue(isinstance(deserialized, dict))
+
+
+        deserialized = self.deserialize(response, "Dict[str, str]", 'application/json; charset=utf-8')
+        self.assertTrue(isinstance(deserialized, dict))
+
+        deserialized = self.deserialize(response, "Dict[str, str]", 'application/vnd.api+json; charset=utf-8')
+        self.assertTrue(isinstance(deserialized, dict))
+
+        deserialized = self.deserialize(response, "str", 'text/plain')
+        self.assertTrue(isinstance(deserialized, str))
+
+        deserialized = self.deserialize(response, "str", 'text/csv')
+        self.assertTrue(isinstance(deserialized, str))
+
+        deserialized = self.deserialize(response, "Dict[str, str]", 'APPLICATION/JSON')
+        self.assertTrue(isinstance(deserialized, dict))
+
+        with self.assertRaises(petstore_api.ApiException) as cm:
+            deserialized = self.deserialize(response, "str", 'text')
+
+        with self.assertRaises(petstore_api.ApiException) as cm:
+            deserialized = self.deserialize(response, "str", 'text/n0t-exist!ng')
+
+        with self.assertRaises(petstore_api.ApiException) as cm:
+            deserialized = self.deserialize(response, "Dict[str, str]", 'application/jsonnnnn')
+        
+

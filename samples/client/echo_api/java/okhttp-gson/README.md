@@ -2,7 +2,7 @@
 
 Echo Server API
 - API version: 0.1.0
-  - Generator version: 7.7.0-SNAPSHOT
+  - Generator version: 7.14.0-SNAPSHOT
 
 Echo Server API
 
@@ -84,7 +84,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.AuthApi;
 
 public class Example {

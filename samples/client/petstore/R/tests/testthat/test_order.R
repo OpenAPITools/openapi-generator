@@ -3,33 +3,33 @@
 
 context("Test Order")
 
-model.instance <- Order$new()
+model_instance <- Order$new()
 
 test_that("id", {
   # tests for the property `id` (integer)
 
-  # uncomment below to test the property 
+  # uncomment below to test the property
   #expect_equal(model.instance$`id`, "EXPECTED_RESULT")
 })
 
 test_that("petId", {
   # tests for the property `petId` (integer)
 
-  # uncomment below to test the property 
+  # uncomment below to test the property
   #expect_equal(model.instance$`petId`, "EXPECTED_RESULT")
 })
 
 test_that("quantity", {
   # tests for the property `quantity` (integer)
 
-  # uncomment below to test the property 
+  # uncomment below to test the property
   #expect_equal(model.instance$`quantity`, "EXPECTED_RESULT")
 })
 
 test_that("shipDate", {
   # tests for the property `shipDate` (character)
 
-  # uncomment below to test the property 
+  # uncomment below to test the property
   #expect_equal(model.instance$`shipDate`, "EXPECTED_RESULT")
 })
 
@@ -37,14 +37,13 @@ test_that("status", {
   # tests for the property `status` (character)
   # Order Status
 
-  # uncomment below to test the property 
+  # uncomment below to test the property
   #expect_equal(model.instance$`status`, "EXPECTED_RESULT")
 })
 
 test_that("complete", {
   # tests for the property `complete` (character)
 
-  # uncomment below to test the property 
+  # uncomment below to test the property
   #expect_equal(model.instance$`complete`, "EXPECTED_RESULT")
 })
-

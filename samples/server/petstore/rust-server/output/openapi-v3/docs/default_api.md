@@ -7,7 +7,8 @@ Method | HTTP request | Description
 ****](default_api.md#) | **GET** /any-of | 
 ****](default_api.md#) | **POST** /callback-with-header | 
 ****](default_api.md#) | **GET** /complex-query-param | 
-****](default_api.md#) | **GET** /enum_in_path/{path_param} | 
+**FormTest**](default_api.md#FormTest) | **POST** /form-test | Test a Form Post
+**GetWithBooleanParameter**](default_api.md#GetWithBooleanParameter) | **GET** /get-with-bool | 
 ****](default_api.md#) | **GET** /json-complex-query-param | 
 ****](default_api.md#) | **GET** /mandatory-request-header | 
 ****](default_api.md#) | **GET** /merge-patch-json | 
@@ -21,13 +22,16 @@ Method | HTTP request | Description
 ****](default_api.md#) | **PUT** /required_octet_stream | 
 ****](default_api.md#) | **GET** /responses_with_headers | 
 ****](default_api.md#) | **GET** /rfc7807 | 
+**TwoFirstLetterHeaders**](default_api.md#TwoFirstLetterHeaders) | **POST** /operation-two-first-letter-headers | 
 ****](default_api.md#) | **GET** /untyped_property | 
 ****](default_api.md#) | **GET** /uuid | 
 ****](default_api.md#) | **POST** /xml_extra | 
 ****](default_api.md#) | **POST** /xml_other | 
 ****](default_api.md#) | **PUT** /xml_other | 
-****](default_api.md#) | **POST** /xml | Post an array
+****](default_api.md#) | **POST** /xml | Post an array.  It's important we test apostrophes, so include one here.
 ****](default_api.md#) | **PUT** /xml | 
+****](default_api.md#) | **GET** /enum_in_path/{path_param} | 
+****](default_api.md#) | **GET** /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b} | 
 
 
 # ****
@@ -119,15 +123,49 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (path_param)
-
+# **FormTest**
+> FormTest(optional)
+Test a Form Post
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **path_param** | [****](.md)|  | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **required_array** | [**String**](String.md)|  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **GetWithBooleanParameter**
+> GetWithBooleanParameter(iambool)
+
+
+Get with a boolean parameter
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **iambool** | **bool**| Let's check apostrophes get encoded properly! | 
 
 ### Return type
 
@@ -461,6 +499,41 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **TwoFirstLetterHeaders**
+> TwoFirstLetterHeaders(optional)
+
+
+Check we don't barf if two boolean parameters have the same first letter
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **x_header_one** | **bool**|  | 
+ **x_header_two** | **bool**|  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # ****
 > (optional)
 
@@ -613,7 +686,7 @@ No authorization required
 
 # ****
 > (optional)
-Post an array
+Post an array.  It's important we test apostrophes, so include one here.
 
 
 
@@ -673,6 +746,57 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/xml
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# ****
+> (path_param)
+
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **path_param** | [****](.md)|  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# ****
+> (path_param_a, path_param_b)
+
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **path_param_a** | **String**|  | 
+  **path_param_b** | **String**|  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

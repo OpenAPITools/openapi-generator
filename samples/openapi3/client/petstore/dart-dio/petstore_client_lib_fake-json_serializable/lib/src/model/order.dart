@@ -35,7 +35,7 @@ class Order {
     
     name: r'id',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -47,7 +47,7 @@ class Order {
     
     name: r'petId',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -59,7 +59,7 @@ class Order {
     
     name: r'quantity',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -71,7 +71,7 @@ class Order {
     
     name: r'shipDate',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -84,7 +84,8 @@ class Order {
     
     name: r'status',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: OrderStatusEnum.unknownDefaultOpenApi,
   )
 
 
@@ -96,7 +97,7 @@ class Order {
     defaultValue: false,
     name: r'complete',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -137,14 +138,25 @@ class Order {
 
 /// Order Status
 enum OrderStatusEnum {
-  @JsonValue(r'placed')
-  placed,
-  @JsonValue(r'approved')
-  approved,
-  @JsonValue(r'delivered')
-  delivered,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+    /// Order Status
+@JsonValue(r'placed')
+placed(r'placed'),
+    /// Order Status
+@JsonValue(r'approved')
+approved(r'approved'),
+    /// Order Status
+@JsonValue(r'delivered')
+delivered(r'delivered'),
+    /// Order Status
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const OrderStatusEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 

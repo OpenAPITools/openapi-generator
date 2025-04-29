@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
  * XmlItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class XmlItem {
 
   private Optional<String> attributeString = Optional.empty();
@@ -94,14 +95,14 @@ public class XmlItem {
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {
-    this.attributeString = Optional.of(attributeString);
+    this.attributeString = Optional.ofNullable(attributeString);
     return this;
   }
 
   /**
    * Get attributeString
    * @return attributeString
-  */
+   */
   
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("attribute_string")
@@ -114,14 +115,14 @@ public class XmlItem {
   }
 
   public XmlItem attributeNumber(BigDecimal attributeNumber) {
-    this.attributeNumber = Optional.of(attributeNumber);
+    this.attributeNumber = Optional.ofNullable(attributeNumber);
     return this;
   }
 
   /**
    * Get attributeNumber
    * @return attributeNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("attribute_number")
@@ -134,14 +135,14 @@ public class XmlItem {
   }
 
   public XmlItem attributeInteger(Integer attributeInteger) {
-    this.attributeInteger = Optional.of(attributeInteger);
+    this.attributeInteger = Optional.ofNullable(attributeInteger);
     return this;
   }
 
   /**
    * Get attributeInteger
    * @return attributeInteger
-  */
+   */
   
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("attribute_integer")
@@ -154,14 +155,14 @@ public class XmlItem {
   }
 
   public XmlItem attributeBoolean(Boolean attributeBoolean) {
-    this.attributeBoolean = Optional.of(attributeBoolean);
+    this.attributeBoolean = Optional.ofNullable(attributeBoolean);
     return this;
   }
 
   /**
    * Get attributeBoolean
    * @return attributeBoolean
-  */
+   */
   
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("attribute_boolean")
@@ -189,7 +190,7 @@ public class XmlItem {
   /**
    * Get wrappedArray
    * @return wrappedArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("wrapped_array")
@@ -202,14 +203,14 @@ public class XmlItem {
   }
 
   public XmlItem nameString(String nameString) {
-    this.nameString = Optional.of(nameString);
+    this.nameString = Optional.ofNullable(nameString);
     return this;
   }
 
   /**
    * Get nameString
    * @return nameString
-  */
+   */
   
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("name_string")
@@ -222,14 +223,14 @@ public class XmlItem {
   }
 
   public XmlItem nameNumber(BigDecimal nameNumber) {
-    this.nameNumber = Optional.of(nameNumber);
+    this.nameNumber = Optional.ofNullable(nameNumber);
     return this;
   }
 
   /**
    * Get nameNumber
    * @return nameNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("name_number")
@@ -242,14 +243,14 @@ public class XmlItem {
   }
 
   public XmlItem nameInteger(Integer nameInteger) {
-    this.nameInteger = Optional.of(nameInteger);
+    this.nameInteger = Optional.ofNullable(nameInteger);
     return this;
   }
 
   /**
    * Get nameInteger
    * @return nameInteger
-  */
+   */
   
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("name_integer")
@@ -262,14 +263,14 @@ public class XmlItem {
   }
 
   public XmlItem nameBoolean(Boolean nameBoolean) {
-    this.nameBoolean = Optional.of(nameBoolean);
+    this.nameBoolean = Optional.ofNullable(nameBoolean);
     return this;
   }
 
   /**
    * Get nameBoolean
    * @return nameBoolean
-  */
+   */
   
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("name_boolean")
@@ -297,7 +298,7 @@ public class XmlItem {
   /**
    * Get nameArray
    * @return nameArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name_array")
@@ -325,7 +326,7 @@ public class XmlItem {
   /**
    * Get nameWrappedArray
    * @return nameWrappedArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name_wrapped_array")
@@ -338,14 +339,14 @@ public class XmlItem {
   }
 
   public XmlItem prefixString(String prefixString) {
-    this.prefixString = Optional.of(prefixString);
+    this.prefixString = Optional.ofNullable(prefixString);
     return this;
   }
 
   /**
    * Get prefixString
    * @return prefixString
-  */
+   */
   
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_string")
@@ -358,14 +359,14 @@ public class XmlItem {
   }
 
   public XmlItem prefixNumber(BigDecimal prefixNumber) {
-    this.prefixNumber = Optional.of(prefixNumber);
+    this.prefixNumber = Optional.ofNullable(prefixNumber);
     return this;
   }
 
   /**
    * Get prefixNumber
    * @return prefixNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_number")
@@ -378,14 +379,14 @@ public class XmlItem {
   }
 
   public XmlItem prefixInteger(Integer prefixInteger) {
-    this.prefixInteger = Optional.of(prefixInteger);
+    this.prefixInteger = Optional.ofNullable(prefixInteger);
     return this;
   }
 
   /**
    * Get prefixInteger
    * @return prefixInteger
-  */
+   */
   
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_integer")
@@ -398,14 +399,14 @@ public class XmlItem {
   }
 
   public XmlItem prefixBoolean(Boolean prefixBoolean) {
-    this.prefixBoolean = Optional.of(prefixBoolean);
+    this.prefixBoolean = Optional.ofNullable(prefixBoolean);
     return this;
   }
 
   /**
    * Get prefixBoolean
    * @return prefixBoolean
-  */
+   */
   
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_boolean")
@@ -433,7 +434,7 @@ public class XmlItem {
   /**
    * Get prefixArray
    * @return prefixArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_array")
@@ -461,7 +462,7 @@ public class XmlItem {
   /**
    * Get prefixWrappedArray
    * @return prefixWrappedArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_wrapped_array")
@@ -474,14 +475,14 @@ public class XmlItem {
   }
 
   public XmlItem namespaceString(String namespaceString) {
-    this.namespaceString = Optional.of(namespaceString);
+    this.namespaceString = Optional.ofNullable(namespaceString);
     return this;
   }
 
   /**
    * Get namespaceString
    * @return namespaceString
-  */
+   */
   
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("namespace_string")
@@ -494,14 +495,14 @@ public class XmlItem {
   }
 
   public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
-    this.namespaceNumber = Optional.of(namespaceNumber);
+    this.namespaceNumber = Optional.ofNullable(namespaceNumber);
     return this;
   }
 
   /**
    * Get namespaceNumber
    * @return namespaceNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("namespace_number")
@@ -514,14 +515,14 @@ public class XmlItem {
   }
 
   public XmlItem namespaceInteger(Integer namespaceInteger) {
-    this.namespaceInteger = Optional.of(namespaceInteger);
+    this.namespaceInteger = Optional.ofNullable(namespaceInteger);
     return this;
   }
 
   /**
    * Get namespaceInteger
    * @return namespaceInteger
-  */
+   */
   
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("namespace_integer")
@@ -534,14 +535,14 @@ public class XmlItem {
   }
 
   public XmlItem namespaceBoolean(Boolean namespaceBoolean) {
-    this.namespaceBoolean = Optional.of(namespaceBoolean);
+    this.namespaceBoolean = Optional.ofNullable(namespaceBoolean);
     return this;
   }
 
   /**
    * Get namespaceBoolean
    * @return namespaceBoolean
-  */
+   */
   
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("namespace_boolean")
@@ -569,7 +570,7 @@ public class XmlItem {
   /**
    * Get namespaceArray
    * @return namespaceArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("namespace_array")
@@ -597,7 +598,7 @@ public class XmlItem {
   /**
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("namespace_wrapped_array")
@@ -610,14 +611,14 @@ public class XmlItem {
   }
 
   public XmlItem prefixNsString(String prefixNsString) {
-    this.prefixNsString = Optional.of(prefixNsString);
+    this.prefixNsString = Optional.ofNullable(prefixNsString);
     return this;
   }
 
   /**
    * Get prefixNsString
    * @return prefixNsString
-  */
+   */
   
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_ns_string")
@@ -630,14 +631,14 @@ public class XmlItem {
   }
 
   public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
-    this.prefixNsNumber = Optional.of(prefixNsNumber);
+    this.prefixNsNumber = Optional.ofNullable(prefixNsNumber);
     return this;
   }
 
   /**
    * Get prefixNsNumber
    * @return prefixNsNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_ns_number")
@@ -650,14 +651,14 @@ public class XmlItem {
   }
 
   public XmlItem prefixNsInteger(Integer prefixNsInteger) {
-    this.prefixNsInteger = Optional.of(prefixNsInteger);
+    this.prefixNsInteger = Optional.ofNullable(prefixNsInteger);
     return this;
   }
 
   /**
    * Get prefixNsInteger
    * @return prefixNsInteger
-  */
+   */
   
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_ns_integer")
@@ -670,14 +671,14 @@ public class XmlItem {
   }
 
   public XmlItem prefixNsBoolean(Boolean prefixNsBoolean) {
-    this.prefixNsBoolean = Optional.of(prefixNsBoolean);
+    this.prefixNsBoolean = Optional.ofNullable(prefixNsBoolean);
     return this;
   }
 
   /**
    * Get prefixNsBoolean
    * @return prefixNsBoolean
-  */
+   */
   
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_ns_boolean")
@@ -705,7 +706,7 @@ public class XmlItem {
   /**
    * Get prefixNsArray
    * @return prefixNsArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_array")
@@ -733,7 +734,7 @@ public class XmlItem {
   /**
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_wrapped_array")

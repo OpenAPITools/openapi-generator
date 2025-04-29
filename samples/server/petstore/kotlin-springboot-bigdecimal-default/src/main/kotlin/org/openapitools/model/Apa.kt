@@ -42,7 +42,7 @@ data class Apa(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("gepa") val gepa: java.math.BigDecimal? = null
-) {
+    ) {
 
 }
 

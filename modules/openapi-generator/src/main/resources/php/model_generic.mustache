@@ -231,10 +231,10 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     /**
      * Constructor
      *
-     * @param mixed[] $data Associated array of property values
+     * @param mixed[]|null $data Associated array of property values
      *                      initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         {{#parentSchema}}
         parent::__construct($data);
@@ -408,6 +408,10 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         $allowedValues = $this->{{getter}}AllowableValues();
         {{^isContainer}}
         if ({{#isNullable}}!is_null(${{name}}) && {{/isNullable}}!in_array(${{{name}}}, $allowedValues, true)) {
+        {{#enumUnknownDefaultCase}}
+            ${{name}} = {{#allowableValues}}{{#enumVars}}{{#-last}}self::{{enumName}}_{{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}
+        {{/enumUnknownDefaultCase}}
+        {{^enumUnknownDefaultCase}}
             throw new \InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for '{{name}}', must be one of '%s'",
@@ -415,6 +419,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
                     implode("', '", $allowedValues)
                 )
             );
+        {{/enumUnknownDefaultCase}}
         }
         {{/isContainer}}
         {{#isContainer}}

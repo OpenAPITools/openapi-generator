@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="cultivar">cultivar.</param>
         /// <param name="origin">origin.</param>
         /// <param name="colorCode">colorCode.</param>
-        public Apple(string cultivar = default(string), string origin = default(string), string colorCode = default(string))
+        public Apple(string cultivar = default, string origin = default, string colorCode = default)
         {
             this.Cultivar = cultivar;
             this.Origin = origin;
@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             if (this.Cultivar != null) {
                 // Cultivar (string) pattern

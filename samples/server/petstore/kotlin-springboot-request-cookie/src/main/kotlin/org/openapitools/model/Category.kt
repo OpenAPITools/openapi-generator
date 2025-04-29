@@ -25,7 +25,7 @@ data class Category(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("id") val id: kotlin.Long? = null
-) {
+    ) {
 
 }
 

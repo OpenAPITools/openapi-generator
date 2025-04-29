@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,30 +48,31 @@ import org.openapitools.client.JSON;
 /**
  * QuadrilateralInterface
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class QuadrilateralInterface {
   public static final String SERIALIZED_NAME_QUADRILATERAL_TYPE = "quadrilateralType";
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
+  @javax.annotation.Nonnull
   private String quadrilateralType;
 
   public QuadrilateralInterface() {
   }
 
-  public QuadrilateralInterface quadrilateralType(String quadrilateralType) {
+  public QuadrilateralInterface quadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
     return this;
   }
 
-   /**
+  /**
    * Get quadrilateralType
    * @return quadrilateralType
-  **/
+   */
   @javax.annotation.Nonnull
   public String getQuadrilateralType() {
     return quadrilateralType;
   }
 
-  public void setQuadrilateralType(String quadrilateralType) {
+  public void setQuadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
 
@@ -175,12 +175,12 @@ public class QuadrilateralInterface {
     openapiRequiredFields.add("quadrilateralType");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to QuadrilateralInterface
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to QuadrilateralInterface
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!QuadrilateralInterface.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -272,22 +272,22 @@ public class QuadrilateralInterface {
     }
   }
 
- /**
-  * Create an instance of QuadrilateralInterface given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of QuadrilateralInterface
-  * @throws IOException if the JSON string is invalid with respect to QuadrilateralInterface
-  */
+  /**
+   * Create an instance of QuadrilateralInterface given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of QuadrilateralInterface
+   * @throws IOException if the JSON string is invalid with respect to QuadrilateralInterface
+   */
   public static QuadrilateralInterface fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, QuadrilateralInterface.class);
   }
 
- /**
-  * Convert an instance of QuadrilateralInterface to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of QuadrilateralInterface to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

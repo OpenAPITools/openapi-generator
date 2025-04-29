@@ -1,3 +1,5 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
 import java.util.LinkedHashMap;
@@ -7,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 {{#jackson}}
-import feign.okhttp.OkHttpClient;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -69,7 +70,6 @@ public class ApiClient {
     {{#jackson}}
     objectMapper = createObjectMapper();
     feignBuilder = Feign.builder()
-                .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
                 .decoder(new ApiResponseDecoder(objectMapper))
                 {{#hasOAuthMethods}}
@@ -171,7 +171,12 @@ public class ApiClient {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+    {{#failOnUnknownProperties}}
+    objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    {{/failOnUnknownProperties}}
+    {{^failOnUnknownProperties}}
     objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    {{/failOnUnknownProperties}}
     objectMapper.disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE);
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.setDateFormat(new RFC3339DateFormat());
@@ -179,6 +184,7 @@ public class ApiClient {
     objectMapper.registerModule(new JodaModule());
     {{/joda}}
     objectMapper.registerModule(new JavaTimeModule());
+    objectMapper.registerModule(new RFC3339JavaTimeModule());
     {{#openApiNullable}}
     JsonNullableModule jnm = new JsonNullableModule();
     objectMapper.registerModule(jnm);
