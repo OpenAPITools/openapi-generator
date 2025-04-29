@@ -849,7 +849,7 @@ public class ApiClient extends JavaTimeFormatter {
     return entity;
   }
 
-    /**
+  /**
    * Adds the object with the provided key to the MultiPart.
    * Based on the object type sets Content-Disposition and Content-Type.
    *
