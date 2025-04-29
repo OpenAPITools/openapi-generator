@@ -1009,14 +1009,6 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        if (openAPI.getComponents() != null && openAPI.getComponents().getSchemas() != null) {
-            // Remove duplicate oneOf
-            Map<String, Schema> schemas = new HashMap<>(openAPI.getComponents().getSchemas());
-            for (var schema : schemas.values()) {
-                ModelUtils.deduplicateOneOfSchema(schema);
-            }
-        }
-
         if (useOneOfInterfaces && openAPI.getComponents() != null) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<>(openAPI.getComponents().getSchemas());

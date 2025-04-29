@@ -922,6 +922,9 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
+        // Remove duplicate oneOf entries
+        ModelUtils.deduplicateOneOfSchema(schema);
+
         // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
 
