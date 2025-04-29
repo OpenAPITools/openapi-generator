@@ -41,7 +41,7 @@ class {{classname}}Action @Inject constructor(
 ) : WebAction {
 {{#operation}}
 
-    @{{httpMethod}}("{{actionPrefix}}{{path}}")
+    @{{httpMethod}}("{{actionPathPrefix}}{{path}}")
     @Description("{{{summary}}}"){{#hasConsumes}}
     @RequestContentType({{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
     @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
