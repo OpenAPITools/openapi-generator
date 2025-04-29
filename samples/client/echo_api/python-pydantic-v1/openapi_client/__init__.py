@@ -46,7 +46,6 @@ __all__ = [
     "TestFormObjectMultipartRequestMarker",
     "TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter",
     "TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter",
-    
 ]
 
 # import apis into sdk package

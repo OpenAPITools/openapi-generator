@@ -19,8 +19,8 @@ __all__ = [
     "ApiAttributeError",
     "ApiException",
     {{#hasHttpSignatureMethods}}"HttpSigningConfiguration",
-    {{/hasHttpSignatureMethods}}{{#models}}{{#model}}"{{classname}}",
-    {{/model}}{{/models}}
+    {{/hasHttpSignatureMethods}}{{#models}}{{#model}}"{{classname}}"{{^-last}},
+    {{/-last}}{{#-last}},{{/-last}}{{/model}}{{/models}}
 ]
 
 # import apis into sdk package
