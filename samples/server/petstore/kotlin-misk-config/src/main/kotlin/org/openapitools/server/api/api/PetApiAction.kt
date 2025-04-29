@@ -37,7 +37,7 @@ import org.openapitools.server.api.model.Pet
 class PetApiAction @Inject constructor(
 ) : WebAction {
 
-    @Post("/pet")
+    @Post("samplePrefix/pet")
     @Description("Add a new pet to the store")
     @RequestContentType(MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML)
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
@@ -47,7 +47,7 @@ class PetApiAction @Inject constructor(
         TODO()
     }
 
-    @Delete("/pet/{petId}")
+    @Delete("samplePrefix/pet/{petId}")
     @Description("Deletes a pet")
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
     fun deletePet(
@@ -56,7 +56,7 @@ class PetApiAction @Inject constructor(
         TODO()
     }
 
-    @Get("/pet/findByStatus")
+    @Get("samplePrefix/pet/findByStatus")
     @Description("Finds Pets by status")
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
@@ -65,7 +65,7 @@ class PetApiAction @Inject constructor(
         TODO()
     }
 
-    @Get("/pet/findByTags")
+    @Get("samplePrefix/pet/findByTags")
     @Description("Finds Pets by tags")
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
@@ -74,7 +74,7 @@ class PetApiAction @Inject constructor(
         TODO()
     }
 
-    @Get("/pet/{petId}")
+    @Get("samplePrefix/pet/{petId}")
     @Description("Find pet by ID")
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
@@ -83,7 +83,7 @@ class PetApiAction @Inject constructor(
         TODO()
     }
 
-    @Put("/pet")
+    @Put("samplePrefix/pet")
     @Description("Update an existing pet")
     @RequestContentType(MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML)
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
@@ -93,7 +93,7 @@ class PetApiAction @Inject constructor(
         TODO()
     }
 
-    @Post("/pet/{petId}")
+    @Post("samplePrefix/pet/{petId}")
     @Description("Updates a pet in the store with form data")
     @RequestContentType(MediaTypes.APPLICATION_FORM_URLENCODED)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
@@ -104,7 +104,7 @@ class PetApiAction @Inject constructor(
         TODO()
     }
 
-    @Post("/pet/{petId}/uploadImage")
+    @Post("samplePrefix/pet/{petId}/uploadImage")
     @Description("uploads an image")
     @RequestContentType(MediaTypes.FORM_DATA)
     @ResponseContentType(MediaTypes.APPLICATION_JSON)

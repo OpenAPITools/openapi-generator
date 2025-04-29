@@ -18,11 +18,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|actionPathPrefix|Prefix for action path| ||
+|addModelMoshiJsonAnnotation|Add a Moshi JSON adapter annotation to all model classes| |true|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |null|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
+|generateStubImplClasses|Generate Stub Impl Classes| |false|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |modelMutable|Create mutable models| |false|
 |moduleClassName|Name of the generated module class| |OpenApiModule|
@@ -273,7 +276,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Wire Format Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|JSON|✗|OAS2,OAS3
+|JSON|✓|OAS2,OAS3
 |XML|✗|OAS2,OAS3
 |PROTOBUF|✓|ToolingExtension
 |Custom|✗|OAS2,OAS3
