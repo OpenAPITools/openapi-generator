@@ -8,3 +8,4 @@ additionalProperties:
   moduleClassName: "PetStoreModule"
   generateStubImplClasses: true
   addModelMoshiJsonAnnotation: true
+  actionPrefix : "samplePrefix"

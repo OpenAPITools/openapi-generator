@@ -18,6 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|actionPrefix|Prefix for all action| | null             |
 |addModelMoshiJsonAnnotation|Add a Moshi JSON adapter annotation to all model classes| |true|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |apiSuffix|suffix for api classes| |Api|

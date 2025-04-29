@@ -36,7 +36,7 @@ import org.openapitools.server.api.model.Order
 class StoreApiAction @Inject constructor(
 ) : WebAction {
 
-    @Delete("/store/order/{orderId}")
+    @Delete("samplePrefix/store/order/{orderId}")
     @Description("Delete purchase order by ID")
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
     fun deleteOrder(
@@ -44,7 +44,7 @@ class StoreApiAction @Inject constructor(
         TODO()
     }
 
-    @Get("/store/inventory")
+    @Get("samplePrefix/store/inventory")
     @Description("Returns pet inventories by status")
     @ResponseContentType(MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
@@ -52,7 +52,7 @@ class StoreApiAction @Inject constructor(
         TODO()
     }
 
-    @Get("/store/order/{orderId}")
+    @Get("samplePrefix/store/order/{orderId}")
     @Description("Find purchase order by ID")
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
@@ -61,7 +61,7 @@ class StoreApiAction @Inject constructor(
         TODO()
     }
 
-    @Post("/store/order")
+    @Post("samplePrefix/store/order")
     @Description("Place an order for a pet")
     @RequestContentType(MediaTypes.APPLICATION_JSON)
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)

@@ -36,7 +36,7 @@ import org.openapitools.server.api.model.User
 class UserApiAction @Inject constructor(
 ) : WebAction {
 
-    @Post("/user")
+    @Post("samplePrefix/user")
     @Description("Create user")
     @RequestContentType(MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
@@ -45,7 +45,7 @@ class UserApiAction @Inject constructor(
         TODO()
     }
 
-    @Post("/user/createWithArray")
+    @Post("samplePrefix/user/createWithArray")
     @Description("Creates list of users with given input array")
     @RequestContentType(MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
@@ -54,7 +54,7 @@ class UserApiAction @Inject constructor(
         TODO()
     }
 
-    @Post("/user/createWithList")
+    @Post("samplePrefix/user/createWithList")
     @Description("Creates list of users with given input array")
     @RequestContentType(MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
@@ -63,7 +63,7 @@ class UserApiAction @Inject constructor(
         TODO()
     }
 
-    @Delete("/user/{username}")
+    @Delete("samplePrefix/user/{username}")
     @Description("Delete user")
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
     fun deleteUser(
@@ -71,7 +71,7 @@ class UserApiAction @Inject constructor(
         TODO()
     }
 
-    @Get("/user/{username}")
+    @Get("samplePrefix/user/{username}")
     @Description("Get user by user name")
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
@@ -80,7 +80,7 @@ class UserApiAction @Inject constructor(
         TODO()
     }
 
-    @Get("/user/login")
+    @Get("samplePrefix/user/login")
     @Description("Logs user into the system")
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
@@ -90,14 +90,14 @@ class UserApiAction @Inject constructor(
         TODO()
     }
 
-    @Get("/user/logout")
+    @Get("samplePrefix/user/logout")
     @Description("Logs out current logged in user session")
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
     fun logoutUser() {
         TODO()
     }
 
-    @Put("/user/{username}")
+    @Put("samplePrefix/user/{username}")
     @Description("Updated user")
     @RequestContentType(MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
