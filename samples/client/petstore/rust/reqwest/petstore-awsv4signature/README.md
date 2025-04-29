@@ -61,6 +61,7 @@ Class | Method | HTTP request | Description
  - [ArrayItemRefTest](docs/ArrayItemRefTest.md)
  - [Baz](docs/Baz.md)
  - [Category](docs/Category.md)
+ - [DuplicateOneOf](docs/DuplicateOneOf.md)
  - [DuplicateTest](docs/DuplicateTest.md)
  - [Duplicatetest](docs/Duplicatetest.md)
  - [EnumArrayTesting](docs/EnumArrayTesting.md)
@@ -80,6 +81,8 @@ Class | Method | HTTP request | Description
  - [UniqueItemArrayTesting](docs/UniqueItemArrayTesting.md)
  - [User](docs/User.md)
  - [Vehicle](docs/Vehicle.md)
+ - [WithInnerOneOf](docs/WithInnerOneOf.md)
+ - [WithInnerOneOfFoo](docs/WithInnerOneOfFoo.md)
 
 
 To get access to the crate's generated documentation, use:

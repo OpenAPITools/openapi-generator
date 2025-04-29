@@ -8,6 +8,7 @@ docs/ApiResponse.md
 docs/ArrayItemRefTest.md
 docs/Baz.md
 docs/Category.md
+docs/DuplicateOneOf.md
 docs/DuplicateTest.md
 docs/Duplicatetest.md
 docs/EnumArrayTesting.md
@@ -32,6 +33,8 @@ docs/UniqueItemArrayTesting.md
 docs/User.md
 docs/UserApi.md
 docs/Vehicle.md
+docs/WithInnerOneOf.md
+docs/WithInnerOneOfFoo.md
 git_push.sh
 src/apis/client.rs
 src/apis/configuration.rs
@@ -50,6 +53,7 @@ src/models/api_response.rs
 src/models/array_item_ref_test.rs
 src/models/baz.rs
 src/models/category.rs
+src/models/duplicate_one_of.rs
 src/models/duplicate_test.rs
 src/models/duplicatetest.rs
 src/models/enum_array_testing.rs
@@ -69,3 +73,5 @@ src/models/type_testing.rs
 src/models/unique_item_array_testing.rs
 src/models/user.rs
 src/models/vehicle.rs
+src/models/with_inner_one_of.rs
+src/models/with_inner_one_of_foo.rs

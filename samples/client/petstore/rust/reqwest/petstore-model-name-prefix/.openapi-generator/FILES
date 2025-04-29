@@ -9,6 +9,7 @@ docs/FooApiResponse.md
 docs/FooArrayItemRefTest.md
 docs/FooBaz.md
 docs/FooCategory.md
+docs/FooDuplicateOneOf.md
 docs/FooDuplicateTest.md
 docs/FooDuplicatetest.md
 docs/FooEnumArrayTesting.md
@@ -28,6 +29,8 @@ docs/FooTypeTesting.md
 docs/FooUniqueItemArrayTesting.md
 docs/FooUser.md
 docs/FooVehicle.md
+docs/FooWithInnerOneOf.md
+docs/FooWithInnerOneOfFoo.md
 docs/PetApi.md
 docs/StoreApi.md
 docs/TestingApi.md
@@ -48,6 +51,7 @@ src/models/foo_api_response.rs
 src/models/foo_array_item_ref_test.rs
 src/models/foo_baz.rs
 src/models/foo_category.rs
+src/models/foo_duplicate_one_of.rs
 src/models/foo_duplicate_test.rs
 src/models/foo_duplicatetest.rs
 src/models/foo_enum_array_testing.rs
@@ -66,4 +70,6 @@ src/models/foo_type_testing.rs
 src/models/foo_unique_item_array_testing.rs
 src/models/foo_user.rs
 src/models/foo_vehicle.rs
+src/models/foo_with_inner_one_of.rs
+src/models/foo_with_inner_one_of_foo.rs
 src/models/mod.rs
