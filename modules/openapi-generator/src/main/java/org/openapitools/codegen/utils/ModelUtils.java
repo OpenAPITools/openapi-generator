@@ -2244,6 +2244,19 @@ public class ModelUtils {
     }
 
     /**
+     * Removes duplicate `oneOf` from a given schema
+     *
+     * @param schema Schema
+     */
+    public static void deduplicateOneOfSchema(Schema<?> schema) {
+        if (schema.getOneOf() == null) {
+            return;
+        }
+        Set<Schema> deduplicated = new LinkedHashSet<>(schema.getOneOf());
+        schema.setOneOf(new ArrayList<>(deduplicated));
+    }
+
+    /**
      * Check if the schema is of type 'null' or schema itself is pointing to null
      * <p>
      * Return true if the schema's type is 'null' or not specified
