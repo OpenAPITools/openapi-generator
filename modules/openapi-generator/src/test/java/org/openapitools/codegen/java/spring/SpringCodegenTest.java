@@ -2272,7 +2272,7 @@ public class SpringCodegenTest {
                         "SchemaA.java", "public final class SchemaA extends RepresentationModel<SchemaA>  implements PostRequest {",
                         "PostRequest.java", "public sealed interface PostRequest permits SchemaA {")},
                 {"oneOf_array.yaml", Map.of(
-                        "MyExampleGet200Response.java", "public interface MyExampleGet200Response")},
+                        "MyExampleGet200Response.java", "public sealed interface MyExampleGet200Response")},
                 {"oneOf_duplicateArray.yaml", Map.of(
                         "Example.java", "public interface Example  {")},
                 {"oneOf_nonPrimitive.yaml", Map.of(
@@ -5382,5 +5382,92 @@ public class SpringCodegenTest {
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
+    }
+
+    @Test
+    public void shouldEnableBuiltInValidationOptionWhenSetToTrue() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseSpringBoot3(true);
+        codegen.setUseOptional(true);
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, true);
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BUILT_IN_VALIDATION, true);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        var file = files.get("UserApi.java");
+
+        JavaFileAssert.assertThat(file)
+                .hasNoImports("org.springframework.validation.annotation.Validated")
+                .assertTypeAnnotations()
+                .doesNotContainWithName("Validated");
+    }
+
+    @Test
+    public void shouldDisableBuiltInValidationOptionWhenSetToFalse() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseSpringBoot3(true);
+        codegen.setUseOptional(true);
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, true);
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BUILT_IN_VALIDATION, false);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        var file = files.get("UserApi.java");
+
+        JavaFileAssert.assertThat(file)
+                .hasImports("org.springframework.validation.annotation.Validated")
+                .assertTypeAnnotations()
+                .containsWithName("Validated");
+    }
+
+    @Test
+    public void shouldDisableBuiltInValidationOptionByDefault() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseSpringBoot3(true);
+        codegen.setUseOptional(true);
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, true);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        var file = files.get("UserApi.java");
+
+        JavaFileAssert.assertThat(file)
+                .hasImports("org.springframework.validation.annotation.Validated")
+                .assertTypeAnnotations()
+                .containsWithName("Validated");
+    }
+
+    @Test
+    public void testExampleAnnotationGeneration_issue17610() throws IOException {
+        final Map<String, File> generatedCodeFiles = generateFromContract("src/test/resources/3_0/spring/api-response-examples_issue17610.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(generatedCodeFiles.get("DogsApi.java"))
+                .assertMethod("createDog")
+                .assertMethodAnnotations()
+                .recursivelyContainsWithName("ExampleObject");
+    }
+
+    @Test
+    public void testExampleAnnotationGeneration_issue17610_2() throws IOException {
+        final Map<String, File> generatedCodeFiles = generateFromContract("src/test/resources/3_0/spring/petstore_with_api_response_examples.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(generatedCodeFiles.get("PetApi.java"))
+                .assertMethod("addPet")
+                .assertMethodAnnotations()
+                .recursivelyContainsWithName("ExampleObject")
+                .toMethod().toFileAssert()
+                .assertMethod("findPetsByStatus")
+                .assertMethodAnnotations()
+                .recursivelyContainsWithName("ExampleObject");
+    }
+
+    @Test
+    public void testEnumFieldShouldBeFinal_issue21018() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_21018.yaml");
+
+        JavaFileAssert.assertThat(files.get("SomeEnum.java"))
+                .fileContains("private final String value;");
+
+        JavaFileAssert.assertThat(files.get("SomeObject.java"))
+                .fileContains("private final String value");
     }
 }

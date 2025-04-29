@@ -287,7 +287,7 @@ public class CodegenConstants {
     public static final String SUPPORTS_ASYNC_DESC = "Generate code that supports async operations.";
 
     public static final String USE_VIRTUAL_FOR_HOOKS = "useVirtualForHooks";
-    public static final String USE_VIRTUAL_FOR_HOOKS_DESC = "Generate code that exposes public virtual hooks on ApiClient to customize low-level HTTP requests.";
+    public static final String USE_VIRTUAL_FOR_HOOKS_DESC = "Generate code that exposes public virtual hooks on ApiClient to customize low-level HTTP requests (only `restsharp`. `httpclient` libraries support this option).";
 
     public static final String EXCLUDE_TESTS = "excludeTests";
     public static final String EXCLUDE_TESTS_DESC = "Specifies that no tests are to be generated.";

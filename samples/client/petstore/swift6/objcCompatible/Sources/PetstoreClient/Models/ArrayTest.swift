@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class ArrayTest: NSObject, Codable, JSONEncodable {
+@objcMembers public class ArrayTest: NSObject, Codable, ParameterConvertible {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?

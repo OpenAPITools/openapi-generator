@@ -26,7 +26,7 @@ const apiInstance = new DefaultApi(configuration);
 const request: DefaultApiFilePostRequest = {
   
   filePostRequest: {
-    file: null,
+null,
   },
 };
 

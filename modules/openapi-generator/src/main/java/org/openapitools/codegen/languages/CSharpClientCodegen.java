@@ -357,6 +357,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 "Use source generation where available (only `generichost` library supports this option).",
                 this.getUseSourceGeneration());
 
+        addSwitch(CodegenConstants.USE_VIRTUAL_FOR_HOOKS,
+                CodegenConstants.USE_VIRTUAL_FOR_HOOKS_DESC,
+                this.useVirtualForHooks);
+
         supportedLibraries.put(GENERICHOST, "HttpClient, Generic Host integration, and System.Text.Json (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host)");
         supportedLibraries.put(HTTPCLIENT, "HttpClient and Newtonsoft (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
                 + "(Experimental. Subject to breaking changes without notice.)");
@@ -920,6 +924,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
                 supportingFiles.add(new SupportingFile("ConnectionException.mustache", clientPackageDir, "ConnectionException.cs"));
                 supportingFiles.add(new SupportingFile("UnexpectedResponseException.mustache", clientPackageDir, "UnexpectedResponseException.cs"));
+                supportingFiles.add(new SupportingFile("UnityWebRequestAwaiterExtension.mustache", clientPackageDir, "UnityWebRequestAwaiterExtension.cs"));
                 break;
             default: // generichost
                 addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);

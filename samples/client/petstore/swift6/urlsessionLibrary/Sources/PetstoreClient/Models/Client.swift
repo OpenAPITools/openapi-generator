@@ -12,7 +12,7 @@ public typealias Client = PetstoreClientAPI.Client
 
 extension PetstoreClientAPI {
 
-public final class Client: @unchecked Sendable, Codable, JSONEncodable, Hashable {
+public final class Client: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
 
     public private(set) var client: String?
 

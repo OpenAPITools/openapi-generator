@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Category: NSObject, Codable, JSONEncodable {
+@objcMembers public class Category: NSObject, Codable, ParameterConvertible {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {

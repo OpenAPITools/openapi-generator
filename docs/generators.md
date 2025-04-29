@@ -122,6 +122,7 @@ The following generators are available:
 * [jaxrs-resteasy-eap](generators/jaxrs-resteasy-eap.md)  
 * [jaxrs-spec](generators/jaxrs-spec.md)  
 * [julia-server (beta)](generators/julia-server.md)  
+* [kotlin-misk](generators/kotlin-misk.md)  
 * [kotlin-server](generators/kotlin-server.md)  
 * [kotlin-spring](generators/kotlin-spring.md)  
 * [kotlin-vertx (beta)](generators/kotlin-vertx.md)  

@@ -9,8 +9,8 @@ import Foundation
 import FoundationNetworking
 #endif
 
-protocol JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any
+protocol ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable
 }
 
 /// An enum where the last case value can be used as a default catch-all.

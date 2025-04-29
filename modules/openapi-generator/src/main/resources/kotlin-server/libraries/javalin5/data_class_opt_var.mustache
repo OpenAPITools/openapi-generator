@@ -1,0 +1,6 @@
+{{#description}}
+    /* {{{.}}} */
+{{/description}}
+    {{#useBeanValidation}}{{>beanValidation}}{{>beanValidationModel}}{{/useBeanValidation}}
+    @field:com.fasterxml.jackson.annotation.JsonProperty("{{{baseName}}}")
+    {{>modelMutable}} {{{name}}}: {{#isEnum}}{{{classname}}}.{{{nameInPascalCase}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}

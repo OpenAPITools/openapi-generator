@@ -65,6 +65,7 @@ import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.utils.ExamplesUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
@@ -2336,6 +2337,10 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Schema unaliasSchema(Schema schema) {
         return ModelUtils.unaliasSchema(this.openAPI, schema, schemaMapping);
+    }
+
+    private List<Map<String, Object>> unaliasExamples(Map<String, Example> examples){
+        return ExamplesUtils.unaliasExamples(this.openAPI, examples);
     }
 
     /**
@@ -4921,9 +4926,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
         r.schema = responseSchema;
         r.message = escapeText(response.getDescription());
-        // TODO need to revise and test examples in responses
-        // ApiResponse does not support examples at the moment
-        //r.examples = toExamples(response.getExamples());
+
+        // adding examples to API responses
+        Map<String, Example> examples = ExamplesUtils.getExamplesFromResponse(openAPI, response);
+
+        if (examples != null && !examples.isEmpty())
+            r.examples = unaliasExamples(examples);
+
         r.jsonSchema = Json.pretty(response);
         if (response.getExtensions() != null && !response.getExtensions().isEmpty()) {
             r.vendorExtensions.putAll(response.getExtensions());
@@ -5657,6 +5666,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected String getOrGenerateOperationId(Operation operation, String path, String httpMethod) {
         String operationId = operation.getOperationId();
+
         if (StringUtils.isBlank(operationId)) {
             String tmpPath = path;
             tmpPath = tmpPath.replaceAll("\\{", "");
@@ -5681,6 +5691,10 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.warn("Empty operationId found for path: {} {}. Renamed to auto-generated operationId: {}", httpMethod, path, operationId);
         }
 
+        if (operationIdNameMapping.containsKey(operationId)) {
+            return operationIdNameMapping.get(operationId);
+        }
+
         // remove prefix in operationId
         if (removeOperationIdPrefix) {
             // The prefix is everything before the removeOperationIdPrefixCount occurrence of removeOperationIdPrefixDelimiter
@@ -5693,13 +5707,8 @@ public class DefaultCodegen implements CodegenConfig {
                 operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(components, component_number, components.length));
             }
         }
-        operationId = removeNonNameElementToCamelCase(operationId);
 
-        if (operationIdNameMapping.containsKey(operationId)) {
-            return operationIdNameMapping.get(operationId);
-        } else {
-            return toOperationId(operationId);
-        }
+        return toOperationId(removeNonNameElementToCamelCase(operationId));
     }
 
     /**

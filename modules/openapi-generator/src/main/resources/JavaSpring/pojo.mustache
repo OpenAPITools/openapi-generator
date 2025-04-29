@@ -3,10 +3,10 @@
  * @deprecated{{/isDeprecated}}
  */
 {{>additionalModelTypeAnnotations}}
-{{#description}}
 {{#isDeprecated}}
 @Deprecated
 {{/isDeprecated}}
+{{#description}}
 {{#swagger1AnnotationLibrary}}
 @ApiModel(description = "{{{description}}}")
 {{/swagger1AnnotationLibrary}}

@@ -139,7 +139,7 @@ public class PythonClientCodegenTest {
         StringSchema schema = new StringSchema();
         schema.setDefault("Text containing 'single' quote");
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals("'Text containing \'single\' quote'", defaultValue);
+        Assert.assertEquals("'Text containing \\'single\\' quote'", defaultValue);
     }
 
     @Test(description = "test backslash default")

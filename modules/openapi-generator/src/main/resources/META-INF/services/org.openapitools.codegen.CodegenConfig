@@ -42,12 +42,6 @@ org.openapitools.codegen.languages.GoGinServerCodegen
 org.openapitools.codegen.languages.GraphQLSchemaCodegen
 org.openapitools.codegen.languages.GraphQLNodeJSExpressServerCodegen
 org.openapitools.codegen.languages.GroovyClientCodegen
-org.openapitools.codegen.languages.KotlinClientCodegen
-org.openapitools.codegen.languages.KotlinServerCodegen
-org.openapitools.codegen.languages.KotlinSpringServerCodegen
-org.openapitools.codegen.languages.KotlinVertxServerCodegen
-org.openapitools.codegen.languages.KotlinWiremockServerCodegen
-org.openapitools.codegen.languages.KtormSchemaCodegen
 org.openapitools.codegen.languages.HaskellHttpClientCodegen
 org.openapitools.codegen.languages.HaskellServantCodegen
 org.openapitools.codegen.languages.HaskellYesodServerCodegen
@@ -69,6 +63,7 @@ org.openapitools.codegen.languages.JavaCXFServerCodegen
 org.openapitools.codegen.languages.JavaCXFExtServerCodegen
 org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen
 org.openapitools.codegen.languages.JavaJerseyServerCodegen
+org.openapitools.codegen.languages.JavaMicroprofileServerCodegen
 org.openapitools.codegen.languages.JavaResteasyServerCodegen
 org.openapitools.codegen.languages.JavaResteasyEapServerCodegen
 org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen
@@ -82,11 +77,16 @@ org.openapitools.codegen.languages.JMeterClientCodegen
 org.openapitools.codegen.languages.JuliaClientCodegen
 org.openapitools.codegen.languages.JuliaServerCodegen
 org.openapitools.codegen.languages.K6ClientCodegen
+org.openapitools.codegen.languages.KotlinClientCodegen
+org.openapitools.codegen.languages.KotlinMiskServerCodegen
+org.openapitools.codegen.languages.KotlinServerCodegen
+org.openapitools.codegen.languages.KotlinSpringServerCodegen
+org.openapitools.codegen.languages.KotlinVertxServerCodegen
+org.openapitools.codegen.languages.KotlinWiremockServerCodegen
+org.openapitools.codegen.languages.KtormSchemaCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.MarkdownDocumentationCodegen
-org.openapitools.codegen.languages.JavaMicroprofileServerCodegen
 org.openapitools.codegen.languages.MysqlSchemaCodegen
-org.openapitools.codegen.languages.PostgresqlSchemaCodegen
 org.openapitools.codegen.languages.N4jsClientCodegen
 org.openapitools.codegen.languages.NimClientCodegen
 org.openapitools.codegen.languages.NodeJSExpressServerCodegen
@@ -105,6 +105,7 @@ org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpMezzioPathHandlerServerCodegen
 org.openapitools.codegen.languages.PhpDataTransferClientCodegen
 org.openapitools.codegen.languages.PhpLaravelServerCodegen
+org.openapitools.codegen.languages.PostgresqlSchemaCodegen
 org.openapitools.codegen.languages.PostmanCollectionCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
 org.openapitools.codegen.languages.ProtobufSchemaCodegen

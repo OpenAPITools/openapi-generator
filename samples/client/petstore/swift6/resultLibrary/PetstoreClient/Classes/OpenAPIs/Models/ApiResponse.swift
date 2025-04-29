@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct ApiResponse: Sendable, Codable, JSONEncodable {
+internal struct ApiResponse: Sendable, Codable, ParameterConvertible {
 
     internal private(set) var code: Int?
     internal private(set) var type: String?

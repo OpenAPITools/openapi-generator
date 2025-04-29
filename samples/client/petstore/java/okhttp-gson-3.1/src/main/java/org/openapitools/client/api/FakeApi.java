@@ -681,7 +681,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call op3Call(List<CodesEnum> queryEnum, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call op3Call(@javax.annotation.Nonnull List<CodesEnum> queryEnum, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -729,7 +729,7 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call op3ValidateBeforeCall(List<CodesEnum> queryEnum, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call op3ValidateBeforeCall(@javax.annotation.Nonnull List<CodesEnum> queryEnum, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'queryEnum' is set
         if (queryEnum == null) {
             throw new ApiException("Missing the required parameter 'queryEnum' when calling op3(Async)");
@@ -751,7 +751,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public void op3(List<CodesEnum> queryEnum) throws ApiException {
+    public void op3(@javax.annotation.Nonnull List<CodesEnum> queryEnum) throws ApiException {
         op3WithHttpInfo(queryEnum);
     }
 
@@ -768,7 +768,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> op3WithHttpInfo(List<CodesEnum> queryEnum) throws ApiException {
+    public ApiResponse<Void> op3WithHttpInfo(@javax.annotation.Nonnull List<CodesEnum> queryEnum) throws ApiException {
         okhttp3.Call localVarCall = op3ValidateBeforeCall(queryEnum, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -787,7 +787,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call op3Async(List<CodesEnum> queryEnum, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call op3Async(@javax.annotation.Nonnull List<CodesEnum> queryEnum, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = op3ValidateBeforeCall(queryEnum, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -806,7 +806,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call refToRefParameterCall(UUID refToUuid, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call refToRefParameterCall(@javax.annotation.Nonnull UUID refToUuid, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -856,7 +856,7 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call refToRefParameterValidateBeforeCall(UUID refToUuid, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call refToRefParameterValidateBeforeCall(@javax.annotation.Nonnull UUID refToUuid, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'refToUuid' is set
         if (refToUuid == null) {
             throw new ApiException("Missing the required parameter 'refToUuid' when calling refToRefParameter(Async)");
@@ -879,7 +879,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
-    public String refToRefParameter(UUID refToUuid) throws ApiException {
+    public String refToRefParameter(@javax.annotation.Nonnull UUID refToUuid) throws ApiException {
         ApiResponse<String> localVarResp = refToRefParameterWithHttpInfo(refToUuid);
         return localVarResp.getData();
     }
@@ -897,7 +897,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> refToRefParameterWithHttpInfo(UUID refToUuid) throws ApiException {
+    public ApiResponse<String> refToRefParameterWithHttpInfo(@javax.annotation.Nonnull UUID refToUuid) throws ApiException {
         okhttp3.Call localVarCall = refToRefParameterValidateBeforeCall(refToUuid, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -917,7 +917,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> required to pass validation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call refToRefParameterAsync(UUID refToUuid, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call refToRefParameterAsync(@javax.annotation.Nonnull UUID refToUuid, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = refToRefParameterValidateBeforeCall(refToUuid, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -937,7 +937,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call refToRefParameterAnyofCall(RefToRefParameterAnyofRefToAnyofParameter refToAnyof, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call refToRefParameterAnyofCall(@javax.annotation.Nonnull RefToRefParameterAnyofRefToAnyofParameter refToAnyof, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -986,7 +986,7 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call refToRefParameterAnyofValidateBeforeCall(RefToRefParameterAnyofRefToAnyofParameter refToAnyof, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call refToRefParameterAnyofValidateBeforeCall(@javax.annotation.Nonnull RefToRefParameterAnyofRefToAnyofParameter refToAnyof, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'refToAnyof' is set
         if (refToAnyof == null) {
             throw new ApiException("Missing the required parameter 'refToAnyof' when calling refToRefParameterAnyof(Async)");
@@ -1008,7 +1008,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public void refToRefParameterAnyof(RefToRefParameterAnyofRefToAnyofParameter refToAnyof) throws ApiException {
+    public void refToRefParameterAnyof(@javax.annotation.Nonnull RefToRefParameterAnyofRefToAnyofParameter refToAnyof) throws ApiException {
         refToRefParameterAnyofWithHttpInfo(refToAnyof);
     }
 
@@ -1025,7 +1025,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> refToRefParameterAnyofWithHttpInfo(RefToRefParameterAnyofRefToAnyofParameter refToAnyof) throws ApiException {
+    public ApiResponse<Void> refToRefParameterAnyofWithHttpInfo(@javax.annotation.Nonnull RefToRefParameterAnyofRefToAnyofParameter refToAnyof) throws ApiException {
         okhttp3.Call localVarCall = refToRefParameterAnyofValidateBeforeCall(refToAnyof, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -1044,7 +1044,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call refToRefParameterAnyofAsync(RefToRefParameterAnyofRefToAnyofParameter refToAnyof, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call refToRefParameterAnyofAsync(@javax.annotation.Nonnull RefToRefParameterAnyofRefToAnyofParameter refToAnyof, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = refToRefParameterAnyofValidateBeforeCall(refToAnyof, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -1063,7 +1063,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call refToRefParameterOneofCall(RefRefToPathLevelParameterOneofRefToOneofParameter refToOneof, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call refToRefParameterOneofCall(@javax.annotation.Nonnull RefRefToPathLevelParameterOneofRefToOneofParameter refToOneof, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1112,7 +1112,7 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call refToRefParameterOneofValidateBeforeCall(RefRefToPathLevelParameterOneofRefToOneofParameter refToOneof, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call refToRefParameterOneofValidateBeforeCall(@javax.annotation.Nonnull RefRefToPathLevelParameterOneofRefToOneofParameter refToOneof, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'refToOneof' is set
         if (refToOneof == null) {
             throw new ApiException("Missing the required parameter 'refToOneof' when calling refToRefParameterOneof(Async)");
@@ -1134,7 +1134,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public void refToRefParameterOneof(RefRefToPathLevelParameterOneofRefToOneofParameter refToOneof) throws ApiException {
+    public void refToRefParameterOneof(@javax.annotation.Nonnull RefRefToPathLevelParameterOneofRefToOneofParameter refToOneof) throws ApiException {
         refToRefParameterOneofWithHttpInfo(refToOneof);
     }
 
@@ -1151,7 +1151,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> refToRefParameterOneofWithHttpInfo(RefRefToPathLevelParameterOneofRefToOneofParameter refToOneof) throws ApiException {
+    public ApiResponse<Void> refToRefParameterOneofWithHttpInfo(@javax.annotation.Nonnull RefRefToPathLevelParameterOneofRefToOneofParameter refToOneof) throws ApiException {
         okhttp3.Call localVarCall = refToRefParameterOneofValidateBeforeCall(refToOneof, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -1170,7 +1170,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call refToRefParameterOneofAsync(RefRefToPathLevelParameterOneofRefToOneofParameter refToOneof, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call refToRefParameterOneofAsync(@javax.annotation.Nonnull RefRefToPathLevelParameterOneofRefToOneofParameter refToOneof, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = refToRefParameterOneofValidateBeforeCall(refToOneof, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);

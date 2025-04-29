@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  description: No examples in annotation example API
+  title: No examples in annotation example API
+  version: 1.0.0
+servers:
+- url: https://localhost:8080
+paths:
+  /dogs:
+    post:
+      operationId: createDog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dog'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dog'
+          description: OK
+        "400":
+          content:
+            application/json:
+              examples:
+                dog name length:
+                  $ref: '#/components/examples/DogNameBiggerThan50Error'
+                dog name contains numbers:
+                  $ref: '#/components/examples/DogNameContainsNumbersError'
+                dog age negative:
+                  $ref: '#/components/examples/DogAgeNegativeError'
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Bad Request
+      summary: Create a dog
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+components:
+  examples:
+    DogNameBiggerThan50Error:
+      value:
+        code: 400
+        message: name size must be between 0 and 50
+    DogNameContainsNumbersError:
+      value:
+        code: 400
+        message: Name must contain only letters
+    DogAgeNegativeError:
+      value:
+        code: 400
+        message: age must be greater than or equal to 0
+  schemas:
+    Dog:
+      example:
+        name: Rex
+        age: 5
+      properties:
+        name:
+          example: Rex
+          maxLength: 50
+          pattern: "^[a-zA-Z]+$"
+          type: string
+          x-pattern-message: Name must contain only letters
+        age:
+          example: 5
+          format: int32
+          minimum: 0
+          type: integer
+      type: object
+    Error:
+      example:
+        code: 0
+        message: message
+      properties:
+        code:
+          format: int32
+          type: integer
+        message:
+          type: string
+      type: object

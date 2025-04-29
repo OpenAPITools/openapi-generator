@@ -143,3 +143,8 @@
   image: "img/companies/clickit.jpg"
   infoLink: "https://www.clickittech.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
   bronze: true
+-
+  caption: "Unified.to"
+  image: "img/companies/unified_to.jpg"
+  infoLink: "https://unified.to/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true

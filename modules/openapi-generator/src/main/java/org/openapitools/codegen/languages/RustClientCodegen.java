@@ -539,6 +539,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public String modelFilename(String templateName, String modelName) {
+        String suffix = modelTemplateFiles().get(templateName);
+        return modelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
+    }
+
+    @Override
     public String apiDocFileFolder() {
         return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
     }
@@ -605,9 +611,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             additionalProperties.put("serdeWith", true);
         }
 
+        // Add a field for checking if a field is with optional or required in templates.
+        // This is useful in Mustache templates as it's not possible to do OR logic between variables.
+        property.vendorExtensions.put("isMandatory", !property.isNullable && property.required);
+
         // If a property is a base64-encoded byte array, use `serde_with` for deserialization.
         if (property.isByteArray) {
             additionalProperties.put("serdeWith", true);
+            // If a byte array is both nullable and not required we need to include our own
+            // custom double option as serde_as does not work with serde_with's double_option.
+            if (property.isNullable && !property.required) {
+                additionalProperties.put("serdeAsDoubleOption", true);
+            }
         }
     }
 

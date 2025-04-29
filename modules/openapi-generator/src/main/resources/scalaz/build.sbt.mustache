@@ -1,4 +1,4 @@
-scalaVersion  := "2.11.8"
+scalaVersion  := "2.11.12"
 
 val http4sVersion = "0.15.12a"
 val scalazVersion = "7.2.12"

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class HeaderApi {
     private ApiClient apiClient;
 
@@ -56,7 +58,7 @@ public class HeaderApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testHeaderIntegerBooleanStringEnumsRequestCreation(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader) throws RestClientResponseException {
+    private ResponseSpec testHeaderIntegerBooleanStringEnumsRequestCreation(@jakarta.annotation.Nullable Integer integerHeader, @jakarta.annotation.Nullable Boolean booleanHeader, @jakarta.annotation.Nullable String stringHeader, @jakarta.annotation.Nullable String enumNonrefStringHeader, @jakarta.annotation.Nullable StringEnumRef enumRefStringHeader) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -102,7 +104,7 @@ public class HeaderApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testHeaderIntegerBooleanStringEnums(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader) throws RestClientResponseException {
+    public String testHeaderIntegerBooleanStringEnums(@jakarta.annotation.Nullable Integer integerHeader, @jakarta.annotation.Nullable Boolean booleanHeader, @jakarta.annotation.Nullable String stringHeader, @jakarta.annotation.Nullable String enumNonrefStringHeader, @jakarta.annotation.Nullable StringEnumRef enumRefStringHeader) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testHeaderIntegerBooleanStringEnumsRequestCreation(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader).body(localVarReturnType);
     }
@@ -119,7 +121,7 @@ public class HeaderApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader) throws RestClientResponseException {
+    public ResponseEntity<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(@jakarta.annotation.Nullable Integer integerHeader, @jakarta.annotation.Nullable Boolean booleanHeader, @jakarta.annotation.Nullable String stringHeader, @jakarta.annotation.Nullable String enumNonrefStringHeader, @jakarta.annotation.Nullable StringEnumRef enumRefStringHeader) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testHeaderIntegerBooleanStringEnumsRequestCreation(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader).toEntity(localVarReturnType);
     }
@@ -136,7 +138,7 @@ public class HeaderApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testHeaderIntegerBooleanStringEnumsWithResponseSpec(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader) throws RestClientResponseException {
+    public ResponseSpec testHeaderIntegerBooleanStringEnumsWithResponseSpec(@jakarta.annotation.Nullable Integer integerHeader, @jakarta.annotation.Nullable Boolean booleanHeader, @jakarta.annotation.Nullable String stringHeader, @jakarta.annotation.Nullable String enumNonrefStringHeader, @jakarta.annotation.Nullable StringEnumRef enumRefStringHeader) throws RestClientResponseException {
         return testHeaderIntegerBooleanStringEnumsRequestCreation(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
     }
 }

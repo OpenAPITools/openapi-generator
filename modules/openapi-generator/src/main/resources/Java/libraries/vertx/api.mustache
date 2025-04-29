@@ -5,6 +5,10 @@ import {{invokerPackage}}.ApiClient;
 {{/imports}}
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
+{{#supportVertxFuture}}
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
+{{/supportVertxFuture}}
 import io.vertx.core.json.JsonObject;
 
 import java.util.*;
@@ -16,13 +20,35 @@ public interface {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
+    void {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
 
+    {{#supportVertxFuture}}
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
+    default Future<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){
+        Promise<{{{returnType}}}{{^returnType}}Void{{/returnType}}> promise = Promise.promise();
+        {{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}promise);
+        return promise.future();
+    }
 
+    {{/supportVertxFuture}}
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
+    void {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
+
+    {{#supportVertxFuture}}
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
+    default Future<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo){
+        Promise<{{{returnType}}}{{^returnType}}Void{{/returnType}}> promise = Promise.promise();
+        {{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}authInfo, promise);
+        return promise.future();
+    }
+
+    {{/supportVertxFuture}}
     {{/operation}}
     {{/operations}}
 }

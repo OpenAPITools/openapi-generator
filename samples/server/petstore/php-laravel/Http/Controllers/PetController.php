@@ -70,6 +70,7 @@ class PetController extends Controller
             $apiResult = $this->api->addPet($pet);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -122,6 +123,7 @@ class PetController extends Controller
             $apiResult = $this->api->deletePet($petId, $apiKey);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -170,6 +172,7 @@ class PetController extends Controller
             $apiResult = $this->api->findPetsByStatus($status);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -220,6 +223,7 @@ class PetController extends Controller
             $apiResult = $this->api->findPetsByTags($tags);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -268,6 +272,7 @@ class PetController extends Controller
             $apiResult = $this->api->getPetById($petId);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -316,6 +321,7 @@ class PetController extends Controller
             $apiResult = $this->api->updatePet($pet);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -381,6 +387,7 @@ class PetController extends Controller
             $apiResult = $this->api->updatePetWithForm($petId, $name, $status);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -438,6 +445,7 @@ class PetController extends Controller
             $apiResult = $this->api->uploadFile($petId, $additionalMetadata, $file);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -492,6 +500,7 @@ class PetController extends Controller
             $apiResult = $this->api->uploadFileWithRequiredFile($petId, $requiredFile, $additionalMetadata);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 

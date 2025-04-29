@@ -2327,6 +2327,20 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void operationIdNameMapping() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.operationIdNameMapping.put("edge case !@# 123", "fix_edge_case");
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/type-alias.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenOperation codegenOperation = codegen.fromOperation("/type-alias", "get", openAPI.getPaths().get("/type-alias").getGet(), null);
+        Assertions.assertEquals(codegenOperation.operationId, "fix_edge_case");
+        Assertions.assertEquals(codegen.getOrGenerateOperationId(openAPI.getPaths().get("/type-alias").getGet(), "/type-alias", "get"), "fix_edge_case");
+    }
+
+    @Test
     public void modelWithPrefixDoNotContainInheritedVars() {
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.supportsInheritance = true;
