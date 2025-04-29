@@ -1009,7 +1009,7 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        if (openAPI.getComponents() != null) {
+        if (openAPI.getComponents() != null && openAPI.getComponents().getSchemas() != null) {
             // Remove duplicate oneOf
             Map<String, Schema> schemas = new HashMap<>(openAPI.getComponents().getSchemas());
             for (var schema : schemas.values()) {
