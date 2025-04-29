@@ -16,6 +16,8 @@ use serde::{Deserialize, Serialize};
 pub enum Fruit {
     #[serde(rename="green_apple")]
     GreenApple(Box<models::Apple>),
+    #[serde(rename="red_apple")]
+    RedApple(Box<models::Apple>),
     #[serde(rename="banana")]
     Banana(Box<models::Banana>),
 }
