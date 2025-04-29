@@ -157,7 +157,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * -- SETTER --
      * Set whether discriminator value lookup is case-sensitive or not.
      *
-     * @param discriminatorCaseSensitive true if the discriminator value lookup should be case-sensitive.
      */
     @Setter protected boolean discriminatorCaseSensitive = true;
     @Getter @Setter
