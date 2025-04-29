@@ -166,12 +166,12 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         if (additionalProperties.containsKey(MODULE_CLASS_NAME)) {
             setModuleClassName((String) additionalProperties.get(MODULE_CLASS_NAME));
         }
-        additionalProperties.put(MODULE_CLASS_NAME, moduleClassName);
+        writePropertyBack(MODULE_CLASS_NAME, moduleClassName);
 
         if (additionalProperties.containsKey(ACTION_PATH_PREFIX)) {
             setActionPathPrefix((String) additionalProperties.get(ACTION_PATH_PREFIX));
         }
-        additionalProperties.put(ACTION_PATH_PREFIX, actionPathPrefix);
+        writePropertyBack(ACTION_PATH_PREFIX, actionPathPrefix);
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));

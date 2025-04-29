@@ -54,8 +54,9 @@ public class KotlinMiskServerCodegenOptionsProvider implements OptionsProvider {
                 ADDITIONAL_MODEL_TYPE_ANNOTATIONS_VALUE)
             .put(KotlinMiskServerCodegen.MODULE_CLASS_NAME, MODULE_CLASS_NAME)
             .put(BeanValidationFeatures.USE_BEANVALIDATION, USE_BEAN_VALIDATION)
-            .put(KotlinMiskServerCodegen.GENERATE_STUB_IMPL_CLASSES, GENERATE_STUB_IMPL_CLASSES)
             .put(KotlinMiskServerCodegen.ACTION_PATH_PREFIX, ACTION_PATH_PREFIX)
+            .put(KotlinMiskServerCodegen.ADD_MODEL_MOSHI_JSON_ANNOTATION, ADD_MODEL_MOSHI_JSON_ANNOTATION)
+            .put(KotlinMiskServerCodegen.GENERATE_STUB_IMPL_CLASSES, GENERATE_STUB_IMPL_CLASSES)
             .build();
     }
 
