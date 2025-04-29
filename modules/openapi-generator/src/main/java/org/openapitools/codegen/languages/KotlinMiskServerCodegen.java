@@ -50,7 +50,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);
 
     public static final String MODULE_CLASS_NAME = "moduleClassName";
-    public static final String ACTION_PREFIX = "actionPrefix";
+    public static final String ACTION_PATH_PREFIX = "actionPathPrefix";
 
     private static final String ROOT_PACKAGE = "rootPackage";
     public static final String GENERATE_STUB_IMPL_CLASSES = "generateStubImplClasses";
@@ -68,7 +68,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     protected String apiVersion = "1.0.0-SNAPSHOT";
 
     @Setter protected String moduleClassName = "OpenApiModule";
-    @Setter protected String actionPrefix = "";
+    @Setter protected String actionPathPrefix = "";
 
     @Override
     public CodegenType getTag() {
@@ -121,7 +121,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         outputFolder = "generated-code" + File.separator + "kotlin-misk";
 
         addOption(MODULE_CLASS_NAME, "Name of the generated module class", moduleClassName);
-        addOption(ACTION_PREFIX, "Prefix for all action", actionPrefix);
+        addOption(ACTION_PATH_PREFIX, "Prefix for action path", actionPathPrefix);
 
         apiTestTemplateFiles.clear();
         apiTestTemplateFiles.put("api_test.mustache", ".kt");
@@ -168,10 +168,10 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         }
         additionalProperties.put(MODULE_CLASS_NAME, moduleClassName);
 
-        if (additionalProperties.containsKey(ACTION_PREFIX)) {
-            setActionPrefix((String) additionalProperties.get(ACTION_PREFIX));
+        if (additionalProperties.containsKey(ACTION_PATH_PREFIX)) {
+            setActionPathPrefix((String) additionalProperties.get(ACTION_PATH_PREFIX));
         }
-        additionalProperties.put(ACTION_PREFIX, actionPrefix);
+        additionalProperties.put(ACTION_PATH_PREFIX, actionPathPrefix);
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
