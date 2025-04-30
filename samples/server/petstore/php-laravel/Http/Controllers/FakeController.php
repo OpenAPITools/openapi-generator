@@ -68,6 +68,7 @@ class FakeController extends Controller
             $apiResult = $this->api->fakeBigDecimalMap();
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -106,6 +107,7 @@ class FakeController extends Controller
             $apiResult = $this->api->fakeHealthGet();
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -150,6 +152,7 @@ class FakeController extends Controller
             $apiResult = $this->api->fakeHttpSignatureTest($pet, $query1, $header1);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -190,6 +193,7 @@ class FakeController extends Controller
             $apiResult = $this->api->fakeOuterBooleanSerialize($body);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -230,6 +234,7 @@ class FakeController extends Controller
             $apiResult = $this->api->fakeOuterCompositeSerialize($outerComposite);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -270,6 +275,7 @@ class FakeController extends Controller
             $apiResult = $this->api->fakeOuterNumberSerialize($body);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -310,6 +316,7 @@ class FakeController extends Controller
             $apiResult = $this->api->fakeOuterStringSerialize($body);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -350,6 +357,7 @@ class FakeController extends Controller
             $apiResult = $this->api->fakePropertyEnumIntegerSerialize($outerObjectWithEnumProperty);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -390,6 +398,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testAdditionalPropertiesReference($requestBody);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -430,6 +439,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testBodyWithBinary($body);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -470,6 +480,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testBodyWithFileSchema($fileSchemaTestClass);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -512,6 +523,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testBodyWithQueryParams($query, $user);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -552,6 +564,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testClientModel($client);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -672,6 +685,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testEndpointParameters($number, $double, $patternWithoutDelimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $dateTime, $password, $callback);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -754,6 +768,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testEnumParameters($enumHeaderStringArray, $enumHeaderString, $enumQueryStringArray, $enumQueryString, $enumQueryInteger, $enumQueryDouble, $enumQueryModelArray, $enumFormStringArray, $enumFormString);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -829,6 +844,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testGroupParameters($requiredStringGroup, $requiredBooleanGroup, $requiredInt64Group, $stringGroup, $booleanGroup, $int64Group);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -869,6 +885,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testInlineAdditionalProperties($requestBody);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -909,6 +926,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testInlineFreeformAdditionalProperties($testInlineFreeformAdditionalPropertiesRequest);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -959,6 +977,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testJsonFormData($param, $param2);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -999,6 +1018,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testNullable($childWithNullable);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -1077,6 +1097,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context, $allowEmpty, $language);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -1117,6 +1138,7 @@ class FakeController extends Controller
             $apiResult = $this->api->testStringMapReference($requestBody);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 

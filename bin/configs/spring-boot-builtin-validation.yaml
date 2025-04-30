@@ -1,0 +1,13 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-builtin-validation
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  documentationProvider: springfox
+  useSwaggerUI: false
+  java8: true
+  useBeanValidation: true
+  useSpringBuiltInValidation: true
+  artifactId: spring-boot-builtin-validation
+  hideGenerationTimestamp: "true"

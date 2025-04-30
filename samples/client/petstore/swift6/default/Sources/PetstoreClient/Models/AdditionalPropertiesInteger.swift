@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AdditionalPropertiesInteger: Sendable, Codable, JSONEncodable, Hashable {
+public struct AdditionalPropertiesInteger: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var name: String?
 

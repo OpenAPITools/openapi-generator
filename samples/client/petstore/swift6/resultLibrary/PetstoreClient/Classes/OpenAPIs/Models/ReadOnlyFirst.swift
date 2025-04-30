@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct ReadOnlyFirst: Sendable, Codable, JSONEncodable {
+internal struct ReadOnlyFirst: Sendable, Codable, ParameterConvertible {
 
     internal private(set) var bar: String?
     internal private(set) var baz: String?

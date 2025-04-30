@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ArrayOfArrayOfNumberOnly: Sendable, Codable, JSONEncodable, Hashable {
+public struct ArrayOfArrayOfNumberOnly: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var arrayArrayNumber: [[Double]]?
 

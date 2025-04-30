@@ -119,8 +119,7 @@ namespace Org.OpenAPITools.Model
                             color = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "declawed":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                declawed = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            declawed = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         default:
                             break;

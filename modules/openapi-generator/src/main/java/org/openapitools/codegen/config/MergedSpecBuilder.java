@@ -25,10 +25,21 @@ public class MergedSpecBuilder {
 
     private final String inputSpecRootDirectory;
     private final String mergeFileName;
+    private final String mergedFileInfoName;
+    private final String mergedFileInfoDescription;
+    private final String mergedFileInfoVersion;
 
     public MergedSpecBuilder(final String rootDirectory, final String mergeFileName) {
+        this(rootDirectory, mergeFileName, "merged spec", "merged spec", "1.0.0");
+    }
+
+    public MergedSpecBuilder(final String rootDirectory, final String mergeFileName,
+                             final String mergedFileInfoName, final String mergedFileInfoDescription, final String mergedFileInfoVersion) {
         this.inputSpecRootDirectory = rootDirectory;
         this.mergeFileName = mergeFileName;
+        this.mergedFileInfoName = mergedFileInfoName;
+        this.mergedFileInfoDescription = mergedFileInfoDescription;
+        this.mergedFileInfoVersion = mergedFileInfoVersion;
     }
 
     public String buildMergedSpec() {
@@ -80,8 +91,8 @@ public class MergedSpecBuilder {
         return mergedFilePath.toString();
     }
 
-    private static Map<String, Object> generatedMergedSpec(String openapiVersion, List<SpecWithPaths> allPaths) {
-        Map<String, Object> spec = generateHeader(openapiVersion);
+    private Map<String, Object> generatedMergedSpec(String openapiVersion, List<SpecWithPaths> allPaths) {
+        Map<String, Object> spec = generateHeader(openapiVersion, mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion);
         Map<String, Object> paths = new HashMap<>();
         spec.put("paths", paths);
 
@@ -97,13 +108,13 @@ public class MergedSpecBuilder {
         return spec;
     }
 
-    private static Map<String, Object> generateHeader(String openapiVersion) {
+    private static Map<String, Object> generateHeader(String openapiVersion, String title, String description, String version) {
         Map<String, Object> map = new HashMap<>();
         map.put("openapi", openapiVersion);
         map.put("info", ImmutableMap.of(
-                "title", "merged spec",
-                "description", "merged spec",
-                "version", "1.0.0"
+                "title", title,
+                "description", description,
+                "version", version
         ));
         map.put("servers", Collections.singleton(
                 ImmutableMap.of("url", "http://localhost:8080")

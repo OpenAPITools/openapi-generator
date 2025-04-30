@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct HasOnlyReadOnly: Sendable, Codable, JSONEncodable, Hashable {
+public struct HasOnlyReadOnly: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var bar: String?
     public var foo: String?

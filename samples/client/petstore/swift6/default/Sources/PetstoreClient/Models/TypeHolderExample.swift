@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct TypeHolderExample: Sendable, Codable, JSONEncodable, Hashable {
+public struct TypeHolderExample: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var stringItem: String
     public var numberItem: Double

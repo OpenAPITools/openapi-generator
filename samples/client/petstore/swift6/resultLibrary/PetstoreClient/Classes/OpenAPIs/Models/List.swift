@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct List: Sendable, Codable, JSONEncodable {
+internal struct List: Sendable, Codable, ParameterConvertible {
 
     internal private(set) var _123list: String?
 

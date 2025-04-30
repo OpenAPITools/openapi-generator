@@ -83,7 +83,7 @@ class PetApiController() {
         value = ["/pet/findByStatus"],
         produces = ["application/xml", "application/json"]
     )
-    fun findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByStatus( @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -101,7 +101,7 @@ class PetApiController() {
         value = ["/pet/findByTags"],
         produces = ["application/xml", "application/json"]
     )
-    fun findPetsByTags(@NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByTags( @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -158,7 +158,7 @@ class PetApiController() {
         value = ["/pet/{petId}"],
         consumes = ["application/x-www-form-urlencoded"]
     )
-    fun updatePetWithForm(@Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Updated name of the pet") @RequestParam(value = "name", required = false) name: kotlin.String? ,@Parameter(description = "Updated status of the pet") @RequestParam(value = "status", required = false) status: kotlin.String? ): ResponseEntity<Unit> {
+    fun updatePetWithForm(@Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String? ,@Parameter(description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) status: kotlin.String? ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -176,7 +176,7 @@ class PetApiController() {
         produces = ["application/json"],
         consumes = ["multipart/form-data"]
     )
-    fun uploadFile(@Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? ,@Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile?): ResponseEntity<ModelApiResponse> {
+    fun uploadFile(@Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? ,@Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile?): ResponseEntity<ModelApiResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

@@ -10,8 +10,8 @@ import java.util.*;
 
 public interface FakeClassnameTags123Api {
 
-    void testClassname(Client client, Handler<AsyncResult<Client>> handler);
+    void testClassname(@javax.annotation.Nonnull Client client, Handler<AsyncResult<Client>> handler);
 
-    void testClassname(Client client, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> handler);
+    void testClassname(@javax.annotation.Nonnull Client client, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> handler);
 
 }
