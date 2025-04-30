@@ -134,7 +134,7 @@ public class EnumTest   {
     }
 
     @JsonValue
-    public String getValue() {
+    public Integer getValue() {
       return value;
     }
 
