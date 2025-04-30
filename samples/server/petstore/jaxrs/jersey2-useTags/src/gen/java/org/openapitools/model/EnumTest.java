@@ -139,7 +139,7 @@ public class EnumTest   {
     }
 
     @Override
-    public Integer toString() {
+    public String toString() {
       return String.valueOf(value);
     }
 
