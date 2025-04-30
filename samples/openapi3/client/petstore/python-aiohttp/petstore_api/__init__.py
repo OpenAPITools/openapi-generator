@@ -144,7 +144,6 @@ __all__ = [
     "UploadFileWithAdditionalPropertiesRequestObject",
     "User",
     "WithNestedOneOf",
-    
 ]
 
 # import apis into sdk package
