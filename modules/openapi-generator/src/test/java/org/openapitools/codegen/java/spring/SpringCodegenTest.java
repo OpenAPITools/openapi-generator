@@ -5385,6 +5385,37 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void givenMultipartForm_whenGenerateUsingOptional_thenParameterAreCreatedAsOptional() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_9530.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_OPTIONAL, "true");
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
+                "@Valid @RequestParam(value = \"additionalMetadata\", required = false) Optional<String> additionalMetadata",
+                "@Valid @RequestParam(value = \"length\", required = true) Integer length");
+    }
+
+    @Test
     public void shouldEnableBuiltInValidationOptionWhenSetToTrue() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setUseSpringBoot3(true);
