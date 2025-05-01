@@ -90,6 +90,11 @@ class Pet(BaseModel):
         if not isinstance(obj, dict):
             return Pet.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in Pet) in the input: " + obj)
+
         _obj = Pet.parse_obj({
             "id": obj.get("id"),
             "category": Category.from_dict(obj.get("category")) if obj.get("category") is not None else None,
