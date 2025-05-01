@@ -6,5 +6,4 @@ templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   artifactId: petstore-okhttp-gson-group-parameter
   hideGenerationTimestamp: "true"
-  disallowAdditionalPropertiesIfNotPresent: false
   useSingleRequestParameter: true
