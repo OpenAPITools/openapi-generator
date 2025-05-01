@@ -65,7 +65,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/adyen.png" width="128" height="128">](https://adyen.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/fornex.png" width="128" height="128">](https://fornex.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/alloyautomation.png" width="128" height="128">](https://runalloy.com/signup?utm_source=github&utm_medium=referral&utm_campaign=1524_openapigenerator)
-[<img src="https://openapi-generator.tech/img/companies/ssstwitter.png" width="128" height="128">](https://ssstwitter.com/?utm_source=github&utm_medium=referral&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/ssstwitter.png" width="128" height="128">](https://thetoolx.com/?utm_source=github&utm_medium=referral&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/svix.png" width="128" height="128">](https://www.svix.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img src="https://openapi-generator.tech/img/companies/litslink.png" width="128" height="128">](https://litslink.com/services/artificial-intelligence?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img src="https://openapi-generator.tech/img/companies/designli.jpg" width="128" height="128">](https://designli.co?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
