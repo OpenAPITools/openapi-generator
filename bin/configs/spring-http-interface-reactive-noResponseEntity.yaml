@@ -16,4 +16,4 @@ additionalProperties:
   useBeanValidation: "true"
   performBeanValidation: "true"
   useResponseEntity: "false"
-
+  disallowAdditionalPropertiesIfNotPresent: true
