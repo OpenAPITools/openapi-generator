@@ -9,3 +9,4 @@ additionalProperties:
   setCompareNetObjects: "true"
   hideGenerationTimestamp: "true"
   equatable: true
+  disallowAdditionalPropertiesIfNotPresent: true

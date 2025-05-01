@@ -14,6 +14,7 @@ additionalProperties:
   projectUri: https://github.com/OpenAPITools/openapi-generator
   releaseNotes: 'This is a sample project'
   tags: 'PetStore,powershell,sdk'
+  disallowAdditionalPropertiesIfNotPresent: true
 nameMappings:
   name_mapping: SomethingElse
 modelNameMappings:

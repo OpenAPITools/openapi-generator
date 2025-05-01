@@ -7,3 +7,4 @@ additionalProperties:
   artifactId: petstore-webclient
   hideGenerationTimestamp: "true"
   containerDefaultToNull: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

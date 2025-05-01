@@ -9,3 +9,4 @@ additionalProperties:
   supportStreaming: true
   serializableModel: true
   enumPropertyNaming: legacy
+  disallowAdditionalPropertiesIfNotPresent: true

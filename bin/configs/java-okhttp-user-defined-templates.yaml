@@ -5,6 +5,7 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: true
 files:
   README.mustache:
     destinationFilename: info.md

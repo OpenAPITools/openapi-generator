@@ -11,3 +11,4 @@ additionalProperties:
   useSpringBuiltInValidation: true
   artifactId: spring-boot-builtin-validation
   hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

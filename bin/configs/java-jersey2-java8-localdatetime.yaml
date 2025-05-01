@@ -9,3 +9,4 @@ additionalProperties:
   dateLibrary: java8-localdatetime
   java8: true
   delegatePattern: true
+  disallowAdditionalPropertiesIfNotPresent: true

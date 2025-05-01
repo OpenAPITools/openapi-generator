@@ -9,3 +9,4 @@ additionalProperties:
   artifactId: springboot-spring-pageable-delegatePattern
   hideGenerationTimestamp: 'true'
   implicitHeadersRegex: ^Version.*
+  disallowAdditionalPropertiesIfNotPresent: true

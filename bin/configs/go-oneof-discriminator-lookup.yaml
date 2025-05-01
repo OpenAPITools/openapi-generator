@@ -4,3 +4,4 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/go/spec-with-oneof-d
 additionalProperties:
   useOneOfDiscriminatorLookup: "true"
   hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

@@ -5,3 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/go
 additionalProperties:
   packageName: petstore
   generateInterfaces: true
+  disallowAdditionalPropertiesIfNotPresent: true

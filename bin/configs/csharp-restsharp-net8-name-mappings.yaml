@@ -18,3 +18,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   targetFramework: net8.0
   equatable: true
+  disallowAdditionalPropertiesIfNotPresent: true

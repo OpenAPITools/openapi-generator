@@ -5,3 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/powershell
 additionalProperties:
   hideGenerationTimestamp: "true"
   packageGuid: a27b908d-2a20-467f-bc32-af6f3a654ac5
+  disallowAdditionalPropertiesIfNotPresent: true

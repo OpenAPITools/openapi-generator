@@ -10,3 +10,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   delegatePattern: "true"
   useResponseEntity: "false"
+  disallowAdditionalPropertiesIfNotPresent: true

@@ -10,3 +10,4 @@ additionalProperties:
   containerDefaultToNull: true
   generateConstructorWithAllArgs: true
   generateBuilders: true
+  disallowAdditionalPropertiesIfNotPresent: true

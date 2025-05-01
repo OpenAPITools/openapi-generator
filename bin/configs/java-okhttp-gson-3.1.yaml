@@ -14,7 +14,6 @@ additionalProperties:
   artifactId: petstore-okhttp-gson-31
   hideGenerationTimestamp: "true"
   useOneOfDiscriminatorLookup: "true"
-  disallowAdditionalPropertiesIfNotPresent: false
   enumPropertyNaming: legacy
 openapiNormalizer:
   FIX_DUPLICATED_OPERATIONID: true

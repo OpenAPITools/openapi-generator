@@ -5,5 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/go
 additionalProperties:
   enumClassPrefix: "true"
   packageName: petstore
-  disallowAdditionalPropertiesIfNotPresent: false
   generateMarshalJSON: false
