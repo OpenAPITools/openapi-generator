@@ -12,3 +12,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   generatedConstructorWithRequiredArgs: "false"
   useTags: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

@@ -7,4 +7,3 @@ additionalProperties:
   artifactId: nullable-required-okhttp-gson
   hideGenerationTimestamp: "true"
   useOneOfDiscriminatorLookup: "true"
-  disallowAdditionalPropertiesIfNotPresent: false
