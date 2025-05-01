@@ -63,6 +63,11 @@ class InnerDictWithProperty(BaseModel):
         if not isinstance(obj, dict):
             return InnerDictWithProperty.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in InnerDictWithProperty) in the input: " + obj)
+
         _obj = InnerDictWithProperty.parse_obj({
             "a_property": obj.get("aProperty")
         })

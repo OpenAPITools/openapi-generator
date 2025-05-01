@@ -98,6 +98,11 @@ class DefaultValue(BaseModel):
         if not isinstance(obj, dict):
             return DefaultValue.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in DefaultValue) in the input: " + obj)
+
         _obj = DefaultValue.parse_obj({
             "array_string_enum_ref_default": obj.get("array_string_enum_ref_default"),
             "array_string_enum_default": obj.get("array_string_enum_default"),

@@ -65,6 +65,11 @@ class OuterComposite(BaseModel):
         if not isinstance(obj, dict):
             return OuterComposite.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in OuterComposite) in the input: " + obj)
+
         _obj = OuterComposite.parse_obj({
             "my_number": obj.get("my_number"),
             "my_string": obj.get("my_string"),

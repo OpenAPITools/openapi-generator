@@ -66,6 +66,11 @@ class NumberPropertiesOnly(BaseModel):
         if not isinstance(obj, dict):
             return NumberPropertiesOnly.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in NumberPropertiesOnly) in the input: " + obj)
+
         _obj = NumberPropertiesOnly.parse_obj({
             "number": obj.get("number"),
             "float": obj.get("float"),

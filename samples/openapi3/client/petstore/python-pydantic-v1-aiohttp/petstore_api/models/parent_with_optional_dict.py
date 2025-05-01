@@ -71,6 +71,11 @@ class ParentWithOptionalDict(BaseModel):
         if not isinstance(obj, dict):
             return ParentWithOptionalDict.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in ParentWithOptionalDict) in the input: " + obj)
+
         _obj = ParentWithOptionalDict.parse_obj({
             "optional_dict": dict(
                 (_k, InnerDictWithProperty.from_dict(_v))

@@ -79,6 +79,11 @@ class ObjectToTestAdditionalProperties(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in ObjectToTestAdditionalProperties) in the input: " + _key)
+
         _obj = cls.model_validate({
             "property": obj.get("property") if obj.get("property") is not None else False
         })

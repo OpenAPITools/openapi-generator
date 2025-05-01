@@ -67,6 +67,11 @@ class DummyModel(BaseModel):
         if not isinstance(obj, dict):
             return DummyModel.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in DummyModel) in the input: " + obj)
+
         _obj = DummyModel.parse_obj({
             "category": obj.get("category"),
             "self_ref": SelfReferenceModel.from_dict(obj.get("self_ref")) if obj.get("self_ref") is not None else None

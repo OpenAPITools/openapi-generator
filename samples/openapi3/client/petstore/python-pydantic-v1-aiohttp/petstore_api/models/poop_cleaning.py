@@ -79,6 +79,11 @@ class PoopCleaning(BaseModel):
         if not isinstance(obj, dict):
             return PoopCleaning.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in PoopCleaning) in the input: " + obj)
+
         _obj = PoopCleaning.parse_obj({
             "task_name": obj.get("task_name"),
             "function_name": obj.get("function_name"),

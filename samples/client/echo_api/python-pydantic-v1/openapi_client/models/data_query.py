@@ -67,6 +67,11 @@ class DataQuery(Query):
         if not isinstance(obj, dict):
             return DataQuery.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in DataQuery) in the input: " + obj)
+
         _obj = DataQuery.parse_obj({
             "id": obj.get("id"),
             "outcomes": obj.get("outcomes"),

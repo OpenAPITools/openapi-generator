@@ -63,6 +63,11 @@ class TestObjectForMultipartRequestsRequestMarker(BaseModel):
         if not isinstance(obj, dict):
             return TestObjectForMultipartRequestsRequestMarker.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in TestObjectForMultipartRequestsRequestMarker) in the input: " + obj)
+
         _obj = TestObjectForMultipartRequestsRequestMarker.parse_obj({
             "name": obj.get("name")
         })

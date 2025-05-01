@@ -76,6 +76,11 @@ class MapTest(BaseModel):
         if not isinstance(obj, dict):
             return MapTest.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in MapTest) in the input: " + obj)
+
         _obj = MapTest.parse_obj({
             "map_map_of_string": obj.get("map_map_of_string"),
             "map_of_enum_string": obj.get("map_of_enum_string"),

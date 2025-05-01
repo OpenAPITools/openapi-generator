@@ -79,6 +79,11 @@ class SpecialName(BaseModel):
         if not isinstance(obj, dict):
             return SpecialName.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in SpecialName) in the input: " + obj)
+
         _obj = SpecialName.parse_obj({
             "var_property": obj.get("property"),
             "var_async": Category.from_dict(obj.get("async")) if obj.get("async") is not None else None,

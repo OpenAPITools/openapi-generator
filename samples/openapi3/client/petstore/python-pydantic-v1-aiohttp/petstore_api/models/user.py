@@ -70,6 +70,11 @@ class User(BaseModel):
         if not isinstance(obj, dict):
             return User.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in User) in the input: " + obj)
+
         _obj = User.parse_obj({
             "id": obj.get("id"),
             "username": obj.get("username"),

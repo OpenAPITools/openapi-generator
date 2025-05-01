@@ -119,6 +119,11 @@ class FormatTest(BaseModel):
         if not isinstance(obj, dict):
             return FormatTest.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in FormatTest) in the input: " + obj)
+
         _obj = FormatTest.parse_obj({
             "integer": obj.get("integer"),
             "int32": obj.get("int32"),

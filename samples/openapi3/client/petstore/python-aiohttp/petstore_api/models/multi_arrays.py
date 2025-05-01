@@ -96,6 +96,11 @@ class MultiArrays(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in MultiArrays) in the input: " + _key)
+
         _obj = cls.model_validate({
             "tags": [Tag.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,
             "files": [File.from_dict(_item) for _item in obj["files"]] if obj.get("files") is not None else None

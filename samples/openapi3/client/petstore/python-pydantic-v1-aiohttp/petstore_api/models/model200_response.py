@@ -64,6 +64,11 @@ class Model200Response(BaseModel):
         if not isinstance(obj, dict):
             return Model200Response.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in Model200Response) in the input: " + obj)
+
         _obj = Model200Response.parse_obj({
             "name": obj.get("name"),
             "var_class": obj.get("class")

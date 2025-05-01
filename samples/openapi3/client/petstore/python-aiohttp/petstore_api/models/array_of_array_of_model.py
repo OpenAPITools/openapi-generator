@@ -89,6 +89,11 @@ class ArrayOfArrayOfModel(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in ArrayOfArrayOfModel) in the input: " + _key)
+
         _obj = cls.model_validate({
             "another_property": [
                     [Tag.from_dict(_inner_item) for _inner_item in _item]

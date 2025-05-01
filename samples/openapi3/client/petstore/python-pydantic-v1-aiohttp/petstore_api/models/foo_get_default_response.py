@@ -67,6 +67,11 @@ class FooGetDefaultResponse(BaseModel):
         if not isinstance(obj, dict):
             return FooGetDefaultResponse.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in FooGetDefaultResponse) in the input: " + obj)
+
         _obj = FooGetDefaultResponse.parse_obj({
             "string": Foo.from_dict(obj.get("string")) if obj.get("string") is not None else None
         })

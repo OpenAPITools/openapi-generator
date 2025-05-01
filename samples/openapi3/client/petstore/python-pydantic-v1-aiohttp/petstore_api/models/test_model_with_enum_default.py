@@ -79,6 +79,11 @@ class TestModelWithEnumDefault(BaseModel):
         if not isinstance(obj, dict):
             return TestModelWithEnumDefault.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in TestModelWithEnumDefault) in the input: " + obj)
+
         _obj = TestModelWithEnumDefault.parse_obj({
             "test_enum": obj.get("test_enum"),
             "test_string": obj.get("test_string"),
