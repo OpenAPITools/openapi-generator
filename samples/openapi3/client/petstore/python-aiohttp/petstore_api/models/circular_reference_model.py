@@ -83,6 +83,11 @@ class CircularReferenceModel(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in CircularReferenceModel) in the input: " + _key)
+
         _obj = cls.model_validate({
             "size": obj.get("size"),
             "nested": FirstRef.from_dict(obj["nested"]) if obj.get("nested") is not None else None

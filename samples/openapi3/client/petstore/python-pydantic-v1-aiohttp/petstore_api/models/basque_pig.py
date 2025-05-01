@@ -64,6 +64,11 @@ class BasquePig(BaseModel):
         if not isinstance(obj, dict):
             return BasquePig.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in BasquePig) in the input: " + obj)
+
         _obj = BasquePig.parse_obj({
             "class_name": obj.get("className"),
             "color": obj.get("color")
