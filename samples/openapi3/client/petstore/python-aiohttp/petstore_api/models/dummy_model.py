@@ -83,6 +83,11 @@ class DummyModel(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in DummyModel) in the input: " + _key)
+
         _obj = cls.model_validate({
             "category": obj.get("category"),
             "self_ref": SelfReferenceModel.from_dict(obj["self_ref"]) if obj.get("self_ref") is not None else None

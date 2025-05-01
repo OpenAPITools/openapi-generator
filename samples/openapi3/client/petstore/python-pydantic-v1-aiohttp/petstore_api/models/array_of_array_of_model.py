@@ -73,6 +73,11 @@ class ArrayOfArrayOfModel(BaseModel):
         if not isinstance(obj, dict):
             return ArrayOfArrayOfModel.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in ArrayOfArrayOfModel) in the input: " + obj)
+
         _obj = ArrayOfArrayOfModel.parse_obj({
             "another_property": [
                     [Tag.from_dict(_inner_item) for _inner_item in _item]

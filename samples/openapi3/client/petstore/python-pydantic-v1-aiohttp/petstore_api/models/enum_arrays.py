@@ -85,6 +85,11 @@ class EnumArrays(BaseModel):
         if not isinstance(obj, dict):
             return EnumArrays.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in EnumArrays) in the input: " + obj)
+
         _obj = EnumArrays.parse_obj({
             "just_symbol": obj.get("just_symbol"),
             "array_enum": obj.get("array_enum")
