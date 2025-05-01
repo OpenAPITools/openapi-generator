@@ -1,6 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing'
-import { HttpClientModule, HttpClient } from '@angular/common/http'
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
+import { HttpClientModule } from '@angular/common/http'
 import {
   ApiModule,
   Configuration,
@@ -13,8 +12,6 @@ import {
 } from '@swagger/typescript-angular-petstore'
 import { fakePetstoreBackendProviders } from './fakeBackend'
 import { switchMap } from 'rxjs/operators'
-import { AppComponent } from '../app/app.component'
-import { DefaultService } from '@swagger/typescript-angular-deepobject'
 
 describe('API (functionality)', () => {
   const getUser: () => User = () => {
@@ -144,28 +141,5 @@ describe('API (functionality)', () => {
         result => { expect(result.status).toEqual(200) }
       )
     }))
-  })
-})
-
-
-describe('DeepObject Query Param testing', () => {
-  let httpClient: HttpClient
-  let httpTestingController: HttpTestingController
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ]
-    })
-
-    // Inject the http service and test controller for each test
-    httpClient = TestBed.inject(HttpClient)
-    httpTestingController = TestBed.inject(HttpTestingController)
-  })
-  
-  it('should generate the deepObject query with the correct parameters', () => {
-    const carService = TestBed.inject(DefaultService)
-    carService.getCars({ make: 'bmw', model: '319' }).subscribe()
-    const req = httpTestingController.expectOne('http://localhost/car?filter%5Bmake%5D=bmw&filter%5Bmodel%5D=319')
-    expect(req.request.method).toEqual('GET')
   })
 })

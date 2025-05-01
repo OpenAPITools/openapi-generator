@@ -12,5 +12,8 @@ index.ts
 model/car.ts
 model/carFilter.ts
 model/models.ts
+ng-package.json
+package.json
 param.ts
+tsconfig.json
 variables.ts
