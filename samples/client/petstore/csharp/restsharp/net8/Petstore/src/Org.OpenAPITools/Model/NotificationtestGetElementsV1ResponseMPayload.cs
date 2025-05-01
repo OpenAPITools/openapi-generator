@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NotificationtestGetElementsV1ResponseMPayload" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected NotificationtestGetElementsV1ResponseMPayload() { }
+        protected NotificationtestGetElementsV1ResponseMPayload()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="NotificationtestGetElementsV1ResponseMPayload" /> class.
         /// </summary>
@@ -51,6 +54,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("aObjVariableobject is a required property for NotificationtestGetElementsV1ResponseMPayload and cannot be null");
             }
             this.AObjVariableobject = aObjVariableobject;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -66,6 +70,12 @@ namespace Org.OpenAPITools.Model
         public List<Dictionary<string, Object>> AObjVariableobject { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -75,6 +85,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class NotificationtestGetElementsV1ResponseMPayload {\n");
             sb.Append("  PkiNotificationtestID: ").Append(PkiNotificationtestID).Append("\n");
             sb.Append("  AObjVariableobject: ").Append(AObjVariableobject).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -121,6 +132,10 @@ namespace Org.OpenAPITools.Model
                 if (this.AObjVariableobject != null)
                 {
                     hashCode = (hashCode * 59) + this.AObjVariableobject.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

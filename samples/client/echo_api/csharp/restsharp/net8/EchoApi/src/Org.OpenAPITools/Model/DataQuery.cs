@@ -45,6 +45,7 @@ namespace Org.OpenAPITools.Model
             this.Suffix = suffix;
             this.Text = text;
             this.Date = date;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -72,6 +73,12 @@ namespace Org.OpenAPITools.Model
         public DateTime Date { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -83,6 +90,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Suffix: ").Append(Suffix).Append("\n");
             sb.Append("  Text: ").Append(Text).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -132,7 +140,8 @@ namespace Org.OpenAPITools.Model
                     this.Date == input.Date ||
                     (this.Date != null &&
                     this.Date.Equals(input.Date))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -155,6 +164,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Date != null)
                 {
                     hashCode = (hashCode * 59) + this.Date.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

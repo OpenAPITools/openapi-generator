@@ -67,6 +67,11 @@ class SecondRef(BaseModel):
         if not isinstance(obj, dict):
             return SecondRef.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in SecondRef) in the input: " + obj)
+
         _obj = SecondRef.parse_obj({
             "category": obj.get("category"),
             "circular_ref": CircularReferenceModel.from_dict(obj.get("circular_ref")) if obj.get("circular_ref") is not None else None

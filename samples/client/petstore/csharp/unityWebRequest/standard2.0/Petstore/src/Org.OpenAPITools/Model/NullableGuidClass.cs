@@ -37,6 +37,7 @@ namespace Org.OpenAPITools.Model
         public NullableGuidClass(Guid? uuid = default)
         {
             this.Uuid = uuid;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -49,6 +50,12 @@ namespace Org.OpenAPITools.Model
         public Guid? Uuid { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -57,6 +64,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class NullableGuidClass {\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -96,7 +104,8 @@ namespace Org.OpenAPITools.Model
                     this.Uuid == input.Uuid ||
                     (this.Uuid != null &&
                     this.Uuid.Equals(input.Uuid))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -111,6 +120,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Uuid != null)
                 {
                     hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

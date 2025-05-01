@@ -56,7 +56,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected ChildCat() { }
+        protected ChildCat()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
@@ -66,6 +69,7 @@ namespace Org.OpenAPITools.Model
         {
             this.PetType = petType;
             this.Name = name;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -73,6 +77,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -85,6 +95,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  PetType: ").Append(PetType).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -132,6 +143,10 @@ namespace Org.OpenAPITools.Model
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.PetType.GetHashCode();
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

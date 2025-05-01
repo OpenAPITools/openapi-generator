@@ -37,6 +37,7 @@ namespace Org.OpenAPITools.Model
         public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default)
         {
             this.ArrayArrayNumber = arrayArrayNumber;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -44,6 +45,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "ArrayArrayNumber", EmitDefaultValue = false)]
         public List<List<decimal>> ArrayArrayNumber { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -54,6 +61,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ArrayOfArrayOfNumberOnly {\n");
             sb.Append("  ArrayArrayNumber: ").Append(ArrayArrayNumber).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -94,7 +102,8 @@ namespace Org.OpenAPITools.Model
                     this.ArrayArrayNumber != null &&
                     input.ArrayArrayNumber != null &&
                     this.ArrayArrayNumber.SequenceEqual(input.ArrayArrayNumber)
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -109,6 +118,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ArrayArrayNumber != null)
                 {
                     hashCode = (hashCode * 59) + this.ArrayArrayNumber.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

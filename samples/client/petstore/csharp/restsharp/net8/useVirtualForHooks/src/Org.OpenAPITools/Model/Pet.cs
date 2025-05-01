@@ -69,7 +69,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Pet() { }
+        protected Pet()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
@@ -97,6 +100,7 @@ namespace Org.OpenAPITools.Model
             this.Category = category;
             this.Tags = tags;
             this.Status = status;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -133,6 +137,12 @@ namespace Org.OpenAPITools.Model
         public List<Tag> Tags { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -146,6 +156,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
             sb.Append("  Tags: ").Append(Tags).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

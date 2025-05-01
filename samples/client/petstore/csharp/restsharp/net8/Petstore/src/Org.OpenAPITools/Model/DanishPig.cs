@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DanishPig" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected DanishPig() { }
+        protected DanishPig()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="DanishPig" /> class.
         /// </summary>
@@ -49,6 +52,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("className is a required property for DanishPig and cannot be null");
             }
             this.ClassName = className;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -56,6 +60,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = true)]
         public string ClassName { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -66,6 +76,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class DanishPig {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -111,6 +122,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ClassName != null)
                 {
                     hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

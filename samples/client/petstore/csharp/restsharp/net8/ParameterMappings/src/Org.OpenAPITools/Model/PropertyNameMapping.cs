@@ -44,6 +44,7 @@ namespace Org.OpenAPITools.Model
             this.UnderscoreType = underscoreType;
             this.Type = type;
             this.TypeWithUnderscore = typeWithUnderscore;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -71,6 +72,12 @@ namespace Org.OpenAPITools.Model
         public string TypeWithUnderscore { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -82,6 +89,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  UnderscoreType: ").Append(UnderscoreType).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  TypeWithUnderscore: ").Append(TypeWithUnderscore).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -136,7 +144,8 @@ namespace Org.OpenAPITools.Model
                     this.TypeWithUnderscore == input.TypeWithUnderscore ||
                     (this.TypeWithUnderscore != null &&
                     this.TypeWithUnderscore.Equals(input.TypeWithUnderscore))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -163,6 +172,10 @@ namespace Org.OpenAPITools.Model
                 if (this.TypeWithUnderscore != null)
                 {
                     hashCode = (hashCode * 59) + this.TypeWithUnderscore.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

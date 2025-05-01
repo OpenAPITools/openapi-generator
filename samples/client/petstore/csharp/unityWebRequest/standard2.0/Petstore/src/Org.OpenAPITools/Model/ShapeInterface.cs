@@ -34,7 +34,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ShapeInterface" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected ShapeInterface() { }
+        protected ShapeInterface()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeInterface" /> class.
         /// </summary>
@@ -47,6 +50,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null");
             }
             this.ShapeType = shapeType;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -54,6 +58,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = true)]
         public string ShapeType { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -64,6 +74,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ShapeInterface {\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -103,7 +114,8 @@ namespace Org.OpenAPITools.Model
                     this.ShapeType == input.ShapeType ||
                     (this.ShapeType != null &&
                     this.ShapeType.Equals(input.ShapeType))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -118,6 +130,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ShapeType != null)
                 {
                     hashCode = (hashCode * 59) + this.ShapeType.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

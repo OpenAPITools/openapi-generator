@@ -40,6 +40,7 @@ namespace Org.OpenAPITools.Model
         {
             this.Today = today;
             this.Now = now;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -56,6 +57,12 @@ namespace Org.OpenAPITools.Model
         public DateTime Now { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -65,6 +72,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class NowGet200Response {\n");
             sb.Append("  Today: ").Append(Today).Append("\n");
             sb.Append("  Now: ").Append(Now).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

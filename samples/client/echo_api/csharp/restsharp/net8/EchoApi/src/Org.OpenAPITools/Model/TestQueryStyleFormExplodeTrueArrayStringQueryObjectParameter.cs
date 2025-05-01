@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(List<string> values = default)
         {
             this.Values = values;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -46,6 +47,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "values", EmitDefaultValue = false)]
         public List<string> Values { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,6 +63,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {\n");
             sb.Append("  Values: ").Append(Values).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -96,7 +104,8 @@ namespace Org.OpenAPITools.Model
                     this.Values != null &&
                     input.Values != null &&
                     this.Values.SequenceEqual(input.Values)
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -111,6 +120,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Values != null)
                 {
                     hashCode = (hashCode * 59) + this.Values.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

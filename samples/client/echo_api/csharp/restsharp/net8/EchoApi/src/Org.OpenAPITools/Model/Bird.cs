@@ -41,6 +41,7 @@ namespace Org.OpenAPITools.Model
         {
             this.Size = size;
             this.Color = color;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -56,6 +57,12 @@ namespace Org.OpenAPITools.Model
         public string Color { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -65,6 +72,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Bird {\n");
             sb.Append("  Size: ").Append(Size).Append("\n");
             sb.Append("  Color: ").Append(Color).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -109,7 +117,8 @@ namespace Org.OpenAPITools.Model
                     this.Color == input.Color ||
                     (this.Color != null &&
                     this.Color.Equals(input.Color))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -128,6 +137,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Color != null)
                 {
                     hashCode = (hashCode * 59) + this.Color.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

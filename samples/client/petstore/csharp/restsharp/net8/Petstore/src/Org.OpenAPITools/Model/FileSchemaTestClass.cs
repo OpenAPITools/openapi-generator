@@ -41,6 +41,7 @@ namespace Org.OpenAPITools.Model
         {
             this.File = file;
             this.Files = files;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -56,6 +57,12 @@ namespace Org.OpenAPITools.Model
         public List<File> Files { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -65,6 +72,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class FileSchemaTestClass {\n");
             sb.Append("  File: ").Append(File).Append("\n");
             sb.Append("  Files: ").Append(Files).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -114,6 +122,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Files != null)
                 {
                     hashCode = (hashCode * 59) + this.Files.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

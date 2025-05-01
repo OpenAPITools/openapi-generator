@@ -85,6 +85,7 @@ namespace Org.OpenAPITools.Model
         {
             this.JustSymbol = justSymbol;
             this.ArrayEnum = arrayEnum;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -92,6 +93,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "array_enum", EmitDefaultValue = false)]
         public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,6 +110,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class EnumArrays {\n");
             sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
             sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -149,6 +157,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ArrayEnum != null)
                 {
                     hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

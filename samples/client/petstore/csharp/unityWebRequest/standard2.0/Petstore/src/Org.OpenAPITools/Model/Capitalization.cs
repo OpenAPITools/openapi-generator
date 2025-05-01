@@ -47,6 +47,7 @@ namespace Org.OpenAPITools.Model
             this.CapitalSnake = capitalSnake;
             this.SCAETHFlowPoints = sCAETHFlowPoints;
             this.ATT_NAME = aTTNAME;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -87,6 +88,12 @@ namespace Org.OpenAPITools.Model
         public string ATT_NAME { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -100,6 +107,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  CapitalSnake: ").Append(CapitalSnake).Append("\n");
             sb.Append("  SCAETHFlowPoints: ").Append(SCAETHFlowPoints).Append("\n");
             sb.Append("  ATT_NAME: ").Append(ATT_NAME).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -164,7 +172,8 @@ namespace Org.OpenAPITools.Model
                     this.ATT_NAME == input.ATT_NAME ||
                     (this.ATT_NAME != null &&
                     this.ATT_NAME.Equals(input.ATT_NAME))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -199,6 +208,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ATT_NAME != null)
                 {
                     hashCode = (hashCode * 59) + this.ATT_NAME.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

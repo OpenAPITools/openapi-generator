@@ -43,6 +43,7 @@ namespace Org.OpenAPITools.Model
             this.MyNumber = myNumber;
             this.MyString = myString;
             this.MyBoolean = myBoolean;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -64,6 +65,12 @@ namespace Org.OpenAPITools.Model
         public bool MyBoolean { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -74,6 +81,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  MyNumber: ").Append(MyNumber).Append("\n");
             sb.Append("  MyString: ").Append(MyString).Append("\n");
             sb.Append("  MyBoolean: ").Append(MyBoolean).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -122,6 +130,10 @@ namespace Org.OpenAPITools.Model
                     hashCode = (hashCode * 59) + this.MyString.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

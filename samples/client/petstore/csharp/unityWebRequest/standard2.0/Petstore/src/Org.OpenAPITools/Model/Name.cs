@@ -34,7 +34,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Name() { }
+        protected Name()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
@@ -44,6 +47,7 @@ namespace Org.OpenAPITools.Model
         {
             this.VarName = varName;
             this.Property = property;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -87,6 +91,12 @@ namespace Org.OpenAPITools.Model
             return false;
         }
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -98,6 +108,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
             sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  Var123Number: ").Append(Var123Number).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -149,7 +160,8 @@ namespace Org.OpenAPITools.Model
                 (
                     this.Var123Number == input.Var123Number ||
                     this.Var123Number.Equals(input.Var123Number)
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -168,6 +180,10 @@ namespace Org.OpenAPITools.Model
                     hashCode = (hashCode * 59) + this.Property.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.Var123Number.GetHashCode();
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

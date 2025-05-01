@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         public TestCollectionEndingWithWordList(string value = default)
         {
             this.Value = value;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -46,6 +47,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "value", EmitDefaultValue = false)]
         public string Value { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,6 +63,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestCollectionEndingWithWordList {\n");
             sb.Append("  Value: ").Append(Value).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -101,6 +109,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Value != null)
                 {
                     hashCode = (hashCode * 59) + this.Value.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

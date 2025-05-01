@@ -43,6 +43,7 @@ namespace Org.OpenAPITools.Model
             this.Code = code;
             this.Type = type;
             this.Message = message;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -64,6 +65,12 @@ namespace Org.OpenAPITools.Model
         public string Message { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -74,6 +81,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -124,6 +132,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Message != null)
                 {
                     hashCode = (hashCode * 59) + this.Message.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

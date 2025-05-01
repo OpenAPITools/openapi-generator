@@ -53,6 +53,7 @@ namespace Org.OpenAPITools.Model
             this.Password = password;
             this.Phone = phone;
             this.UserStatus = userStatus;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -105,6 +106,12 @@ namespace Org.OpenAPITools.Model
         public int UserStatus { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -120,6 +127,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  Phone: ").Append(Phone).Append("\n");
             sb.Append("  UserStatus: ").Append(UserStatus).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -188,6 +196,10 @@ namespace Org.OpenAPITools.Model
                     hashCode = (hashCode * 59) + this.Phone.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

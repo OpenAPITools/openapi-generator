@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="SimpleQuadrilateral" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected SimpleQuadrilateral() { }
+        protected SimpleQuadrilateral()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleQuadrilateral" /> class.
         /// </summary>
@@ -56,6 +59,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("quadrilateralType is a required property for SimpleQuadrilateral and cannot be null");
             }
             this.QuadrilateralType = quadrilateralType;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -71,6 +75,12 @@ namespace Org.OpenAPITools.Model
         public string QuadrilateralType { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -80,6 +90,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class SimpleQuadrilateral {\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -129,6 +140,10 @@ namespace Org.OpenAPITools.Model
                 if (this.QuadrilateralType != null)
                 {
                     hashCode = (hashCode * 59) + this.QuadrilateralType.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

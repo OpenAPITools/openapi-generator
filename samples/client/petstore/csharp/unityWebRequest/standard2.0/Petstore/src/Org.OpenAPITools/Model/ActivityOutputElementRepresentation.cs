@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         {
             this.Prop1 = prop1;
             this.Prop2 = prop2;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -54,6 +55,12 @@ namespace Org.OpenAPITools.Model
         public Object Prop2 { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -63,6 +70,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class ActivityOutputElementRepresentation {\n");
             sb.Append("  Prop1: ").Append(Prop1).Append("\n");
             sb.Append("  Prop2: ").Append(Prop2).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -107,7 +115,8 @@ namespace Org.OpenAPITools.Model
                     this.Prop2 == input.Prop2 ||
                     (this.Prop2 != null &&
                     this.Prop2.Equals(input.Prop2))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -126,6 +135,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Prop2 != null)
                 {
                     hashCode = (hashCode * 59) + this.Prop2.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

@@ -37,6 +37,7 @@ namespace Org.OpenAPITools.Model
         public ClassModel(string varClass = default)
         {
             this.Class = varClass;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -44,6 +45,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "_class", EmitDefaultValue = false)]
         public string Class { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -54,6 +61,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
             sb.Append("  Class: ").Append(Class).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -93,7 +101,8 @@ namespace Org.OpenAPITools.Model
                     this.Class == input.Class ||
                     (this.Class != null &&
                     this.Class.Equals(input.Class))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -108,6 +117,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Class != null)
                 {
                     hashCode = (hashCode * 59) + this.Class.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

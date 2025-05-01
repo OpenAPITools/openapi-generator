@@ -37,6 +37,7 @@ namespace Org.OpenAPITools.Model
         public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs = default)
         {
             this.ActivityOutputs = activityOutputs;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -44,6 +45,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "activity_outputs", EmitDefaultValue = false)]
         public Dictionary<string, List<ActivityOutputElementRepresentation>> ActivityOutputs { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -54,6 +61,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Activity {\n");
             sb.Append("  ActivityOutputs: ").Append(ActivityOutputs).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -94,7 +102,8 @@ namespace Org.OpenAPITools.Model
                     this.ActivityOutputs != null &&
                     input.ActivityOutputs != null &&
                     this.ActivityOutputs.SequenceEqual(input.ActivityOutputs)
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -109,6 +118,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ActivityOutputs != null)
                 {
                     hashCode = (hashCode * 59) + this.ActivityOutputs.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

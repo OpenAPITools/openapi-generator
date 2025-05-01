@@ -34,7 +34,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Whale" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Whale() { }
+        protected Whale()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Whale" /> class.
         /// </summary>
@@ -51,6 +54,7 @@ namespace Org.OpenAPITools.Model
             this.ClassName = className;
             this.HasBaleen = hasBaleen;
             this.HasTeeth = hasTeeth;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -72,6 +76,12 @@ namespace Org.OpenAPITools.Model
         public string ClassName { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -82,6 +92,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
             sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -129,7 +140,8 @@ namespace Org.OpenAPITools.Model
                     this.ClassName == input.ClassName ||
                     (this.ClassName != null &&
                     this.ClassName.Equals(input.ClassName))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -146,6 +158,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ClassName != null)
                 {
                     hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

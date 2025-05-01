@@ -34,7 +34,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected GrandparentAnimal() { }
+        protected GrandparentAnimal()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
@@ -47,6 +50,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
             }
             this.PetType = petType;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -54,6 +58,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = true)]
         public string PetType { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -64,6 +74,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class GrandparentAnimal {\n");
             sb.Append("  PetType: ").Append(PetType).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -103,7 +114,8 @@ namespace Org.OpenAPITools.Model
                     this.PetType == input.PetType ||
                     (this.PetType != null &&
                     this.PetType.Equals(input.PetType))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -118,6 +130,10 @@ namespace Org.OpenAPITools.Model
                 if (this.PetType != null)
                 {
                     hashCode = (hashCode * 59) + this.PetType.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

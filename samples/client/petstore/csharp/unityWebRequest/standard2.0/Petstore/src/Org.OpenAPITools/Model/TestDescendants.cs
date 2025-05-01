@@ -59,7 +59,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestDescendants" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected TestDescendants() { }
+        protected TestDescendants()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="TestDescendants" /> class.
         /// </summary>
@@ -74,6 +77,7 @@ namespace Org.OpenAPITools.Model
             }
             this.AlternativeName = alternativeName;
             this.ObjectType = objectType;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -81,6 +85,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "alternativeName", IsRequired = true, EmitDefaultValue = true)]
         public string AlternativeName { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -92,6 +102,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class TestDescendants {\n");
             sb.Append("  AlternativeName: ").Append(AlternativeName).Append("\n");
             sb.Append("  ObjectType: ").Append(ObjectType).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -135,7 +146,8 @@ namespace Org.OpenAPITools.Model
                 (
                     this.ObjectType == input.ObjectType ||
                     this.ObjectType.Equals(input.ObjectType)
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -152,6 +164,10 @@ namespace Org.OpenAPITools.Model
                     hashCode = (hashCode * 59) + this.AlternativeName.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.ObjectType.GetHashCode();
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

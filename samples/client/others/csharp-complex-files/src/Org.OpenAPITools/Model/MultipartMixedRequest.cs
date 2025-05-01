@@ -42,7 +42,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MultipartMixedRequest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected MultipartMixedRequest() { }
+        protected MultipartMixedRequest()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="MultipartMixedRequest" /> class.
         /// </summary>
@@ -61,6 +64,7 @@ namespace Org.OpenAPITools.Model
             this.File = file;
             this.Marker = marker;
             this.StatusArray = statusArray;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -83,6 +87,12 @@ namespace Org.OpenAPITools.Model
         public List<MultipartMixedStatus> StatusArray { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -94,6 +104,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Marker: ").Append(Marker).Append("\n");
             sb.Append("  File: ").Append(File).Append("\n");
             sb.Append("  StatusArray: ").Append(StatusArray).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -148,6 +159,10 @@ namespace Org.OpenAPITools.Model
                 if (this.StatusArray != null)
                 {
                     hashCode = (hashCode * 59) + this.StatusArray.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

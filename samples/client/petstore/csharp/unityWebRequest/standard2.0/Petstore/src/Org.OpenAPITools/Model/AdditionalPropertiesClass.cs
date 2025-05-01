@@ -51,6 +51,7 @@ namespace Org.OpenAPITools.Model
             this.MapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
             this.EmptyMap = emptyMap;
             this.MapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -103,6 +104,12 @@ namespace Org.OpenAPITools.Model
         public Dictionary<string, string> MapWithUndeclaredPropertiesString { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -118,6 +125,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  MapWithUndeclaredPropertiesAnytype3: ").Append(MapWithUndeclaredPropertiesAnytype3).Append("\n");
             sb.Append("  EmptyMap: ").Append(EmptyMap).Append("\n");
             sb.Append("  MapWithUndeclaredPropertiesString: ").Append(MapWithUndeclaredPropertiesString).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -196,7 +204,8 @@ namespace Org.OpenAPITools.Model
                     this.MapWithUndeclaredPropertiesString != null &&
                     input.MapWithUndeclaredPropertiesString != null &&
                     this.MapWithUndeclaredPropertiesString.SequenceEqual(input.MapWithUndeclaredPropertiesString)
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -239,6 +248,10 @@ namespace Org.OpenAPITools.Model
                 if (this.MapWithUndeclaredPropertiesString != null)
                 {
                     hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesString.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
