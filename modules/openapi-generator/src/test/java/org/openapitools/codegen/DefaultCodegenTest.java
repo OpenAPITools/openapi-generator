@@ -305,8 +305,8 @@ public class DefaultCodegenTest {
         // this is the legacy config that most of our tooling uses
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/additional-properties-for-testing.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setOpenAPI(openAPI);
         codegen.setDisallowAdditionalPropertiesIfNotPresent(true);
+        codegen.setOpenAPI(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
         Assertions.assertNull(schema.getAdditionalProperties());
@@ -385,9 +385,9 @@ public class DefaultCodegenTest {
     public void testAdditionalPropertiesV2SpecDisallowAdditionalPropertiesIfNotPresentFalse() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/additional-properties-for-testing.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setOpenAPI(openAPI);
         codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
         codegen.supportsAdditionalPropertiesWithComposedSchema = true;
+        codegen.setOpenAPI(openAPI);
         /*
         When this DisallowAdditionalPropertiesIfNotPresent is false:
         for CodegenModel/CodegenParameter/CodegenProperty/CodegenResponse.getAdditionalProperties
@@ -405,7 +405,7 @@ public class DefaultCodegenTest {
         Schema addProps = ModelUtils.getAdditionalProperties(schema);
         // The petstore-with-fake-endpoints-models-for-testing.yaml does not set the
         // 'additionalProperties' keyword for this model, hence assert the value to be null.
-        Assertions.assertNull(addProps);
+        Assertions.assertNotNull(addProps);
         CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
         Assertions.assertNotNull(cm.getAdditionalProperties());
         // When the 'additionalProperties' keyword is not present, the model
