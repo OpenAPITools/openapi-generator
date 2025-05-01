@@ -6,11 +6,11 @@ import {{akkaImportGroupId}}.http.scaladsl.server.Route
 {{/operations}}{{/apis}}{{/apiInfo}}
 import {{akkaImportGroupId}}.http.scaladsl.server.Directives._
 import {{akkaImportGroupId}}.actor.ActorSystem
-import {{akkaImportGroupId}}.stream.ActorMaterializer
+import {{akkaImportGroupId}}.stream.Materializer
 
-class Controller({{#apiInfo}}{{#apis}}{{#operations}}{{classVarName}}: {{classname}}{{^-last}}, {{/-last}}{{/operations}}{{/apis}}{{/apiInfo}})(implicit system: ActorSystem, materializer: ActorMaterializer) {
+class Controller({{#apiInfo}}{{#apis}}{{#operations}}{{classVarName}}: {{classname}}{{^-last}}, {{/-last}}{{/operations}}{{/apis}}{{/apiInfo}})(implicit system: ActorSystem, materializer: Materializer) {
 
     lazy val routes: Route = {{#apiInfo}}{{#apis}}{{#operations}}{{classVarName}}.route {{^-last}}~ {{/-last}}{{/operations}}{{/apis}}{{/apiInfo}}
 
-    Http().bindAndHandle(routes, "0.0.0.0", 9000)
+    Http().newServerAt("0.0.0.0", 9000).bind(routes)
 }

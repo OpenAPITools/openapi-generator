@@ -8,6 +8,8 @@ docs/ApiResponse.md
 docs/ArrayItemRefTest.md
 docs/Baz.md
 docs/Category.md
+docs/DuplicateTest.md
+docs/Duplicatetest.md
 docs/EnumArrayTesting.md
 docs/FakeApi.md
 docs/NullableArray.md
@@ -22,6 +24,7 @@ docs/Ref.md
 docs/Return.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestAllOfWithMultiMetadataOnly.md
 docs/TestingApi.md
 docs/TestsDiscriminatorDuplicateEnumsGet200Response.md
 docs/TypeTesting.md
@@ -47,6 +50,8 @@ src/models/api_response.rs
 src/models/array_item_ref_test.rs
 src/models/baz.rs
 src/models/category.rs
+src/models/duplicate_test.rs
+src/models/duplicatetest.rs
 src/models/enum_array_testing.rs
 src/models/mod.rs
 src/models/model_ref.rs
@@ -59,6 +64,7 @@ src/models/person.rs
 src/models/pet.rs
 src/models/property_test.rs
 src/models/tag.rs
+src/models/test_all_of_with_multi_metadata_only.rs
 src/models/type_testing.rs
 src/models/unique_item_array_testing.rs
 src/models/user.rs

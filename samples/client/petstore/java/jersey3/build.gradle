@@ -129,7 +129,6 @@ dependencies {
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     implementation "jakarta.validation:jakarta.validation-api:$bean_validation_version"
     implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
-
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 }

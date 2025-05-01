@@ -1337,6 +1337,29 @@ paths:
       responses:
         200:
           description: The instance started successfully
+  /fake/all-of-with-local-single-ref:
+    get:
+      tags:
+        - fake
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Foo"
+  /fake/all-of-with-remote-single-ref:
+    get:
+      tags:
+        - fake
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllOfWithSingleRef"
 servers:
   - url: "http://{server}.swagger.io:{port}/v2"
     description: petstore server

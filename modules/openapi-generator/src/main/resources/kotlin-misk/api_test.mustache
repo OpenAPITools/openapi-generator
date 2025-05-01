@@ -16,7 +16,7 @@ import misk.web.RequestHeader
 @MiskTest(startService = true)
 internal class {{classname}}Test {
 
-    @Inject private lateinit var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
+    @Inject private lateinit var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}Action
 
     {{#operations}}
     {{#operation}}

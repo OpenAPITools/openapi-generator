@@ -76,11 +76,11 @@ import kotlinx.serialization.encoding.*
                 {{#formParams}}
                 {{#isArray}}
                 {{{paramName}}}?.onEach {
-                    append("{{{baseName}}}[]", it)
+                    {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{{baseName}}}", it){{/isFile}}
                 }
                 {{/isArray}}
                 {{^isArray}}
-                {{{paramName}}}?.apply { append("{{{baseName}}}", {{^isEnumOrRef}}{{{paramName}}}{{/isEnumOrRef}}{{#isEnumOrRef}}{{{paramName}}}.value{{/isEnumOrRef}}) }
+                {{{paramName}}}?.apply { {{#isFile}}append({{{baseName}}}){{/isFile}}{{^isFile}}append("{{{baseName}}}", {{^isEnumOrRef}}{{{paramName}}}{{/isEnumOrRef}}{{#isEnumOrRef}}{{{paramName}}}.value{{/isEnumOrRef}}){{/isFile}} }
                 {{/isArray}}
                 {{/formParams}}
             }

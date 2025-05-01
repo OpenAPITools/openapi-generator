@@ -176,6 +176,10 @@ void {{classname}}::setValue({{classname}}::e{{classname}} const value)
    m_value = value;
 }
 
+{{classname}}::{{classname}}(utility::string_t str){
+    setValue( strToEnumMap[str] );
+}
+
 {{/isEnum}}
 {{^isEnum}}
 

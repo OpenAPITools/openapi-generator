@@ -1386,7 +1386,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   protected Client buildHttpClient() {
     // Create ClientConfig if it has not been initialized yet
     if (clientConfig == null) {
-    clientConfig = getDefaultClientConfig();
+      clientConfig = getDefaultClientConfig();
     }
 
     ClientBuilder clientBuilder = ClientBuilder.newBuilder();

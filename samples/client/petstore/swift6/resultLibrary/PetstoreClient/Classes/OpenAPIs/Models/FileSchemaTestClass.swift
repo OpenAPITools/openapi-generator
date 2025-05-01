@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct FileSchemaTestClass: Sendable, Codable, QueryStringEncodable {
+internal struct FileSchemaTestClass: Sendable, Codable, ParameterConvertible {
 
     internal private(set) var file: File?
     internal private(set) var files: [File]?

@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color.</param>
         /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-        public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(string size = default(string), string color = default(string), long id = default(long), string name = default(string))
+        public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(string size = default, string color = default, long id = default, string name = default)
         {
             this.Size = size;
             this.Color = color;

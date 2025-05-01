@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
         /// <param name="var123List">var123List.</param>
-        public List(string var123List = default(string))
+        public List(string var123List = default)
         {
             this.Var123List = var123List;
             this.AdditionalProperties = new Dictionary<string, object>();
