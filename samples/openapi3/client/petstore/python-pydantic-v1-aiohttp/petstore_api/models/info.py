@@ -67,6 +67,11 @@ class Info(BaseDiscriminator):
         if not isinstance(obj, dict):
             return Info.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in Info) in the input: " + obj)
+
         _obj = Info.parse_obj({
             "type_name": obj.get("_typeName"),
             "val": BaseDiscriminator.from_dict(obj.get("val")) if obj.get("val") is not None else None

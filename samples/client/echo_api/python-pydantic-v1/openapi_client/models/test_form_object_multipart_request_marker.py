@@ -64,6 +64,11 @@ class TestFormObjectMultipartRequestMarker(BaseModel):
         if not isinstance(obj, dict):
             return TestFormObjectMultipartRequestMarker.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in TestFormObjectMultipartRequestMarker) in the input: " + obj)
+
         _obj = TestFormObjectMultipartRequestMarker.parse_obj({
             "name": obj.get("name")
         })
