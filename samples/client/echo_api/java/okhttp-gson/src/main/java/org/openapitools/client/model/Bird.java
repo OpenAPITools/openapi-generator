@@ -147,9 +147,7 @@ public class Bird {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1 + 1);
-    openapiFields.add("size");
-    openapiFields.add("color");
+    openapiFields = new HashSet<String>(Arrays.asList("size", "color"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);

@@ -194,14 +194,10 @@ public class Variable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1 + 1);
-    openapiFields.add("name");
-    openapiFields.add("value");
+    openapiFields = new HashSet<String>(Arrays.asList("name", "value"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(1 + 1);
-    openapiRequiredFields.add("name");
-    openapiRequiredFields.add("value");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("name", "value"));
   }
 
   /**

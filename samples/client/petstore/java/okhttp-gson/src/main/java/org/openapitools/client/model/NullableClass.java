@@ -520,19 +520,7 @@ public class NullableClass {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1);
-    openapiFields.add("integer_prop");
-    openapiFields.add("number_prop");
-    openapiFields.add("boolean_prop");
-    openapiFields.add("string_prop");
-    openapiFields.add("date_prop");
-    openapiFields.add("datetime_prop");
-    openapiFields.add("array_nullable_prop");
-    openapiFields.add("array_and_items_nullable_prop");
-    openapiFields.add("array_items_nullable");
-    openapiFields.add("object_nullable_prop");
-    openapiFields.add("object_and_items_nullable_prop");
-    openapiFields.add("object_items_nullable");
+    openapiFields = new HashSet<String>(Arrays.asList("integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);

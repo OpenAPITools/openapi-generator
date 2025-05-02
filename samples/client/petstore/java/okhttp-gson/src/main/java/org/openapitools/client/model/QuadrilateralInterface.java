@@ -167,12 +167,10 @@ public class QuadrilateralInterface {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1);
-    openapiFields.add("quadrilateralType");
+    openapiFields = new HashSet<String>(Arrays.asList("quadrilateralType"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(1);
-    openapiRequiredFields.add("quadrilateralType");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("quadrilateralType"));
   }
 
   /**

@@ -360,13 +360,7 @@ public class Order {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1 + 1 + 1 + 1 + 1 + 1);
-    openapiFields.add("id");
-    openapiFields.add("petId");
-    openapiFields.add("quantity");
-    openapiFields.add("shipDate");
-    openapiFields.add("status");
-    openapiFields.add("complete");
+    openapiFields = new HashSet<String>(Arrays.asList("id", "petId", "quantity", "shipDate", "status", "complete"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);

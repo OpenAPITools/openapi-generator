@@ -121,8 +121,7 @@ public class ModelFile {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1);
-    openapiFields.add("sourceURI");
+    openapiFields = new HashSet<String>(Arrays.asList("sourceURI"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);

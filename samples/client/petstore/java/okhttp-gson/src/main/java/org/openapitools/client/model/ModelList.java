@@ -167,8 +167,7 @@ public class ModelList {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1);
-    openapiFields.add("123-list");
+    openapiFields = new HashSet<String>(Arrays.asList("123-list"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);

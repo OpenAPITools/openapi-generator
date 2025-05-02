@@ -167,12 +167,10 @@ public class TriangleInterface {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1);
-    openapiFields.add("triangleType");
+    openapiFields = new HashSet<String>(Arrays.asList("triangleType"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(1);
-    openapiRequiredFields.add("triangleType");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("triangleType"));
   }
 
   /**

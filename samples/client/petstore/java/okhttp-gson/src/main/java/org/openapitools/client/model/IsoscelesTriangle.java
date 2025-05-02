@@ -147,14 +147,10 @@ public class IsoscelesTriangle {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1 + 1);
-    openapiFields.add("shapeType");
-    openapiFields.add("triangleType");
+    openapiFields = new HashSet<String>(Arrays.asList("shapeType", "triangleType"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(1 + 1);
-    openapiRequiredFields.add("shapeType");
-    openapiRequiredFields.add("triangleType");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("shapeType", "triangleType"));
   }
 
   /**

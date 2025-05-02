@@ -177,12 +177,10 @@ public class AllOfSimpleModel {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1);
-    openapiFields.add("arrayOfStrings");
+    openapiFields = new HashSet<String>(Arrays.asList("arrayOfStrings"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(1);
-    openapiRequiredFields.add("arrayOfStrings");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("arrayOfStrings"));
   }
 
   /**

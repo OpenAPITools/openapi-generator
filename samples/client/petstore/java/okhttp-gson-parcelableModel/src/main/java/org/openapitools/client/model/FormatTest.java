@@ -523,28 +523,10 @@ public class FormatTest implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1);
-    openapiFields.add("integer");
-    openapiFields.add("int32");
-    openapiFields.add("int64");
-    openapiFields.add("number");
-    openapiFields.add("float");
-    openapiFields.add("double");
-    openapiFields.add("string");
-    openapiFields.add("byte");
-    openapiFields.add("binary");
-    openapiFields.add("date");
-    openapiFields.add("dateTime");
-    openapiFields.add("uuid");
-    openapiFields.add("password");
-    openapiFields.add("BigDecimal");
+    openapiFields = new HashSet<String>(Arrays.asList("integer", "int32", "int64", "number", "float", "double", "string", "byte", "binary", "date", "dateTime", "uuid", "password", "BigDecimal"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(1 + 1 + 1 + 1);
-    openapiRequiredFields.add("number");
-    openapiRequiredFields.add("byte");
-    openapiRequiredFields.add("date");
-    openapiRequiredFields.add("password");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("number", "byte", "date", "password"));
   }
 
   /**

@@ -140,9 +140,7 @@ public class HasOnlyReadOnly {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1 + 1);
-    openapiFields.add("bar");
-    openapiFields.add("foo");
+    openapiFields = new HashSet<String>(Arrays.asList("bar", "foo"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);

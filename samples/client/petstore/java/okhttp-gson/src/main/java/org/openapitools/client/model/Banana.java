@@ -168,8 +168,7 @@ public class Banana {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(1);
-    openapiFields.add("lengthCm");
+    openapiFields = new HashSet<String>(Arrays.asList("lengthCm"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
