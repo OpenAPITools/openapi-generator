@@ -221,13 +221,13 @@ public class FakeWebhooksSourcesDeletedPostRequest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1 + 1 + 1);
     openapiFields.add("event_timestamp");
     openapiFields.add("event_type");
     openapiFields.add("event");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(1 + 1 + 1);
     openapiRequiredFields.add("event_timestamp");
     openapiRequiredFields.add("event_type");
     openapiRequiredFields.add("event");

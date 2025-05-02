@@ -428,7 +428,7 @@ public class DefaultValue {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1 + 1 + 1 + 1 + 1 + 1 + 1 + 1);
     openapiFields.add("array_string_enum_ref_default");
     openapiFields.add("array_string_enum_default");
     openapiFields.add("array_string_default");
@@ -439,7 +439,7 @@ public class DefaultValue {
     openapiFields.add("string_nullable");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

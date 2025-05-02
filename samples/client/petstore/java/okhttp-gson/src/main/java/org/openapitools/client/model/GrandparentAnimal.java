@@ -168,11 +168,11 @@ public class GrandparentAnimal {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1);
     openapiFields.add("pet_type");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(1);
     openapiRequiredFields.add("pet_type");
   }
 

@@ -171,12 +171,12 @@ public class ReadOnlyFirst implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1 + 1);
     openapiFields.add("bar");
     openapiFields.add("baz");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

@@ -230,13 +230,13 @@ public class ArrayOfInlineAllOf {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1 + 1 + 1);
     openapiFields.add("id");
     openapiFields.add("name");
     openapiFields.add("array_allof_dog_property");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(1);
     openapiRequiredFields.add("name");
   }
 

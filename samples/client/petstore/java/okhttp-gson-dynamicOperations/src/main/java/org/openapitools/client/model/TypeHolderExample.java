@@ -262,7 +262,7 @@ public class TypeHolderExample {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1 + 1 + 1 + 1 + 1 + 1);
     openapiFields.add("string_item");
     openapiFields.add("number_item");
     openapiFields.add("float_item");
@@ -271,7 +271,7 @@ public class TypeHolderExample {
     openapiFields.add("array_item");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(1 + 1 + 1 + 1 + 1 + 1);
     openapiRequiredFields.add("string_item");
     openapiRequiredFields.add("number_item");
     openapiRequiredFields.add("float_item");

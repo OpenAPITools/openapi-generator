@@ -520,7 +520,7 @@ public class NullableClass {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1);
     openapiFields.add("integer_prop");
     openapiFields.add("number_prop");
     openapiFields.add("boolean_prop");
@@ -535,7 +535,7 @@ public class NullableClass {
     openapiFields.add("object_items_nullable");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

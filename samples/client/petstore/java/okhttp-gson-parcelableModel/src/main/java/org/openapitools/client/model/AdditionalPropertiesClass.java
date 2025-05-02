@@ -492,7 +492,7 @@ public class AdditionalPropertiesClass implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1);
     openapiFields.add("map_string");
     openapiFields.add("map_number");
     openapiFields.add("map_integer");
@@ -506,7 +506,7 @@ public class AdditionalPropertiesClass implements Parcelable {
     openapiFields.add("anytype_3");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

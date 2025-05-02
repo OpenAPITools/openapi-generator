@@ -267,7 +267,7 @@ public class TypeHolderDefault implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1 + 1 + 1 + 1 + 1);
     openapiFields.add("string_item");
     openapiFields.add("number_item");
     openapiFields.add("integer_item");
@@ -275,7 +275,7 @@ public class TypeHolderDefault implements Parcelable {
     openapiFields.add("array_item");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(1 + 1 + 1 + 1 + 1);
     openapiRequiredFields.add("string_item");
     openapiRequiredFields.add("number_item");
     openapiRequiredFields.add("integer_item");

@@ -174,13 +174,13 @@ public class OuterComposite {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1 + 1 + 1);
     openapiFields.add("my_number");
     openapiFields.add("my_string");
     openapiFields.add("my_boolean");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

@@ -325,7 +325,7 @@ public class Pet {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1 + 1 + 1 + 1 + 1 + 1);
     openapiFields.add("id");
     openapiFields.add("name");
     openapiFields.add("category");
@@ -334,7 +334,7 @@ public class Pet {
     openapiFields.add("status");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(1 + 1);
     openapiRequiredFields.add("name");
     openapiRequiredFields.add("photoUrls");
   }

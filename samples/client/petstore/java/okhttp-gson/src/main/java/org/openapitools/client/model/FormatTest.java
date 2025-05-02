@@ -598,7 +598,7 @@ public class FormatTest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
+    openapiFields = new HashSet<String>(1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1);
     openapiFields.add("integer");
     openapiFields.add("int32");
     openapiFields.add("int64");
@@ -618,7 +618,7 @@ public class FormatTest {
     openapiFields.add("pattern_with_digits_and_delimiter");
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(1 + 1 + 1 + 1);
     openapiRequiredFields.add("number");
     openapiRequiredFields.add("byte");
     openapiRequiredFields.add("date");
