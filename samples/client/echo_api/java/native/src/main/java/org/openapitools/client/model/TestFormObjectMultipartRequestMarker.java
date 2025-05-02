@@ -35,15 +35,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   TestFormObjectMultipartRequestMarker.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class TestFormObjectMultipartRequestMarker {
   public static final String JSON_PROPERTY_NAME = "name";
+  @javax.annotation.Nullable
   private String name;
 
   public TestFormObjectMultipartRequestMarker() { 
   }
 
-  public TestFormObjectMultipartRequestMarker name(String name) {
+  public TestFormObjectMultipartRequestMarker name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -62,7 +63,7 @@ public class TestFormObjectMultipartRequestMarker {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 
@@ -141,7 +142,7 @@ public class TestFormObjectMultipartRequestMarker {
 
     // add `name` to the URL query string
     if (getName() != null) {
-      joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
     }
 
     return joiner.toString();

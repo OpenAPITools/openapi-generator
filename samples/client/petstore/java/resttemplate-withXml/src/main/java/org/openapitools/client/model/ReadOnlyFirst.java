@@ -34,17 +34,19 @@ import io.github.threetenjaxb.core.*;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 @XmlRootElement(name = "ReadOnlyFirst")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ReadOnlyFirst")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   @XmlElement(name = "bar")
+  @javax.annotation.Nullable
   private String bar;
 
   public static final String JSON_PROPERTY_BAZ = "baz";
   @XmlElement(name = "baz")
+  @javax.annotation.Nullable
   private String baz;
 
   public ReadOnlyFirst() {
@@ -65,7 +67,7 @@ public class ReadOnlyFirst {
 
 
 
-  public ReadOnlyFirst baz(String baz) {
+  public ReadOnlyFirst baz(@javax.annotation.Nullable String baz) {
     
     this.baz = baz;
     return this;
@@ -88,9 +90,10 @@ public class ReadOnlyFirst {
   @JsonProperty(JSON_PROPERTY_BAZ)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "baz")
-  public void setBaz(String baz) {
+  public void setBaz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
   }
+
 
   @Override
   public boolean equals(Object o) {

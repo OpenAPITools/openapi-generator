@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
-        /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
+        /* <example>Fri Jul 21 00:00:00 UTC 2017</example> */
         [JsonPropertyName("dateOnlyProperty")]
         public DateTime? DateOnlyProperty { get { return this.DateOnlyPropertyOption; } set { this.DateOnlyPropertyOption = new Option<DateTime?>(value); } }
 
@@ -132,8 +132,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "dateOnlyProperty":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateOnlyProperty = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            dateOnlyProperty = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

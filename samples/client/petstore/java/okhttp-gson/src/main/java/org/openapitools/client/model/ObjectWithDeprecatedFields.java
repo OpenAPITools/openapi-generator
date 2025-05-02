@@ -41,7 +41,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,31 +52,35 @@ import org.openapitools.client.JSON;
 /**
  * ObjectWithDeprecatedFields
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
+  @javax.annotation.Nullable
   private String uuid;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @Deprecated
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private BigDecimal id;
 
   public static final String SERIALIZED_NAME_DEPRECATED_REF = "deprecatedRef";
   @Deprecated
   @SerializedName(SERIALIZED_NAME_DEPRECATED_REF)
+  @javax.annotation.Nullable
   private DeprecatedObject deprecatedRef;
 
   public static final String SERIALIZED_NAME_BARS = "bars";
   @Deprecated
   @SerializedName(SERIALIZED_NAME_BARS)
+  @javax.annotation.Nullable
   private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() {
   }
 
-  public ObjectWithDeprecatedFields uuid(String uuid) {
+  public ObjectWithDeprecatedFields uuid(@javax.annotation.Nullable String uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -91,13 +94,13 @@ public class ObjectWithDeprecatedFields {
     return uuid;
   }
 
-  public void setUuid(String uuid) {
+  public void setUuid(@javax.annotation.Nullable String uuid) {
     this.uuid = uuid;
   }
 
 
   @Deprecated
-  public ObjectWithDeprecatedFields id(BigDecimal id) {
+  public ObjectWithDeprecatedFields id(@javax.annotation.Nullable BigDecimal id) {
     this.id = id;
     return this;
   }
@@ -114,13 +117,13 @@ public class ObjectWithDeprecatedFields {
   }
 
   @Deprecated
-  public void setId(BigDecimal id) {
+  public void setId(@javax.annotation.Nullable BigDecimal id) {
     this.id = id;
   }
 
 
   @Deprecated
-  public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
+  public ObjectWithDeprecatedFields deprecatedRef(@javax.annotation.Nullable DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
     return this;
   }
@@ -137,13 +140,13 @@ public class ObjectWithDeprecatedFields {
   }
 
   @Deprecated
-  public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
+  public void setDeprecatedRef(@javax.annotation.Nullable DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
 
 
   @Deprecated
-  public ObjectWithDeprecatedFields bars(List<String> bars) {
+  public ObjectWithDeprecatedFields bars(@javax.annotation.Nullable List<String> bars) {
     this.bars = bars;
     return this;
   }
@@ -168,7 +171,7 @@ public class ObjectWithDeprecatedFields {
   }
 
   @Deprecated
-  public void setBars(List<String> bars) {
+  public void setBars(@javax.annotation.Nullable List<String> bars) {
     this.bars = bars;
   }
 

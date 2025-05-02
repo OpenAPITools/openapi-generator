@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -37,18 +39,22 @@ import org.openapitools.client.JSON;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
+  @jakarta.annotation.Nonnull
   private Integer name;
 
   public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
+  @jakarta.annotation.Nullable
   private Integer snakeCase;
 
   public static final String JSON_PROPERTY_PROPERTY = "property";
+  @jakarta.annotation.Nullable
   private String property;
 
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
+  @jakarta.annotation.Nullable
   private Integer _123number;
 
   public Name() { 
@@ -64,7 +70,7 @@ public class Name {
     this._123number = _123number;
   }
 
-  public Name name(Integer name) {
+  public Name name(@jakarta.annotation.Nonnull Integer name) {
     this.name = name;
     return this;
   }
@@ -86,7 +92,7 @@ public class Name {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setName(Integer name) {
+  public void setName(@jakarta.annotation.Nonnull Integer name) {
     this.name = name;
   }
 
@@ -107,7 +113,7 @@ public class Name {
 
 
 
-  public Name property(String property) {
+  public Name property(@jakarta.annotation.Nullable String property) {
     this.property = property;
     return this;
   }
@@ -128,7 +134,7 @@ public class Name {
 
   @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setProperty(String property) {
+  public void setProperty(@jakarta.annotation.Nullable String property) {
     this.property = property;
   }
 
@@ -154,22 +160,12 @@ public class Name {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Name name = (Name) o;
-    return Objects.equals(this.name, name.name) &&
-        Objects.equals(this.snakeCase, name.snakeCase) &&
-        Objects.equals(this.property, name.property) &&
-        Objects.equals(this._123number, name._123number);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, snakeCase, property, _123number);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

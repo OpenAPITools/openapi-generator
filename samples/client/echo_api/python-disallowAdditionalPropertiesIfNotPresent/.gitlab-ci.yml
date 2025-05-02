@@ -14,12 +14,6 @@ stages:
    - pip install -r test-requirements.txt
    - pytest --cov=openapi_client
 
-pytest-3.7:
-  extends: .pytest
-  image: python:3.7-alpine
-pytest-3.8:
-  extends: .pytest
-  image: python:3.8-alpine
 pytest-3.9:
   extends: .pytest
   image: python:3.9-alpine
@@ -29,3 +23,9 @@ pytest-3.10:
 pytest-3.11:
   extends: .pytest
   image: python:3.11-alpine
+pytest-3.12:
+  extends: .pytest
+  image: python:3.12-alpine
+pytest-3.13:
+  extends: .pytest
+  image: python:3.13-alpine

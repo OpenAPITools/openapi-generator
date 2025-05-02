@@ -3,6 +3,7 @@
 Cargo.toml
 README.md
 api/openapi.yaml
+bin/cli.rs
 docs/MultipartRelatedRequest.md
 docs/MultipartRequestObjectField.md
 docs/MultipleIdenticalMimeTypesPostRequest.md

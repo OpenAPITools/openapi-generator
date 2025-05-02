@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,20 +48,22 @@ import org.openapitools.client.JSON;
 /**
  * ScaleneTriangle
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ScaleneTriangle {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
+  @javax.annotation.Nonnull
   private String shapeType;
 
   public static final String SERIALIZED_NAME_TRIANGLE_TYPE = "triangleType";
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
+  @javax.annotation.Nonnull
   private String triangleType;
 
   public ScaleneTriangle() {
   }
 
-  public ScaleneTriangle shapeType(String shapeType) {
+  public ScaleneTriangle shapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;
   }
@@ -76,12 +77,12 @@ public class ScaleneTriangle {
     return shapeType;
   }
 
-  public void setShapeType(String shapeType) {
+  public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
 
 
-  public ScaleneTriangle triangleType(String triangleType) {
+  public ScaleneTriangle triangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;
   }
@@ -95,7 +96,7 @@ public class ScaleneTriangle {
     return triangleType;
   }
 
-  public void setTriangleType(String triangleType) {
+  public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
 

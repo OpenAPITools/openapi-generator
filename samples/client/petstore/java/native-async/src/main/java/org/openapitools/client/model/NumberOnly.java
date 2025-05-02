@@ -36,15 +36,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
+  @javax.annotation.Nullable
   private BigDecimal justNumber;
 
   public NumberOnly() { 
   }
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
     return this;
   }
@@ -63,7 +64,7 @@ public class NumberOnly {
 
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 
@@ -142,7 +143,7 @@ public class NumberOnly {
 
     // add `JustNumber` to the URL query string
     if (getJustNumber() != null) {
-      joiner.add(String.format("%sJustNumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJustNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sJustNumber%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getJustNumber()))));
     }
 
     return joiner.toString();

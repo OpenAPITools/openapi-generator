@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MultipartSingleRequest" /> class.
         /// </summary>
         /// <param name="file">One file.</param>
-        public MultipartSingleRequest(System.IO.Stream file = default(System.IO.Stream))
+        public MultipartSingleRequest(System.IO.Stream file = default)
         {
             this.File = file;
         }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ import javax.annotation.Generated;
  * Tag
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Tag {
 
   private Optional<Long> id = Optional.empty();
@@ -27,7 +28,7 @@ public class Tag {
   private Optional<String> name = Optional.empty();
 
   public Tag id(Long id) {
-    this.id = Optional.of(id);
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
@@ -47,7 +48,7 @@ public class Tag {
   }
 
   public Tag name(String name) {
-    this.name = Optional.of(name);
+    this.name = Optional.ofNullable(name);
     return this;
   }
 

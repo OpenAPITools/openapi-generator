@@ -147,7 +147,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
             throw "Error! The required parameter `{{paramName}}` missing when calling {{operationId}}."
         }
         {{#isFile}}
-        $LocalVarFormParameters['{{baseName}}'] = $executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(${{{paramName}}})
+        $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}} | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
         {{/isFile}}
         {{^isFile}}
         $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
@@ -159,7 +159,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{^isNullable}}
         if (${{{paramName}}}) {
         {{#isFile}}
-            $LocalVarFormParameters['{{baseName}}'] = $executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(${{{paramName}}})
+            $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}} | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
         {{/isFile}}
         {{^isFile}}
             $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
@@ -169,7 +169,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{/isNullable}}
         {{#isNullable}}
         {{#isFile}}
-        $LocalVarFormParameters['{{baseName}}'] = $executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(${{{paramName}}})
+        $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}} | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
         {{/isFile}}
         {{^isFile}}
         $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
@@ -188,7 +188,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{/isNullable}}
         {{/required}}
         {{#isArray}}
-        $LocalVarBodyParameter = ,${{{paramName}}} | ConvertTo-Json -Depth 100
+        $LocalVarBodyParameter = ConvertTo-Json @(${{{paramName}}}) -Depth 100
         {{/isArray}}
         {{^isArray}}
         $LocalVarBodyParameter = ${{{paramName}}} | ConvertTo-Json -Depth 100

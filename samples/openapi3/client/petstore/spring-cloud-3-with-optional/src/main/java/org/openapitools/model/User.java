@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -17,7 +18,7 @@ import jakarta.annotation.Generated;
  * A User who is purchasing from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class User {
 
   private Optional<Long> id = Optional.empty();
@@ -37,7 +38,7 @@ public class User {
   private Optional<Integer> userStatus = Optional.empty();
 
   public User id(Long id) {
-    this.id = Optional.of(id);
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
@@ -56,7 +57,7 @@ public class User {
   }
 
   public User username(String username) {
-    this.username = Optional.of(username);
+    this.username = Optional.ofNullable(username);
     return this;
   }
 
@@ -75,7 +76,7 @@ public class User {
   }
 
   public User firstName(String firstName) {
-    this.firstName = Optional.of(firstName);
+    this.firstName = Optional.ofNullable(firstName);
     return this;
   }
 
@@ -94,7 +95,7 @@ public class User {
   }
 
   public User lastName(String lastName) {
-    this.lastName = Optional.of(lastName);
+    this.lastName = Optional.ofNullable(lastName);
     return this;
   }
 
@@ -113,7 +114,7 @@ public class User {
   }
 
   public User email(String email) {
-    this.email = Optional.of(email);
+    this.email = Optional.ofNullable(email);
     return this;
   }
 
@@ -132,7 +133,7 @@ public class User {
   }
 
   public User password(String password) {
-    this.password = Optional.of(password);
+    this.password = Optional.ofNullable(password);
     return this;
   }
 
@@ -151,7 +152,7 @@ public class User {
   }
 
   public User phone(String phone) {
-    this.phone = Optional.of(phone);
+    this.phone = Optional.ofNullable(phone);
     return this;
   }
 
@@ -170,7 +171,7 @@ public class User {
   }
 
   public User userStatus(Integer userStatus) {
-    this.userStatus = Optional.of(userStatus);
+    this.userStatus = Optional.ofNullable(userStatus);
     return this;
   }
 

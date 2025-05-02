@@ -2,10 +2,10 @@
 //> using lib "com.lihaoyi::cask:0.9.2"
 //> using lib "com.lihaoyi::scalatags:0.8.2"
 {{>licenseInfo}}
-
 // this file was generated from app.mustache
 package {{packageName}}
 
+import scala.util.Try
 {{#imports}}import {{import}}
 {{/imports}}
 import _root_.{{modelPackage}}.*
@@ -20,16 +20,17 @@ import _root_.{{apiPackage}}.*
  * If you wanted fine-grained control over the routes and services, you could
  * extend the cask.MainRoutes and mix in this trait by using this:
  *
- * \{\{\{
+ * ```
  *   override def allRoutes = appRoutes
- * \}\}\}
+ * ```
  *
  * More typically, however, you would extend the 'BaseApp' class
  */
 trait AppRoutes {
 {{#operations}}
-  def app{{classname}}Service : {{classname}}Service = {{classname}}Service()
+  def app{{classname}}Service : {{classname}}Service[Try] = {{classname}}Service()
   def routeFor{{classname}} : {{classname}}Routes = {{classname}}Routes(app{{classname}}Service)
+
 {{/operations}}
 
    def appRoutes = Seq(

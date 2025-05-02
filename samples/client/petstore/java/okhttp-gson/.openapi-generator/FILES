@@ -46,6 +46,7 @@ docs/FakeAnyOfWIthSameErasureGet200Response.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
 docs/FakeOneOfWIthSameErasureGet200Response.md
+docs/FakeRefParameterPetIdParameter.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
 docs/FooGetDefaultResponse.md
@@ -190,6 +191,7 @@ src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/EquilateralTriangle.java
 src/main/java/org/openapitools/client/model/FakeAnyOfWIthSameErasureGet200Response.java
 src/main/java/org/openapitools/client/model/FakeOneOfWIthSameErasureGet200Response.java
+src/main/java/org/openapitools/client/model/FakeRefParameterPetIdParameter.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
 src/main/java/org/openapitools/client/model/FooGetDefaultResponse.java

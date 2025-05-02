@@ -39,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,16 +50,17 @@ import org.openapitools.client.JSON;
 /**
  * TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String SERIALIZED_NAME_VALUES = "values";
   @SerializedName(SERIALIZED_NAME_VALUES)
+  @javax.annotation.Nullable
   private List<String> values = new ArrayList<>();
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
 
-  public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter values(List<String> values) {
+  public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter values(@javax.annotation.Nullable List<String> values) {
     this.values = values;
     return this;
   }
@@ -82,7 +82,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     return values;
   }
 
-  public void setValues(List<String> values) {
+  public void setValues(@javax.annotation.Nullable List<String> values) {
     this.values = values;
   }
 

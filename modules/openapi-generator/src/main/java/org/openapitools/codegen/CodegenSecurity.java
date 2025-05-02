@@ -17,11 +17,7 @@
 
 package org.openapitools.codegen;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CodegenSecurity {
@@ -49,10 +45,10 @@ public class CodegenSecurity {
     // OpenId specific
     public String openIdConnectUrl;
 
-    public CodegenSecurity () {
+    public CodegenSecurity() {
     }
 
-    public CodegenSecurity (CodegenSecurity original) {
+    public CodegenSecurity(CodegenSecurity original) {
         this.name = original.name;
         this.description = original.description;
         this.type = original.type;
@@ -97,8 +93,8 @@ public class CodegenSecurity {
         // In such cases, no filtering is performed.
         if (!(Boolean.TRUE.equals(isOAuth) || Boolean.TRUE.equals(isOpenId))) {
             filteredSecurity.scopes = filterScopes.stream()
-                .map(s -> new HashMap<String, Object>(Map.of("scope", s)))
-                .collect(Collectors.toList());
+                    .map(s -> new HashMap<String, Object>(Map.of("scope", s)))
+                    .collect(Collectors.toList());
             return filteredSecurity;
         }
 

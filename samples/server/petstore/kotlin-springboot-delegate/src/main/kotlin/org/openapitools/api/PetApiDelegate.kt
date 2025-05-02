@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.context.request.NativeWebRequest
-import org.springframework.core.io.Resource
 import org.springframework.http.server.reactive.ServerHttpRequest
 
 import java.util.Optional
@@ -15,7 +14,7 @@ import java.util.Optional
  * A delegate to be called by the {@link PetApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.14.0-SNAPSHOT")
 interface PetApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
@@ -23,8 +22,7 @@ interface PetApiDelegate {
     /**
      * @see PetApi#addPet
      */
-    fun addPet(pet: Pet,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Pet> {
+    fun addPet(pet: Pet): ResponseEntity<Pet> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -46,8 +44,7 @@ interface PetApiDelegate {
      * @see PetApi#deletePet
      */
     fun deletePet(petId: kotlin.Long,
-        apiKey: kotlin.String?,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+        apiKey: kotlin.String?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -56,8 +53,7 @@ interface PetApiDelegate {
     /**
      * @see PetApi#findPetsByStatus
      */
-    fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<List<Pet>> {
+    fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -78,8 +74,7 @@ interface PetApiDelegate {
     /**
      * @see PetApi#findPetsByTags
      */
-    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<List<Pet>> {
+    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -100,8 +95,7 @@ interface PetApiDelegate {
     /**
      * @see PetApi#getPetById
      */
-    fun getPetById(petId: kotlin.Long,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Pet> {
+    fun getPetById(petId: kotlin.Long): ResponseEntity<Pet> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -122,8 +116,7 @@ interface PetApiDelegate {
     /**
      * @see PetApi#updatePet
      */
-    fun updatePet(pet: Pet,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Pet> {
+    fun updatePet(pet: Pet): ResponseEntity<Pet> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -146,8 +139,7 @@ interface PetApiDelegate {
      */
     fun updatePetWithForm(petId: kotlin.Long,
         name: kotlin.String?,
-        status: kotlin.String?,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+        status: kotlin.String?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -158,8 +150,7 @@ interface PetApiDelegate {
      */
     fun uploadFile(petId: kotlin.Long,
         additionalMetadata: kotlin.String?,
-        file: Resource?,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<ModelApiResponse> {
+        file: org.springframework.web.multipart.MultipartFile?): ResponseEntity<ModelApiResponse> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

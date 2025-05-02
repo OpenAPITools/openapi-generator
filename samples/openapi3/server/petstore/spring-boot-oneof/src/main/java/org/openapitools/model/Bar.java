@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Entity;
 import org.openapitools.model.FooRefOrValue;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,16 +25,16 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Bar extends Entity implements BarRefOrValue {
 
   private String id;
 
-  private String barPropA;
+  private @Nullable String barPropA;
 
-  private String fooPropB;
+  private @Nullable String fooPropB;
 
-  private FooRefOrValue foo;
+  private @Nullable FooRefOrValue foo;
 
   public Bar() {
     super();
@@ -206,7 +207,7 @@ public class Bar extends Entity implements BarRefOrValue {
     }
 
     protected Builder copyOf(Bar value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setId(value.id);
       this.instance.setBarPropA(value.barPropA);
       this.instance.setFooPropB(value.fooPropB);

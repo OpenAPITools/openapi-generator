@@ -38,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,16 +49,17 @@ import org.openapitools.client.JSON;
 /**
  * FooGetDefaultResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class FooGetDefaultResponse {
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
+  @javax.annotation.Nullable
   private Foo string;
 
   public FooGetDefaultResponse() {
   }
 
-  public FooGetDefaultResponse string(Foo string) {
+  public FooGetDefaultResponse string(@javax.annotation.Nullable Foo string) {
     this.string = string;
     return this;
   }
@@ -73,7 +73,7 @@ public class FooGetDefaultResponse {
     return string;
   }
 
-  public void setString(Foo string) {
+  public void setString(@javax.annotation.Nullable Foo string) {
     this.string = string;
   }
 

@@ -300,6 +300,14 @@ paths:
           format: int64
           type: integer
         style: simple
+      - description: Content type header parameter
+        explode: false
+        in: header
+        name: Content-Type
+        required: false
+        schema:
+          type: string
+        style: simple
       requestBody:
         content:
           multipart/form-data:
@@ -1155,6 +1163,28 @@ paths:
       - fake
       x-accepts:
       - application/json
+  /fake/free-form-query-parameters:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: fixed
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: free-form
+        required: false
+        schema:
+          type: object
+        style: form
+      responses:
+        "200":
+          description: OK
+      x-accepts:
+      - application/json
   /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
@@ -1437,10 +1467,31 @@ paths:
       - petstore_auth:
         - write:pets
         - read:pets
-      summary: fake uploads an image with ref request bodies
+      summary: fake reference parameter
       tags:
       - fake
       x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
+  /fake/pet/{petId}/reference/parameter:
+    post:
+      description: ""
+      operationId: fake-ref-parameter
+      parameters:
+      - description: to test oneOf in parameter $ref
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          $ref: '#/components/schemas/fake_ref_parameter_petId_parameter'
+        style: simple
+      responses:
+        "200":
+          description: successful operation
+      summary: fake reference parameter
+      tags:
+      - fake
       x-accepts:
       - application/json
   /values:
@@ -1480,6 +1531,16 @@ paths:
       x-accepts:
       - application/json
 components:
+  parameters:
+    pet_id:
+      description: to test oneOf in parameter $ref
+      explode: false
+      in: path
+      name: petId
+      required: true
+      schema:
+        $ref: '#/components/schemas/fake_ref_parameter_petId_parameter'
+      style: simple
   requestBodies:
     upload_body:
       content:
@@ -2963,6 +3024,10 @@ components:
       required:
       - requiredFile
       type: object
+    fake_ref_parameter_petId_parameter:
+      oneOf:
+      - type: string
+      - type: integer
     FreeFormObjectTestClass_properties:
       oneOf:
       - type: string

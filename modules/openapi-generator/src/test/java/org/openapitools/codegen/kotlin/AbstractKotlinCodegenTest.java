@@ -36,9 +36,10 @@ public class AbstractKotlinCodegenTest {
      * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
      * using @BeforeMethod to have a fresh codegen mock for each test
      */
-    @BeforeMethod void mockAbstractCodegen() {
+    @BeforeMethod
+    void mockAbstractCodegen() {
         codegen = mock(
-            AbstractKotlinCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+                AbstractKotlinCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
         );
     }
 
@@ -57,6 +58,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1LONG_NAME");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "NOT1LONG_NAME");
     }
+
     @Test
     public void snake_caseEnumConverter() {
         codegen.setEnumPropertyNaming(snake_case.name());
@@ -73,6 +75,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumVarName("not1long Name", null), "not1long_Name");
         assertEquals(codegen.toEnumVarName("data/*", null), "dataSlashStar");
     }
+
     @Test
     public void pascalCaseEnumConverter() {
         codegen.setEnumPropertyNaming(PascalCase.name());
@@ -245,15 +248,15 @@ public class AbstractKotlinCodegenTest {
             Assert.assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
         }
         Assert.assertEqualsNoOrder(
-            pm.requiredVars.stream().map(CodegenProperty::getBaseName).toArray(),
-            new String[] {"a", "c"}
+                pm.requiredVars.stream().map(CodegenProperty::getBaseName).toArray(),
+                new String[]{"a", "c"}
         );
         for (CodegenProperty p : pm.optionalVars) {
             Assert.assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
         }
         Assert.assertEqualsNoOrder(
-            pm.optionalVars.stream().map(CodegenProperty::getBaseName).toArray(),
-            new String[] {"b", "d"}
+                pm.optionalVars.stream().map(CodegenProperty::getBaseName).toArray(),
+                new String[]{"b", "d"}
         );
     }
 
@@ -291,13 +294,13 @@ public class AbstractKotlinCodegenTest {
         // Assert the enums are generated without changing capitalization
         CodegenProperty cp0 = cm1.vars.get(0);
         Assert.assertEquals(cp0.getEnumName(), "PropertyName");
-        Assert.assertEquals(((HashMap)((ArrayList) cp0.getAllowableValues().get("enumVars")).get(0)).get("name"), "VALUE");
+        Assert.assertEquals(((HashMap) ((ArrayList) cp0.getAllowableValues().get("enumVars")).get(0)).get("name"), "VALUE");
         CodegenProperty cp1 = cm1.vars.get(1);
         Assert.assertEquals(cp1.getEnumName(), "PropertyName2");
-        Assert.assertEquals(((HashMap)((ArrayList) cp1.getAllowableValues().get("enumVars")).get(0)).get("name"), "Value");
+        Assert.assertEquals(((HashMap) ((ArrayList) cp1.getAllowableValues().get("enumVars")).get(0)).get("name"), "Value");
         CodegenProperty cp2 = cm1.vars.get(2);
         Assert.assertEquals(cp2.getEnumName(), "PropertyName3");
-        Assert.assertEquals(((HashMap)((ArrayList) cp2.getAllowableValues().get("enumVars")).get(0)).get("name"), "nonkeywordvalue");
+        Assert.assertEquals(((HashMap) ((ArrayList) cp2.getAllowableValues().get("enumVars")).get(0)).get("name"), "nonkeywordvalue");
     }
 
     @Test(description = "Issue #3804")
@@ -339,23 +342,23 @@ public class AbstractKotlinCodegenTest {
     @Test(description = "Issue #10792")
     public void handleInheritanceWithObjectTypeShouldNotBeAMap() {
         Schema parent = new ObjectSchema()
-            .addProperty("a", new StringSchema())
-            .addProperty("b", new StringSchema())
-            .addRequiredItem("a")
-            .name("Parent");
+                .addProperty("a", new StringSchema())
+                .addProperty("b", new StringSchema())
+                .addRequiredItem("a")
+                .name("Parent");
         Schema child = new ComposedSchema()
-            .addAllOfItem(new Schema().$ref("Parent"))
-            .addAllOfItem(new ObjectSchema()
-                .addProperty("c", new StringSchema())
-                .addProperty("d", new StringSchema())
-                .addRequiredItem("c"))
-            .name("Child")
-            .type("object"); // Without the object type it is not wrongly recognized as map
+                .addAllOfItem(new Schema().$ref("Parent"))
+                .addAllOfItem(new ObjectSchema()
+                        .addProperty("c", new StringSchema())
+                        .addProperty("d", new StringSchema())
+                        .addRequiredItem("c"))
+                .name("Child")
+                .type("object"); // Without the object type it is not wrongly recognized as map
         Schema mapSchema = new ObjectSchema()
-            .addProperty("a", new StringSchema())
-            .additionalProperties(Boolean.TRUE)
-            .name("MapSchema")
-            .type("object");
+                .addProperty("a", new StringSchema())
+                .additionalProperties(Boolean.TRUE)
+                .name("MapSchema")
+                .type("object");
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.getComponents().addSchemas(parent.getName(), parent);
@@ -365,13 +368,13 @@ public class AbstractKotlinCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         final CodegenModel pm = codegen
-            .fromModel("Child", child);
+                .fromModel("Child", child);
 
         Assert.assertFalse(pm.isMap);
 
         // Make sure a real map is still flagged as map
         final CodegenModel mapSchemaModel = codegen
-            .fromModel("MapSchema", mapSchema);
+                .fromModel("MapSchema", mapSchema);
         Assert.assertTrue(mapSchemaModel.isMap);
     }
 

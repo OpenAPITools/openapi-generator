@@ -40,12 +40,15 @@ Method | HTTP request | Description
 [**test_object_for_multipart_requests**](FakeApi.md#test_object_for_multipart_requests) | **POST** /fake/object_for_multipart_requests | 
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 [**test_string_map_reference**](FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
+[**upload_file_with_additional_properties**](FakeApi.md#upload_file_with_additional_properties) | **POST** /fake/upload_file_with_additional_properties | uploads a file and additional properties using multipart/form-data
 
 
 # **fake_any_type_request_body**
 > fake_any_type_request_body(body=body)
 
 test any type request body
+
+
 
 ### Example
 
@@ -108,6 +111,8 @@ No authorization required
 > fake_enum_ref_query_parameter(enum_ref=enum_ref)
 
 test enum reference query parameter
+
+
 
 ### Example
 
@@ -172,6 +177,8 @@ No authorization required
 
 Health check endpoint
 
+
+
 ### Example
 
 ```python
@@ -232,6 +239,8 @@ No authorization required
 > fake_http_signature_test(pet, query_1=query_1, header_1=header_1)
 
 test http signature authentication
+
+
 
 ### Example
 
@@ -697,6 +706,8 @@ No authorization required
 
 test ref to enum string
 
+
+
 ### Example
 
 ```python
@@ -758,6 +769,8 @@ No authorization required
 
 test returning boolean
 
+
+
 ### Example
 
 ```python
@@ -817,6 +830,8 @@ No authorization required
 > bytearray fake_return_byte_like_json()
 
 test byte like json
+
+
 
 ### Example
 
@@ -878,6 +893,8 @@ No authorization required
 
 test returning enum
 
+
+
 ### Example
 
 ```python
@@ -937,6 +954,8 @@ No authorization required
 > str fake_return_enum_like_json()
 
 test enum like json
+
+
 
 ### Example
 
@@ -998,6 +1017,8 @@ No authorization required
 
 test returning float
 
+
+
 ### Example
 
 ```python
@@ -1058,6 +1079,8 @@ No authorization required
 
 test returning int
 
+
+
 ### Example
 
 ```python
@@ -1117,6 +1140,8 @@ No authorization required
 > List[List[Tag]] fake_return_list_of_objects()
 
 test returning list of objects
+
+
 
 ### Example
 
@@ -1179,6 +1204,8 @@ No authorization required
 
 test str like json
 
+
+
 ### Example
 
 ```python
@@ -1239,6 +1266,8 @@ No authorization required
 
 test returning string
 
+
+
 ### Example
 
 ```python
@@ -1298,6 +1327,8 @@ No authorization required
 > fake_uuid_example(uuid_example)
 
 test uuid example
+
+
 
 ### Example
 
@@ -1552,6 +1583,8 @@ No authorization required
 
 
 
+
+
 ### Example
 
 ```python
@@ -1616,7 +1649,7 @@ No authorization required
 
 To test \"client\" model
 
-To test \"client\" model
+To test "client" model
 
 ### Example
 
@@ -1680,6 +1713,8 @@ No authorization required
 
 # **test_date_time_query_parameter**
 > test_date_time_query_parameter(date_time_query, str_query)
+
+
 
 
 
@@ -1807,7 +1842,11 @@ No authorization required
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters
+假端點
+偽のエンドポイント
+가짜 엔드 포인트
+
 
 ### Example
 
@@ -1910,6 +1949,8 @@ void (empty response body)
 > test_error_responses_with_model()
 
 test error responses with model
+
+
 
 ### Example
 
@@ -2250,6 +2291,8 @@ No authorization required
 
 
 
+
+
 ### Example
 
 ```python
@@ -2438,6 +2481,78 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upload_file_with_additional_properties**
+> ApiResponse upload_file_with_additional_properties(file, object=object, count=count)
+
+uploads a file and additional properties using multipart/form-data
+
+
+
+### Example
+
+```python
+import time
+import os
+import petstore_api
+from petstore_api.models.api_response import ApiResponse
+from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+async with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    file = None # bytearray | file to upload
+    object = petstore_api.UploadFileWithAdditionalPropertiesRequestObject() # UploadFileWithAdditionalPropertiesRequestObject |  (optional)
+    count = 56 # int | Integer count (optional)
+
+    try:
+        # uploads a file and additional properties using multipart/form-data
+        api_response = await api_instance.upload_file_with_additional_properties(file, object=object, count=count)
+        print("The response of FakeApi->upload_file_with_additional_properties:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling FakeApi->upload_file_with_additional_properties: %s\n" % e)
+```
+
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **file** | **bytearray**| file to upload | 
+ **object** | [**UploadFileWithAdditionalPropertiesRequestObject**](UploadFileWithAdditionalPropertiesRequestObject.md)|  | [optional] 
+ **count** | **int**| Integer count | [optional] 
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

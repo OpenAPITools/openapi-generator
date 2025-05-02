@@ -28,6 +28,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |fileNaming|Naming convention for the output files: 'PascalCase', 'camelCase', 'kebab-case'.| |PascalCase|
 |importFileExtension|File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html).| ||
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|licenseName|The name of the license| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
@@ -44,6 +45,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |supportsES6|Generate code that conforms to ES6.| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |true|
 |useSquareBracketsInArrayNames|Setting this property to true will add brackets to array attribute names, e.g. my_values[].| |false|
+|validationAttributes|Setting this property to true will generate the validation attributes of model properties.| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |withoutRuntimeChecks|Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.| |false|
 

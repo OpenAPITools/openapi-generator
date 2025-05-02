@@ -40,7 +40,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class EnumTest implements Parcelable {
   /**
    * Gets or Sets enumString
@@ -110,6 +109,7 @@ public class EnumTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING)
+  @javax.annotation.Nullable
   private EnumStringEnum enumString;
 
   /**
@@ -168,6 +168,7 @@ public class EnumTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING_REQUIRED)
+  @javax.annotation.Nonnull
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -224,6 +225,7 @@ public class EnumTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_ENUM_INTEGER = "enum_integer";
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER)
+  @javax.annotation.Nullable
   private EnumIntegerEnum enumInteger;
 
   /**
@@ -280,16 +282,18 @@ public class EnumTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_ENUM_NUMBER = "enum_number";
   @SerializedName(SERIALIZED_NAME_ENUM_NUMBER)
+  @javax.annotation.Nullable
   private EnumNumberEnum enumNumber;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM = "outerEnum";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
+  @javax.annotation.Nullable
   private OuterEnum outerEnum;
 
   public EnumTest() {
   }
 
-  public EnumTest enumString(EnumStringEnum enumString) {
+  public EnumTest enumString(@javax.annotation.Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
   }
@@ -303,12 +307,12 @@ public class EnumTest implements Parcelable {
     return enumString;
   }
 
-  public void setEnumString(EnumStringEnum enumString) {
+  public void setEnumString(@javax.annotation.Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
   }
 
 
-  public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+  public EnumTest enumStringRequired(@javax.annotation.Nonnull EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
     return this;
   }
@@ -322,12 +326,12 @@ public class EnumTest implements Parcelable {
     return enumStringRequired;
   }
 
-  public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+  public void setEnumStringRequired(@javax.annotation.Nonnull EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
 
 
-  public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
+  public EnumTest enumInteger(@javax.annotation.Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
     return this;
   }
@@ -341,12 +345,12 @@ public class EnumTest implements Parcelable {
     return enumInteger;
   }
 
-  public void setEnumInteger(EnumIntegerEnum enumInteger) {
+  public void setEnumInteger(@javax.annotation.Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
 
 
-  public EnumTest enumNumber(EnumNumberEnum enumNumber) {
+  public EnumTest enumNumber(@javax.annotation.Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
     return this;
   }
@@ -360,12 +364,12 @@ public class EnumTest implements Parcelable {
     return enumNumber;
   }
 
-  public void setEnumNumber(EnumNumberEnum enumNumber) {
+  public void setEnumNumber(@javax.annotation.Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
 
-  public EnumTest outerEnum(OuterEnum outerEnum) {
+  public EnumTest outerEnum(@javax.annotation.Nullable OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
     return this;
   }
@@ -379,7 +383,7 @@ public class EnumTest implements Parcelable {
     return outerEnum;
   }
 
-  public void setOuterEnum(OuterEnum outerEnum) {
+  public void setOuterEnum(@javax.annotation.Nullable OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
 

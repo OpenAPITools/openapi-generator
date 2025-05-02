@@ -28,10 +28,11 @@ import java.util.List;
 /**
  * Query
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Query {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   /**
@@ -39,11 +40,11 @@ public class Query {
    */
   @JsonAdapter(OutcomesEnum.Adapter.class)
   public enum OutcomesEnum {
-    SUCCESS("SUCCESS"),
+    SUCCESS(String.valueOf("SUCCESS")),
     
-    FAILURE("FAILURE"),
+    FAILURE(String.valueOf("FAILURE")),
     
-    SKIPPED("SKIPPED");
+    SKIPPED(String.valueOf("SKIPPED"));
 
     private String value;
 
@@ -85,12 +86,13 @@ public class Query {
 
   public static final String SERIALIZED_NAME_OUTCOMES = "outcomes";
   @SerializedName(SERIALIZED_NAME_OUTCOMES)
+  @javax.annotation.Nullable
   private List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
 
   public Query() {
   }
 
-  public Query id(Long id) {
+  public Query id(@javax.annotation.Nullable Long id) {
     
     this.id = id;
     return this;
@@ -107,12 +109,12 @@ public class Query {
   }
 
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public Query outcomes(List<OutcomesEnum> outcomes) {
+  public Query outcomes(@javax.annotation.Nullable List<OutcomesEnum> outcomes) {
     
     this.outcomes = outcomes;
     return this;
@@ -137,7 +139,7 @@ public class Query {
   }
 
 
-  public void setOutcomes(List<OutcomesEnum> outcomes) {
+  public void setOutcomes(@javax.annotation.Nullable List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
   }
 

@@ -33,19 +33,20 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 @XmlRootElement(name = "Foo")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Foo")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
   @XmlElement(name = "bar")
+  @javax.annotation.Nullable
   private String bar = "bar";
 
   public Foo() {
   }
 
-  public Foo bar(String bar) {
+  public Foo bar(@javax.annotation.Nullable String bar) {
     
     this.bar = bar;
     return this;
@@ -68,9 +69,10 @@ public class Foo {
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "bar")
-  public void setBar(String bar) {
+  public void setBar(@javax.annotation.Nullable String bar) {
     this.bar = bar;
   }
+
 
   @Override
   public boolean equals(Object o) {

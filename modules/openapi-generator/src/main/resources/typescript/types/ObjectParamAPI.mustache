@@ -1,5 +1,8 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http{{importFileExtension}}';
-import { Configuration} from '../configuration{{importFileExtension}}'
+import { Configuration{{^useInversify}}, ConfigurationOptions{{/useInversify}} } from '../configuration{{importFileExtension}}'
+{{^useInversify}}
+import type { Middleware } from '../middleware{{importFileExtension}}';
+{{/useInversify}}
 {{#useRxJS}}
 import { Observable } from 'rxjs';
 {{/useRxJS}}
@@ -21,6 +24,15 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
     {{#allParams}}
     /**
      * {{description}}
+     {{#minimum}}
+     * Minimum: {{minimum}}
+     {{/minimum}}
+     {{#maximum}}
+     * Maximum: {{maximum}}
+     {{/maximum}}
+     {{#defaultValue}}
+     * Defaults to: {{defaultValue}}
+     {{/defaultValue}}
      * @type {{dataType}}
      * @memberof {{classname}}{{nickname}}
      */
@@ -46,7 +58,7 @@ export class Object{{classname}} {
      {{/summary}}
      * @param param the request object
      */
-    public {{nickname}}WithHttpInfo(param: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, options?: Configuration): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+    public {{nickname}}WithHttpInfo(param: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, options?: Configuration{{^useInversify}}Options{{/useInversify}}): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
         return this.api.{{nickname}}WithHttpInfo({{#allParams}}param.{{paramName}}, {{/allParams}} options){{^useRxJS}}.toPromise(){{/useRxJS}};
     }
 
@@ -59,7 +71,7 @@ export class Object{{classname}} {
      {{/summary}}
      * @param param the request object
      */
-    public {{nickname}}(param: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, options?: Configuration): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+    public {{nickname}}(param: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, options?: Configuration{{^useInversify}}Options{{/useInversify}}): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
         return this.api.{{nickname}}({{#allParams}}param.{{paramName}}, {{/allParams}} options){{^useRxJS}}.toPromise(){{/useRxJS}};
     }
 

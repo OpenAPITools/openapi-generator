@@ -40,7 +40,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,24 +51,27 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfSameRef
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ArrayOfSameRef {
   public static final String SERIALIZED_NAME_ARRAY_FOO_ONE = "arrayFooOne";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_ONE)
+  @javax.annotation.Nullable
   private List<Tag> arrayFooOne = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_FOO_TWO = "arrayFooTwo";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_TWO)
+  @javax.annotation.Nullable
   private List<Tag> arrayFooTwo = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_FOO_THREE = "arrayFooThree";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_THREE)
+  @javax.annotation.Nullable
   private List<Tag> arrayFooThree = new ArrayList<>();
 
   public ArrayOfSameRef() {
   }
 
-  public ArrayOfSameRef arrayFooOne(List<Tag> arrayFooOne) {
+  public ArrayOfSameRef arrayFooOne(@javax.annotation.Nullable List<Tag> arrayFooOne) {
     this.arrayFooOne = arrayFooOne;
     return this;
   }
@@ -91,12 +93,12 @@ public class ArrayOfSameRef {
     return arrayFooOne;
   }
 
-  public void setArrayFooOne(List<Tag> arrayFooOne) {
+  public void setArrayFooOne(@javax.annotation.Nullable List<Tag> arrayFooOne) {
     this.arrayFooOne = arrayFooOne;
   }
 
 
-  public ArrayOfSameRef arrayFooTwo(List<Tag> arrayFooTwo) {
+  public ArrayOfSameRef arrayFooTwo(@javax.annotation.Nullable List<Tag> arrayFooTwo) {
     this.arrayFooTwo = arrayFooTwo;
     return this;
   }
@@ -118,12 +120,12 @@ public class ArrayOfSameRef {
     return arrayFooTwo;
   }
 
-  public void setArrayFooTwo(List<Tag> arrayFooTwo) {
+  public void setArrayFooTwo(@javax.annotation.Nullable List<Tag> arrayFooTwo) {
     this.arrayFooTwo = arrayFooTwo;
   }
 
 
-  public ArrayOfSameRef arrayFooThree(List<Tag> arrayFooThree) {
+  public ArrayOfSameRef arrayFooThree(@javax.annotation.Nullable List<Tag> arrayFooThree) {
     this.arrayFooThree = arrayFooThree;
     return this;
   }
@@ -145,7 +147,7 @@ public class ArrayOfSameRef {
     return arrayFooThree;
   }
 
-  public void setArrayFooThree(List<Tag> arrayFooThree) {
+  public void setArrayFooThree(@javax.annotation.Nullable List<Tag> arrayFooThree) {
     this.arrayFooThree = arrayFooThree;
   }
 

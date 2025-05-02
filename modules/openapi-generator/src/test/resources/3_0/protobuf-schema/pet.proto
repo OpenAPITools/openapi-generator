@@ -14,12 +14,12 @@ package openapitools;
 
 message Pet {
 
-  string petType = 140636936;
+  string pet_type = 482112090;
 
   string name = 3373707;
 
   string bark = 3016376;
 
-  bool lovesRocks = 499337491;
+  bool loves_rocks = 465093427;
 
 }

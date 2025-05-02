@@ -51,3 +51,20 @@ given ReadWriter[OffsetDateTime] = readwriter[String].bimap[OffsetDateTime](
              OffsetDateTime.parse(str, DateTimeFormatter.ISO_INSTANT)
             )
 )
+
+
+extension (json: ujson.Value) {
+    def mergeWith(other: ujson.Value): ujson.Value = (json, other) match {
+        case (ujson.Obj(aMap), ujson.Obj(bMap)) =>
+            val mergedMap: scala.collection.mutable.Map[String, ujson.Value] = aMap ++ bMap.map {
+                case (k, v) => k -> (aMap.get(k) match {
+                                        case Some(aValue) => aValue.mergeWith(v)
+                                        case None         => v
+                                    })
+            }
+            ujson.Obj.from(mergedMap)
+        case (ujson.Arr(aArray), ujson.Arr(bArray)) => ujson.Arr(aArray ++ bArray)
+        case (aValue, ujson.Null) => aValue
+        case (_, bValue)          => bValue
+    }
+}

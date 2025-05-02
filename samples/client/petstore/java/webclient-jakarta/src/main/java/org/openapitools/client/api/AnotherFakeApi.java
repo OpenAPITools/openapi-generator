@@ -8,24 +8,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class AnotherFakeApi {
     private ApiClient apiClient;
 
@@ -46,6 +48,7 @@ public class AnotherFakeApi {
         this.apiClient = apiClient;
     }
 
+    
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
@@ -54,7 +57,7 @@ public class AnotherFakeApi {
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec call123testSpecialTagsRequestCreation(Client client) throws WebClientResponseException {
+    private ResponseSpec call123testSpecialTagsRequestCreation(@jakarta.annotation.Nonnull Client client) throws WebClientResponseException {
         Object postBody = client;
         // verify the required parameter 'client' is set
         if (client == null) {
@@ -91,7 +94,7 @@ public class AnotherFakeApi {
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> call123testSpecialTags(Client client) throws WebClientResponseException {
+    public Mono<Client> call123testSpecialTags(@jakarta.annotation.Nonnull Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return call123testSpecialTagsRequestCreation(client).bodyToMono(localVarReturnType);
     }
@@ -104,7 +107,7 @@ public class AnotherFakeApi {
      * @return ResponseEntity&lt;Client&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Client>> call123testSpecialTagsWithHttpInfo(Client client) throws WebClientResponseException {
+    public Mono<ResponseEntity<Client>> call123testSpecialTagsWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return call123testSpecialTagsRequestCreation(client).toEntity(localVarReturnType);
     }
@@ -117,7 +120,7 @@ public class AnotherFakeApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec call123testSpecialTagsWithResponseSpec(Client client) throws WebClientResponseException {
+    public ResponseSpec call123testSpecialTagsWithResponseSpec(@jakarta.annotation.Nonnull Client client) throws WebClientResponseException {
         return call123testSpecialTagsRequestCreation(client);
     }
 }

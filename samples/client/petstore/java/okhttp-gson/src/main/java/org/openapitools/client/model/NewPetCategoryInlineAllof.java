@@ -38,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,24 +49,27 @@ import org.openapitools.client.JSON;
 /**
  * NewPetCategoryInlineAllof
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class NewPetCategoryInlineAllof {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name = "default-name";
 
   public static final String SERIALIZED_NAME_CATEGORY_TAG = "category_tag";
   @SerializedName(SERIALIZED_NAME_CATEGORY_TAG)
+  @javax.annotation.Nullable
   private NewPetCategoryInlineAllofAllOfCategoryTag categoryTag;
 
   public NewPetCategoryInlineAllof() {
   }
 
-  public NewPetCategoryInlineAllof id(Long id) {
+  public NewPetCategoryInlineAllof id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -81,12 +83,12 @@ public class NewPetCategoryInlineAllof {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public NewPetCategoryInlineAllof name(String name) {
+  public NewPetCategoryInlineAllof name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
@@ -100,12 +102,12 @@ public class NewPetCategoryInlineAllof {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public NewPetCategoryInlineAllof categoryTag(NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
+  public NewPetCategoryInlineAllof categoryTag(@javax.annotation.Nullable NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
     this.categoryTag = categoryTag;
     return this;
   }
@@ -119,7 +121,7 @@ public class NewPetCategoryInlineAllof {
     return categoryTag;
   }
 
-  public void setCategoryTag(NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
+  public void setCategoryTag(@javax.annotation.Nullable NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
     this.categoryTag = categoryTag;
   }
 

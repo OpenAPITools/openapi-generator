@@ -30,18 +30,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Bird.JSON_PROPERTY_SIZE,
   Bird.JSON_PROPERTY_COLOR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Bird {
   public static final String JSON_PROPERTY_SIZE = "size";
+  @javax.annotation.Nullable
   private String size;
 
   public static final String JSON_PROPERTY_COLOR = "color";
+  @javax.annotation.Nullable
   private String color;
 
   public Bird() {
   }
 
-  public Bird size(String size) {
+  public Bird size(@javax.annotation.Nullable String size) {
     
     this.size = size;
     return this;
@@ -62,11 +64,11 @@ public class Bird {
 
   @JsonProperty(JSON_PROPERTY_SIZE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSize(String size) {
+  public void setSize(@javax.annotation.Nullable String size) {
     this.size = size;
   }
 
-  public Bird color(String color) {
+  public Bird color(@javax.annotation.Nullable String color) {
     
     this.color = color;
     return this;
@@ -87,9 +89,10 @@ public class Bird {
 
   @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setColor(String color) {
+  public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
+
 
   @Override
   public boolean equals(Object o) {

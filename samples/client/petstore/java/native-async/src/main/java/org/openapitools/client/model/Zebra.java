@@ -42,17 +42,17 @@ import org.openapitools.client.ApiClient;
   Zebra.JSON_PROPERTY_TYPE,
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Zebra extends HashMap<String, Object> {
   /**
    * Gets or Sets type
    */
   public enum TypeEnum {
-    PLAINS("plains"),
+    PLAINS(String.valueOf("plains")),
     
-    MOUNTAIN("mountain"),
+    MOUNTAIN(String.valueOf("mountain")),
     
-    GREVYS("grevys");
+    GREVYS(String.valueOf("grevys"));
 
     private String value;
 
@@ -82,15 +82,17 @@ public class Zebra extends HashMap<String, Object> {
   }
 
   public static final String JSON_PROPERTY_TYPE = "type";
+  @javax.annotation.Nullable
   private TypeEnum type;
 
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @javax.annotation.Nonnull
   private String className;
 
   public Zebra() { 
   }
 
-  public Zebra type(TypeEnum type) {
+  public Zebra type(@javax.annotation.Nullable TypeEnum type) {
     this.type = type;
     return this;
   }
@@ -109,12 +111,12 @@ public class Zebra extends HashMap<String, Object> {
 
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setType(TypeEnum type) {
+  public void setType(@javax.annotation.Nullable TypeEnum type) {
     this.type = type;
   }
 
 
-  public Zebra className(String className) {
+  public Zebra className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -133,7 +135,7 @@ public class Zebra extends HashMap<String, Object> {
 
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 
@@ -261,12 +263,12 @@ public class Zebra extends HashMap<String, Object> {
 
     // add `type` to the URL query string
     if (getType() != null) {
-      joiner.add(String.format("%stype%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stype%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getType()))));
     }
 
     // add `className` to the URL query string
     if (getClassName() != null) {
-      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getClassName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getClassName()))));
     }
 
     return joiner.toString();

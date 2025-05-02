@@ -10,11 +10,12 @@ import {{modelPackage}}.*
 
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
+import scala.util.Try
 
 {{#imports}}import {{import}}
 {{/imports}}
 
-class {{classname}}Routes(service : {{classname}}Service) extends cask.Routes {
+class {{classname}}Routes(service : {{classname}}Service[Try]) extends cask.Routes {
 
 {{#route-groups}}
     // route group for {{methodName}}
@@ -35,7 +36,7 @@ class {{classname}}Routes(service : {{classname}}Service) extends cask.Routes {
          * {{description}}
          */
         {{vendorExtensions.x-annotation}}("{{vendorExtensions.x-cask-path}}")
-        def {{operationId}}({{vendorExtensions.x-cask-path-typed}}) = {
+        def {{operationId}}({{{vendorExtensions.x-cask-path-typed}}}) = {
         {{#authMethods}}
             // auth method {{name}} : {{type}}, keyParamName: {{keyParamName}}
         {{/authMethods}}
@@ -44,7 +45,11 @@ class {{classname}}Routes(service : {{classname}}Service) extends cask.Routes {
 
         val result = {{>parseHttpParams}}
 
-        result match {
+        {{#vendorExtensions.x-import-response-implicits}}
+        import {{vendorExtensions.x-response-type}}.{given, *} // this brings in upickle in the case of union (oneOf) types
+        {{/vendorExtensions.x-import-response-implicits}}
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
         {{#responses}}
             {{#dataType}}

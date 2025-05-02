@@ -38,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,16 +49,17 @@ import org.openapitools.client.JSON;
 /**
  * CircularReference1
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class CircularReference1 {
   public static final String SERIALIZED_NAME_PROP1 = "prop1";
   @SerializedName(SERIALIZED_NAME_PROP1)
+  @javax.annotation.Nullable
   private CircularReference2 prop1;
 
   public CircularReference1() {
   }
 
-  public CircularReference1 prop1(CircularReference2 prop1) {
+  public CircularReference1 prop1(@javax.annotation.Nullable CircularReference2 prop1) {
     this.prop1 = prop1;
     return this;
   }
@@ -73,7 +73,7 @@ public class CircularReference1 {
     return prop1;
   }
 
-  public void setProp1(CircularReference2 prop1) {
+  public void setProp1(@javax.annotation.Nullable CircularReference2 prop1) {
     this.prop1 = prop1;
   }
 

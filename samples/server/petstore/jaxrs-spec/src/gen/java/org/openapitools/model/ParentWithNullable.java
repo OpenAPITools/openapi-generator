@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ParentWithNullable")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ParentWithNullable  implements Serializable {
   public enum TypeEnum {
 
@@ -168,7 +168,7 @@ public class ParentWithNullable  implements Serializable {
     return new ParentWithNullableBuilderImpl();
   }
 
-  private static class ParentWithNullableBuilderImpl extends ParentWithNullableBuilder<ParentWithNullable, ParentWithNullableBuilderImpl> {
+  private static final class ParentWithNullableBuilderImpl extends ParentWithNullableBuilder<ParentWithNullable, ParentWithNullableBuilderImpl> {
 
     @Override
     protected ParentWithNullableBuilderImpl self() {

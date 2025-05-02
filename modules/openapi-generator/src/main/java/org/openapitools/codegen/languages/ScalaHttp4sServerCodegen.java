@@ -383,7 +383,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
         return modelsMap;
     }
 
-    private Map<String, Object> makeRefiined(Set<String> imports, String dataType, ArrayList<String> refined) {
+    private Map<String, Object> makeRefined(Set<String> imports, String dataType, ArrayList<String> refined) {
         Map<String, Object> vendorExtensions = new HashMap<>();
         if (!refined.isEmpty()) {
             imports.add("And");
@@ -426,7 +426,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
                 } catch (IndexOutOfBoundsException ignored) {
                 }
             }
-            vendorExtensions.putAll(makeRefiined(imports, prop.getDataType(), refined));
+            vendorExtensions.putAll(makeRefined(imports, prop.getDataType(), refined));
         }
 
         if ("Int".equals(prop.getDataType())
@@ -455,7 +455,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
                     imports.add("LessEqual");
                 }
             }
-            vendorExtensions.putAll(makeRefiined(imports, prop.getDataType(), refined));
+            vendorExtensions.putAll(makeRefined(imports, prop.getDataType(), refined));
         }
 
         if (prop.getIsUuid() || "Uuid".equals(prop.getDataType())) {
@@ -476,7 +476,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
                 imports.add("MaxSize");
             }
 
-            vendorExtensions.putAll(makeRefiined(imports, prop.getDataType(), refined));
+            vendorExtensions.putAll(makeRefined(imports, prop.getDataType(), refined));
         }
 
         return vendorExtensions;

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnumDto;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class EnumTestDto {
 
   /**
@@ -36,7 +37,7 @@ public class EnumTestDto {
     
     EMPTY("");
 
-    private String value;
+    private final String value;
 
     EnumStringEnum(String value) {
       this.value = value;
@@ -63,7 +64,7 @@ public class EnumTestDto {
     }
   }
 
-  private EnumStringEnum enumString;
+  private @Nullable EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -75,7 +76,7 @@ public class EnumTestDto {
     
     EMPTY("");
 
-    private String value;
+    private final String value;
 
     EnumStringRequiredEnum(String value) {
       this.value = value;
@@ -112,7 +113,7 @@ public class EnumTestDto {
     
     NUMBER_MINUS_1(-1);
 
-    private Integer value;
+    private final Integer value;
 
     EnumIntegerEnum(Integer value) {
       this.value = value;
@@ -139,7 +140,7 @@ public class EnumTestDto {
     }
   }
 
-  private EnumIntegerEnum enumInteger;
+  private @Nullable EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -149,7 +150,7 @@ public class EnumTestDto {
     
     NUMBER_MINUS_1_DOT_2(-1.2);
 
-    private Double value;
+    private final Double value;
 
     EnumNumberEnum(Double value) {
       this.value = value;
@@ -176,9 +177,9 @@ public class EnumTestDto {
     }
   }
 
-  private EnumNumberEnum enumNumber;
+  private @Nullable EnumNumberEnum enumNumber;
 
-  private OuterEnumDto outerEnum;
+  private @Nullable OuterEnumDto outerEnum;
 
   public EnumTestDto() {
     super();

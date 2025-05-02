@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -36,18 +38,20 @@ import org.openapitools.client.ApiClient;
   AppleReq.JSON_PROPERTY_CULTIVAR,
   AppleReq.JSON_PROPERTY_MEALY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
+  @javax.annotation.Nonnull
   private String cultivar;
 
   public static final String JSON_PROPERTY_MEALY = "mealy";
+  @javax.annotation.Nullable
   private Boolean mealy;
 
   public AppleReq() { 
   }
 
-  public AppleReq cultivar(String cultivar) {
+  public AppleReq cultivar(@javax.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
     return this;
   }
@@ -66,12 +70,12 @@ public class AppleReq {
 
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setCultivar(String cultivar) {
+  public void setCultivar(@javax.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
   }
 
 
-  public AppleReq mealy(Boolean mealy) {
+  public AppleReq mealy(@javax.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
     return this;
   }
@@ -90,7 +94,7 @@ public class AppleReq {
 
   @JsonProperty(JSON_PROPERTY_MEALY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMealy(Boolean mealy) {
+  public void setMealy(@javax.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
   }
 
@@ -100,20 +104,12 @@ public class AppleReq {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    AppleReq appleReq = (AppleReq) o;
-    return Objects.equals(this.cultivar, appleReq.cultivar) &&
-        Objects.equals(this.mealy, appleReq.mealy);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(cultivar, mealy);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -171,12 +167,12 @@ public class AppleReq {
 
     // add `cultivar` to the URL query string
     if (getCultivar() != null) {
-      joiner.add(String.format("%scultivar%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCultivar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scultivar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCultivar()))));
     }
 
     // add `mealy` to the URL query string
     if (getMealy() != null) {
-      joiner.add(String.format("%smealy%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMealy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smealy%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMealy()))));
     }
 
     return joiner.toString();

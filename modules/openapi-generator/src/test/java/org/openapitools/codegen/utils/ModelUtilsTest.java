@@ -27,7 +27,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.testng.Assert.*;
 
 public class ModelUtilsTest {
 
@@ -142,7 +147,7 @@ public class ModelUtilsTest {
         Schema commandSchema = ModelUtils.getSchema(openAPI, "Command");
 
         Assert.assertTrue(ModelUtils.isModel(commandSchema));
-        Assert.assertFalse(ModelUtils.isFreeFormObject(commandSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(commandSchema, openAPI));
     }
 
     @Test
@@ -247,23 +252,23 @@ public class ModelUtilsTest {
         OpenAPI openAPI = new OpenAPI().openapi("3.0.0");
         // Create initial "empty" object schema.
         ObjectSchema objSchema = new ObjectSchema();
-        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema, openAPI));
 
         // Set additionalProperties to an empty ObjectSchema.
         objSchema.setAdditionalProperties(new ObjectSchema());
-        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema, openAPI));
 
         // Add a single property to the schema (no longer a free-form object).
         Map<String, Schema> props = new HashMap<>();
         props.put("prop1", new StringSchema());
         objSchema.setProperties(props);
-        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema, openAPI));
 
         // Test a non-object schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema()));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema(), openAPI));
 
         // Test a null schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(null));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(null, openAPI));
     }
 
     @Test
@@ -326,9 +331,9 @@ public class ModelUtilsTest {
         Assert.assertTrue(ModelUtils.isMapSchema((Schema) misc.getProperties().get("map1")));
 
         // test free form object
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3"), openAPI));
 
         // test oneOf
         Assert.assertTrue(ModelUtils.isOneOf((Schema) misc.getProperties().get("oneof1")));
@@ -360,9 +365,9 @@ public class ModelUtilsTest {
         Assert.assertTrue(ModelUtils.isMapSchema((Schema) misc.getProperties().get("map1")));
 
         // test free form object
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2")));
-        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2"), openAPI));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3"), openAPI));
 
         // test oneOf property
         Assert.assertTrue(ModelUtils.isOneOf((Schema) misc.getProperties().get("oneof1")));
@@ -460,5 +465,124 @@ public class ModelUtilsTest {
 
         Assert.assertEquals(deepCopy, schema);
         Assert.assertNotSame(deepCopy, schema);
+    }
+
+    @Test
+    public void testGetSchemaItemsWith31Spec() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18291.yaml");
+        Schema arrayWithPrefixItems = ModelUtils.getSchema(openAPI, "ArrayWithPrefixItems");
+        Assert.assertNotNull(ModelUtils.getSchemaItems((Schema) arrayWithPrefixItems.getProperties().get("with_prefixitems")));
+        Assert.assertNotNull(ModelUtils.getSchemaItems((Schema) arrayWithPrefixItems.getProperties().get("without_items")));
+    }
+
+    @Test
+    public void simplyOneOfAnyOfWithOnlyOneNonNullSubSchema() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
+        Schema schema;
+        List<Schema> subSchemas;
+
+        Schema anyOfWithSeveralSubSchemasButSingleNonNull = ModelUtils.getSchema(openAPI, "AnyOfTest");
+        subSchemas = anyOfWithSeveralSubSchemasButSingleNonNull.getAnyOf();
+        schema = ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, anyOfWithSeveralSubSchemasButSingleNonNull, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertTrue(schema.getNullable());
+        assertEquals("string", schema.getType());
+
+        Schema anyOfWithSingleNonNullSubSchema = ModelUtils.getSchema(openAPI, "Parent");
+        subSchemas = ((Schema) anyOfWithSingleNonNullSubSchema.getProperties().get("number")).getAnyOf();
+        schema = ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, anyOfWithSingleNonNullSubSchema, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertNull(schema.getNullable());
+        assertEquals(schema.get$ref(), "#/components/schemas/Number");
+
+        Schema oneOfWithSeveralSubSchemasButSingleNonNull = ModelUtils.getSchema(openAPI, "OneOfTest");
+        subSchemas = oneOfWithSeveralSubSchemasButSingleNonNull.getOneOf();
+        schema = ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfWithSeveralSubSchemasButSingleNonNull, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertTrue(schema.getNullable());
+        assertEquals("integer", schema.getType());
+
+        Schema oneOfWithSingleNonNullSubSchema = ModelUtils.getSchema(openAPI, "ParentWithOneOfProperty");
+        subSchemas = ((Schema) oneOfWithSingleNonNullSubSchema.getProperties().get("number")).getOneOf();
+        schema = ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfWithSingleNonNullSubSchema, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertNull(schema.getNullable());
+        assertEquals(schema.get$ref(), "#/components/schemas/Number");
+
+        Schema oneOfWithSeveralSubSchemas = ModelUtils.getSchema(openAPI, "ParentWithPluralOneOfProperty");
+        subSchemas = ((Schema) oneOfWithSeveralSubSchemas.getProperties().get("number")).getOneOf();
+        schema = ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfWithSeveralSubSchemas, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNotNull(oneOfWithSeveralSubSchemas.getProperties().get("number"));
+        assertNull(schema.getAnyOf());
+        assertNull(schema.getNullable());
+        assertEquals(((Schema) oneOfWithSeveralSubSchemas.getProperties().get("number")).getOneOf().size(), 2);
+    }
+
+    @Test
+    public void isNullTypeSchemaTest() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/null_schema_test.yaml");
+        Map<String, String> options = new HashMap<>();
+        Schema schema = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("IntegerRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfAnyType");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("AnyOfAnyType");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("Parent");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        // the dummy property is a ref to integer
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getProperties().get("dummy")));
+
+        schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        // first element (getAnyOf().get(0)) is a string. no need to test
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(1)));
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(2)));
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(3)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfMultiRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(1)));
+
+        schema = openAPI.getComponents().getSchemas().get("JustDescription");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+    }
+
+    @Test
+    public void isUnsupportedSchemaTest() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/unsupported_schema_test.yaml");
+        Map<String, String> options = new HashMap<>();
+        Schema schema = openAPI.getComponents().getSchemas().get("Dummy");
+        Schema property1 = (Schema) schema.getProperties().get("property1");
+        Schema property2 = (Schema) schema.getProperties().get("property2");
+
+        // a test of string type with allOf (2 patterns)
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property1.getAllOf().get(0)));
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property1.getAllOf().get(1)));
+
+        // if, then test
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getAllOf().get(0)));
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getAllOf().get(1)));
+
+        // typical schemas, e.g. boolean, string, array of string (enum)
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("aBooleanCheck")));
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("condition")));
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("purpose")));
     }
 }

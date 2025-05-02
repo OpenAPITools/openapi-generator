@@ -27,8 +27,8 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -125,7 +125,7 @@ public class FakeClassnameTags123Api {
          * @param body (Client) client model (required)
          * @return operation
          */
-        public TestClassnameOper body(Client body) {
+        public TestClassnameOper body(@javax.annotation.Nonnull Client body) {
             reqSpec.setBody(body);
             return this;
         }

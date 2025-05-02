@@ -75,7 +75,7 @@ class OpenApiRoutes(localPort: Int, swaggerUrl: Option[String]) extends cask.Rou
       val urlConn = new URL(url).openConnection()
       urlConn.setRequestProperty("User-Agent", "Mozilla/5.0")
 
-      Using(urlConn.getInputStream) { inputStream =>
+      val extracted = Using(urlConn.getInputStream) { inputStream =>
         val zipIn = new ZipInputStream(new BufferedInputStream(inputStream))
         LazyList.continually(zipIn.getNextEntry).takeWhile(_ != null).foreach { entry =>
 
@@ -88,6 +88,12 @@ class OpenApiRoutes(localPort: Int, swaggerUrl: Option[String]) extends cask.Rou
           }
           zipIn.closeEntry()
         }
+      }
+
+      if  (extracted.isFailure) {
+        println(s"Error extracting swagger: ${extracted}")
+      } else {
+        println(s"Extracting swagger: ${extracted}")
       }
     }
 

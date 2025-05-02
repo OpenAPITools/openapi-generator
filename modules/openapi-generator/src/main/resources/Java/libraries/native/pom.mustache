@@ -271,6 +271,14 @@
             <version>${httpmime-version}</version>
         </dependency>
         {{/hasFormParamsInSpec}}
+        {{#useReflectionEqualsHashCode}}
+        <!-- For equals and hashCode using reflection -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3-version}</version>
+        </dependency>
+        {{/useReflectionEqualsHashCode}}
 
         <!-- test dependencies -->
         <dependency>
@@ -295,16 +303,18 @@
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        <beanvalidation-version>3.0.2</beanvalidation-version>
         {{/useJakartaEe}}
         {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
         {{/useJakartaEe}}
-        {{#useBeanValidation}}
-        <beanvalidation-version>3.0.2</beanvalidation-version>
-        {{/useBeanValidation}}
         {{#hasFormParamsInSpec}}
         <httpmime-version>4.5.14</httpmime-version>
         {{/hasFormParamsInSpec}}
+        {{#useReflectionEqualsHashCode}}
+        <commons-lang3-version>3.17.0</commons-lang3-version>
+        {{/useReflectionEqualsHashCode}}
         <junit-version>5.10.2</junit-version>
         <spotless.version>2.27.2</spotless.version>
     </properties>

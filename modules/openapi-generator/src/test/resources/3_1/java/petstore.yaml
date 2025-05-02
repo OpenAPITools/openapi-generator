@@ -17,6 +17,36 @@ tags:
     description: Access to Petstore orders
   - name: user
     description: Operations about user
+webhooks:
+  /fake/webhooks/sources/deleted:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: inline schema in webhooks
+              required:
+                - event_timestamp
+                - event_type
+                - event
+              properties:
+                event_timestamp:
+                  type: string
+                  format: date-time
+                event_type:
+                  type: string
+                event:
+                  type: object
+                  required:
+                    - event_id
+                  properties:
+                    event_id:
+                      type: string
+      responses:
+        '200':
+          description: successful operation
+        '405':
+          description: Invalid input
 paths:
   /pet:
     post:
@@ -609,6 +639,28 @@ paths:
           $ref: '#/components/responses/ref'
     parameters:
       - $ref: '#/components/parameters/ref_to_uuid'
+  /ref/ref_to_path_level_parameter_oneof:
+    get:
+      description: to test $ref to path level parameters
+      operationId: ref_to_ref_parameter_oneof
+      tags:
+        - fake
+      responses:
+        '200':
+          description: Successful Response
+    parameters:
+      - $ref: '#/components/parameters/ref_to_oneof'
+  /ref/ref_to_operation_level_parameter_oneof:
+    get:
+      description: to test $ref to operation level parameters
+      operationId: ref_to_ref_parameter_anyof
+      tags:
+        - fake
+      responses:
+        '200':
+          description: Successful Response
+      parameters:
+        - $ref: '#/components/parameters/ref_to_anyof'
   "/fake/api/changeowner":
     post:
       summary: op1
@@ -720,6 +772,26 @@ components:
         type: string
         format: uuid
         example: 61864654-6e6b-4152-a62f-795fdd606bc2
+    ref_to_oneof:
+      description: to test ref to parameter (oneof)
+      name: ref_to_oneof
+      in: header
+      required: true
+      schema:
+        oneOf:
+          - type: string
+          - type: integer
+    ref_to_anyof:
+      description: to test ref to parameter (anyof)
+      name: ref_to_anyof
+      in: header
+      required: true
+      schema:
+        oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
   requestBodies:
     UserArray:
       content:
@@ -1024,3 +1096,24 @@ components:
         - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
     myObject:
       type: object
+    SelfReference:
+      type: array
+      items:
+        $ref: "#/components/schemas/SelfReference"
+    SelfReferenceOneOf:
+      oneOf:
+        - type: string
+        - type: boolean
+        - $ref: "#/components/schemas/SelfReferenceOneOf"
+    SelfReferenceAnyOf:
+      anyOf:
+        - type: string
+        - type: boolean
+        - $ref: "#/components/schemas/SelfReferenceAnyOf"
+    SelfReferenceAdditionalProperties:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/SelfReferenceAdditionalProperties"
+      properties:
+        dummy:
+          type: string 

@@ -13,7 +13,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -71,6 +70,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
+  {{>nullable_var_annotations}}
   {{#isDiscriminator}}protected{{/isDiscriminator}}{{^isDiscriminator}}private{{/isDiscriminator}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 
   {{/vars}}
@@ -81,6 +81,11 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/parcelableModel}}
     {{/parent}}
     {{#discriminator}}
+    {{#discriminator.isEnum}}
+{{#readWriteVars}}{{#isDiscriminator}}{{#defaultValue}}
+    this.{{name}} = {{defaultValue}};
+{{/defaultValue}}{{/isDiscriminator}}{{/readWriteVars}}
+    {{/discriminator.isEnum}}
     {{^discriminator.isEnum}}
     this.{{{discriminatorName}}} = this.getClass().getSimpleName();
     {{/discriminator.isEnum}}
@@ -107,7 +112,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{>nullable_var_annotations}} {{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
     return this;
   }
@@ -154,17 +159,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{#deprecated}}
   @Deprecated
 {{/deprecated}}
-{{#required}}
-{{#isNullable}}
-  @{{javaxPackage}}.annotation.Nullable
-{{/isNullable}}
-{{^isNullable}}
-  @{{javaxPackage}}.annotation.Nonnull
-{{/isNullable}}
-{{/required}}
-{{^required}}
-  @{{javaxPackage}}.annotation.Nullable
-{{/required}}
+  {{>nullable_var_annotations}}
 {{#useBeanValidation}}
 {{>beanValidation}}
 {{/useBeanValidation}}
@@ -184,7 +179,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{^isReadOnly}}
 {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
 {{/vendorExtensions.x-setter-extra-annotation}}{{#deprecated}}  @Deprecated
-{{/deprecated}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{/deprecated}}  public void {{setter}}({{>nullable_var_annotations}} {{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
   {{/isReadOnly}}

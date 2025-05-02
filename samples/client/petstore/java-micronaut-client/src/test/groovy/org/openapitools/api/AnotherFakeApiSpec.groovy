@@ -1,14 +1,17 @@
 package org.openapitools.api
 
 import org.openapitools.model.ModelClient
+import java.util.UUID
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification
 import jakarta.inject.Inject
-import reactor.core.publisher.Mono
+import spock.lang.Ignore
+import java.util.Arrays
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
 import java.util.Map
+import java.util.HashSet
 
 
 /**
@@ -26,13 +29,16 @@ class AnotherFakeApiSpec extends Specification {
      *
      * To test special tags and operation ID starting with number
      */
-    void "call123testSpecialTags() test"() {
+    @Ignore("Not Implemented")
+    void 'call123testSpecialTags() test'() {
         given:
-        ModelClient _body = null
-        // ModelClient response = api.call123testSpecialTags(_body).block()
-        // Mono<ModelClient> asyncResponse = api.call123testSpecialTags(_body)
+        UUID uuidTest = null
+        ModelClient _body = new ModelClient()
 
-        expect:
+        when:
+        ModelClient body = api.call123testSpecialTags(uuidTest, _body).block()
+
+        then:
         true
         // TODO: test validations
     }

@@ -1,0 +1,39 @@
+name: Samples Protobuf
+on:
+  push:
+    paths:
+      - .github/workflows/samples-protobuf.yaml
+      - samples/config/petstore/protobuf-schema/**
+      - samples/config/petstore/protobuf-schema-config/**
+  pull_request:
+    paths:
+      - .github/workflows/samples-protobuf.yaml
+      - samples/config/petstore/protobuf-schema/**
+      - samples/config/petstore/protobuf-schema-config/**
+jobs:
+  build:
+    name: Build Protobuf Client
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - 'samples/config/petstore/protobuf-schema/'
+          - 'samples/config/petstore/protobuf-schema-config/'
+          - 'samples/config/petstore/protobuf-schema-config-complex/'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Protocol Buffers Compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+      - name: Generate Protobuf Schema
+        working-directory: ${{ matrix.sample }}
+        run: |
+          mkdir out
+          protoc --proto_path=. --cpp_out=out models/*.proto services/*.proto
+      - name: Verify Generated Files
+        working-directory: ${{ matrix.sample }}
+        run: |
+          ls -l out/models
+          ls -l out/services

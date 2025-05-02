@@ -40,7 +40,7 @@ $apiInstance = new OpenAPI\Client\Api\QueryApi(
     new GuzzleHttp\Client()
 );
 $enum_nonref_string_query = 'enum_nonref_string_query_example'; // string
-$enum_ref_string_query = new \OpenAPI\Client\Model\StringEnumRef(); // StringEnumRef
+$enum_ref_string_query = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\StringEnumRef(); // \OpenAPI\Client\Model\StringEnumRef
 
 try {
     $result = $apiInstance->testEnumRefString($enum_nonref_string_query, $enum_ref_string_query);
@@ -55,7 +55,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **enum_nonref_string_query** | **string**|  | [optional] |
-| **enum_ref_string_query** | [**StringEnumRef**](../Model/.md)|  | [optional] |
+| **enum_ref_string_query** | [**\OpenAPI\Client\Model\StringEnumRef**](../Model/.md)|  | [optional] |
 
 ### Return type
 
@@ -97,8 +97,8 @@ $apiInstance = new OpenAPI\Client\Api\QueryApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$datetime_query = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime
-$date_query = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime
+$datetime_query = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
+$date_query = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
 $string_query = 'string_query_example'; // string
 
 try {
@@ -217,7 +217,7 @@ $apiInstance = new OpenAPI\Client\Api\QueryApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$query_object = new \OpenAPI\Client\Model\Pet(); // Pet
+$query_object = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet
 
 try {
     $result = $apiInstance->testQueryStyleDeepObjectExplodeTrueObject($query_object);
@@ -231,7 +231,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **query_object** | [**Pet**](../Model/.md)|  | [optional] |
+| **query_object** | [**\OpenAPI\Client\Model\Pet**](../Model/.md)|  | [optional] |
 
 ### Return type
 
@@ -273,7 +273,7 @@ $apiInstance = new OpenAPI\Client\Api\QueryApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$query_object = new \OpenAPI\Client\Model\TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(); // TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
+$query_object = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(); // \OpenAPI\Client\Model\TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
 
 try {
     $result = $apiInstance->testQueryStyleDeepObjectExplodeTrueObjectAllOf($query_object);
@@ -287,7 +287,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **query_object** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](../Model/.md)|  | [optional] |
+| **query_object** | [**\OpenAPI\Client\Model\TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](../Model/.md)|  | [optional] |
 
 ### Return type
 
@@ -441,7 +441,7 @@ $apiInstance = new OpenAPI\Client\Api\QueryApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$query_object = new \OpenAPI\Client\Model\TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
+$query_object = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(); // \OpenAPI\Client\Model\TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 
 try {
     $result = $apiInstance->testQueryStyleFormExplodeTrueArrayString($query_object);
@@ -455,7 +455,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **query_object** | [**TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter**](../Model/.md)|  | [optional] |
+| **query_object** | [**\OpenAPI\Client\Model\TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter**](../Model/.md)|  | [optional] |
 
 ### Return type
 
@@ -497,7 +497,7 @@ $apiInstance = new OpenAPI\Client\Api\QueryApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$query_object = new \OpenAPI\Client\Model\Pet(); // Pet
+$query_object = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet
 
 try {
     $result = $apiInstance->testQueryStyleFormExplodeTrueObject($query_object);
@@ -511,7 +511,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **query_object** | [**Pet**](../Model/.md)|  | [optional] |
+| **query_object** | [**\OpenAPI\Client\Model\Pet**](../Model/.md)|  | [optional] |
 
 ### Return type
 
@@ -553,7 +553,7 @@ $apiInstance = new OpenAPI\Client\Api\QueryApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$query_object = new \OpenAPI\Client\Model\DataQuery(); // DataQuery
+$query_object = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\DataQuery(); // \OpenAPI\Client\Model\DataQuery
 
 try {
     $result = $apiInstance->testQueryStyleFormExplodeTrueObjectAllOf($query_object);
@@ -567,7 +567,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **query_object** | [**DataQuery**](../Model/.md)|  | [optional] |
+| **query_object** | [**\OpenAPI\Client\Model\DataQuery**](../Model/.md)|  | [optional] |
 
 ### Return type
 

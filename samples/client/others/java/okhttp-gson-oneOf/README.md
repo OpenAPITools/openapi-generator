@@ -2,7 +2,7 @@
 
 oneOf two primitives
 - API version: 1.0.0
-  - Generator version: 7.8.0-SNAPSHOT
+  - Generator version: 7.14.0-SNAPSHOT
 
 oneOf with two entries of type string, see https://github.com/OpenAPITools/openapi-generator/issues/10450
 
@@ -83,7 +83,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.DefaultApi;
 
 public class Example {

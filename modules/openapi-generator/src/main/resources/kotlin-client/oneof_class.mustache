@@ -71,9 +71,9 @@ import java.io.IOException
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
 {{>additionalModelTypeAnnotations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}}(var actualInstance: Any? = null) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}data class {{classname}}(var actualInstance: Any? = null) {
 
-    class CustomTypeAdapterFactory : TypeAdapterFactory {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class CustomTypeAdapterFactory : TypeAdapterFactory {
         override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
             if (!{{classname}}::class.java.isAssignableFrom(type.rawType)) {
                 return null // this class only serializes '{{classname}}' and its subtypes
@@ -83,7 +83,7 @@ import java.io.IOException
             {{#oneOf}}
             {{^isArray}}
             {{^vendorExtensions.x-duplicated-data-type}}
-            val adapter{{{dataType}}} = gson.getDelegateAdapter(this, TypeToken.get({{{dataType}}}::class.java))
+            val adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = gson.getDelegateAdapter(this, TypeToken.get({{{dataType}}}::class.java))
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/isArray}}
             {{#isArray}}
@@ -122,7 +122,7 @@ import java.io.IOException
                         return
                     {{/isPrimitiveType}}
                     {{^isPrimitiveType}}
-                        val element = adapter{{{dataType}}}.toJsonTree(value.actualInstance as {{{dataType}}}?)
+                        val element = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(value.actualInstance as {{{dataType}}}?)
                         elementAdapter.write(out, element)
                         return
                     {{/isPrimitiveType}}
@@ -179,7 +179,7 @@ import java.io.IOException
                         for(element in jsonElement.getAsJsonArray()) {
                         {{#items}}
                         {{#isNumber}}
-                            require(jsonElement.getAsJsonPrimitive().isNumber) {
+                            require(element.getAsJsonPrimitive().isNumber) {
                                 String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString())
                             }
                         {{/isNumber}}
@@ -234,6 +234,101 @@ import java.io.IOException
                     throw IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()))
                 }
             }.nullSafe() as TypeAdapter<T>
+        }
+    }
+
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
+        /**
+        * Validates the JSON Element and throws an exception if issues found
+        *
+        * @param jsonElement JSON Element
+        * @throws IOException if the JSON Element is invalid with respect to {{classname}}
+        */
+        @Throws(IOException::class)
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun validateJsonElement(jsonElement: JsonElement?) {
+            requireNotNull(jsonElement) {
+                "Provided json element must not be null"
+            }
+            var match = 0
+            val errorMessages = ArrayList<String>()
+            {{#composedSchemas}}
+            {{#oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            {{^hasVars}}
+            // validate the json string with {{{dataType}}}
+            try {
+                // validate the JSON object to see if any exception is thrown
+            {{^isArray}}
+            {{#isNumber}}
+                require(jsonElement.getAsJsonPrimitive().isNumber()) {
+                    String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString())
+                }
+            {{/isNumber}}
+            {{^isNumber}}
+            {{#isPrimitiveType}}
+                require(jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                    String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString())
+                }
+            {{/isPrimitiveType}}
+            {{/isNumber}}
+            {{^isNumber}}
+            {{^isPrimitiveType}}
+                {{{dataType}}}.validateJsonElement(jsonElement)
+            {{/isPrimitiveType}}
+            {{/isNumber}}
+            {{/isArray}}
+            {{#isArray}}
+                require(jsonElement.isJsonArray) {
+                    String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString())
+                }
+
+                // validate array items
+                for(element in jsonElement.getAsJsonArray()) {
+                {{#items}}
+                {{#isNumber}}
+                    require(jsonElement.getAsJsonPrimitive().isNumber) {
+                        String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString())
+                    }
+                {{/isNumber}}
+                {{^isNumber}}
+                {{#isPrimitiveType}}
+                    require(element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}) {
+                        String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString())
+                    }
+                {{/isPrimitiveType}}
+                {{/isNumber}}
+                {{^isNumber}}
+                {{^isPrimitiveType}}
+                    {{{dataType}}}.validateJsonElement(element)
+                {{/isPrimitiveType}}
+                {{/isNumber}}
+                {{/items}}
+                }
+            {{/isArray}}
+                match++
+            } catch (e: Exception) {
+                // Validation failed, continue
+                errorMessages.add(String.format("Validation for {{{dataType}}} failed with `%s`.", e.message))
+            }
+            {{/hasVars}}
+            {{#hasVars}}
+            // validate json string for {{{.}}}
+            try {
+                // validate the JSON object to see if any exception is thrown
+                {{.}}.validateJsonElement(jsonElement)
+                match++
+            } catch (e: Exception) {
+                // validation failed, continue
+                errorMessages.add(String.format("Validation for {{{.}}} failed with `%s`.", e.message))
+            }
+            {{/hasVars}}
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/oneOf}}
+            {{/composedSchemas}}
+
+            if (match != 1) {
+                throw IOException(String.format("Failed validation for {{classname}}: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()))
+            }
         }
     }
 }

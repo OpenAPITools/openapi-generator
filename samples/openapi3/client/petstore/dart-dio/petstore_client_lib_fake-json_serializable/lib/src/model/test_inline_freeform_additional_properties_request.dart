@@ -25,7 +25,7 @@ class TestInlineFreeformAdditionalPropertiesRequest {
     
     name: r'someProperty',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 

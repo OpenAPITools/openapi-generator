@@ -21,8 +21,7 @@ Category <- R6::R6Class(
     `name` = NULL,
     `_field_list` = c("id", "name"),
     `additional_properties` = list(),
-    #' Initialize a new Category class.
-    #'
+
     #' @description
     #' Initialize a new Category class.
     #'
@@ -30,7 +29,6 @@ Category <- R6::R6Class(
     #' @param name name
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`id` = NULL, `name` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
@@ -50,14 +48,37 @@ Category <- R6::R6Class(
         }
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
-    #' To JSON String
-    #'
-    #' @return Category in JSON format
-    #' @export
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return Category as a base R list.
+    #' @examples
+    #' # convert array of Category (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert Category to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       CategoryObject <- list()
       if (!is.null(self$`id`)) {
         CategoryObject[["id"]] <-
@@ -71,16 +92,14 @@ Category <- R6::R6Class(
         CategoryObject[[key]] <- self$additional_properties[[key]]
       }
 
-      CategoryObject
+      return(CategoryObject)
     },
-    #' Deserialize JSON string into an instance of Category
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Category
     #'
     #' @param input_json the JSON input
     #' @return the instance of Category
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`id`)) {
@@ -98,48 +117,26 @@ Category <- R6::R6Class(
 
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return Category in JSON format
-    #' @export
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`id`)) {
-          sprintf(
-          '"id":
-            %d
-                    ',
-          self$`id`
-          )
-        },
-        if (!is.null(self$`name`)) {
-          sprintf(
-          '"name":
-            "%s"
-                    ',
-          self$`name`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
-      json_obj <- jsonlite::fromJSON(json_string)
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
       for (key in names(self$additional_properties)) {
-        json_obj[[key]] <- self$additional_properties[[key]]
+        simple[[key]] <- self$additional_properties[[key]]
       }
-      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
-    #' Deserialize JSON string into an instance of Category
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Category
     #'
     #' @param input_json the JSON input
     #' @return the instance of Category
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`id` <- this_object$`id`
@@ -153,33 +150,27 @@ Category <- R6::R6Class(
 
       self
     },
-    #' Validate JSON input with respect to Category
-    #'
+
     #' @description
     #' Validate JSON input with respect to Category and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of Category
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       if (!str_detect(self$`name`, "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")) {
         return(FALSE)
@@ -187,13 +178,11 @@ Category <- R6::R6Class(
 
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       if (!str_detect(self$`name`, "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")) {
@@ -202,12 +191,9 @@ Category <- R6::R6Class(
 
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

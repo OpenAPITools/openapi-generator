@@ -687,6 +687,34 @@ paths:
       - text/plain
     parameters:
     - $ref: '#/components/parameters/ref_to_uuid'
+  /ref/ref_to_path_level_parameter_oneof:
+    get:
+      description: to test $ref to path level parameters
+      operationId: ref_to_ref_parameter_oneof
+      parameters:
+      - $ref: '#/components/parameters/ref_to_oneof'
+      responses:
+        "200":
+          description: Successful Response
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+    parameters:
+    - $ref: '#/components/parameters/ref_to_oneof'
+  /ref/ref_to_operation_level_parameter_oneof:
+    get:
+      description: to test $ref to operation level parameters
+      operationId: ref_to_ref_parameter_anyof
+      parameters:
+      - $ref: '#/components/parameters/ref_to_anyof'
+      responses:
+        "200":
+          description: Successful Response
+      tags:
+      - fake
+      x-accepts:
+      - application/json
   /fake/api/changeowner:
     post:
       operationId: op1
@@ -787,6 +815,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/myObject'
                 nullable: true
+                type: array
           description: ""
       tags:
       - fake
@@ -804,6 +833,24 @@ components:
         example: 61864654-6e6b-4152-a62f-795fdd606bc2
         format: uuid
         type: string
+      style: simple
+    ref_to_oneof:
+      description: to test ref to parameter (oneof)
+      explode: false
+      in: header
+      name: ref_to_oneof
+      required: true
+      schema:
+        $ref: '#/components/schemas/_ref_ref_to_path_level_parameter_oneof_ref_to_oneof_parameter'
+      style: simple
+    ref_to_anyof:
+      description: to test ref to parameter (anyof)
+      explode: false
+      in: header
+      name: ref_to_anyof
+      required: true
+      schema:
+        $ref: '#/components/schemas/ref_to_ref_parameter_anyof_ref_to_anyof_parameter'
       style: simple
   requestBodies:
     UserArray:
@@ -1053,9 +1100,7 @@ components:
         ref_array_prefix_items:
           description: |
             An item that was added to the queue.
-          items:
-            description: TODO default missing array inner type to string
-            type: string
+          items: {}
           maxItems: 5
           minItems: 3
           type: array
@@ -1066,9 +1111,7 @@ components:
     ArrayPrefixItems:
       description: |
         An item that was added to the queue.
-      items:
-        description: TODO default missing array inner type to string
-        type: string
+      items: {}
       maxItems: 5
       minItems: 3
       type: array
@@ -1117,6 +1160,22 @@ components:
       - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
     myObject:
       type: object
+    SelfReference:
+      items: {}
+      type: array
+    SelfReferenceOneOf:
+      oneOf:
+      - type: string
+      - type: boolean
+    SelfReferenceAnyOf:
+      anyOf:
+      - type: string
+      - type: boolean
+    SelfReferenceAdditionalProperties:
+      additionalProperties: {}
+      properties:
+        dummy:
+          type: string
     updatePetWithForm_request:
       properties:
         name:
@@ -1134,6 +1193,36 @@ components:
           description: file to upload
           format: binary
           type: string
+    _ref_ref_to_path_level_parameter_oneof_ref_to_oneof_parameter:
+      oneOf:
+      - type: string
+      - type: integer
+    ref_to_ref_parameter_anyof_ref_to_anyof_parameter:
+      oneOf:
+      - type: string
+      - items:
+          type: string
+        type: array
+    _fake_webhooks_sources_deleted_post_request_event:
+      properties:
+        event_id:
+          type: string
+      required:
+      - event_id
+    _fake_webhooks_sources_deleted_post_request:
+      description: inline schema in webhooks
+      properties:
+        event_timestamp:
+          format: date-time
+          type: string
+        event_type:
+          type: string
+        event:
+          $ref: '#/components/schemas/_fake_webhooks_sources_deleted_post_request_event'
+      required:
+      - event
+      - event_timestamp
+      - event_type
   securitySchemes:
     petstore_auth:
       flows:

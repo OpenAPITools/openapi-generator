@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,20 +48,22 @@ import org.openapitools.client.JSON;
 /**
  * SimpleQuadrilateral
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class SimpleQuadrilateral {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
+  @javax.annotation.Nonnull
   private String shapeType;
 
   public static final String SERIALIZED_NAME_QUADRILATERAL_TYPE = "quadrilateralType";
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
+  @javax.annotation.Nonnull
   private String quadrilateralType;
 
   public SimpleQuadrilateral() {
   }
 
-  public SimpleQuadrilateral shapeType(String shapeType) {
+  public SimpleQuadrilateral shapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;
   }
@@ -76,12 +77,12 @@ public class SimpleQuadrilateral {
     return shapeType;
   }
 
-  public void setShapeType(String shapeType) {
+  public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
 
 
-  public SimpleQuadrilateral quadrilateralType(String quadrilateralType) {
+  public SimpleQuadrilateral quadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
     return this;
   }
@@ -95,7 +96,7 @@ public class SimpleQuadrilateral {
     return quadrilateralType;
   }
 
-  public void setQuadrilateralType(String quadrilateralType) {
+  public void setQuadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
 

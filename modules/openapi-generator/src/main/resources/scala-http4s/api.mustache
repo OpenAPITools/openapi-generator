@@ -1,0 +1,60 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+import cats.effect.Concurrent
+import io.circe.Encoder
+import org.http4s.Uri
+import org.http4s.client.Client as Http4sClient
+{{#imports}}
+import {{import}}
+{{/imports}}
+import {{modelPackage}}.*
+
+{{#operations}}
+trait {{classname}}Endpoints[F[*]] {
+
+{{#operation}}
+  def {{operationId}}({{>methodParameters}}): F[{{>operationReturnType}}]
+{{/operation}}
+
+}
+{{/operations}}
+
+{{#operations}}
+class {{classname}}EndpointsImpl[F[*]: Concurrent](
+  override val baseUrl: Uri,
+  defaultHeaders: Seq[(String, String)] = Nil,
+  httpClient: Http4sClient[F]
+) extends BaseClient[F](baseUrl, defaultHeaders, httpClient) with {{classname}}Endpoints[F] {
+  
+  import JsonSupports.*
+  import io.circe.syntax.EncoderOps
+  import cats.implicits.toFlatMapOps
+
+{{#operation}}
+  override def {{operationId}}({{>methodParameters}}): F[{{>operationReturnType}}] = {
+    val requestHeaders = {{>headerParamCreation}}{{#hasFormParams}}
+    val formParameters = Some(({{#formParams}}
+      {{>paramsCreation}}{{/formParams}}
+    ).toSeq.flatten){{/hasFormParams}}{{#hasQueryParams}}
+    val queryParameters = ({{#queryParams}}
+      {{>paramsCreation}}{{/queryParams}}
+    ).toSeq.flatten{{/hasQueryParams}}
+
+    _executeRequest[{{>bodyParamType}}, {{>operationReturnType}}](
+      method = "{{httpMethod.toUpperCase}}",
+      path = s"{{{path}}}",
+      body = {{#bodyParam}}{{#required}}Some({{paramName}}){{/required}}{{^required}}{{paramName}}{{/required}}{{/bodyParam}}{{^bodyParam}}None{{/bodyParam}},
+      formParameters = {{^hasFormParams}}None,{{/hasFormParams}}{{#hasFormParams}}formParameters,{{/hasFormParams}}
+      queryParameters = {{^hasQueryParams}}Nil,{{/hasQueryParams}}{{#hasQueryParams}}queryParameters,{{/hasQueryParams}}
+      requestHeaders = requestHeaders,
+      auth = {{#authMethods.0}}Some(auth){{/authMethods.0}}{{^authMethods}}None{{/authMethods}}) {
+        {{>responseState}}
+    }
+  }
+
+  {{/operation}}
+}
+{{/operations}}
+
+

@@ -18,7 +18,7 @@ void test_Pet_id_is_assigned_from_json()
 
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "id", 1
     };
@@ -36,7 +36,7 @@ void test_Pet_name_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "name", "hello"
     };
@@ -59,7 +59,7 @@ void test_Pet_status_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "status", "hello"
     };
@@ -82,7 +82,7 @@ void test_Pet_id_is_converted_to_json()
 
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "id", 1
     };
@@ -102,7 +102,7 @@ void test_Pet_id_is_converted_to_json()
 void test_Pet_name_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "name", "hello"
     };
@@ -125,7 +125,7 @@ void test_Pet_name_is_converted_to_json()
 void test_Pet_status_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "status", "hello"
     };

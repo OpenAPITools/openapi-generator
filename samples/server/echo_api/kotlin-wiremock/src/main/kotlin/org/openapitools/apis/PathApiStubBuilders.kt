@@ -22,7 +22,7 @@ class TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStri
      * Let the stub for testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath respond with HTTP status code 200.
      *
      * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
@@ -39,6 +39,7 @@ class TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStri
     /**
      * Let the stub for testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath respond with HTTP status code [code].
      *
+     * @param code the response code.
      * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.

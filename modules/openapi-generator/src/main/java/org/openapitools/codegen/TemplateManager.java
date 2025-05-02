@@ -13,8 +13,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
@@ -30,8 +36,8 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     /**
      * Constructs a new instance of a {@link TemplateManager}
      *
-     * @param options The {@link TemplateManagerOptions} for reading and writing templates
-     * @param engineAdapter The adaptor to underlying templating engine
+     * @param options         The {@link TemplateManagerOptions} for reading and writing templates
+     * @param engineAdapter   The adaptor to underlying templating engine
      * @param templateLoaders Loaders which define where we look for templates
      */
     public TemplateManager(
@@ -87,7 +93,6 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      * Gets a normalized classpath resource location according to OS-specific file separator
      *
      * @param name The name of the resource file/directory to find
-     *
      * @return A normalized string according to OS-specific file separator
      */
     public static String getCPResourcePath(final String name) {
@@ -152,8 +157,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      *
      * @param data     Input data
      * @param template Input template location
-     * @param target The targeted file output location
-     *
+     * @param target   The targeted file output location
      * @return The actual file
      */
     @Override

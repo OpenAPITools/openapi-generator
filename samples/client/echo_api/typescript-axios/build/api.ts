@@ -1605,34 +1605,29 @@ export const HeaderApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+
+    
             if (integerHeader != null) {
                 localVarHeaderParameter['integer_header'] = typeof integerHeader === 'string'
                     ? integerHeader
                     : JSON.stringify(integerHeader);
             }
-
             if (booleanHeader != null) {
                 localVarHeaderParameter['boolean_header'] = typeof booleanHeader === 'string'
                     ? booleanHeader
                     : JSON.stringify(booleanHeader);
             }
-
             if (stringHeader != null) {
                 localVarHeaderParameter['string_header'] = String(stringHeader);
             }
-
             if (enumNonrefStringHeader != null) {
                 localVarHeaderParameter['enum_nonref_string_header'] = String(enumNonrefStringHeader);
             }
-
             if (enumRefStringHeader != null) {
                 localVarHeaderParameter['enum_ref_string_header'] = typeof enumRefStringHeader === 'string'
                     ? enumRefStringHeader
                     : JSON.stringify(enumRefStringHeader);
             }
-
-
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};

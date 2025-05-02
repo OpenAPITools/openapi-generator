@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ import javax.annotation.Generated;
  * Capitalization
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Capitalization {
 
   private Optional<String> smallCamel = Optional.empty();
@@ -35,7 +36,7 @@ public class Capitalization {
   private Optional<String> ATT_NAME = Optional.empty();
 
   public Capitalization smallCamel(String smallCamel) {
-    this.smallCamel = Optional.of(smallCamel);
+    this.smallCamel = Optional.ofNullable(smallCamel);
     return this;
   }
 
@@ -55,7 +56,7 @@ public class Capitalization {
   }
 
   public Capitalization capitalCamel(String capitalCamel) {
-    this.capitalCamel = Optional.of(capitalCamel);
+    this.capitalCamel = Optional.ofNullable(capitalCamel);
     return this;
   }
 
@@ -75,7 +76,7 @@ public class Capitalization {
   }
 
   public Capitalization smallSnake(String smallSnake) {
-    this.smallSnake = Optional.of(smallSnake);
+    this.smallSnake = Optional.ofNullable(smallSnake);
     return this;
   }
 
@@ -95,7 +96,7 @@ public class Capitalization {
   }
 
   public Capitalization capitalSnake(String capitalSnake) {
-    this.capitalSnake = Optional.of(capitalSnake);
+    this.capitalSnake = Optional.ofNullable(capitalSnake);
     return this;
   }
 
@@ -115,7 +116,7 @@ public class Capitalization {
   }
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
-    this.scAETHFlowPoints = Optional.of(scAETHFlowPoints);
+    this.scAETHFlowPoints = Optional.ofNullable(scAETHFlowPoints);
     return this;
   }
 
@@ -135,7 +136,7 @@ public class Capitalization {
   }
 
   public Capitalization ATT_NAME(String ATT_NAME) {
-    this.ATT_NAME = Optional.of(ATT_NAME);
+    this.ATT_NAME = Optional.ofNullable(ATT_NAME);
     return this;
   }
 

@@ -5,7 +5,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>7.8.0-SNAPSHOT</version>
+        <version>7.14.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../../pom.xml</relativePath>
     </parent>
@@ -20,9 +20,9 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.sonatype.plexus</groupId>
+            <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-build-api</artifactId>
-            <version>0.0.7</version>
+            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>

@@ -14,7 +14,7 @@ import UniformTypeIdentifiers
 
 // Protocol defined for a session data task. This allows mocking out the URLSessionProtocol below since
 // you may not want to create or return a real URLSessionDataTask.
-public protocol URLSessionDataTaskProtocol {
+internal protocol URLSessionDataTaskProtocol {
     func resume()
 
     var taskIdentifier: Int { get }
@@ -25,7 +25,7 @@ public protocol URLSessionDataTaskProtocol {
 }
 
 // Protocol allowing implementations to alter what is returned or to test their implementations.
-public protocol URLSessionProtocol {
+internal protocol URLSessionProtocol {
     // Task which performs the network fetch. Expected to be from URLSession.dataTask(with:completionHandler:) such that a network request
     // is sent off when `.resume()` is called.
     func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol
@@ -33,7 +33,7 @@ public protocol URLSessionProtocol {
 
 extension URLSession: URLSessionProtocol {
   // Passthrough to URLSession.dataTask(with:completionHandler) since URLSessionDataTask conforms to URLSessionDataTaskProtocol and fetches the network data.
-  public func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> any URLSessionDataTaskProtocol {
+  internal func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> any URLSessionDataTaskProtocol {
     return dataTask(with: request, completionHandler: completionHandler)
   }
 }
@@ -50,7 +50,7 @@ class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     }
 }
 
-public typealias PetstoreClientAPIChallengeHandler = ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))
+internal typealias PetstoreClientAPIChallengeHandler = ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))
 
 // Store the URLSession's delegate to retain its reference
 private let sessionDelegate = SessionDelegate()
@@ -64,14 +64,14 @@ private var challengeHandlerStore = SynchronizedDictionary<Int, PetstoreClientAP
 // Store current URLCredential for every URLSessionTask
 private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 
-open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
+internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     /**
      May be assigned if you want to control the authentication challenges.
      */
-    public var taskDidReceiveChallenge: PetstoreClientAPIChallengeHandler?
+    internal var taskDidReceiveChallenge: PetstoreClientAPIChallengeHandler?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
+    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
         super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
     }
 
@@ -79,7 +79,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      May be overridden by a subclass if you want to control the URLSession
      configuration.
      */
-    open func createURLSession() -> URLSessionProtocol {
+    internal func createURLSession() -> URLSessionProtocol {
         return defaultURLSession
     }
 
@@ -90,7 +90,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      Return nil to use the default behavior (inferring the Content-Type from
      the file extension).  Return the desired Content-Type otherwise.
      */
-    open func contentTypeForFormPart(fileURL: URL) -> String? {
+    internal func contentTypeForFormPart(fileURL: URL) -> String? {
         return nil
     }
 
@@ -98,7 +98,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      May be overridden by a subclass if you want to control the URLRequest
      configuration (e.g. to override the cache policy).
      */
-    open func createURLRequest(urlSession: URLSessionProtocol, method: HTTPMethod, encoding: ParameterEncoding, headers: [String: String]) throws -> URLRequest {
+    internal func createURLRequest(urlSession: URLSessionProtocol, method: HTTPMethod, encoding: ParameterEncoding, headers: [String: String]) throws -> URLRequest {
 
         guard let url = URL(string: URLString) else {
             throw DownloadException.requestMissingURL
@@ -118,7 +118,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     }
 
     @discardableResult
-    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
@@ -211,7 +211,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     }
 
-    open func buildHeaders() -> [String: String] {
+    internal func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
         for (key, value) in PetstoreClientAPI.customHeaders {
             httpHeaders[key] = value
@@ -275,7 +275,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
 }
 
-open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<T> {
+internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<T> {
     override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
 
         if let error = error {
@@ -393,7 +393,7 @@ private class SessionDelegate: NSObject, URLSessionTaskDelegate {
     }
 }
 
-public enum HTTPMethod: String {
+internal enum HTTPMethod: String {
     case options = "OPTIONS"
     case get = "GET"
     case head = "HEAD"
@@ -405,7 +405,7 @@ public enum HTTPMethod: String {
     case connect = "CONNECT"
 }
 
-public protocol ParameterEncoding {
+internal protocol ParameterEncoding {
     func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest
 }
 
@@ -585,7 +585,7 @@ private class FormDataEncoding: ParameterEncoding {
     func mimeType(for url: URL) -> String {
         let pathExtension = url.pathExtension
 
-        if #available(iOS 15, macOS 11, *) {
+        if #available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *) {
             #if canImport(UniformTypeIdentifiers)
             if let utType = UTType(filenameExtension: pathExtension) {
                 return utType.preferredMIMEType ?? "application/octet-stream"
@@ -611,12 +611,24 @@ private class FormURLEncoding: ParameterEncoding {
         var urlRequest = urlRequest
 
         var requestBodyComponents = URLComponents()
-        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+        
+        /// `httpBody` needs to be percent encoded
+        /// -> https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST
+        /// "application/x-www-form-urlencoded: [...] Non-alphanumeric characters in both keys and values are percent-encoded"
+        let percentEncodedQueryItems = queryItems?.compactMap { queryItem in
+            return URLQueryItem(
+                name: queryItem.name.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? queryItem.name,
+                value: queryItem.value?.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? queryItem.value)
+        }
+        requestBodyComponents.queryItems = percentEncodedQueryItems
 
         if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
             urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         }
 
+        /// We can't use `requestBodyComponents.percentEncodedQuery` since this does NOT percent encode the `+` sign
+        /// that is why we do the percent encoding manually for each key/value pair
         urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
 
         return urlRequest

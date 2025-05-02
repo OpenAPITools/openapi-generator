@@ -3,6 +3,7 @@
 Cargo.toml
 README.md
 api/openapi.yaml
+bin/cli.rs
 docs/default_api.md
 examples/ca.pem
 examples/client/client_auth.rs

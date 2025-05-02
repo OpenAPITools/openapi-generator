@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -53,60 +55,76 @@ import org.openapitools.client.JSON;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
+  @javax.annotation.Nullable
   private Integer integer;
 
   public static final String JSON_PROPERTY_INT32 = "int32";
+  @javax.annotation.Nullable
   private Integer int32;
 
   public static final String JSON_PROPERTY_INT64 = "int64";
+  @javax.annotation.Nullable
   private Long int64;
 
   public static final String JSON_PROPERTY_NUMBER = "number";
+  @javax.annotation.Nonnull
   private BigDecimal number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
+  @javax.annotation.Nullable
   private Float _float;
 
   public static final String JSON_PROPERTY_DOUBLE = "double";
+  @javax.annotation.Nullable
   private Double _double;
 
   public static final String JSON_PROPERTY_DECIMAL = "decimal";
+  @javax.annotation.Nullable
   private BigDecimal decimal;
 
   public static final String JSON_PROPERTY_STRING = "string";
+  @javax.annotation.Nullable
   private String string;
 
   public static final String JSON_PROPERTY_BYTE = "byte";
+  @javax.annotation.Nonnull
   private byte[] _byte;
 
   public static final String JSON_PROPERTY_BINARY = "binary";
+  @javax.annotation.Nullable
   private File binary;
 
   public static final String JSON_PROPERTY_DATE = "date";
+  @javax.annotation.Nonnull
   private LocalDate date;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @javax.annotation.Nullable
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_UUID = "uuid";
+  @javax.annotation.Nullable
   private UUID uuid;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
+  @javax.annotation.Nonnull
   private String password;
 
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS = "pattern_with_digits";
+  @javax.annotation.Nullable
   private String patternWithDigits;
 
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
+  @javax.annotation.Nullable
   private String patternWithDigitsAndDelimiter;
 
   public FormatTest() { 
   }
 
-  public FormatTest integer(Integer integer) {
+  public FormatTest integer(@javax.annotation.Nullable Integer integer) {
     this.integer = integer;
     return this;
   }
@@ -128,12 +146,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setInteger(Integer integer) {
+  public void setInteger(@javax.annotation.Nullable Integer integer) {
     this.integer = integer;
   }
 
 
-  public FormatTest int32(Integer int32) {
+  public FormatTest int32(@javax.annotation.Nullable Integer int32) {
     this.int32 = int32;
     return this;
   }
@@ -155,12 +173,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setInt32(Integer int32) {
+  public void setInt32(@javax.annotation.Nullable Integer int32) {
     this.int32 = int32;
   }
 
 
-  public FormatTest int64(Long int64) {
+  public FormatTest int64(@javax.annotation.Nullable Long int64) {
     this.int64 = int64;
     return this;
   }
@@ -180,12 +198,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setInt64(Long int64) {
+  public void setInt64(@javax.annotation.Nullable Long int64) {
     this.int64 = int64;
   }
 
 
-  public FormatTest number(BigDecimal number) {
+  public FormatTest number(@javax.annotation.Nonnull BigDecimal number) {
     this.number = number;
     return this;
   }
@@ -207,12 +225,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setNumber(BigDecimal number) {
+  public void setNumber(@javax.annotation.Nonnull BigDecimal number) {
     this.number = number;
   }
 
 
-  public FormatTest _float(Float _float) {
+  public FormatTest _float(@javax.annotation.Nullable Float _float) {
     this._float = _float;
     return this;
   }
@@ -234,12 +252,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFloat(Float _float) {
+  public void setFloat(@javax.annotation.Nullable Float _float) {
     this._float = _float;
   }
 
 
-  public FormatTest _double(Double _double) {
+  public FormatTest _double(@javax.annotation.Nullable Double _double) {
     this._double = _double;
     return this;
   }
@@ -261,12 +279,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDouble(Double _double) {
+  public void setDouble(@javax.annotation.Nullable Double _double) {
     this._double = _double;
   }
 
 
-  public FormatTest decimal(BigDecimal decimal) {
+  public FormatTest decimal(@javax.annotation.Nullable BigDecimal decimal) {
     this.decimal = decimal;
     return this;
   }
@@ -286,12 +304,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDecimal(BigDecimal decimal) {
+  public void setDecimal(@javax.annotation.Nullable BigDecimal decimal) {
     this.decimal = decimal;
   }
 
 
-  public FormatTest string(String string) {
+  public FormatTest string(@javax.annotation.Nullable String string) {
     this.string = string;
     return this;
   }
@@ -311,12 +329,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setString(String string) {
+  public void setString(@javax.annotation.Nullable String string) {
     this.string = string;
   }
 
 
-  public FormatTest _byte(byte[] _byte) {
+  public FormatTest _byte(@javax.annotation.Nonnull byte[] _byte) {
     this._byte = _byte;
     return this;
   }
@@ -336,12 +354,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setByte(byte[] _byte) {
+  public void setByte(@javax.annotation.Nonnull byte[] _byte) {
     this._byte = _byte;
   }
 
 
-  public FormatTest binary(File binary) {
+  public FormatTest binary(@javax.annotation.Nullable File binary) {
     this.binary = binary;
     return this;
   }
@@ -361,12 +379,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_BINARY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBinary(File binary) {
+  public void setBinary(@javax.annotation.Nullable File binary) {
     this.binary = binary;
   }
 
 
-  public FormatTest date(LocalDate date) {
+  public FormatTest date(@javax.annotation.Nonnull LocalDate date) {
     this.date = date;
     return this;
   }
@@ -386,12 +404,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setDate(LocalDate date) {
+  public void setDate(@javax.annotation.Nonnull LocalDate date) {
     this.date = date;
   }
 
 
-  public FormatTest dateTime(OffsetDateTime dateTime) {
+  public FormatTest dateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -411,12 +429,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
 
-  public FormatTest uuid(UUID uuid) {
+  public FormatTest uuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -436,12 +454,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUuid(UUID uuid) {
+  public void setUuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
 
-  public FormatTest password(String password) {
+  public FormatTest password(@javax.annotation.Nonnull String password) {
     this.password = password;
     return this;
   }
@@ -461,12 +479,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setPassword(String password) {
+  public void setPassword(@javax.annotation.Nonnull String password) {
     this.password = password;
   }
 
 
-  public FormatTest patternWithDigits(String patternWithDigits) {
+  public FormatTest patternWithDigits(@javax.annotation.Nullable String patternWithDigits) {
     this.patternWithDigits = patternWithDigits;
     return this;
   }
@@ -486,12 +504,12 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPatternWithDigits(String patternWithDigits) {
+  public void setPatternWithDigits(@javax.annotation.Nullable String patternWithDigits) {
     this.patternWithDigits = patternWithDigits;
   }
 
 
-  public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+  public FormatTest patternWithDigitsAndDelimiter(@javax.annotation.Nullable String patternWithDigitsAndDelimiter) {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
     return this;
   }
@@ -511,7 +529,7 @@ public class FormatTest {
 
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+  public void setPatternWithDigitsAndDelimiter(@javax.annotation.Nullable String patternWithDigitsAndDelimiter) {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
@@ -521,34 +539,12 @@ public class FormatTest {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(this.integer, formatTest.integer) &&
-        Objects.equals(this.int32, formatTest.int32) &&
-        Objects.equals(this.int64, formatTest.int64) &&
-        Objects.equals(this.number, formatTest.number) &&
-        Objects.equals(this._float, formatTest._float) &&
-        Objects.equals(this._double, formatTest._double) &&
-        Objects.equals(this.decimal, formatTest.decimal) &&
-        Objects.equals(this.string, formatTest.string) &&
-        Arrays.equals(this._byte, formatTest._byte) &&
-        Objects.equals(this.binary, formatTest.binary) &&
-        Objects.equals(this.date, formatTest.date) &&
-        Objects.equals(this.dateTime, formatTest.dateTime) &&
-        Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
-        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

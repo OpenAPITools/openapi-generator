@@ -30,7 +30,40 @@ components:
           type: array
           items:
             type: string
-
     Bar:
       allOf:
         - $ref: '#/components/schemas/Foo'
+    ArrayWithPrefixItems:
+      type: object
+      properties:
+        with_prefixitems:
+          type: array
+          prefixItems:
+            - type: number
+              title: Longitude
+            - type: number
+              title: Latitude
+          maxItems: 2
+          minItems: 2
+        without_items:
+          type: array
+    AnyOfArrayWithPrefixItems:
+      anyOf:
+        - type: array
+          prefixItems:
+            - type: number
+              title: Longitude
+            - type: number
+              title: Latitude
+          maxItems: 2
+          minItems: 2
+        - type: array
+    OneOfArrayWithPrefixItems:
+      oneOf:
+        - type: array
+          prefixItems:
+            - type: integer
+            - type: integer
+          maxItems: 3
+          minItems: 3
+        - type: array

@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -38,18 +40,22 @@ import org.openapitools.client.ApiClient;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
+  @javax.annotation.Nonnull
   private Integer name;
 
   public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
+  @javax.annotation.Nullable
   private Integer snakeCase;
 
   public static final String JSON_PROPERTY_PROPERTY = "property";
+  @javax.annotation.Nullable
   private String property;
 
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
+  @javax.annotation.Nullable
   private Integer _123number;
 
   public Name() { 
@@ -65,7 +71,7 @@ public class Name {
     this._123number = _123number;
   }
 
-  public Name name(Integer name) {
+  public Name name(@javax.annotation.Nonnull Integer name) {
     this.name = name;
     return this;
   }
@@ -84,7 +90,7 @@ public class Name {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setName(Integer name) {
+  public void setName(@javax.annotation.Nonnull Integer name) {
     this.name = name;
   }
 
@@ -103,7 +109,7 @@ public class Name {
 
 
 
-  public Name property(String property) {
+  public Name property(@javax.annotation.Nullable String property) {
     this.property = property;
     return this;
   }
@@ -122,7 +128,7 @@ public class Name {
 
   @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setProperty(String property) {
+  public void setProperty(@javax.annotation.Nullable String property) {
     this.property = property;
   }
 
@@ -146,22 +152,12 @@ public class Name {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Name name = (Name) o;
-    return Objects.equals(this.name, name.name) &&
-        Objects.equals(this.snakeCase, name.snakeCase) &&
-        Objects.equals(this.property, name.property) &&
-        Objects.equals(this._123number, name._123number);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, snakeCase, property, _123number);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -221,22 +217,22 @@ public class Name {
 
     // add `name` to the URL query string
     if (getName() != null) {
-      joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
     }
 
     // add `snake_case` to the URL query string
     if (getSnakeCase() != null) {
-      joiner.add(String.format("%ssnake_case%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSnakeCase()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssnake_case%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSnakeCase()))));
     }
 
     // add `property` to the URL query string
     if (getProperty() != null) {
-      joiner.add(String.format("%sproperty%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProperty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sproperty%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getProperty()))));
     }
 
     // add `123Number` to the URL query string
     if (get123number() != null) {
-      joiner.add(String.format("%s123Number%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(get123number()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s123Number%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get123number()))));
     }
 
     return joiner.toString();

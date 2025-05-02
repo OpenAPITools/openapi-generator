@@ -21,7 +21,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
             {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#apiKeyMethods}}
-                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken{{-index}});
 
                 {{/apiKeyMethods}}
@@ -55,7 +55,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
             {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#apiKeyMethods}}
-                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken{{-index}});
 
                 {{/apiKeyMethods}}
@@ -92,7 +92,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 {
                     {{#lambda.trimTrailingWithNewLine}}
                     {{#apiKeyMethods}}
-                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
+                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(apiKeyToken{{-index}});
 
                     {{/apiKeyMethods}}
@@ -129,7 +129,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 {
                     {{#lambda.trimTrailingWithNewLine}}
                     {{#apiKeyMethods}}
-                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
+                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(apiKeyToken{{-index}});
 
                     {{/apiKeyMethods}}

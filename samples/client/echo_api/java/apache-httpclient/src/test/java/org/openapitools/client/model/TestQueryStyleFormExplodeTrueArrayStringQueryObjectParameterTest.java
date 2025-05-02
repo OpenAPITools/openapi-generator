@@ -19,23 +19,23 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
  */
-public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterTest {
+class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterTest {
     private final TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter model = new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter();
 
     /**
      * Model tests for TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
      */
     @Test
-    public void testTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
+    void testTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
         // TODO: test TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
     }
 
@@ -43,7 +43,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterTest {
      * Test the property 'values'
      */
     @Test
-    public void valuesTest() {
+    void valuesTest() {
         // TODO: test values
     }
 

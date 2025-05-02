@@ -196,6 +196,14 @@
         <version>${mutiny.version}</version>
     </dependency>
 {{/microprofileMutiny}}
+{{#useReflectionEqualsHashCode}}
+    <!-- For equals and hashCode using reflection -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons.lang3.version}</version>
+    </dependency>
+{{/useReflectionEqualsHashCode}}
   </dependencies>
   <repositories>
     <repository>
@@ -210,10 +218,12 @@
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <swagger.core.version>1.5.18</swagger.core.version>
     <jetty.version>9.2.9.v20150224</jetty.version>
     <junit.version>5.10.2</junit.version>
-    <logback.version>1.4.14</logback.version>
+    <logback.version>1.5.13</logback.version>
 {{#useBeanValidation}}
     <beanvalidation.version>3.0.2</beanvalidation.version>
 {{/useBeanValidation}}
@@ -238,9 +248,11 @@
     <jandex.maven.plugin.version>1.1.0</jandex.maven.plugin.version>
     <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
     <build.helper.maven.plugin.version>1.9.1</build.helper.maven.plugin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 {{#microprofileMutiny}}
-    <mutiny.version>1.2.0</mutiny.version>
+    <mutiny.version>1.10.0</mutiny.version>
 {{/microprofileMutiny}}
+{{#useReflectionEqualsHashCode}}
+    <commons.lang3.version>3.17.0</commons.lang3.version>
+{{/useReflectionEqualsHashCode}}
   </properties>
 </project>

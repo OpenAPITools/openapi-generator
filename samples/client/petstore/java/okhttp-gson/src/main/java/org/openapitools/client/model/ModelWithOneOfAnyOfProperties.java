@@ -39,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,20 +50,22 @@ import org.openapitools.client.JSON;
 /**
  * ModelWithOneOfAnyOfProperties
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ModelWithOneOfAnyOfProperties {
   public static final String SERIALIZED_NAME_ONEOF_PROP = "oneof_prop";
   @SerializedName(SERIALIZED_NAME_ONEOF_PROP)
+  @javax.annotation.Nullable
   private ArrayOneOf oneofProp;
 
   public static final String SERIALIZED_NAME_ANYOF_PROP = "anyof_prop";
   @SerializedName(SERIALIZED_NAME_ANYOF_PROP)
+  @javax.annotation.Nullable
   private ArrayAnyOf anyofProp;
 
   public ModelWithOneOfAnyOfProperties() {
   }
 
-  public ModelWithOneOfAnyOfProperties oneofProp(ArrayOneOf oneofProp) {
+  public ModelWithOneOfAnyOfProperties oneofProp(@javax.annotation.Nullable ArrayOneOf oneofProp) {
     this.oneofProp = oneofProp;
     return this;
   }
@@ -78,12 +79,12 @@ public class ModelWithOneOfAnyOfProperties {
     return oneofProp;
   }
 
-  public void setOneofProp(ArrayOneOf oneofProp) {
+  public void setOneofProp(@javax.annotation.Nullable ArrayOneOf oneofProp) {
     this.oneofProp = oneofProp;
   }
 
 
-  public ModelWithOneOfAnyOfProperties anyofProp(ArrayAnyOf anyofProp) {
+  public ModelWithOneOfAnyOfProperties anyofProp(@javax.annotation.Nullable ArrayAnyOf anyofProp) {
     this.anyofProp = anyofProp;
     return this;
   }
@@ -97,7 +98,7 @@ public class ModelWithOneOfAnyOfProperties {
     return anyofProp;
   }
 
-  public void setAnyofProp(ArrayAnyOf anyofProp) {
+  public void setAnyofProp(@javax.annotation.Nullable ArrayAnyOf anyofProp) {
     this.anyofProp = anyofProp;
   }
 

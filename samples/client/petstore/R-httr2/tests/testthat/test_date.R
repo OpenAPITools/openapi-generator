@@ -11,3 +11,18 @@ test_that("className", {
   # uncomment below to test the property
   #expect_equal(model.instance$`className`, "EXPECTED_RESULT")
 })
+
+test_that("percent", {
+  # tests for the property `percent` (character)
+  # using % in the description
+
+  # uncomment below to test the property
+  #expect_equal(model.instance$`percent`, "EXPECTED_RESULT")
+})
+
+test_that("url_property", {
+  # tests for the property `url_property` (character)
+
+  # uncomment below to test the property
+  #expect_equal(model.instance$`url_property`, "EXPECTED_RESULT")
+})

@@ -48,3 +48,7 @@ export function OuterEnumIntegerDefaultValueToJSON(value?: OuterEnumIntegerDefau
     return value as any;
 }
 
+export function OuterEnumIntegerDefaultValueToJSONTyped(value: any, ignoreDiscriminator: boolean): OuterEnumIntegerDefaultValue {
+    return value as OuterEnumIntegerDefaultValue;
+}
+

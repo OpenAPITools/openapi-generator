@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,16 +20,16 @@ import javax.annotation.Generated;
  * ResponseObjectWithDifferentFieldNames
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
-  private String normalPropertyName;
+  private @Nullable String normalPropertyName;
 
-  private String UPPER_CASE_PROPERTY_SNAKE;
+  private @Nullable String UPPER_CASE_PROPERTY_SNAKE;
 
-  private String lowerCasePropertyDashes;
+  private @Nullable String lowerCasePropertyDashes;
 
-  private String propertyNameWithSpaces;
+  private @Nullable String propertyNameWithSpaces;
 
   public ResponseObjectWithDifferentFieldNames() {
     super();
@@ -37,7 +38,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Constructor with all args parameters
    */
-  public ResponseObjectWithDifferentFieldNames(String normalPropertyName, String UPPER_CASE_PROPERTY_SNAKE, String lowerCasePropertyDashes, String propertyNameWithSpaces) {
+  public ResponseObjectWithDifferentFieldNames(@Nullable String normalPropertyName, @Nullable String UPPER_CASE_PROPERTY_SNAKE, @Nullable String lowerCasePropertyDashes, @Nullable String propertyNameWithSpaces) {
       this.normalPropertyName = normalPropertyName;
       this.UPPER_CASE_PROPERTY_SNAKE = UPPER_CASE_PROPERTY_SNAKE;
       this.lowerCasePropertyDashes = lowerCasePropertyDashes;

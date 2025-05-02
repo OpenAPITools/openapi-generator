@@ -27,12 +27,12 @@ import java.util.Locale;
 
 /**
  * Converts text in a fragment to lowercase.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("lowercase", new LowercaseLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#lowercase}}{{httpMethod}}{{/lowercase}}

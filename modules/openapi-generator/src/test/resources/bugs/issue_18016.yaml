@@ -1,0 +1,27 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  description: Specification to generate null check for enums in R client
+  title: RClientNullCheck
+paths:
+  /exists:
+    get:
+      tags:
+        - pets
+      parameters:
+        - name: type
+          in: query
+          description: Type of pet
+          required: false
+          schema:
+            enum:
+              - cat
+              - dog
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean

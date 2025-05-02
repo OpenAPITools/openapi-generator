@@ -7,7 +7,7 @@ from openapi_server.models.user import User  # noqa: E501
 from openapi_server import util
 
 
-def create_user(user):  # noqa: E501
+def create_user(body):  # noqa: E501
     """Create user
 
     This can only be done by the logged in user. # noqa: E501
@@ -17,12 +17,13 @@ def create_user(user):  # noqa: E501
 
     :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
+    user = body
     if connexion.request.is_json:
         user = User.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
-def create_users_with_array_input(user):  # noqa: E501
+def create_users_with_array_input(body):  # noqa: E501
     """Creates list of users with given input array
 
      # noqa: E501
@@ -32,12 +33,13 @@ def create_users_with_array_input(user):  # noqa: E501
 
     :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
+    user = body
     if connexion.request.is_json:
         user = [User.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
     return 'do some magic!'
 
 
-def create_users_with_list_input(user):  # noqa: E501
+def create_users_with_list_input(body):  # noqa: E501
     """Creates list of users with given input array
 
      # noqa: E501
@@ -47,6 +49,7 @@ def create_users_with_list_input(user):  # noqa: E501
 
     :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
+    user = body
     if connexion.request.is_json:
         user = [User.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
     return 'do some magic!'
@@ -104,7 +107,7 @@ def logout_user():  # noqa: E501
     return 'do some magic!'
 
 
-def update_user(username, user):  # noqa: E501
+def update_user(username, body):  # noqa: E501
     """Updated user
 
     This can only be done by the logged in user. # noqa: E501
@@ -116,6 +119,7 @@ def update_user(username, user):  # noqa: E501
 
     :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
+    user = body
     if connexion.request.is_json:
         user = User.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'

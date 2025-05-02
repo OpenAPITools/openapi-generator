@@ -34,6 +34,7 @@ class Foo {
      * Only for internal use.
      */
     static initialize(obj) { 
+        obj['bar'] = 'bar';
     }
 
     /**

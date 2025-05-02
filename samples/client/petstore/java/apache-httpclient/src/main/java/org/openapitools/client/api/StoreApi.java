@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class StoreApi extends BaseApi {
 
   public StoreApi() {
@@ -47,7 +47,7 @@ public class StoreApi extends BaseApi {
    * @param orderId ID of the order that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteOrder(String orderId) throws ApiException {
+  public void deleteOrder(@javax.annotation.Nonnull String orderId) throws ApiException {
     this.deleteOrder(orderId, Collections.emptyMap());
   }
 
@@ -59,7 +59,7 @@ public class StoreApi extends BaseApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void deleteOrder(String orderId, Map<String, String> additionalHeaders) throws ApiException {
+  public void deleteOrder(@javax.annotation.Nonnull String orderId, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
@@ -69,7 +69,7 @@ public class StoreApi extends BaseApi {
     
     // create path and map variables
     String localVarPath = "/store/order/{order_id}"
-      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
+      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(apiClient.parameterToString(orderId)));
 
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
@@ -187,7 +187,7 @@ public class StoreApi extends BaseApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order getOrderById(Long orderId) throws ApiException {
+  public Order getOrderById(@javax.annotation.Nonnull Long orderId) throws ApiException {
     return this.getOrderById(orderId, Collections.emptyMap());
   }
 
@@ -200,7 +200,7 @@ public class StoreApi extends BaseApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order getOrderById(Long orderId, Map<String, String> additionalHeaders) throws ApiException {
+  public Order getOrderById(@javax.annotation.Nonnull Long orderId, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
@@ -210,7 +210,7 @@ public class StoreApi extends BaseApi {
     
     // create path and map variables
     String localVarPath = "/store/order/{order_id}"
-      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
+      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(apiClient.parameterToString(orderId)));
 
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
@@ -262,7 +262,7 @@ public class StoreApi extends BaseApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order placeOrder(Order order) throws ApiException {
+  public Order placeOrder(@javax.annotation.Nonnull Order order) throws ApiException {
     return this.placeOrder(order, Collections.emptyMap());
   }
 
@@ -275,7 +275,7 @@ public class StoreApi extends BaseApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order placeOrder(Order order, Map<String, String> additionalHeaders) throws ApiException {
+  public Order placeOrder(@javax.annotation.Nonnull Order order, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = order;
     
     // verify the required parameter 'order' is set

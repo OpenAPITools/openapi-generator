@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,20 +48,22 @@ import org.openapitools.client.JSON;
 /**
  * SpecialModelName
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
+  @javax.annotation.Nullable
   private Long $specialPropertyName;
 
   public static final String SERIALIZED_NAME_SPECIAL_MODEL_NAME = "_special_model.name_";
   @SerializedName(SERIALIZED_NAME_SPECIAL_MODEL_NAME)
+  @javax.annotation.Nullable
   private String specialModelName;
 
   public SpecialModelName() {
   }
 
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+  public SpecialModelName $specialPropertyName(@javax.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -76,12 +77,12 @@ public class SpecialModelName {
     return $specialPropertyName;
   }
 
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
+  public void set$SpecialPropertyName(@javax.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 
 
-  public SpecialModelName specialModelName(String specialModelName) {
+  public SpecialModelName specialModelName(@javax.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;
     return this;
   }
@@ -95,7 +96,7 @@ public class SpecialModelName {
     return specialModelName;
   }
 
-  public void setSpecialModelName(String specialModelName) {
+  public void setSpecialModelName(@javax.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;
   }
 

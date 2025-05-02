@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -39,18 +41,20 @@ import org.openapitools.client.JSON;
   EquilateralTriangle.JSON_PROPERTY_SHAPE_TYPE,
   EquilateralTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class EquilateralTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
+  @jakarta.annotation.Nonnull
   private String shapeType;
 
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
+  @jakarta.annotation.Nonnull
   private String triangleType;
 
   public EquilateralTriangle() { 
   }
 
-  public EquilateralTriangle shapeType(String shapeType) {
+  public EquilateralTriangle shapeType(@jakarta.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;
   }
@@ -72,12 +76,12 @@ public class EquilateralTriangle {
 
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setShapeType(String shapeType) {
+  public void setShapeType(@jakarta.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
 
 
-  public EquilateralTriangle triangleType(String triangleType) {
+  public EquilateralTriangle triangleType(@jakarta.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;
   }
@@ -99,7 +103,7 @@ public class EquilateralTriangle {
 
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setTriangleType(String triangleType) {
+  public void setTriangleType(@jakarta.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
 
@@ -146,21 +150,12 @@ public class EquilateralTriangle {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    EquilateralTriangle equilateralTriangle = (EquilateralTriangle) o;
-    return Objects.equals(this.shapeType, equilateralTriangle.shapeType) &&
-        Objects.equals(this.triangleType, equilateralTriangle.triangleType)&&
-        Objects.equals(this.additionalProperties, equilateralTriangle.additionalProperties);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shapeType, triangleType, additionalProperties);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

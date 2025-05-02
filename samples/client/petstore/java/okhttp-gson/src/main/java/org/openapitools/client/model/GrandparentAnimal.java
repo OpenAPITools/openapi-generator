@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,17 +48,18 @@ import org.openapitools.client.JSON;
 /**
  * GrandparentAnimal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class GrandparentAnimal {
   public static final String SERIALIZED_NAME_PET_TYPE = "pet_type";
   @SerializedName(SERIALIZED_NAME_PET_TYPE)
+  @javax.annotation.Nonnull
   protected String petType;
 
   public GrandparentAnimal() {
     this.petType = this.getClass().getSimpleName();
   }
 
-  public GrandparentAnimal petType(String petType) {
+  public GrandparentAnimal petType(@javax.annotation.Nonnull String petType) {
     this.petType = petType;
     return this;
   }
@@ -73,7 +73,7 @@ public class GrandparentAnimal {
     return petType;
   }
 
-  public void setPetType(String petType) {
+  public void setPetType(@javax.annotation.Nonnull String petType) {
     this.petType = petType;
   }
 

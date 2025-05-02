@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,7 +23,7 @@ import javax.annotation.Generated;
  * EnumArrays
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class EnumArrays {
 
   /**
@@ -33,7 +34,7 @@ public class EnumArrays {
     
     DOLLAR("$");
 
-    private String value;
+    private final String value;
 
     JustSymbolEnum(String value) {
       this.value = value;
@@ -60,7 +61,7 @@ public class EnumArrays {
     }
   }
 
-  private JustSymbolEnum justSymbol;
+  private @Nullable JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -70,7 +71,7 @@ public class EnumArrays {
     
     CRAB("crab");
 
-    private String value;
+    private final String value;
 
     ArrayEnumEnum(String value) {
       this.value = value;

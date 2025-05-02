@@ -23,6 +23,7 @@ import io.swagger.v3.parser.core.models.AuthorizationValue;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Map;
 
 @Setter
@@ -31,6 +32,8 @@ public class GeneratorInput {
     @Getter private Map<String, String> options;
     private String openAPIUrl;
     @Getter private AuthorizationValue authorizationValue;
+    //FILTER=operationId:updatePet
+    @Getter private List<String> openapiNormalizer;
 
     @ApiModelProperty(example = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml")
     public String getOpenAPIUrl() {

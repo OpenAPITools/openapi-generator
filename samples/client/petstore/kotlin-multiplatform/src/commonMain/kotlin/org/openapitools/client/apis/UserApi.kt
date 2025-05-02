@@ -109,7 +109,7 @@ open class UserApi : ApiClient {
         companion object : KSerializer<CreateUsersWithArrayInputRequest> {
             private val serializer: KSerializer<List<User>> = serializer<List<User>>()
             override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: CreateUsersWithArrayInputRequest) = serializer.serialize(encoder, obj.value)
+            override fun serialize(encoder: Encoder, value: CreateUsersWithArrayInputRequest) = serializer.serialize(encoder, value.value)
             override fun deserialize(decoder: Decoder) = CreateUsersWithArrayInputRequest(serializer.deserialize(decoder))
         }
     }
@@ -149,7 +149,7 @@ open class UserApi : ApiClient {
         companion object : KSerializer<CreateUsersWithListInputRequest> {
             private val serializer: KSerializer<List<User>> = serializer<List<User>>()
             override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: CreateUsersWithListInputRequest) = serializer.serialize(encoder, obj.value)
+            override fun serialize(encoder: Encoder, value: CreateUsersWithListInputRequest) = serializer.serialize(encoder, value.value)
             override fun deserialize(decoder: Decoder) = CreateUsersWithListInputRequest(serializer.deserialize(decoder))
         }
     }

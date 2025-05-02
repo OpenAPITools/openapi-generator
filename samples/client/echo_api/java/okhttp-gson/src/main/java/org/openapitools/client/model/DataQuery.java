@@ -41,7 +41,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,24 +52,27 @@ import org.openapitools.client.JSON;
 /**
  * DataQuery
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
+  @javax.annotation.Nullable
   private String suffix;
 
   public static final String SERIALIZED_NAME_TEXT = "text";
   @SerializedName(SERIALIZED_NAME_TEXT)
+  @javax.annotation.Nullable
   private String text;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
+  @javax.annotation.Nullable
   private OffsetDateTime date;
 
   public DataQuery() {
   }
 
-  public DataQuery suffix(String suffix) {
+  public DataQuery suffix(@javax.annotation.Nullable String suffix) {
     this.suffix = suffix;
     return this;
   }
@@ -84,12 +86,12 @@ public class DataQuery extends Query {
     return suffix;
   }
 
-  public void setSuffix(String suffix) {
+  public void setSuffix(@javax.annotation.Nullable String suffix) {
     this.suffix = suffix;
   }
 
 
-  public DataQuery text(String text) {
+  public DataQuery text(@javax.annotation.Nullable String text) {
     this.text = text;
     return this;
   }
@@ -103,12 +105,12 @@ public class DataQuery extends Query {
     return text;
   }
 
-  public void setText(String text) {
+  public void setText(@javax.annotation.Nullable String text) {
     this.text = text;
   }
 
 
-  public DataQuery date(OffsetDateTime date) {
+  public DataQuery date(@javax.annotation.Nullable OffsetDateTime date) {
     this.date = date;
     return this;
   }
@@ -122,7 +124,7 @@ public class DataQuery extends Query {
     return date;
   }
 
-  public void setDate(OffsetDateTime date) {
+  public void setDate(@javax.annotation.Nullable OffsetDateTime date) {
     this.date = date;
   }
 

@@ -39,6 +39,7 @@ type FormatTest struct {
 	PatternWithDigits *string `json:"pattern_with_digits,omitempty" validate:"regexp=^\\\\d{10}$"`
 	// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
 	PatternWithDigitsAndDelimiter *string `json:"pattern_with_digits_and_delimiter,omitempty" validate:"regexp=^image_\\\\d{1,3}$/i"`
+	PatternWithBacktick *string "json:\"pattern_with_backtick,omitempty\" validate:\"regexp=^$|^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$\""
 	AdditionalProperties map[string]interface{}
 }
 
@@ -517,6 +518,38 @@ func (o *FormatTest) SetPatternWithDigitsAndDelimiter(v string) {
 	o.PatternWithDigitsAndDelimiter = &v
 }
 
+// GetPatternWithBacktick returns the PatternWithBacktick field value if set, zero value otherwise.
+func (o *FormatTest) GetPatternWithBacktick() string {
+	if o == nil || IsNil(o.PatternWithBacktick) {
+		var ret string
+		return ret
+	}
+	return *o.PatternWithBacktick
+}
+
+// GetPatternWithBacktickOk returns a tuple with the PatternWithBacktick field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FormatTest) GetPatternWithBacktickOk() (*string, bool) {
+	if o == nil || IsNil(o.PatternWithBacktick) {
+		return nil, false
+	}
+	return o.PatternWithBacktick, true
+}
+
+// HasPatternWithBacktick returns a boolean if a field has been set.
+func (o *FormatTest) HasPatternWithBacktick() bool {
+	if o != nil && !IsNil(o.PatternWithBacktick) {
+		return true
+	}
+
+	return false
+}
+
+// SetPatternWithBacktick gets a reference to the given string and assigns it to the PatternWithBacktick field.
+func (o *FormatTest) SetPatternWithBacktick(v string) {
+	o.PatternWithBacktick = &v
+}
+
 func (o FormatTest) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -563,6 +596,9 @@ func (o FormatTest) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.PatternWithDigitsAndDelimiter) {
 		toSerialize["pattern_with_digits_and_delimiter"] = o.PatternWithDigitsAndDelimiter
+	}
+	if !IsNil(o.PatternWithBacktick) {
+		toSerialize["pattern_with_backtick"] = o.PatternWithBacktick
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -642,6 +678,7 @@ func (o *FormatTest) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "password")
 		delete(additionalProperties, "pattern_with_digits")
 		delete(additionalProperties, "pattern_with_digits_and_delimiter")
+		delete(additionalProperties, "pattern_with_backtick")
 		o.AdditionalProperties = additionalProperties
 	}
 

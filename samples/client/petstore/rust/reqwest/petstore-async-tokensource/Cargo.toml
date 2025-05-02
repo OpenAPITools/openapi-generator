@@ -1,0 +1,19 @@
+[package]
+name = "petstore-reqwest-async-tokensource"
+version = "1.0.0"
+authors = ["OpenAPI Generator team and contributors"]
+description = "This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters."
+license = "Apache-2.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "^1.0", features = ["derive"] }
+serde_with = { version = "^3.8", default-features = false, features = ["base64", "std", "macros"] }
+serde_json = "^1.0"
+serde_repr = "^0.1"
+url = "^2.5"
+uuid = { version = "^1.8", features = ["serde", "v4"] }
+reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
+async-trait = "^0.1"
+# TODO: propose to Yoshidan to externalize this as non google related crate, so that it can easily be extended for other cloud providers.
+google-cloud-token = "^0.1"

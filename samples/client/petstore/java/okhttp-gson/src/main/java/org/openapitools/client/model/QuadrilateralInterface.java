@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,16 +48,17 @@ import org.openapitools.client.JSON;
 /**
  * QuadrilateralInterface
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class QuadrilateralInterface {
   public static final String SERIALIZED_NAME_QUADRILATERAL_TYPE = "quadrilateralType";
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
+  @javax.annotation.Nonnull
   private String quadrilateralType;
 
   public QuadrilateralInterface() {
   }
 
-  public QuadrilateralInterface quadrilateralType(String quadrilateralType) {
+  public QuadrilateralInterface quadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
     return this;
   }
@@ -72,7 +72,7 @@ public class QuadrilateralInterface {
     return quadrilateralType;
   }
 
-  public void setQuadrilateralType(String quadrilateralType) {
+  public void setQuadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
 

@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  description: Test reserved param names
+  version: 1.0.0
+  title: Reserved param names
+paths:
+  /test:
+    post:
+      security:
+        - bearerAuth: []
+      summary: Test reserved param names
+      description: ''
+      operationId: testReservedParamNames
+      parameters:
+        - name: notReserved
+          in: query
+          description: Should not be treated as a reserved param name
+          required: true
+          schema:
+            type: string
+        - name: from
+          in: query
+          description: Might conflict with rxjs import
+          required: true
+          schema:
+            type: string
+        - name: headers
+          in: header
+          description: Might conflict with headers const
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '405':
+          description: Invalid input
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

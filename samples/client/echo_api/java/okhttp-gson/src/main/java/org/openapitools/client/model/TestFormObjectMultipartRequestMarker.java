@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,16 +48,17 @@ import org.openapitools.client.JSON;
 /**
  * TestFormObjectMultipartRequestMarker
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class TestFormObjectMultipartRequestMarker {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public TestFormObjectMultipartRequestMarker() {
   }
 
-  public TestFormObjectMultipartRequestMarker name(String name) {
+  public TestFormObjectMultipartRequestMarker name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -72,7 +72,7 @@ public class TestFormObjectMultipartRequestMarker {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

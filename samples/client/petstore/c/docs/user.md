@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **password** | **char \*** |  | [optional] 
 **phone** | **char \*** |  | [optional] 
 **user_status** | **int** | User Status | [optional] 
+**extra** | **list_t*** |  | [optional] 
+**preference** | **preference_t \*** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

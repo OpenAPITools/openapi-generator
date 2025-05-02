@@ -20,12 +20,7 @@ package org.openapitools.codegen;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
     /**
@@ -178,7 +173,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isAnyType;
     public boolean isArray;
     public boolean isMap;
-    /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
+    /**
+     * datatype is the generic inner parameter of a std::optional for C++, or Optional (Java)
+     */
     public boolean isOptional;
     public boolean isEnum; // true if the enum is defined inline
     public boolean isInnerEnum; // Enums declared inline will be located inside the generic model, changing how the enum is referenced in some cases.
@@ -243,6 +240,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private CodegenComposedSchemas composedSchemas = null;
     private boolean hasMultipleTypes = false;
+    /**
+     * true if the property's baseName != name, e.g. baseName = '_prop.value', name = 'propValue' after sanitization
+     */
+    private boolean hasSanitizedName = false;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
     private boolean schemaIsFromAdditionalProperties;
@@ -843,6 +844,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.hasMultipleTypes = hasMultipleTypes;
     }
 
+    public boolean getHasSanitizedName() {
+        return hasSanitizedName;
+    }
+
+    public void setHasSanitizedName(boolean hasSanitizedName) {
+        this.hasSanitizedName = hasSanitizedName;
+    }
+
     @Override
     public boolean getIsUuid() {
         return isUuid;
@@ -1061,6 +1070,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
         sb.append(", composedSchemas=").append(composedSchemas);
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
+        sb.append(", hasSanitizedName=").append(hasSanitizedName);
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
         sb.append(", ref=").append(ref);
         sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);
@@ -1129,6 +1139,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isNull == that.isNull &&
                 isVoid == that.isVoid &&
                 hasMultipleTypes == that.getHasMultipleTypes() &&
+                hasSanitizedName == that.getHasSanitizedName() &&
                 hasDiscriminatorWithNonEmptyMapping == that.hasDiscriminatorWithNonEmptyMapping &&
                 isBooleanSchemaTrue == that.getIsBooleanSchemaTrue() &&
                 isBooleanSchemaFalse == that.getIsBooleanSchemaFalse() &&
@@ -1207,7 +1218,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInPascalCase, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped, isNull, isVoid, additionalPropertiesIsAnyType, hasVars, hasRequired,
-                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, requiredVarsMap,
+                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, hasSanitizedName, requiredVarsMap,
                 ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
                 format, dependentRequired, contains);
     }

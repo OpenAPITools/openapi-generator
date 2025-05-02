@@ -2,7 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
-  - Generator version: 7.8.0-SNAPSHOT
+  - Generator version: 7.14.0-SNAPSHOT
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
@@ -83,7 +83,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.AnotherFakeApi;
 
 public class Example {
@@ -119,6 +119,7 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**getParameterStringNumber**](docs/AnotherFakeApi.md#getParameterStringNumber) | **GET** /fake/parameter-string-number | parameter string number
 *AnotherFakeApi* | [**nullRequestBody**](docs/AnotherFakeApi.md#nullRequestBody) | **GET** /fake/null-request-body | null request body
 *DefaultApi* | [**fakeAnyOfWIthSameErasureGet**](docs/DefaultApi.md#fakeAnyOfWIthSameErasureGet) | **GET** /fake/anyOfWIthSameErasure | 
+*DefaultApi* | [**fakeFreeFormQueryParametersGet**](docs/DefaultApi.md#fakeFreeFormQueryParametersGet) | **GET** /fake/free-form-query-parameters | 
 *DefaultApi* | [**fakeOneOfWIthSameErasureGet**](docs/DefaultApi.md#fakeOneOfWIthSameErasureGet) | **GET** /fake/oneOfWIthSameErasure | 
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
 *FakeApi* | [**fakeGetFreeFormObjectGet**](docs/FakeApi.md#fakeGetFreeFormObjectGet) | **GET** /fake/get-free-form-object | 
@@ -126,7 +127,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
-*FakeApi* | [**fakeUploadRefRequestBodies**](docs/FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake uploads an image with ref request bodies
+*FakeApi* | [**fakeRefParameter**](docs/FakeApi.md#fakeRefParameter) | **POST** /fake/pet/{petId}/reference/parameter | fake reference parameter
+*FakeApi* | [**fakeUploadRefRequestBodies**](docs/FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake reference parameter
 *FakeApi* | [**getFakeArrayofenums**](docs/FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**getFakeHealth**](docs/FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**getParameterNameMapping**](docs/FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
@@ -206,6 +208,7 @@ Class | Method | HTTP request | Description
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
  - [FakeAnyOfWIthSameErasureGet200Response](docs/FakeAnyOfWIthSameErasureGet200Response.md)
  - [FakeOneOfWIthSameErasureGet200Response](docs/FakeOneOfWIthSameErasureGet200Response.md)
+ - [FakeRefParameterPetIdParameter](docs/FakeRefParameterPetIdParameter.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)

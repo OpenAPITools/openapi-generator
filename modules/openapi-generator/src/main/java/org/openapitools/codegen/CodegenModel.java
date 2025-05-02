@@ -19,12 +19,11 @@ package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.models.ExternalDocumentation;
-
-import java.util.*;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.*;
 
 /**
  * CodegenModel represents a schema object in a OpenAPI document.
@@ -59,6 +58,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> oneOf = new TreeSet<>();
     public Set<String> allOf = new TreeSet<>();
 
+    // direct descendants that are allowed to extend the current model
+    public List<String> permits = new ArrayList<>();
+
     // The schema name as written in the OpenAPI document
     // If it's a reserved word, it will be escaped.
     @Getter @Setter
@@ -82,41 +84,40 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String unescapedDescription;
     /**
      * -- GETTER --
-     *  Returns the discriminator for this schema object, or null if no discriminator has been specified.
-     *  The list of all possible schema discriminator mapping values is obtained
-     *  from explicit discriminator mapping values in the OpenAPI document, and from
-     *  inherited discriminators through oneOf, allOf, anyOf.
-     *  For example, a discriminator may be defined in a 'Pet' schema as shown below.
-     *  The Dog and Cat schemas inherit the discriminator through the allOf reference.
-     *  In the 'Pet' schema, the supported discriminator mapping values for the
-     *  'objectType' properties are 'Dog' and 'Cat'.
-     *  The allowed discriminator mapping value for the Dog schema is 'Dog'.
-     *  The allowed discriminator mapping value for the Cat schema is 'Dog'.
-     *  Pet:
-     *    type: object
-     *    discriminator:
-     *      propertyName: objectType
-     *    required:
-     *      - objectType
-     *    properties:
-     *      objectType:
-     *      type: string
-     *  Dog:
-     *    allOf:
-     *    - $ref: '#/components/schemas/Pet'
-     *    - type: object
-     *      properties:
-     *        p1:
-     *          type: string
-     *  Cat:
-     *    allOf:
-     *    - $ref: '#/components/schemas/Pet'
-     *    - type: object
-     *      properties:
-     *        p2:
-     *          type: string
+     * Returns the discriminator for this schema object, or null if no discriminator has been specified.
+     * The list of all possible schema discriminator mapping values is obtained
+     * from explicit discriminator mapping values in the OpenAPI document, and from
+     * inherited discriminators through oneOf, allOf, anyOf.
+     * For example, a discriminator may be defined in a 'Pet' schema as shown below.
+     * The Dog and Cat schemas inherit the discriminator through the allOf reference.
+     * In the 'Pet' schema, the supported discriminator mapping values for the
+     * 'objectType' properties are 'Dog' and 'Cat'.
+     * The allowed discriminator mapping value for the Dog schema is 'Dog'.
+     * The allowed discriminator mapping value for the Cat schema is 'Dog'.
+     * Pet:
+     * type: object
+     * discriminator:
+     * propertyName: objectType
+     * required:
+     * - objectType
+     * properties:
+     * objectType:
+     * type: string
+     * Dog:
+     * allOf:
+     * - $ref: '#/components/schemas/Pet'
+     * - type: object
+     * properties:
+     * p1:
+     * type: string
+     * Cat:
+     * allOf:
+     * - $ref: '#/components/schemas/Pet'
+     * - type: object
+     * properties:
+     * p2:
+     * type: string
      *
-     * @return the discriminator.
      */
     @Getter public CodegenDiscriminator discriminator;
     @Getter @Setter
@@ -171,7 +172,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean isArray;
     public boolean hasChildren;
     public boolean isMap;
-    /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
+    /**
+     * datatype is the generic inner parameter of a std::optional for C++, or Optional (Java)
+     */
     public boolean isOptional;
     public boolean isNull;
     public boolean isVoid = false;
@@ -205,7 +208,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
      * Used in map like objects, including composed schemas.
-     *
+     * <p>
      * In most programming languages, the additional (undeclared) properties are stored
      * in a map data structure, such as HashMap in Java, map in golang, or a dict in Python.
      * There are multiple ways to implement the additionalProperties keyword, depending
@@ -215,24 +218,23 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * In that case 'CodegenModel.parent' is set to represent the class hierarchy.
      * Another way is to use CodegenModel.additionalPropertiesType. A code generator
      * such as Python does not use class inheritance to model additional properties.
-     *
+     * <p>
      * For example, in the OAS schema below, the schema has a declared 'id' property
      * and additional, undeclared properties of type 'integer' are allowed.
-     *
+     * <p>
      * type: object
      * properties:
-     *   id:
-     *     type: integer
+     * id:
+     * type: integer
      * additionalProperties:
-     *   type: integer
-     *
+     * type: integer
      */
     @Getter @Setter
     public String additionalPropertiesType;
 
     /**
      * True if additionalProperties is set to true (boolean value), any type, free form object, etc
-     *
+     * <p>
      * TODO: we may rename this to isAdditionalPropertiesEnabled or something
      * else to avoid confusions
      */
@@ -755,14 +757,22 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getIsUuid() { return isUuid; }
+    public boolean getIsUuid() {
+        return isUuid;
+    }
 
     @Override
-    public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
+    public void setIsUuid(boolean isUuid) {
+        this.isUuid = isUuid;
+    }
 
-    public boolean getIsUri() { return isUri; }
+    public boolean getIsUri() {
+        return isUri;
+    }
 
-    public void setIsUri(boolean isUri) { this.isUri = isUri; }
+    public void setIsUri(boolean isUri) {
+        this.isUri = isUri;
+    }
 
     @Override
     public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
@@ -830,7 +840,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public void setIsBinary(boolean isBinary) {}
+    public void setIsBinary(boolean isBinary) {
+    }
 
     @Override
     public boolean getIsByteArray() {
@@ -838,7 +849,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public void setIsByteArray(boolean isByteArray) {}
+    public void setIsByteArray(boolean isByteArray) {
+    }
 
     @Override
     public boolean getIsDecimal() {
@@ -922,6 +934,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(parentModel, that.parentModel) &&
                 Objects.equals(interfaceModels, that.interfaceModels) &&
                 Objects.equals(children, that.children) &&
+                Objects.equals(permits, that.permits) &&
                 Objects.equals(anyOf, that.anyOf) &&
                 Objects.equals(oneOf, that.oneOf) &&
                 Objects.equals(allOf, that.allOf) &&
@@ -975,7 +988,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public int hashCode() {
         return Objects.hash(getParent(), getParentSchema(), getInterfaces(), getAllParents(), getParentModel(),
-                getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getSchemaName(), getClassname(), getTitle(),
+                getInterfaceModels(), getChildren(), permits, anyOf, oneOf, allOf, getName(), getSchemaName(), getClassname(), getTitle(),
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
@@ -1001,10 +1014,11 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", parent='").append(parent).append('\'');
         sb.append(", parentSchema='").append(parentSchema).append('\'');
         sb.append(", interfaces=").append(interfaces);
-        sb.append(", interfaceModels=").append(interfaceModels !=null ? interfaceModels.size() : "[]");
+        sb.append(", interfaceModels=").append(interfaceModels != null ? interfaceModels.size() : "[]");
         sb.append(", allParents=").append(allParents);
         sb.append(", parentModel=").append(parentModel);
         sb.append(", children=").append(children != null ? children.size() : "[]");
+        sb.append(", permits=").append(permits != null ? permits.size() : "[]");
         sb.append(", anyOf=").append(anyOf);
         sb.append(", oneOf=").append(oneOf);
         sb.append(", allOf=").append(allOf);
@@ -1083,8 +1097,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", items='").append(items).append('\'');
         sb.append(", additionalProperties='").append(additionalProperties).append('\'');
         sb.append(", isModel='").append(isModel).append('\'');
-        sb.append(", isNull='").append(isNull);
-        sb.append(", hasValidation='").append(hasValidation);
+        sb.append(", isNull='").append(isNull).append('\'');
+        sb.append(", hasValidation='").append(hasValidation).append('\'');
         sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
         sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
         sb.append(", getIsAnyType=").append(getIsAnyType());
@@ -1136,10 +1150,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public Map<String, CodegenProperty> getRequiredVarsMap() { return requiredVarsMap; }
+    public Map<String, CodegenProperty> getRequiredVarsMap() {
+        return requiredVarsMap;
+    }
 
     @Override
-    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) { this.requiredVarsMap=requiredVarsMap; }
+    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) {
+        this.requiredVarsMap = requiredVarsMap;
+    }
 
     /**
      * Remove duplicated properties in all variable list

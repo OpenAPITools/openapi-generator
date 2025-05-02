@@ -38,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * SomeObj
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class SomeObj implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -59,7 +58,7 @@ public class SomeObj implements Serializable {
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
-    SOME_OBJ_IDENTIFIER("SomeObjIdentifier");
+    SOMEOBJIDENTIFIER("SomeObjIdentifier");
 
     private String value;
 
@@ -106,28 +105,33 @@ public class SomeObj implements Serializable {
 
   public static final String SERIALIZED_NAME_$_TYPE = "$_type";
   @SerializedName(SERIALIZED_NAME_$_TYPE)
-  private TypeEnum $type = TypeEnum.SOME_OBJ_IDENTIFIER;
+  @javax.annotation.Nullable
+  private TypeEnum $type = TypeEnum.SOMEOBJIDENTIFIER;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public static final String SERIALIZED_NAME_ACTIVE = "active";
   @SerializedName(SERIALIZED_NAME_ACTIVE)
+  @javax.annotation.Nullable
   private Boolean active;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
+  @javax.annotation.Nullable
   private String type;
 
   public SomeObj() {
   }
 
-  public SomeObj $type(TypeEnum $type) {
+  public SomeObj $type(@javax.annotation.Nullable TypeEnum $type) {
     this.$type = $type;
     return this;
   }
@@ -141,12 +145,12 @@ public class SomeObj implements Serializable {
     return $type;
   }
 
-  public void set$Type(TypeEnum $type) {
+  public void set$Type(@javax.annotation.Nullable TypeEnum $type) {
     this.$type = $type;
   }
 
 
-  public SomeObj id(Long id) {
+  public SomeObj id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -160,12 +164,12 @@ public class SomeObj implements Serializable {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public SomeObj name(String name) {
+  public SomeObj name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -179,12 +183,12 @@ public class SomeObj implements Serializable {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 
 
-  public SomeObj active(Boolean active) {
+  public SomeObj active(@javax.annotation.Nullable Boolean active) {
     this.active = active;
     return this;
   }
@@ -198,12 +202,12 @@ public class SomeObj implements Serializable {
     return active;
   }
 
-  public void setActive(Boolean active) {
+  public void setActive(@javax.annotation.Nullable Boolean active) {
     this.active = active;
   }
 
 
-  public SomeObj type(String type) {
+  public SomeObj type(@javax.annotation.Nullable String type) {
     this.type = type;
     return this;
   }
@@ -217,7 +221,7 @@ public class SomeObj implements Serializable {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(@javax.annotation.Nullable String type) {
     this.type = type;
   }
 

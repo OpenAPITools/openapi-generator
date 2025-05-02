@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.context.request.NativeWebRequest
-import org.springframework.core.io.Resource
 import org.springframework.http.server.reactive.ServerHttpRequest
 
 import java.util.Optional
@@ -14,7 +13,7 @@ import java.util.Optional
  * A delegate to be called by the {@link StoreApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.14.0-SNAPSHOT")
 interface StoreApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
@@ -22,8 +21,7 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#deleteOrder
      */
-    fun deleteOrder(orderId: kotlin.String,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+    fun deleteOrder(orderId: kotlin.String): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -32,7 +30,7 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#getInventory
      */
-    fun getInventory(serverHttpRequest: ServerHttpRequest): ResponseEntity<Map<String, kotlin.Int>> {
+    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -41,8 +39,7 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#getOrderById
      */
-    fun getOrderById(orderId: kotlin.Long,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Order> {
+    fun getOrderById(orderId: kotlin.Long): ResponseEntity<Order> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -63,8 +60,7 @@ interface StoreApiDelegate {
     /**
      * @see StoreApi#placeOrder
      */
-    fun placeOrder(order: Order,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Order> {
+    fun placeOrder(order: Order): ResponseEntity<Order> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

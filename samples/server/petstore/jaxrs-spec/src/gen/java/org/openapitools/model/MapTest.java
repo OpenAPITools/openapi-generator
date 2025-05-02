@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("MapTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class MapTest  implements Serializable {
   private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
   public enum InnerEnum {
@@ -272,7 +272,7 @@ public class MapTest  implements Serializable {
     return new MapTestBuilderImpl();
   }
 
-  private static class MapTestBuilderImpl extends MapTestBuilder<MapTest, MapTestBuilderImpl> {
+  private static final class MapTestBuilderImpl extends MapTestBuilder<MapTest, MapTestBuilderImpl> {
 
     @Override
     protected MapTestBuilderImpl self() {

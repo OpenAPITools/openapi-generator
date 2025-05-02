@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * Zebra
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Zebra {
   /**
    * Gets or Sets type
@@ -107,16 +106,18 @@ public class Zebra {
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
+  @javax.annotation.Nullable
   private TypeEnum type;
 
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
+  @javax.annotation.Nonnull
   private String className;
 
   public Zebra() {
   }
 
-  public Zebra type(TypeEnum type) {
+  public Zebra type(@javax.annotation.Nullable TypeEnum type) {
     this.type = type;
     return this;
   }
@@ -130,12 +131,12 @@ public class Zebra {
     return type;
   }
 
-  public void setType(TypeEnum type) {
+  public void setType(@javax.annotation.Nullable TypeEnum type) {
     this.type = type;
   }
 
 
-  public Zebra className(String className) {
+  public Zebra className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -149,7 +150,7 @@ public class Zebra {
     return className;
   }
 
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Cat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -40,7 +41,7 @@ public class BigCat extends Cat {
     
     JAGUARS("jaguars");
 
-    private String value;
+    private final String value;
 
     KindEnum(String value) {
       this.value = value;
@@ -67,7 +68,7 @@ public class BigCat extends Cat {
     }
   }
 
-  private KindEnum kind;
+  private @Nullable KindEnum kind;
 
   public BigCat() {
     super();
@@ -83,7 +84,7 @@ public class BigCat extends Cat {
   /**
    * Constructor with all args parameters
    */
-  public BigCat(KindEnum kind, Boolean declawed, String className, String color) {
+  public BigCat(@Nullable KindEnum kind, @Nullable Boolean declawed, String className, String color) {
       super(declawed, className, color);
       this.kind = kind;
   }

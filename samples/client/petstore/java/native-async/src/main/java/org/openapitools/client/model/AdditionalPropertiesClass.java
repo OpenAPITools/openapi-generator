@@ -48,36 +48,43 @@ import org.openapitools.client.ApiClient;
   AdditionalPropertiesClass.JSON_PROPERTY_EMPTY_MAP,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
+  @javax.annotation.Nullable
   private Map<String, String> mapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
+  @javax.annotation.Nullable
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   private JsonNullable<Object> anytype1 = JsonNullable.<Object>of(null);
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1 = "map_with_undeclared_properties_anytype_1";
+  @javax.annotation.Nullable
   private Object mapWithUndeclaredPropertiesAnytype1;
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2 = "map_with_undeclared_properties_anytype_2";
+  @javax.annotation.Nullable
   private Object mapWithUndeclaredPropertiesAnytype2;
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3 = "map_with_undeclared_properties_anytype_3";
+  @javax.annotation.Nullable
   private Map<String, Object> mapWithUndeclaredPropertiesAnytype3 = new HashMap<>();
 
   public static final String JSON_PROPERTY_EMPTY_MAP = "empty_map";
+  @javax.annotation.Nullable
   private Object emptyMap;
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING = "map_with_undeclared_properties_string";
+  @javax.annotation.Nullable
   private Map<String, String> mapWithUndeclaredPropertiesString = new HashMap<>();
 
   public AdditionalPropertiesClass() { 
   }
 
-  public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
+  public AdditionalPropertiesClass mapProperty(@javax.annotation.Nullable Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
     return this;
   }
@@ -104,12 +111,12 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMapProperty(Map<String, String> mapProperty) {
+  public void setMapProperty(@javax.annotation.Nullable Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
   }
 
 
-  public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+  public AdditionalPropertiesClass mapOfMapProperty(@javax.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
     return this;
   }
@@ -136,12 +143,12 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+  public void setMapOfMapProperty(@javax.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
   }
 
 
-  public AdditionalPropertiesClass anytype1(Object anytype1) {
+  public AdditionalPropertiesClass anytype1(@javax.annotation.Nullable Object anytype1) {
     this.anytype1 = JsonNullable.<Object>of(anytype1);
     return this;
   }
@@ -168,12 +175,12 @@ public class AdditionalPropertiesClass {
     this.anytype1 = anytype1;
   }
 
-  public void setAnytype1(Object anytype1) {
+  public void setAnytype1(@javax.annotation.Nullable Object anytype1) {
     this.anytype1 = JsonNullable.<Object>of(anytype1);
   }
 
 
-  public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
+  public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype1(@javax.annotation.Nullable Object mapWithUndeclaredPropertiesAnytype1) {
     this.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
     return this;
   }
@@ -192,12 +199,12 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
+  public void setMapWithUndeclaredPropertiesAnytype1(@javax.annotation.Nullable Object mapWithUndeclaredPropertiesAnytype1) {
     this.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
   }
 
 
-  public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
+  public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype2(@javax.annotation.Nullable Object mapWithUndeclaredPropertiesAnytype2) {
     this.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
     return this;
   }
@@ -216,12 +223,12 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
+  public void setMapWithUndeclaredPropertiesAnytype2(@javax.annotation.Nullable Object mapWithUndeclaredPropertiesAnytype2) {
     this.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
   }
 
 
-  public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
+  public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype3(@javax.annotation.Nullable Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
     this.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
     return this;
   }
@@ -248,12 +255,12 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
+  public void setMapWithUndeclaredPropertiesAnytype3(@javax.annotation.Nullable Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
     this.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
   }
 
 
-  public AdditionalPropertiesClass emptyMap(Object emptyMap) {
+  public AdditionalPropertiesClass emptyMap(@javax.annotation.Nullable Object emptyMap) {
     this.emptyMap = emptyMap;
     return this;
   }
@@ -272,12 +279,12 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_EMPTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setEmptyMap(Object emptyMap) {
+  public void setEmptyMap(@javax.annotation.Nullable Object emptyMap) {
     this.emptyMap = emptyMap;
   }
 
 
-  public AdditionalPropertiesClass mapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
+  public AdditionalPropertiesClass mapWithUndeclaredPropertiesString(@javax.annotation.Nullable Map<String, String> mapWithUndeclaredPropertiesString) {
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
     return this;
   }
@@ -304,7 +311,7 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
+  public void setMapWithUndeclaredPropertiesString(@javax.annotation.Nullable Map<String, String> mapWithUndeclaredPropertiesString) {
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
   }
 
@@ -411,7 +418,7 @@ public class AdditionalPropertiesClass {
       for (String _key : getMapProperty().keySet()) {
         joiner.add(String.format("%smap_property%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapProperty().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapProperty().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapProperty().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapProperty().get(_key)))));
       }
     }
 
@@ -420,23 +427,23 @@ public class AdditionalPropertiesClass {
       for (String _key : getMapOfMapProperty().keySet()) {
         joiner.add(String.format("%smap_of_map_property%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapOfMapProperty().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapOfMapProperty().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapOfMapProperty().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapOfMapProperty().get(_key)))));
       }
     }
 
     // add `anytype_1` to the URL query string
     if (getAnytype1() != null) {
-      joiner.add(String.format("%sanytype_1%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnytype1()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sanytype_1%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getAnytype1()))));
     }
 
     // add `map_with_undeclared_properties_anytype_1` to the URL query string
     if (getMapWithUndeclaredPropertiesAnytype1() != null) {
-      joiner.add(String.format("%smap_with_undeclared_properties_anytype_1%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype1()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smap_with_undeclared_properties_anytype_1%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype1()))));
     }
 
     // add `map_with_undeclared_properties_anytype_2` to the URL query string
     if (getMapWithUndeclaredPropertiesAnytype2() != null) {
-      joiner.add(String.format("%smap_with_undeclared_properties_anytype_2%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype2()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smap_with_undeclared_properties_anytype_2%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype2()))));
     }
 
     // add `map_with_undeclared_properties_anytype_3` to the URL query string
@@ -444,13 +451,13 @@ public class AdditionalPropertiesClass {
       for (String _key : getMapWithUndeclaredPropertiesAnytype3().keySet()) {
         joiner.add(String.format("%smap_with_undeclared_properties_anytype_3%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapWithUndeclaredPropertiesAnytype3().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype3().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapWithUndeclaredPropertiesAnytype3().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype3().get(_key)))));
       }
     }
 
     // add `empty_map` to the URL query string
     if (getEmptyMap() != null) {
-      joiner.add(String.format("%sempty_map%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEmptyMap()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sempty_map%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEmptyMap()))));
     }
 
     // add `map_with_undeclared_properties_string` to the URL query string
@@ -458,7 +465,7 @@ public class AdditionalPropertiesClass {
       for (String _key : getMapWithUndeclaredPropertiesString().keySet()) {
         joiner.add(String.format("%smap_with_undeclared_properties_string%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapWithUndeclaredPropertiesString().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapWithUndeclaredPropertiesString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapWithUndeclaredPropertiesString().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesString().get(_key)))));
       }
     }
 

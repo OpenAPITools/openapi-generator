@@ -40,7 +40,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,24 +51,27 @@ import org.openapitools.client.JSON;
 /**
  * AnyTypeTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class AnyTypeTest {
   public static final String SERIALIZED_NAME_ANY_TYPE_PROPERTY = "any_type_property";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROPERTY)
+  @javax.annotation.Nullable
   private Object anyTypeProperty = null;
 
   public static final String SERIALIZED_NAME_ARRAY_PROP = "array_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_PROP)
+  @javax.annotation.Nullable
   private List<String> arrayProp = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS = "ref_array_prefix_items";
   @SerializedName(SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS)
-  private List<String> refArrayPrefixItems = new ArrayList<>();
+  @javax.annotation.Nullable
+  private List<Object> refArrayPrefixItems = new ArrayList<>();
 
   public AnyTypeTest() {
   }
 
-  public AnyTypeTest anyTypeProperty(Object anyTypeProperty) {
+  public AnyTypeTest anyTypeProperty(@javax.annotation.Nullable Object anyTypeProperty) {
     this.anyTypeProperty = anyTypeProperty;
     return this;
   }
@@ -83,12 +85,12 @@ public class AnyTypeTest {
     return anyTypeProperty;
   }
 
-  public void setAnyTypeProperty(Object anyTypeProperty) {
+  public void setAnyTypeProperty(@javax.annotation.Nullable Object anyTypeProperty) {
     this.anyTypeProperty = anyTypeProperty;
   }
 
 
-  public AnyTypeTest arrayProp(List<String> arrayProp) {
+  public AnyTypeTest arrayProp(@javax.annotation.Nullable List<String> arrayProp) {
     this.arrayProp = arrayProp;
     return this;
   }
@@ -110,17 +112,17 @@ public class AnyTypeTest {
     return arrayProp;
   }
 
-  public void setArrayProp(List<String> arrayProp) {
+  public void setArrayProp(@javax.annotation.Nullable List<String> arrayProp) {
     this.arrayProp = arrayProp;
   }
 
 
-  public AnyTypeTest refArrayPrefixItems(List<String> refArrayPrefixItems) {
+  public AnyTypeTest refArrayPrefixItems(@javax.annotation.Nullable List<Object> refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
     return this;
   }
 
-  public AnyTypeTest addRefArrayPrefixItemsItem(String refArrayPrefixItemsItem) {
+  public AnyTypeTest addRefArrayPrefixItemsItem(Object refArrayPrefixItemsItem) {
     if (this.refArrayPrefixItems == null) {
       this.refArrayPrefixItems = new ArrayList<>();
     }
@@ -133,11 +135,11 @@ public class AnyTypeTest {
    * @return refArrayPrefixItems
    */
   @javax.annotation.Nullable
-  public List<String> getRefArrayPrefixItems() {
+  public List<Object> getRefArrayPrefixItems() {
     return refArrayPrefixItems;
   }
 
-  public void setRefArrayPrefixItems(List<String> refArrayPrefixItems) {
+  public void setRefArrayPrefixItems(@javax.annotation.Nullable List<Object> refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
   }
 

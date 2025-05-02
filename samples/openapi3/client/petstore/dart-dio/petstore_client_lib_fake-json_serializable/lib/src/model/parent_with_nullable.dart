@@ -27,7 +27,8 @@ class ParentWithNullable {
     
     name: r'type',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: ParentWithNullableTypeEnum.unknownDefaultOpenApi,
   )
 
 
@@ -39,7 +40,7 @@ class ParentWithNullable {
     
     name: r'nullableProperty',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -72,10 +73,17 @@ class ParentWithNullable {
 
 
 enum ParentWithNullableTypeEnum {
-  @JsonValue(r'ChildWithNullable')
-  childWithNullable,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+@JsonValue(r'ChildWithNullable')
+childWithNullable(r'ChildWithNullable'),
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const ParentWithNullableTypeEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 

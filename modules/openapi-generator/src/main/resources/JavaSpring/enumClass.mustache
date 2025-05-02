@@ -1,7 +1,7 @@
   /**
    * {{^description}}Gets or Sets {{{name}}}{{/description}}{{{description}}}
    */
-  {{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
+  {{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
     {{#gson}}
         {{#allowableValues}}
             {{#enumVars}}
@@ -30,7 +30,7 @@
         {{/allowableValues}}
     {{/gson}}
 
-    private {{{dataType}}} value;
+    private final {{{dataType}}} value;
 
     {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}({{{dataType}}} value) {
       this.value = value;

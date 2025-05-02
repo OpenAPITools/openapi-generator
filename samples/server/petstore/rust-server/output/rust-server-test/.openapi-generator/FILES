@@ -3,6 +3,7 @@
 Cargo.toml
 README.md
 api/openapi.yaml
+bin/cli.rs
 docs/ANullableContainer.md
 docs/AdditionalPropertiesObject.md
 docs/AllOfObject.md

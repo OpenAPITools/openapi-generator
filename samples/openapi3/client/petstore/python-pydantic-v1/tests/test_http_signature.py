@@ -10,15 +10,12 @@ $ cd petstore_api-python
 $ pytest
 """
 
-from collections import namedtuple
-from datetime import datetime, timedelta
+from datetime import timedelta
 import base64
-import json
 import os
 import re
-import shutil
 import unittest
-from urllib.parse import urlencode, urlparse
+from urllib.parse import urlparse
 
 from Crypto.Hash import SHA256, SHA512
 from Crypto.PublicKey import ECC, RSA
@@ -28,22 +25,11 @@ import petstore_api
 #from petstore_api.models import Category, Tag, Pet
 from petstore_api.api.pet_api import PetApi
 from petstore_api import Configuration, signing
-from petstore_api.rest import (
-    RESTClientObject,
-    RESTResponse
-)
-
-from petstore_api.exceptions import (
-    ApiException,
-    ApiValueError,
-    ApiTypeError,
-)
 
 from .util import id_gen
 
 import urllib3
 
-from unittest.mock import patch
 
 HOST = 'http://localhost/v2'
 

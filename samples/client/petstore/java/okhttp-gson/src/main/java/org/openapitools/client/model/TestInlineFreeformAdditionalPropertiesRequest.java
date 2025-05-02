@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,16 +48,17 @@ import org.openapitools.client.JSON;
 /**
  * TestInlineFreeformAdditionalPropertiesRequest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String SERIALIZED_NAME_SOME_PROPERTY = "someProperty";
   @SerializedName(SERIALIZED_NAME_SOME_PROPERTY)
+  @javax.annotation.Nullable
   private String someProperty;
 
   public TestInlineFreeformAdditionalPropertiesRequest() {
   }
 
-  public TestInlineFreeformAdditionalPropertiesRequest someProperty(String someProperty) {
+  public TestInlineFreeformAdditionalPropertiesRequest someProperty(@javax.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
     return this;
   }
@@ -72,7 +72,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     return someProperty;
   }
 
-  public void setSomeProperty(String someProperty) {
+  public void setSomeProperty(@javax.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
   }
 

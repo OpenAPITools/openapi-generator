@@ -11,7 +11,7 @@ title: Documentation for the typescript-angular Generator
 | generator type | CLIENT | |
 | generator language | Typescript | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a TypeScript Angular (9.x - 18.x) client library. | |
+| helpTxt | Generates a TypeScript Angular (9.x - 19.x) client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -29,10 +29,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |fileNaming|Naming convention for the output files: 'camelCase', 'kebab-case'.| |camelCase|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|licenseName|The name of the license| |Unlicense|
 |modelFileSuffix|The suffix of the file of the generated model (model&lt;suffix&gt;.ts).| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| |original|
 |modelSuffix|The suffix of the generated model.| |null|
-|ngVersion|The version of Angular. (At least 9.0.0)| |18.0.0|
+|ngPackagrVersion|The version of ng-packagr compatible with Angular (see ngVersion option).| |null|
+|ngVersion|The version of Angular. (At least 9.0.0)| |19.0.0|
 |npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 |npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
@@ -41,6 +43,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |providedIn|Use this property to provide Injectables in wanted level.|<dl><dt>**root**</dt><dd>The application-level injector in most apps.</dd><dt>**none**</dt><dd>No providedIn)</dd><dt>**any**</dt><dd>Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.</dd><dt>**platform**</dt><dd>A special singleton platform injector shared by all applications on the page.</dd></dl>|root|
 |queryParamObjectFormat|The format for query param objects: 'dot', 'json', 'key'.| |dot|
+|rxjsVersion|The version of RxJS compatible with Angular (see ngVersion option).| |null|
 |serviceFileSuffix|The suffix of the file of the generated service (service&lt;suffix&gt;.ts).| |.service|
 |serviceSuffix|The suffix of the generated service.| |Service|
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
@@ -49,9 +52,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |stringEnums|Generate string enums instead of objects for enum values.| |false|
 |supportsES6|Generate code that conforms to ES6.| |false|
 |taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|
+|tsVersion|The version of typescript compatible with Angular (see ngVersion option).| |null|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 |useSquareBracketsInArrayNames|Setting this property to true will add brackets to array attribute names, e.g. my_values[].| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+|zonejsVersion|The version of zone.js compatible with Angular (see ngVersion option).| |null|
 
 ## IMPORT MAPPING
 

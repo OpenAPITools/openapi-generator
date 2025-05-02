@@ -40,6 +40,7 @@ Method | HTTP request | Description
 [**test_object_for_multipart_requests**](FakeApi.md#test_object_for_multipart_requests) | **POST** /fake/object_for_multipart_requests | 
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 [**test_string_map_reference**](FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
+[**upload_file_with_additional_properties**](FakeApi.md#upload_file_with_additional_properties) | **POST** /fake/upload_file_with_additional_properties | uploads a file and additional properties using multipart/form-data
 
 
 # **fake_any_type_request_body**
@@ -369,8 +370,6 @@ void (empty response body)
 # **fake_outer_boolean_serialize**
 > bool fake_outer_boolean_serialize(body=body)
 
-
-
 Test serialization of outer boolean types
 
 ### Example
@@ -434,8 +433,6 @@ No authorization required
 
 # **fake_outer_composite_serialize**
 > OuterComposite fake_outer_composite_serialize(outer_composite=outer_composite)
-
-
 
 Test serialization of object with outer number type
 
@@ -502,8 +499,6 @@ No authorization required
 # **fake_outer_number_serialize**
 > float fake_outer_number_serialize(body=body)
 
-
-
 Test serialization of outer number types
 
 ### Example
@@ -568,8 +563,6 @@ No authorization required
 # **fake_outer_string_serialize**
 > str fake_outer_string_serialize(body=body)
 
-
-
 Test serialization of outer string types
 
 ### Example
@@ -633,8 +626,6 @@ No authorization required
 
 # **fake_property_enum_integer_serialize**
 > OuterObjectWithEnumProperty fake_property_enum_integer_serialize(outer_object_with_enum_property, param=param)
-
-
 
 Test serialization of enum (int) properties with examples
 
@@ -1444,8 +1435,6 @@ No authorization required
 # **test_body_with_binary**
 > test_body_with_binary(body)
 
-
-
 For this test, the body has to be a binary file.
 
 ### Example
@@ -1507,8 +1496,6 @@ No authorization required
 
 # **test_body_with_file_schema**
 > test_body_with_file_schema(file_schema_test_class)
-
-
 
 For this test, the body for this request must reference a schema named `File`.
 
@@ -1572,8 +1559,6 @@ No authorization required
 
 # **test_body_with_query_params**
 > test_body_with_query_params(query, user)
-
-
 
 ### Example
 
@@ -1640,7 +1625,7 @@ No authorization required
 
 To test \"client\" model
 
-To test \"client\" model
+To test "client" model
 
 ### Example
 
@@ -1705,8 +1690,6 @@ No authorization required
 
 # **test_date_time_query_parameter**
 > test_date_time_query_parameter(date_time_query, str_query)
-
-
 
 ### Example
 
@@ -1834,7 +1817,11 @@ No authorization required
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters
+假端點
+偽のエンドポイント
+가짜 엔드 포인트
+
 
 ### Example
 
@@ -2281,8 +2268,6 @@ No authorization required
 # **test_object_for_multipart_requests**
 > test_object_for_multipart_requests(marker)
 
-
-
 ### Example
 
 
@@ -2343,8 +2328,6 @@ No authorization required
 
 # **test_query_parameter_collection_format**
 > test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
-
-
 
 To test the collection format in query parameters
 
@@ -2473,6 +2456,79 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upload_file_with_additional_properties**
+> ModelApiResponse upload_file_with_additional_properties(file, object=object, count=count)
+
+uploads a file and additional properties using multipart/form-data
+
+
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.models.model_api_response import ModelApiResponse
+from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+async with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    file = None # bytearray | file to upload
+    object = petstore_api.UploadFileWithAdditionalPropertiesRequestObject() # UploadFileWithAdditionalPropertiesRequestObject |  (optional)
+    count = 56 # int | Integer count (optional)
+
+    try:
+        # uploads a file and additional properties using multipart/form-data
+        api_response = await api_instance.upload_file_with_additional_properties(file, object=object, count=count)
+        print("The response of FakeApi->upload_file_with_additional_properties:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling FakeApi->upload_file_with_additional_properties: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **file** | **bytearray**| file to upload | 
+ **object** | [**UploadFileWithAdditionalPropertiesRequestObject**](UploadFileWithAdditionalPropertiesRequestObject.md)|  | [optional] 
+ **count** | **int**| Integer count | [optional] 
+
+### Return type
+
+[**ModelApiResponse**](ModelApiResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
 
 ### HTTP response details
 

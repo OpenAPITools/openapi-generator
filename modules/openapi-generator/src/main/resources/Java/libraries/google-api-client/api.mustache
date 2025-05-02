@@ -61,7 +61,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws IOException {
+    public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws IOException {
         {{#returnType}}HttpResponse response = {{/returnType}}{{operationId}}ForHttpResponse({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
         TypeReference<{{{returnType}}}> typeRef = new TypeReference<{{{returnType}}}>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);{{/returnType}}
@@ -85,7 +85,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#bodyParam}}{{^required}}{{{dataType}}} {{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
+    public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#bodyParam}}{{^required}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
         {{#returnType}}HttpResponse response = {{/returnType}}{{operationId}}ForHttpResponse({{#bodyParam}}{{^required}}{{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}params);{{#returnType}}
         TypeReference<{{{returnType}}}> typeRef = new TypeReference<{{{returnType}}}>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);{{/returnType}}
@@ -94,7 +94,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public HttpResponse {{operationId}}ForHttpResponse({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws IOException {
+    public HttpResponse {{operationId}}ForHttpResponse({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws IOException {
         {{#allParams}}{{#required}}// verify the required parameter '{{paramName}}' is set
         if ({{paramName}} == null) {
             throw new IllegalArgumentException("Missing the required parameter '{{paramName}}' when calling {{operationId}}");
@@ -128,7 +128,7 @@ public class {{classname}} {
       {{#isDeprecated}}
       @Deprecated
       {{/isDeprecated}}
-      public HttpResponse {{operationId}}ForHttpResponse({{#allParams}}{{#isBodyParam}}java.io.InputStream {{paramName}}{{/isBodyParam}}{{^isBodyParam}}{{{dataType}}} {{paramName}}{{/isBodyParam}}{{^-last}}, {{/-last}}{{/allParams}}, String mediaType) throws IOException {
+      public HttpResponse {{operationId}}ForHttpResponse({{#allParams}}{{#isBodyParam}}java.io.InputStream {{paramName}}{{/isBodyParam}}{{^isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{/isBodyParam}}{{^-last}}, {{/-last}}{{/allParams}}, String mediaType) throws IOException {
           {{#allParams}}{{#required}}// verify the required parameter '{{paramName}}' is set
               if ({{paramName}} == null) {
               throw new IllegalArgumentException("Missing the required parameter '{{paramName}}' when calling {{operationId}}");
@@ -164,7 +164,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public HttpResponse {{operationId}}ForHttpResponse({{#bodyParam}}{{^required}}{{{dataType}}} {{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
+    public HttpResponse {{operationId}}ForHttpResponse({{#bodyParam}}{{^required}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
         {{#allParams}}{{#required}}// verify the required parameter '{{paramName}}' is set
         if ({{paramName}} == null) {
             throw new IllegalArgumentException("Missing the required parameter '{{paramName}}' when calling {{operationId}}");

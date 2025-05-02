@@ -16,35 +16,55 @@ import "google/protobuf/empty.proto";
 import public "models/order.proto";
 
 service StoreService {
-  rpc DeleteOrder (DeleteOrderRequest) returns (google.protobuf.Empty);
+  rpc DeleteOrder (DeleteOrderRequest) returns (DeleteOrderResponse);
 
   rpc GetInventory (google.protobuf.Empty) returns (GetInventoryResponse);
 
-  rpc GetOrderById (GetOrderByIdRequest) returns (Order);
+  rpc GetOrderById (GetOrderByIdRequest) returns (GetOrderByIdResponse);
 
-  rpc PlaceOrder (PlaceOrderRequest) returns (Order);
+  rpc PlaceOrder (PlaceOrderRequest) returns (PlaceOrderResponse);
 
 }
 
 message DeleteOrderRequest {
   // ID of the order that needs to be deleted
-  string orderId = 1;
+  string order_id = 1;
 
 }
 
+message DeleteOrderResponse {
+    oneof response {
+        google.protobuf.Empty empty_400 = 1;
+        google.protobuf.Empty empty_404 = 2;
+    }
+}
 message GetInventoryResponse {
-  int32 data = 1;
+    oneof response {
+        int32 int32_200 = 1;
+    }
 }
-
 message GetOrderByIdRequest {
   // ID of pet that needs to be fetched
-  int64 orderId = 1;
+  int64 order_id = 1;
 
 }
 
+message GetOrderByIdResponse {
+    oneof response {
+        Order order_200 = 1;
+        google.protobuf.Empty empty_400 = 2;
+        google.protobuf.Empty empty_404 = 3;
+    }
+}
 message PlaceOrderRequest {
   // order placed for purchasing the pet
   Order order = 1;
 
 }
 
+message PlaceOrderResponse {
+    oneof response {
+        Order order_200 = 1;
+        google.protobuf.Empty empty_400 = 2;
+    }
+}

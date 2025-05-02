@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,24 +48,27 @@ import org.openapitools.client.JSON;
 /**
  * Whale
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Whale {
   public static final String SERIALIZED_NAME_HAS_BALEEN = "hasBaleen";
   @SerializedName(SERIALIZED_NAME_HAS_BALEEN)
+  @javax.annotation.Nullable
   private Boolean hasBaleen;
 
   public static final String SERIALIZED_NAME_HAS_TEETH = "hasTeeth";
   @SerializedName(SERIALIZED_NAME_HAS_TEETH)
+  @javax.annotation.Nullable
   private Boolean hasTeeth;
 
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
+  @javax.annotation.Nonnull
   private String className;
 
   public Whale() {
   }
 
-  public Whale hasBaleen(Boolean hasBaleen) {
+  public Whale hasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
     return this;
   }
@@ -80,12 +82,12 @@ public class Whale {
     return hasBaleen;
   }
 
-  public void setHasBaleen(Boolean hasBaleen) {
+  public void setHasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
   }
 
 
-  public Whale hasTeeth(Boolean hasTeeth) {
+  public Whale hasTeeth(@javax.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
     return this;
   }
@@ -99,12 +101,12 @@ public class Whale {
     return hasTeeth;
   }
 
-  public void setHasTeeth(Boolean hasTeeth) {
+  public void setHasTeeth(@javax.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
   }
 
 
-  public Whale className(String className) {
+  public Whale className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -118,7 +120,7 @@ public class Whale {
     return className;
   }
 
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 

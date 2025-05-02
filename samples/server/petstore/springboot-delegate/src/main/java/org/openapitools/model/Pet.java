@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -28,12 +29,12 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Pet {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private Category category;
+  private @Nullable Category category;
 
   private String name;
 
@@ -53,7 +54,7 @@ public class Pet {
     
     SOLD("sold");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -81,7 +82,7 @@ public class Pet {
   }
 
   @Deprecated
-  private StatusEnum status;
+  private @Nullable StatusEnum status;
 
   public Pet() {
     super();
@@ -98,7 +99,7 @@ public class Pet {
   /**
    * Constructor with all args parameters
    */
-  public Pet(Long id, Category category, String name, Set<String> photoUrls, List<@Valid Tag> tags, StatusEnum status) {
+  public Pet(@Nullable Long id, @Nullable Category category, String name, Set<String> photoUrls, List<@Valid Tag> tags, @Nullable StatusEnum status) {
       this.id = id;
       this.category = category;
       this.name = name;

@@ -22,10 +22,11 @@ import sample.cask.model.*
 
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
+import scala.util.Try
 
 import sample.cask.model.Order
 
-class StoreRoutes(service : StoreService) extends cask.Routes {
+class StoreRoutes(service : StoreService[Try]) extends cask.Routes {
 
 
         /** Delete purchase order by ID
@@ -38,10 +39,12 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
 
         val result =         for {
             orderId <- Parsed(orderId)
-            result <- Parsed.eval(service.deleteOrder(orderId))
+            resultTry <- Parsed.eval(service.deleteOrder(orderId))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
         }
@@ -56,10 +59,12 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
         def failFast = request.queryParams.keySet.contains("failFast")
 
         val result =         for {
-            result <- Parsed.eval(service.getInventory())
+            resultTry <- Parsed.eval(service.getInventory())
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(value : Map[String, Int]) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
           case Right(other) => cask.Response(s"$other", 200)
@@ -75,10 +80,13 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
 
         val result =         for {
             orderId <- Parsed(orderId)
-            result <- Parsed.eval(service.getOrderById(orderId))
+            resultTry <- Parsed.eval(service.getOrderById(orderId))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+        import Order.{given, *} // this brings in upickle in the case of union (oneOf) types
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(value : Order) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
           case Right(other) => cask.Response(s"$other", 200)
@@ -93,12 +101,16 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
         def failFast = request.queryParams.keySet.contains("failFast")
 
         val result =         for {
-              orderData <- Parsed.eval(OrderData.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as Order from >${request.bodyAsString}< : ${e}") /* not array or map */
-              order <- Parsed.fromTry(orderData.validated(failFast))
-            result <- Parsed.eval(service.placeOrder(order))
+              orderJson <- Parsed.fromTry(request.bodyAsJson)
+              orderData <- Parsed.eval(OrderData.fromJson(orderJson)) /* not array or map */
+              order <- Parsed.fromTry(OrderData.validated(orderData, failFast))
+            resultTry <- Parsed.eval(service.placeOrder(order))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+        import Order.{given, *} // this brings in upickle in the case of union (oneOf) types
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(value : Order) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
           case Right(other) => cask.Response(s"$other", 200)

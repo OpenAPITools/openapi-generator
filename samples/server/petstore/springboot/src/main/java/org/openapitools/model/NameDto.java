@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,16 +23,16 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing model name same as property name")
 @JsonTypeName("Name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class NameDto {
 
   private Integer name;
 
-  private Integer snakeCase;
+  private @Nullable Integer snakeCase;
 
-  private String property;
+  private @Nullable String property;
 
-  private Integer _123Number;
+  private @Nullable Integer _123Number;
 
   public NameDto() {
     super();

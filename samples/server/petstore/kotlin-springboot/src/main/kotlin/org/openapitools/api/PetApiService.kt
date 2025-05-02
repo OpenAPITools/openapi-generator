@@ -90,5 +90,5 @@ interface PetApiService {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: org.springframework.core.io.Resource?): ModelApiResponse
+    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: org.springframework.web.multipart.MultipartFile?): ModelApiResponse
 }

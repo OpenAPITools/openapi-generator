@@ -75,6 +75,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isContainer}}
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
   {{^vendorExtensions.x-is-jackson-optional-nullable}}
+  {{>nullable_var_annotations}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
@@ -104,7 +105,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   ));
 
   {{/vendorExtensions.x-enum-as-string}}
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{>nullable_var_annotations}} {{{datatypeWithEnum}}} {{name}}) {
     {{#vendorExtensions.x-enum-as-string}}
     if (!{{{nameInSnakeCase}}}_VALUES.contains({{name}})) {
       throw new IllegalArgumentException({{name}} + " is invalid. Possible values for {{name}}: " + String.join(", ", {{{nameInSnakeCase}}}_VALUES));
@@ -188,17 +189,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{#deprecated}}
   @Deprecated
 {{/deprecated}}
-{{#required}}
-{{#isNullable}}
-  @{{javaxPackage}}.annotation.Nullable
-{{/isNullable}}
-{{^isNullable}}
-  @{{javaxPackage}}.annotation.Nonnull
-{{/isNullable}}
-{{/required}}
-{{^required}}
-  @{{javaxPackage}}.annotation.Nullable
-{{/required}}
+  {{>nullable_var_annotations}}
 {{#useBeanValidation}}
 {{>beanValidation}}
 {{/useBeanValidation}}
@@ -244,7 +235,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
   {{^isReadOnly}}
 {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
-{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{> jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{> jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{>nullable_var_annotations}} {{{datatypeWithEnum}}} {{name}}) {
     {{#vendorExtensions.x-enum-as-string}}
     if (!{{{nameInSnakeCase}}}_VALUES.contains({{name}})) {
       throw new IllegalArgumentException({{name}} + " is invalid. Possible values for {{name}}: " + String.join(", ", {{{nameInSnakeCase}}}_VALUES));
@@ -266,7 +257,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#allVars}}
   {{#isOverridden}}
   @Override
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{>nullable_var_annotations}} {{{datatypeWithEnum}}} {{name}}) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{setter}}(JsonNullable.<{{{datatypeWithEnum}}}>of({{name}}));
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -395,7 +386,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for ({{{items.dataType}}} _item : {{getter}}()) {
         joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString(_item))));
       }
       i++;
     }
@@ -405,7 +396,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for (int i = 0; i < {{getter}}().size(); i++) {
         joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString({{getter}}().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString({{getter}}().get(i)))));
       }
     }
     {{/uniqueItems}}
@@ -443,7 +434,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         if (_item != null) {
           joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(ApiClient.valueToString(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+              ApiClient.urlEncode(ApiClient.valueToString(_item))));
         }
         i++;
       }
@@ -455,7 +446,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         if ({{getter}}().get(i) != null) {
           joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(ApiClient.valueToString({{getter}}().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+              ApiClient.urlEncode(ApiClient.valueToString({{getter}}().get(i)))));
         }
       }
     }
@@ -470,7 +461,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for (String _key : {{getter}}().keySet()) {
         joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            {{getter}}().get(_key), URLEncoder.encode(ApiClient.valueToString({{getter}}().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            {{getter}}().get(_key), ApiClient.urlEncode(ApiClient.valueToString({{getter}}().get(_key)))));
       }
     }
     {{/items.isModel}}
@@ -488,7 +479,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{^isMap}}
     {{#isPrimitiveType}}
     if ({{getter}}() != null) {
-      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString({{{getter}}}()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString({{{getter}}}()))));
     }
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
@@ -499,7 +490,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/isModel}}
     {{^isModel}}
     if ({{getter}}() != null) {
-      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString({{{getter}}}()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString({{{getter}}}()))));
     }
     {{/isModel}}
     {{/isPrimitiveType}}

@@ -38,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,20 +49,22 @@ import org.openapitools.client.JSON;
 /**
  * Value object
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Variable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String SERIALIZED_NAME_VALUE = "value";
   @SerializedName(SERIALIZED_NAME_VALUE)
+  @javax.annotation.Nonnull
   private Value value;
 
   public Variable() {
   }
 
-  public Variable name(String name) {
+  public Variable name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
@@ -77,12 +78,12 @@ public class Variable {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public Variable value(Value value) {
+  public Variable value(@javax.annotation.Nonnull Value value) {
     this.value = value;
     return this;
   }
@@ -96,7 +97,7 @@ public class Variable {
     return value;
   }
 
-  public void setValue(Value value) {
+  public void setValue(@javax.annotation.Nonnull Value value) {
     this.value = value;
   }
 

@@ -86,6 +86,6 @@ class Category(Model):
         :type name: str
         """
         if name is not None and not re.search(r'^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$', name):  # noqa: E501
-            raise ValueError("Invalid value for `name`, must be a follow pattern or equal to `/^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$/`")  # noqa: E501
+            raise ValueError(r"Invalid value for `name`, must be a follow pattern or equal to `/^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$/`")  # noqa: E501
 
         self._name = name

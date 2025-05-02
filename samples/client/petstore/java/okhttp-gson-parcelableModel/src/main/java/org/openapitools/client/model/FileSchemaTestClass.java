@@ -42,7 +42,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -54,20 +53,22 @@ import org.openapitools.client.JSON;
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class FileSchemaTestClass implements Parcelable {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
+  @javax.annotation.Nullable
   private ModelFile _file;
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
+  @javax.annotation.Nullable
   private List<ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
 
-  public FileSchemaTestClass _file(ModelFile _file) {
+  public FileSchemaTestClass _file(@javax.annotation.Nullable ModelFile _file) {
     this._file = _file;
     return this;
   }
@@ -81,12 +82,12 @@ public class FileSchemaTestClass implements Parcelable {
     return _file;
   }
 
-  public void setFile(ModelFile _file) {
+  public void setFile(@javax.annotation.Nullable ModelFile _file) {
     this._file = _file;
   }
 
 
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(@javax.annotation.Nullable List<ModelFile> files) {
     this.files = files;
     return this;
   }
@@ -108,7 +109,7 @@ public class FileSchemaTestClass implements Parcelable {
     return files;
   }
 
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(@javax.annotation.Nullable List<ModelFile> files) {
     this.files = files;
   }
 

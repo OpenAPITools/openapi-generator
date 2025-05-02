@@ -38,7 +38,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -50,20 +49,22 @@ import org.openapitools.client.JSON;
 /**
  * FreeFormObjectTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class FreeFormObjectTestClass {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public static final String SERIALIZED_NAME_PROPERTIES = "properties";
   @SerializedName(SERIALIZED_NAME_PROPERTIES)
+  @javax.annotation.Nullable
   private FreeFormObjectTestClassProperties properties;
 
   public FreeFormObjectTestClass() {
   }
 
-  public FreeFormObjectTestClass name(String name) {
+  public FreeFormObjectTestClass name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -77,12 +78,12 @@ public class FreeFormObjectTestClass {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 
 
-  public FreeFormObjectTestClass properties(FreeFormObjectTestClassProperties properties) {
+  public FreeFormObjectTestClass properties(@javax.annotation.Nullable FreeFormObjectTestClassProperties properties) {
     this.properties = properties;
     return this;
   }
@@ -96,7 +97,7 @@ public class FreeFormObjectTestClass {
     return properties;
   }
 
-  public void setProperties(FreeFormObjectTestClassProperties properties) {
+  public void setProperties(@javax.annotation.Nullable FreeFormObjectTestClassProperties properties) {
     this.properties = properties;
   }
 

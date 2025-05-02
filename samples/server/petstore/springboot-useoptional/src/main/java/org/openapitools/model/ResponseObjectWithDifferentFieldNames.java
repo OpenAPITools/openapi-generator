@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ import javax.annotation.Generated;
  * ResponseObjectWithDifferentFieldNames
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
   private Optional<String> normalPropertyName = Optional.empty();
@@ -31,7 +32,7 @@ public class ResponseObjectWithDifferentFieldNames {
   private Optional<String> propertyNameWithSpaces = Optional.empty();
 
   public ResponseObjectWithDifferentFieldNames normalPropertyName(String normalPropertyName) {
-    this.normalPropertyName = Optional.of(normalPropertyName);
+    this.normalPropertyName = Optional.ofNullable(normalPropertyName);
     return this;
   }
 
@@ -51,7 +52,7 @@ public class ResponseObjectWithDifferentFieldNames {
   }
 
   public ResponseObjectWithDifferentFieldNames UPPER_CASE_PROPERTY_SNAKE(String UPPER_CASE_PROPERTY_SNAKE) {
-    this.UPPER_CASE_PROPERTY_SNAKE = Optional.of(UPPER_CASE_PROPERTY_SNAKE);
+    this.UPPER_CASE_PROPERTY_SNAKE = Optional.ofNullable(UPPER_CASE_PROPERTY_SNAKE);
     return this;
   }
 
@@ -71,7 +72,7 @@ public class ResponseObjectWithDifferentFieldNames {
   }
 
   public ResponseObjectWithDifferentFieldNames lowerCasePropertyDashes(String lowerCasePropertyDashes) {
-    this.lowerCasePropertyDashes = Optional.of(lowerCasePropertyDashes);
+    this.lowerCasePropertyDashes = Optional.ofNullable(lowerCasePropertyDashes);
     return this;
   }
 
@@ -91,7 +92,7 @@ public class ResponseObjectWithDifferentFieldNames {
   }
 
   public ResponseObjectWithDifferentFieldNames propertyNameWithSpaces(String propertyNameWithSpaces) {
-    this.propertyNameWithSpaces = Optional.of(propertyNameWithSpaces);
+    this.propertyNameWithSpaces = Optional.ofNullable(propertyNameWithSpaces);
     return this;
   }
 

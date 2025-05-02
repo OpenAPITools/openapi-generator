@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,17 +24,17 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "An order for a pets from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Order {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private Long petId;
+  private @Nullable Long petId;
 
-  private Integer quantity;
+  private @Nullable Integer quantity;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime shipDate;
+  private @Nullable OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -45,7 +46,7 @@ public class Order {
     
     DELIVERED("delivered");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -72,7 +73,7 @@ public class Order {
     }
   }
 
-  private StatusEnum status;
+  private @Nullable StatusEnum status;
 
   private Boolean complete = false;
 

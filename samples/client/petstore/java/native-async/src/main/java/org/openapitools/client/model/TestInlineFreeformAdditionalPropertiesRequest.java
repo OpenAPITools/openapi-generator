@@ -41,15 +41,16 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
+  @javax.annotation.Nullable
   private String someProperty;
 
   public TestInlineFreeformAdditionalPropertiesRequest() { 
   }
 
-  public TestInlineFreeformAdditionalPropertiesRequest someProperty(String someProperty) {
+  public TestInlineFreeformAdditionalPropertiesRequest someProperty(@javax.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
     return this;
   }
@@ -68,7 +69,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
 
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSomeProperty(String someProperty) {
+  public void setSomeProperty(@javax.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
   }
 
@@ -194,7 +195,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
 
     // add `someProperty` to the URL query string
     if (getSomeProperty() != null) {
-      joiner.add(String.format("%ssomeProperty%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSomeProperty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssomeProperty%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSomeProperty()))));
     }
 
     return joiner.toString();

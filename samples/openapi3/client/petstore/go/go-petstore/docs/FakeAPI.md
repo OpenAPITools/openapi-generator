@@ -1197,7 +1197,7 @@ import (
 )
 
 func main() {
-	filter := *openapiclient.NewFilterAny("Type_example") // FilterAny |  (optional)
+	filter := *openapiclient.NewFilterAny() // FilterAny |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

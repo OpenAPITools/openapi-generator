@@ -1,3 +1,5 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
 import {{javaxPackage}}.ws.rs.client.Client;
@@ -692,6 +694,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    */
   public ApiClient setDebugging(boolean debugging) {
     this.debugging = debugging;
+    applyDebugSetting(this.clientConfig);
     // Rebuild HTTP Client according to the new "debugging" value.
     this.httpClient = buildHttpClient();
     return this;
@@ -986,24 +989,10 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     if (contentType.startsWith("multipart/form-data")) {
       MultiPart multiPart = new MultiPart();
       for (Entry<String, Object> param: formParams.entrySet()) {
-        if (param.getValue() instanceof File) {
-          File file = (File) param.getValue();
-          FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey())
-              .fileName(file.getName()).size(file.length()).build();
-
-          // Attempt to probe the content type for the file so that the form part is more correctly
-          // and precisely identified, but fall back to application/octet-stream if that fails.
-          MediaType type;
-          try {
-            type = MediaType.valueOf(Files.probeContentType(file.toPath()));
-          } catch (IOException | IllegalArgumentException e) {
-            type = MediaType.APPLICATION_OCTET_STREAM_TYPE;
-          }
-
-          multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, type));
+        if (param.getValue() instanceof Iterable<?>) {
+          ((Iterable<?>)param.getValue()).forEach(v -> addParamToMultipart(v, param.getKey(), multiPart));
         } else {
-          FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey()).build();
-          multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(param.getValue())));
+          addParamToMultipart(param.getValue(), param.getKey(), multiPart);
         }
       }
       entity = Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE);
@@ -1031,6 +1020,36 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
     return entity;
   }
+
+  /**
+   * Adds the object with the provided key to the MultiPart.
+   * Based on the object type sets Content-Disposition and Content-Type.
+   *
+   * @param obj Object
+   * @param key Key of the object
+   * @param multiPart MultiPart to add the form param to
+   */
+  private void addParamToMultipart(Object value, String key, MultiPart multiPart) {
+    if (value instanceof File) {
+      File file = (File) value;
+      FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key)
+          .fileName(file.getName()).size(file.length()).build();
+
+      // Attempt to probe the content type for the file so that the form part is more correctly
+      // and precisely identified, but fall back to application/octet-stream if that fails.
+      MediaType type;
+      try {
+        type = MediaType.valueOf(Files.probeContentType(file.toPath()));
+      } catch (IOException | IllegalArgumentException e) {
+        type = MediaType.APPLICATION_OCTET_STREAM_TYPE;
+      }
+
+      multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, type));
+    } else {
+      FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key).build();
+      multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(value)));
+    }
+  } 
 
   /**
    * Serialize the given Java object into string according the given
@@ -1214,6 +1233,27 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     WebTarget target = httpClient.target(targetURL);
 
+    // put all headers in one place
+    Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
+    allHeaderParams.putAll(headerParams);
+
+    if (authNames != null) {
+      // update different parameters (e.g. headers) for authentication
+      updateParamsForAuth(
+          authNames,
+          queryParams,
+          allHeaderParams,
+          cookieParams,
+          {{#hasHttpSignatureMethods}}
+          serializeToString(body, formParams, contentType, isBodyNullable),
+          {{/hasHttpSignatureMethods}}
+          {{^hasHttpSignatureMethods}}
+          null,
+          {{/hasHttpSignatureMethods}}
+          method,
+          target.getUri());
+    }
+
     if (queryParams != null) {
       for (Pair queryParam : queryParams) {
         if (queryParam.getValue() != null) {
@@ -1243,27 +1283,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     Entity<?> entity = serialize(body, formParams, contentType, isBodyNullable);
-
-    // put all headers in one place
-    Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
-    allHeaderParams.putAll(headerParams);
-
-    if (authNames != null) {
-      // update different parameters (e.g. headers) for authentication
-      updateParamsForAuth(
-          authNames,
-          queryParams,
-          allHeaderParams,
-          cookieParams,
-          {{#hasHttpSignatureMethods}}
-          serializeToString(body, formParams, contentType, isBodyNullable),
-          {{/hasHttpSignatureMethods}}
-          {{^hasHttpSignatureMethods}}
-          null,
-          {{/hasHttpSignatureMethods}}
-          method,
-          target.getUri());
-    }
 
     for (Entry<String, String> entry : allHeaderParams.entrySet()) {
       String value = entry.getValue();
@@ -1338,7 +1357,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     } else if ("PUT".equals(method)) {
       response = invocationBuilder.put(entity);
     } else if ("DELETE".equals(method)) {
-      response = invocationBuilder.method("DELETE", entity);
+      if ("".equals(entity.getEntity())) {
+        response = invocationBuilder.method("DELETE");
+      } else {
+        response = invocationBuilder.method("DELETE", entity);
+      }
     } else if ("PATCH".equals(method)) {
       response = invocationBuilder.method("PATCH", entity);
     } else {
@@ -1361,8 +1384,10 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @return Client
    */
   protected Client buildHttpClient() {
-    // recreate the client config to pickup changes
-    clientConfig = getDefaultClientConfig();
+    // Create ClientConfig if it has not been initialized yet
+    if (clientConfig == null) {
+      clientConfig = getDefaultClientConfig();
+    }
 
     ClientBuilder clientBuilder = ClientBuilder.newBuilder();
     clientBuilder = clientBuilder.withConfig(clientConfig);
@@ -1383,6 +1408,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     clientConfig.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
     // turn off compliance validation to be able to send payloads with DELETE calls
     clientConfig.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
+    applyDebugSetting(clientConfig);
+    return clientConfig;
+  }
+
+  private void applyDebugSetting(ClientConfig clientConfig) {
     if (debugging) {
       clientConfig.register(new LoggingFeature(java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), java.util.logging.Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 1024*50 /* Log payloads up to 50K */));
       clientConfig.property(LoggingFeature.LOGGING_FEATURE_VERBOSITY, LoggingFeature.Verbosity.PAYLOAD_ANY);
@@ -1392,8 +1422,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       // suppress warnings for payloads with DELETE calls:
       java.util.logging.Logger.getLogger("org.glassfish.jersey.client").setLevel(java.util.logging.Level.SEVERE);
     }
-
-    return clientConfig;
   }
 
   /**

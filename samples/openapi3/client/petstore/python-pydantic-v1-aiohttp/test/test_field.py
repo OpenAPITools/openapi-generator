@@ -36,7 +36,7 @@ class TestField(unittest.TestCase):
         model = Field()  # noqa: E501
         if include_optional:
             return Field(
-                dummy = ''
+                field = ''
             )
         else:
             return Field(

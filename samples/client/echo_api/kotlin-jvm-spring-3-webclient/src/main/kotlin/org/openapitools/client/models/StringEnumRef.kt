@@ -16,6 +16,7 @@
 package org.openapitools.client.models
 
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -35,7 +36,7 @@ enum class StringEnumRef(val value: kotlin.String) {
     @JsonProperty(value = "unclassified")
     unclassified("unclassified"),
 
-    @JsonProperty(value = "unknown_default_open_api")
+    @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue
     unknown_default_open_api("unknown_default_open_api");
 
     /**

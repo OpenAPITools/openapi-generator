@@ -1,3 +1,5 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
 import com.fasterxml.jackson.annotation.*;
@@ -10,9 +12,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
-{{#models.0}}
-import {{modelPackage}}.*;
-{{/models.0}}
 
 import java.text.DateFormat;
 import java.util.HashMap;
@@ -30,7 +29,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
     mapper = JsonMapper.builder()
             .serializationInclusion(JsonInclude.Include.NON_NULL)
             .configure(MapperFeature.ALLOW_COERCION_OF_SCALARS, false)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, {{failOnUnknownProperties}})
             .configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, true)
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
@@ -43,6 +42,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
             {{#openApiNullable}}
             .addModule(new JsonNullableModule())
             {{/openApiNullable}}
+            .addModule(new RFC3339JavaTimeModule())
             .build();
   }
 

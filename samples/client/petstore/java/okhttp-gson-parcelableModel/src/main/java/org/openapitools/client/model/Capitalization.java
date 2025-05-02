@@ -39,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,36 +50,42 @@ import org.openapitools.client.JSON;
 /**
  * Capitalization
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Capitalization implements Parcelable {
   public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
   @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
+  @javax.annotation.Nullable
   private String smallCamel;
 
   public static final String SERIALIZED_NAME_CAPITAL_CAMEL = "CapitalCamel";
   @SerializedName(SERIALIZED_NAME_CAPITAL_CAMEL)
+  @javax.annotation.Nullable
   private String capitalCamel;
 
   public static final String SERIALIZED_NAME_SMALL_SNAKE = "small_Snake";
   @SerializedName(SERIALIZED_NAME_SMALL_SNAKE)
+  @javax.annotation.Nullable
   private String smallSnake;
 
   public static final String SERIALIZED_NAME_CAPITAL_SNAKE = "Capital_Snake";
   @SerializedName(SERIALIZED_NAME_CAPITAL_SNAKE)
+  @javax.annotation.Nullable
   private String capitalSnake;
 
   public static final String SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
   @SerializedName(SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS)
+  @javax.annotation.Nullable
   private String scAETHFlowPoints;
 
   public static final String SERIALIZED_NAME_A_T_T_N_A_M_E = "ATT_NAME";
   @SerializedName(SERIALIZED_NAME_A_T_T_N_A_M_E)
+  @javax.annotation.Nullable
   private String ATT_NAME;
 
   public Capitalization() {
   }
 
-  public Capitalization smallCamel(String smallCamel) {
+  public Capitalization smallCamel(@javax.annotation.Nullable String smallCamel) {
     this.smallCamel = smallCamel;
     return this;
   }
@@ -94,12 +99,12 @@ public class Capitalization implements Parcelable {
     return smallCamel;
   }
 
-  public void setSmallCamel(String smallCamel) {
+  public void setSmallCamel(@javax.annotation.Nullable String smallCamel) {
     this.smallCamel = smallCamel;
   }
 
 
-  public Capitalization capitalCamel(String capitalCamel) {
+  public Capitalization capitalCamel(@javax.annotation.Nullable String capitalCamel) {
     this.capitalCamel = capitalCamel;
     return this;
   }
@@ -113,12 +118,12 @@ public class Capitalization implements Parcelable {
     return capitalCamel;
   }
 
-  public void setCapitalCamel(String capitalCamel) {
+  public void setCapitalCamel(@javax.annotation.Nullable String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
 
-  public Capitalization smallSnake(String smallSnake) {
+  public Capitalization smallSnake(@javax.annotation.Nullable String smallSnake) {
     this.smallSnake = smallSnake;
     return this;
   }
@@ -132,12 +137,12 @@ public class Capitalization implements Parcelable {
     return smallSnake;
   }
 
-  public void setSmallSnake(String smallSnake) {
+  public void setSmallSnake(@javax.annotation.Nullable String smallSnake) {
     this.smallSnake = smallSnake;
   }
 
 
-  public Capitalization capitalSnake(String capitalSnake) {
+  public Capitalization capitalSnake(@javax.annotation.Nullable String capitalSnake) {
     this.capitalSnake = capitalSnake;
     return this;
   }
@@ -151,12 +156,12 @@ public class Capitalization implements Parcelable {
     return capitalSnake;
   }
 
-  public void setCapitalSnake(String capitalSnake) {
+  public void setCapitalSnake(@javax.annotation.Nullable String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
 
-  public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
+  public Capitalization scAETHFlowPoints(@javax.annotation.Nullable String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
     return this;
   }
@@ -170,12 +175,12 @@ public class Capitalization implements Parcelable {
     return scAETHFlowPoints;
   }
 
-  public void setScAETHFlowPoints(String scAETHFlowPoints) {
+  public void setScAETHFlowPoints(@javax.annotation.Nullable String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
 
-  public Capitalization ATT_NAME(String ATT_NAME) {
+  public Capitalization ATT_NAME(@javax.annotation.Nullable String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
     return this;
   }
@@ -189,7 +194,7 @@ public class Capitalization implements Parcelable {
     return ATT_NAME;
   }
 
-  public void setATTNAME(String ATT_NAME) {
+  public void setATTNAME(@javax.annotation.Nullable String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 

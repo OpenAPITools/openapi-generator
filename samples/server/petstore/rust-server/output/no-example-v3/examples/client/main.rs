@@ -56,19 +56,18 @@ fn main() {
     // In a real (production) system this Bearer token should be obtained via an external Identity/Authentication-server
     // Ensure that you set the correct algorithm and encodingkey that matches what is used on the server side.
     // See https://github.com/Keats/jsonwebtoken for more information
-
     let auth_token = build_token(
             Claims {
-                sub: "tester@acme.com".to_owned(), 
+                sub: "tester@acme.com".to_owned(),
                 company: "ACME".to_owned(),
                 iss: "my_identity_provider".to_owned(),
                 // added a very long expiry time
                 aud: "org.acme.Resource_Server".to_string(),
                 exp: 10000000000,
                 // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
-                scopes: [
-                ].join(", ")
-            }, 
+                scopes:
+                  "".to_owned()
+            },
             b"secret").unwrap();
 
     let auth_data = if !auth_token.is_empty() {

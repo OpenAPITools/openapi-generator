@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -34,15 +36,16 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   QuadrilateralInterface.JSON_PROPERTY_QUADRILATERAL_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class QuadrilateralInterface {
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
+  @jakarta.annotation.Nonnull
   private String quadrilateralType;
 
   public QuadrilateralInterface() { 
   }
 
-  public QuadrilateralInterface quadrilateralType(String quadrilateralType) {
+  public QuadrilateralInterface quadrilateralType(@jakarta.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
     return this;
   }
@@ -64,7 +67,7 @@ public class QuadrilateralInterface {
 
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setQuadrilateralType(String quadrilateralType) {
+  public void setQuadrilateralType(@jakarta.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
 
@@ -74,19 +77,12 @@ public class QuadrilateralInterface {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    QuadrilateralInterface quadrilateralInterface = (QuadrilateralInterface) o;
-    return Objects.equals(this.quadrilateralType, quadrilateralInterface.quadrilateralType);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(quadrilateralType);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

@@ -1,0 +1,80 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+import cats.effect.Concurrent
+import io.circe.Encoder
+import org.http4s.{Header, Headers, Method, Request, Response, Uri, UrlForm}
+import org.http4s.client.Client as Http4sClient
+import org.http4s.QueryParamEncoder.*
+import org.typelevel.ci.CIString
+import java.util.Base64
+import java.nio.charset.StandardCharsets
+import {{modelPackage}}.*
+
+abstract class BaseClient[F[*]: Concurrent](
+    val baseUrl: Uri,
+    defaultHeaders: Seq[(String, String)] = Nil,
+    httpClient: Http4sClient[F]
+) {
+
+  val ApiVersion: String = "{{artifactVersion}}"
+
+  private lazy val defaultApiHeaders = Seq(
+    ("X-Apidoc-Version", ApiVersion)
+  )
+
+  protected def modifyRequest(request: Request[F]): Request[F] = request
+
+  def _executeRequest[T, U](
+      method: String,
+      path: String,
+      body: Option[T] = None,
+      formParameters: Option[Seq[(String, Any)]] = None,
+      queryParameters: Seq[(String, Any)] = Nil,
+      requestHeaders: Seq[(String, String)] = Nil,
+      auth: Option[_Authorization] = None
+  )(handler: Response[F] => F[U])(using Encoder[T]): F[U] = {
+
+    val m = Method.fromString(method) match {
+      case Right(m) => m
+      case Left(e)  => sys.error(e.toString)
+    }
+
+    val headers = Headers(
+      (
+        defaultApiHeaders ++
+        defaultHeaders ++
+        requestHeaders
+      ).groupBy(_._1).map { case (k, l) => Header.Raw(CIString(k), l.last._2) }.toList
+    )
+
+    val queryMap = queryParameters.groupBy(_._1).map { case (k, v) => k -> v.map(_._2.toString) }
+    val uri      = Uri.unsafeFromString(s"$baseUrl$path").setQueryParams(queryMap)
+
+    val request = Request[F](method = m, uri = uri, headers = headers)
+
+    val reqAndMaybeAuth = auth.fold(request) {
+      case _Authorization.Basic(username, passwordOpt) =>
+        val userpass = s"$username:${passwordOpt.getOrElse("")}"
+        val token    = Base64.getEncoder.encodeToString(
+          userpass.getBytes(StandardCharsets.ISO_8859_1)
+        )
+        request.putHeaders(Header.Raw(CIString("Authorization"), s"Basic $token"))
+      case _Authorization.Bearer(token)  =>
+        request.putHeaders(Header.Raw(CIString("Authorization"), s"Bearer $token"))
+      case _Authorization.ApiKey(name, value) =>
+        request.putHeaders(Header.Raw(CIString(name), value))
+    }
+    val formBody = formParameters.map { x =>
+      UrlForm(x.groupBy(_._1).map{case (k, v) => (k, v.mkString(","))}.toSeq*)
+    }
+
+    import JsonSupports.*
+    val reqAndMaybeAuthAndBody =
+      if (formBody.nonEmpty) formBody.fold(reqAndMaybeAuth)(reqAndMaybeAuth.withEntity)
+      else body.fold(reqAndMaybeAuth)(reqAndMaybeAuth.withEntity)
+
+    httpClient.run(modifyRequest(reqAndMaybeAuthAndBody)).use(handler)
+  }
+
+}

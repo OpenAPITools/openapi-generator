@@ -1,0 +1,1 @@
+{{#useLogicalTypes}}{{#isDate}}{ "type": "int", "logicalType": "date" }{{/isDate}}{{#isDateTime}}{ "type": "long", "logicalType": "timestamp-{{{logicalTypeTimeQuantifier}}}" }{{/isDateTime}}{{^isDate}}{{^isDateTime}}"{{{dataType}}}"{{/isDateTime}}{{/isDate}}{{/useLogicalTypes}}{{^useLogicalTypes}}"{{{dataType}}}"{{/useLogicalTypes}}

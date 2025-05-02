@@ -289,7 +289,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
     @Override
     public String toVarName(String name) {
         String paramName = name.replaceAll("[^a-zA-Z0-9_]", "");
-        if (name.length() > 0 ) {
+        if (name.length() > 0) {
             // additionalProperties name is "" so name.length() == 0
             paramName = Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1);
         }
@@ -314,6 +314,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         // add_pet_by_id => addPetById
         return camelize(operationId, LOWERCASE_FIRST_LETTER);
     }
+
     /**
      * Output the Getter name for boolean property, e.g. getActive
      *

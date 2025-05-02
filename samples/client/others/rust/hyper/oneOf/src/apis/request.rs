@@ -109,7 +109,7 @@ impl Request {
     pub fn execute<'a, C, U>(
         self,
         conf: &configuration::Configuration<C>,
-    ) -> Pin<Box<dyn Future<Output=Result<U, Error>> + 'a>>
+    ) -> Pin<Box<dyn Future<Output=Result<U, Error>> + 'a + Send>>
         where
             C: Connect + Clone + std::marker::Send + Sync,
             U: Sized + std::marker::Send + 'a,

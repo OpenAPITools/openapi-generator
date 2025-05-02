@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,20 +48,22 @@ import org.openapitools.client.JSON;
 /**
  * AppleReq
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class AppleReq {
   public static final String SERIALIZED_NAME_CULTIVAR = "cultivar";
   @SerializedName(SERIALIZED_NAME_CULTIVAR)
+  @javax.annotation.Nonnull
   private String cultivar;
 
   public static final String SERIALIZED_NAME_MEALY = "mealy";
   @SerializedName(SERIALIZED_NAME_MEALY)
+  @javax.annotation.Nullable
   private Boolean mealy;
 
   public AppleReq() {
   }
 
-  public AppleReq cultivar(String cultivar) {
+  public AppleReq cultivar(@javax.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
     return this;
   }
@@ -76,12 +77,12 @@ public class AppleReq {
     return cultivar;
   }
 
-  public void setCultivar(String cultivar) {
+  public void setCultivar(@javax.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
   }
 
 
-  public AppleReq mealy(Boolean mealy) {
+  public AppleReq mealy(@javax.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
     return this;
   }
@@ -95,7 +96,7 @@ public class AppleReq {
     return mealy;
   }
 
-  public void setMealy(Boolean mealy) {
+  public void setMealy(@javax.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
   }
 

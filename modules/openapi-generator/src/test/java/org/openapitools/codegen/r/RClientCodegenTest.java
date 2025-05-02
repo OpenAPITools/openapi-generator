@@ -17,10 +17,20 @@
 
 package org.openapitools.codegen.r;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.RClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.regex.Pattern;
 
 public class RClientCodegenTest {
 
@@ -53,4 +63,35 @@ public class RClientCodegenTest {
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
+    @Test
+    public void testNullCheckOnEnumValues() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+
+        RClientCodegen rClientCodegen = new RClientCodegen();
+        rClientCodegen.setOutputDir(output.getAbsolutePath());
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_18016.yaml");
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        clientOptInput.config(rClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        var petsApi = defaultGenerator.generate().stream()
+                .filter(file -> "pets_api.R".equals(file.getName())).findFirst();
+        if (petsApi.isEmpty()) {
+            Assert.fail("`pets_api.R` have not been generated");
+        }
+        var isIfCondition = Pattern.compile("^\\s*(?!<#)\\s*if.*\\s%in%\\s.*").asPredicate();
+        var containsNullCheck = Pattern.compile("![(\\s]*is\\.null").asPredicate();
+        var hit = false;
+        for (var line : Files.readAllLines(Paths.get(petsApi.get().getAbsolutePath()))) {
+            if (isIfCondition.test(line)) {
+                hit = true;
+                Assert.assertTrue(containsNullCheck.test(line), "Null check is missing in line: " + line);
+            }
+        }
+        Assert.assertTrue(hit, "No if statement for enum found");
+    }
 }

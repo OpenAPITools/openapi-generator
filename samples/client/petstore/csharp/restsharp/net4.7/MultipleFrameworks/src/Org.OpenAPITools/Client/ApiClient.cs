@@ -111,7 +111,7 @@ namespace Org.OpenAPITools.Client
                 if (response.Headers != null)
                 {
                     var filePath = string.IsNullOrEmpty(_configuration.TempFolderPath)
-                        ? Path.GetTempPath()
+                        ? global::System.IO.Path.GetTempPath()
                         : _configuration.TempFolderPath;
                     var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
                     foreach (var header in response.Headers)
@@ -318,7 +318,7 @@ namespace Org.OpenAPITools.Client
                 {
                     foreach (var value in headerParam.Value)
                     {
-                        request.AddHeader(headerParam.Key, value);
+                        request.AddOrUpdateHeader(headerParam.Key, value);
                     }
                 }
             }
@@ -378,10 +378,18 @@ namespace Org.OpenAPITools.Client
                         var bytes = ClientUtils.ReadAsBytes(file);
                         var fileStream = file as FileStream;
                         if (fileStream != null)
-                            request.AddFile(fileParam.Key, bytes, Path.GetFileName(fileStream.Name));
+                            request.AddFile(fileParam.Key, bytes, global::System.IO.Path.GetFileName(fileStream.Name));
                         else
                             request.AddFile(fileParam.Key, bytes, "no_file_name_provided");
                     }
+                }
+            }
+
+            if (options.HeaderParameters != null)
+            {
+                if (options.HeaderParameters.TryGetValue("Content-Type", out var contentTypes) && contentTypes.Any(header => header.Contains("multipart/form-data")))
+                {
+                    request.AlwaysMultipartFormData = true;
                 }
             }
 
@@ -456,7 +464,7 @@ namespace Org.OpenAPITools.Client
             var clientOptions = new RestClientOptions(baseUrl)
             {
                 ClientCertificates = configuration.ClientCertificates,
-                MaxTimeout = configuration.Timeout,
+                Timeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
                 UseDefaultCredentials = configuration.UseDefaultCredentials,
@@ -549,11 +557,11 @@ namespace Org.OpenAPITools.Client
             }
         }
 
-        private RestResponse<T> DeserializeRestResponseFromPolicy<T>(RestClient client, RestRequest request, PolicyResult<RestResponse> policyResult)
+        private async Task<RestResponse<T>> DeserializeRestResponseFromPolicyAsync<T>(RestClient client, RestRequest request, PolicyResult<RestResponse> policyResult, CancellationToken cancellationToken = default)
         {
             if (policyResult.Outcome == OutcomeType.Successful) 
             {
-                return client.Deserialize<T>(policyResult.Result);
+                return await client.Deserialize<T>(policyResult.Result, cancellationToken);
             }
             else
             {
@@ -586,7 +594,7 @@ namespace Org.OpenAPITools.Client
                 {
                     var policy = RetryConfiguration.RetryPolicy;
                     var policyResult = policy.ExecuteAndCapture(() => client.Execute(request));
-                    return Task.FromResult(DeserializeRestResponseFromPolicy<T>(client, request, policyResult));
+                    return DeserializeRestResponseFromPolicyAsync<T>(client, request, policyResult);
                 }
                 else
                 {
@@ -597,7 +605,7 @@ namespace Org.OpenAPITools.Client
             return ExecClientAsync(getResponse, setOptions, request, options, configuration).GetAwaiter().GetResult();
         }
 
-        private Task<ApiResponse<T>> ExecAsync<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration, CancellationToken cancellationToken = default(CancellationToken))
+        private Task<ApiResponse<T>> ExecAsync<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration, CancellationToken cancellationToken = default)
         {
             Action<RestClientOptions> setOptions = (clientOptions) =>
             {
@@ -610,7 +618,7 @@ namespace Org.OpenAPITools.Client
                 {
                     var policy = RetryConfiguration.AsyncRetryPolicy;
                     var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(request, ct), cancellationToken).ConfigureAwait(false);
-                    return DeserializeRestResponseFromPolicy<T>(client, request, policyResult);
+                    return await DeserializeRestResponseFromPolicyAsync<T>(client, request, policyResult, cancellationToken);
                 }
                 else
                 {

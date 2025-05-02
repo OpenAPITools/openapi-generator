@@ -39,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,21 +50,23 @@ import org.openapitools.client.JSON;
 /**
  * Animal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Animal implements Parcelable {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
+  @javax.annotation.Nonnull
   protected String className;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
+  @javax.annotation.Nullable
   private String color = "red";
 
   public Animal() {
     this.className = this.getClass().getSimpleName();
   }
 
-  public Animal className(String className) {
+  public Animal className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -79,12 +80,12 @@ public class Animal implements Parcelable {
     return className;
   }
 
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 
 
-  public Animal color(String color) {
+  public Animal color(@javax.annotation.Nullable String color) {
     this.color = color;
     return this;
   }
@@ -98,7 +99,7 @@ public class Animal implements Parcelable {
     return color;
   }
 
-  public void setColor(String color) {
+  public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
 

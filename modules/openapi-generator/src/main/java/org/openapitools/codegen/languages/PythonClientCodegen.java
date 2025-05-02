@@ -31,7 +31,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -177,11 +180,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         // map to Dot instead of Period
         specialCharReplacements.put(".", "Dot");
-
-        if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
-        }
 
         Boolean excludeTests = false;
 
@@ -430,7 +428,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.7+";
+        return "3.9+";
     }
 
     @Override

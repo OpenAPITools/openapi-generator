@@ -13,6 +13,7 @@ import okhttp3.MultipartBody
 
 interface PetApi {
     /**
+     * POST pet
      * Add a new pet to the store
      * 
      * Responses:
@@ -25,6 +26,7 @@ interface PetApi {
     fun addPet(@Body body: Pet): Call<Unit>
 
     /**
+     * DELETE pet/{petId}
      * Deletes a pet
      * 
      * Responses:
@@ -48,6 +50,7 @@ interface PetApi {
     }
 
     /**
+     * GET pet/findByStatus
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * Responses:
@@ -61,6 +64,7 @@ interface PetApi {
     fun findPetsByStatus(@Query("status") status: CSVParams): Call<kotlin.collections.List<Pet>>
 
     /**
+     * GET pet/findByTags
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Responses:
@@ -75,6 +79,7 @@ interface PetApi {
     fun findPetsByTags(@Query("tags") tags: CSVParams): Call<kotlin.collections.List<Pet>>
 
     /**
+     * GET pet/{petId}
      * Find pet by ID
      * Returns a single pet
      * Responses:
@@ -89,6 +94,7 @@ interface PetApi {
     fun getPetById(@Path("petId") petId: kotlin.Long): Call<Pet>
 
     /**
+     * PUT pet
      * Update an existing pet
      * 
      * Responses:
@@ -103,6 +109,7 @@ interface PetApi {
     fun updatePet(@Body body: Pet): Call<Unit>
 
     /**
+     * POST pet/{petId}
      * Updates a pet in the store with form data
      * 
      * Responses:
@@ -118,6 +125,7 @@ interface PetApi {
     fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String? = null, @Field("status") status: kotlin.String? = null): Call<Unit>
 
     /**
+     * POST pet/{petId}/uploadImage
      * uploads an image
      * 
      * Responses:
