@@ -10,9 +10,9 @@ defmodule OpenapiPetstore.Model.ArrayTest do
   @derive {JSON.Encoder, only: [:array_of_string, :array_array_of_integer, :array_array_of_model]}
   @primary_key false
   typed_embedded_schema do
-    field :array_of_string, {:array, :any}
-    field :array_array_of_integer, {:array, :any}
-    field :array_array_of_model, {:array, :any}
+    field :array_of_string, {:array, :string}
+    field :array_array_of_integer, {:array, {:array, :integer}}
+    field :array_array_of_model, {:array, {:array, :any}}
   end
 
   @spec new(map()) :: t()

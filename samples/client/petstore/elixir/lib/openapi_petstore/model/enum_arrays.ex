@@ -11,7 +11,7 @@ defmodule OpenapiPetstore.Model.EnumArrays do
   @primary_key false
   typed_embedded_schema do
     field :just_symbol, :string
-    field :array_enum, {:array, :any}
+    field :array_enum, {:array, :string}
   end
 
   @spec new(map()) :: t()

@@ -302,12 +302,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 writer.write(text.toUpperCase(Locale.ROOT));
             }
         });
-        additionalProperties.put("toEctoType", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                writer.write(toEctoType(fragment.execute()));
-            }
-        });
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             setModuleName((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -386,7 +380,34 @@ public class ElixirClientCodegen extends DefaultCodegen {
     @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
-        return new ExtendedCodegenModel(cm);
+        ExtendedCodegenModel ecm = new ExtendedCodegenModel(cm);
+        
+        // Convert all CodegenProperty objects to ExtendedCodegenProperty
+        List<CodegenProperty> vars = new ArrayList<>(ecm.vars);
+        ecm.vars.clear();
+        for (CodegenProperty var : vars) {
+            ecm.vars.add(new ExtendedCodegenProperty(var));
+        }
+        
+        List<CodegenProperty> allVars = new ArrayList<>(ecm.allVars);
+        ecm.allVars.clear();
+        for (CodegenProperty var : allVars) {
+            ecm.allVars.add(new ExtendedCodegenProperty(var));
+        }
+        
+        List<CodegenProperty> requiredVars = new ArrayList<>(ecm.requiredVars);
+        ecm.requiredVars.clear();
+        for (CodegenProperty var : requiredVars) {
+            ecm.requiredVars.add(new ExtendedCodegenProperty(var));
+        }
+        
+        List<CodegenProperty> optionalVars = new ArrayList<>(ecm.optionalVars);
+        ecm.optionalVars.clear();
+        for (CodegenProperty var : optionalVars) {
+            ecm.optionalVars.add(new ExtendedCodegenProperty(var));
+        }
+        
+        return ecm;
     }
 
     @Override
@@ -439,35 +460,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
 
         return atom.toString();
-    }
-
-    private String toEctoType(String baseType) {
-        switch (baseType) {
-            case "integer()":
-                return ":integer";
-            case "float()":
-                return ":float";
-            case "number()":
-                return ":float";
-            case "boolean()":
-                return ":boolean";
-            case "String.t":
-                return ":string";
-            case "Date.t":
-                return ":date";
-            case "DateTime.t":
-                return ":utc_datetime";
-            case "binary()":
-                return ":binary";
-            case "list()":
-                return "{:array, :any}";
-            case "map()":
-                return ":map";
-            case "nil":
-                return ":any, virtual: true";
-            default:
-                return ":any, virtual: true";
-        }
     }
 
     /**
@@ -958,6 +950,117 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 }
             }
             return false;
+        }
+    }
+
+    class ExtendedCodegenProperty extends CodegenProperty {
+        public ExtendedCodegenProperty(CodegenProperty cp) {
+            super();
+
+            // Copy all fields of CodegenProperty
+            this.openApiType = cp.openApiType;
+            this.baseName = cp.baseName;
+            this.complexType = cp.complexType;
+            this.getter = cp.getter;
+            this.setter = cp.setter;
+            this.description = cp.description;
+            this.dataType = cp.dataType;
+            this.datatypeWithEnum = cp.datatypeWithEnum;
+            this.dataFormat = cp.dataFormat;
+            this.name = cp.name;
+            this.min = cp.min;
+            this.max = cp.max;
+            this.defaultValue = cp.defaultValue;
+            this.defaultValueWithParam = cp.defaultValueWithParam;
+            this.baseType = cp.baseType;
+            this.containerType = cp.containerType;
+            this.title = cp.title;
+            this.unescapedDescription = cp.unescapedDescription;
+            this.maxLength = cp.maxLength;
+            this.minLength = cp.minLength;
+            this.pattern = cp.pattern;
+            this.example = cp.example;
+            this.jsonSchema = cp.jsonSchema;
+            this.minimum = cp.minimum;
+            this.maximum = cp.maximum;
+            this.exclusiveMinimum = cp.exclusiveMinimum;
+            this.exclusiveMaximum = cp.exclusiveMaximum;
+            this.required = cp.required;
+            this.deprecated = cp.deprecated;
+            this.hasMoreNonReadOnly = cp.hasMoreNonReadOnly;
+            this.isPrimitiveType = cp.isPrimitiveType;
+            this.isModel = cp.isModel;
+            this.isContainer = cp.isContainer;
+            this.isString = cp.isString;
+            this.isNumeric = cp.isNumeric;
+            this.isInteger = cp.isInteger;
+            this.isLong = cp.isLong;
+            this.isNumber = cp.isNumber;
+            this.isFloat = cp.isFloat;
+            this.isDouble = cp.isDouble;
+            this.isByteArray = cp.isByteArray;
+            this.isBinary = cp.isBinary;
+            this.isFile = cp.isFile;
+            this.isBoolean = cp.isBoolean;
+            this.isDate = cp.isDate;
+            this.isDateTime = cp.isDateTime;
+            this.isUuid = cp.isUuid;
+            this.isEmail = cp.isEmail;
+            this.isModel = cp.isModel;
+            this.isNull = cp.isNull;
+            this.isArray = cp.isArray;
+            this.isMap = cp.isMap;
+            this.isEnum = cp.isEnum;
+            this.isReadOnly = cp.isReadOnly;
+            this.isWriteOnly = cp.isWriteOnly;
+            this.isNullable = cp.isNullable;
+            this._enum = cp._enum;
+            this.allowableValues = cp.allowableValues;
+            this.items = cp.items;
+            this.additionalProperties = cp.additionalProperties;
+            this.vars = cp.vars;
+            this.requiredVars = cp.requiredVars;
+            this.vendorExtensions = cp.vendorExtensions;
+        }
+
+        public String ectoType() {
+            String ectoType = ectoType(this);
+
+            if (":any".equals(ectoType)) {
+                return ectoType + ", virtual: true";
+            }
+
+            return ectoType;
+        }
+
+        private String ectoType(CodegenProperty property) {
+            String baseType = property.baseType;
+            switch (baseType) {
+                case "integer()":
+                    return ":integer";
+                case "float()":
+                    return ":float";
+                case "number()":
+                    return ":float";
+                case "boolean()":
+                    return ":boolean";
+                case "String.t":
+                    return ":string";
+                case "Date.t":
+                    return ":date";
+                case "DateTime.t":
+                    return ":utc_datetime";
+                case "binary()":
+                    return ":binary";
+                case "list()":
+                    return "{:array, " + ectoType(property.items) + "}";
+                case "map()":
+                    return ":map";
+                case "nil":
+                    return ":any";
+                default:
+                    return ":any";
+            }
         }
     }
 

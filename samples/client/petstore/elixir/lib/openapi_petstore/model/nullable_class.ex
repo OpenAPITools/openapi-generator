@@ -16,9 +16,9 @@ defmodule OpenapiPetstore.Model.NullableClass do
     field :string_prop, :string
     field :date_prop, :date
     field :datetime_prop, :utc_datetime
-    field :array_nullable_prop, {:array, :any}
-    field :array_and_items_nullable_prop, {:array, :any}
-    field :array_items_nullable, {:array, :any}
+    field :array_nullable_prop, {:array, :map}
+    field :array_and_items_nullable_prop, {:array, :map}
+    field :array_items_nullable, {:array, :map}
     field :object_nullable_prop, :map
     field :object_and_items_nullable_prop, :map
     field :object_items_nullable, :map

@@ -10,7 +10,7 @@ defmodule OpenapiPetstore.Model.ArrayOfNumberOnly do
   @derive {JSON.Encoder, only: [:ArrayNumber]}
   @primary_key false
   typed_embedded_schema do
-    field :ArrayNumber, {:array, :any}
+    field :ArrayNumber, {:array, :float}
   end
 
   @spec new(map()) :: t()

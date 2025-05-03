@@ -13,7 +13,7 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
     field :uuid, :string
     field :id, :float
     embeds_one :deprecatedRef, OpenapiPetstore.Model.DeprecatedModel
-    field :bars, {:array, :any}
+    field :bars, {:array, :string}
   end
 
   @spec new(map()) :: t()
