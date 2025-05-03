@@ -17,24 +17,6 @@ tags:
   - name: user
     description: Operations about user
 paths:
-  /one-of-array:
-    post:
-      description: Oneof array test
-      operationId: oneOfArray
-      requestBody:
-        content:
-          application/json:
-            schema:
-              oneOf:
-              - items:
-                  type: string
-                type: array
-              - items:
-                  $ref: '#/components/schemas/TestObject'
-                type: array
-      responses:
-        "204":
-          description: Successful operation
   /roles/report:
     get:
       responses:
@@ -2947,8 +2929,3 @@ components:
       enum:
         - APPROVED
         - MANUAL_APPROVAL_REQUIRED
-    TestObject:
-      properties:
-        name:
-          type: string
-      type: object
