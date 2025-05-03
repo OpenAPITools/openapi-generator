@@ -41,6 +41,18 @@ tags:
 - description: Operations about user
   name: user
 paths:
+  /one-of-array:
+    post:
+      description: Oneof array test
+      operationId: oneOfArray
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/oneOfArray_request'
+      responses:
+        "204":
+          description: Successful operation
   /roles/report:
     get:
       responses:
@@ -2682,6 +2694,19 @@ components:
       - APPROVED
       - MANUAL_APPROVAL_REQUIRED
       type: string
+    TestObject:
+      properties:
+        name:
+          type: string
+      type: object
+    oneOfArray_request:
+      oneOf:
+      - items:
+          type: string
+        type: array
+      - items:
+          $ref: '#/components/schemas/TestObject'
+        type: array
     _foo_get_default_response:
       example:
         string:

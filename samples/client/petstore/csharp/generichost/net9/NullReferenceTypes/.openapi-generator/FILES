@@ -73,6 +73,7 @@ docs/models/NullableGuidClass.md
 docs/models/NullableShape.md
 docs/models/NumberOnly.md
 docs/models/ObjectWithDeprecatedFields.md
+docs/models/OneOfArrayRequest.md
 docs/models/OneOfString.md
 docs/models/Order.md
 docs/models/OuterComposite.md
@@ -104,6 +105,7 @@ docs/models/TestCollectionEndingWithWordList.md
 docs/models/TestCollectionEndingWithWordListObject.md
 docs/models/TestDescendants.md
 docs/models/TestInlineFreeformAdditionalPropertiesRequest.md
+docs/models/TestObject.md
 docs/models/TestResult.md
 docs/models/TestResultCode.md
 docs/models/Triangle.md
@@ -216,6 +218,7 @@ src/Org.OpenAPITools/Model/NullableGuidClass.cs
 src/Org.OpenAPITools/Model/NullableShape.cs
 src/Org.OpenAPITools/Model/NumberOnly.cs
 src/Org.OpenAPITools/Model/ObjectWithDeprecatedFields.cs
+src/Org.OpenAPITools/Model/OneOfArrayRequest.cs
 src/Org.OpenAPITools/Model/OneOfString.cs
 src/Org.OpenAPITools/Model/Order.cs
 src/Org.OpenAPITools/Model/OuterComposite.cs
@@ -247,6 +250,7 @@ src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
 src/Org.OpenAPITools/Model/TestDescendants.cs
 src/Org.OpenAPITools/Model/TestInlineFreeformAdditionalPropertiesRequest.cs
+src/Org.OpenAPITools/Model/TestObject.cs
 src/Org.OpenAPITools/Model/TestResult.cs
 src/Org.OpenAPITools/Model/TestResultCode.cs
 src/Org.OpenAPITools/Model/Triangle.cs

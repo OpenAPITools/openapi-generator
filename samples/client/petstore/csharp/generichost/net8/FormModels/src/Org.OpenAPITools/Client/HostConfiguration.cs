@@ -121,6 +121,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new NullableShapeJsonConverter());
             _jsonOptions.Converters.Add(new NumberOnlyJsonConverter());
             _jsonOptions.Converters.Add(new ObjectWithDeprecatedFieldsJsonConverter());
+            _jsonOptions.Converters.Add(new OneOfArrayRequestJsonConverter());
             _jsonOptions.Converters.Add(new OneOfStringJsonConverter());
             _jsonOptions.Converters.Add(new OrderJsonConverter());
             _jsonOptions.Converters.Add(new OrderStatusJsonConverter());
@@ -185,6 +186,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TestEnumParametersRequestEnumFormStringArrayInnerJsonConverter());
             _jsonOptions.Converters.Add(new TestEnumParametersRequestEnumFormStringArrayInnerNullableJsonConverter());
             _jsonOptions.Converters.Add(new TestInlineFreeformAdditionalPropertiesRequestJsonConverter());
+            _jsonOptions.Converters.Add(new TestObjectJsonConverter());
             _jsonOptions.Converters.Add(new TestResultJsonConverter());
             _jsonOptions.Converters.Add(new TestResultCodeJsonConverter());
             _jsonOptions.Converters.Add(new TestResultCodeNullableJsonConverter());

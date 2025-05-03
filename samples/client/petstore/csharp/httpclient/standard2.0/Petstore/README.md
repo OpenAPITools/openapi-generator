@@ -133,6 +133,7 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
 *DefaultApi* | [**GetCountry**](docs/DefaultApi.md#getcountry) | **POST** /country | 
 *DefaultApi* | [**Hello**](docs/DefaultApi.md#hello) | **GET** /hello | Hello
+*DefaultApi* | [**OneOfArray**](docs/DefaultApi.md#oneofarray) | **POST** /one-of-array | 
 *DefaultApi* | [**RolesReportGet**](docs/DefaultApi.md#rolesreportget) | **GET** /roles/report | 
 *DefaultApi* | [**Test**](docs/DefaultApi.md#test) | **GET** /test | Retrieve an existing Notificationtest's Elements
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
@@ -245,6 +246,7 @@ Class | Method | HTTP request | Description
  - [Model.NullableShape](docs/NullableShape.md)
  - [Model.NumberOnly](docs/NumberOnly.md)
  - [Model.ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
+ - [Model.OneOfArrayRequest](docs/OneOfArrayRequest.md)
  - [Model.OneOfString](docs/OneOfString.md)
  - [Model.Order](docs/Order.md)
  - [Model.OuterComposite](docs/OuterComposite.md)
@@ -276,6 +278,7 @@ Class | Method | HTTP request | Description
  - [Model.TestCollectionEndingWithWordListObject](docs/TestCollectionEndingWithWordListObject.md)
  - [Model.TestDescendants](docs/TestDescendants.md)
  - [Model.TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
+ - [Model.TestObject](docs/TestObject.md)
  - [Model.TestResult](docs/TestResult.md)
  - [Model.TestResultCode](docs/TestResultCode.md)
  - [Model.Triangle](docs/Triangle.md)

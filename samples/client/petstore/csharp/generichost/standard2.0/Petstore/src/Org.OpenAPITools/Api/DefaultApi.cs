@@ -101,6 +101,29 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
+        /// Oneof array test
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="oneOfArrayRequest"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IOneOfArrayApiResponse"/>&gt;</returns>
+        Task<IOneOfArrayApiResponse> OneOfArrayAsync(Option<OneOfArrayRequest> oneOfArrayRequest = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Oneof array test
+        /// </remarks>
+        /// <param name="oneOfArrayRequest"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IOneOfArrayApiResponse"/>&gt;</returns>
+        Task<IOneOfArrayApiResponse> OneOfArrayOrDefaultAsync(Option<OneOfArrayRequest> oneOfArrayRequest = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -174,6 +197,18 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IOneOfArrayApiResponse"/>
+    /// </summary>
+    public interface IOneOfArrayApiResponse : Org.OpenAPITools.Client.IApiResponse
+    {
+        /// <summary>
+        /// Returns true if the response is 204 NoContent
+        /// </summary>
+        /// <returns></returns>
+        bool IsNoContent { get; }
     }
 
     /// <summary>
@@ -263,6 +298,26 @@ namespace Org.OpenAPITools.Api
         internal void ExecuteOnErrorHello(Exception exception)
         {
             OnErrorHello?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs> OnOneOfArray;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs> OnErrorOneOfArray;
+
+        internal void ExecuteOnOneOfArray(DefaultApi.OneOfArrayApiResponse apiResponse)
+        {
+            OnOneOfArray?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorOneOfArray(Exception exception)
+        {
+            OnErrorOneOfArray?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -956,6 +1011,185 @@ namespace Org.OpenAPITools.Api
 
                 return result != null;
             }
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatOneOfArray(Option<OneOfArrayRequest> oneOfArrayRequest);
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="oneOfArrayRequest"></param>
+        private void AfterOneOfArrayDefaultImplementation(IOneOfArrayApiResponse apiResponseLocalVar, Option<OneOfArrayRequest> oneOfArrayRequest)
+        {
+            bool suppressDefaultLog = false;
+            AfterOneOfArray(ref suppressDefaultLog, apiResponseLocalVar, oneOfArrayRequest);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="oneOfArrayRequest"></param>
+        partial void AfterOneOfArray(ref bool suppressDefaultLog, IOneOfArrayApiResponse apiResponseLocalVar, Option<OneOfArrayRequest> oneOfArrayRequest);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="oneOfArrayRequest"></param>
+        private void OnErrorOneOfArrayDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<OneOfArrayRequest> oneOfArrayRequest)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorOneOfArray(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, oneOfArrayRequest);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="oneOfArrayRequest"></param>
+        partial void OnErrorOneOfArray(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<OneOfArrayRequest> oneOfArrayRequest);
+
+        /// <summary>
+        ///  Oneof array test
+        /// </summary>
+        /// <param name="oneOfArrayRequest"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IOneOfArrayApiResponse"/>&gt;</returns>
+        public async Task<IOneOfArrayApiResponse> OneOfArrayOrDefaultAsync(Option<OneOfArrayRequest> oneOfArrayRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await OneOfArrayAsync(oneOfArrayRequest, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///  Oneof array test
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="oneOfArrayRequest"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IOneOfArrayApiResponse"/>&gt;</returns>
+        public async Task<IOneOfArrayApiResponse> OneOfArrayAsync(Option<OneOfArrayRequest> oneOfArrayRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                FormatOneOfArray(oneOfArrayRequest);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/one-of-array"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/one-of-array");
+
+                    if (oneOfArrayRequest.IsSet)
+                        httpRequestMessageLocalVar.Content = (oneOfArrayRequest.Value as object) is System.IO.Stream stream
+                            ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                            : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(oneOfArrayRequest.Value, _jsonSerializerOptions));
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    httpRequestMessageLocalVar.Method = new HttpMethod("POST");
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                        ILogger<OneOfArrayApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<OneOfArrayApiResponse>();
+
+                        OneOfArrayApiResponse apiResponseLocalVar = new OneOfArrayApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/one-of-array", requestedAtLocalVar, _jsonSerializerOptions);
+
+                        AfterOneOfArrayDefaultImplementation(apiResponseLocalVar, oneOfArrayRequest);
+
+                        Events.ExecuteOnOneOfArray(apiResponseLocalVar);
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorOneOfArrayDefaultImplementation(e, "/one-of-array", uriBuilderLocalVar.Path, oneOfArrayRequest);
+                Events.ExecuteOnErrorOneOfArray(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="OneOfArrayApiResponse"/>
+        /// </summary>
+        public partial class OneOfArrayApiResponse : Org.OpenAPITools.Client.ApiResponse, IOneOfArrayApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<OneOfArrayApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="OneOfArrayApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public OneOfArrayApiResponse(ILogger<OneOfArrayApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 204 NoContent
+            /// </summary>
+            /// <returns></returns>
+            public bool IsNoContent => 204 == (int)StatusCode;
 
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
