@@ -94,7 +94,6 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**FooGet**](DefaultApi.md#fooget) | **GET** /foo | 
 *DefaultApi* | [**GetCountry**](DefaultApi.md#getcountry) | **POST** /country | 
 *DefaultApi* | [**Hello**](DefaultApi.md#hello) | **GET** /hello | Hello
-*DefaultApi* | [**OneOfArray**](DefaultApi.md#oneofarray) | **POST** /one-of-array | 
 *DefaultApi* | [**RolesReportGet**](DefaultApi.md#rolesreportget) | **GET** /roles/report | 
 *DefaultApi* | [**Test**](DefaultApi.md#test) | **GET** /test | Retrieve an existing Notificationtest's Elements
 *FakeApi* | [**FakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
@@ -207,7 +206,6 @@ Class | Method | HTTP request | Description
  - [Model.NullableShape](NullableShape.md)
  - [Model.NumberOnly](NumberOnly.md)
  - [Model.ObjectWithDeprecatedFields](ObjectWithDeprecatedFields.md)
- - [Model.OneOfArrayRequest](OneOfArrayRequest.md)
  - [Model.OneOfString](OneOfString.md)
  - [Model.Order](Order.md)
  - [Model.OuterComposite](OuterComposite.md)
@@ -239,7 +237,6 @@ Class | Method | HTTP request | Description
  - [Model.TestCollectionEndingWithWordListObject](TestCollectionEndingWithWordListObject.md)
  - [Model.TestDescendants](TestDescendants.md)
  - [Model.TestInlineFreeformAdditionalPropertiesRequest](TestInlineFreeformAdditionalPropertiesRequest.md)
- - [Model.TestObject](TestObject.md)
  - [Model.TestResult](TestResult.md)
  - [Model.TestResultCode](TestResultCode.md)
  - [Model.Triangle](Triangle.md)

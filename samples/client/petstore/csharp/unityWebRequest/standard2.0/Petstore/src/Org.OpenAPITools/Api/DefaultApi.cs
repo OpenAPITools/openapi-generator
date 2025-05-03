@@ -82,27 +82,6 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// 
         /// </summary>
-        /// <remarks>
-        /// Oneof array test
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="oneOfArrayRequest"> (optional)</param>
-        /// <returns></returns>
-        void OneOfArray(OneOfArrayRequest oneOfArrayRequest = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Oneof array test
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="oneOfArrayRequest"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> OneOfArrayWithHttpInfo(OneOfArrayRequest oneOfArrayRequest = default);
-        /// <summary>
-        /// 
-        /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>List&lt;List&lt;RolesReportsHash&gt;&gt;</returns>
         List<List<RolesReportsHash>> RolesReportGet();
@@ -206,29 +185,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;Guid&gt;)</returns>
         System.Threading.Tasks.Task<ApiResponse<List<Guid>>> HelloWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default);
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Oneof array test
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="oneOfArrayRequest"> (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task OneOfArrayAsync(OneOfArrayRequest oneOfArrayRequest = default, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Oneof array test
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="oneOfArrayRequest"> (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> OneOfArrayWithHttpInfoAsync(OneOfArrayRequest oneOfArrayRequest = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 
         /// </summary>
@@ -757,122 +713,6 @@ namespace Org.OpenAPITools.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("Hello", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///  Oneof array test
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="oneOfArrayRequest"> (optional)</param>
-        /// <returns></returns>
-        public void OneOfArray(OneOfArrayRequest oneOfArrayRequest = default)
-        {
-            OneOfArrayWithHttpInfo(oneOfArrayRequest);
-        }
-
-        /// <summary>
-        ///  Oneof array test
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="oneOfArrayRequest"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> OneOfArrayWithHttpInfo(OneOfArrayRequest oneOfArrayRequest = default)
-        {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = oneOfArrayRequest;
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/one-of-array", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("OneOfArray", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///  Oneof array test
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="oneOfArrayRequest"> (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task OneOfArrayAsync(OneOfArrayRequest oneOfArrayRequest = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-            var task = OneOfArrayWithHttpInfoAsync(oneOfArrayRequest, cancellationToken);
-#if UNITY_EDITOR || !UNITY_WEBGL
-            await task.ConfigureAwait(false);
-#else
-            await task;
-#endif
-        }
-
-        /// <summary>
-        ///  Oneof array test
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="oneOfArrayRequest"> (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> OneOfArrayWithHttpInfoAsync(OneOfArrayRequest oneOfArrayRequest = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-            };
-
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.Data = oneOfArrayRequest;
-
-
-            // make the HTTP request
-
-            var task = this.AsynchronousClient.PostAsync<Object>("/one-of-array", localVarRequestOptions, this.Configuration, cancellationToken);
-
-#if UNITY_EDITOR || !UNITY_WEBGL
-            var localVarResponse = await task.ConfigureAwait(false);
-#else
-            var localVarResponse = await task;
-#endif
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("OneOfArray", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

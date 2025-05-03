@@ -83,16 +83,6 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
-        /// Test OneOfArray
-        /// </summary>
-        [Fact (Skip = "not implemented")]
-        public async Task OneOfArrayAsyncTest()
-        {
-            Client.Option<OneOfArrayRequest> oneOfArrayRequest = default;
-            await _instance.OneOfArrayAsync(oneOfArrayRequest);
-        }
-
-        /// <summary>
         /// Test RolesReportGet
         /// </summary>
         [Fact (Skip = "not implemented")]
