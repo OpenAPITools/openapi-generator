@@ -7,7 +7,7 @@
 # General application configuration
 import Config
 
-config :openapi_petstore, base_url: "http://petstore.swagger.io:80/v2"
+config :openapi_petstore, base_url: "https://petstore.swagger.io/v2"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
