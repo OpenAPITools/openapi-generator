@@ -5,11 +5,15 @@ defmodule OpenapiPetstore.Model.ArrayOfNumberOnly do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :ArrayNumber => [number()] | nil
+  }
 
   @derive {JSON.Encoder, only: [:ArrayNumber]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :ArrayNumber, {:array, :float}
   end
 

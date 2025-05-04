@@ -5,11 +5,18 @@ defmodule OpenapiPetstore.Model.MapTest do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :map_map_of_string => %{optional(String.t) => %{optional(String.t) => String.t}} | nil,
+    :map_of_enum_string => %{optional(String.t) => String.t} | nil,
+    :direct_map => %{optional(String.t) => boolean()} | nil,
+    :indirect_map => %{optional(String.t) => boolean()} | nil
+  }
 
   @derive {JSON.Encoder, only: [:map_map_of_string, :map_of_enum_string, :direct_map, :indirect_map]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :map_map_of_string, :map
     field :map_of_enum_string, :map
     field :direct_map, :map

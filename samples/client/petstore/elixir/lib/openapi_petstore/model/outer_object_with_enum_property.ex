@@ -5,11 +5,15 @@ defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :value => OpenapiPetstore.Model.OuterEnumInteger.t
+  }
 
   @derive {JSON.Encoder, only: [:value]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     embeds_one :value, OpenapiPetstore.Model.OuterEnumInteger
   end
 

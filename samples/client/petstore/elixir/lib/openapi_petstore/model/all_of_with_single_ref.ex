@@ -5,11 +5,16 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :username => String.t | nil,
+    :SingleRefType => OpenapiPetstore.Model.SingleRefType.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:username, :SingleRefType]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :username, :string
     embeds_one :SingleRefType, OpenapiPetstore.Model.SingleRefType
   end

@@ -5,11 +5,17 @@ defmodule OpenapiPetstore.Model.ArrayTest do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :array_of_string => [String.t] | nil,
+    :array_array_of_integer => [[integer()]] | nil,
+    :array_array_of_model => [[OpenapiPetstore.Model.ReadOnlyFirst.t]] | nil
+  }
 
   @derive {JSON.Encoder, only: [:array_of_string, :array_array_of_integer, :array_array_of_model]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :array_of_string, {:array, :string}
     field :array_array_of_integer, {:array, {:array, :integer}}
     field :array_array_of_model, {:array, {:array, :any}}

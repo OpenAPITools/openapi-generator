@@ -5,25 +5,44 @@ defmodule OpenapiPetstore.Model.FormatTest do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :integer => integer() | nil,
+    :int32 => integer() | nil,
+    :int64 => integer() | nil,
+    :number => number(),
+    :float => float() | nil,
+    :double => float() | nil,
+    :decimal => float() | nil,
+    :string => String.t | nil,
+    :byte => binary(),
+    :binary => String.t | nil,
+    :date => Date.t,
+    :dateTime => DateTime.t | nil,
+    :uuid => String.t | nil,
+    :password => String.t,
+    :pattern_with_digits => String.t | nil,
+    :pattern_with_digits_and_delimiter => String.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:integer, :int32, :int64, :number, :float, :double, :decimal, :string, :byte, :binary, :date, :dateTime, :uuid, :password, :pattern_with_digits, :pattern_with_digits_and_delimiter]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :integer, :integer
     field :int32, :integer
     field :int64, :integer
-    field :number, :float, null: false
+    field :number, :float
     field :float, :float
     field :double, :float
     field :decimal, :float
     field :string, :string
-    field :byte, :binary, null: false
+    field :byte, :binary
     field :binary, :string
-    field :date, :date, null: false
+    field :date, :date
     field :dateTime, :utc_datetime
     field :uuid, :string
-    field :password, :string, null: false
+    field :password, :string
     field :pattern_with_digits, :string
     field :pattern_with_digits_and_delimiter, :string
   end

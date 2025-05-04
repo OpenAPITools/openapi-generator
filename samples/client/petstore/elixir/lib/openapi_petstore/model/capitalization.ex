@@ -5,11 +5,20 @@ defmodule OpenapiPetstore.Model.Capitalization do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :smallCamel => String.t | nil,
+    :CapitalCamel => String.t | nil,
+    :small_Snake => String.t | nil,
+    :Capital_Snake => String.t | nil,
+    :SCA_ETH_Flow_Points => String.t | nil,
+    :ATT_NAME => String.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:smallCamel, :CapitalCamel, :small_Snake, :Capital_Snake, :SCA_ETH_Flow_Points, :ATT_NAME]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :smallCamel, :string
     field :CapitalCamel, :string
     field :small_Snake, :string

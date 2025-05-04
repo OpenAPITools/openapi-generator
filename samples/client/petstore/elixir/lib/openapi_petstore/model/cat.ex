@@ -5,12 +5,18 @@ defmodule OpenapiPetstore.Model.Cat do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :className => String.t,
+    :color => String.t | nil,
+    :declawed => boolean() | nil
+  }
 
   @derive {JSON.Encoder, only: [:className, :color, :declawed]}
   @primary_key false
-  typed_embedded_schema do
-    field :className, :string, null: false
+  embedded_schema do
+    field :className, :string
     field :color, :string
     field :declawed, :boolean
   end

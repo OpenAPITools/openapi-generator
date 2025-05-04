@@ -5,11 +5,26 @@ defmodule OpenapiPetstore.Model.NullableClass do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :integer_prop => integer() | nil,
+    :number_prop => number() | nil,
+    :boolean_prop => boolean() | nil,
+    :string_prop => String.t | nil,
+    :date_prop => Date.t | nil,
+    :datetime_prop => DateTime.t | nil,
+    :array_nullable_prop => [map()] | nil,
+    :array_and_items_nullable_prop => [map()] | nil,
+    :array_items_nullable => [map()] | nil,
+    :object_nullable_prop => %{optional(String.t) => map()} | nil,
+    :object_and_items_nullable_prop => %{optional(String.t) => map()} | nil,
+    :object_items_nullable => %{optional(String.t) => map()} | nil
+  }
 
   @derive {JSON.Encoder, only: [:integer_prop, :number_prop, :boolean_prop, :string_prop, :date_prop, :datetime_prop, :array_nullable_prop, :array_and_items_nullable_prop, :array_items_nullable, :object_nullable_prop, :object_and_items_nullable_prop, :object_items_nullable]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :integer_prop, :integer
     field :number_prop, :float
     field :boolean_prop, :boolean

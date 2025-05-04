@@ -5,11 +5,16 @@ defmodule OpenapiPetstore.Model.HasOnlyReadOnly do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :bar => String.t | nil,
+    :foo => String.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:bar, :foo]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :bar, :string
     field :foo, :string
   end

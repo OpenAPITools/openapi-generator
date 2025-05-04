@@ -5,11 +5,16 @@ defmodule OpenapiPetstore.Model.FileSchemaTestClass do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :file => OpenapiPetstore.Model.File.t | nil,
+    :files => [OpenapiPetstore.Model.File.t] | nil
+  }
 
   @derive {JSON.Encoder, only: [:file, :files]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     embeds_one :file, OpenapiPetstore.Model.File
     embeds_many :files, OpenapiPetstore.Model.File
   end

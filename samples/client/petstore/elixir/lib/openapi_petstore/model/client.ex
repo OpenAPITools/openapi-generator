@@ -5,11 +5,15 @@ defmodule OpenapiPetstore.Model.Client do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :client => String.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:client]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :client, :string
   end
 

@@ -5,11 +5,16 @@ defmodule OpenapiPetstore.Model.ParentWithNullable do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :type => String.t | nil,
+    :nullableProperty => String.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:type, :nullableProperty]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :type, :string
     field :nullableProperty, :string
   end

@@ -5,16 +5,27 @@ defmodule OpenapiPetstore.Model.EnumTest do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :enum_string => String.t | nil,
+    :enum_string_required => String.t,
+    :enum_integer => integer() | nil,
+    :enum_number => float() | nil,
+    :outerEnum => OpenapiPetstore.Model.OuterEnum.t | nil,
+    :outerEnumInteger => OpenapiPetstore.Model.OuterEnumInteger.t | nil,
+    :outerEnumDefaultValue => OpenapiPetstore.Model.OuterEnumDefaultValue.t | nil,
+    :outerEnumIntegerDefaultValue => OpenapiPetstore.Model.OuterEnumIntegerDefaultValue.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :enum_string, :string
-    field :enum_string_required, :string, null: false
+    field :enum_string_required, :string
     field :enum_integer, :integer
     field :enum_number, :float
-    embeds_one :outerEnum, OpenapiPetstore.Model.OuterEnum, null: true
+    embeds_one :outerEnum, OpenapiPetstore.Model.OuterEnum
     embeds_one :outerEnumInteger, OpenapiPetstore.Model.OuterEnumInteger
     embeds_one :outerEnumDefaultValue, OpenapiPetstore.Model.OuterEnumDefaultValue
     embeds_one :outerEnumIntegerDefaultValue, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue

@@ -5,11 +5,15 @@ defmodule OpenapiPetstore.Model.DeprecatedModel do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :name => String.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:name]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :name, :string
   end
 

@@ -5,15 +5,24 @@ defmodule OpenapiPetstore.Model.Pet do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :id => integer() | nil,
+    :category => OpenapiPetstore.Model.Category.t | nil,
+    :name => String.t,
+    :photoUrls => [String.t],
+    :tags => [OpenapiPetstore.Model.Tag.t] | nil,
+    :status => String.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:id, :category, :name, :photoUrls, :tags, :status]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :id, :integer
     embeds_one :category, OpenapiPetstore.Model.Category
-    field :name, :string, null: false
-    field :photoUrls, :any, virtual: true, null: false
+    field :name, :string
+    field :photoUrls, :any, virtual: true
     embeds_many :tags, OpenapiPetstore.Model.Tag
     field :status, :string
   end

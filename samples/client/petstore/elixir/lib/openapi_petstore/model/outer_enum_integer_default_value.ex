@@ -5,11 +5,15 @@ defmodule OpenapiPetstore.Model.OuterEnumIntegerDefaultValue do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    
+  }
 
   @derive {JSON.Encoder, only: []}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
   end
 
   @spec new(map()) :: t()

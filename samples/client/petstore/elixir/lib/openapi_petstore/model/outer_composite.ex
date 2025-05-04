@@ -5,11 +5,17 @@ defmodule OpenapiPetstore.Model.OuterComposite do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :my_number => number() | nil,
+    :my_string => String.t | nil,
+    :my_boolean => boolean() | nil
+  }
 
   @derive {JSON.Encoder, only: [:my_number, :my_string, :my_boolean]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :my_number, :float
     field :my_string, :string
     field :my_boolean, :boolean

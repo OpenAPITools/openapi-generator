@@ -5,11 +5,18 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :uuid => String.t | nil,
+    :id => number() | nil,
+    :deprecatedRef => OpenapiPetstore.Model.DeprecatedModel.t | nil,
+    :bars => [String.t] | nil
+  }
 
   @derive {JSON.Encoder, only: [:uuid, :id, :deprecatedRef, :bars]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :uuid, :string
     field :id, :float
     embeds_one :deprecatedRef, OpenapiPetstore.Model.DeprecatedModel

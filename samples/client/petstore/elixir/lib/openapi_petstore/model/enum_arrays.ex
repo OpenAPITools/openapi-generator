@@ -5,11 +5,16 @@ defmodule OpenapiPetstore.Model.EnumArrays do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :just_symbol => String.t | nil,
+    :array_enum => [String.t] | nil
+  }
 
   @derive {JSON.Encoder, only: [:just_symbol, :array_enum]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :just_symbol, :string
     field :array_enum, {:array, :string}
   end

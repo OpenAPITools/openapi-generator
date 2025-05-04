@@ -5,11 +5,17 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :uuid => String.t | nil,
+    :dateTime => DateTime.t | nil,
+    :map => %{optional(String.t) => OpenapiPetstore.Model.Animal.t} | nil
+  }
 
   @derive {JSON.Encoder, only: [:uuid, :dateTime, :map]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :uuid, :string
     field :dateTime, :utc_datetime
     embeds_one :map, OpenapiPetstore.Model.map()

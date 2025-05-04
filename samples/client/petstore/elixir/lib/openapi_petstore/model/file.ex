@@ -5,11 +5,15 @@ defmodule OpenapiPetstore.Model.File do
   @moduledoc """
   Must be named `File` for test.
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :sourceURI => String.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:sourceURI]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :sourceURI, :string
   end
 

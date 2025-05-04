@@ -5,11 +5,17 @@ defmodule OpenapiPetstore.Model.ApiResponse do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :code => integer() | nil,
+    :type => String.t | nil,
+    :message => String.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:code, :type, :message]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :code, :integer
     field :type, :string
     field :message, :string

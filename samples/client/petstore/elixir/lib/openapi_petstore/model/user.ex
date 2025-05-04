@@ -5,11 +5,22 @@ defmodule OpenapiPetstore.Model.User do
   @moduledoc """
   
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :id => integer() | nil,
+    :username => String.t | nil,
+    :firstName => String.t | nil,
+    :lastName => String.t | nil,
+    :email => String.t | nil,
+    :password => String.t | nil,
+    :phone => String.t | nil,
+    :userStatus => integer() | nil
+  }
 
   @derive {JSON.Encoder, only: [:id, :username, :firstName, :lastName, :email, :password, :phone, :userStatus]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :id, :integer
     field :username, :string
     field :firstName, :string

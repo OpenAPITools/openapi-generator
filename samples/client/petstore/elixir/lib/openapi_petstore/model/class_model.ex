@@ -5,11 +5,15 @@ defmodule OpenapiPetstore.Model.ClassModel do
   @moduledoc """
   Model for testing model with \"_class\" property
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :_class => String.t | nil
+  }
 
   @derive {JSON.Encoder, only: [:_class]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :_class, :string
   end
 

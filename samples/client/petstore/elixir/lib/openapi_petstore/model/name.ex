@@ -5,12 +5,19 @@ defmodule OpenapiPetstore.Model.Name do
   @moduledoc """
   Model for testing model name same as property name
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    :name => integer(),
+    :snake_case => integer() | nil,
+    :property => String.t | nil,
+    :"123Number" => integer() | nil
+  }
 
   @derive {JSON.Encoder, only: [:name, :snake_case, :property, :"123Number"]}
   @primary_key false
-  typed_embedded_schema do
-    field :name, :integer, null: false
+  embedded_schema do
+    field :name, :integer
     field :snake_case, :integer
     field :property, :string
     field :"123Number", :integer

@@ -3,17 +3,22 @@
   @moduledoc """
   {{&description}}
   """
-  use TypedEctoSchema
+  use Ecto.Schema
+
+  @type t :: %__MODULE__{
+    {{#vars}}{{#atom}}{{&baseName}}{{/atom}} => {{{datatype}}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{^-last}},
+    {{/-last}}{{/vars}}
+  }
 
   @derive {JSON.Encoder, only: [{{#vars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/vars}}]}
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
   {{#vars}}
     {{#isPrimitiveType}}
-    field {{#atom}}{{&baseName}}{{/atom}}, {{{ectoType}}}{{#required}}, null: false{{/required}}
+    field {{#atom}}{{&baseName}}{{/atom}}, {{{ectoType}}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{^isArray}}embeds_one{{/isArray}}{{#isArray}}embeds_many{{/isArray}} {{#atom}}{{&baseName}}{{/atom}}, {{&moduleName}}.Model.{{^isArray}}{{{baseType}}}{{/isArray}}{{#isArray}}{{{items.baseType}}}{{/isArray}}{{#isNullable}}, null: true{{/isNullable}}
+    {{^isArray}}embeds_one{{/isArray}}{{#isArray}}embeds_many{{/isArray}} {{#atom}}{{&baseName}}{{/atom}}, {{&moduleName}}.Model.{{^isArray}}{{{baseType}}}{{/isArray}}{{#isArray}}{{{items.baseType}}}{{/isArray}}
     {{/isPrimitiveType}}
   {{/vars}}
   end
