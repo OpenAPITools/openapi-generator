@@ -21,7 +21,7 @@ defmodule OpenapiPetstore.Model.Pet do
   embedded_schema do
     field :id, :integer
     field :name, :string
-    field :photoUrls, :any, virtual: true
+    field :photoUrls, {:array, :string}
     embeds_many :tags, OpenapiPetstore.Model.Tag
     field :status, :string
     embeds_one :category, OpenapiPetstore.Model.Category
