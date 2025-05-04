@@ -142,7 +142,7 @@ namespace Org.OpenAPITools.Client
             {
 #if (NETCOREAPP)
                 string framework = RuntimeInformation.FrameworkDescription;
-                string key = framework.StartsWith(".NET 9")?parameter.Key:HttpUtility.UrlEncode(parameter.Key);
+                string key = framework.StartsWith(".NET 9") ? parameter.Key : parameter.Key;
                 if (parameter.Value.Count > 1)
                 { // array
                     foreach (var value in parameter.Value)
