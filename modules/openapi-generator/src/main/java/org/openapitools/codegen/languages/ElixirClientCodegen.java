@@ -233,7 +233,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE,
                 "The main namespace to use for all classes. e.g. Yay.Pets"));
-        cliOptions.add(new CliOption("licenseHeader", "The license header to prepend to the top of all source files."));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Elixir package name (convention: lowercase)."));
     }
 
