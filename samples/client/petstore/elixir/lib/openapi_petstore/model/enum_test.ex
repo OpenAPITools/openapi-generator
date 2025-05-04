@@ -31,16 +31,15 @@ defmodule OpenapiPetstore.Model.EnumTest do
     embeds_one :outerEnumIntegerDefaultValue, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue
   end
 
-  @spec new(map()) :: t()
-  def new(params) do
-    %__MODULE__{}
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
     |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number])
     |> Ecto.Changeset.validate_required([:enum_string_required])
     |> Ecto.Changeset.cast_embed(:outerEnum)
     |> Ecto.Changeset.cast_embed(:outerEnumInteger)
     |> Ecto.Changeset.cast_embed(:outerEnumDefaultValue)
     |> Ecto.Changeset.cast_embed(:outerEnumIntegerDefaultValue)
-    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

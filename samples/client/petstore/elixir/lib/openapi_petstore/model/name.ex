@@ -23,12 +23,11 @@ defmodule OpenapiPetstore.Model.Name do
     field :"123Number", :integer
   end
 
-  @spec new(map()) :: t()
-  def new(params) do
-    %__MODULE__{}
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
     |> Ecto.Changeset.cast(params, [:name, :snake_case, :property, :"123Number"])
     |> Ecto.Changeset.validate_required([:name])
-    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

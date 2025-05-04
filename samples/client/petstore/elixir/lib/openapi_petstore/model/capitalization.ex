@@ -27,12 +27,11 @@ defmodule OpenapiPetstore.Model.Capitalization do
     field :ATT_NAME, :string
   end
 
-  @spec new(map()) :: t()
-  def new(params) do
-    %__MODULE__{}
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
     |> Ecto.Changeset.cast(params, [:smallCamel, :CapitalCamel, :small_Snake, :Capital_Snake, :SCA_ETH_Flow_Points, :ATT_NAME])
     |> Ecto.Changeset.validate_required([])
-    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

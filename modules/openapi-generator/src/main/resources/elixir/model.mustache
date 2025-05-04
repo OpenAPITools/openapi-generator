@@ -23,15 +23,14 @@
   {{/vars}}
   end
 
-  @spec new(map()) :: t()
-  def new(params) do
-    %__MODULE__{}
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
     |> Ecto.Changeset.cast(params, [{{#primitiveVars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/primitiveVars}}])
     |> Ecto.Changeset.validate_required([{{#requiredPrimitiveVars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/requiredPrimitiveVars}}])
     {{#complexVars}}
     |> Ecto.Changeset.cast_embed({{#atom}}{{&baseName}}{{/atom}}{{#required}}, required: true{{/required}})
     {{/complexVars}}
-    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 {{/model}}{{/models}}

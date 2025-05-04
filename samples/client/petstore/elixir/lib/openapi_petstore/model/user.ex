@@ -31,12 +31,11 @@ defmodule OpenapiPetstore.Model.User do
     field :userStatus, :integer
   end
 
-  @spec new(map()) :: t()
-  def new(params) do
-    %__MODULE__{}
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
     |> Ecto.Changeset.cast(params, [:id, :username, :firstName, :lastName, :email, :password, :phone, :userStatus])
     |> Ecto.Changeset.validate_required([])
-    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

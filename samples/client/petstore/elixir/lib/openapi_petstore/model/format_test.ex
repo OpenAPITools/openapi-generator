@@ -47,12 +47,11 @@ defmodule OpenapiPetstore.Model.FormatTest do
     field :pattern_with_digits_and_delimiter, :string
   end
 
-  @spec new(map()) :: t()
-  def new(params) do
-    %__MODULE__{}
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
     |> Ecto.Changeset.cast(params, [:integer, :int32, :int64, :number, :float, :double, :decimal, :string, :byte, :binary, :date, :dateTime, :uuid, :password, :pattern_with_digits, :pattern_with_digits_and_delimiter])
     |> Ecto.Changeset.validate_required([:number, :byte, :date, :password])
-    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

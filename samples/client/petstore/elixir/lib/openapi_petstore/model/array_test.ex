@@ -21,12 +21,11 @@ defmodule OpenapiPetstore.Model.ArrayTest do
     field :array_array_of_model, {:array, {:array, :any}}
   end
 
-  @spec new(map()) :: t()
-  def new(params) do
-    %__MODULE__{}
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
     |> Ecto.Changeset.cast(params, [:array_of_string, :array_array_of_integer, :array_array_of_model])
     |> Ecto.Changeset.validate_required([])
-    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

@@ -39,12 +39,11 @@ defmodule OpenapiPetstore.Model.NullableClass do
     field :object_items_nullable, :map
   end
 
-  @spec new(map()) :: t()
-  def new(params) do
-    %__MODULE__{}
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
     |> Ecto.Changeset.cast(params, [:integer_prop, :number_prop, :boolean_prop, :string_prop, :date_prop, :datetime_prop, :array_nullable_prop, :array_and_items_nullable_prop, :array_items_nullable, :object_nullable_prop, :object_and_items_nullable_prop, :object_items_nullable])
     |> Ecto.Changeset.validate_required([])
-    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

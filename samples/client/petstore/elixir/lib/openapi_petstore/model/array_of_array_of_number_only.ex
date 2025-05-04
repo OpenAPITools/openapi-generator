@@ -17,12 +17,11 @@ defmodule OpenapiPetstore.Model.ArrayOfArrayOfNumberOnly do
     field :ArrayArrayNumber, {:array, {:array, :float}}
   end
 
-  @spec new(map()) :: t()
-  def new(params) do
-    %__MODULE__{}
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
     |> Ecto.Changeset.cast(params, [:ArrayArrayNumber])
     |> Ecto.Changeset.validate_required([])
-    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 
