@@ -36,7 +36,7 @@ public class Client {
       this.client = client;
   }
 
-  public Client client(String client) {
+  public Client client(@Nullable String client) {
     this.client = client;
     return this;
   }
@@ -48,11 +48,11 @@ public class Client {
   
   @ApiModelProperty(value = "")
   @JsonProperty("client")
-  public String getClient() {
+  public @Nullable String getClient() {
     return client;
   }
 
-  public void setClient(String client) {
+  public void setClient(@Nullable String client) {
     this.client = client;
   }
 

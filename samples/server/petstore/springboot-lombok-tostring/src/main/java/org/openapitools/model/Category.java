@@ -32,13 +32,13 @@ public class Category {
 
   private @Nullable String name;
 
-  public Category id(Long id) {
+  public Category id(@Nullable Long id) {
     this.id = id;
     return this;
   }
 
 
-  public Category name(String name) {
+  public Category name(@Nullable String name) {
     this.name = name;
     return this;
   }

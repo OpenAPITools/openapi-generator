@@ -39,7 +39,7 @@ public class ModelReturn {
       this._return = _return;
   }
 
-  public ModelReturn _return(Integer _return) {
+  public ModelReturn _return(@Nullable Integer _return) {
     this._return = _return;
     return this;
   }
@@ -51,11 +51,11 @@ public class ModelReturn {
   
   @ApiModelProperty(value = "")
   @JsonProperty("return")
-  public Integer getReturn() {
+  public @Nullable Integer getReturn() {
     return _return;
   }
 
-  public void setReturn(Integer _return) {
+  public void setReturn(@Nullable Integer _return) {
     this._return = _return;
   }
 

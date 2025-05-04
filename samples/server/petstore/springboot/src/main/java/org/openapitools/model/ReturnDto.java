@@ -28,7 +28,7 @@ public class ReturnDto {
 
   private @Nullable Integer _return;
 
-  public ReturnDto _return(Integer _return) {
+  public ReturnDto _return(@Nullable Integer _return) {
     this._return = _return;
     return this;
   }
@@ -40,11 +40,11 @@ public class ReturnDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("return")
-  public Integer getReturn() {
+  public @Nullable Integer getReturn() {
     return _return;
   }
 
-  public void setReturn(Integer _return) {
+  public void setReturn(@Nullable Integer _return) {
     this._return = _return;
   }
 

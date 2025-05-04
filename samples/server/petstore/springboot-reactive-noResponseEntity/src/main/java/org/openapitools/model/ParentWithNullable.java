@@ -76,7 +76,7 @@ public class ParentWithNullable {
 
   private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
-  public ParentWithNullable type(TypeEnum type) {
+  public ParentWithNullable type(@Nullable TypeEnum type) {
     this.type = type;
     return this;
   }
@@ -88,11 +88,11 @@ public class ParentWithNullable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("type")
-  public TypeEnum getType() {
+  public @Nullable TypeEnum getType() {
     return type;
   }
 
-  public void setType(TypeEnum type) {
+  public void setType(@Nullable TypeEnum type) {
     this.type = type;
   }
 

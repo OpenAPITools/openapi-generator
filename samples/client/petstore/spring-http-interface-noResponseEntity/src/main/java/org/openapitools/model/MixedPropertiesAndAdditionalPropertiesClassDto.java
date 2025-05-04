@@ -36,7 +36,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   
   private Map<String, AnimalDto> map = new HashMap<>();
 
-  public MixedPropertiesAndAdditionalPropertiesClassDto uuid(UUID uuid) {
+  public MixedPropertiesAndAdditionalPropertiesClassDto uuid(@Nullable UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -47,15 +47,15 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    */
   
   @JsonProperty("uuid")
-  public UUID getUuid() {
+  public @Nullable UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClassDto dateTime(OffsetDateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClassDto dateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -66,11 +66,11 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    */
   
   @JsonProperty("dateTime")
-  public OffsetDateTime getDateTime() {
+  public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
