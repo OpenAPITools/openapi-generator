@@ -1637,6 +1637,8 @@ components:
         date:
           example: 2020-02-02
           format: date
+          maxLength: 1
+          minLength: 1
           type: string
         dateTime:
           example: 2007-12-03T10:15:30+01:00

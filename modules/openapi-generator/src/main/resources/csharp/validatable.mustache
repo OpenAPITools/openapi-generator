@@ -60,6 +60,9 @@
             {{#vars}}
             {{#hasValidation}}
             {{^isEnum}}
+            {{^isDateTime}}
+            {{^isDate}}
+            {{^isTime}}
             {{#maxLength}}
             // {{{name}}} ({{{dataType}}}) maxLength
             if (this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
@@ -76,6 +79,9 @@
             }
 
             {{/minLength}}
+            {{/isTime}}
+            {{/isDate}}
+            {{/isDateTime}}
             {{#maximum}}
             // {{{name}}} ({{{dataType}}}) maximum
             if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} {{#exclusiveMaximum}}<={{/exclusiveMaximum}}{{^exclusiveMaximum}}>{{/exclusiveMaximum}} ({{{dataType}}}){{maximum}})
