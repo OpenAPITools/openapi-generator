@@ -27,7 +27,7 @@ public class ModelList {
 
   private @Nullable String _123list;
 
-  public ModelList _123list(String _123list) {
+  public ModelList _123list(@Nullable String _123list) {
     this._123list = _123list;
     return this;
   }
@@ -39,11 +39,11 @@ public class ModelList {
   
   @ApiModelProperty(value = "")
   @JsonProperty("123-list")
-  public String get123list() {
+  public @Nullable String get123list() {
     return _123list;
   }
 
-  public void set123list(String _123list) {
+  public void set123list(@Nullable String _123list) {
     this._123list = _123list;
   }
 

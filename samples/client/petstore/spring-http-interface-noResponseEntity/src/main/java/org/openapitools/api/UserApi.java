@@ -8,6 +8,7 @@ package org.openapitools.api;
 import java.time.OffsetDateTime;
 import org.openapitools.model.UserDto;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

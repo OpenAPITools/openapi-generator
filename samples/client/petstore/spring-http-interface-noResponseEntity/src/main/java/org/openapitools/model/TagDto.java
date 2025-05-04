@@ -26,7 +26,7 @@ public class TagDto {
 
   private @Nullable String name;
 
-  public TagDto id(Long id) {
+  public TagDto id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -37,15 +37,15 @@ public class TagDto {
    */
   
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public TagDto name(String name) {
+  public TagDto name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -56,11 +56,11 @@ public class TagDto {
    */
   
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
 
