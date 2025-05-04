@@ -17,6 +17,7 @@ import org.openapitools.model.OuterCompositeDto;
 import org.openapitools.model.UserDto;
 import org.openapitools.model.XmlItemDto;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,7 +65,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Boolean fakeOuterBooleanSerialize(
-         @RequestBody(required = false) Boolean body
+         @RequestBody(required = false) @Nullable Boolean body
     );
 
 
@@ -83,7 +84,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     OuterCompositeDto fakeOuterCompositeSerialize(
-         @RequestBody(required = false) OuterCompositeDto outerCompositeDto
+         @RequestBody(required = false) @Nullable OuterCompositeDto outerCompositeDto
     );
 
 
@@ -102,7 +103,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     BigDecimal fakeOuterNumberSerialize(
-         @RequestBody(required = false) BigDecimal body
+         @RequestBody(required = false) @Nullable BigDecimal body
     );
 
 
@@ -121,7 +122,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     String fakeOuterStringSerialize(
-         @RequestBody(required = false) String body
+         @RequestBody(required = false) @Nullable String body
     );
 
 
@@ -252,12 +253,12 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     void testEnumParameters(
-         @RequestHeader(value = "enum_header_string_array", required = false) List<String> enumHeaderStringArray,
+         @RequestHeader(value = "enum_header_string_array", required = false) @Nullable List<String> enumHeaderStringArray,
          @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
-         @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
+         @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
          @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
-         @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
-         @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
+         @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
+         @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
          @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
          @RequestParam(value = "enum_form_string", required = false) String enumFormString
     );
@@ -285,9 +286,9 @@ public interface FakeApi {
          @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
          @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
          @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
-         @RequestParam(value = "string_group", required = false) Integer stringGroup,
-         @RequestHeader(value = "boolean_group", required = false) Boolean booleanGroup,
-         @RequestParam(value = "int64_group", required = false) Long int64Group
+         @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup,
+         @RequestHeader(value = "boolean_group", required = false) @Nullable Boolean booleanGroup,
+         @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group
     );
 
 

@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import org.openapitools.model.ClientDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

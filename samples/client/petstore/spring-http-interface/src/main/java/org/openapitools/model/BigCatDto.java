@@ -73,7 +73,7 @@ public class BigCatDto extends CatDto {
     super();
   }
 
-  public BigCatDto kind(KindEnum kind) {
+  public BigCatDto kind(@Nullable KindEnum kind) {
     this.kind = kind;
     return this;
   }
@@ -84,11 +84,11 @@ public class BigCatDto extends CatDto {
    */
   
   @JsonProperty("kind")
-  public KindEnum getKind() {
+  public @Nullable KindEnum getKind() {
     return kind;
   }
 
-  public void setKind(KindEnum kind) {
+  public void setKind(@Nullable KindEnum kind) {
     this.kind = kind;
   }
 

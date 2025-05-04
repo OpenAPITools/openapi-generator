@@ -9,6 +9,7 @@ import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
 import io.swagger.annotations.*;
+import org.springframework.lang.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -98,7 +99,7 @@ public interface PetApi {
     
     default ResponseEntity<Void> deletePet(
         @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey
+        @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     ) {
         return getDelegate().deletePet(petId, apiKey);
     }

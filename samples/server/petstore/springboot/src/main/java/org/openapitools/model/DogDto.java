@@ -43,7 +43,7 @@ public class DogDto extends AnimalDto {
     super(className);
   }
 
-  public DogDto breed(String breed) {
+  public DogDto breed(@Nullable String breed) {
     this.breed = breed;
     return this;
   }
@@ -55,11 +55,11 @@ public class DogDto extends AnimalDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
-  public String getBreed() {
+  public @Nullable String getBreed() {
     return breed;
   }
 
-  public void setBreed(String breed) {
+  public void setBreed(@Nullable String breed) {
     this.breed = breed;
   }
 
