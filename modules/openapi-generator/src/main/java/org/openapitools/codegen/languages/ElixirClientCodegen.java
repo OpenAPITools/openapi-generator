@@ -235,6 +235,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 "The main namespace to use for all classes. e.g. Yay.Pets"));
         cliOptions.add(new CliOption("licenseHeader", "The license header to prepend to the top of all source files."));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Elixir package name (convention: lowercase)."));
+        cliOptions.add(new CliOption("skipLicenseHeader", "Skip the license header in the generated files.").defaultValue(Boolean.FALSE.toString()));
     }
 
     /**
@@ -308,6 +309,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
+        }
+        if (additionalProperties.containsKey("skipLicenseHeader")) {
+            boolean skipLicenseHeader = Boolean.parseBoolean(additionalProperties.get("skipLicenseHeader").toString());
+            additionalProperties.put("skipLicenseHeader", skipLicenseHeader);
         }
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
     }
