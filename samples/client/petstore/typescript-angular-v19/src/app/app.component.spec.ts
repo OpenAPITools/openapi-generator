@@ -3,7 +3,6 @@ import {AppComponent} from './app.component';
 import {provideHttpClient} from '@angular/common/http';
 import {Pet, PetService} from '@swagger/typescript-angular-petstore';
 import {of} from 'rxjs';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('AppComponent', () => {
   let petServiceMock: jasmine.SpyObj<PetService>;
