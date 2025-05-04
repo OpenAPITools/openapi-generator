@@ -24,7 +24,7 @@ import java.util.*;
 
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
-    public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
+    public boolean hasAuthMethods, hasConsumes, hasProduces, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isArray, isMultipart, isVoid = false,
             hasVersionHeaders = false, hasVersionQueryParams = false,
@@ -79,6 +79,15 @@ public class CodegenOperation {
 
     private static boolean nonEmpty(Map<?, ?> params) {
         return params != null && !params.isEmpty();
+    }
+
+    /**
+     * Check if there's at least one parameter
+     *
+     * @return true if parameter exists, false otherwise
+     */
+    public boolean getHasParams() {
+        return nonEmpty(allParams);
     }
 
     /**
@@ -362,7 +371,6 @@ public class CodegenOperation {
         sb.append(", hasAuthMethods=").append(hasAuthMethods);
         sb.append(", hasConsumes=").append(hasConsumes);
         sb.append(", hasProduces=").append(hasProduces);
-        sb.append(", hasParams=").append(hasParams);
         sb.append(", hasOptionalParams=").append(hasOptionalParams);
         sb.append(", hasRequiredParams=").append(hasRequiredParams);
         sb.append(", returnTypeIsPrimitive=").append(returnTypeIsPrimitive);
@@ -445,7 +453,6 @@ public class CodegenOperation {
         return hasAuthMethods == that.hasAuthMethods &&
                 hasConsumes == that.hasConsumes &&
                 hasProduces == that.hasProduces &&
-                hasParams == that.hasParams &&
                 hasOptionalParams == that.hasOptionalParams &&
                 hasRequiredParams == that.hasRequiredParams &&
                 returnTypeIsPrimitive == that.returnTypeIsPrimitive &&
@@ -522,7 +529,7 @@ public class CodegenOperation {
     @Override
     public int hashCode() {
 
-        return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
+        return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasOptionalParams,
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
                 isArray, isMultipart, isVoid, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
                 hasDefaultResponse, hasOnlyDefaultResponse, isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
