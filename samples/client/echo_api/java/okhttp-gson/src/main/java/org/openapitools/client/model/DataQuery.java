@@ -179,15 +179,10 @@ public class DataQuery extends Query {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("id");
-    openapiFields.add("outcomes");
-    openapiFields.add("suffix");
-    openapiFields.add("text");
-    openapiFields.add("date");
+    openapiFields = new HashSet<String>(Arrays.asList("id", "outcomes", "suffix", "text", "date"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

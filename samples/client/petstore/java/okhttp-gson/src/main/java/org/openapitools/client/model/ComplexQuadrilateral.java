@@ -193,14 +193,10 @@ public class ComplexQuadrilateral {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("shapeType");
-    openapiFields.add("quadrilateralType");
+    openapiFields = new HashSet<String>(Arrays.asList("shapeType", "quadrilateralType"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("shapeType");
-    openapiRequiredFields.add("quadrilateralType");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("shapeType", "quadrilateralType"));
   }
 
   /**

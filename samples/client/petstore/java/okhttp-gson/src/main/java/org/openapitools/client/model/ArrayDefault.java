@@ -211,12 +211,10 @@ public class ArrayDefault {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("WithDefaultEmptyBracket");
-    openapiFields.add("WithoutDefault");
+    openapiFields = new HashSet<String>(Arrays.asList("WithDefaultEmptyBracket", "WithoutDefault"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

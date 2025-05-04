@@ -167,12 +167,10 @@ public class ShapeInterface {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("shapeType");
+    openapiFields = new HashSet<String>(Arrays.asList("shapeType"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("shapeType");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("shapeType"));
   }
 
   /**

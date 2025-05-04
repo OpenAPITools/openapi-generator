@@ -465,22 +465,10 @@ public class User {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("id");
-    openapiFields.add("username");
-    openapiFields.add("firstName");
-    openapiFields.add("lastName");
-    openapiFields.add("email");
-    openapiFields.add("password");
-    openapiFields.add("phone");
-    openapiFields.add("userStatus");
-    openapiFields.add("objectWithNoDeclaredProps");
-    openapiFields.add("objectWithNoDeclaredPropsNullable");
-    openapiFields.add("anyTypeProp");
-    openapiFields.add("anyTypePropNullable");
+    openapiFields = new HashSet<String>(Arrays.asList("id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus", "objectWithNoDeclaredProps", "objectWithNoDeclaredPropsNullable", "anyTypeProp", "anyTypePropNullable"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

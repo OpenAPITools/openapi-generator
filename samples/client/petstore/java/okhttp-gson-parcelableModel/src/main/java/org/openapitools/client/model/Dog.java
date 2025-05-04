@@ -151,14 +151,10 @@ public class Dog extends Animal implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("className");
-    openapiFields.add("color");
-    openapiFields.add("breed");
+    openapiFields = new HashSet<String>(Arrays.asList("className", "color", "breed"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("className");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("className"));
   }
 
   /**

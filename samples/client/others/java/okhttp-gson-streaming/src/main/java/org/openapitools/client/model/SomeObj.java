@@ -278,15 +278,10 @@ public class SomeObj implements Serializable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("$_type");
-    openapiFields.add("id");
-    openapiFields.add("name");
-    openapiFields.add("active");
-    openapiFields.add("type");
+    openapiFields = new HashSet<String>(Arrays.asList("$_type", "id", "name", "active", "type"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

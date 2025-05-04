@@ -251,16 +251,10 @@ public class Capitalization {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("smallCamel");
-    openapiFields.add("CapitalCamel");
-    openapiFields.add("small_Snake");
-    openapiFields.add("Capital_Snake");
-    openapiFields.add("SCA_ETH_Flow_Points");
-    openapiFields.add("ATT_NAME");
+    openapiFields = new HashSet<String>(Arrays.asList("smallCamel", "CapitalCamel", "small_Snake", "Capital_Snake", "SCA_ETH_Flow_Points", "ATT_NAME"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

@@ -193,12 +193,10 @@ public class SpecialModelName {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("$special[property.name]");
-    openapiFields.add("_special_model.name_");
+    openapiFields = new HashSet<String>(Arrays.asList("$special[property.name]", "_special_model.name_"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

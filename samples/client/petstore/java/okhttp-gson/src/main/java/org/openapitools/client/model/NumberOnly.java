@@ -168,11 +168,10 @@ public class NumberOnly {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("JustNumber");
+    openapiFields = new HashSet<String>(Arrays.asList("JustNumber"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

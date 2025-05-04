@@ -272,14 +272,10 @@ public class ObjectWithDeprecatedFields {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("uuid");
-    openapiFields.add("id");
-    openapiFields.add("deprecatedRef");
-    openapiFields.add("bars");
+    openapiFields = new HashSet<String>(Arrays.asList("uuid", "id", "deprecatedRef", "bars"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

@@ -125,14 +125,10 @@ public class Cat extends Animal {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("className");
-    openapiFields.add("color");
-    openapiFields.add("declawed");
+    openapiFields = new HashSet<String>(Arrays.asList("className", "color", "declawed"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("className");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("className"));
   }
 
   /**

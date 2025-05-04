@@ -200,13 +200,10 @@ public class ModelApiResponse implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("code");
-    openapiFields.add("type");
-    openapiFields.add("message");
+    openapiFields = new HashSet<String>(Arrays.asList("code", "type", "message"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

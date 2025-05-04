@@ -438,16 +438,10 @@ public class EnumTest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("enum_string");
-    openapiFields.add("enum_string_required");
-    openapiFields.add("enum_integer");
-    openapiFields.add("enum_number");
-    openapiFields.add("outerEnum");
+    openapiFields = new HashSet<String>(Arrays.asList("enum_string", "enum_string_required", "enum_integer", "enum_number", "outerEnum"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("enum_string_required");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("enum_string_required"));
   }
 
   /**
