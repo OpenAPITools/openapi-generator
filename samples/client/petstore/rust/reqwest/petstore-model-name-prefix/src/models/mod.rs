@@ -48,6 +48,8 @@ pub mod foo_user;
 pub use self::foo_user::FooUser;
 pub mod foo_vehicle;
 pub use self::foo_vehicle::FooVehicle;
+pub mod foo_with_inner_one_of;
+pub use self::foo_with_inner_one_of::FooWithInnerOneOf;
 use serde::{Deserialize, Deserializer, Serializer};
 use serde_with::{de::DeserializeAsWrap, ser::SerializeAsWrap, DeserializeAs, SerializeAs};
 use std::marker::PhantomData;

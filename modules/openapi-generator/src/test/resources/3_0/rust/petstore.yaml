@@ -1107,3 +1107,16 @@ components:
           allOf:
             - $ref: '#/components/schemas/existing_tags_array'
             - description: This is a test for allOf with metadata only fields
+    DuplicateOneOf:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/Order'
+        - $ref: '#/components/schemas/Order'
+    WithInnerOneOf:
+      type: object
+      properties:
+        foo:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/Order'
+            - $ref: '#/components/schemas/Order'
