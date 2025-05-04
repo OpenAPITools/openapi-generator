@@ -21,7 +21,6 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
     %__MODULE__{}
     |> Ecto.Changeset.cast(params, [:uuid, :id, :bars])
     |> Ecto.Changeset.validate_required([])
-
     |> Ecto.Changeset.cast_embed(:deprecatedRef)
     |> Ecto.Changeset.apply_action!(:insert)
   end

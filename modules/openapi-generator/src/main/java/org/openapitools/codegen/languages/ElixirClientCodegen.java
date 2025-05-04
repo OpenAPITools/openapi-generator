@@ -888,6 +888,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     class ExtendedCodegenModel extends CodegenModel {
         public boolean hasImports;
+        public List<CodegenProperty> primitiveVars = new ArrayList<>();
+        public List<CodegenProperty> complexVars = new ArrayList<>();
 
         public ExtendedCodegenModel(CodegenModel cm) {
             super();
@@ -941,6 +943,14 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.additionalPropertiesType = cm.additionalPropertiesType;
 
             this.hasImports = !this.imports.isEmpty();
+
+            for (CodegenProperty var : this.vars) {
+                if (var.isPrimitiveType) {
+                    this.primitiveVars.add(var);
+                } else {
+                    this.complexVars.add(var);
+                }
+            }
         }
 
         public boolean hasComplexVars() {

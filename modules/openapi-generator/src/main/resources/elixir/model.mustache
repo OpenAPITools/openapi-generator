@@ -21,11 +21,12 @@
   @spec new(map()) :: t()
   def new(params) do
     %__MODULE__{}
-    |> Ecto.Changeset.cast(params, [{{#vars}}{{#isPrimitiveType}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/isPrimitiveType}}{{/vars}}])
-    |> Ecto.Changeset.validate_required([{{#vars}}{{#isPrimitiveType}}{{#required}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/required}}{{/isPrimitiveType}}{{/vars}}])
-{{#vars}}{{^isPrimitiveType}}
+    |> Ecto.Changeset.cast(params, [{{#primitiveVars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/primitiveVars}}])
+    |> Ecto.Changeset.validate_required([{{#primitiveVars}}{{#required}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/required}}{{/primitiveVars}}])
+    {{#complexVars}}
     |> Ecto.Changeset.cast_embed({{#atom}}{{&baseName}}{{/atom}}{{#required}}, required: true{{/required}})
-{{/isPrimitiveType}}{{/vars}}    |> Ecto.Changeset.apply_action!(:insert)
+    {{/complexVars}}
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 {{/model}}{{/models}}

@@ -18,7 +18,6 @@ defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
     %__MODULE__{}
     |> Ecto.Changeset.cast(params, [])
     |> Ecto.Changeset.validate_required([])
-
     |> Ecto.Changeset.cast_embed(:value, required: true)
     |> Ecto.Changeset.apply_action!(:insert)
   end

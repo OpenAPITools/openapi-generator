@@ -18,7 +18,6 @@ defmodule OpenapiPetstore.Model.FooGetDefaultResponse do
     %__MODULE__{}
     |> Ecto.Changeset.cast(params, [])
     |> Ecto.Changeset.validate_required([])
-
     |> Ecto.Changeset.cast_embed(:string)
     |> Ecto.Changeset.apply_action!(:insert)
   end

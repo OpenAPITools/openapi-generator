@@ -19,9 +19,7 @@ defmodule OpenapiPetstore.Model.FileSchemaTestClass do
     %__MODULE__{}
     |> Ecto.Changeset.cast(params, [])
     |> Ecto.Changeset.validate_required([])
-
     |> Ecto.Changeset.cast_embed(:file)
-
     |> Ecto.Changeset.cast_embed(:files)
     |> Ecto.Changeset.apply_action!(:insert)
   end

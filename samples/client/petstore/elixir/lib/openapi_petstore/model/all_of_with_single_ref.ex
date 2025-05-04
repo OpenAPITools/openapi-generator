@@ -17,9 +17,8 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   @spec new(map()) :: t()
   def new(params) do
     %__MODULE__{}
-    |> Ecto.Changeset.cast(params, [:username, ])
+    |> Ecto.Changeset.cast(params, [:username])
     |> Ecto.Changeset.validate_required([])
-
     |> Ecto.Changeset.cast_embed(:SingleRefType)
     |> Ecto.Changeset.apply_action!(:insert)
   end

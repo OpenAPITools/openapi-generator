@@ -18,9 +18,8 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   @spec new(map()) :: t()
   def new(params) do
     %__MODULE__{}
-    |> Ecto.Changeset.cast(params, [:uuid, :dateTime, ])
+    |> Ecto.Changeset.cast(params, [:uuid, :dateTime])
     |> Ecto.Changeset.validate_required([])
-
     |> Ecto.Changeset.cast_embed(:map)
     |> Ecto.Changeset.apply_action!(:insert)
   end
