@@ -204,6 +204,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         typeMapping.put("integer", "integer()");
         typeMapping.put("boolean", "boolean()");
         typeMapping.put("array", "list()");
+        typeMapping.put("set", "list()");
         typeMapping.put("object", "map()");
         typeMapping.put("map", "map()");
         typeMapping.put("null", "nil");

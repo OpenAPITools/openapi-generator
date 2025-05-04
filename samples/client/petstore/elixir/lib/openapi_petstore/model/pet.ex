@@ -22,7 +22,7 @@ defmodule OpenapiPetstore.Model.Pet do
     field :id, :integer
     embeds_one :category, OpenapiPetstore.Model.Category
     field :name, :string
-    field :photoUrls, :any, virtual: true
+    field :photoUrls, {:array, :string}
     embeds_many :tags, OpenapiPetstore.Model.Tag
     field :status, :string
   end
