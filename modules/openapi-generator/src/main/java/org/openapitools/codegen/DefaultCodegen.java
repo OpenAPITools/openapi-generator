@@ -4834,11 +4834,6 @@ public class DefaultCodegen implements CodegenConfig {
         // legacy support
         op.nickname = op.operationId;
 
-        if (op.allParams.size() > 0) {
-            op.hasParams = true;
-        }
-        op.hasRequiredParams = op.requiredParams.size() > 0;
-
         // check if the operation has only a single parameter
         op.hasSingleParam = op.allParams.size() == 1;
 
@@ -8678,6 +8673,5 @@ public class DefaultCodegen implements CodegenConfig {
                 operation.allParams.add(p);
             }
         }
-        operation.hasParams = !operation.allParams.isEmpty();
     }
 }
