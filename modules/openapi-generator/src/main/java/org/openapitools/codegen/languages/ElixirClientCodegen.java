@@ -62,7 +62,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
     List<String> deps = Arrays.asList(
             "{:tesla, \"~> 1.14\"}",
             "{:ex_doc, \"~> 0.37.3\", only: :dev, runtime: false}",
-            "{:dialyxir, \"~> 1.3\", only: [:dev, :test], runtime: false}");
+            "{:dialyxir, \"~> 1.4\", only: [:dev, :test], runtime: false}");
 
     public ElixirClientCodegen() {
         super();
