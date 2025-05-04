@@ -4834,6 +4834,8 @@ public class DefaultCodegen implements CodegenConfig {
         // legacy support
         op.nickname = op.operationId;
 
+        op.hasRequiredParams = op.requiredParams.size() > 0;
+
         // check if the operation has only a single parameter
         op.hasSingleParam = op.allParams.size() == 1;
 

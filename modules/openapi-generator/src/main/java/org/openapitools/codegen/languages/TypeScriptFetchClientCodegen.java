@@ -1380,6 +1380,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.hasConsumes = o.hasConsumes;
             this.hasProduces = o.hasProduces;
             this.hasOptionalParams = o.hasOptionalParams;
+            this.hasRequiredParams = o.hasRequiredParams;
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;

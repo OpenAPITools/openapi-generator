@@ -24,7 +24,7 @@ import java.util.*;
 
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
-    public boolean hasAuthMethods, hasConsumes, hasProduces, hasOptionalParams,
+    public boolean hasAuthMethods, hasConsumes, hasProduces, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isArray, isMultipart, isVoid = false,
             hasVersionHeaders = false, hasVersionQueryParams = false,
@@ -372,6 +372,7 @@ public class CodegenOperation {
         sb.append(", hasConsumes=").append(hasConsumes);
         sb.append(", hasProduces=").append(hasProduces);
         sb.append(", hasOptionalParams=").append(hasOptionalParams);
+        sb.append(", hasRequiredParams=").append(hasRequiredParams);
         sb.append(", returnTypeIsPrimitive=").append(returnTypeIsPrimitive);
         sb.append(", returnSimpleType=").append(returnSimpleType);
         sb.append(", subresourceOperation=").append(subresourceOperation);
@@ -453,6 +454,7 @@ public class CodegenOperation {
                 hasConsumes == that.hasConsumes &&
                 hasProduces == that.hasProduces &&
                 hasOptionalParams == that.hasOptionalParams &&
+                hasRequiredParams == that.hasRequiredParams &&
                 returnTypeIsPrimitive == that.returnTypeIsPrimitive &&
                 returnSimpleType == that.returnSimpleType &&
                 subresourceOperation == that.subresourceOperation &&
@@ -528,7 +530,7 @@ public class CodegenOperation {
     public int hashCode() {
 
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasOptionalParams,
-                returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
+                hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
                 isArray, isMultipart, isVoid, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
                 hasDefaultResponse, hasOnlyDefaultResponse, isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
                 isRestful, isDeprecated, isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod,
