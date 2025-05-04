@@ -952,15 +952,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 }
             }
         }
-
-        public boolean hasComplexVars() {
-            for (CodegenProperty p : vars) {
-                if (!p.isPrimitiveType) {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 
     class ExtendedCodegenProperty extends CodegenProperty {
