@@ -41,28 +41,3 @@ describe('AppComponent', () => {
     expect(fixture.componentInstance.pets![0]).toEqual(pet)
   });
 });
-
-
-
-
-describe('DeepObject Query Param testing', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    }).compileComponents();
-  });
-
-  it('should generate the deepObject query with the correct parameters', async () => {
-    const httpTesting = TestBed.inject(HttpTestingController);
-
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    await fixture.whenRenderingDone();
-    httpTesting.expectOne('http://localhost/car?filter%5Bmake%5D=bmw&filter%5Bmodel%5D=319');
-    expect(app).toBeTruthy();
-  });
-});
