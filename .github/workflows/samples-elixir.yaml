@@ -9,7 +9,6 @@ on:
       - samples/client/petstore/elixir/**
 jobs:
   build:
-    name: Build Elixir projects
     runs-on: ubuntu-latest
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:

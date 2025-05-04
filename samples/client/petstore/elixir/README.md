@@ -45,4 +45,3 @@ client = OpenapiPetstore.Connection.new(base_url: "http://petstore.swagger.io:80
 [hexdocs]: https://hexdocs.pm
 [available in hex]: https://hex.pm/docs/publish
 [docs]: https://hexdocs.pm/openapi_petstore
-
