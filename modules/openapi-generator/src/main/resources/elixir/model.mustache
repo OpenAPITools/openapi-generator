@@ -27,7 +27,7 @@
   def new(params) do
     %__MODULE__{}
     |> Ecto.Changeset.cast(params, [{{#primitiveVars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/primitiveVars}}])
-    |> Ecto.Changeset.validate_required([{{#primitiveVars}}{{#required}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/required}}{{/primitiveVars}}])
+    |> Ecto.Changeset.validate_required([{{#requiredPrimitiveVars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/requiredPrimitiveVars}}])
     {{#complexVars}}
     |> Ecto.Changeset.cast_embed({{#atom}}{{&baseName}}{{/atom}}{{#required}}, required: true{{/required}})
     {{/complexVars}}

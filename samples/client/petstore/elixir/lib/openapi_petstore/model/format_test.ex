@@ -51,7 +51,7 @@ defmodule OpenapiPetstore.Model.FormatTest do
   def new(params) do
     %__MODULE__{}
     |> Ecto.Changeset.cast(params, [:integer, :int32, :int64, :number, :float, :double, :decimal, :string, :byte, :binary, :date, :dateTime, :uuid, :password, :pattern_with_digits, :pattern_with_digits_and_delimiter])
-    |> Ecto.Changeset.validate_required([:number, :byte, :date, :password, ])
+    |> Ecto.Changeset.validate_required([:number, :byte, :date, :password])
     |> Ecto.Changeset.apply_action!(:insert)
   end
 end

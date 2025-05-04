@@ -35,7 +35,7 @@ defmodule OpenapiPetstore.Model.EnumTest do
   def new(params) do
     %__MODULE__{}
     |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number])
-    |> Ecto.Changeset.validate_required([:enum_string_required, ])
+    |> Ecto.Changeset.validate_required([:enum_string_required])
     |> Ecto.Changeset.cast_embed(:outerEnum)
     |> Ecto.Changeset.cast_embed(:outerEnumInteger)
     |> Ecto.Changeset.cast_embed(:outerEnumDefaultValue)

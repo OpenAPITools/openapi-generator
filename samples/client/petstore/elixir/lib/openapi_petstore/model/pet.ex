@@ -31,7 +31,7 @@ defmodule OpenapiPetstore.Model.Pet do
   def new(params) do
     %__MODULE__{}
     |> Ecto.Changeset.cast(params, [:id, :name, :photoUrls, :status])
-    |> Ecto.Changeset.validate_required([:name, :photoUrls, ])
+    |> Ecto.Changeset.validate_required([:name, :photoUrls])
     |> Ecto.Changeset.cast_embed(:category)
     |> Ecto.Changeset.cast_embed(:tags)
     |> Ecto.Changeset.apply_action!(:insert)

@@ -25,7 +25,7 @@ defmodule OpenapiPetstore.Model.Dog do
   def new(params) do
     %__MODULE__{}
     |> Ecto.Changeset.cast(params, [:className, :color, :breed])
-    |> Ecto.Changeset.validate_required([:className, ])
+    |> Ecto.Changeset.validate_required([:className])
     |> Ecto.Changeset.apply_action!(:insert)
   end
 end

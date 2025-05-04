@@ -27,7 +27,7 @@ defmodule OpenapiPetstore.Model.Name do
   def new(params) do
     %__MODULE__{}
     |> Ecto.Changeset.cast(params, [:name, :snake_case, :property, :"123Number"])
-    |> Ecto.Changeset.validate_required([:name, ])
+    |> Ecto.Changeset.validate_required([:name])
     |> Ecto.Changeset.apply_action!(:insert)
   end
 end
