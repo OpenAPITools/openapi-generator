@@ -58,8 +58,8 @@ public interface PetApi {
         description = "",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation"),
-            @ApiResponse(responseCode = "405", description = "Invalid input")
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content),
+            @ApiResponse(responseCode = "405", description = "Invalid input", content = @Content)
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
@@ -93,8 +93,8 @@ public interface PetApi {
         description = "",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation"),
-            @ApiResponse(responseCode = "400", description = "Invalid pet value")
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid pet value", content = @Content)
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
@@ -134,7 +134,7 @@ public interface PetApi {
                 @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Pet.class))),
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Pet.class)))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid status value")
+            @ApiResponse(responseCode = "400", description = "Invalid status value", content = @Content)
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
@@ -189,7 +189,7 @@ public interface PetApi {
                 @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Pet.class))),
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Pet.class)))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid tag value")
+            @ApiResponse(responseCode = "400", description = "Invalid tag value", content = @Content)
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
@@ -242,8 +242,8 @@ public interface PetApi {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            @ApiResponse(responseCode = "404", description = "Pet not found")
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Pet not found", content = @Content)
         },
         security = {
             @SecurityRequirement(name = "api_key")
@@ -293,10 +293,10 @@ public interface PetApi {
         description = "",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation"),
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            @ApiResponse(responseCode = "404", description = "Pet not found"),
-            @ApiResponse(responseCode = "405", description = "Validation exception")
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Pet not found", content = @Content),
+            @ApiResponse(responseCode = "405", description = "Validation exception", content = @Content)
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
@@ -331,7 +331,7 @@ public interface PetApi {
         description = "",
         tags = { "pet" },
         responses = {
-            @ApiResponse(responseCode = "405", description = "Invalid input")
+            @ApiResponse(responseCode = "405", description = "Invalid input", content = @Content)
         },
         security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
