@@ -388,8 +388,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     }
 
     @Override
-    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, servers);
+    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, contentTypeIndex, operation, servers);
 
         String path = pathToYesodPath(op.path, op.pathParams);
         String resource = pathToYesodResource(op.path, op.pathParams);

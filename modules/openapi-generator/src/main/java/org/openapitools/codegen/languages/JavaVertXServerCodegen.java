@@ -224,9 +224,9 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(String path, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers) {
         CodegenOperation codegenOperation =
-                super.fromOperation(path, httpMethod, operation, servers);
+                super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
         codegenOperation.imports.add("MainApiException");
         return codegenOperation;
     }

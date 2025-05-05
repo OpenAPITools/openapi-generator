@@ -507,8 +507,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
 
     @Override
-    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, servers);
+    public CodegenOperation fromOperation(String resourcePath, String httpMethod,Integer contentTypeIndex, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, contentTypeIndex, operation, servers);
 
         List<String> path = pathToServantRoute(op.path, op.pathParams);
         List<String> type = pathToClientType(op.path, op.pathParams);
