@@ -26,7 +26,7 @@ and open your browser at `http://localhost:8080/docs/` to see the docs.
 To run the server on a Docker container, please execute the following from the root directory:
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 ## Tests
