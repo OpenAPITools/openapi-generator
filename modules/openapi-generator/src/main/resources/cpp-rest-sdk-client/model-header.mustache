@@ -185,8 +185,11 @@ public:
     {{#isEnum}}
     enum class {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}
     {
-        {{#allowableValues}}{{#enumVars}}{{value}},
-        {{/enumVars}}{{/allowableValues}}
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{{name}}}{{^last}},{{/last}}
+        {{/enumVars}}
+        {{/allowableValues}}
     };
     {{#description}}
     /// <summary>
