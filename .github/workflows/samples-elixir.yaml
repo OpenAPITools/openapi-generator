@@ -17,6 +17,14 @@ jobs:
         elixir: ['1.18.3']
         sample:
           - samples/client/petstore/elixir/
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
