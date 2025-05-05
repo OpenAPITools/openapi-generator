@@ -426,4 +426,31 @@ public interface FakeApiDelegate {
 
     }
 
+    /**
+     * POST /fake/{petId}/uploadImageWithOptionalBody : uploads an image (required)
+     * 
+     *
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param optionalFile file to upload (optional)
+     * @return successful operation (status code 200)
+     * @see FakeApi#uploadImageWithOptionalBody
+     */
+    default Mono<ModelApiResponse> uploadImageWithOptionalBody(Long petId,
+        String additionalMetadata,
+        Flux<Part> optionalFile,
+        ServerWebExchange exchange) {
+        Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
+                break;
+            }
+        }
+        return result.then(Mono.empty());
+
+    }
+
 }

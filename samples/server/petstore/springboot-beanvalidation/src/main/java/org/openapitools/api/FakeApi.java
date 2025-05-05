@@ -713,4 +713,55 @@ public interface FakeApi {
 
     }
 
+
+    /**
+     * POST /fake/{petId}/uploadImageWithOptionalBody : uploads an image (required)
+     * 
+     *
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param optionalFile file to upload (optional)
+     * @return successful operation (status code 200)
+     */
+    @ApiOperation(
+        tags = { "pet" },
+        value = "uploads an image (required)",
+        nickname = "uploadImageWithOptionalBody",
+        notes = "",
+        response = ModelApiResponse.class,
+        authorizations = {
+            @Authorization(value = "petstore_auth", scopes = {
+                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+                @AuthorizationScope(scope = "read:pets", description = "read your pets")
+            })
+         }
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
+    })
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/fake/{petId}/uploadImageWithOptionalBody",
+        produces = { "application/json" },
+        consumes = { "multipart/form-data" }
+    )
+    
+    default ResponseEntity<ModelApiResponse> uploadImageWithOptionalBody(
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+        @ApiParam(value = "file to upload") @RequestPart(value = "optionalFile", required = false) MultipartFile optionalFile
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
 }

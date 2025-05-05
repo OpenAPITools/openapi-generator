@@ -651,4 +651,43 @@ public interface FakeApi {
         return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
     }
 
+
+    /**
+     * POST /fake/{petId}/uploadImageWithOptionalBody : uploads an image (required)
+     * 
+     *
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param optionalFile file to upload (optional)
+     * @return successful operation (status code 200)
+     */
+    @Operation(
+        operationId = "uploadImageWithOptionalBody",
+        summary = "uploads an image (required)",
+        description = "",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/fake/{petId}/uploadImageWithOptionalBody",
+        produces = { "application/json" },
+        consumes = { "multipart/form-data" }
+    )
+    
+    default ResponseEntity<ModelApiResponse> uploadImageWithOptionalBody(
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+        @Parameter(name = "optionalFile", description = "file to upload") @RequestPart(value = "optionalFile", required = false) MultipartFile optionalFile
+    ) {
+        return getDelegate().uploadImageWithOptionalBody(petId, additionalMetadata, optionalFile);
+    }
+
 }
