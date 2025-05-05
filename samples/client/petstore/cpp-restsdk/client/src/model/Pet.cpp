@@ -236,15 +236,15 @@ Pet::StatusEnum Pet::toStatusEnum(const utility::string_t& value) const
 {
     
     if (value == utility::conversions::to_string_t("available")) {
-        return StatusEnum::available;
+        return StatusEnum::AVAILABLE;
     }
     
     if (value == utility::conversions::to_string_t("pending")) {
-        return StatusEnum::pending;
+        return StatusEnum::PENDING;
     }
     
     if (value == utility::conversions::to_string_t("sold")) {
-        return StatusEnum::sold;
+        return StatusEnum::SOLD;
     }
     
     throw std::invalid_argument("Invalid value for conversion to StatusEnum");
@@ -256,11 +256,11 @@ const utility::string_t Pet::fromStatusEnum(const StatusEnum value) const
     switch(value)
     {
         
-        case StatusEnum::available: return utility::conversions::to_string_t("available");
+        case StatusEnum::AVAILABLE: return utility::conversions::to_string_t("available");
         
-        case StatusEnum::pending: return utility::conversions::to_string_t("pending");
+        case StatusEnum::PENDING: return utility::conversions::to_string_t("pending");
         
-        case StatusEnum::sold: return utility::conversions::to_string_t("sold");
+        case StatusEnum::SOLD: return utility::conversions::to_string_t("sold");
         
     }
 }
