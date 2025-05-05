@@ -115,61 +115,61 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [DataMember(Name = "integer", EmitDefaultValue = false)]
-        public int Integer { get; set; }
+        public int? Integer { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [DataMember(Name = "int32", EmitDefaultValue = false)]
-        public int Int32 { get; set; }
+        public int? Int32 { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32Range
         /// </summary>
         [DataMember(Name = "int32Range", EmitDefaultValue = false)]
-        public int Int32Range { get; set; }
+        public int? Int32Range { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64Positive
         /// </summary>
         [DataMember(Name = "int64Positive", EmitDefaultValue = false)]
-        public long Int64Positive { get; set; }
+        public long? Int64Positive { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64Negative
         /// </summary>
         [DataMember(Name = "int64Negative", EmitDefaultValue = false)]
-        public long Int64Negative { get; set; }
+        public long? Int64Negative { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64PositiveExclusive
         /// </summary>
         [DataMember(Name = "int64PositiveExclusive", EmitDefaultValue = false)]
-        public long Int64PositiveExclusive { get; set; }
+        public long? Int64PositiveExclusive { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64NegativeExclusive
         /// </summary>
         [DataMember(Name = "int64NegativeExclusive", EmitDefaultValue = false)]
-        public long Int64NegativeExclusive { get; set; }
+        public long? Int64NegativeExclusive { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedInteger
         /// </summary>
         [DataMember(Name = "unsigned_integer", EmitDefaultValue = false)]
-        public uint UnsignedInteger { get; set; }
+        public uint? UnsignedInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
-        public long Int64 { get; set; }
+        public long? Int64 { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedLong
         /// </summary>
         [DataMember(Name = "unsigned_long", EmitDefaultValue = false)]
-        public ulong UnsignedLong { get; set; }
+        public ulong? UnsignedLong { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
@@ -181,25 +181,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float Float { get; set; }
+        public float? Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double Double { get; set; }
+        public double? Double { get; set; }
 
         /// <summary>
         /// Gets or Sets Decimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
-        public decimal Decimal { get; set; }
+        public decimal? Decimal { get; set; }
 
         /// <summary>
         /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public string String { get; set; }
+        public string? String { get; set; }
 
         /// <summary>
         /// Gets or Sets Byte
@@ -211,7 +211,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Binary
         /// </summary>
         [DataMember(Name = "binary", EmitDefaultValue = false)]
-        public FileParameter Binary { get; set; }
+        public FileParameter? Binary { get; set; }
 
         /// <summary>
         /// Gets or Sets Date
@@ -229,7 +229,7 @@ namespace Org.OpenAPITools.Model
         <example>2007-12-03T10:15:30+01:00</example>
         */
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
-        public DateTime DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
@@ -238,7 +238,7 @@ namespace Org.OpenAPITools.Model
         <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         */
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public Guid Uuid { get; set; }
+        public Guid? Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Password
@@ -251,27 +251,27 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [DataMember(Name = "pattern_with_digits", EmitDefaultValue = false)]
-        public string PatternWithDigits { get; set; }
+        public string? PatternWithDigits { get; set; }
 
         /// <summary>
         /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [DataMember(Name = "pattern_with_digits_and_delimiter", EmitDefaultValue = false)]
-        public string PatternWithDigitsAndDelimiter { get; set; }
+        public string? PatternWithDigitsAndDelimiter { get; set; }
 
         /// <summary>
         /// None
         /// </summary>
         /// <value>None</value>
         [DataMember(Name = "pattern_with_backslash", EmitDefaultValue = false)]
-        public string PatternWithBackslash { get; set; }
+        public string? PatternWithBackslash { get; set; }
 
         /// <summary>
         /// Gets or Sets StringFormattedAsDecimal
         /// </summary>
         [DataMember(Name = "string_formatted_as_decimal", EmitDefaultValue = false)]
-        public decimal StringFormattedAsDecimal { get; set; }
+        public decimal? StringFormattedAsDecimal { get; set; }
 
         /// <summary>
         /// Gets or Sets StringFormattedAsDecimalRequired
@@ -362,20 +362,59 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Integer.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int32.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int32Range.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64Positive.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64Negative.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64PositiveExclusive.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64NegativeExclusive.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
+                if (this.Integer != null)
+                {
+                    hashCode = (hashCode * 59) + this.Integer.GetHashCode();
+                }
+                if (this.Int32 != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int32.GetHashCode();
+                }
+                if (this.Int32Range != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int32Range.GetHashCode();
+                }
+                if (this.Int64Positive != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64Positive.GetHashCode();
+                }
+                if (this.Int64Negative != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64Negative.GetHashCode();
+                }
+                if (this.Int64PositiveExclusive != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64PositiveExclusive.GetHashCode();
+                }
+                if (this.Int64NegativeExclusive != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64NegativeExclusive.GetHashCode();
+                }
+                if (this.UnsignedInteger != null)
+                {
+                    hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
+                }
+                if (this.Int64 != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64.GetHashCode();
+                }
+                if (this.UnsignedLong != null)
+                {
+                    hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.Float.GetHashCode();
-                hashCode = (hashCode * 59) + this.Double.GetHashCode();
-                hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
+                if (this.Float != null)
+                {
+                    hashCode = (hashCode * 59) + this.Float.GetHashCode();
+                }
+                if (this.Double != null)
+                {
+                    hashCode = (hashCode * 59) + this.Double.GetHashCode();
+                }
+                if (this.Decimal != null)
+                {
+                    hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
+                }
                 if (this.String != null)
                 {
                     hashCode = (hashCode * 59) + this.String.GetHashCode();
@@ -416,7 +455,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
+                if (this.StringFormattedAsDecimal != null)
+                {
+                    hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.StringFormattedAsDecimalRequired.GetHashCode();
                 if (this.AdditionalProperties != null)
                 {
@@ -433,74 +475,74 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // Integer (int) maximum
-            if (this.Integer > (int)100)
+            // Integer (int?) maximum
+            if (this.Integer > (int?)100)
             {
                 yield return new ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
             }
 
-            // Integer (int) minimum
-            if (this.Integer < (int)10)
+            // Integer (int?) minimum
+            if (this.Integer < (int?)10)
             {
                 yield return new ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
-            // Int32 (int) maximum
-            if (this.Int32 > (int)200)
+            // Int32 (int?) maximum
+            if (this.Int32 > (int?)200)
             {
                 yield return new ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
             }
 
-            // Int32 (int) minimum
-            if (this.Int32 < (int)20)
+            // Int32 (int?) minimum
+            if (this.Int32 < (int?)20)
             {
                 yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
-            // Int32Range (int) maximum
-            if (this.Int32Range > (int)2147483647)
+            // Int32Range (int?) maximum
+            if (this.Int32Range > (int?)2147483647)
             {
                 yield return new ValidationResult("Invalid value for Int32Range, must be a value less than or equal to 2147483647.", new [] { "Int32Range" });
             }
 
-            // Int32Range (int) minimum
-            if (this.Int32Range < (int)-2147483648)
+            // Int32Range (int?) minimum
+            if (this.Int32Range < (int?)-2147483648)
             {
                 yield return new ValidationResult("Invalid value for Int32Range, must be a value greater than or equal to -2147483648.", new [] { "Int32Range" });
             }
 
-            // Int64Positive (long) minimum
-            if (this.Int64Positive < (long)2147483648)
+            // Int64Positive (long?) minimum
+            if (this.Int64Positive < (long?)2147483648)
             {
                 yield return new ValidationResult("Invalid value for Int64Positive, must be a value greater than or equal to 2147483648.", new [] { "Int64Positive" });
             }
 
-            // Int64Negative (long) maximum
-            if (this.Int64Negative > (long)-2147483649)
+            // Int64Negative (long?) maximum
+            if (this.Int64Negative > (long?)-2147483649)
             {
                 yield return new ValidationResult("Invalid value for Int64Negative, must be a value less than or equal to -2147483649.", new [] { "Int64Negative" });
             }
 
-            // Int64PositiveExclusive (long) minimum
-            if (this.Int64PositiveExclusive < (long)2147483647)
+            // Int64PositiveExclusive (long?) minimum
+            if (this.Int64PositiveExclusive < (long?)2147483647)
             {
                 yield return new ValidationResult("Invalid value for Int64PositiveExclusive, must be a value greater than 2147483647.", new [] { "Int64PositiveExclusive" });
             }
 
-            // Int64NegativeExclusive (long) maximum
-            if (this.Int64NegativeExclusive <= (long)-2147483648)
+            // Int64NegativeExclusive (long?) maximum
+            if (this.Int64NegativeExclusive <= (long?)-2147483648)
             {
                 yield return new ValidationResult("Invalid value for Int64NegativeExclusive, must be a value less than -2147483648.", new [] { "Int64NegativeExclusive" });
             }
 
-            // UnsignedInteger (uint) maximum
-            if (this.UnsignedInteger > (uint)200)
+            // UnsignedInteger (uint?) maximum
+            if (this.UnsignedInteger > (uint?)200)
             {
                 yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
             }
 
-            // UnsignedInteger (uint) minimum
-            if (this.UnsignedInteger < (uint)20)
+            // UnsignedInteger (uint?) minimum
+            if (this.UnsignedInteger < (uint?)20)
             {
                 yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
             }
@@ -517,32 +559,32 @@ namespace Org.OpenAPITools.Model
                 yield return new ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
-            // Float (float) maximum
-            if (this.Float > (float)987.6)
+            // Float (float?) maximum
+            if (this.Float > (float?)987.6)
             {
                 yield return new ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
             }
 
-            // Float (float) minimum
-            if (this.Float < (float)54.3)
+            // Float (float?) minimum
+            if (this.Float < (float?)54.3)
             {
                 yield return new ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
             }
 
-            // Double (double) maximum
-            if (this.Double > (double)123.4)
+            // Double (double?) maximum
+            if (this.Double > (double?)123.4)
             {
                 yield return new ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
             }
 
-            // Double (double) minimum
-            if (this.Double < (double)67.8)
+            // Double (double?) minimum
+            if (this.Double < (double?)67.8)
             {
                 yield return new ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
             }
 
             if (this.String != null) {
-                // String (string) pattern
+                // String (string?) pattern
                 Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
                 if (!regexString.Match(this.String).Success)
                 {
@@ -563,7 +605,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (this.PatternWithDigits != null) {
-                // PatternWithDigits (string) pattern
+                // PatternWithDigits (string?) pattern
                 Regex regexPatternWithDigits = new Regex(@"^\d{10}$", RegexOptions.CultureInvariant);
                 if (!regexPatternWithDigits.Match(this.PatternWithDigits).Success)
                 {
@@ -572,7 +614,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (this.PatternWithDigitsAndDelimiter != null) {
-                // PatternWithDigitsAndDelimiter (string) pattern
+                // PatternWithDigitsAndDelimiter (string?) pattern
                 Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
                 if (!regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
                 {
@@ -581,7 +623,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (this.PatternWithBackslash != null) {
-                // PatternWithBackslash (string) pattern
+                // PatternWithBackslash (string?) pattern
                 Regex regexPatternWithBackslash = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$", RegexOptions.CultureInvariant);
                 if (!regexPatternWithBackslash.Match(this.PatternWithBackslash).Success)
                 {

@@ -45,13 +45,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets RoleUuid
         /// </summary>
         [DataMember(Name = "role_uuid", EmitDefaultValue = false)]
-        public Guid RoleUuid { get; set; }
+        public Guid? RoleUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Role
         /// </summary>
         [DataMember(Name = "role", EmitDefaultValue = false)]
-        public RolesReportsHashRole Role { get; set; }
+        public RolesReportsHashRole? Role { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
