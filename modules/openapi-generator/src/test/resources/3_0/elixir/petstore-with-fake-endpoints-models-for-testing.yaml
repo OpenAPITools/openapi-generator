@@ -1361,6 +1361,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/AllOfWithSingleRef"
 servers:
+  - url: "https://petstore.swagger.io/v2"
   - url: "http://{server}.swagger.io:{port}/v2"
     description: petstore server
     variables:
