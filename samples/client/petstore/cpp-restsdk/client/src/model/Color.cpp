@@ -24,15 +24,15 @@ using EnumUnderlyingType = utility::string_t;
 
 Color::eColor toEnum(const EnumUnderlyingType& val)
 {
-    if (val == utility::conversions::to_string_t(U("black")))
+    if (val == utility::conversions::to_string_t(_XPLATSTR("black")))
         return Color::eColor::Color_BLACK;
-    if (val == utility::conversions::to_string_t(U("white")))
+    if (val == utility::conversions::to_string_t(_XPLATSTR("white")))
         return Color::eColor::Color_WHITE;
-    if (val == utility::conversions::to_string_t(U("brown")))
+    if (val == utility::conversions::to_string_t(_XPLATSTR("brown")))
         return Color::eColor::Color_BROWN;
-    if (val == utility::conversions::to_string_t(U("golden")))
+    if (val == utility::conversions::to_string_t(_XPLATSTR("golden")))
         return Color::eColor::Color_GOLDEN;
-    if (val == utility::conversions::to_string_t(U("mixed")))
+    if (val == utility::conversions::to_string_t(_XPLATSTR("mixed")))
         return Color::eColor::Color_MIXED;
     return {};
 }
@@ -42,15 +42,15 @@ EnumUnderlyingType fromEnum(Color::eColor e)
     switch (e)
     {
     case Color::eColor::Color_BLACK:
-        return U("black");
+        return _XPLATSTR("black");
     case Color::eColor::Color_WHITE:
-        return U("white");
+        return _XPLATSTR("white");
     case Color::eColor::Color_BROWN:
-        return U("brown");
+        return _XPLATSTR("brown");
     case Color::eColor::Color_GOLDEN:
-        return U("golden");
+        return _XPLATSTR("golden");
     case Color::eColor::Color_MIXED:
-        return U("mixed");
+        return _XPLATSTR("mixed");
     default:
         break;
     }
@@ -86,9 +86,9 @@ bool Color::fromJson(const web::json::value& val)
 void Color::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if (!namePrefix.empty() && namePrefix.back() != U('.'))
+    if (!namePrefix.empty() && namePrefix.back() != _XPLATSTR('.'))
     {
-        namePrefix.push_back(U('.'));
+        namePrefix.push_back(_XPLATSTR('.'));
     }
 
     auto e = fromEnum(m_value);
@@ -99,9 +99,9 @@ bool Color::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const ut
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if (!namePrefix.empty() && namePrefix.back() != U('.'))
+    if (!namePrefix.empty() && namePrefix.back() != _XPLATSTR('.'))
     {
-        namePrefix.push_back(U('.'));
+        namePrefix.push_back(_XPLATSTR('.'));
     }
     {
         EnumUnderlyingType e;

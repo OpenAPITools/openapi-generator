@@ -82,7 +82,7 @@ using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}util
 {{/isNumeric}}
 {{^isNumeric}}
     {{#enumVars}}
-    if (val == utility::conversions::to_string_t(U("{{{value}}}")))
+    if (val == utility::conversions::to_string_t(_XPLATSTR("{{{value}}}")))
         return {{classname}}::e{{classname}}::{{classname}}_{{name}};
     {{/enumVars}}
 {{/isNumeric}}
@@ -97,7 +97,7 @@ EnumUnderlyingType fromEnum({{classname}}::e{{classname}} e)
     {
 {{#enumVars}}
     case {{classname}}::e{{classname}}::{{classname}}_{{name}}:
-        return {{#isNumeric}}{{value}}{{/isNumeric}}{{^isNumeric}}U("{{value}}"){{/isNumeric}};
+        return {{#isNumeric}}{{value}}{{/isNumeric}}{{^isNumeric}}_XPLATSTR("{{value}}"){{/isNumeric}};
 {{#-last}}
     default:
         break;
@@ -137,9 +137,9 @@ bool {{classname}}::fromJson(const web::json::value& val)
 void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if (!namePrefix.empty() && namePrefix.back() != U('.'))
+    if (!namePrefix.empty() && namePrefix.back() != _XPLATSTR('.'))
     {
-        namePrefix.push_back(U('.'));
+        namePrefix.push_back(_XPLATSTR('.'));
     }
 
     auto e = fromEnum(m_value);
@@ -150,9 +150,9 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if (!namePrefix.empty() && namePrefix.back() != U('.'))
+    if (!namePrefix.empty() && namePrefix.back() != _XPLATSTR('.'))
     {
-        namePrefix.push_back(U('.'));
+        namePrefix.push_back(_XPLATSTR('.'));
     }
     {
         EnumUnderlyingType e;
@@ -231,13 +231,13 @@ web::json::value {{classname}}::toJson() const
         {{#isEnum}}{{#isContainer}}{{#isArray}}
         {{{dataType}}} refVal = from{{{enumName}}}(m_{{name}});
         {{/isArray}}{{#isMap}}
-        val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
+        val[utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
         {{/isMap}}{{/isContainer}}{{^isContainer}}
         utility::string_t refVal = from{{{datatypeWithEnum}}}(m_{{name}});
-        {{/isContainer}}{{^isMap}}val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(refVal);
+        {{/isContainer}}{{^isMap}}val[utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))] = ModelBase::toJson(refVal);
         {{/isMap}}{{/isEnum}}
         {{^isEnum}}
-        val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
+        val[utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
         {{/isEnum}}
     }
     {{/isInherited}}
@@ -254,9 +254,9 @@ bool {{classname}}::fromJson(const web::json::value& val)
     {{/parent}}
     {{#vars}}
     {{^isInherited}}
-    if(val.has_field(utility::conversions::to_string_t(U("{{baseName}}"))))
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("{{baseName}}")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")));
         if(!fieldValue.is_null())
         {
             {{{dataType}}} refVal_{{setter}};
@@ -281,26 +281,26 @@ bool {{classname}}::fromJson(const web::json::value& val)
 void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(_XPLATSTR(".")))
     {
-        namePrefix += utility::conversions::to_string_t(U("."));
+        namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
     {{#vars}}
     if(m_{{name}}IsSet)
     {
         {{^isEnum}}
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), m_{{name}}));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), m_{{name}}));
         {{/isEnum}}
         {{#isEnum}}
 	{{#isContainer}}
 	{{#isArray}}
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), from{{{enumName}}}(m_{{name}})));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), from{{{enumName}}}(m_{{name}})));
         {{/isArray}}{{#isMap}}
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), m_{{name}}));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), m_{{name}}));
         {{/isMap}}
 	{{/isContainer}}
 	{{^isContainer}}
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), from{{{datatypeWithEnum}}}(m_{{name}})));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), from{{{datatypeWithEnum}}}(m_{{name}})));
         {{/isContainer}}
 	{{/isEnum}}
     }
@@ -311,16 +311,16 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(_XPLATSTR(".")))
     {
-        namePrefix += utility::conversions::to_string_t(U("."));
+        namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
 
     {{#vars}}
-    if(multipart->hasContent(utility::conversions::to_string_t(U("{{baseName}}"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))))
     {
         {{{dataType}}} refVal_{{setter}};
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("{{baseName}}"))), refVal_{{setter}} );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))), refVal_{{setter}} );
         {{^isEnum}}
         {{setter}}(refVal_{{setter}});
         {{/isEnum}}
