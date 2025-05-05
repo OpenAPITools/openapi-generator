@@ -72,7 +72,7 @@ using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}util
     {
     {{#enumVars}}
     case {{value}}:
-        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+        return {{classname}}::e{{classname}}::{{name}};
     {{#-last}}
     default:
         break;
@@ -83,7 +83,7 @@ using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}util
 {{^isNumeric}}
     {{#enumVars}}
     if (val == utility::conversions::to_string_t(_XPLATSTR("{{{value}}}")))
-        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+        return {{classname}}::e{{classname}}::{{name}};
     {{/enumVars}}
 {{/isNumeric}}
 {{/allowableValues}}
@@ -96,7 +96,7 @@ EnumUnderlyingType fromEnum({{classname}}::e{{classname}} e)
     switch (e)
     {
 {{#enumVars}}
-    case {{classname}}::e{{classname}}::{{classname}}_{{name}}:
+    case {{classname}}::e{{classname}}::{{name}}:
         return {{#isNumeric}}{{value}}{{/isNumeric}}{{^isNumeric}}_XPLATSTR("{{value}}"){{/isNumeric}};
 {{#-last}}
     default:
