@@ -3606,6 +3606,8 @@ public class JavaClientCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setUseBeanValidation(true);
         codegen.additionalProperties().put(DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, false);
+
+        // Only works for these libraries: jersey3, jersey2, feign, feign-hc5, resttemplate, webclient, restclient native
         // The default, okhttp-gson, relies on isAdditionalPropertiesTrue and doesn't use additionalPropertiesType
         codegen.additionalProperties().put(LIBRARY, JERSEY2);
         new DefaultGenerator().opts(new ClientOptInput()
