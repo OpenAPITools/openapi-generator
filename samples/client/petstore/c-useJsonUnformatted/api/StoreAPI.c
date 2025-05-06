@@ -6,7 +6,7 @@
 
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
-#define MAX_NUMBER_LENGTH_FLOAT 32
+#define TYPICAL_MAX_NUMBER_LENGTH_FLOAT 32
 #define MAX_NUMBER_LENGTH_LONG 21
 
 // Functions for enum RATING for StoreAPI_sendRating

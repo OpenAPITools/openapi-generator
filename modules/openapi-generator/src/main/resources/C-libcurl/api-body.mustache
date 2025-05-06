@@ -6,7 +6,7 @@
 
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
-#define MAX_NUMBER_LENGTH_FLOAT 32
+#define TYPICAL_MAX_NUMBER_LENGTH_FLOAT 32
 #define MAX_NUMBER_LENGTH_LONG 21
 
 {{#operations}}
@@ -250,15 +250,25 @@ end:
         keyQuery_{{{paramName}}} = strdup("{{{baseName}}}");
         {{#isInteger}}
         valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH);
-        snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
+        int s = snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
         {{/isInteger}}
         {{#isFloat}}
-        valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH_FLOAT);
-        snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH_FLOAT, "%f", {{{paramName}}});
+        valueQuery_{{{paramName}}} = calloc(1,TYPICAL_MAX_NUMBER_LENGTH_FLOAT);
+        int s = snprintf(valueQuery_{{{paramName}}}, TYPICAL_MAX_NUMBER_LENGTH_FLOAT, "%.7e", {{{paramName}}});
+        if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
+        {
+            valueQuery_{{{paramName}}} = realloc(valueQuery_{{{paramName}}}, s+1);
+            snprintf(valueQuery_{{{paramName}}}, s+1, "%f", {{{paramName}}});
+        }
         {{/isFloat}}
         {{#isDouble}}
-        valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH_FLOAT);
-        snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH_FLOAT, "%f", {{{paramName}}});
+        valueQuery_{{{paramName}}} = calloc(1,TYPICAL_MAX_NUMBER_LENGTH_FLOAT);
+        int s = snprintf(valueQuery_{{{paramName}}}, TYPICAL_MAX_NUMBER_LENGTH_FLOAT, "%.16e", {{{paramName}}});
+        if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
+        {
+            valueQuery_{{{paramName}}} = realloc(valueQuery_{{{paramName}}}, s+1);
+            snprintf(valueQuery_{{{paramName}}}, s+1, "%f", {{{paramName}}});
+        }
         {{/isDouble}}
         {{#isLong}}
         valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH_LONG);

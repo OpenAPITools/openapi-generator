@@ -6,7 +6,7 @@
 
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
-#define MAX_NUMBER_LENGTH_FLOAT 32
+#define TYPICAL_MAX_NUMBER_LENGTH_FLOAT 32
 #define MAX_NUMBER_LENGTH_LONG 21
 
 
@@ -632,8 +632,13 @@ UserAPI_testInt32Int64FloatDouble(apiClient_t *apiClient, float floatnum, double
     keyValuePair_t *keyPairQuery_floatnum = 0;
     {
         keyQuery_floatnum = strdup("floatnum");
-        valueQuery_floatnum = calloc(1,MAX_NUMBER_LENGTH_FLOAT);
-        snprintf(valueQuery_floatnum, MAX_NUMBER_LENGTH_FLOAT, "%f", floatnum);
+        valueQuery_floatnum = calloc(1,TYPICAL_MAX_NUMBER_LENGTH_FLOAT);
+        int s = snprintf(valueQuery_floatnum, TYPICAL_MAX_NUMBER_LENGTH_FLOAT, "%.7e", floatnum);
+        if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
+        {
+            valueQuery_floatnum = realloc(valueQuery_floatnum, s+1);
+            snprintf(valueQuery_floatnum, s+1, "%f", floatnum);
+        }
         keyPairQuery_floatnum = keyValuePair_create(keyQuery_floatnum, valueQuery_floatnum);
         list_addElement(localVarQueryParameters,keyPairQuery_floatnum);
     }
@@ -644,8 +649,13 @@ UserAPI_testInt32Int64FloatDouble(apiClient_t *apiClient, float floatnum, double
     keyValuePair_t *keyPairQuery_doublenum = 0;
     {
         keyQuery_doublenum = strdup("doublenum");
-        valueQuery_doublenum = calloc(1,MAX_NUMBER_LENGTH_FLOAT);
-        snprintf(valueQuery_doublenum, MAX_NUMBER_LENGTH_FLOAT, "%f", doublenum);
+        valueQuery_doublenum = calloc(1,TYPICAL_MAX_NUMBER_LENGTH_FLOAT);
+        int s = snprintf(valueQuery_doublenum, TYPICAL_MAX_NUMBER_LENGTH_FLOAT, "%.16e", doublenum);
+        if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
+        {
+            valueQuery_doublenum = realloc(valueQuery_doublenum, s+1);
+            snprintf(valueQuery_doublenum, s+1, "%f", doublenum);
+        }
         keyPairQuery_doublenum = keyValuePair_create(keyQuery_doublenum, valueQuery_doublenum);
         list_addElement(localVarQueryParameters,keyPairQuery_doublenum);
     }
@@ -658,7 +668,7 @@ UserAPI_testInt32Int64FloatDouble(apiClient_t *apiClient, float floatnum, double
     {
         keyQuery_int32num = strdup("int32num");
         valueQuery_int32num = calloc(1,MAX_NUMBER_LENGTH);
-        snprintf(valueQuery_int32num, MAX_NUMBER_LENGTH, "%d", *int32num);
+        int s = snprintf(valueQuery_int32num, MAX_NUMBER_LENGTH, "%d", *int32num);
         keyPairQuery_int32num = keyValuePair_create(keyQuery_int32num, valueQuery_int32num);
         list_addElement(localVarQueryParameters,keyPairQuery_int32num);
     }
@@ -751,7 +761,7 @@ UserAPI_testIntAndBool(apiClient_t *apiClient, int *keep, int *keepDay)
     {
         keyQuery_keepDay = strdup("keepDay");
         valueQuery_keepDay = calloc(1,MAX_NUMBER_LENGTH);
-        snprintf(valueQuery_keepDay, MAX_NUMBER_LENGTH, "%d", *keepDay);
+        int s = snprintf(valueQuery_keepDay, MAX_NUMBER_LENGTH, "%d", *keepDay);
         keyPairQuery_keepDay = keyValuePair_create(keyQuery_keepDay, valueQuery_keepDay);
         list_addElement(localVarQueryParameters,keyPairQuery_keepDay);
     }
