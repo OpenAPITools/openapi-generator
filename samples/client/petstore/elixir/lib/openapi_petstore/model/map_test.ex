@@ -28,6 +28,7 @@ defmodule OpenapiPetstore.Model.MapTest do
     struct
     |> Ecto.Changeset.cast(params, [:map_map_of_string, :map_of_enum_string, :direct_map, :indirect_map])
     |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.validate_inclusion(:map_of_enum_string, ["UPPER", "lower"])
   end
 end
 

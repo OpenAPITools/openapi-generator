@@ -32,6 +32,7 @@ defmodule OpenapiPetstore.Model.Order do
     struct
     |> Ecto.Changeset.cast(params, [:id, :petId, :quantity, :shipDate, :status, :complete])
     |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.validate_inclusion(:status, ["placed", "approved", "delivered"])
   end
 end
 

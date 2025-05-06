@@ -24,6 +24,7 @@ defmodule OpenapiPetstore.Model.ParentWithNullable do
     struct
     |> Ecto.Changeset.cast(params, [:type, :nullableProperty])
     |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.validate_inclusion(:type, ["ChildWithNullable"])
   end
 end
 

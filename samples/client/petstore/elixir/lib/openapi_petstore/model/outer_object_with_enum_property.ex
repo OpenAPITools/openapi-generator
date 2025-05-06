@@ -8,21 +8,21 @@ defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   use Ecto.Schema
 
   @type t :: %__MODULE__{
-    :value => OpenapiPetstore.Model.OuterEnumInteger.t
+    :value => integer()
   }
 
   @derive {JSON.Encoder, only: [:value]}
   @primary_key false
   embedded_schema do
-    embeds_one :value, OpenapiPetstore.Model.OuterEnumInteger
+    field :value, :integer
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = struct, params) do
     struct
-    |> Ecto.Changeset.cast(params, [])
-    |> Ecto.Changeset.validate_required([])
-    |> Ecto.Changeset.cast_embed(:value, required: true)
+    |> Ecto.Changeset.cast(params, [:value])
+    |> Ecto.Changeset.validate_required([:value])
+    |> Ecto.Changeset.validate_inclusion(:value, [0, 1, 2])
   end
 end
 

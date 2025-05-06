@@ -1,12 +1,12 @@
 {{>licenseInfo}}
-{{#models}}{{#model}}defmodule {{moduleName}}.Model.{{classname}} do
+{{#models}}{{#model}}{{^isEnum}}defmodule {{moduleName}}.Model.{{classname}} do
   @moduledoc """
   {{&description}}
   """
   use Ecto.Schema
 
   @type t :: %__MODULE__{
-    {{#vars}}{{#atom}}{{&baseName}}{{/atom}} => {{{datatype}}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{^-last}},
+    {{#vars}}{{#atom}}{{&baseName}}{{/atom}} => {{#isEnumRef}}{{{enumBaseType}}}{{/isEnumRef}}{{^isEnumRef}}{{{datatype}}}{{/isEnumRef}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{^-last}},
     {{/-last}}{{/vars}}
   }
 
@@ -26,9 +26,12 @@
     struct
     |> Ecto.Changeset.cast(params, [{{#ectoFields}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/ectoFields}}])
     |> Ecto.Changeset.validate_required([{{#requiredEctoFields}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/requiredEctoFields}}])
+    {{#ectoEnums}}
+    |> Ecto.Changeset.validate_inclusion({{#atom}}{{&baseName}}{{/atom}}, [{{#allowableValues}}{{#values}}{{#quoteIfString}}{{.}}{{/quoteIfString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
+    {{/ectoEnums}}
     {{#ectoEmbeds}}
     |> Ecto.Changeset.cast_embed({{#atom}}{{&baseName}}{{/atom}}{{#required}}, required: true{{/required}})
     {{/ectoEmbeds}}
   end
 end
-{{/model}}{{/models}}
+{{/isEnum}}{{/model}}{{/models}}
