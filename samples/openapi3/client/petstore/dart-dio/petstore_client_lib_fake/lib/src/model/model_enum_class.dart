@@ -16,7 +16,7 @@ class ModelEnumClass extends EnumClass {
   @BuiltValueEnumConst(wireName: r'-efg')
   static const ModelEnumClass efg = _$efg;
   @BuiltValueEnumConst(wireName: r'(xyz)')
-  static const ModelEnumClass leftParenthesisXyzRightParenthesis = _$leftParenthesisXyzRightParenthesis;
+  static const ModelEnumClass leftParenthesisXyzrightParenthesis = _$leftParenthesisXyzrightParenthesis;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
   static const ModelEnumClass unknownDefaultOpenApi = _$unknownDefaultOpenApi;
 

@@ -13,9 +13,9 @@ part 'order.g.dart';
 ///
 /// Properties:
 /// * [id] 
-/// * [petId] 
+/// * [petid] 
 /// * [quantity] 
-/// * [shipDate] 
+/// * [shipdate] 
 /// * [status] - Order Status
 /// * [complete] 
 @BuiltValue()
@@ -24,13 +24,13 @@ abstract class Order implements Built<Order, OrderBuilder> {
   int? get id;
 
   @BuiltValueField(wireName: r'petId')
-  int? get petId;
+  int? get petid;
 
   @BuiltValueField(wireName: r'quantity')
   int? get quantity;
 
   @BuiltValueField(wireName: r'shipDate')
-  DateTime? get shipDate;
+  DateTime? get shipdate;
 
   /// Order Status
   @BuiltValueField(wireName: r'status')
@@ -71,10 +71,10 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
         specifiedType: const FullType(int),
       );
     }
-    if (object.petId != null) {
+    if (object.petid != null) {
       yield r'petId';
       yield serializers.serialize(
-        object.petId,
+        object.petid,
         specifiedType: const FullType(int),
       );
     }
@@ -85,10 +85,10 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
         specifiedType: const FullType(int),
       );
     }
-    if (object.shipDate != null) {
+    if (object.shipdate != null) {
       yield r'shipDate';
       yield serializers.serialize(
-        object.shipDate,
+        object.shipdate,
         specifiedType: const FullType(DateTime),
       );
     }
@@ -141,7 +141,7 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
             value,
             specifiedType: const FullType(int),
           ) as int;
-          result.petId = valueDes;
+          result.petid = valueDes;
           break;
         case r'quantity':
           final valueDes = serializers.deserialize(
@@ -155,7 +155,7 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
             value,
             specifiedType: const FullType(DateTime),
           ) as DateTime;
-          result.shipDate = valueDes;
+          result.shipdate = valueDes;
           break;
         case r'status':
           final valueDes = serializers.deserialize(

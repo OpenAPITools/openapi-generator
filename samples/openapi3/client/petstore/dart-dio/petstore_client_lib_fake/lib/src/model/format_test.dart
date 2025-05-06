@@ -24,7 +24,7 @@ part 'format_test.g.dart';
 /// * [byte] 
 /// * [binary] 
 /// * [date] 
-/// * [dateTime] 
+/// * [datetime] 
 /// * [uuid] 
 /// * [password] 
 /// * [patternWithDigits] - A string that is a 10 digit number. Can have leading zeros.
@@ -65,7 +65,7 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
   Date get date;
 
   @BuiltValueField(wireName: r'dateTime')
-  DateTime? get dateTime;
+  DateTime? get datetime;
 
   @BuiltValueField(wireName: r'uuid')
   String? get uuid;
@@ -175,10 +175,10 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
       object.date,
       specifiedType: const FullType(Date),
     );
-    if (object.dateTime != null) {
+    if (object.datetime != null) {
       yield r'dateTime';
       yield serializers.serialize(
-        object.dateTime,
+        object.datetime,
         specifiedType: const FullType(DateTime),
       );
     }
@@ -313,7 +313,7 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
             value,
             specifiedType: const FullType(DateTime),
           ) as DateTime;
-          result.dateTime = valueDes;
+          result.datetime = valueDes;
           break;
         case r'uuid':
           final valueDes = serializers.deserialize(

@@ -13,12 +13,12 @@ part 'animal.g.dart';
 /// Animal
 ///
 /// Properties:
-/// * [className] 
+/// * [classname] 
 /// * [color] 
 @BuiltValue(instantiable: false)
 abstract class Animal  {
   @BuiltValueField(wireName: r'className')
-  String get className;
+  String get classname;
 
   @BuiltValueField(wireName: r'color')
   String? get color;
@@ -71,7 +71,7 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
   }) sync* {
     yield r'className';
     yield serializers.serialize(
-      object.className,
+      object.classname,
       specifiedType: const FullType(String),
     );
     if (object.color != null) {
@@ -165,7 +165,7 @@ class _$$AnimalSerializer implements PrimitiveSerializer<$Animal> {
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.className = valueDes;
+          result.classname = valueDes;
           break;
         case r'color':
           final valueDes = serializers.deserialize(

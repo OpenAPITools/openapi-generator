@@ -13,11 +13,11 @@ part 'pizza_speziale.g.dart';
 ///
 /// Properties:
 /// * [toppings] 
-/// * [pizzaSize] 
+/// * [pizzasize] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
-/// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
-/// * [atBaseType] - When sub-classing, this defines the super-class
+/// * [atSchemalocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
+/// * [atBasetype] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue()
 abstract class PizzaSpeziale implements Pizza, Built<PizzaSpeziale, PizzaSpezialeBuilder> {
@@ -47,17 +47,17 @@ class _$PizzaSpezialeSerializer implements PrimitiveSerializer<PizzaSpeziale> {
     PizzaSpeziale object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.atSchemaLocation != null) {
+    if (object.atSchemalocation != null) {
       yield r'@schemaLocation';
       yield serializers.serialize(
-        object.atSchemaLocation,
+        object.atSchemalocation,
         specifiedType: const FullType(String),
       );
     }
-    if (object.pizzaSize != null) {
+    if (object.pizzasize != null) {
       yield r'pizzaSize';
       yield serializers.serialize(
-        object.pizzaSize,
+        object.pizzasize,
         specifiedType: const FullType(num),
       );
     }
@@ -65,13 +65,6 @@ class _$PizzaSpezialeSerializer implements PrimitiveSerializer<PizzaSpeziale> {
       yield r'toppings';
       yield serializers.serialize(
         object.toppings,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.atBaseType != null) {
-      yield r'@baseType';
-      yield serializers.serialize(
-        object.atBaseType,
         specifiedType: const FullType(String),
       );
     }
@@ -86,6 +79,13 @@ class _$PizzaSpezialeSerializer implements PrimitiveSerializer<PizzaSpeziale> {
       yield r'id';
       yield serializers.serialize(
         object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.atBasetype != null) {
+      yield r'@baseType';
+      yield serializers.serialize(
+        object.atBasetype,
         specifiedType: const FullType(String),
       );
     }
@@ -122,14 +122,14 @@ class _$PizzaSpezialeSerializer implements PrimitiveSerializer<PizzaSpeziale> {
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.atSchemaLocation = valueDes;
+          result.atSchemalocation = valueDes;
           break;
         case r'pizzaSize':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(num),
           ) as num;
-          result.pizzaSize = valueDes;
+          result.pizzasize = valueDes;
           break;
         case r'toppings':
           final valueDes = serializers.deserialize(
@@ -137,13 +137,6 @@ class _$PizzaSpezialeSerializer implements PrimitiveSerializer<PizzaSpeziale> {
             specifiedType: const FullType(String),
           ) as String;
           result.toppings = valueDes;
-          break;
-        case r'@baseType':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.atBaseType = valueDes;
           break;
         case r'href':
           final valueDes = serializers.deserialize(
@@ -158,6 +151,13 @@ class _$PizzaSpezialeSerializer implements PrimitiveSerializer<PizzaSpeziale> {
             specifiedType: const FullType(String),
           ) as String;
           result.id = valueDes;
+          break;
+        case r'@baseType':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.atBasetype = valueDes;
           break;
         case r'@type':
           final valueDes = serializers.deserialize(

@@ -82,14 +82,14 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [int] petId (required):
+  /// * [int] petid (required):
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<Response> deletePetWithHttpInfo(int petId, { String? apiKey, }) async {
+  Future<Response> deletePetWithHttpInfo(int petid, { String? apiKey, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
-      .replaceAll('{petId}', petId.toString());
+      .replaceAll('{petId}', petid.toString());
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -122,12 +122,12 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [int] petId (required):
+  /// * [int] petid (required):
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<void> deletePet(int petId, { String? apiKey, }) async {
-    final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey, );
+  Future<void> deletePet(int petid, { String? apiKey, }) async {
+    final response = await deletePetWithHttpInfo(petid,  apiKey: apiKey, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -267,12 +267,12 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [int] petId (required):
+  /// * [int] petid (required):
   ///   ID of pet to return
-  Future<Response> getPetByIdWithHttpInfo(int petId,) async {
+  Future<Response> getPetByIdWithHttpInfo(int petid,) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
-      .replaceAll('{petId}', petId.toString());
+      .replaceAll('{petId}', petid.toString());
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -301,10 +301,10 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [int] petId (required):
+  /// * [int] petid (required):
   ///   ID of pet to return
-  Future<Pet?> getPetById(int petId,) async {
-    final response = await getPetByIdWithHttpInfo(petId,);
+  Future<Pet?> getPetById(int petid,) async {
+    final response = await getPetByIdWithHttpInfo(petid,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -384,7 +384,7 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [int] petId (required):
+  /// * [int] petid (required):
   ///   ID of pet that needs to be updated
   ///
   /// * [String] name:
@@ -392,10 +392,10 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String? name, String? status, }) async {
+  Future<Response> updatePetWithFormWithHttpInfo(int petid, { String? name, String? status, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
-      .replaceAll('{petId}', petId.toString());
+      .replaceAll('{petId}', petid.toString());
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -430,7 +430,7 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [int] petId (required):
+  /// * [int] petid (required):
   ///   ID of pet that needs to be updated
   ///
   /// * [String] name:
@@ -438,8 +438,8 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future<void> updatePetWithForm(int petId, { String? name, String? status, }) async {
-    final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status, );
+  Future<void> updatePetWithForm(int petid, { String? name, String? status, }) async {
+    final response = await updatePetWithFormWithHttpInfo(petid,  name: name, status: status, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -453,18 +453,18 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [int] petId (required):
+  /// * [int] petid (required):
   ///   ID of pet to update
   ///
-  /// * [String] additionalMetadata:
+  /// * [String] additionalmetadata:
   ///   Additional data to pass to server
   ///
   /// * [MultipartFile] file:
   ///   file to upload
-  Future<Response> uploadFileWithHttpInfo(int petId, { String? additionalMetadata, MultipartFile? file, }) async {
+  Future<Response> uploadFileWithHttpInfo(int petid, { String? additionalmetadata, MultipartFile? file, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}/uploadImage'
-      .replaceAll('{petId}', petId.toString());
+      .replaceAll('{petId}', petid.toString());
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -477,9 +477,9 @@ class PetApi {
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
-    if (additionalMetadata != null) {
+    if (additionalmetadata != null) {
       hasFields = true;
-      mp.fields[r'additionalMetadata'] = parameterToString(additionalMetadata);
+      mp.fields[r'additionalMetadata'] = parameterToString(additionalmetadata);
     }
     if (file != null) {
       hasFields = true;
@@ -507,16 +507,16 @@ class PetApi {
   ///
   /// Parameters:
   ///
-  /// * [int] petId (required):
+  /// * [int] petid (required):
   ///   ID of pet to update
   ///
-  /// * [String] additionalMetadata:
+  /// * [String] additionalmetadata:
   ///   Additional data to pass to server
   ///
   /// * [MultipartFile] file:
   ///   file to upload
-  Future<ApiResponse?> uploadFile(int petId, { String? additionalMetadata, MultipartFile? file, }) async {
-    final response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file, );
+  Future<ApiResponse?> uploadFile(int petid, { String? additionalmetadata, MultipartFile? file, }) async {
+    final response = await uploadFileWithHttpInfo(petid,  additionalmetadata: additionalmetadata, file: file, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

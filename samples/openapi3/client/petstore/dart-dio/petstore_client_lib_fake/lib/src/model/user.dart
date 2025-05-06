@@ -13,12 +13,12 @@ part 'user.g.dart';
 /// Properties:
 /// * [id] 
 /// * [username] 
-/// * [firstName] 
-/// * [lastName] 
+/// * [firstname] 
+/// * [lastname] 
 /// * [email] 
 /// * [password] 
 /// * [phone] 
-/// * [userStatus] - User Status
+/// * [userstatus] - User Status
 @BuiltValue()
 abstract class User implements Built<User, UserBuilder> {
   @BuiltValueField(wireName: r'id')
@@ -28,10 +28,10 @@ abstract class User implements Built<User, UserBuilder> {
   String? get username;
 
   @BuiltValueField(wireName: r'firstName')
-  String? get firstName;
+  String? get firstname;
 
   @BuiltValueField(wireName: r'lastName')
-  String? get lastName;
+  String? get lastname;
 
   @BuiltValueField(wireName: r'email')
   String? get email;
@@ -44,7 +44,7 @@ abstract class User implements Built<User, UserBuilder> {
 
   /// User Status
   @BuiltValueField(wireName: r'userStatus')
-  int? get userStatus;
+  int? get userstatus;
 
   User._();
 
@@ -83,17 +83,17 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
         specifiedType: const FullType(String),
       );
     }
-    if (object.firstName != null) {
+    if (object.firstname != null) {
       yield r'firstName';
       yield serializers.serialize(
-        object.firstName,
+        object.firstname,
         specifiedType: const FullType(String),
       );
     }
-    if (object.lastName != null) {
+    if (object.lastname != null) {
       yield r'lastName';
       yield serializers.serialize(
-        object.lastName,
+        object.lastname,
         specifiedType: const FullType(String),
       );
     }
@@ -118,10 +118,10 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
         specifiedType: const FullType(String),
       );
     }
-    if (object.userStatus != null) {
+    if (object.userstatus != null) {
       yield r'userStatus';
       yield serializers.serialize(
-        object.userStatus,
+        object.userstatus,
         specifiedType: const FullType(int),
       );
     }
@@ -167,14 +167,14 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.firstName = valueDes;
+          result.firstname = valueDes;
           break;
         case r'lastName':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.lastName = valueDes;
+          result.lastname = valueDes;
           break;
         case r'email':
           final valueDes = serializers.deserialize(
@@ -202,7 +202,7 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
             value,
             specifiedType: const FullType(int),
           ) as int;
-          result.userStatus = valueDes;
+          result.userstatus = valueDes;
           break;
         default:
           unhandled.add(key);

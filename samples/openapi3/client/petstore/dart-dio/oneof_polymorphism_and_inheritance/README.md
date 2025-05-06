@@ -49,10 +49,10 @@ import 'package:openapi/openapi.dart';
 
 
 final api = Openapi().getBarApi();
-final BarCreate barCreate = ; // BarCreate | 
+final BarCreate barcreate = ; // BarCreate | 
 
 try {
-    final response = await api.createBar(barCreate);
+    final response = await api.createBar(barcreate);
     print(response);
 } catch on DioException (e) {
     print("Exception when calling BarApi->createBar: $e\n");

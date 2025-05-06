@@ -165,7 +165,7 @@ class _$MapTestSerializer implements PrimitiveSerializer<MapTest> {
 class MapTestMapOfEnumStringEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'UPPER')
-  static const MapTestMapOfEnumStringEnum UPPER = _$mapTestMapOfEnumStringEnum_UPPER;
+  static const MapTestMapOfEnumStringEnum upper = _$mapTestMapOfEnumStringEnum_upper;
   @BuiltValueEnumConst(wireName: r'lower')
   static const MapTestMapOfEnumStringEnum lower = _$mapTestMapOfEnumStringEnum_lower;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)

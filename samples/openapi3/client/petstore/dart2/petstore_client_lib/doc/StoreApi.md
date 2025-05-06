@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 
 # **deleteOrder**
-> deleteOrder(orderId)
+> deleteOrder(orderid)
 
 Delete purchase order by ID
 
@@ -27,10 +27,10 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 import 'package:openapi/api.dart';
 
 final api_instance = StoreApi();
-final orderId = orderId_example; // String | ID of the order that needs to be deleted
+final orderid = orderid_example; // String | ID of the order that needs to be deleted
 
 try {
-    api_instance.deleteOrder(orderId);
+    api_instance.deleteOrder(orderid);
 } catch (e) {
     print('Exception when calling StoreApi->deleteOrder: $e\n');
 }
@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted | 
+ **orderid** | **String**| ID of the order that needs to be deleted | 
 
 ### Return type
 
@@ -101,7 +101,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getOrderById**
-> Order getOrderById(orderId)
+> Order getOrderById(orderid)
 
 Find purchase order by ID
 
@@ -112,10 +112,10 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 import 'package:openapi/api.dart';
 
 final api_instance = StoreApi();
-final orderId = 789; // int | ID of pet that needs to be fetched
+final orderid = 789; // int | ID of pet that needs to be fetched
 
 try {
-    final result = api_instance.getOrderById(orderId);
+    final result = api_instance.getOrderById(orderid);
     print(result);
 } catch (e) {
     print('Exception when calling StoreApi->getOrderById: $e\n');
@@ -126,7 +126,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **int**| ID of pet that needs to be fetched | 
+ **orderid** | **int**| ID of pet that needs to be fetched | 
 
 ### Return type
 

@@ -15,12 +15,12 @@ class User {
   User({
     this.id,
     this.username,
-    this.firstName,
-    this.lastName,
+    this.firstname,
+    this.lastname,
     this.email,
     this.password,
     this.phone,
-    this.userStatus,
+    this.userstatus,
   });
 
   ///
@@ -45,7 +45,7 @@ class User {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? firstName;
+  String? firstname;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -53,7 +53,7 @@ class User {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? lastName;
+  String? lastname;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -86,33 +86,33 @@ class User {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  int? userStatus;
+  int? userstatus;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
     other.id == id &&
     other.username == username &&
-    other.firstName == firstName &&
-    other.lastName == lastName &&
+    other.firstname == firstname &&
+    other.lastname == lastname &&
     other.email == email &&
     other.password == password &&
     other.phone == phone &&
-    other.userStatus == userStatus;
+    other.userstatus == userstatus;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
     (username == null ? 0 : username!.hashCode) +
-    (firstName == null ? 0 : firstName!.hashCode) +
-    (lastName == null ? 0 : lastName!.hashCode) +
+    (firstname == null ? 0 : firstname!.hashCode) +
+    (lastname == null ? 0 : lastname!.hashCode) +
     (email == null ? 0 : email!.hashCode) +
     (password == null ? 0 : password!.hashCode) +
     (phone == null ? 0 : phone!.hashCode) +
-    (userStatus == null ? 0 : userStatus!.hashCode);
+    (userstatus == null ? 0 : userstatus!.hashCode);
 
   @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
+  String toString() => 'User[id=$id, username=$username, firstname=$firstname, lastname=$lastname, email=$email, password=$password, phone=$phone, userstatus=$userstatus]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -126,13 +126,13 @@ class User {
     } else {
       json[r'username'] = null;
     }
-    if (this.firstName != null) {
-      json[r'firstName'] = this.firstName;
+    if (this.firstname != null) {
+      json[r'firstName'] = this.firstname;
     } else {
       json[r'firstName'] = null;
     }
-    if (this.lastName != null) {
-      json[r'lastName'] = this.lastName;
+    if (this.lastname != null) {
+      json[r'lastName'] = this.lastname;
     } else {
       json[r'lastName'] = null;
     }
@@ -151,8 +151,8 @@ class User {
     } else {
       json[r'phone'] = null;
     }
-    if (this.userStatus != null) {
-      json[r'userStatus'] = this.userStatus;
+    if (this.userstatus != null) {
+      json[r'userStatus'] = this.userstatus;
     } else {
       json[r'userStatus'] = null;
     }
@@ -180,12 +180,12 @@ class User {
       return User(
         id: mapValueOfType<int>(json, r'id'),
         username: mapValueOfType<String>(json, r'username'),
-        firstName: mapValueOfType<String>(json, r'firstName'),
-        lastName: mapValueOfType<String>(json, r'lastName'),
+        firstname: mapValueOfType<String>(json, r'firstName'),
+        lastname: mapValueOfType<String>(json, r'lastName'),
         email: mapValueOfType<String>(json, r'email'),
         password: mapValueOfType<String>(json, r'password'),
         phone: mapValueOfType<String>(json, r'phone'),
-        userStatus: mapValueOfType<int>(json, r'userStatus'),
+        userstatus: mapValueOfType<int>(json, r'userStatus'),
       );
     }
     return null;

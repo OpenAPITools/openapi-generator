@@ -20,10 +20,10 @@ part 'enum_test.g.dart';
 /// * [enumStringRequired] 
 /// * [enumInteger] 
 /// * [enumNumber] 
-/// * [outerEnum] 
-/// * [outerEnumInteger] 
-/// * [outerEnumDefaultValue] 
-/// * [outerEnumIntegerDefaultValue] 
+/// * [outerenum] 
+/// * [outerenuminteger] 
+/// * [outerenumdefaultvalue] 
+/// * [outerenumintegerdefaultvalue] 
 @BuiltValue()
 abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
   @BuiltValueField(wireName: r'enum_string')
@@ -43,20 +43,20 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
   // enum enumNumberEnum {  1.1,  -1.2,  };
 
   @BuiltValueField(wireName: r'outerEnum')
-  OuterEnum? get outerEnum;
-  // enum outerEnumEnum {  placed,  approved,  delivered,  };
+  OuterEnum? get outerenum;
+  // enum outerenumEnum {  placed,  approved,  delivered,  };
 
   @BuiltValueField(wireName: r'outerEnumInteger')
-  OuterEnumInteger? get outerEnumInteger;
-  // enum outerEnumIntegerEnum {  0,  1,  2,  };
+  OuterEnumInteger? get outerenuminteger;
+  // enum outerenumintegerEnum {  0,  1,  2,  };
 
   @BuiltValueField(wireName: r'outerEnumDefaultValue')
-  OuterEnumDefaultValue? get outerEnumDefaultValue;
-  // enum outerEnumDefaultValueEnum {  placed,  approved,  delivered,  };
+  OuterEnumDefaultValue? get outerenumdefaultvalue;
+  // enum outerenumdefaultvalueEnum {  placed,  approved,  delivered,  };
 
   @BuiltValueField(wireName: r'outerEnumIntegerDefaultValue')
-  OuterEnumIntegerDefaultValue? get outerEnumIntegerDefaultValue;
-  // enum outerEnumIntegerDefaultValueEnum {  0,  1,  2,  };
+  OuterEnumIntegerDefaultValue? get outerenumintegerdefaultvalue;
+  // enum outerenumintegerdefaultvalueEnum {  0,  1,  2,  };
 
   EnumTest._();
 
@@ -107,31 +107,31 @@ class _$EnumTestSerializer implements PrimitiveSerializer<EnumTest> {
         specifiedType: const FullType(EnumTestEnumNumberEnum),
       );
     }
-    if (object.outerEnum != null) {
+    if (object.outerenum != null) {
       yield r'outerEnum';
       yield serializers.serialize(
-        object.outerEnum,
+        object.outerenum,
         specifiedType: const FullType.nullable(OuterEnum),
       );
     }
-    if (object.outerEnumInteger != null) {
+    if (object.outerenuminteger != null) {
       yield r'outerEnumInteger';
       yield serializers.serialize(
-        object.outerEnumInteger,
+        object.outerenuminteger,
         specifiedType: const FullType(OuterEnumInteger),
       );
     }
-    if (object.outerEnumDefaultValue != null) {
+    if (object.outerenumdefaultvalue != null) {
       yield r'outerEnumDefaultValue';
       yield serializers.serialize(
-        object.outerEnumDefaultValue,
+        object.outerenumdefaultvalue,
         specifiedType: const FullType(OuterEnumDefaultValue),
       );
     }
-    if (object.outerEnumIntegerDefaultValue != null) {
+    if (object.outerenumintegerdefaultvalue != null) {
       yield r'outerEnumIntegerDefaultValue';
       yield serializers.serialize(
-        object.outerEnumIntegerDefaultValue,
+        object.outerenumintegerdefaultvalue,
         specifiedType: const FullType(OuterEnumIntegerDefaultValue),
       );
     }
@@ -192,28 +192,28 @@ class _$EnumTestSerializer implements PrimitiveSerializer<EnumTest> {
             specifiedType: const FullType.nullable(OuterEnum),
           ) as OuterEnum?;
           if (valueDes == null) continue;
-          result.outerEnum = valueDes;
+          result.outerenum = valueDes;
           break;
         case r'outerEnumInteger':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(OuterEnumInteger),
           ) as OuterEnumInteger;
-          result.outerEnumInteger = valueDes;
+          result.outerenuminteger = valueDes;
           break;
         case r'outerEnumDefaultValue':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(OuterEnumDefaultValue),
           ) as OuterEnumDefaultValue;
-          result.outerEnumDefaultValue = valueDes;
+          result.outerenumdefaultvalue = valueDes;
           break;
         case r'outerEnumIntegerDefaultValue':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(OuterEnumIntegerDefaultValue),
           ) as OuterEnumIntegerDefaultValue;
-          result.outerEnumIntegerDefaultValue = valueDes;
+          result.outerenumintegerdefaultvalue = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -247,7 +247,7 @@ class _$EnumTestSerializer implements PrimitiveSerializer<EnumTest> {
 class EnumTestEnumStringEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'UPPER')
-  static const EnumTestEnumStringEnum UPPER = _$enumTestEnumStringEnum_UPPER;
+  static const EnumTestEnumStringEnum upper = _$enumTestEnumStringEnum_upper;
   @BuiltValueEnumConst(wireName: r'lower')
   static const EnumTestEnumStringEnum lower = _$enumTestEnumStringEnum_lower;
   @BuiltValueEnumConst(wireName: r'')
@@ -266,7 +266,7 @@ class EnumTestEnumStringEnum extends EnumClass {
 class EnumTestEnumStringRequiredEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'UPPER')
-  static const EnumTestEnumStringRequiredEnum UPPER = _$enumTestEnumStringRequiredEnum_UPPER;
+  static const EnumTestEnumStringRequiredEnum upper = _$enumTestEnumStringRequiredEnum_upper;
   @BuiltValueEnumConst(wireName: r'lower')
   static const EnumTestEnumStringRequiredEnum lower = _$enumTestEnumStringRequiredEnum_lower;
   @BuiltValueEnumConst(wireName: r'')
@@ -302,9 +302,9 @@ class EnumTestEnumIntegerEnum extends EnumClass {
 class EnumTestEnumNumberEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'1.1')
-  static const EnumTestEnumNumberEnum number1Period1 = _$enumTestEnumNumberEnum_number1Period1;
+  static const EnumTestEnumNumberEnum number1period1 = _$enumTestEnumNumberEnum_number1period1;
   @BuiltValueEnumConst(wireName: r'-1.2')
-  static const EnumTestEnumNumberEnum numberNegative1Period2 = _$enumTestEnumNumberEnum_numberNegative1Period2;
+  static const EnumTestEnumNumberEnum numberNegative1period2 = _$enumTestEnumNumberEnum_numberNegative1period2;
   @BuiltValueEnumConst(wireName: r'11184809', fallback: true)
   static const EnumTestEnumNumberEnum unknownDefaultOpenApi = _$enumTestEnumNumberEnum_unknownDefaultOpenApi;
 

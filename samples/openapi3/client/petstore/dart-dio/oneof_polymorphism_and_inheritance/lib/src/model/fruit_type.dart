@@ -12,9 +12,9 @@ part 'fruit_type.g.dart';
 class FruitType extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'APPLE')
-  static const FruitType APPLE = _$APPLE;
+  static const FruitType apple = _$apple;
   @BuiltValueEnumConst(wireName: r'BANANA')
-  static const FruitType BANANA = _$BANANA;
+  static const FruitType banana = _$banana;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
   static const FruitType unknownDefaultOpenApi = _$unknownDefaultOpenApi;
 

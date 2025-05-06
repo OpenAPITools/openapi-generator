@@ -14,9 +14,9 @@ class Order {
   /// Returns a new [Order] instance.
   Order({
     this.id,
-    this.petId,
+    this.petid,
     this.quantity,
-    this.shipDate,
+    this.shipdate,
     this.status,
     this.complete = false,
   });
@@ -35,7 +35,7 @@ class Order {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  int? petId;
+  int? petid;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -51,7 +51,7 @@ class Order {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  DateTime? shipDate;
+  DateTime? shipdate;
 
   /// Order Status
   OrderStatusEnum? status;
@@ -61,9 +61,9 @@ class Order {
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&
     other.id == id &&
-    other.petId == petId &&
+    other.petid == petid &&
     other.quantity == quantity &&
-    other.shipDate == shipDate &&
+    other.shipdate == shipdate &&
     other.status == status &&
     other.complete == complete;
 
@@ -71,14 +71,14 @@ class Order {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
-    (petId == null ? 0 : petId!.hashCode) +
+    (petid == null ? 0 : petid!.hashCode) +
     (quantity == null ? 0 : quantity!.hashCode) +
-    (shipDate == null ? 0 : shipDate!.hashCode) +
+    (shipdate == null ? 0 : shipdate!.hashCode) +
     (status == null ? 0 : status!.hashCode) +
     (complete.hashCode);
 
   @override
-  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
+  String toString() => 'Order[id=$id, petid=$petid, quantity=$quantity, shipdate=$shipdate, status=$status, complete=$complete]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -87,8 +87,8 @@ class Order {
     } else {
       json[r'id'] = null;
     }
-    if (this.petId != null) {
-      json[r'petId'] = this.petId;
+    if (this.petid != null) {
+      json[r'petId'] = this.petid;
     } else {
       json[r'petId'] = null;
     }
@@ -97,8 +97,8 @@ class Order {
     } else {
       json[r'quantity'] = null;
     }
-    if (this.shipDate != null) {
-      json[r'shipDate'] = this.shipDate!.toUtc().toIso8601String();
+    if (this.shipdate != null) {
+      json[r'shipDate'] = this.shipdate!.toUtc().toIso8601String();
     } else {
       json[r'shipDate'] = null;
     }
@@ -131,9 +131,9 @@ class Order {
 
       return Order(
         id: mapValueOfType<int>(json, r'id'),
-        petId: mapValueOfType<int>(json, r'petId'),
+        petid: mapValueOfType<int>(json, r'petId'),
         quantity: mapValueOfType<int>(json, r'quantity'),
-        shipDate: mapDateTime(json, r'shipDate', r''),
+        shipdate: mapDateTime(json, r'shipDate', r''),
         status: OrderStatusEnum.fromJson(json[r'status']),
         complete: mapValueOfType<bool>(json, r'complete') ?? false,
       );

@@ -11,11 +11,11 @@ part 'special_model_name.g.dart';
 /// SpecialModelName
 ///
 /// Properties:
-/// * [dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket] 
+/// * [dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket] 
 @BuiltValue()
 abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelNameBuilder> {
   @BuiltValueField(wireName: r'$special[property.name]')
-  int? get dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+  int? get dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket;
 
   SpecialModelName._();
 
@@ -40,10 +40,10 @@ class _$SpecialModelNameSerializer implements PrimitiveSerializer<SpecialModelNa
     SpecialModelName object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket != null) {
+    if (object.dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket != null) {
       yield r'$special[property.name]';
       yield serializers.serialize(
-        object.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
+        object.dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket,
         specifiedType: const FullType(int),
       );
     }
@@ -75,7 +75,7 @@ class _$SpecialModelNameSerializer implements PrimitiveSerializer<SpecialModelNa
             value,
             specifiedType: const FullType(int),
           ) as int;
-          result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket = valueDes;
+          result.dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket = valueDes;
           break;
         default:
           unhandled.add(key);

@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **testClassname**
-> ModelClient testClassname(modelClient)
+> ModelClient testClassname(modelclient)
 
 To test class name in snake case
 
@@ -28,10 +28,10 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key_query').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeClassnameTags123Api();
-final ModelClient modelClient = ; // ModelClient | client model
+final ModelClient modelclient = ; // ModelClient | client model
 
 try {
-    final response = api.testClassname(modelClient);
+    final response = api.testClassname(modelclient);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling FakeClassnameTags123Api->testClassname: $e\n');
@@ -42,7 +42,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
+ **modelclient** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 

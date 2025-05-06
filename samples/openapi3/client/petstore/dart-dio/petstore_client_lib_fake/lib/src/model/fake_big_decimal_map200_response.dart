@@ -12,15 +12,15 @@ part 'fake_big_decimal_map200_response.g.dart';
 /// FakeBigDecimalMap200Response
 ///
 /// Properties:
-/// * [someId] 
-/// * [someMap] 
+/// * [someid] 
+/// * [somemap] 
 @BuiltValue()
 abstract class FakeBigDecimalMap200Response implements Built<FakeBigDecimalMap200Response, FakeBigDecimalMap200ResponseBuilder> {
   @BuiltValueField(wireName: r'someId')
-  num? get someId;
+  num? get someid;
 
   @BuiltValueField(wireName: r'someMap')
-  BuiltMap<String, num>? get someMap;
+  BuiltMap<String, num>? get somemap;
 
   FakeBigDecimalMap200Response._();
 
@@ -45,17 +45,17 @@ class _$FakeBigDecimalMap200ResponseSerializer implements PrimitiveSerializer<Fa
     FakeBigDecimalMap200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.someId != null) {
+    if (object.someid != null) {
       yield r'someId';
       yield serializers.serialize(
-        object.someId,
+        object.someid,
         specifiedType: const FullType(num),
       );
     }
-    if (object.someMap != null) {
+    if (object.somemap != null) {
       yield r'someMap';
       yield serializers.serialize(
-        object.someMap,
+        object.somemap,
         specifiedType: const FullType(BuiltMap, [FullType(String), FullType(num)]),
       );
     }
@@ -87,14 +87,14 @@ class _$FakeBigDecimalMap200ResponseSerializer implements PrimitiveSerializer<Fa
             value,
             specifiedType: const FullType(num),
           ) as num;
-          result.someId = valueDes;
+          result.someid = valueDes;
           break;
         case r'someMap':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(BuiltMap, [FullType(String), FullType(num)]),
           ) as BuiltMap<String, num>;
-          result.someMap.replace(valueDes);
+          result.somemap.replace(valueDes);
           break;
         default:
           unhandled.add(key);

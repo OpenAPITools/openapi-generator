@@ -8,7 +8,7 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**fruitType** | [**FruitType**](FruitType.md) |  | 
+**fruittype** | [**FruitType**](FruitType.md) |  | 
 **seeds** | **int** |  | 
 **length** | **int** |  | 
 

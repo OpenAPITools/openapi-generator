@@ -12,10 +12,10 @@ Name | Type | Description | Notes
 **enumStringRequired** | **String** |  | 
 **enumInteger** | **int** |  | [optional] 
 **enumNumber** | **double** |  | [optional] 
-**outerEnum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
-**outerEnumInteger** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
-**outerEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
-**outerEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 
+**outerenum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
+**outerenuminteger** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
+**outerenumdefaultvalue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
+**outerenumintegerdefaultvalue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

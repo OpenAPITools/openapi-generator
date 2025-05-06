@@ -14,12 +14,12 @@ part 'child_with_nullable.g.dart';
 ///
 /// Properties:
 /// * [type] 
-/// * [nullableProperty] 
-/// * [otherProperty] 
+/// * [nullableproperty] 
+/// * [otherproperty] 
 @BuiltValue()
 abstract class ChildWithNullable implements ParentWithNullable, Built<ChildWithNullable, ChildWithNullableBuilder> {
   @BuiltValueField(wireName: r'otherProperty')
-  String? get otherProperty;
+  String? get otherproperty;
 
   ChildWithNullable._();
 
@@ -44,6 +44,13 @@ class _$ChildWithNullableSerializer implements PrimitiveSerializer<ChildWithNull
     ChildWithNullable object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
+    if (object.nullableproperty != null) {
+      yield r'nullableProperty';
+      yield serializers.serialize(
+        object.nullableproperty,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
     if (object.type != null) {
       yield r'type';
       yield serializers.serialize(
@@ -51,17 +58,10 @@ class _$ChildWithNullableSerializer implements PrimitiveSerializer<ChildWithNull
         specifiedType: const FullType(ParentWithNullableTypeEnum),
       );
     }
-    if (object.nullableProperty != null) {
-      yield r'nullableProperty';
-      yield serializers.serialize(
-        object.nullableProperty,
-        specifiedType: const FullType.nullable(String),
-      );
-    }
-    if (object.otherProperty != null) {
+    if (object.otherproperty != null) {
       yield r'otherProperty';
       yield serializers.serialize(
-        object.otherProperty,
+        object.otherproperty,
         specifiedType: const FullType(String),
       );
     }
@@ -88,6 +88,14 @@ class _$ChildWithNullableSerializer implements PrimitiveSerializer<ChildWithNull
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
+        case r'nullableProperty':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.nullableproperty = valueDes;
+          break;
         case r'type':
           final valueDes = serializers.deserialize(
             value,
@@ -95,20 +103,12 @@ class _$ChildWithNullableSerializer implements PrimitiveSerializer<ChildWithNull
           ) as ParentWithNullableTypeEnum;
           result.type = valueDes;
           break;
-        case r'nullableProperty':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
-          result.nullableProperty = valueDes;
-          break;
         case r'otherProperty':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.otherProperty = valueDes;
+          result.otherproperty = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -142,7 +142,7 @@ class _$ChildWithNullableSerializer implements PrimitiveSerializer<ChildWithNull
 class ChildWithNullableTypeEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'ChildWithNullable')
-  static const ChildWithNullableTypeEnum childWithNullable = _$childWithNullableTypeEnum_childWithNullable;
+  static const ChildWithNullableTypeEnum childwithnullable = _$childWithNullableTypeEnum_childwithnullable;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
   static const ChildWithNullableTypeEnum unknownDefaultOpenApi = _$childWithNullableTypeEnum_unknownDefaultOpenApi;
 

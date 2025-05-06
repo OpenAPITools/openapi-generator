@@ -16,17 +16,17 @@ part 'entity_ref.g.dart';
 ///
 /// Properties:
 /// * [name] - Name of the related entity.
-/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
+/// * [atReferredtype] - The actual type of the target instance when needed for disambiguation.
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
-/// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
-/// * [atBaseType] - When sub-classing, this defines the super-class
+/// * [atSchemalocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
+/// * [atBasetype] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue(instantiable: false)
 abstract class EntityRef implements Addressable, Extensible {
   /// The actual type of the target instance when needed for disambiguation.
   @BuiltValueField(wireName: r'@referredType')
-  String? get atReferredType;
+  String? get atReferredtype;
 
   /// Name of the related entity.
   @BuiltValueField(wireName: r'name')
@@ -78,17 +78,17 @@ class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
     EntityRef object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.atSchemaLocation != null) {
-      yield r'@schemaLocation';
+    if (object.atReferredtype != null) {
+      yield r'@referredType';
       yield serializers.serialize(
-        object.atSchemaLocation,
+        object.atReferredtype,
         specifiedType: const FullType(String),
       );
     }
-    if (object.atReferredType != null) {
-      yield r'@referredType';
+    if (object.atSchemalocation != null) {
+      yield r'@schemaLocation';
       yield serializers.serialize(
-        object.atReferredType,
+        object.atSchemalocation,
         specifiedType: const FullType(String),
       );
     }
@@ -96,13 +96,6 @@ class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
       yield r'name';
       yield serializers.serialize(
         object.name,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.atBaseType != null) {
-      yield r'@baseType';
-      yield serializers.serialize(
-        object.atBaseType,
         specifiedType: const FullType(String),
       );
     }
@@ -117,6 +110,13 @@ class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
       yield r'id';
       yield serializers.serialize(
         object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.atBasetype != null) {
+      yield r'@baseType';
+      yield serializers.serialize(
+        object.atBasetype,
         specifiedType: const FullType(String),
       );
     }
@@ -204,19 +204,19 @@ class _$$EntityRefSerializer implements PrimitiveSerializer<$EntityRef> {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'@schemaLocation':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.atSchemaLocation = valueDes;
-          break;
         case r'@referredType':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.atReferredType = valueDes;
+          result.atReferredtype = valueDes;
+          break;
+        case r'@schemaLocation':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.atSchemalocation = valueDes;
           break;
         case r'name':
           final valueDes = serializers.deserialize(
@@ -224,13 +224,6 @@ class _$$EntityRefSerializer implements PrimitiveSerializer<$EntityRef> {
             specifiedType: const FullType(String),
           ) as String;
           result.name = valueDes;
-          break;
-        case r'@baseType':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.atBaseType = valueDes;
           break;
         case r'href':
           final valueDes = serializers.deserialize(
@@ -245,6 +238,13 @@ class _$$EntityRefSerializer implements PrimitiveSerializer<$EntityRef> {
             specifiedType: const FullType(String),
           ) as String;
           result.id = valueDes;
+          break;
+        case r'@baseType':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.atBasetype = valueDes;
           break;
         case r'@type':
           final valueDes = serializers.deserialize(

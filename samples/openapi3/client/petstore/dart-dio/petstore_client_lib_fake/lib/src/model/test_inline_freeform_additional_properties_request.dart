@@ -13,11 +13,11 @@ part 'test_inline_freeform_additional_properties_request.g.dart';
 /// TestInlineFreeformAdditionalPropertiesRequest
 ///
 /// Properties:
-/// * [someProperty] 
+/// * [someproperty] 
 @BuiltValue()
 abstract class TestInlineFreeformAdditionalPropertiesRequest implements Built<TestInlineFreeformAdditionalPropertiesRequest, TestInlineFreeformAdditionalPropertiesRequestBuilder> {
   @BuiltValueField(wireName: r'someProperty')
-  String? get someProperty;
+  String? get someproperty;
 
   TestInlineFreeformAdditionalPropertiesRequest._();
 
@@ -42,10 +42,10 @@ class _$TestInlineFreeformAdditionalPropertiesRequestSerializer implements Primi
     TestInlineFreeformAdditionalPropertiesRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.someProperty != null) {
+    if (object.someproperty != null) {
       yield r'someProperty';
       yield serializers.serialize(
-        object.someProperty,
+        object.someproperty,
         specifiedType: const FullType(String),
       );
     }
@@ -77,7 +77,7 @@ class _$TestInlineFreeformAdditionalPropertiesRequestSerializer implements Primi
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.someProperty = valueDes;
+          result.someproperty = valueDes;
           break;
         default:
           unhandled.add(key);

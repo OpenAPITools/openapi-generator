@@ -23,7 +23,7 @@ class BarApi {
   /// 
   ///
   /// Parameters:
-  /// * [barCreate] 
+  /// * [barcreate] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -34,7 +34,7 @@ class BarApi {
   /// Returns a [Future] containing a [Response] with a [Bar] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<Bar>> createBar({ 
-    required BarCreate barCreate,
+    required BarCreate barcreate,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -60,7 +60,7 @@ class BarApi {
 
     try {
       const _type = FullType(BarCreate);
-      _bodyData = _serializers.serialize(barCreate, specifiedType: _type);
+      _bodyData = _serializers.serialize(barcreate, specifiedType: _type);
 
     } catch(error, stackTrace) {
       throw DioException(

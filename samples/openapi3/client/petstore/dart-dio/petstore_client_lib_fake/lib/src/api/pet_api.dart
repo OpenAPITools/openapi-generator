@@ -97,7 +97,7 @@ class PetApi {
   /// 
   ///
   /// Parameters:
-  /// * [petId] - Pet id to delete
+  /// * [petid] - Pet id to delete
   /// * [apiKey] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -109,7 +109,7 @@ class PetApi {
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> deletePet({ 
-    required int petId,
+    required int petid,
     String? apiKey,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -118,7 +118,7 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petid, const FullType(int)).toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -323,7 +323,7 @@ class PetApi {
   /// Returns a single pet
   ///
   /// Parameters:
-  /// * [petId] - ID of pet to return
+  /// * [petid] - ID of pet to return
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -334,7 +334,7 @@ class PetApi {
   /// Returns a [Future] containing a [Response] with a [Pet] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<Pet>> getPetById({ 
-    required int petId,
+    required int petid,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -342,7 +342,7 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petid, const FullType(int)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -477,7 +477,7 @@ class PetApi {
   /// 
   ///
   /// Parameters:
-  /// * [petId] - ID of pet that needs to be updated
+  /// * [petid] - ID of pet that needs to be updated
   /// * [name] - Updated name of the pet
   /// * [status] - Updated status of the pet
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -490,7 +490,7 @@ class PetApi {
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> updatePetWithForm({ 
-    required int petId,
+    required int petid,
     String? name,
     String? status,
     CancelToken? cancelToken,
@@ -500,7 +500,7 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petid, const FullType(int)).toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -555,8 +555,8 @@ class PetApi {
   /// 
   ///
   /// Parameters:
-  /// * [petId] - ID of pet to update
-  /// * [additionalMetadata] - Additional data to pass to server
+  /// * [petid] - ID of pet to update
+  /// * [additionalmetadata] - Additional data to pass to server
   /// * [file] - file to upload
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -568,8 +568,8 @@ class PetApi {
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<ApiResponse>> uploadFile({ 
-    required int petId,
-    String? additionalMetadata,
+    required int petid,
+    String? additionalmetadata,
     MultipartFile? file,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -578,7 +578,7 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petid, const FullType(int)).toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -601,7 +601,7 @@ class PetApi {
 
     try {
       _bodyData = FormData.fromMap(<String, dynamic>{
-        if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
+        if (additionalmetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalmetadata, const FullType(String)),
         if (file != null) r'file': file,
       });
 
@@ -661,9 +661,9 @@ class PetApi {
   /// 
   ///
   /// Parameters:
-  /// * [petId] - ID of pet to update
-  /// * [requiredFile] - file to upload
-  /// * [additionalMetadata] - Additional data to pass to server
+  /// * [petid] - ID of pet to update
+  /// * [requiredfile] - file to upload
+  /// * [additionalmetadata] - Additional data to pass to server
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -674,9 +674,9 @@ class PetApi {
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<ApiResponse>> uploadFileWithRequiredFile({ 
-    required int petId,
-    required MultipartFile requiredFile,
-    String? additionalMetadata,
+    required int petid,
+    required MultipartFile requiredfile,
+    String? additionalmetadata,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -684,7 +684,7 @@ class PetApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petId, const FullType(int)).toString());
+    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', encodeQueryParameter(_serializers, petid, const FullType(int)).toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -707,8 +707,8 @@ class PetApi {
 
     try {
       _bodyData = FormData.fromMap(<String, dynamic>{
-        if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
-        r'requiredFile': requiredFile,
+        if (additionalmetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalmetadata, const FullType(String)),
+        r'requiredFile': requiredfile,
       });
 
     } catch(error, stackTrace) {

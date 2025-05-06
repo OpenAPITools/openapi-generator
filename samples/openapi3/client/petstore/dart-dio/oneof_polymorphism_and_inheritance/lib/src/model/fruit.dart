@@ -15,14 +15,14 @@ part 'fruit.g.dart';
 /// Fruit
 ///
 /// Properties:
-/// * [fruitType] 
+/// * [fruittype] 
 /// * [seeds] 
 /// * [length] 
 @BuiltValue()
 abstract class Fruit implements Built<Fruit, FruitBuilder> {
   @BuiltValueField(wireName: r'fruitType')
-  FruitType get fruitType;
-  // enum fruitTypeEnum {  APPLE,  BANANA,  };
+  FruitType get fruittype;
+  // enum fruittypeEnum {  APPLE,  BANANA,  };
 
   /// One Of [Apple], [Banana]
   OneOf get oneOf;
@@ -82,7 +82,7 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
   }) sync* {
     yield r'fruitType';
     yield serializers.serialize(
-      object.fruitType,
+      object.fruittype,
       specifiedType: const FullType(FruitType),
     );
   }
@@ -116,7 +116,7 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
             value,
             specifiedType: const FullType(FruitType),
           ) as FruitType;
-          result.fruitType = valueDes;
+          result.fruittype = valueDes;
           break;
         default:
           unhandled.add(key);

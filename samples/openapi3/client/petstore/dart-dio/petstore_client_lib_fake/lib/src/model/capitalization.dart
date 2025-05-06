@@ -11,19 +11,19 @@ part 'capitalization.g.dart';
 /// Capitalization
 ///
 /// Properties:
-/// * [smallCamel] 
-/// * [capitalCamel] 
+/// * [smallcamel] 
+/// * [capitalcamel] 
 /// * [smallSnake] 
 /// * [capitalSnake] 
-/// * [sCAETHFlowPoints] 
-/// * [ATT_NAME] - Name of the pet 
+/// * [scaEthFlowPoints] 
+/// * [attName] - Name of the pet 
 @BuiltValue()
 abstract class Capitalization implements Built<Capitalization, CapitalizationBuilder> {
   @BuiltValueField(wireName: r'smallCamel')
-  String? get smallCamel;
+  String? get smallcamel;
 
   @BuiltValueField(wireName: r'CapitalCamel')
-  String? get capitalCamel;
+  String? get capitalcamel;
 
   @BuiltValueField(wireName: r'small_Snake')
   String? get smallSnake;
@@ -32,11 +32,11 @@ abstract class Capitalization implements Built<Capitalization, CapitalizationBui
   String? get capitalSnake;
 
   @BuiltValueField(wireName: r'SCA_ETH_Flow_Points')
-  String? get sCAETHFlowPoints;
+  String? get scaEthFlowPoints;
 
   /// Name of the pet 
   @BuiltValueField(wireName: r'ATT_NAME')
-  String? get ATT_NAME;
+  String? get attName;
 
   Capitalization._();
 
@@ -61,17 +61,17 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
     Capitalization object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.smallCamel != null) {
+    if (object.smallcamel != null) {
       yield r'smallCamel';
       yield serializers.serialize(
-        object.smallCamel,
+        object.smallcamel,
         specifiedType: const FullType(String),
       );
     }
-    if (object.capitalCamel != null) {
+    if (object.capitalcamel != null) {
       yield r'CapitalCamel';
       yield serializers.serialize(
-        object.capitalCamel,
+        object.capitalcamel,
         specifiedType: const FullType(String),
       );
     }
@@ -89,17 +89,17 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
         specifiedType: const FullType(String),
       );
     }
-    if (object.sCAETHFlowPoints != null) {
+    if (object.scaEthFlowPoints != null) {
       yield r'SCA_ETH_Flow_Points';
       yield serializers.serialize(
-        object.sCAETHFlowPoints,
+        object.scaEthFlowPoints,
         specifiedType: const FullType(String),
       );
     }
-    if (object.ATT_NAME != null) {
+    if (object.attName != null) {
       yield r'ATT_NAME';
       yield serializers.serialize(
-        object.ATT_NAME,
+        object.attName,
         specifiedType: const FullType(String),
       );
     }
@@ -131,14 +131,14 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.smallCamel = valueDes;
+          result.smallcamel = valueDes;
           break;
         case r'CapitalCamel':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.capitalCamel = valueDes;
+          result.capitalcamel = valueDes;
           break;
         case r'small_Snake':
           final valueDes = serializers.deserialize(
@@ -159,14 +159,14 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.sCAETHFlowPoints = valueDes;
+          result.scaEthFlowPoints = valueDes;
           break;
         case r'ATT_NAME':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.ATT_NAME = valueDes;
+          result.attName = valueDes;
           break;
         default:
           unhandled.add(key);

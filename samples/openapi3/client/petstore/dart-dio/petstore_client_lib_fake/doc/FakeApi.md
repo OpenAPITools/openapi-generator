@@ -197,7 +197,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fakeOuterCompositeSerialize**
-> OuterComposite fakeOuterCompositeSerialize(outerComposite)
+> OuterComposite fakeOuterCompositeSerialize(outercomposite)
 
 
 
@@ -208,10 +208,10 @@ Test serialization of object with outer number type
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
-final OuterComposite outerComposite = ; // OuterComposite | Input composite as post body
+final OuterComposite outercomposite = ; // OuterComposite | Input composite as post body
 
 try {
-    final response = api.fakeOuterCompositeSerialize(outerComposite);
+    final response = api.fakeOuterCompositeSerialize(outercomposite);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling FakeApi->fakeOuterCompositeSerialize: $e\n');
@@ -222,7 +222,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **outercomposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -326,7 +326,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fakePropertyEnumIntegerSerialize**
-> OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty)
+> OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(outerobjectwithenumproperty)
 
 
 
@@ -337,10 +337,10 @@ Test serialization of enum (int) properties with examples
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
-final OuterObjectWithEnumProperty outerObjectWithEnumProperty = ; // OuterObjectWithEnumProperty | Input enum (int) as post body
+final OuterObjectWithEnumProperty outerobjectwithenumproperty = ; // OuterObjectWithEnumProperty | Input enum (int) as post body
 
 try {
-    final response = api.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
+    final response = api.fakePropertyEnumIntegerSerialize(outerobjectwithenumproperty);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling FakeApi->fakePropertyEnumIntegerSerialize: $e\n');
@@ -351,7 +351,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerObjectWithEnumProperty** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | 
+ **outerobjectwithenumproperty** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | 
 
 ### Return type
 
@@ -453,7 +453,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testBodyWithFileSchema**
-> testBodyWithFileSchema(fileSchemaTestClass)
+> testBodyWithFileSchema(fileschematestclass)
 
 
 
@@ -464,10 +464,10 @@ For this test, the body for this request must reference a schema named `File`.
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
-final FileSchemaTestClass fileSchemaTestClass = ; // FileSchemaTestClass | 
+final FileSchemaTestClass fileschematestclass = ; // FileSchemaTestClass | 
 
 try {
-    api.testBodyWithFileSchema(fileSchemaTestClass);
+    api.testBodyWithFileSchema(fileschematestclass);
 } catch on DioException (e) {
     print('Exception when calling FakeApi->testBodyWithFileSchema: $e\n');
 }
@@ -477,7 +477,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **fileschematestclass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
 
 ### Return type
 
@@ -537,7 +537,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testClientModel**
-> ModelClient testClientModel(modelClient)
+> ModelClient testClientModel(modelclient)
 
 To test \"client\" model
 
@@ -548,10 +548,10 @@ To test \"client\" model
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
-final ModelClient modelClient = ; // ModelClient | client model
+final ModelClient modelclient = ; // ModelClient | client model
 
 try {
-    final response = api.testClientModel(modelClient);
+    final response = api.testClientModel(modelclient);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling FakeApi->testClientModel: $e\n');
@@ -562,7 +562,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
+ **modelclient** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
@@ -580,7 +580,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testEndpointParameters**
-> testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback)
+> testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, datetime, password, callback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -605,12 +605,12 @@ final double float = 3.4; // double | None
 final String string = string_example; // String | None
 final Uint8List binary = BINARY_DATA_HERE; // Uint8List | None
 final Date date = 2013-10-20; // Date | None
-final DateTime dateTime = 2013-10-20T19:20:30+01:00; // DateTime | None
+final DateTime datetime = 2013-10-20T19:20:30+01:00; // DateTime | None
 final String password = password_example; // String | None
 final String callback = callback_example; // String | None
 
 try {
-    api.testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback);
+    api.testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, datetime, password, callback);
 } catch on DioException (e) {
     print('Exception when calling FakeApi->testEndpointParameters: $e\n');
 }
@@ -631,7 +631,7 @@ Name | Type | Description  | Notes
  **string** | **String**| None | [optional] 
  **binary** | **Uint8List**| None | [optional] 
  **date** | **Date**| None | [optional] 
- **dateTime** | **DateTime**| None | [optional] 
+ **datetime** | **DateTime**| None | [optional] 
  **password** | **String**| None | [optional] 
  **callback** | **String**| None | [optional] 
 
@@ -803,7 +803,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testInlineFreeformAdditionalProperties**
-> testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest)
+> testInlineFreeformAdditionalProperties(testinlinefreeformadditionalpropertiesrequest)
 
 test inline free-form additionalProperties
 
@@ -814,10 +814,10 @@ test inline free-form additionalProperties
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
-final TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = ; // TestInlineFreeformAdditionalPropertiesRequest | request body
+final TestInlineFreeformAdditionalPropertiesRequest testinlinefreeformadditionalpropertiesrequest = ; // TestInlineFreeformAdditionalPropertiesRequest | request body
 
 try {
-    api.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest);
+    api.testInlineFreeformAdditionalProperties(testinlinefreeformadditionalpropertiesrequest);
 } catch on DioException (e) {
     print('Exception when calling FakeApi->testInlineFreeformAdditionalProperties: $e\n');
 }
@@ -827,7 +827,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **testInlineFreeformAdditionalPropertiesRequest** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md)| request body | 
+ **testinlinefreeformadditionalpropertiesrequest** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md)| request body | 
 
 ### Return type
 
@@ -889,7 +889,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testNullable**
-> testNullable(childWithNullable)
+> testNullable(childwithnullable)
 
 test nullable parent property
 
@@ -900,10 +900,10 @@ test nullable parent property
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
-final ChildWithNullable childWithNullable = ; // ChildWithNullable | request body
+final ChildWithNullable childwithnullable = ; // ChildWithNullable | request body
 
 try {
-    api.testNullable(childWithNullable);
+    api.testNullable(childwithnullable);
 } catch on DioException (e) {
     print('Exception when calling FakeApi->testNullable: $e\n');
 }
@@ -913,7 +913,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **childWithNullable** | [**ChildWithNullable**](ChildWithNullable.md)| request body | 
+ **childwithnullable** | [**ChildWithNullable**](ChildWithNullable.md)| request body | 
 
 ### Return type
 
@@ -931,7 +931,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testQueryParameterCollectionFormat**
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowempty, language)
 
 
 
@@ -947,11 +947,11 @@ final BuiltList<String> ioutil = ; // BuiltList<String> |
 final BuiltList<String> http = ; // BuiltList<String> | 
 final BuiltList<String> url = ; // BuiltList<String> | 
 final BuiltList<String> context = ; // BuiltList<String> | 
-final String allowEmpty = allowEmpty_example; // String | 
+final String allowempty = allowempty_example; // String | 
 final BuiltMap<String, String> language = ; // BuiltMap<String, String> | 
 
 try {
-    api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
+    api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowempty, language);
 } catch on DioException (e) {
     print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
@@ -966,7 +966,7 @@ Name | Type | Description  | Notes
  **http** | [**BuiltList&lt;String&gt;**](String.md)|  | 
  **url** | [**BuiltList&lt;String&gt;**](String.md)|  | 
  **context** | [**BuiltList&lt;String&gt;**](String.md)|  | 
- **allowEmpty** | **String**|  | 
+ **allowempty** | **String**|  | 
  **language** | [**BuiltMap&lt;String, String&gt;**](String.md)|  | [optional] 
 
 ### Return type
