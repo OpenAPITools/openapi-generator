@@ -192,13 +192,16 @@ defmodule {{moduleName}}.RequestBuilder do
 
   defp decode(%Tesla.Env{body: body}, module) do
     case JSON.decode(body) do
-      {:ok, params} ->
-        module
-        |> struct
-        |> module.changeset(params)
-        |> Ecto.Changeset.apply_action(:insert)
-      {:error, error} ->
-        {:error, error}
+      {:ok, objects} when is_list(objects) -> Enum.map(objects, &(to_model(module, &1)))
+      {:ok, params} -> to_model(module, params)
+      {:error, error} -> {:error, error}
     end
+  end
+
+  defp to_model(module, params) do
+    module
+    |> struct
+    |> module.changeset(params)
+    |> Ecto.Changeset.apply_action(:insert)
   end
 end
