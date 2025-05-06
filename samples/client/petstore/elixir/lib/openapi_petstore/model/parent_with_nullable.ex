@@ -15,7 +15,7 @@ defmodule OpenapiPetstore.Model.ParentWithNullable do
   @derive {JSON.Encoder, only: [:type, :nullableProperty]}
   @primary_key false
   embedded_schema do
-    field :type, :string
+    field :type, Ecto.Enum, values: [:ChildWithNullable]
     field :nullableProperty, :string
   end
 

@@ -22,7 +22,7 @@ defmodule OpenapiPetstore.Model.Pet do
     field :id, :integer
     field :name, :string
     field :photoUrls, {:array, :string}
-    field :status, :string
+    field :status, Ecto.Enum, values: [:available, :pending, :sold]
     embeds_one :category, OpenapiPetstore.Model.Category
     embeds_many :tags, OpenapiPetstore.Model.Tag
   end

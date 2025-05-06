@@ -23,7 +23,7 @@ defmodule OpenapiPetstore.Model.Order do
     field :petId, :integer
     field :quantity, :integer
     field :shipDate, :utc_datetime
-    field :status, :string
+    field :status, Ecto.Enum, values: [:placed, :approved, :delivered]
     field :complete, :boolean
   end
 

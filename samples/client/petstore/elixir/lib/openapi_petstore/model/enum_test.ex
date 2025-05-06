@@ -21,10 +21,10 @@ defmodule OpenapiPetstore.Model.EnumTest do
   @derive {JSON.Encoder, only: [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue]}
   @primary_key false
   embedded_schema do
-    field :enum_string, :string
-    field :enum_string_required, :string
-    field :enum_integer, :integer
-    field :enum_number, :float
+    field :enum_string, Ecto.Enum, values: [:UPPER, :lower, :""]
+    field :enum_string_required, Ecto.Enum, values: [:UPPER, :lower, :""]
+    field :enum_integer, Ecto.Enum, values: [:"1", :"-1"]
+    field :enum_number, Ecto.Enum, values: [:"1.1", :"-1.2"]
     embeds_one :outerEnum, OpenapiPetstore.Model.OuterEnum
     embeds_one :outerEnumInteger, OpenapiPetstore.Model.OuterEnumInteger
     embeds_one :outerEnumDefaultValue, OpenapiPetstore.Model.OuterEnumDefaultValue

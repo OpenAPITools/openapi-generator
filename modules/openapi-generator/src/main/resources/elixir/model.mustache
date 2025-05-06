@@ -14,7 +14,12 @@
   @primary_key false
   embedded_schema do
   {{#ectoFields}}
+    {{#isEnum}}
+    field {{#atom}}{{&baseName}}{{/atom}}, Ecto.Enum, values: [{{#allowableValues}}{{#values}}{{#atom}}{{.}}{{/atom}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
+    {{/isEnum}}
+    {{^isEnum}}
     field {{#atom}}{{&baseName}}{{/atom}}, {{{ectoType}}}
+    {{/isEnum}}
   {{/ectoFields}}
   {{#ectoEmbeds}}
     {{^isArray}}embeds_one{{/isArray}}{{#isArray}}embeds_many{{/isArray}} {{#atom}}{{&baseName}}{{/atom}}, {{&moduleName}}.Model.{{^isArray}}{{{baseType}}}{{/isArray}}{{#isArray}}{{{items.baseType}}}{{/isArray}}

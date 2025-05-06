@@ -18,7 +18,7 @@ defmodule OpenapiPetstore.Model.MapTest do
   @primary_key false
   embedded_schema do
     field :map_map_of_string, :map
-    field :map_of_enum_string, :map
+    field :map_of_enum_string, Ecto.Enum, values: [:UPPER, :lower]
     field :direct_map, :map
     field :indirect_map, :map
   end
