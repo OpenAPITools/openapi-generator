@@ -9,22 +9,22 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
 
   @type t :: %__MODULE__{
     :username => String.t | nil,
-    :SingleRefType => OpenapiPetstore.Model.SingleRefType.t | nil
+    :SingleRefType => String.t | nil
   }
 
   @derive {JSON.Encoder, only: [:username, :SingleRefType]}
   @primary_key false
   embedded_schema do
     field :username, :string
-    embeds_one :SingleRefType, OpenapiPetstore.Model.SingleRefType
+    field :SingleRefType, :string
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = struct, params) do
     struct
-    |> Ecto.Changeset.cast(params, [:username])
+    |> Ecto.Changeset.cast(params, [:username, :SingleRefType])
     |> Ecto.Changeset.validate_required([])
-    |> Ecto.Changeset.cast_embed(:SingleRefType)
+    |> Ecto.Changeset.validate_inclusion(:SingleRefType, ["admin", "user"])
   end
 end
 

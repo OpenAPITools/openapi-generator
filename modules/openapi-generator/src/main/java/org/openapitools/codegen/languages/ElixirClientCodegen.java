@@ -304,6 +304,28 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 writer.write(text.toUpperCase(Locale.ROOT));
             }
         });
+        additionalProperties.put("quoteIfString", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String text = fragment.execute();
+                if (text != null) {
+                    try {
+                        // Try to parse as a number
+                        Double.parseDouble(text);
+                        // If parsing succeeds, it's a number, so write it as is
+                        writer.write(text);
+                    } catch (NumberFormatException e) {
+                        // Check if it's a boolean
+                        if (text.equals("true") || text.equals("false")) {
+                            writer.write(text);
+                        } else {
+                            // It's not a number or boolean, so it's a string - quote it
+                            writer.write("\"" + text + "\"");
+                        }
+                    }
+                }
+            }
+        });
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             setModuleName((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -425,6 +447,12 @@ public class ElixirClientCodegen extends DefaultCodegen {
         ecm.requiredEctoFields.clear();
         for (CodegenProperty field : requiredEctoFields) {
             ecm.requiredEctoFields.add(new ExtendedCodegenProperty(field));
+        }
+
+        List<CodegenProperty> ectoEnums = new ArrayList<>(ecm.ectoEnums);
+        ecm.ectoEnums.clear();
+        for (CodegenProperty field : ectoEnums) {
+            ecm.ectoEnums.add(new ExtendedCodegenProperty(field));
         }
         
         return ecm;
@@ -910,6 +938,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         public boolean hasImports;
         public List<CodegenProperty> ectoFields = new ArrayList<>();
         public List<CodegenProperty> ectoEmbeds = new ArrayList<>();
+        public List<CodegenProperty> ectoEnums = new ArrayList<>();
         public List<CodegenProperty> requiredEctoFields = new ArrayList<>();
 
         public ExtendedCodegenModel(CodegenModel cm) {
@@ -966,10 +995,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.hasImports = !this.imports.isEmpty();
 
             for (CodegenProperty var : this.vars) {
-                if (var.isPrimitiveType || var.isMap) {
+                if (var.isPrimitiveType || var.isMap || var.isEnum || var.isEnumRef) {
                     this.ectoFields.add(var);
                     if (var.required) {
                         this.requiredEctoFields.add(var);
+                    }
+                    if (var.isEnum || var.isEnumRef) {
+                        this.ectoEnums.add(var);
                     }
                 } else {
                     this.ectoEmbeds.add(var);
@@ -979,6 +1011,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     class ExtendedCodegenProperty extends CodegenProperty {
+        public String enumBaseType;
+
         public ExtendedCodegenProperty(CodegenProperty cp) {
             super();
 
@@ -1035,6 +1069,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.isArray = cp.isArray;
             this.isMap = cp.isMap;
             this.isEnum = cp.isEnum;
+            this.isEnumRef = cp.isEnumRef;
             this.isReadOnly = cp.isReadOnly;
             this.isWriteOnly = cp.isWriteOnly;
             this.isNullable = cp.isNullable;
@@ -1045,19 +1080,62 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.vars = cp.vars;
             this.requiredVars = cp.requiredVars;
             this.vendorExtensions = cp.vendorExtensions;
+
+            // For enum references, determine the base type from the enum values
+            if (cp.isEnumRef && cp.allowableValues != null && cp.allowableValues.get("values") != null) {
+                List<Object> values = (List<Object>) cp.allowableValues.get("values");
+                if (!values.isEmpty()) {
+                    Object firstValue = values.get(0);
+                    if (firstValue instanceof String) {
+                        this.enumBaseType = "String.t";
+                    } else if (firstValue instanceof Integer || firstValue instanceof Long) {
+                        this.enumBaseType = "integer()";
+                    } else if (firstValue instanceof Float || firstValue instanceof Double) {
+                        this.enumBaseType = "float()";
+                    } else if (firstValue instanceof Boolean) {
+                        this.enumBaseType = "boolean()";
+                    } else {
+                        // Default to string for unknown types
+                        this.enumBaseType = "String.t";
+                    }
+                } else {
+                    // No values, default to string
+                    this.enumBaseType = "String.t";
+                }
+            }
         }
 
         public String ectoType() {
             String ectoType = ectoType(this);
-
             if (":any".equals(ectoType)) {
                 return ectoType + ", virtual: true";
             }
-
             return ectoType;
         }
 
         private String ectoType(CodegenProperty property) {
+            if (property.isEnumRef) {
+                List<Object> values = (List<Object>) property.allowableValues.get("values");
+                if (!values.isEmpty()) {
+                    Object firstValue = values.get(0);
+                    if (firstValue instanceof String) {
+                        return ":string";
+                    } else if (firstValue instanceof Integer || firstValue instanceof Long) {
+                        return ":integer";
+                    } else if (firstValue instanceof Float || firstValue instanceof Double) {
+                        return ":float";
+                    } else if (firstValue instanceof Boolean) {
+                        return ":boolean";
+                    } else {
+                        // Default to string for unknown types
+                        return ":string";
+                    }
+                } else {
+                    // No values, default to string
+                    return ":string";
+                }
+            }
+
             String baseType = property.baseType;
             switch (baseType) {
                 case "integer()":

@@ -12,10 +12,10 @@ defmodule OpenapiPetstore.Model.EnumTest do
     :enum_string_required => String.t,
     :enum_integer => integer() | nil,
     :enum_number => float() | nil,
-    :outerEnum => OpenapiPetstore.Model.OuterEnum.t | nil,
-    :outerEnumInteger => OpenapiPetstore.Model.OuterEnumInteger.t | nil,
-    :outerEnumDefaultValue => OpenapiPetstore.Model.OuterEnumDefaultValue.t | nil,
-    :outerEnumIntegerDefaultValue => OpenapiPetstore.Model.OuterEnumIntegerDefaultValue.t | nil
+    :outerEnum => String.t | nil,
+    :outerEnumInteger => integer() | nil,
+    :outerEnumDefaultValue => String.t | nil,
+    :outerEnumIntegerDefaultValue => integer() | nil
   }
 
   @derive {JSON.Encoder, only: [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue]}
@@ -25,21 +25,25 @@ defmodule OpenapiPetstore.Model.EnumTest do
     field :enum_string_required, :string
     field :enum_integer, :integer
     field :enum_number, :float
-    embeds_one :outerEnum, OpenapiPetstore.Model.OuterEnum
-    embeds_one :outerEnumInteger, OpenapiPetstore.Model.OuterEnumInteger
-    embeds_one :outerEnumDefaultValue, OpenapiPetstore.Model.OuterEnumDefaultValue
-    embeds_one :outerEnumIntegerDefaultValue, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue
+    field :outerEnum, :string
+    field :outerEnumInteger, :integer
+    field :outerEnumDefaultValue, :string
+    field :outerEnumIntegerDefaultValue, :integer
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = struct, params) do
     struct
-    |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number])
+    |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue])
     |> Ecto.Changeset.validate_required([:enum_string_required])
-    |> Ecto.Changeset.cast_embed(:outerEnum)
-    |> Ecto.Changeset.cast_embed(:outerEnumInteger)
-    |> Ecto.Changeset.cast_embed(:outerEnumDefaultValue)
-    |> Ecto.Changeset.cast_embed(:outerEnumIntegerDefaultValue)
+    |> Ecto.Changeset.validate_inclusion(:enum_string, ["UPPER", "lower", ""])
+    |> Ecto.Changeset.validate_inclusion(:enum_string_required, ["UPPER", "lower", ""])
+    |> Ecto.Changeset.validate_inclusion(:enum_integer, [1, -1])
+    |> Ecto.Changeset.validate_inclusion(:enum_number, [1.1, -1.2])
+    |> Ecto.Changeset.validate_inclusion(:outerEnum, ["placed", "approved", "delivered"])
+    |> Ecto.Changeset.validate_inclusion(:outerEnumInteger, [0, 1, 2])
+    |> Ecto.Changeset.validate_inclusion(:outerEnumDefaultValue, ["placed", "approved", "delivered"])
+    |> Ecto.Changeset.validate_inclusion(:outerEnumIntegerDefaultValue, [0, 1, 2])
   end
 end
 
