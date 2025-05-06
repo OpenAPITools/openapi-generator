@@ -1,0 +1,23 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: FooBar
+paths:
+  /jwks:
+    get:
+      operationId: getJwks
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/JsonWebKey"
+definitions:
+  JsonWebKey:
+    title: JSON Web Key
+    type: object
+    properties:
+      kid:
+        type: string
+    # No additionalProperties specified
