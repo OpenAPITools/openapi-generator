@@ -13,24 +13,22 @@
   @derive {JSON.Encoder, only: [{{#vars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/vars}}]}
   @primary_key false
   embedded_schema do
-  {{#vars}}
-    {{#isPrimitiveType}}
+  {{#ectoFields}}
     field {{#atom}}{{&baseName}}{{/atom}}, {{{ectoType}}}
-    {{/isPrimitiveType}}
-    {{^isPrimitiveType}}
+  {{/ectoFields}}
+  {{#ectoEmbeds}}
     {{^isArray}}embeds_one{{/isArray}}{{#isArray}}embeds_many{{/isArray}} {{#atom}}{{&baseName}}{{/atom}}, {{&moduleName}}.Model.{{^isArray}}{{{baseType}}}{{/isArray}}{{#isArray}}{{{items.baseType}}}{{/isArray}}
-    {{/isPrimitiveType}}
-  {{/vars}}
+  {{/ectoEmbeds}}
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = struct, params) do
     struct
-    |> Ecto.Changeset.cast(params, [{{#primitiveVars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/primitiveVars}}])
-    |> Ecto.Changeset.validate_required([{{#requiredPrimitiveVars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/requiredPrimitiveVars}}])
-    {{#complexVars}}
+    |> Ecto.Changeset.cast(params, [{{#ectoFields}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/ectoFields}}])
+    |> Ecto.Changeset.validate_required([{{#requiredEctoFields}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/requiredEctoFields}}])
+    {{#ectoEmbeds}}
     |> Ecto.Changeset.cast_embed({{#atom}}{{&baseName}}{{/atom}}{{#required}}, required: true{{/required}})
-    {{/complexVars}}
+    {{/ectoEmbeds}}
   end
 end
 {{/model}}{{/models}}

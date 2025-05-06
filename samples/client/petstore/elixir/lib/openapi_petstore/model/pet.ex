@@ -20,11 +20,11 @@ defmodule OpenapiPetstore.Model.Pet do
   @primary_key false
   embedded_schema do
     field :id, :integer
-    embeds_one :category, OpenapiPetstore.Model.Category
     field :name, :string
     field :photoUrls, {:array, :string}
-    embeds_many :tags, OpenapiPetstore.Model.Tag
     field :status, :string
+    embeds_one :category, OpenapiPetstore.Model.Category
+    embeds_many :tags, OpenapiPetstore.Model.Tag
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()

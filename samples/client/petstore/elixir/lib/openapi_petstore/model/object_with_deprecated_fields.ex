@@ -19,8 +19,8 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   embedded_schema do
     field :uuid, :string
     field :id, :float
-    embeds_one :deprecatedRef, OpenapiPetstore.Model.DeprecatedModel
     field :bars, {:array, :string}
+    embeds_one :deprecatedRef, OpenapiPetstore.Model.DeprecatedModel
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()

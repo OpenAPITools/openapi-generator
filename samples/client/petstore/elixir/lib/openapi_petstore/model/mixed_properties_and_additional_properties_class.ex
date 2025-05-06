@@ -18,15 +18,14 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   embedded_schema do
     field :uuid, :string
     field :dateTime, :utc_datetime
-    embeds_one :map, OpenapiPetstore.Model.map()
+    field :map, :map
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = struct, params) do
     struct
-    |> Ecto.Changeset.cast(params, [:uuid, :dateTime])
+    |> Ecto.Changeset.cast(params, [:uuid, :dateTime, :map])
     |> Ecto.Changeset.validate_required([])
-    |> Ecto.Changeset.cast_embed(:map)
   end
 end
 

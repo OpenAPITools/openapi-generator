@@ -408,6 +408,24 @@ public class ElixirClientCodegen extends DefaultCodegen {
         for (CodegenProperty var : optionalVars) {
             ecm.optionalVars.add(new ExtendedCodegenProperty(var));
         }
+
+        List<CodegenProperty> ectoFields = new ArrayList<>(ecm.ectoFields);
+        ecm.ectoFields.clear();
+        for (CodegenProperty field : ectoFields) {
+            ecm.ectoFields.add(new ExtendedCodegenProperty(field));
+        }
+        
+        List<CodegenProperty> ectoEmbeds = new ArrayList<>(ecm.ectoEmbeds);
+        ecm.ectoEmbeds.clear();
+        for (CodegenProperty embed : ectoEmbeds) {
+            ecm.ectoEmbeds.add(new ExtendedCodegenProperty(embed));
+        }
+
+        List<CodegenProperty> requiredEctoFields = new ArrayList<>(ecm.requiredEctoFields);
+        ecm.requiredEctoFields.clear();
+        for (CodegenProperty field : requiredEctoFields) {
+            ecm.requiredEctoFields.add(new ExtendedCodegenProperty(field));
+        }
         
         return ecm;
     }
@@ -890,9 +908,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     class ExtendedCodegenModel extends CodegenModel {
         public boolean hasImports;
-        public List<CodegenProperty> primitiveVars = new ArrayList<>();
-        public List<CodegenProperty> complexVars = new ArrayList<>();
-        public List<CodegenProperty> requiredPrimitiveVars = new ArrayList<>();
+        public List<CodegenProperty> ectoFields = new ArrayList<>();
+        public List<CodegenProperty> ectoEmbeds = new ArrayList<>();
+        public List<CodegenProperty> requiredEctoFields = new ArrayList<>();
 
         public ExtendedCodegenModel(CodegenModel cm) {
             super();
@@ -948,13 +966,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.hasImports = !this.imports.isEmpty();
 
             for (CodegenProperty var : this.vars) {
-                if (var.isPrimitiveType) {
-                    this.primitiveVars.add(var);
+                if (var.isPrimitiveType || var.isMap) {
+                    this.ectoFields.add(var);
                     if (var.required) {
-                        this.requiredPrimitiveVars.add(var);
+                        this.requiredEctoFields.add(var);
                     }
                 } else {
-                    this.complexVars.add(var);
+                    this.ectoEmbeds.add(var);
                 }
             }
         }
