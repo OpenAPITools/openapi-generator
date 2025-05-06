@@ -77,136 +77,22 @@ defmodule {{moduleName}}.Connection do
   defdelegate request(client, options), to: Tesla
 
   @doc """
-  Configure a client with no authentication.
-
-  ### Returns
-
-  Tesla.Env.client
-  """
-  @spec new() :: Tesla.Env.client()
-  def new do
-    Tesla.client(middleware(), adapter())
-  end
-
-  @doc """
-  Configure a client that may have authentication.
+  Configure a {{moduleName}} client.
 
   ### Parameters
 
-  {{#hasOAuthMethods}}
-  The first parameter *may* be a `token` (a string, a token fetcher class,
-  or a module/function tuple) or a keyword list of `options`. They are
-  documented separately, but only *one* of them will be passed.
-
-  - `token`: a String or a function of arity one. This value, or the result
-    of the function call, will be set as a bearer token in the
-    `authorization` header.
-  {{/hasOAuthMethods}}
-  - `options`: a keyword list of {{moduleName}}.Connection.options.
+  - `options`: an optional keyword list of {{moduleName}}.Connection.options.
 
   ### Returns
 
   Tesla.Env.client
   """
-  {{#hasOAuthMethods}}
-  @spec new(String.t() | token_fetcher | options) :: Tesla.Env.client()
-  {{/hasOAuthMethods}}
-  {{^hasOAuthMethods}}
   @spec new(options) :: Tesla.Env.client()
-  {{/hasOAuthMethods}}
-  {{#hasOAuthMethods}}
-  def new(token) when is_binary(token) or is_function(token, 1) or is_tuple(token) do
-    new(token: token)
-  end
-  {{/hasOAuthMethods}}
-
-  def new(options) when is_list(options) do
+  def new(options \\ []) do
     options
     |> middleware()
     |> Tesla.client(adapter())
   end
-
-  {{#hasOAuthMethods}}
-  {{#hasHttpBasicMethods}}
-  @doc """
-  Configure a client using bearer authentication with scopes, or with
-  username and password for basic authentication.
-
-  ### Parameters
-
-  - `token_or_username`: a String representing a bearer token or a username,
-    depending on the type of the next parameter, or a function arity one
-    that returns a bearer token.
-  - `scopes_or_password`: a list of Strings represenging OAuth2 scopes, or
-    a single string that is the password for the username provided.
-  - `options`: a keyword list of {{moduleName}}.Connection.options.
-
-  ### Returns
-
-  Tesla.Env.client
-  """
-  @spec new(
-          token_or_username :: String.t() | token_fetcher,
-          scopes_or_password :: list(String.t()) | String.t(),
-          options
-        ) :: Tesla.Env.client()
-  {{/hasHttpBasicMethods}}
-  {{^hasHttpBasicMethods}}
-  @doc """
-  Configure a client using bearer authentication with scopes.
-
-  ### Parameters
-
-  - `token`: a String or a function of arity one. This value, or the result
-    of the function call, will be set as a bearer token in the
-    `authorization` header.
-  - `scopes`: a list of Strings represenging OAuth2 scopes.
-  - `options`: a keyword list of {{moduleName}}.Connection.options.
-
-  ### Returns
-
-  Tesla.Env.client
-  """
-  @spec new(String.t() | token_fetcher, list(String.t()), options) :: Tesla.Env.client()
-  {{/hasHttpBasicMethods}}
-  {{/hasOAuthMethods}}
-  {{^hasOAuthMethods}}
-  {{#hasHttpBasicMethods}}
-  @doc """
-  Configure a client using username and password for basic authentication.
-
-  ### Parameters
-
-  - `username`: a String representing a username.
-  - `password`: a String representing a password.
-  - `options`: a keyword list of {{moduleName}}.Connection.options.
-
-  ### Returns
-
-  Tesla.Env.client
-  """
-  @spec new(String.t(), String.t()), options) :: Tesla.Env.client()
-  {{/hasHttpBasicMethods}}
-  {{/hasOAuthMethods}}
-
-  {{#hasOAuthMethods}}
-  def new(token_or_username, scopes_or_password, options \\ [])
-
-  def new(token, scopes, options)
-      when (is_binary(token) or is_function(token, 1) or is_tuple(token)) and is_list(scopes) do
-    options
-    |> Keyword.merge(token: token, token_scopes: scopes)
-    |> new()
-  end
-  {{/hasOAuthMethods}}
-
-  {{#hasHttpBasicMethods}}
-  def new(username, password, options) when is_binary(username) and is_binary(password) do
-    options
-    |> Keyword.merge(username: username, password: password)
-    |> new()
-  end
-  {{/hasHttpBasicMethods}}
 
   @doc """
   Returns fully configured middleware for passing to Tesla.client/2.

@@ -494,6 +494,8 @@ Here is a working sample that put's together all of this.
 - The default project structure now follows the SPM (Swift Package Manager) structure. To revert to the old structure, set the `useSPMFileStructure` flag to `false`.
 - The former `{{projectName}}API` is now called `{{projectName}}APIConfiguration`.
 - You can now set a request interceptor and retrier by configuring `OpenAPIClient.shared.interceptor`, making authenticated requests easier to manage.
+- The protocol `JSONEncodable` was renamed to `ParameterConvertible`.
+- The flag `useJSONEncodable` was renamed to `useParameterConvertible`.
 
 ## TypeScript
 

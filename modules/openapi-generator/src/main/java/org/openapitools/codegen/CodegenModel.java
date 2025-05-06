@@ -118,7 +118,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * p2:
      * type: string
      *
-     * @return the discriminator.
      */
     @Getter public CodegenDiscriminator discriminator;
     @Getter @Setter

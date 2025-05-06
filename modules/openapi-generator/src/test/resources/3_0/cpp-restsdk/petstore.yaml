@@ -117,6 +117,34 @@ paths:
       security:
         - petstore_auth:
             - 'read:pets'
+  /pet/findByColor:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by color
+      description: Returns pets filtered by color.
+      operationId: findPetsByColor
+      parameters:
+        - name: color
+          in: query
+          description: Color of the pet to filter by
+          required: false
+          schema:
+            $ref: '#/components/schemas/Color'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid color value
+      security:
+        - petstore_auth:
+            - 'read:pets'
   /pet/findByTags:
     get:
       tags:
@@ -746,6 +774,18 @@ components:
             - available
             - pending
             - sold
+      xml:
+        name: Pet
+    Color:
+      title: Pet Color
+      description: pet color in the store
+      type: string
+      enum:
+        - black
+        - white
+        - brown
+        - golden
+        - mixed
       xml:
         name: Pet
     ApiResponse:

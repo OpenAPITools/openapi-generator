@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class CSharpClientCodegenTest {
 
@@ -180,5 +181,34 @@ public class CSharpClientCodegenTest {
             assertNotNull(file, "Could not find file for model: " + modelName);
             assertFileContains(file.toPath(), expectedContent);
         }
+    }
+
+    @Test
+    public void testAnyOfDiscriminatorCreatesCompilableCode() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+            "src/test/resources/3_0/anyOfDiscriminatorSimple.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+            .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        String modelName = "FruitAnyOfDisc";
+        File file = files.get(Paths
+            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", modelName + ".cs")
+            .toString()
+        );
+        assertNotNull(file, "Could not find file for model: " + modelName);
+        // Should not contain this as the constructor will have two parameters instead of one
+        assertFileNotContains(file.toPath(), "return new FruitAnyOfDisc(appleAnyOfDisc);");
     }
 }

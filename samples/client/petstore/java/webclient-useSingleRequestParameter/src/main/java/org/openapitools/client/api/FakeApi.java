@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -228,41 +230,59 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            FakeHttpSignatureTestRequest request = (FakeHttpSignatureTestRequest) o;
+            return Objects.equals(this.pet, request.pet()) &&
+                Objects.equals(this.query1, request.query1()) &&
+                Objects.equals(this.header1, request.header1());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(pet, query1, header1);
+        }
     }
 
-      /**
-      * test http signature authentication
-      * 
-         * <p><b>200</b> - The instance started successfully
-         * @param requestParameters The fakeHttpSignatureTest request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<Void> fakeHttpSignatureTest(FakeHttpSignatureTestRequest requestParameters) throws WebClientResponseException {
-          return this.fakeHttpSignatureTest(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
-      }
+    /**
+     * test http signature authentication
+     * 
+     * <p><b>200</b> - The instance started successfully
+     * @param requestParameters The fakeHttpSignatureTest request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> fakeHttpSignatureTest(FakeHttpSignatureTestRequest requestParameters) throws WebClientResponseException {
+        return this.fakeHttpSignatureTest(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
+    }
 
-      /**
-      * test http signature authentication
-      * 
-         * <p><b>200</b> - The instance started successfully
-         * @param requestParameters The fakeHttpSignatureTest request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<Void>> fakeHttpSignatureTestWithHttpInfo(FakeHttpSignatureTestRequest requestParameters) throws WebClientResponseException {
-          return this.fakeHttpSignatureTestWithHttpInfo(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
-      }
+    /**
+     * test http signature authentication
+     * 
+     * <p><b>200</b> - The instance started successfully
+     * @param requestParameters The fakeHttpSignatureTest request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> fakeHttpSignatureTestWithHttpInfo(FakeHttpSignatureTestRequest requestParameters) throws WebClientResponseException {
+        return this.fakeHttpSignatureTestWithHttpInfo(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
+    }
 
-      /**
-      * test http signature authentication
-      * 
-         * <p><b>200</b> - The instance started successfully
-         * @param requestParameters The fakeHttpSignatureTest request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec fakeHttpSignatureTestWithResponseSpec(FakeHttpSignatureTestRequest requestParameters) throws WebClientResponseException {
-         return this.fakeHttpSignatureTestWithResponseSpec(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
-      }
+    /**
+     * test http signature authentication
+     * 
+     * <p><b>200</b> - The instance started successfully
+     * @param requestParameters The fakeHttpSignatureTest request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec fakeHttpSignatureTestWithResponseSpec(FakeHttpSignatureTestRequest requestParameters) throws WebClientResponseException {
+       return this.fakeHttpSignatureTestWithResponseSpec(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
+    }
 
           
     /**
@@ -944,41 +964,58 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestBodyWithQueryParamsRequest request = (TestBodyWithQueryParamsRequest) o;
+            return Objects.equals(this.query, request.query()) &&
+                Objects.equals(this.user, request.user());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(query, user);
+        }
     }
 
-      /**
-      * 
-      * 
-         * <p><b>200</b> - Success
-         * @param requestParameters The testBodyWithQueryParams request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<Void> testBodyWithQueryParams(TestBodyWithQueryParamsRequest requestParameters) throws WebClientResponseException {
-          return this.testBodyWithQueryParams(requestParameters.query(), requestParameters.user());
-      }
+    /**
+     * 
+     * 
+     * <p><b>200</b> - Success
+     * @param requestParameters The testBodyWithQueryParams request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testBodyWithQueryParams(TestBodyWithQueryParamsRequest requestParameters) throws WebClientResponseException {
+        return this.testBodyWithQueryParams(requestParameters.query(), requestParameters.user());
+    }
 
-      /**
-      * 
-      * 
-         * <p><b>200</b> - Success
-         * @param requestParameters The testBodyWithQueryParams request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<Void>> testBodyWithQueryParamsWithHttpInfo(TestBodyWithQueryParamsRequest requestParameters) throws WebClientResponseException {
-          return this.testBodyWithQueryParamsWithHttpInfo(requestParameters.query(), requestParameters.user());
-      }
+    /**
+     * 
+     * 
+     * <p><b>200</b> - Success
+     * @param requestParameters The testBodyWithQueryParams request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testBodyWithQueryParamsWithHttpInfo(TestBodyWithQueryParamsRequest requestParameters) throws WebClientResponseException {
+        return this.testBodyWithQueryParamsWithHttpInfo(requestParameters.query(), requestParameters.user());
+    }
 
-      /**
-      * 
-      * 
-         * <p><b>200</b> - Success
-         * @param requestParameters The testBodyWithQueryParams request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec testBodyWithQueryParamsWithResponseSpec(TestBodyWithQueryParamsRequest requestParameters) throws WebClientResponseException {
-         return this.testBodyWithQueryParamsWithResponseSpec(requestParameters.query(), requestParameters.user());
-      }
+    /**
+     * 
+     * 
+     * <p><b>200</b> - Success
+     * @param requestParameters The testBodyWithQueryParams request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testBodyWithQueryParamsWithResponseSpec(TestBodyWithQueryParamsRequest requestParameters) throws WebClientResponseException {
+       return this.testBodyWithQueryParamsWithResponseSpec(requestParameters.query(), requestParameters.user());
+    }
 
           
     /**
@@ -1283,44 +1320,73 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestEndpointParametersRequest request = (TestEndpointParametersRequest) o;
+            return Objects.equals(this.number, request.number()) &&
+                Objects.equals(this._double, request._double()) &&
+                Objects.equals(this.patternWithoutDelimiter, request.patternWithoutDelimiter()) &&
+                Arrays.equals(this._byte, request._byte()) &&
+                Objects.equals(this.integer, request.integer()) &&
+                Objects.equals(this.int32, request.int32()) &&
+                Objects.equals(this.int64, request.int64()) &&
+                Objects.equals(this._float, request._float()) &&
+                Objects.equals(this.string, request.string()) &&
+                Objects.equals(this.binary, request.binary()) &&
+                Objects.equals(this.date, request.date()) &&
+                Objects.equals(this.dateTime, request.dateTime()) &&
+                Objects.equals(this.password, request.password()) &&
+                Objects.equals(this.paramCallback, request.paramCallback());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(number, _double, patternWithoutDelimiter, Arrays.hashCode(_byte), integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+        }
     }
 
-      /**
-      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-         * <p><b>400</b> - Invalid username supplied
-         * <p><b>404</b> - User not found
-         * @param requestParameters The testEndpointParameters request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<Void> testEndpointParameters(TestEndpointParametersRequest requestParameters) throws WebClientResponseException {
-          return this.testEndpointParameters(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
-      }
+    /**
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * <p><b>400</b> - Invalid username supplied
+     * <p><b>404</b> - User not found
+     * @param requestParameters The testEndpointParameters request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testEndpointParameters(TestEndpointParametersRequest requestParameters) throws WebClientResponseException {
+        return this.testEndpointParameters(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
+    }
 
-      /**
-      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-         * <p><b>400</b> - Invalid username supplied
-         * <p><b>404</b> - User not found
-         * @param requestParameters The testEndpointParameters request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<Void>> testEndpointParametersWithHttpInfo(TestEndpointParametersRequest requestParameters) throws WebClientResponseException {
-          return this.testEndpointParametersWithHttpInfo(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
-      }
+    /**
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * <p><b>400</b> - Invalid username supplied
+     * <p><b>404</b> - User not found
+     * @param requestParameters The testEndpointParameters request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testEndpointParametersWithHttpInfo(TestEndpointParametersRequest requestParameters) throws WebClientResponseException {
+        return this.testEndpointParametersWithHttpInfo(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
+    }
 
-      /**
-      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-         * <p><b>400</b> - Invalid username supplied
-         * <p><b>404</b> - User not found
-         * @param requestParameters The testEndpointParameters request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec testEndpointParametersWithResponseSpec(TestEndpointParametersRequest requestParameters) throws WebClientResponseException {
-         return this.testEndpointParametersWithResponseSpec(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
-      }
+    /**
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * <p><b>400</b> - Invalid username supplied
+     * <p><b>404</b> - User not found
+     * @param requestParameters The testEndpointParameters request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testEndpointParametersWithResponseSpec(TestEndpointParametersRequest requestParameters) throws WebClientResponseException {
+       return this.testEndpointParametersWithResponseSpec(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
+    }
 
           
     /**
@@ -1587,44 +1653,68 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestEnumParametersRequest request = (TestEnumParametersRequest) o;
+            return Objects.equals(this.enumHeaderStringArray, request.enumHeaderStringArray()) &&
+                Objects.equals(this.enumHeaderString, request.enumHeaderString()) &&
+                Objects.equals(this.enumQueryStringArray, request.enumQueryStringArray()) &&
+                Objects.equals(this.enumQueryString, request.enumQueryString()) &&
+                Objects.equals(this.enumQueryInteger, request.enumQueryInteger()) &&
+                Objects.equals(this.enumQueryDouble, request.enumQueryDouble()) &&
+                Objects.equals(this.enumQueryModelArray, request.enumQueryModelArray()) &&
+                Objects.equals(this.enumFormStringArray, request.enumFormStringArray()) &&
+                Objects.equals(this.enumFormString, request.enumFormString());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+        }
     }
 
-      /**
-      * To test enum parameters
-      * To test enum parameters
-         * <p><b>400</b> - Invalid request
-         * <p><b>404</b> - Not found
-         * @param requestParameters The testEnumParameters request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<Void> testEnumParameters(TestEnumParametersRequest requestParameters) throws WebClientResponseException {
-          return this.testEnumParameters(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
-      }
+    /**
+     * To test enum parameters
+     * To test enum parameters
+     * <p><b>400</b> - Invalid request
+     * <p><b>404</b> - Not found
+     * @param requestParameters The testEnumParameters request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testEnumParameters(TestEnumParametersRequest requestParameters) throws WebClientResponseException {
+        return this.testEnumParameters(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
+    }
 
-      /**
-      * To test enum parameters
-      * To test enum parameters
-         * <p><b>400</b> - Invalid request
-         * <p><b>404</b> - Not found
-         * @param requestParameters The testEnumParameters request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<Void>> testEnumParametersWithHttpInfo(TestEnumParametersRequest requestParameters) throws WebClientResponseException {
-          return this.testEnumParametersWithHttpInfo(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
-      }
+    /**
+     * To test enum parameters
+     * To test enum parameters
+     * <p><b>400</b> - Invalid request
+     * <p><b>404</b> - Not found
+     * @param requestParameters The testEnumParameters request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testEnumParametersWithHttpInfo(TestEnumParametersRequest requestParameters) throws WebClientResponseException {
+        return this.testEnumParametersWithHttpInfo(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
+    }
 
-      /**
-      * To test enum parameters
-      * To test enum parameters
-         * <p><b>400</b> - Invalid request
-         * <p><b>404</b> - Not found
-         * @param requestParameters The testEnumParameters request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec testEnumParametersWithResponseSpec(TestEnumParametersRequest requestParameters) throws WebClientResponseException {
-         return this.testEnumParametersWithResponseSpec(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
-      }
+    /**
+     * To test enum parameters
+     * To test enum parameters
+     * <p><b>400</b> - Invalid request
+     * <p><b>404</b> - Not found
+     * @param requestParameters The testEnumParameters request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testEnumParametersWithResponseSpec(TestEnumParametersRequest requestParameters) throws WebClientResponseException {
+       return this.testEnumParametersWithResponseSpec(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
+    }
 
           
     /**
@@ -1812,41 +1902,62 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestGroupParametersRequest request = (TestGroupParametersRequest) o;
+            return Objects.equals(this.requiredStringGroup, request.requiredStringGroup()) &&
+                Objects.equals(this.requiredBooleanGroup, request.requiredBooleanGroup()) &&
+                Objects.equals(this.requiredInt64Group, request.requiredInt64Group()) &&
+                Objects.equals(this.stringGroup, request.stringGroup()) &&
+                Objects.equals(this.booleanGroup, request.booleanGroup()) &&
+                Objects.equals(this.int64Group, request.int64Group());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+        }
     }
 
-      /**
-      * Fake endpoint to test group parameters (optional)
-      * Fake endpoint to test group parameters (optional)
-         * <p><b>400</b> - Something wrong
-         * @param requestParameters The testGroupParameters request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<Void> testGroupParameters(TestGroupParametersRequest requestParameters) throws WebClientResponseException {
-          return this.testGroupParameters(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
-      }
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * <p><b>400</b> - Something wrong
+     * @param requestParameters The testGroupParameters request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testGroupParameters(TestGroupParametersRequest requestParameters) throws WebClientResponseException {
+        return this.testGroupParameters(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
+    }
 
-      /**
-      * Fake endpoint to test group parameters (optional)
-      * Fake endpoint to test group parameters (optional)
-         * <p><b>400</b> - Something wrong
-         * @param requestParameters The testGroupParameters request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<Void>> testGroupParametersWithHttpInfo(TestGroupParametersRequest requestParameters) throws WebClientResponseException {
-          return this.testGroupParametersWithHttpInfo(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
-      }
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * <p><b>400</b> - Something wrong
+     * @param requestParameters The testGroupParameters request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testGroupParametersWithHttpInfo(TestGroupParametersRequest requestParameters) throws WebClientResponseException {
+        return this.testGroupParametersWithHttpInfo(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
+    }
 
-      /**
-      * Fake endpoint to test group parameters (optional)
-      * Fake endpoint to test group parameters (optional)
-         * <p><b>400</b> - Something wrong
-         * @param requestParameters The testGroupParameters request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec testGroupParametersWithResponseSpec(TestGroupParametersRequest requestParameters) throws WebClientResponseException {
-         return this.testGroupParametersWithResponseSpec(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
-      }
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * <p><b>400</b> - Something wrong
+     * @param requestParameters The testGroupParameters request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testGroupParametersWithResponseSpec(TestGroupParametersRequest requestParameters) throws WebClientResponseException {
+       return this.testGroupParametersWithResponseSpec(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
+    }
 
           
     /**
@@ -2122,41 +2233,58 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestJsonFormDataRequest request = (TestJsonFormDataRequest) o;
+            return Objects.equals(this.param, request.param()) &&
+                Objects.equals(this.param2, request.param2());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(param, param2);
+        }
     }
 
-      /**
-      * test json serialization of form data
-      * 
-         * <p><b>200</b> - successful operation
-         * @param requestParameters The testJsonFormData request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<Void> testJsonFormData(TestJsonFormDataRequest requestParameters) throws WebClientResponseException {
-          return this.testJsonFormData(requestParameters.param(), requestParameters.param2());
-      }
+    /**
+     * test json serialization of form data
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestParameters The testJsonFormData request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testJsonFormData(TestJsonFormDataRequest requestParameters) throws WebClientResponseException {
+        return this.testJsonFormData(requestParameters.param(), requestParameters.param2());
+    }
 
-      /**
-      * test json serialization of form data
-      * 
-         * <p><b>200</b> - successful operation
-         * @param requestParameters The testJsonFormData request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<Void>> testJsonFormDataWithHttpInfo(TestJsonFormDataRequest requestParameters) throws WebClientResponseException {
-          return this.testJsonFormDataWithHttpInfo(requestParameters.param(), requestParameters.param2());
-      }
+    /**
+     * test json serialization of form data
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestParameters The testJsonFormData request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testJsonFormDataWithHttpInfo(TestJsonFormDataRequest requestParameters) throws WebClientResponseException {
+        return this.testJsonFormDataWithHttpInfo(requestParameters.param(), requestParameters.param2());
+    }
 
-      /**
-      * test json serialization of form data
-      * 
-         * <p><b>200</b> - successful operation
-         * @param requestParameters The testJsonFormData request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec testJsonFormDataWithResponseSpec(TestJsonFormDataRequest requestParameters) throws WebClientResponseException {
-         return this.testJsonFormDataWithResponseSpec(requestParameters.param(), requestParameters.param2());
-      }
+    /**
+     * test json serialization of form data
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestParameters The testJsonFormData request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testJsonFormDataWithResponseSpec(TestJsonFormDataRequest requestParameters) throws WebClientResponseException {
+       return this.testJsonFormDataWithResponseSpec(requestParameters.param(), requestParameters.param2());
+    }
 
           
     /**
@@ -2389,41 +2517,63 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestQueryParameterCollectionFormatRequest request = (TestQueryParameterCollectionFormatRequest) o;
+            return Objects.equals(this.pipe, request.pipe()) &&
+                Objects.equals(this.ioutil, request.ioutil()) &&
+                Objects.equals(this.http, request.http()) &&
+                Objects.equals(this.url, request.url()) &&
+                Objects.equals(this.context, request.context()) &&
+                Objects.equals(this.allowEmpty, request.allowEmpty()) &&
+                Objects.equals(this.language, request.language());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(pipe, ioutil, http, url, context, allowEmpty, language);
+        }
     }
 
-      /**
-      * 
-      * To test the collection format in query parameters
-         * <p><b>200</b> - Success
-         * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<Void> testQueryParameterCollectionFormat(TestQueryParameterCollectionFormatRequest requestParameters) throws WebClientResponseException {
-          return this.testQueryParameterCollectionFormat(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
-      }
+    /**
+     * 
+     * To test the collection format in query parameters
+     * <p><b>200</b> - Success
+     * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testQueryParameterCollectionFormat(TestQueryParameterCollectionFormatRequest requestParameters) throws WebClientResponseException {
+        return this.testQueryParameterCollectionFormat(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
+    }
 
-      /**
-      * 
-      * To test the collection format in query parameters
-         * <p><b>200</b> - Success
-         * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<Void>> testQueryParameterCollectionFormatWithHttpInfo(TestQueryParameterCollectionFormatRequest requestParameters) throws WebClientResponseException {
-          return this.testQueryParameterCollectionFormatWithHttpInfo(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
-      }
+    /**
+     * 
+     * To test the collection format in query parameters
+     * <p><b>200</b> - Success
+     * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testQueryParameterCollectionFormatWithHttpInfo(TestQueryParameterCollectionFormatRequest requestParameters) throws WebClientResponseException {
+        return this.testQueryParameterCollectionFormatWithHttpInfo(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
+    }
 
-      /**
-      * 
-      * To test the collection format in query parameters
-         * <p><b>200</b> - Success
-         * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(TestQueryParameterCollectionFormatRequest requestParameters) throws WebClientResponseException {
-         return this.testQueryParameterCollectionFormatWithResponseSpec(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
-      }
+    /**
+     * 
+     * To test the collection format in query parameters
+     * <p><b>200</b> - Success
+     * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(TestQueryParameterCollectionFormatRequest requestParameters) throws WebClientResponseException {
+       return this.testQueryParameterCollectionFormatWithResponseSpec(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
+    }
 
           
     /**

@@ -47,17 +47,28 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
-    public static final String MODULE_CLASS_NAME = "moduleClassName";
-
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);
+
+    public static final String MODULE_CLASS_NAME = "moduleClassName";
+    public static final String ACTION_PATH_PREFIX = "actionPathPrefix";
+
     private static final String ROOT_PACKAGE = "rootPackage";
+    public static final String GENERATE_STUB_IMPL_CLASSES = "generateStubImplClasses";
+    public static final String ADD_MODEL_MOSHI_JSON_ANNOTATION = "addModelMoshiJsonAnnotation";
 
     private boolean useBeanValidation = true;
+
+    @Setter
+    private boolean generateStubImplClasses = false;
+
+    @Setter
+    private boolean addModelMoshiJsonAnnotation = true;
 
     protected String rootPackage = "org.openapitools.server.api";
     protected String apiVersion = "1.0.0-SNAPSHOT";
 
     @Setter protected String moduleClassName = "OpenApiModule";
+    @Setter protected String actionPathPrefix = "";
 
     @Override
     public CodegenType getTag() {
@@ -78,10 +89,12 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         super();
 
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
+        addSwitch(GENERATE_STUB_IMPL_CLASSES, "Generate Stub Impl Classes", generateStubImplClasses);
+        addSwitch(ADD_MODEL_MOSHI_JSON_ANNOTATION, "Add a Moshi JSON adapter annotation to all model classes", addModelMoshiJsonAnnotation);
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.PROTOBUF))
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.PROTOBUF))
                 .securityFeatures(EnumSet.noneOf(
                         SecurityFeature.class
                 ))
@@ -108,6 +121,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         outputFolder = "generated-code" + File.separator + "kotlin-misk";
 
         addOption(MODULE_CLASS_NAME, "Name of the generated module class", moduleClassName);
+        addOption(ACTION_PATH_PREFIX, "Prefix for action path", actionPathPrefix);
 
         apiTestTemplateFiles.clear();
         apiTestTemplateFiles.put("api_test.mustache", ".kt");
@@ -122,8 +136,12 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
 
         apiTemplateFiles.clear();
         apiTemplateFiles.put("apiAction.mustache", "Action.kt");
-        apiTemplateFiles.put("apiImpl.mustache", "Impl.kt");
-        apiTemplateFiles.put("apiInterface.mustache", ".kt");
+
+        if (generateStubImplClasses) {
+            apiTemplateFiles.put("apiImpl.mustache", "Impl.kt");
+            apiTemplateFiles.put("apiInterface.mustache", ".kt");
+        }
+
         modelTemplateFiles.put("model.mustache", ".kt");
 
         apiPackage = rootPackage + ".api";
@@ -148,13 +166,27 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         if (additionalProperties.containsKey(MODULE_CLASS_NAME)) {
             setModuleClassName((String) additionalProperties.get(MODULE_CLASS_NAME));
         }
-        additionalProperties.put(MODULE_CLASS_NAME, moduleClassName);
+        writePropertyBack(MODULE_CLASS_NAME, moduleClassName);
+
+        if (additionalProperties.containsKey(ACTION_PATH_PREFIX)) {
+            setActionPathPrefix((String) additionalProperties.get(ACTION_PATH_PREFIX));
+        }
+        writePropertyBack(ACTION_PATH_PREFIX, actionPathPrefix);
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
+        if (additionalProperties.containsKey(GENERATE_STUB_IMPL_CLASSES)) {
+            setGenerateStubImplClasses(convertPropertyToBoolean(GENERATE_STUB_IMPL_CLASSES));
+        }
+        writePropertyBack(GENERATE_STUB_IMPL_CLASSES, generateStubImplClasses);
+
+        if (additionalProperties.containsKey(ADD_MODEL_MOSHI_JSON_ANNOTATION)) {
+            setAddModelMoshiJsonAnnotation(convertPropertyToBoolean(ADD_MODEL_MOSHI_JSON_ANNOTATION));
+        }
+        writePropertyBack(ADD_MODEL_MOSHI_JSON_ANNOTATION, addModelMoshiJsonAnnotation);
         applyJakartaPackage();
 
         String apiModuleFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
@@ -211,6 +243,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         result.put("application/grpc", "MediaTypes.APPLICATION_GRPC");
         result.put("application/javascript", "MediaTypes.APPLICATION_JAVASCRIPT");
         result.put("application/json", "MediaTypes.APPLICATION_JSON");
+        result.put("application/jwt", "MediaTypes.APPLICATION_JWT");
         result.put("application/octetstream", "MediaTypes.APPLICATION_OCTETSTREAM");
         result.put("application/pdf", "MediaTypes.APPLICATION_OCTETSTREAM");
         result.put("application/x-protobuf", "MediaTypes.APPLICATION_PROTOBUF");
@@ -219,10 +252,11 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         result.put("application/zip", "MediaTypes.APPLICATION_ZIP");
 
         result.put("image/gif", "MediaTypes.IMAGE_GIF");
+        result.put("image/x-icon", "MediaTypes.IMAGE_ICO");
         result.put("image/jpeg", "MediaTypes.IMAGE_JPEG");
         result.put("image/png", "MediaTypes.IMAGE_PNG");
         result.put("image/svg+xml", "MediaTypes.IMAGE_SVG");
-        result.put("image/x-icon", "MediaTypes.IMAGE_ICO");
+        result.put("image/tiff", "MediaTypes.IMAGE_TIFF");
 
         result.put("multipart/form-data", "MediaTypes.FORM_DATA");
 

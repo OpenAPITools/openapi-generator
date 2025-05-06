@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * CircularReference2
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class CircularReference2 {
   public static final String SERIALIZED_NAME_PROP1 = "prop1";
   @SerializedName(SERIALIZED_NAME_PROP1)
@@ -168,11 +168,10 @@ public class CircularReference2 {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("prop1");
+    openapiFields = new HashSet<String>(Arrays.asList("prop1"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

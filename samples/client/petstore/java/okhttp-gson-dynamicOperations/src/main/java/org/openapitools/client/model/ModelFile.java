@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ModelFile {
   public static final String SERIALIZED_NAME_SOURCE_U_R_I = "sourceURI";
   @SerializedName(SERIALIZED_NAME_SOURCE_U_R_I)
@@ -121,11 +121,10 @@ public class ModelFile {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("sourceURI");
+    openapiFields = new HashSet<String>(Arrays.asList("sourceURI"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

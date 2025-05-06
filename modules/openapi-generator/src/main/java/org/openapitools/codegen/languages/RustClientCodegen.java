@@ -539,6 +539,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public String modelFilename(String templateName, String modelName) {
+        String suffix = modelTemplateFiles().get(templateName);
+        return modelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
+    }
+
+    @Override
     public String apiDocFileFolder() {
         return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
     }

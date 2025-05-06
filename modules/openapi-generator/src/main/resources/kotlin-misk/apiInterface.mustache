@@ -23,7 +23,8 @@ import misk.web.RequestHeader
 interface {{classname}} {
 {{#operation}}
 
-    fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}}
+    fun {{operationId}}({{#allParams}}
+        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
 {{/operation}}
 }
 {{/operations}}
