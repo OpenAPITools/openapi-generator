@@ -192,7 +192,12 @@ defmodule {{moduleName}}.RequestBuilder do
 
   defp decode(%Tesla.Env{body: body}, module) do
     case JSON.decode(body) do
-      {:ok, objects} when is_list(objects) -> Enum.map(objects, &(to_model(module, &1)))
+      {:ok, objects} when is_list(objects) ->
+        models = Enum.map(objects, fn object ->
+          {:ok, model} = to_model(module, object)
+          model
+        end)
+        {:ok, models}
       {:ok, params} -> to_model(module, params)
       {:error, error} -> {:error, error}
     end
