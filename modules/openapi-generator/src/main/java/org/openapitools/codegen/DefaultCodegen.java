@@ -2122,6 +2122,9 @@ public class DefaultCodegen implements CodegenConfig {
                 }
 
                 codegenParameter.style = style.toString();
+                codegenParameter.isFormStyle = Encoding.StyleEnum.FORM == style;
+                codegenParameter.isSpaceDelimited = Encoding.StyleEnum.SPACE_DELIMITED == style;
+                codegenParameter.isPipeDelimited = Encoding.StyleEnum.PIPE_DELIMITED == style;
                 codegenParameter.isDeepObject = Encoding.StyleEnum.DEEP_OBJECT == style;
 
                 if (codegenParameter.isContainer) {
@@ -5286,6 +5289,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (parameter.getStyle() != null) {
             codegenParameter.style = parameter.getStyle().toString();
             codegenParameter.isDeepObject = Parameter.StyleEnum.DEEPOBJECT == parameter.getStyle();
+            codegenParameter.isFormStyle = Parameter.StyleEnum.FORM == parameter.getStyle();
+            codegenParameter.isSpaceDelimited = Parameter.StyleEnum.SPACEDELIMITED == parameter.getStyle();
+            codegenParameter.isPipeDelimited = Parameter.StyleEnum.PIPEDELIMITED == parameter.getStyle();
             codegenParameter.isMatrix = Parameter.StyleEnum.MATRIX == parameter.getStyle();
         }
 
