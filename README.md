@@ -97,32 +97,48 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 ## Table of contents
 
-  - [OpenAPI Generator](#openapi-generator)
-  - [Overview](#overview)
-  - [Table of Contents](#table-of-contents)
-  - [1 - Installation](#1---installation)
-    - [1.1 - Compatibility](#11---compatibility)
-    - [1.2 - Artifacts on Maven Central](#12---artifacts-on-maven-central)
-    - [1.3 - Download JAR](#13---download-jar)
-    - [1.4 - Build Projects](#14---build-projects)
-    - [1.5 - Homebrew](#15---homebrew)
-    - [1.6 - Docker](#16---docker)
-    - [1.7 - NPM](#17---npm)
-    - [1.8 - pip](#18---pip)
-  - [2 - Getting Started](#2---getting-started)
-  - [3 - Usage](#3---usage)
-    - [3.1 - Customization](#31---customization)
-    - [3.2 - Workflow Integration](#32---workflow-integration-maven-gradle-github-cicd)
-    - [3.3 - Online Generators](#33---online-openapi-generator)
-    - [3.4 - License Information on Generated Code](#34---license-information-on-generated-code)
-    - [3.5 - IDE Integration](#35---ide-integration)
-  - [4 - Companies/Projects using OpenAPI Generator](#4---companiesprojects-using-openapi-generator)
-  - [5 - Presentations/Videos/Tutorials/Books](#5---presentationsvideostutorialsbooks)
-  - [6 - About Us](#6---about-us)
-    - [6.1 - OpenAPI Generator Core Team](#61---openapi-generator-core-team)
-    - [6.2 - OpenAPI Generator Technical Committee](#62---openapi-generator-technical-committee)
-    - [6.3 - History of OpenAPI Generator](#63---history-of-openapi-generator)
-  - [7 - License](#7---license)
+- [Sponsors](#sponsors)
+    - [Thank you to our bronze sponsors!](#thank-you-to-our-bronze-sponsors)
+    - [Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS, Checkly for sponsoring the API monitoring and Gradle for sponsoring Develocity](#thank-you-godaddy-for-sponsoring-the-domain-names-linode-for-sponsoring-the-vps-checkly-for-sponsoring-the-api-monitoring-and-gradle-for-sponsoring-develocity)
+- [Overview](#overview)
+- [Table of contents](#table-of-contents)
+- [1 - Installation](#1---installation)
+  - [1.1 - Compatibility](#11---compatibility)
+- [1.2 - Artifacts on Maven Central](#12---artifacts-on-maven-central)
+  - [1.3 - Download JAR](#13---download-jar)
+  - [Launcher Script](#launcher-script)
+  - [1.4 - Build Projects](#14---build-projects)
+    - [Nix users](#nix-users)
+  - [1.5 - Homebrew](#15---homebrew)
+  - [1.6 - Docker](#16---docker)
+    - [Public Pre-built Docker images](#public-pre-built-docker-images)
+    - [OpenAPI Generator CLI Docker Image](#openapi-generator-cli-docker-image)
+    - [OpenAPI Generator Online Docker Image](#openapi-generator-online-docker-image)
+    - [Development in docker](#development-in-docker)
+      - [Troubleshooting](#troubleshooting)
+    - [Run Docker in Vagrant](#run-docker-in-vagrant)
+  - [1.7 - NPM](#17---npm)
+  - [1.8 - pip](#18---pip)
+- [2 - Getting Started](#2---getting-started)
+- [3 - Usage](#3---usage)
+  - [To generate a sample client library](#to-generate-a-sample-client-library)
+  - [3.1 - Customization](#31---customization)
+  - [3.2 - Workflow Integration (Maven, Gradle, Github, CI/CD)](#32---workflow-integration-maven-gradle-github-cicd)
+  - [3.3 - Online OpenAPI generator](#33---online-openapi-generator)
+  - [3.4 - License information on Generated Code](#34---license-information-on-generated-code)
+  - [3.5 - IDE Integration](#35---ide-integration)
+- [4 - Companies/Projects using OpenAPI Generator](#4---companiesprojects-using-openapi-generator)
+- [5 - Presentations/Videos/Tutorials/Books](#5---presentationsvideostutorialsbooks)
+- [6 - About Us](#6---about-us)
+  - [6.1 - OpenAPI Generator Core Team](#61---openapi-generator-core-team)
+    - [Core Team Members](#core-team-members)
+    - [Template Creator](#template-creator)
+    - [How to join the core team](#how-to-join-the-core-team)
+  - [6.2 - OpenAPI Generator Technical Committee](#62---openapi-generator-technical-committee)
+    - [Members of Technical Committee](#members-of-technical-committee)
+  - [6.3 - History of OpenAPI Generator](#63---history-of-openapi-generator)
+    - [Founding Members (alphabetical order):](#founding-members-alphabetical-order)
+- [7 - License](#7---license)
 
 ## [1 - Installation](#table-of-contents)
 
@@ -1007,7 +1023,7 @@ Here is a list of template creators:
    * Apex: @asnelling
    * Bash: @bkryza
    * C: @PowerOfCreation @zhemant [:heart:](https://www.patreon.com/zhemant)
-   * C++ REST: @Danielku15
+   * C++ REST: @Danielku15, @aminya
    * C++ Tiny: @AndersSpringborg @kaareHH @michelealbano @mkakbas
    * C++ UE4: @Kahncode
    * C# (.NET 2.0): @who
@@ -1219,7 +1235,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Apex                  |                                                                                                                                                                                                                                                       |
 | Bash                  | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09)                                                                                                                                                                                           |
 | C                     | @zhemant (2018/11) @ityuhui (2019/12) @michelealbano (2020/03) @eafer (2024/12)                                                                                                                                                                                        |
-| C++                   | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08)                                                                                                                                         |
+| C++                   | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08) @aminya (2025/05)                                                                                                                                         |
 | C#                    | @mandrean (2017/08) @shibayan (2020/02) @Blackclaws (2021/03) @lucamazzanti (2021/05) @iBicha (2023/07)                                                                                                                                          |
 | Clojure               |                                                                                                                                                                                                                                                       |
 | Crystal               | @cyangle (2021/01)                                                                                                                                                                                                                                    |
