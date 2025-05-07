@@ -41,7 +41,7 @@ defmodule DeserializerTest do
         name: "Nagga",
         photoUrls: ["https://example.com/nagga1.jpg", "https://example.com/nagga2.jpg"],
         tags: [%Tag{id: 99, name: "dragon"}, %Tag{id: 23, name: "sea"}],
-        status: :available
+        status: "available"
       }
   end
 
