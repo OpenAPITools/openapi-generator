@@ -668,7 +668,7 @@ UserAPI_testInt32Int64FloatDouble(apiClient_t *apiClient, float floatnum, double
     {
         keyQuery_int32num = strdup("int32num");
         valueQuery_int32num = calloc(1,MAX_NUMBER_LENGTH);
-        int s = snprintf(valueQuery_int32num, MAX_NUMBER_LENGTH, "%d", *int32num);
+        snprintf(valueQuery_int32num, MAX_NUMBER_LENGTH, "%d", *int32num);
         keyPairQuery_int32num = keyValuePair_create(keyQuery_int32num, valueQuery_int32num);
         list_addElement(localVarQueryParameters,keyPairQuery_int32num);
     }
@@ -761,7 +761,7 @@ UserAPI_testIntAndBool(apiClient_t *apiClient, int *keep, int *keepDay)
     {
         keyQuery_keepDay = strdup("keepDay");
         valueQuery_keepDay = calloc(1,MAX_NUMBER_LENGTH);
-        int s = snprintf(valueQuery_keepDay, MAX_NUMBER_LENGTH, "%d", *keepDay);
+        snprintf(valueQuery_keepDay, MAX_NUMBER_LENGTH, "%d", *keepDay);
         keyPairQuery_keepDay = keyValuePair_create(keyQuery_keepDay, valueQuery_keepDay);
         list_addElement(localVarQueryParameters,keyPairQuery_keepDay);
     }

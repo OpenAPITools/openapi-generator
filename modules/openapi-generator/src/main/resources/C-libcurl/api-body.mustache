@@ -250,7 +250,7 @@ end:
         keyQuery_{{{paramName}}} = strdup("{{{baseName}}}");
         {{#isInteger}}
         valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH);
-        int s = snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
+        snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
         {{/isInteger}}
         {{#isFloat}}
         valueQuery_{{{paramName}}} = calloc(1,TYPICAL_MAX_NUMBER_LENGTH_FLOAT);
@@ -258,7 +258,7 @@ end:
         if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
         {
             valueQuery_{{{paramName}}} = realloc(valueQuery_{{{paramName}}}, s+1);
-            snprintf(valueQuery_{{{paramName}}}, s+1, "%f", {{{paramName}}});
+            snprintf(valueQuery_{{{paramName}}}, s+1, "%.7e", {{{paramName}}});
         }
         {{/isFloat}}
         {{#isDouble}}
@@ -267,7 +267,7 @@ end:
         if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
         {
             valueQuery_{{{paramName}}} = realloc(valueQuery_{{{paramName}}}, s+1);
-            snprintf(valueQuery_{{{paramName}}}, s+1, "%f", {{{paramName}}});
+            snprintf(valueQuery_{{{paramName}}}, s+1, "%.16e", {{{paramName}}});
         }
         {{/isDouble}}
         {{#isLong}}
