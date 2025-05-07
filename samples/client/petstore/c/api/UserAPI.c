@@ -637,7 +637,7 @@ UserAPI_testInt32Int64FloatDouble(apiClient_t *apiClient, float floatnum, double
         if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
         {
             valueQuery_floatnum = realloc(valueQuery_floatnum, s+1);
-            snprintf(valueQuery_floatnum, s+1, "%f", floatnum);
+            snprintf(valueQuery_floatnum, s+1, "%.7e", floatnum);
         }
         keyPairQuery_floatnum = keyValuePair_create(keyQuery_floatnum, valueQuery_floatnum);
         list_addElement(localVarQueryParameters,keyPairQuery_floatnum);
@@ -654,7 +654,7 @@ UserAPI_testInt32Int64FloatDouble(apiClient_t *apiClient, float floatnum, double
         if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
         {
             valueQuery_doublenum = realloc(valueQuery_doublenum, s+1);
-            snprintf(valueQuery_doublenum, s+1, "%f", doublenum);
+            snprintf(valueQuery_doublenum, s+1, "%.16e", doublenum);
         }
         keyPairQuery_doublenum = keyValuePair_create(keyQuery_doublenum, valueQuery_doublenum);
         list_addElement(localVarQueryParameters,keyPairQuery_doublenum);
