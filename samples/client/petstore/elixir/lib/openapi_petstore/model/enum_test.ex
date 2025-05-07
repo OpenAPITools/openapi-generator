@@ -25,21 +25,17 @@ defmodule OpenapiPetstore.Model.EnumTest do
     field :enum_string_required, Ecto.Enum, values: [:UPPER, :lower, :""]
     field :enum_integer, Ecto.Enum, values: [:"1", :"-1"]
     field :enum_number, Ecto.Enum, values: [:"1.1", :"-1.2"]
-    embeds_one :outerEnum, OpenapiPetstore.Model.OuterEnum
-    embeds_one :outerEnumInteger, OpenapiPetstore.Model.OuterEnumInteger
-    embeds_one :outerEnumDefaultValue, OpenapiPetstore.Model.OuterEnumDefaultValue
-    embeds_one :outerEnumIntegerDefaultValue, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue
+    field :outerEnum, Ecto.Enum, values: [:placed, :approved, :delivered]
+    field :outerEnumInteger, Ecto.Enum, values: [:"0", :"1", :"2"]
+    field :outerEnumDefaultValue, Ecto.Enum, values: [:placed, :approved, :delivered]
+    field :outerEnumIntegerDefaultValue, Ecto.Enum, values: [:"0", :"1", :"2"]
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = struct, params) do
     struct
-    |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number])
+    |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue])
     |> Ecto.Changeset.validate_required([:enum_string_required])
-    |> Ecto.Changeset.cast_embed(:outerEnum)
-    |> Ecto.Changeset.cast_embed(:outerEnumInteger)
-    |> Ecto.Changeset.cast_embed(:outerEnumDefaultValue)
-    |> Ecto.Changeset.cast_embed(:outerEnumIntegerDefaultValue)
   end
 end
 

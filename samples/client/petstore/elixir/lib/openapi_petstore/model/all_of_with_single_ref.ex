@@ -16,15 +16,14 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   @primary_key false
   embedded_schema do
     field :username, :string
-    embeds_one :SingleRefType, OpenapiPetstore.Model.SingleRefType
+    field :SingleRefType, Ecto.Enum, values: [:admin, :user]
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = struct, params) do
     struct
-    |> Ecto.Changeset.cast(params, [:username])
+    |> Ecto.Changeset.cast(params, [:username, :SingleRefType])
     |> Ecto.Changeset.validate_required([])
-    |> Ecto.Changeset.cast_embed(:SingleRefType)
   end
 end
 

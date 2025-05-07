@@ -966,7 +966,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.hasImports = !this.imports.isEmpty();
 
             for (CodegenProperty var : this.vars) {
-                if (var.isPrimitiveType || var.isMap) {
+                if (var.isPrimitiveType || var.isMap || var.isEnum || var.isEnumRef) {
                     this.ectoFields.add(var);
                     if (var.required) {
                         this.requiredEctoFields.add(var);
@@ -1036,6 +1036,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.isArray = cp.isArray;
             this.isMap = cp.isMap;
             this.isEnum = cp.isEnum;
+            this.isEnumRef = cp.isEnumRef;
             this.isReadOnly = cp.isReadOnly;
             this.isWriteOnly = cp.isWriteOnly;
             this.isNullable = cp.isNullable;
@@ -1050,11 +1051,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
         public String ectoType() {
             String ectoType = ectoType(this);
-
             if (":any".equals(ectoType)) {
                 return ectoType + ", virtual: true";
             }
-
             return ectoType;
         }
 

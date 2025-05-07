@@ -1,5 +1,5 @@
 {{>licenseInfo}}
-{{#models}}{{#model}}defmodule {{moduleName}}.Model.{{classname}} do
+{{#models}}{{#model}}{{^isEnum}}defmodule {{moduleName}}.Model.{{classname}} do
   @moduledoc """
   {{&description}}
   """
@@ -18,7 +18,12 @@
     field {{#atom}}{{&baseName}}{{/atom}}, Ecto.Enum, values: [{{#allowableValues}}{{#values}}{{#atom}}{{.}}{{/atom}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
     {{/isEnum}}
     {{^isEnum}}
+    {{#isEnumRef}}
+    field {{#atom}}{{&baseName}}{{/atom}}, Ecto.Enum, values: [{{#allowableValues}}{{#values}}{{#atom}}{{.}}{{/atom}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
+    {{/isEnumRef}}
+    {{^isEnumRef}}
     field {{#atom}}{{&baseName}}{{/atom}}, {{{ectoType}}}
+    {{/isEnumRef}}
     {{/isEnum}}
   {{/ectoFields}}
   {{#ectoEmbeds}}
@@ -36,4 +41,4 @@
     {{/ectoEmbeds}}
   end
 end
-{{/model}}{{/models}}
+{{/isEnum}}{{/model}}{{/models}}
