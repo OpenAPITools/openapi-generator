@@ -43,17 +43,17 @@ web::json::value ApiResponse::toJson() const
     if(m_CodeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("code"))] = ModelBase::toJson(m_Code);
+        val[utility::conversions::to_string_t(_XPLATSTR("code"))] = ModelBase::toJson(m_Code);
     }
     if(m_TypeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("type"))] = ModelBase::toJson(m_Type);
+        val[utility::conversions::to_string_t(_XPLATSTR("type"))] = ModelBase::toJson(m_Type);
     }
     if(m_MessageIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("message"))] = ModelBase::toJson(m_Message);
+        val[utility::conversions::to_string_t(_XPLATSTR("message"))] = ModelBase::toJson(m_Message);
     }
 
     return val;
@@ -62,9 +62,9 @@ web::json::value ApiResponse::toJson() const
 bool ApiResponse::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("code"))))
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("code"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("code")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("code")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setCode;
@@ -73,9 +73,9 @@ bool ApiResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("type"))))
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("type"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("type")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("type")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setType;
@@ -84,9 +84,9 @@ bool ApiResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("message"))))
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("message"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("message")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("message")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setMessage;
@@ -101,21 +101,21 @@ bool ApiResponse::fromJson(const web::json::value& val)
 void ApiResponse::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(_XPLATSTR(".")))
     {
-        namePrefix += utility::conversions::to_string_t(U("."));
+        namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
     if(m_CodeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("code")), m_Code));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("code")), m_Code));
     }
     if(m_TypeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("type")), m_Type));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("type")), m_Type));
     }
     if(m_MessageIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("message")), m_Message));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("message")), m_Message));
     }
 }
 
@@ -123,27 +123,27 @@ bool ApiResponse::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(_XPLATSTR(".")))
     {
-        namePrefix += utility::conversions::to_string_t(U("."));
+        namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("code"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("code"))))
     {
         int32_t refVal_setCode;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("code"))), refVal_setCode );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("code"))), refVal_setCode );
         setCode(refVal_setCode);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("type"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("type"))))
     {
         utility::string_t refVal_setType;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("type"))), refVal_setType );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("type"))), refVal_setType );
         setType(refVal_setType);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("message"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("message"))))
     {
         utility::string_t refVal_setMessage;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("message"))), refVal_setMessage );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("message"))), refVal_setMessage );
         setMessage(refVal_setMessage);
     }
     return ok;

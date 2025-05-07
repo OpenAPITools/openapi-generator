@@ -40,12 +40,12 @@ web::json::value Vaccine::toJson() const
     if(m_dateIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("date"))] = ModelBase::toJson(m_date);
+        val[utility::conversions::to_string_t(_XPLATSTR("date"))] = ModelBase::toJson(m_date);
     }
     if(m_BoosterRequiredIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("boosterRequired"))] = ModelBase::toJson(m_BoosterRequired);
+        val[utility::conversions::to_string_t(_XPLATSTR("boosterRequired"))] = ModelBase::toJson(m_BoosterRequired);
     }
 
     return val;
@@ -54,9 +54,9 @@ web::json::value Vaccine::toJson() const
 bool Vaccine::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("date"))))
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("date"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("date")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("date")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<AnyType> refVal_setDate;
@@ -65,9 +65,9 @@ bool Vaccine::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("boosterRequired"))))
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("boosterRequired"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("boosterRequired")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("boosterRequired")));
         if(!fieldValue.is_null())
         {
             bool refVal_setBoosterRequired;
@@ -82,17 +82,17 @@ bool Vaccine::fromJson(const web::json::value& val)
 void Vaccine::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(_XPLATSTR(".")))
     {
-        namePrefix += utility::conversions::to_string_t(U("."));
+        namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
     if(m_dateIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("date")), m_date));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("date")), m_date));
     }
     if(m_BoosterRequiredIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("boosterRequired")), m_BoosterRequired));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("boosterRequired")), m_BoosterRequired));
     }
 }
 
@@ -100,21 +100,21 @@ bool Vaccine::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const 
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(_XPLATSTR(".")))
     {
-        namePrefix += utility::conversions::to_string_t(U("."));
+        namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("date"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("date"))))
     {
         std::shared_ptr<AnyType> refVal_setDate;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("date"))), refVal_setDate );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("date"))), refVal_setDate );
         setDate(refVal_setDate);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("boosterRequired"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("boosterRequired"))))
     {
         bool refVal_setBoosterRequired;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("boosterRequired"))), refVal_setBoosterRequired );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("boosterRequired"))), refVal_setBoosterRequired );
         setBoosterRequired(refVal_setBoosterRequired);
     }
     return ok;

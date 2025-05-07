@@ -36,6 +36,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 find_package(cpprestsdk REQUIRED)
+target_compile_definitions(cpprestsdk::cpprest INTERFACE _TURN_OFF_PLATFORM_STRING)
 find_package(Boost REQUIRED)
 
 include(GNUInstallDirs)
