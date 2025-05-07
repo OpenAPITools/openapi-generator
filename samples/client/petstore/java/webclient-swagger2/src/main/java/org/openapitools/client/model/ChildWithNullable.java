@@ -63,7 +63,7 @@ public class ChildWithNullable extends ParentWithNullable {
    */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_OTHER_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getOtherProperty() {
@@ -71,7 +71,7 @@ public class ChildWithNullable extends ParentWithNullable {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_OTHER_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOtherProperty(@javax.annotation.Nullable String otherProperty) {
     this.otherProperty = otherProperty;

@@ -57,7 +57,7 @@ public class AllOfWithSingleRef {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getUsername() {
@@ -65,7 +65,7 @@ public class AllOfWithSingleRef {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUsername(@jakarta.annotation.Nullable String username) {
     this.username = username;
@@ -83,7 +83,7 @@ public class AllOfWithSingleRef {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SINGLE_REF_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public SingleRefType getSingleRefType() {
@@ -91,7 +91,7 @@ public class AllOfWithSingleRef {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SINGLE_REF_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSingleRefType(@jakarta.annotation.Nullable SingleRefType singleRefType) {
     this.singleRefType = singleRefType;

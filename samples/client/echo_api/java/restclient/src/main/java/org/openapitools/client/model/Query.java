@@ -94,7 +94,7 @@ public class Query {
    * @return id
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -102,7 +102,7 @@ public class Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@jakarta.annotation.Nullable Long id) {
     this.id = id;
@@ -127,7 +127,7 @@ public class Query {
    * @return outcomes
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonProperty(value = JSON_PROPERTY_OUTCOMES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<OutcomesEnum> getOutcomes() {
@@ -135,7 +135,7 @@ public class Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonProperty(value = JSON_PROPERTY_OUTCOMES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOutcomes(@jakarta.annotation.Nullable List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
