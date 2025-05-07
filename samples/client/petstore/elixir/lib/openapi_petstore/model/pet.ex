@@ -22,7 +22,7 @@ defmodule OpenapiPetstore.Model.Pet do
     field :id, :integer
     field :name, :string
     field :photoUrls, {:array, :string}
-    field :status, Ecto.Enum, values: [:available, :pending, :sold]
+    field :status, :string
     embeds_one :category, OpenapiPetstore.Model.Category
     embeds_many :tags, OpenapiPetstore.Model.Tag
   end
@@ -32,6 +32,7 @@ defmodule OpenapiPetstore.Model.Pet do
     struct
     |> Ecto.Changeset.cast(params, [:id, :name, :photoUrls, :status])
     |> Ecto.Changeset.validate_required([:name, :photoUrls])
+    |> Ecto.Changeset.validate_inclusion(:status, ["available", "pending", "sold"])
     |> Ecto.Changeset.cast_embed(:category)
     |> Ecto.Changeset.cast_embed(:tags)
   end

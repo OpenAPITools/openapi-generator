@@ -21,14 +21,14 @@ defmodule OpenapiPetstore.Model.EnumTest do
   @derive {JSON.Encoder, only: [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue]}
   @primary_key false
   embedded_schema do
-    field :enum_string, Ecto.Enum, values: [:UPPER, :lower, :""]
-    field :enum_string_required, Ecto.Enum, values: [:UPPER, :lower, :""]
-    field :enum_integer, Ecto.Enum, values: [:"1", :"-1"]
-    field :enum_number, Ecto.Enum, values: [:"1.1", :"-1.2"]
-    field :outerEnum, Ecto.Enum, values: [:placed, :approved, :delivered]
-    field :outerEnumInteger, Ecto.Enum, values: [:"0", :"1", :"2"]
-    field :outerEnumDefaultValue, Ecto.Enum, values: [:placed, :approved, :delivered]
-    field :outerEnumIntegerDefaultValue, Ecto.Enum, values: [:"0", :"1", :"2"]
+    field :enum_string, :string
+    field :enum_string_required, :string
+    field :enum_integer, :integer
+    field :enum_number, :float
+    field :outerEnum, :string
+    field :outerEnumInteger, :integer
+    field :outerEnumDefaultValue, :string
+    field :outerEnumIntegerDefaultValue, :integer
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
@@ -36,6 +36,14 @@ defmodule OpenapiPetstore.Model.EnumTest do
     struct
     |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue])
     |> Ecto.Changeset.validate_required([:enum_string_required])
+    |> Ecto.Changeset.validate_inclusion(:enum_string, ["UPPER", "lower", ""])
+    |> Ecto.Changeset.validate_inclusion(:enum_string_required, ["UPPER", "lower", ""])
+    |> Ecto.Changeset.validate_inclusion(:enum_integer, [1, -1])
+    |> Ecto.Changeset.validate_inclusion(:enum_number, [1.1, -1.2])
+    |> Ecto.Changeset.validate_inclusion(:outerEnum, ["placed", "approved", "delivered"])
+    |> Ecto.Changeset.validate_inclusion(:outerEnumInteger, [0, 1, 2])
+    |> Ecto.Changeset.validate_inclusion(:outerEnumDefaultValue, ["placed", "approved", "delivered"])
+    |> Ecto.Changeset.validate_inclusion(:outerEnumIntegerDefaultValue, [0, 1, 2])
   end
 end
 

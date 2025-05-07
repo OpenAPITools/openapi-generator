@@ -16,7 +16,7 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   @primary_key false
   embedded_schema do
     field :username, :string
-    field :SingleRefType, Ecto.Enum, values: [:admin, :user]
+    field :SingleRefType, :string
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
@@ -24,6 +24,7 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
     struct
     |> Ecto.Changeset.cast(params, [:username, :SingleRefType])
     |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.validate_inclusion(:SingleRefType, ["admin", "user"])
   end
 end
 

@@ -23,7 +23,7 @@ defmodule OpenapiPetstore.Model.Order do
     field :petId, :integer
     field :quantity, :integer
     field :shipDate, :utc_datetime
-    field :status, Ecto.Enum, values: [:placed, :approved, :delivered]
+    field :status, :string
     field :complete, :boolean
   end
 
@@ -32,6 +32,7 @@ defmodule OpenapiPetstore.Model.Order do
     struct
     |> Ecto.Changeset.cast(params, [:id, :petId, :quantity, :shipDate, :status, :complete])
     |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.validate_inclusion(:status, ["placed", "approved", "delivered"])
   end
 end
 

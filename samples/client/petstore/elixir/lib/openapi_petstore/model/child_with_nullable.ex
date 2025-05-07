@@ -16,7 +16,7 @@ defmodule OpenapiPetstore.Model.ChildWithNullable do
   @derive {JSON.Encoder, only: [:type, :nullableProperty, :otherProperty]}
   @primary_key false
   embedded_schema do
-    field :type, Ecto.Enum, values: [:ChildWithNullable]
+    field :type, :string
     field :nullableProperty, :string
     field :otherProperty, :string
   end
@@ -26,6 +26,7 @@ defmodule OpenapiPetstore.Model.ChildWithNullable do
     struct
     |> Ecto.Changeset.cast(params, [:type, :nullableProperty, :otherProperty])
     |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.validate_inclusion(:type, ["ChildWithNullable"])
   end
 end
 

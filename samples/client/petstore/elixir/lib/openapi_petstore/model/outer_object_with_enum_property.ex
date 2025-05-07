@@ -14,7 +14,7 @@ defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   @derive {JSON.Encoder, only: [:value]}
   @primary_key false
   embedded_schema do
-    field :value, Ecto.Enum, values: [:"0", :"1", :"2"]
+    field :value, :integer
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
@@ -22,6 +22,7 @@ defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
     struct
     |> Ecto.Changeset.cast(params, [:value])
     |> Ecto.Changeset.validate_required([:value])
+    |> Ecto.Changeset.validate_inclusion(:value, [0, 1, 2])
   end
 end
 

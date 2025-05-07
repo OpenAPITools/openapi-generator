@@ -15,8 +15,8 @@ defmodule OpenapiPetstore.Model.EnumArrays do
   @derive {JSON.Encoder, only: [:just_symbol, :array_enum]}
   @primary_key false
   embedded_schema do
-    field :just_symbol, Ecto.Enum, values: [:"&gt;&#x3D;", :"$"]
-    field :array_enum, Ecto.Enum, values: [:fish, :crab]
+    field :just_symbol, :string
+    field :array_enum, {:array, :string}
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
@@ -24,6 +24,8 @@ defmodule OpenapiPetstore.Model.EnumArrays do
     struct
     |> Ecto.Changeset.cast(params, [:just_symbol, :array_enum])
     |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.validate_inclusion(:just_symbol, ["&gt;&#x3D;", "$"])
+    |> Ecto.Changeset.validate_inclusion(:array_enum, ["fish", "crab"])
   end
 end
 
