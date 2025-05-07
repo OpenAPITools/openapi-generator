@@ -12,10 +12,10 @@ defmodule OpenapiPetstore.Model.EnumTest do
     :enum_string_required => String.t,
     :enum_integer => integer() | nil,
     :enum_number => float() | nil,
-    :outerEnum => OpenapiPetstore.Model.OuterEnum.t | nil,
-    :outerEnumInteger => OpenapiPetstore.Model.OuterEnumInteger.t | nil,
-    :outerEnumDefaultValue => OpenapiPetstore.Model.OuterEnumDefaultValue.t | nil,
-    :outerEnumIntegerDefaultValue => OpenapiPetstore.Model.OuterEnumIntegerDefaultValue.t | nil
+    :outerEnum => String.t | nil,
+    :outerEnumInteger => integer() | nil,
+    :outerEnumDefaultValue => String.t | nil,
+    :outerEnumIntegerDefaultValue => integer() | nil
   }
 
   @derive {JSON.Encoder, only: [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue]}

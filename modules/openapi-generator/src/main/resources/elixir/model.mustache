@@ -6,7 +6,7 @@
   use Ecto.Schema
 
   @type t :: %__MODULE__{
-    {{#vars}}{{#atom}}{{&baseName}}{{/atom}} => {{{datatype}}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{^-last}},
+    {{#vars}}{{#atom}}{{&baseName}}{{/atom}} => {{#isEnumRef}}{{{enumBaseType}}}{{/isEnumRef}}{{^isEnumRef}}{{{datatype}}}{{/isEnumRef}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{^-last}},
     {{/-last}}{{/vars}}
   }
 

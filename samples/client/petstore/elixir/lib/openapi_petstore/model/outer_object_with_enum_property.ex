@@ -8,7 +8,7 @@ defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   use Ecto.Schema
 
   @type t :: %__MODULE__{
-    :value => OpenapiPetstore.Model.OuterEnumInteger.t
+    :value => integer()
   }
 
   @derive {JSON.Encoder, only: [:value]}

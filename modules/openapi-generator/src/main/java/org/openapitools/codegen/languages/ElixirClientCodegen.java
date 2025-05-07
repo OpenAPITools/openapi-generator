@@ -979,6 +979,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     class ExtendedCodegenProperty extends CodegenProperty {
+        public String enumBaseType;
+
         public ExtendedCodegenProperty(CodegenProperty cp) {
             super();
 
@@ -1047,6 +1049,29 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.vars = cp.vars;
             this.requiredVars = cp.requiredVars;
             this.vendorExtensions = cp.vendorExtensions;
+
+            // For enum references, determine the base type from the enum values
+            if (cp.isEnumRef && cp.allowableValues != null && cp.allowableValues.get("values") != null) {
+                List<Object> values = (List<Object>) cp.allowableValues.get("values");
+                if (!values.isEmpty()) {
+                    Object firstValue = values.get(0);
+                    if (firstValue instanceof String) {
+                        this.enumBaseType = "String.t";
+                    } else if (firstValue instanceof Integer || firstValue instanceof Long) {
+                        this.enumBaseType = "integer()";
+                    } else if (firstValue instanceof Float || firstValue instanceof Double) {
+                        this.enumBaseType = "float()";
+                    } else if (firstValue instanceof Boolean) {
+                        this.enumBaseType = "boolean()";
+                    } else {
+                        // Default to string for unknown types
+                        this.enumBaseType = "String.t";
+                    }
+                } else {
+                    // No values, default to string
+                    this.enumBaseType = "String.t";
+                }
+            }
         }
 
         public String ectoType() {

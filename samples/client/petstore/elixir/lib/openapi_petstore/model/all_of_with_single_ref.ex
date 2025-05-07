@@ -9,7 +9,7 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
 
   @type t :: %__MODULE__{
     :username => String.t | nil,
-    :SingleRefType => OpenapiPetstore.Model.SingleRefType.t | nil
+    :SingleRefType => String.t | nil
   }
 
   @derive {JSON.Encoder, only: [:username, :SingleRefType]}
