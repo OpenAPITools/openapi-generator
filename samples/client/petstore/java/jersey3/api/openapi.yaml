@@ -2038,6 +2038,7 @@ components:
         color:
           type: string
     apple:
+      additionalProperties: false
       nullable: true
       properties:
         cultivar:
@@ -2048,6 +2049,7 @@ components:
           type: string
       type: object
     banana:
+      additionalProperties: false
       properties:
         lengthCm:
           type: number
