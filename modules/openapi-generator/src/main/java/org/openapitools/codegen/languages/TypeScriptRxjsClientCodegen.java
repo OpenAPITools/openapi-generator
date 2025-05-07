@@ -349,7 +349,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.hasConsumes = o.hasConsumes;
             this.hasProduces = o.hasProduces;
             this.hasOptionalParams = o.hasOptionalParams;
-            this.hasRequiredParams = o.hasRequiredParams;
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
@@ -359,12 +358,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.isResponseBinary = o.isResponseBinary;
             this.isResponseFile = o.isResponseFile;
             this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
             this.isDeprecated = o.isDeprecated;
             this.isCallbackRequest = o.isCallbackRequest;
             this.path = o.path;
