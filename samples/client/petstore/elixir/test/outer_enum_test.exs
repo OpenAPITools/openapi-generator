@@ -1,7 +1,6 @@
 defmodule OuterEnumTest do
   use ExUnit.Case, async: true
 
-  alias OpenapiPetstore.Deserializer
   alias OpenapiPetstore.Model.EnumTest
 
   @valid_json """
