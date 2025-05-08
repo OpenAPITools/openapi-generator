@@ -26,6 +26,7 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
     struct
     |> Ecto.Changeset.cast(params, [:uuid, :dateTime, :map])
     |> Ecto.Changeset.validate_required([])
+    |> OpenapiPetstore.EctoUtils.cast_nested_map(:map, OpenapiPetstore.Model.Animal)
   end
 end
 
