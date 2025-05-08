@@ -249,13 +249,10 @@ public class AnyTypeTest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("any_type_property");
-    openapiFields.add("array_prop");
-    openapiFields.add("ref_array_prefix_items");
+    openapiFields = new HashSet<String>(Arrays.asList("any_type_property", "array_prop", "ref_array_prefix_items"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

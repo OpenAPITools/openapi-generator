@@ -2244,6 +2244,23 @@ public class ModelUtils {
     }
 
     /**
+     * Removes duplicate `oneOf` from a given schema if it does not also have a discriminator.
+     *
+     * @param schema Schema
+     */
+    public static void deduplicateOneOfSchema(Schema<?> schema) {
+        if (schema.getOneOf() == null) {
+            return;
+        }
+        if (schema.getDiscriminator() != null) {
+            return; // Duplicate oneOf are allowed if there is a discriminator that can be used to separate them.
+        }
+
+        Set<Schema> deduplicated = new LinkedHashSet<>(schema.getOneOf());
+        schema.setOneOf(new ArrayList<>(deduplicated));
+    }
+
+    /**
      * Check if the schema is of type 'null' or schema itself is pointing to null
      * <p>
      * Return true if the schema's type is 'null' or not specified

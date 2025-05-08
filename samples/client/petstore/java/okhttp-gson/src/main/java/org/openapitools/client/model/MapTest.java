@@ -331,14 +331,10 @@ public class MapTest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("map_map_of_string");
-    openapiFields.add("map_of_enum_string");
-    openapiFields.add("direct_map");
-    openapiFields.add("indirect_map");
+    openapiFields = new HashSet<String>(Arrays.asList("map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

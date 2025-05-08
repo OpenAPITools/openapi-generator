@@ -247,15 +247,10 @@ public class AllOfModelArrayAnyOf {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("id");
-    openapiFields.add("name");
-    openapiFields.add("linkListColumn1");
-    openapiFields.add("attributes");
+    openapiFields = new HashSet<String>(Arrays.asList("id", "name", "linkListColumn1", "attributes"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("name");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("name"));
   }
 
   /**

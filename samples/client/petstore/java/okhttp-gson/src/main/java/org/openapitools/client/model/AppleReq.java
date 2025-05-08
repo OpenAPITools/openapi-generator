@@ -147,13 +147,10 @@ public class AppleReq {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("cultivar");
-    openapiFields.add("mealy");
+    openapiFields = new HashSet<String>(Arrays.asList("cultivar", "mealy"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("cultivar");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("cultivar"));
   }
 
   /**

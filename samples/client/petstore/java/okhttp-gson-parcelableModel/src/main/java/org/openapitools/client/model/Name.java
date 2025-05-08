@@ -221,15 +221,10 @@ public class Name implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("name");
-    openapiFields.add("snake_case");
-    openapiFields.add("property");
-    openapiFields.add("123Number");
+    openapiFields = new HashSet<String>(Arrays.asList("name", "snake_case", "property", "123Number"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("name");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("name"));
   }
 
   /**

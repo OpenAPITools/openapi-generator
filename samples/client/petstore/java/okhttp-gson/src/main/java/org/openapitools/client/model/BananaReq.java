@@ -148,13 +148,10 @@ public class BananaReq {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("lengthCm");
-    openapiFields.add("sweet");
+    openapiFields = new HashSet<String>(Arrays.asList("lengthCm", "sweet"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("lengthCm");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("lengthCm"));
   }
 
   /**

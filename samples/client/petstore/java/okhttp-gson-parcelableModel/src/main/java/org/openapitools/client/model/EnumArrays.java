@@ -286,12 +286,10 @@ public class EnumArrays implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("just_symbol");
-    openapiFields.add("array_enum");
+    openapiFields = new HashSet<String>(Arrays.asList("just_symbol", "array_enum"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

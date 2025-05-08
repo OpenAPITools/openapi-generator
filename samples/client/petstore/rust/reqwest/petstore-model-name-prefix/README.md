@@ -80,6 +80,7 @@ Class | Method | HTTP request | Description
  - [FooUniqueItemArrayTesting](docs/FooUniqueItemArrayTesting.md)
  - [FooUser](docs/FooUser.md)
  - [FooVehicle](docs/FooVehicle.md)
+ - [FooWithInnerOneOf](docs/FooWithInnerOneOf.md)
 
 
 To get access to the crate's generated documentation, use:

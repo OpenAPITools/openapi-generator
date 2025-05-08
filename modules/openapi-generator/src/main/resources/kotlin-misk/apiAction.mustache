@@ -32,22 +32,22 @@ import misk.web.mediatype.MediaTypes
 {{#imports}}import {{import}}
 {{/imports}}
 
-{{#operations}}
 /**
- * Generated file, please change {{classname}}Impl.
- */
+* @TODO("Fill out implementation")
+*/
+{{#operations}}
 @Singleton
 class {{classname}}Action @Inject constructor(
-    private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
-) : WebAction, {{classname}} {
+) : WebAction {
 {{#operation}}
 
-    @{{httpMethod}}("{{path}}")
+    @{{httpMethod}}("{{actionPathPrefix}}{{path}}")
     @Description("{{{summary}}}"){{#hasConsumes}}
     @RequestContentType({{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
     @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
+    fun {{operationId}}({{#allParams}}
+        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
         TODO()
     }
 {{/operation}}

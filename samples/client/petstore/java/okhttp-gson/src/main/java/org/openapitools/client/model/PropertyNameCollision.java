@@ -219,13 +219,10 @@ public class PropertyNameCollision {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("_type");
-    openapiFields.add("type");
-    openapiFields.add("type_");
+    openapiFields = new HashSet<String>(Arrays.asList("_type", "type", "type_"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

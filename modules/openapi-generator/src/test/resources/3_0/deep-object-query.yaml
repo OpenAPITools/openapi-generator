@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: deepobject-query
+  version: 1.0.0
+paths:
+  /car:
+    get:
+      operationId: getCars
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/CarFilter'
+          explode: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+components:
+  schemas:
+    Car:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        make:
+          type: string
+          example: Toyota
+        model:
+          type: string
+          example: Camry
+    CarFilter:
+      type: object
+      properties:
+        make:
+          type: string
+          example: Toyota
+        model:
+          type: string
+          example: Camry
