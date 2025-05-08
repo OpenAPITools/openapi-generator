@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**foo** | Option<[**models::FooOrder**](Order.md)> |  | [optional]
+**foo** | Option<[**models::FooWithInnerOneOfFoo**](WithInnerOneOf_foo.md)> |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

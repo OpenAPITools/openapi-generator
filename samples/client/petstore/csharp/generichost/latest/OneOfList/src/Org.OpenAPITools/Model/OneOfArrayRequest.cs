@@ -43,10 +43,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="OneOfArrayRequest" /> class.
         /// </summary>
-        /// <param name="list1"></param>
-        internal OneOfArrayRequest(List<TestObject> list1)
+        /// <param name="list"></param>
+        internal OneOfArrayRequest(List<TestObject> list)
         {
-            List1 = list1;
+            List = list;
             OnCreated();
         }
 
@@ -58,9 +58,9 @@ namespace Org.OpenAPITools.Model
         public List<string>? List { get; set; }
 
         /// <summary>
-        /// Gets or Sets List1
+        /// Gets or Sets List
         /// </summary>
-        public List<TestObject>? List1 { get; set; }
+        public List<TestObject>? List { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,7 +108,7 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             List<string>? list = default;
-            List<TestObject>? list1 = default;
+            List<TestObject>? list = default;
 
             Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
             while (utf8JsonReaderOneOf.Read())
@@ -124,8 +124,8 @@ namespace Org.OpenAPITools.Model
                     Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
                     ClientUtils.TryDeserialize<List<string>?>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
 
-                    Utf8JsonReader utf8JsonReaderList1 = utf8JsonReader;
-                    ClientUtils.TryDeserialize<List<TestObject>?>(ref utf8JsonReaderList1, jsonSerializerOptions, out list1);
+                    Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
+                    ClientUtils.TryDeserialize<List<TestObject>?>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
                 }
             }
 
@@ -153,8 +153,8 @@ namespace Org.OpenAPITools.Model
             if (list != null)
                 return new OneOfArrayRequest(list);
 
-            if (list1 != null)
-                return new OneOfArrayRequest(list1);
+            if (list != null)
+                return new OneOfArrayRequest(list);
 
             throw new JsonException();
         }

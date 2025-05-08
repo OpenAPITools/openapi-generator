@@ -15,6 +15,7 @@ use serde::{Deserialize, Serialize};
 #[serde(untagged)]
 pub enum FooWithInnerOneOfFoo {
     FooOrder(Box<models::FooOrder>),
+    FooOrder(Box<models::FooOrder>),
 }
 
 impl Default for FooWithInnerOneOfFoo {
