@@ -17,10 +17,10 @@ defmodule OpenapiPetstore.Model.MapTest do
   @derive {JSON.Encoder, only: [:map_map_of_string, :map_of_enum_string, :direct_map, :indirect_map]}
   @primary_key false
   embedded_schema do
-    field :map_map_of_string, :map
-    field :map_of_enum_string, :map
-    field :direct_map, :map
-    field :indirect_map, :map
+    field :map_map_of_string, {:map, {:map, :string}}
+    field :map_of_enum_string, {:map, :string}
+    field :direct_map, {:map, :boolean}
+    field :indirect_map, {:map, :boolean}
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()

@@ -18,7 +18,7 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   embedded_schema do
     field :uuid, :string
     field :dateTime, :utc_datetime
-    field :map, :map
+    field :map, {:map, :any}
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
