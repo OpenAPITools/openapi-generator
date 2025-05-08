@@ -1114,6 +1114,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
 
         private String ectoType(CodegenProperty property) {
+            if (property == null) {
+                return ":any";
+            }
+
             if (property.isEnumRef) {
                 List<Object> values = (List<Object>) property.allowableValues.get("values");
                 if (!values.isEmpty()) {
@@ -1157,7 +1161,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 case "list()":
                     return "{:array, " + ectoType(property.items) + "}";
                 case "map()":
-                    return ":map";
+                    return "{:map, " + ectoType(property.items) + "}";
                 case "nil":
                     return ":any";
                 default:

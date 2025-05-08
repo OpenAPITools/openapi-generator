@@ -16,7 +16,7 @@ defmodule OpenapiPetstore.Model.FakeBigDecimalMap200Response do
   @primary_key false
   embedded_schema do
     field :someId, :float
-    field :someMap, :map
+    field :someMap, {:map, :float}
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()

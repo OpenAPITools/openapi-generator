@@ -15,8 +15,8 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
   @derive {JSON.Encoder, only: [:map_property, :map_of_map_property]}
   @primary_key false
   embedded_schema do
-    field :map_property, :map
-    field :map_of_map_property, :map
+    field :map_property, {:map, :string}
+    field :map_of_map_property, {:map, {:map, :string}}
   end
 
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
