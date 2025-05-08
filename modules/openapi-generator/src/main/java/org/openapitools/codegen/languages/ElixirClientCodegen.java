@@ -398,6 +398,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
         supportingFiles.add(new SupportingFile("request_builder.ex.mustache",
                 sourceFolder(),
                 "request_builder.ex"));
+
+        supportingFiles.add(new SupportingFile("ecto_utils.ex.mustache",
+                sourceFolder(),
+                "ecto_utils.ex"));
     }
 
     @Override
@@ -491,6 +495,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
         ecm.ectoEnums.clear();
         for (CodegenProperty field : ectoEnums) {
             ecm.ectoEnums.add(new ExtendedCodegenProperty(field));
+        }
+
+
+        List<CodegenProperty> ectoMaps = new ArrayList<>(ecm.ectoMaps);
+        ecm.ectoMaps.clear();
+        for (CodegenProperty field : ectoMaps) {
+            ecm.ectoMaps.add(new ExtendedCodegenProperty(field));
         }
         
         return ecm;
@@ -998,6 +1009,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         public List<CodegenProperty> ectoFields = new ArrayList<>();
         public List<CodegenProperty> ectoEmbeds = new ArrayList<>();
         public List<CodegenProperty> ectoEnums = new ArrayList<>();
+        public List<CodegenProperty> ectoMaps = new ArrayList<>();
         public List<CodegenProperty> requiredEctoFields = new ArrayList<>();
 
         public ExtendedCodegenModel(CodegenModel cm) {
@@ -1062,6 +1074,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
                     if (var.isEnum || var.isEnumRef) {
                         this.ectoEnums.add(var);
                     }
+                    if (var.isMap && !var.isFreeFormObject && var.additionalProperties != null && var.additionalProperties.isModel) {
+                        this.ectoMaps.add(var);
+                    }
                 } else {
                     this.ectoEmbeds.add(var);
                 }
@@ -1071,6 +1086,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     class ExtendedCodegenProperty extends CodegenProperty {
         public String enumBaseType;
+        public String mapValueType;
+        public boolean isMapWithSchema;
 
         public ExtendedCodegenProperty(CodegenProperty cp) {
             super();
@@ -1160,6 +1177,17 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 } else {
                     // No values, default to string
                     this.enumBaseType = "String.t";
+                }
+            }
+            // For map properties, extract the model name from additionalProperties
+            if (cp.isMap && cp.additionalProperties != null) {
+                // Check if the map has a schema (model) or is a free-form map
+                if (cp.additionalProperties.isModel) {
+                    // Extract just the model name without the full type declaration
+                    this.mapValueType = cp.additionalProperties.complexType;
+                    this.isMapWithSchema = true;
+                } else {
+                    this.isMapWithSchema = false;
                 }
             }
         }

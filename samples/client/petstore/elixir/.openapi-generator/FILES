@@ -11,6 +11,7 @@ lib/openapi_petstore/api/pet.ex
 lib/openapi_petstore/api/store.ex
 lib/openapi_petstore/api/user.ex
 lib/openapi_petstore/connection.ex
+lib/openapi_petstore/ecto_utils.ex
 lib/openapi_petstore/model/_foo_get_default_response.ex
 lib/openapi_petstore/model/_special_model_name_.ex
 lib/openapi_petstore/model/additional_properties_class.ex
