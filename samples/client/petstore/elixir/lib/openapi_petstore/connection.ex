@@ -130,7 +130,7 @@ defmodule OpenapiPetstore.Connection do
     [
       {Tesla.Middleware.BaseUrl, base_url},
       {Tesla.Middleware.Headers, [{"user-agent", user_agent}]},
-      {Tesla.Middleware.EncodeJson, engine: json_engine}
+      {Tesla.Middleware.JSON, engine: json_engine}
       | middleware
     ]
   end
