@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Banana: Sendable, Codable, ParameterConvertible, Hashable {
+public struct Banana: Sendable, Codable, Hashable {
 
     public static let countRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: true, maximum: 100, exclusiveMaximum: true, multipleOf: 5)
     public static let idsRule = ArrayRule(minItems: 1, maxItems: 10, uniqueItems: false)
