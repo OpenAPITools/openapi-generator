@@ -85,9 +85,9 @@ import org.openapitools.client.auth.OAuth;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
-  private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private Map<String, String> defaultCookieMap = new HashMap<String, String>();
-  private String basePath = "http://petstore.swagger.io:80/v2";
+  protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+  protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
+  protected String basePath = "http://petstore.swagger.io:80/v2";
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
       "http://{server}.swagger.io:{port}/v2",
@@ -140,22 +140,22 @@ public class ApiClient extends JavaTimeFormatter {
   ));
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
-  private boolean debugging = false;
-  private int connectionTimeout = 0;
+  protected boolean debugging = false;
+  protected int connectionTimeout = 0;
 
-  private CloseableHttpClient httpClient;
-  private ObjectMapper objectMapper;
+  protected CloseableHttpClient httpClient;
+  protected ObjectMapper objectMapper;
   protected String tempFolderPath = null;
 
-  private Map<String, Authentication> authentications;
+  protected Map<String, Authentication> authentications;
 
-  private Map<Long, Integer> lastStatusCodeByThread = new ConcurrentHashMap<>();
-  private Map<Long, Map<String, List<String>>> lastResponseHeadersByThread = new ConcurrentHashMap<>();
+  protected Map<Long, Integer> lastStatusCodeByThread = new ConcurrentHashMap<>();
+  protected Map<Long, Map<String, List<String>>> lastResponseHeadersByThread = new ConcurrentHashMap<>();
 
-  private DateFormat dateFormat;
+  protected DateFormat dateFormat;
 
   // Methods that can have a request body
-  private static List<String> bodyMethods = Arrays.asList("POST", "PUT", "DELETE", "PATCH");
+  protected static List<String> bodyMethods = Arrays.asList("POST", "PUT", "DELETE", "PATCH");
 
   public ApiClient(CloseableHttpClient httpClient) {
     objectMapper = new ObjectMapper();
@@ -768,7 +768,7 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Parse content type object from header value
    */
-  private ContentType getContentType(String headerValue) throws ApiException {
+  protected ContentType getContentType(String headerValue) throws ApiException {
     try {
       return ContentType.parse(headerValue);
     } catch (UnsupportedCharsetException e) {
@@ -779,7 +779,7 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Get content type of a response or null if one was not provided
    */
-  private String getResponseMimeType(HttpResponse response) throws ApiException {
+  protected String getResponseMimeType(HttpResponse response) throws ApiException {
     Header contentTypeHeader = response.getFirstHeader("Content-Type");
     if (contentTypeHeader != null) {
       return getContentType(contentTypeHeader.getValue()).getMimeType();
@@ -888,7 +888,7 @@ public class ApiClient extends JavaTimeFormatter {
     }
   }
 
-  private File downloadFileFromResponse(CloseableHttpResponse response) throws IOException {
+  protected File downloadFileFromResponse(CloseableHttpResponse response) throws IOException {
     Header contentDispositionHeader = response.getFirstHeader("Content-Disposition");
     String contentDisposition = contentDispositionHeader == null ? null : contentDispositionHeader.getValue();
     File file = prepareDownloadFile(contentDisposition);
@@ -959,7 +959,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @param urlQueryDeepObject URL query string of the deep object parameters
    * @return The full URL
    */
-  private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams, String urlQueryDeepObject) {
+  protected String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams, String urlQueryDeepObject) {
     String baseURL = getBaseURL();
 
     final StringBuilder url = new StringBuilder();
@@ -1138,7 +1138,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @param headerParams Header parameters
    * @param cookieParams Cookie parameters
    */
-  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
+  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);

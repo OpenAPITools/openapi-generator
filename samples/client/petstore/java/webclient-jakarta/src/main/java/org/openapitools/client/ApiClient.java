@@ -85,28 +85,28 @@ public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 
-        private final String separator;
-        private CollectionFormat(String separator) {
+        protected final String separator;
+        CollectionFormat(String separator) {
             this.separator = separator;
         }
 
-        private String collectionToString(Collection<?> collection) {
+        protected String collectionToString(Collection<?> collection) {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
 
-    private static final String URI_TEMPLATE_ATTRIBUTE = WebClient.class.getName() + ".uriTemplate";
+    protected static final String URI_TEMPLATE_ATTRIBUTE = WebClient.class.getName() + ".uriTemplate";
 
-    private HttpHeaders defaultHeaders = new HttpHeaders();
-    private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
+    protected HttpHeaders defaultHeaders = new HttpHeaders();
+    protected MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
-    private String basePath = "http://petstore.swagger.io:80/v2";
+    protected String basePath = "http://petstore.swagger.io:80/v2";
 
-    private final WebClient webClient;
-    private final DateFormat dateFormat;
-    private final ObjectMapper objectMapper;
+    protected final WebClient webClient;
+    protected final DateFormat dateFormat;
+    protected final ObjectMapper objectMapper;
 
-    private Map<String, Authentication> authentications;
+    protected Map<String, Authentication> authentications;
 
 
     public ApiClient() {
@@ -128,7 +128,7 @@ public class ApiClient extends JavaTimeFormatter {
         this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient(mapper.copy())), format);
     }
 
-    private ApiClient(WebClient webClient, DateFormat format) {
+    protected ApiClient(WebClient webClient, DateFormat format) {
         this.webClient = webClient;
         this.dateFormat = format;
         this.objectMapper = createDefaultObjectMapper(format);
@@ -624,7 +624,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @param uriParams The path parameters
      * return templatized query string
      */
-    private String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
+    protected String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
         StringBuilder queryBuilder = new StringBuilder();
         queryParams.forEach((name, values) -> {
             if (CollectionUtils.isEmpty(values)) {
@@ -650,7 +650,7 @@ public class ApiClient extends JavaTimeFormatter {
         return queryBuilder.toString();
     }
 
-    private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, Map<String, Object> pathParams,
+    protected WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, Map<String, Object> pathParams,
         MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams,
         MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept,
         MediaType contentType, String[] authNames) {
