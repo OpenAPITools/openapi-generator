@@ -15,6 +15,8 @@ class BasePetApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BasePetApi.subclasses = BasePetApi.subclasses + (cls,)
+
+
     async def add_pet(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
@@ -82,3 +84,4 @@ class BasePetApi:
     ) -> ApiResponse:
         """"""
         ...
+
