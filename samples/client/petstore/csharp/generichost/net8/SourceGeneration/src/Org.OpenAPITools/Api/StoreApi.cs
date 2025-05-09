@@ -464,18 +464,25 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.Delete;
+#else
+                    httpRequestMessageLocalVar.Method = new HttpMethod("DELETE");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<DeleteOrderApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<DeleteOrderApiResponse>();
 
-                        DeleteOrderApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _jsonSerializerOptions);
+                        DeleteOrderApiResponse apiResponseLocalVar = new DeleteOrderApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterDeleteOrderDefaultImplementation(apiResponseLocalVar, orderId);
 
@@ -639,18 +646,25 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
+#else
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<GetInventoryApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<GetInventoryApiResponse>();
 
-                        GetInventoryApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/inventory", requestedAtLocalVar, _jsonSerializerOptions);
+                        GetInventoryApiResponse apiResponseLocalVar = new GetInventoryApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/inventory", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetInventoryDefaultImplementation(apiResponseLocalVar);
 
@@ -715,7 +729,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    :
+                #if NET6_0_OR_GREATER
+                        null;
+                #else
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -723,7 +742,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Dictionary<string, int>? result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out Dictionary<string, int>? result)
             {
                 result = null;
 
@@ -851,18 +874,25 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
+#else
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<GetOrderByIdApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<GetOrderByIdApiResponse>();
 
-                        GetOrderByIdApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _jsonSerializerOptions);
+                        GetOrderByIdApiResponse apiResponseLocalVar = new GetOrderByIdApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetOrderByIdDefaultImplementation(apiResponseLocalVar, orderId);
 
@@ -923,7 +953,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.Order>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    :
+                #if NET6_0_OR_GREATER
+                        null;
+                #else
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -931,7 +966,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Org.OpenAPITools.Model.Order? result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out Org.OpenAPITools.Model.Order? result)
             {
                 result = null;
 
@@ -1096,18 +1135,25 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
+#else
+                    httpRequestMessageLocalVar.Method = new HttpMethod("POST");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<PlaceOrderApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<PlaceOrderApiResponse>();
 
-                        PlaceOrderApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order", requestedAtLocalVar, _jsonSerializerOptions);
+                        PlaceOrderApiResponse apiResponseLocalVar = new PlaceOrderApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterPlaceOrderDefaultImplementation(apiResponseLocalVar, order);
 
@@ -1168,7 +1214,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.Order>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    :
+                #if NET6_0_OR_GREATER
+                        null;
+                #else
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -1176,7 +1227,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Org.OpenAPITools.Model.Order? result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out Org.OpenAPITools.Model.Order? result)
             {
                 result = null;
 
