@@ -29,7 +29,12 @@ class JmsSerializer implements SerializerInterface
      */
     public function serialize($data, string $format): string
     {
-        return SerializerBuilder::create()->build()->serialize($data, $this->convertFormat($format));
+       $convertFormat = $this->convertFormat($format);
+       if ($convertFormat !== null) {
+        return SerializerBuilder::create()->build()->serialize($data, $convertFormat);
+       } else {
+         return is_string($data) ? $data : var_export($data, true);
+       }
     }
 
     /**
