@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct FooWithInnerOneOf {
     #[serde(rename = "foo", skip_serializing_if = "Option::is_none")]
-    pub foo: Option<Box<models::FooWithInnerOneOfFoo>>,
+    pub foo: Option<Box<models::FooOrder>>,
 }
 
 impl FooWithInnerOneOf {
