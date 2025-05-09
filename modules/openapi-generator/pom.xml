@@ -158,8 +158,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                     <sourceDirectory>${basedir}/src/test/antlr4</sourceDirectory>
-					 <libDirectory>${basedir}/src/test/antlr4/imports</libDirectory>
+                    <sourceDirectory>${basedir}/src/test/antlr4</sourceDirectory>
+                    <libDirectory>${basedir}/src/test/antlr4/imports</libDirectory>
                     <outputDirectory>${project.build.directory}/generated-test-sources/antlr4</outputDirectory>
                 </configuration>
             </plugin>

@@ -269,7 +269,7 @@
                     <maxmemory>1g</maxmemory>
                     <failOnWarnings>false</failOnWarnings>
                     <doclint>none</doclint>
-					<excludePackageNames>org.openapitools.codegen.antlr4</excludePackageNames>
+                    <excludePackageNames>org.openapitools.codegen.antlr4</excludePackageNames>
                 </configuration>
                 <executions>
                     <execution>
