@@ -30,7 +30,7 @@ public class CategoryDto {
     super();
   }
 
-  public CategoryDto id(Long id) {
+  public CategoryDto id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -41,11 +41,11 @@ public class CategoryDto {
    */
   
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 

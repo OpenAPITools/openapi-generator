@@ -23,7 +23,7 @@ public class NumberOnly {
 
   private @Nullable BigDecimal justNumber;
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
     return this;
   }
@@ -34,11 +34,11 @@ public class NumberOnly {
    */
   
   @JsonProperty("JustNumber")
-  public BigDecimal getJustNumber() {
+  public @Nullable BigDecimal getJustNumber() {
     return justNumber;
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 

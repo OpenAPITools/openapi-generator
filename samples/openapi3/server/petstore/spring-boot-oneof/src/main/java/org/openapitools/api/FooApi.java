@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.lang.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +68,7 @@ public interface FooApi {
     )
     
     default ResponseEntity<FooRefOrValue> createFoo(
-        @Parameter(name = "Foo", description = "The Foo to be created") @Valid @RequestBody(required = false) Foo foo
+        @Parameter(name = "Foo", description = "The Foo to be created") @Valid @RequestBody(required = false) @Nullable Foo foo
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

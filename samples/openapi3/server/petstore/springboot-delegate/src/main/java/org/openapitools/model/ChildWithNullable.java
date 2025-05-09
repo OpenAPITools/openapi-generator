@@ -32,7 +32,7 @@ public class ChildWithNullable extends ParentWithNullable {
 
   private @Nullable String otherProperty;
 
-  public ChildWithNullable otherProperty(String otherProperty) {
+  public ChildWithNullable otherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;
     return this;
   }
@@ -44,11 +44,11 @@ public class ChildWithNullable extends ParentWithNullable {
   
   @Schema(name = "otherProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("otherProperty")
-  public String getOtherProperty() {
+  public @Nullable String getOtherProperty() {
     return otherProperty;
   }
 
-  public void setOtherProperty(String otherProperty) {
+  public void setOtherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;
   }
 
