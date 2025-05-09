@@ -90,6 +90,11 @@ utility::string_t ApiClient::parameterToString(const utility::datetime &value)
     return utility::conversions::to_string_t(value.to_string(utility::datetime::ISO_8601));
 }
 
+utility::string_t ApiClient::parameterToString(const ModelBase& value)
+{
+    return value.toJson().serialize();
+}
+
 utility::string_t ApiClient::parameterToString(bool value)
 {
     std::stringstream valueAsStringStream;
