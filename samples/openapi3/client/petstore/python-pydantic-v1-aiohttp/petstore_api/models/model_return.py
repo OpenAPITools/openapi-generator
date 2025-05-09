@@ -63,6 +63,11 @@ class ModelReturn(BaseModel):
         if not isinstance(obj, dict):
             return ModelReturn.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in ModelReturn) in the input: " + obj)
+
         _obj = ModelReturn.parse_obj({
             "var_return": obj.get("return")
         })

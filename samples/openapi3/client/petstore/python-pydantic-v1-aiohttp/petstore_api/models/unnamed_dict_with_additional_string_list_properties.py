@@ -63,6 +63,11 @@ class UnnamedDictWithAdditionalStringListProperties(BaseModel):
         if not isinstance(obj, dict):
             return UnnamedDictWithAdditionalStringListProperties.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in UnnamedDictWithAdditionalStringListProperties) in the input: " + obj)
+
         _obj = UnnamedDictWithAdditionalStringListProperties.parse_obj({
             "dict_property": obj.get("dictProperty")
         })
