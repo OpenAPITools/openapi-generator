@@ -77,12 +77,12 @@ interface StoreApiInterface
      * @param  int     &$responseCode    The HTTP Response Code
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return array|object|null
+     * @return int
      */
     public function getInventory(
         int &$responseCode,
         array &$responseHeaders
-    ): array|object|null;
+    ): int;
 
     /**
      * Operation getOrderById

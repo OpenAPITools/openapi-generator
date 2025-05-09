@@ -417,7 +417,17 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 op.vendorExtensions.put("x-comment-type", "void");
             }
             // Create a variable to add typing for return value of interface
-            if (op.returnType != null) {
+            if ("bool".equals(op.returnType)) {
+                op.vendorExtensions.put("x-return-type", "bool");
+            } else if ("UploadedFile".equals(op.returnType)) {
+                op.vendorExtensions.put("x-return-type", "string");
+            } else if ("int".equals(op.returnType)) {
+                op.vendorExtensions.put("x-return-type", "int");
+            } else if ("float".equals(op.returnType)) {
+                op.vendorExtensions.put("x-return-type", "float");
+            } else if ("string".equals(op.returnType)) {
+                op.vendorExtensions.put("x-return-type", "string");
+            } else if (op.returnType != null) {
                 op.vendorExtensions.put("x-return-type", "array|object|null");
             } else {
                 op.vendorExtensions.put("x-return-type", "void");

@@ -107,7 +107,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#getInventory
      */
-    public function getInventory(int &$responseCode, array &$responseHeaders): array|object|null
+    public function getInventory(int &$responseCode, array &$responseHeaders): int
     {
         // Implement the operation ...
     }

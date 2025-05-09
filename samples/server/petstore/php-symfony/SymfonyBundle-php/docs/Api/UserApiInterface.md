@@ -351,7 +351,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#loginUser
      */
-    public function loginUser(string $username, string $password, int &$responseCode, array &$responseHeaders): array|object|null
+    public function loginUser(string $username, string $password, int &$responseCode, array &$responseHeaders): string
     {
         // Implement the operation ...
     }
