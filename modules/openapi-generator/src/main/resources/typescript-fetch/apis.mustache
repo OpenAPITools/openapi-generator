@@ -281,11 +281,19 @@ export class {{classname}} extends runtime.BaseAPI {
         let urlPath = `{{{path}}}`;
         {{#pathParams}}
         {{#isDateTimeType}}
-        urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent((requestParameters['{{paramName}}'] as any).toISOString()));
+        if (requestParameters['{{paramName}}'] instanceof Date) {
+            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(requestParameters['{{paramName}}'].toISOString()));
+        } else {
+            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}'])));
+        }
         {{/isDateTimeType}}
         {{^isDateTimeType}}
         {{#isDateType}}
-        urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent((requestParameters['{{paramName}}'] as any).toISOString().substring(0,10)));
+        if (requestParameters['{{paramName}}'] instanceof Date) {
+            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(requestParameters['{{paramName}}'].toISOString().substring(0,10));
+        } else {
+            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}'])));
+        }
         {{/isDateType}}
         {{^isDateType}}
         urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}'])));
