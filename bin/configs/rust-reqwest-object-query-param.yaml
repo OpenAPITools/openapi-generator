@@ -1,0 +1,9 @@
+generatorName: rust
+outputDir: samples/client/others/rust/reqwest/object-query-param
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/objectQueryParam.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+validateSpec: "false"
+additionalProperties:
+  supportAsync: "true"
+  packageName: object-query-param-reqwest
