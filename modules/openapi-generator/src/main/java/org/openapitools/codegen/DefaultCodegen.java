@@ -404,6 +404,8 @@ public class DefaultCodegen implements CodegenConfig {
      * If common lambdas are not desired, override addMustacheLambdas() method
      * and return empty builder.
      *
+     * Corresponding user documentation: docs/templating.md, section "Mustache Lambdas"
+     *
      * @return preinitialized map with common lambdas
      */
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
