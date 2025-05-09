@@ -5,14 +5,7 @@ defmodule OpenapiPetstore.Model.Name do
   @moduledoc """
   Model for testing model name same as property name
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :name,
-    :snake_case,
-    :property,
-    :"123Number"
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :name => integer(),
@@ -21,8 +14,20 @@ defmodule OpenapiPetstore.Model.Name do
     :"123Number" => integer() | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:name, :snake_case, :property, :"123Number"]}
+  @primary_key false
+  embedded_schema do
+    field :name, :integer
+    field :snake_case, :integer
+    field :property, :string
+    field :"123Number", :integer
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:name, :snake_case, :property, :"123Number"])
+    |> Ecto.Changeset.validate_required([:name])
   end
 end
 
