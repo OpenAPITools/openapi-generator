@@ -15,6 +15,7 @@ use serde::{Deserialize, Serialize};
 #[serde(untagged)]
 pub enum DuplicateOneOf {
     Order(models::Order),
+    Order(models::Order),
 }
 
 impl Default for DuplicateOneOf {
