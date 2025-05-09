@@ -247,13 +247,13 @@ class _$EnumTestSerializer implements PrimitiveSerializer<EnumTest> {
 class EnumTestEnumStringEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'UPPER')
-  static const EnumTestEnumStringEnum UPPER = _$enumTestEnumStringEnum_UPPER;
+  static const EnumTestEnumStringEnum UPPERAttr = _$enumTestEnumStringEnum_UPPER;
   @BuiltValueEnumConst(wireName: r'lower')
-  static const EnumTestEnumStringEnum lower = _$enumTestEnumStringEnum_lower;
+  static const EnumTestEnumStringEnum lowerAttr = _$enumTestEnumStringEnum_lower;
   @BuiltValueEnumConst(wireName: r'')
-  static const EnumTestEnumStringEnum empty = _$enumTestEnumStringEnum_empty;
+  static const EnumTestEnumStringEnum emptyAttr = _$enumTestEnumStringEnum_empty;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const EnumTestEnumStringEnum unknownDefaultOpenApi = _$enumTestEnumStringEnum_unknownDefaultOpenApi;
+  static const EnumTestEnumStringEnum unknownDefaultOpenApiAttr = _$enumTestEnumStringEnum_unknownDefaultOpenApi;
 
   static Serializer<EnumTestEnumStringEnum> get serializer => _$enumTestEnumStringEnumSerializer;
 
@@ -266,13 +266,13 @@ class EnumTestEnumStringEnum extends EnumClass {
 class EnumTestEnumStringRequiredEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'UPPER')
-  static const EnumTestEnumStringRequiredEnum UPPER = _$enumTestEnumStringRequiredEnum_UPPER;
+  static const EnumTestEnumStringRequiredEnum UPPERAttr = _$enumTestEnumStringRequiredEnum_UPPER;
   @BuiltValueEnumConst(wireName: r'lower')
-  static const EnumTestEnumStringRequiredEnum lower = _$enumTestEnumStringRequiredEnum_lower;
+  static const EnumTestEnumStringRequiredEnum lowerAttr = _$enumTestEnumStringRequiredEnum_lower;
   @BuiltValueEnumConst(wireName: r'')
-  static const EnumTestEnumStringRequiredEnum empty = _$enumTestEnumStringRequiredEnum_empty;
+  static const EnumTestEnumStringRequiredEnum emptyAttr = _$enumTestEnumStringRequiredEnum_empty;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const EnumTestEnumStringRequiredEnum unknownDefaultOpenApi = _$enumTestEnumStringRequiredEnum_unknownDefaultOpenApi;
+  static const EnumTestEnumStringRequiredEnum unknownDefaultOpenApiAttr = _$enumTestEnumStringRequiredEnum_unknownDefaultOpenApi;
 
   static Serializer<EnumTestEnumStringRequiredEnum> get serializer => _$enumTestEnumStringRequiredEnumSerializer;
 
@@ -285,11 +285,11 @@ class EnumTestEnumStringRequiredEnum extends EnumClass {
 class EnumTestEnumIntegerEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireNumber: 1)
-  static const EnumTestEnumIntegerEnum number1 = _$enumTestEnumIntegerEnum_number1;
+  static const EnumTestEnumIntegerEnum number1Attr = _$enumTestEnumIntegerEnum_number1;
   @BuiltValueEnumConst(wireNumber: -1)
-  static const EnumTestEnumIntegerEnum numberNegative1 = _$enumTestEnumIntegerEnum_numberNegative1;
+  static const EnumTestEnumIntegerEnum numberNegative1Attr = _$enumTestEnumIntegerEnum_numberNegative1;
   @BuiltValueEnumConst(wireNumber: 11184809, fallback: true)
-  static const EnumTestEnumIntegerEnum unknownDefaultOpenApi = _$enumTestEnumIntegerEnum_unknownDefaultOpenApi;
+  static const EnumTestEnumIntegerEnum unknownDefaultOpenApiAttr = _$enumTestEnumIntegerEnum_unknownDefaultOpenApi;
 
   static Serializer<EnumTestEnumIntegerEnum> get serializer => _$enumTestEnumIntegerEnumSerializer;
 
@@ -302,11 +302,11 @@ class EnumTestEnumIntegerEnum extends EnumClass {
 class EnumTestEnumNumberEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'1.1')
-  static const EnumTestEnumNumberEnum number1Period1 = _$enumTestEnumNumberEnum_number1Period1;
+  static const EnumTestEnumNumberEnum number1Period1Attr = _$enumTestEnumNumberEnum_number1Period1;
   @BuiltValueEnumConst(wireName: r'-1.2')
-  static const EnumTestEnumNumberEnum numberNegative1Period2 = _$enumTestEnumNumberEnum_numberNegative1Period2;
+  static const EnumTestEnumNumberEnum numberNegative1Period2Attr = _$enumTestEnumNumberEnum_numberNegative1Period2;
   @BuiltValueEnumConst(wireName: r'11184809', fallback: true)
-  static const EnumTestEnumNumberEnum unknownDefaultOpenApi = _$enumTestEnumNumberEnum_unknownDefaultOpenApi;
+  static const EnumTestEnumNumberEnum unknownDefaultOpenApiAttr = _$enumTestEnumNumberEnum_unknownDefaultOpenApi;
 
   static Serializer<EnumTestEnumNumberEnum> get serializer => _$enumTestEnumNumberEnumSerializer;
 
