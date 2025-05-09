@@ -85,7 +85,7 @@ public class ApiClient extends JavaTimeFormatter {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 
         protected final String separator;
-        protected CollectionFormat(String separator) {
+        CollectionFormat(String separator) {
             this.separator = separator;
         }
 

@@ -80,7 +80,7 @@ public class ApiClient extends JavaTimeFormatter {
 
         protected final String separator;
 
-        protected CollectionFormat(String separator) {
+        CollectionFormat(String separator) {
             this.separator = separator;
         }
 

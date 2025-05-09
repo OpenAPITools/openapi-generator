@@ -42,7 +42,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  */
 public class ApiClient {
 
-  protected final WebClient webClient;
+  private final WebClient webClient;
 
   /**
    * @return a {@code Builder} for an {@code ApiClient}
@@ -135,7 +135,7 @@ public class ApiClient {
     return Collections.singletonList(new Pair(urlEncode(name), joiner.toString()));
   }
 
-  protected ApiClient(Builder builder) {
+  private ApiClient(Builder builder) {
     webClient = builder.webClientBuilder().build();
   }
 
@@ -148,7 +148,7 @@ public class ApiClient {
     return webClient;
   }
 
-  protected static String valueToString(Object value) {
+  private static String valueToString(Object value) {
     if (value == null) {
       return "";
     }
@@ -168,9 +168,9 @@ public class ApiClient {
     */
   public static class Builder {
 
-    protected WebClientConfig.Builder webClientBuilder;
-    protected Config clientConfig;
-    protected ObjectMapper objectMapper;
+    private WebClientConfig.Builder webClientBuilder;
+    private Config clientConfig;
+    private ObjectMapper objectMapper;
 
     public ApiClient build() {
       return new ApiClient(this);
@@ -222,7 +222,7 @@ public class ApiClient {
       return this;
     }
 
-    protected WebClientConfig.Builder defaultWebClientBuilder() {
+    private WebClientConfig.Builder defaultWebClientBuilder() {
       WebClientConfig.Builder defaultWebClientBuilder = WebClient.builder()
                   .baseUri("http://petstore.swagger.io:80/v2")
                   .config(clientConfig());
@@ -232,7 +232,7 @@ public class ApiClient {
       return defaultWebClientBuilder;
     }
 
-    protected Config clientConfig() {
+    private Config clientConfig() {
       if (clientConfig == null) {
          clientConfig = Config.create().get("client");
       }
