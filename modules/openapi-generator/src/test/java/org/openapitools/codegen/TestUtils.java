@@ -151,18 +151,21 @@ public class TestUtils {
                         } catch (IOException ignored) {
 
                         }
-                        assertValidJavaSourceCode(fileContents);
+                        assertValidJavaSourceCode(fileContents, f.getAbsolutePath());
                     }
                 }
         );
     }
 
     public static void assertValidJavaSourceCode(String javaSourceCode) {
+        assertValidJavaSourceCode(javaSourceCode, null);
+    }
+    public static void assertValidJavaSourceCode(String javaSourceCode, String fileName) {
         ParserConfiguration config = new ParserConfiguration();
         config.setLanguageLevel(ParserConfiguration.LanguageLevel.JAVA_11);
         JavaParser parser = new JavaParser(config);
         ParseResult<CompilationUnit> parseResult = parser.parse(javaSourceCode);
-        assertTrue(parseResult.isSuccessful(), String.valueOf(parseResult.getProblems()));
+        assertTrue(parseResult.isSuccessful(), (fileName == null ? "" : "File " + fileName + ": ") + parseResult.getProblems());
     }
 
     public static void assertFileContains(Path path, String... lines) {
