@@ -881,7 +881,7 @@ public class ModelUtils {
             } else if (schema.getAdditionalProperties() instanceof JsonSchema) {
                 return true;
             } else if (schema.getTypes() != null) {
-                if (schema.getTypes().size() == 1) { // types = [object]
+                if (schema.getTypes().size() == 1 && schema.getDiscriminator() == null) { // types = [object]
                     return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getTypes().iterator().next());
                 } else { // has more than 1 type, e.g. types = [integer, string]
                     return false;

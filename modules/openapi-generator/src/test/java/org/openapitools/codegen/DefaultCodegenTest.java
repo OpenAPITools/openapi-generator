@@ -4816,6 +4816,25 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testParentModelGeneratedEvenWithoutProperties() throws Exception {
+        File output = Files.createTempDirectory("test_7638_").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_1/issue_7638.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/Pet.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/Dog.java");
+
+        output.deleteOnExit();
+    }
+
+    @Test
     public void testReferencedEnumType() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
