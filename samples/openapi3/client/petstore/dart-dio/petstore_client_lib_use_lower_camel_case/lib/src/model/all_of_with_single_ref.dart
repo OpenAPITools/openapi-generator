@@ -21,7 +21,7 @@ class AllOfWithSingleRef {
 
      this.username,
 
-     this.singlereftype,
+     this.singleRefType,
   });
 
   @JsonKey(
@@ -45,7 +45,7 @@ class AllOfWithSingleRef {
   )
 
 
-  final SingleRefType? singlereftype;
+  final SingleRefType? singleRefType;
 
 
 
@@ -54,12 +54,12 @@ class AllOfWithSingleRef {
     @override
     bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
       other.username == username &&
-      other.singlereftype == singlereftype;
+      other.singleRefType == singleRefType;
 
     @override
     int get hashCode =>
         username.hashCode +
-        singlereftype.hashCode;
+        singleRefType.hashCode;
 
   factory AllOfWithSingleRef.fromJson(Map<String, dynamic> json) => _$AllOfWithSingleRefFromJson(json);
 

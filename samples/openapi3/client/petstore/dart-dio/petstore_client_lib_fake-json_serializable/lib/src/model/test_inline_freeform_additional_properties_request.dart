@@ -18,7 +18,7 @@ class TestInlineFreeformAdditionalPropertiesRequest {
   /// Returns a new [TestInlineFreeformAdditionalPropertiesRequest] instance.
   TestInlineFreeformAdditionalPropertiesRequest({
 
-     this.someproperty,
+     this.someProperty,
   });
 
   @JsonKey(
@@ -29,7 +29,7 @@ class TestInlineFreeformAdditionalPropertiesRequest {
   )
 
 
-  final String? someproperty;
+  final String? someProperty;
 
 
 
@@ -37,11 +37,11 @@ class TestInlineFreeformAdditionalPropertiesRequest {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is TestInlineFreeformAdditionalPropertiesRequest &&
-      other.someproperty == someproperty;
+      other.someProperty == someProperty;
 
     @override
     int get hashCode =>
-        someproperty.hashCode;
+        someProperty.hashCode;
 
   factory TestInlineFreeformAdditionalPropertiesRequest.fromJson(Map<String, dynamic> json) => _$TestInlineFreeformAdditionalPropertiesRequestFromJson(json);
 

@@ -18,17 +18,17 @@ class Capitalization {
   /// Returns a new [Capitalization] instance.
   Capitalization({
 
-     this.smallcamel,
+     this.smallCamel,
 
-     this.capitalcamel,
+     this.capitalCamel,
 
      this.smallSnake,
 
      this.capitalSnake,
 
-     this.scaEthFlowPoints,
+     this.sCAETHFlowPoints,
 
-     this.attName,
+     this.ATT_NAME,
   });
 
   @JsonKey(
@@ -39,7 +39,7 @@ class Capitalization {
   )
 
 
-  final String? smallcamel;
+  final String? smallCamel;
 
 
 
@@ -51,7 +51,7 @@ class Capitalization {
   )
 
 
-  final String? capitalcamel;
+  final String? capitalCamel;
 
 
 
@@ -87,7 +87,7 @@ class Capitalization {
   )
 
 
-  final String? scaEthFlowPoints;
+  final String? sCAETHFlowPoints;
 
 
 
@@ -100,7 +100,7 @@ class Capitalization {
   )
 
 
-  final String? attName;
+  final String? ATT_NAME;
 
 
 
@@ -108,21 +108,21 @@ class Capitalization {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
-      other.smallcamel == smallcamel &&
-      other.capitalcamel == capitalcamel &&
+      other.smallCamel == smallCamel &&
+      other.capitalCamel == capitalCamel &&
       other.smallSnake == smallSnake &&
       other.capitalSnake == capitalSnake &&
-      other.scaEthFlowPoints == scaEthFlowPoints &&
-      other.attName == attName;
+      other.sCAETHFlowPoints == sCAETHFlowPoints &&
+      other.ATT_NAME == ATT_NAME;
 
     @override
     int get hashCode =>
-        smallcamel.hashCode +
-        capitalcamel.hashCode +
+        smallCamel.hashCode +
+        capitalCamel.hashCode +
         smallSnake.hashCode +
         capitalSnake.hashCode +
-        scaEthFlowPoints.hashCode +
-        attName.hashCode;
+        sCAETHFlowPoints.hashCode +
+        ATT_NAME.hashCode;
 
   factory Capitalization.fromJson(Map<String, dynamic> json) => _$CapitalizationFromJson(json);
 

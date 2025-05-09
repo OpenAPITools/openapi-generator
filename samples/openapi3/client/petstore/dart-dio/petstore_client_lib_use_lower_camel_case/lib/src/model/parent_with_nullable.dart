@@ -20,7 +20,7 @@ class ParentWithNullable {
 
      this.type,
 
-     this.nullableproperty,
+     this.nullableProperty,
   });
 
   @JsonKey(
@@ -44,7 +44,7 @@ class ParentWithNullable {
   )
 
 
-  final String? nullableproperty;
+  final String? nullableProperty;
 
 
 
@@ -53,12 +53,12 @@ class ParentWithNullable {
     @override
     bool operator ==(Object other) => identical(this, other) || other is ParentWithNullable &&
       other.type == type &&
-      other.nullableproperty == nullableproperty;
+      other.nullableProperty == nullableProperty;
 
     @override
     int get hashCode =>
         type.hashCode +
-        (nullableproperty == null ? 0 : nullableproperty.hashCode);
+        (nullableProperty == null ? 0 : nullableProperty.hashCode);
 
   factory ParentWithNullable.fromJson(Map<String, dynamic> json) => _$ParentWithNullableFromJson(json);
 
@@ -74,7 +74,7 @@ class ParentWithNullable {
 
 enum ParentWithNullableTypeEnum {
 @JsonValue(r'ChildWithNullable')
-childwithnullable(r'ChildWithNullable'),
+childWithNullable(r'ChildWithNullable'),
 @JsonValue(r'unknown_default_open_api')
 unknownDefaultOpenApi(r'unknown_default_open_api');
 

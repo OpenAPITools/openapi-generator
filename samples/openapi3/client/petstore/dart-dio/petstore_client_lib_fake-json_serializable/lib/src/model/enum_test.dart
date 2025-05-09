@@ -30,13 +30,13 @@ class EnumTest {
 
      this.enumNumber,
 
-     this.outerenum,
+     this.outerEnum,
 
-     this.outerenuminteger,
+     this.outerEnumInteger,
 
-     this.outerenumdefaultvalue,
+     this.outerEnumDefaultValue,
 
-     this.outerenumintegerdefaultvalue,
+     this.outerEnumIntegerDefaultValue,
   });
 
   @JsonKey(
@@ -100,7 +100,7 @@ class EnumTest {
   )
 
 
-  final OuterEnum? outerenum;
+  final OuterEnum? outerEnum;
 
 
 
@@ -113,7 +113,7 @@ class EnumTest {
   )
 
 
-  final OuterEnumInteger? outerenuminteger;
+  final OuterEnumInteger? outerEnumInteger;
 
 
 
@@ -126,7 +126,7 @@ class EnumTest {
   )
 
 
-  final OuterEnumDefaultValue? outerenumdefaultvalue;
+  final OuterEnumDefaultValue? outerEnumDefaultValue;
 
 
 
@@ -139,7 +139,7 @@ class EnumTest {
   )
 
 
-  final OuterEnumIntegerDefaultValue? outerenumintegerdefaultvalue;
+  final OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue;
 
 
 
@@ -151,10 +151,10 @@ class EnumTest {
       other.enumStringRequired == enumStringRequired &&
       other.enumInteger == enumInteger &&
       other.enumNumber == enumNumber &&
-      other.outerenum == outerenum &&
-      other.outerenuminteger == outerenuminteger &&
-      other.outerenumdefaultvalue == outerenumdefaultvalue &&
-      other.outerenumintegerdefaultvalue == outerenumintegerdefaultvalue;
+      other.outerEnum == outerEnum &&
+      other.outerEnumInteger == outerEnumInteger &&
+      other.outerEnumDefaultValue == outerEnumDefaultValue &&
+      other.outerEnumIntegerDefaultValue == outerEnumIntegerDefaultValue;
 
     @override
     int get hashCode =>
@@ -162,10 +162,10 @@ class EnumTest {
         enumStringRequired.hashCode +
         enumInteger.hashCode +
         enumNumber.hashCode +
-        (outerenum == null ? 0 : outerenum.hashCode) +
-        outerenuminteger.hashCode +
-        outerenumdefaultvalue.hashCode +
-        outerenumintegerdefaultvalue.hashCode;
+        (outerEnum == null ? 0 : outerEnum.hashCode) +
+        outerEnumInteger.hashCode +
+        outerEnumDefaultValue.hashCode +
+        outerEnumIntegerDefaultValue.hashCode;
 
   factory EnumTest.fromJson(Map<String, dynamic> json) => _$EnumTestFromJson(json);
 
@@ -181,7 +181,7 @@ class EnumTest {
 
 enum EnumTestEnumStringEnum {
 @JsonValue(r'UPPER')
-upper(r'UPPER'),
+UPPER(r'UPPER'),
 @JsonValue(r'lower')
 lower(r'lower'),
 @JsonValue(r'')
@@ -201,7 +201,7 @@ String toString() => value;
 
 enum EnumTestEnumStringRequiredEnum {
 @JsonValue(r'UPPER')
-upper(r'UPPER'),
+UPPER(r'UPPER'),
 @JsonValue(r'lower')
 lower(r'lower'),
 @JsonValue(r'')
@@ -239,9 +239,9 @@ String toString() => value;
 
 enum EnumTestEnumNumberEnum {
 @JsonValue('1.1')
-number1period1(''1.1''),
+number1Period1(''1.1''),
 @JsonValue('-1.2')
-numberNegative1period2(''-1.2''),
+numberNegative1Period2(''-1.2''),
 @JsonValue('11184809')
 unknownDefaultOpenApi(''11184809'');
 

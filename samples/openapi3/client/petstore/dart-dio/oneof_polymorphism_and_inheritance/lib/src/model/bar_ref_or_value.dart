@@ -16,15 +16,15 @@ part 'bar_ref_or_value.g.dart';
 ///
 /// Properties:
 /// * [id] - unique identifier
-/// * [barpropa] 
-/// * [foopropb] 
+/// * [barPropA] 
+/// * [fooPropB] 
 /// * [foo] 
 /// * [href] - Hyperlink reference
-/// * [atSchemalocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
-/// * [atBasetype] - When sub-classing, this defines the super-class
+/// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
+/// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 /// * [name] - Name of the related entity.
-/// * [atReferredtype] - The actual type of the target instance when needed for disambiguation.
+/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
 @BuiltValue()
 abstract class BarRefOrValue implements Built<BarRefOrValue, BarRefOrValueBuilder> {
   /// One Of [Bar], [BarRef]

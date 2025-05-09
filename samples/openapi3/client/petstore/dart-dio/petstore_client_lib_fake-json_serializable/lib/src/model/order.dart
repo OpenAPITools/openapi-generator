@@ -20,11 +20,11 @@ class Order {
 
      this.id,
 
-     this.petid,
+     this.petId,
 
      this.quantity,
 
-     this.shipdate,
+     this.shipDate,
 
      this.status,
 
@@ -51,7 +51,7 @@ class Order {
   )
 
 
-  final int? petid;
+  final int? petId;
 
 
 
@@ -75,7 +75,7 @@ class Order {
   )
 
 
-  final DateTime? shipdate;
+  final DateTime? shipDate;
 
 
 
@@ -110,18 +110,18 @@ class Order {
     @override
     bool operator ==(Object other) => identical(this, other) || other is Order &&
       other.id == id &&
-      other.petid == petid &&
+      other.petId == petId &&
       other.quantity == quantity &&
-      other.shipdate == shipdate &&
+      other.shipDate == shipDate &&
       other.status == status &&
       other.complete == complete;
 
     @override
     int get hashCode =>
         id.hashCode +
-        petid.hashCode +
+        petId.hashCode +
         quantity.hashCode +
-        shipdate.hashCode +
+        shipDate.hashCode +
         status.hashCode +
         complete.hashCode;
 

@@ -92,7 +92,7 @@ _bodyData=jsonEncode(pet);
   /// 
   ///
   /// Parameters:
-  /// * [petid] - Pet id to delete
+  /// * [petId] - Pet id to delete
   /// * [apiKey] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -104,7 +104,7 @@ _bodyData=jsonEncode(pet);
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> deletePet({ 
-    required int petid,
+    required int petId,
     String? apiKey,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -113,7 +113,7 @@ _bodyData=jsonEncode(pet);
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petid.toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -310,7 +310,7 @@ _responseData = rawData == null ? null : deserialize<Set<Pet>, Pet>(rawData, 'Se
   /// Returns a single pet
   ///
   /// Parameters:
-  /// * [petid] - ID of pet to return
+  /// * [petId] - ID of pet to return
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -321,7 +321,7 @@ _responseData = rawData == null ? null : deserialize<Set<Pet>, Pet>(rawData, 'Se
   /// Returns a [Future] containing a [Response] with a [Pet] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<Pet>> getPetById({ 
-    required int petid,
+    required int petId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -329,7 +329,7 @@ _responseData = rawData == null ? null : deserialize<Set<Pet>, Pet>(rawData, 'Se
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petid.toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -458,7 +458,7 @@ _bodyData=jsonEncode(pet);
   /// 
   ///
   /// Parameters:
-  /// * [petid] - ID of pet that needs to be updated
+  /// * [petId] - ID of pet that needs to be updated
   /// * [name] - Updated name of the pet
   /// * [status] - Updated status of the pet
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -471,7 +471,7 @@ _bodyData=jsonEncode(pet);
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> updatePetWithForm({ 
-    required int petid,
+    required int petId,
     String? name,
     String? status,
     CancelToken? cancelToken,
@@ -481,7 +481,7 @@ _bodyData=jsonEncode(pet);
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petid.toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -532,8 +532,8 @@ _bodyData=jsonEncode(pet);
   /// 
   ///
   /// Parameters:
-  /// * [petid] - ID of pet to update
-  /// * [additionalmetadata] - Additional data to pass to server
+  /// * [petId] - ID of pet to update
+  /// * [additionalMetadata] - Additional data to pass to server
   /// * [file] - file to upload
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -545,8 +545,8 @@ _bodyData=jsonEncode(pet);
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<ApiResponse>> uploadFile({ 
-    required int petid,
-    String? additionalmetadata,
+    required int petId,
+    String? additionalMetadata,
     MultipartFile? file,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -555,7 +555,7 @@ _bodyData=jsonEncode(pet);
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petid.toString());
+    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -630,9 +630,9 @@ _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(r
   /// 
   ///
   /// Parameters:
-  /// * [petid] - ID of pet to update
-  /// * [requiredfile] - file to upload
-  /// * [additionalmetadata] - Additional data to pass to server
+  /// * [petId] - ID of pet to update
+  /// * [requiredFile] - file to upload
+  /// * [additionalMetadata] - Additional data to pass to server
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -643,9 +643,9 @@ _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(r
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<ApiResponse>> uploadFileWithRequiredFile({ 
-    required int petid,
-    required MultipartFile requiredfile,
-    String? additionalmetadata,
+    required int petId,
+    required MultipartFile requiredFile,
+    String? additionalMetadata,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -653,7 +653,7 @@ _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(r
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petid.toString());
+    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{

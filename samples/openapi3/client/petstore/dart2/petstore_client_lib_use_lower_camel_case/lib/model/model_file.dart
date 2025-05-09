@@ -13,7 +13,7 @@ part of openapi.api;
 class ModelFile {
   /// Returns a new [ModelFile] instance.
   ModelFile({
-    this.sourceuri,
+    this.sourceURI,
   });
 
   /// Test capitalization
@@ -23,24 +23,24 @@ class ModelFile {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? sourceuri;
+  String? sourceURI;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
-    other.sourceuri == sourceuri;
+    other.sourceURI == sourceURI;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (sourceuri == null ? 0 : sourceuri!.hashCode);
+    (sourceURI == null ? 0 : sourceURI!.hashCode);
 
   @override
-  String toString() => 'ModelFile[sourceuri=$sourceuri]';
+  String toString() => 'ModelFile[sourceURI=$sourceURI]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.sourceuri != null) {
-      json[r'sourceURI'] = this.sourceuri;
+    if (this.sourceURI != null) {
+      json[r'sourceURI'] = this.sourceURI;
     } else {
       json[r'sourceURI'] = null;
     }
@@ -66,7 +66,7 @@ class ModelFile {
       }());
 
       return ModelFile(
-        sourceuri: mapValueOfType<String>(json, r'sourceURI'),
+        sourceURI: mapValueOfType<String>(json, r'sourceURI'),
       );
     }
     return null;

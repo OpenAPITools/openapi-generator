@@ -14,7 +14,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance.
   MixedPropertiesAndAdditionalPropertiesClass({
     this.uuid,
-    this.datetime,
+    this.dateTime,
     this.map = const {},
   });
 
@@ -32,25 +32,25 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  DateTime? datetime;
+  DateTime? dateTime;
 
   Map<String, Animal> map;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
     other.uuid == uuid &&
-    other.datetime == datetime &&
+    other.dateTime == dateTime &&
     _deepEquality.equals(other.map, map);
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (uuid == null ? 0 : uuid!.hashCode) +
-    (datetime == null ? 0 : datetime!.hashCode) +
+    (dateTime == null ? 0 : dateTime!.hashCode) +
     (map.hashCode);
 
   @override
-  String toString() => 'MixedPropertiesAndAdditionalPropertiesClass[uuid=$uuid, datetime=$datetime, map=$map]';
+  String toString() => 'MixedPropertiesAndAdditionalPropertiesClass[uuid=$uuid, dateTime=$dateTime, map=$map]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -59,8 +59,8 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     } else {
       json[r'uuid'] = null;
     }
-    if (this.datetime != null) {
-      json[r'dateTime'] = this.datetime!.toUtc().toIso8601String();
+    if (this.dateTime != null) {
+      json[r'dateTime'] = this.dateTime!.toUtc().toIso8601String();
     } else {
       json[r'dateTime'] = null;
     }
@@ -88,7 +88,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
       return MixedPropertiesAndAdditionalPropertiesClass(
         uuid: mapValueOfType<String>(json, r'uuid'),
-        datetime: mapDateTime(json, r'dateTime', r''),
+        dateTime: mapDateTime(json, r'dateTime', r''),
         map: Animal.mapFromJson(json[r'map']),
       );
     }

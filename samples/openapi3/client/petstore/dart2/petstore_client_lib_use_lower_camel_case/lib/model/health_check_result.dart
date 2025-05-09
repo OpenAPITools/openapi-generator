@@ -13,27 +13,27 @@ part of openapi.api;
 class HealthCheckResult {
   /// Returns a new [HealthCheckResult] instance.
   HealthCheckResult({
-    this.nullablemessage,
+    this.nullableMessage,
   });
 
-  String? nullablemessage;
+  String? nullableMessage;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
-    other.nullablemessage == nullablemessage;
+    other.nullableMessage == nullableMessage;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (nullablemessage == null ? 0 : nullablemessage!.hashCode);
+    (nullableMessage == null ? 0 : nullableMessage!.hashCode);
 
   @override
-  String toString() => 'HealthCheckResult[nullablemessage=$nullablemessage]';
+  String toString() => 'HealthCheckResult[nullableMessage=$nullableMessage]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.nullablemessage != null) {
-      json[r'NullableMessage'] = this.nullablemessage;
+    if (this.nullableMessage != null) {
+      json[r'NullableMessage'] = this.nullableMessage;
     } else {
       json[r'NullableMessage'] = null;
     }
@@ -59,7 +59,7 @@ class HealthCheckResult {
       }());
 
       return HealthCheckResult(
-        nullablemessage: mapValueOfType<String>(json, r'NullableMessage'),
+        nullableMessage: mapValueOfType<String>(json, r'NullableMessage'),
       );
     }
     return null;

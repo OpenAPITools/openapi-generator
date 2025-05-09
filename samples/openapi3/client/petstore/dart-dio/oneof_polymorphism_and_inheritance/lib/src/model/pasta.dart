@@ -15,8 +15,8 @@ part 'pasta.g.dart';
 /// * [vendor] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
-/// * [atSchemalocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
-/// * [atBasetype] - When sub-classing, this defines the super-class
+/// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
+/// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue()
 abstract class Pasta implements Entity, Built<Pasta, PastaBuilder> {
@@ -46,6 +46,20 @@ class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
     Pasta object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
+    if (object.atSchemaLocation != null) {
+      yield r'@schemaLocation';
+      yield serializers.serialize(
+        object.atSchemaLocation,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.atBaseType != null) {
+      yield r'@baseType';
+      yield serializers.serialize(
+        object.atBaseType,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.href != null) {
       yield r'href';
       yield serializers.serialize(
@@ -57,20 +71,6 @@ class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
       yield r'id';
       yield serializers.serialize(
         object.id,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.atSchemalocation != null) {
-      yield r'@schemaLocation';
-      yield serializers.serialize(
-        object.atSchemalocation,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.atBasetype != null) {
-      yield r'@baseType';
-      yield serializers.serialize(
-        object.atBasetype,
         specifiedType: const FullType(String),
       );
     }
@@ -109,6 +109,20 @@ class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
+        case r'@schemaLocation':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.atSchemaLocation = valueDes;
+          break;
+        case r'@baseType':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.atBaseType = valueDes;
+          break;
         case r'href':
           final valueDes = serializers.deserialize(
             value,
@@ -122,20 +136,6 @@ class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
             specifiedType: const FullType(String),
           ) as String;
           result.id = valueDes;
-          break;
-        case r'@schemaLocation':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.atSchemalocation = valueDes;
-          break;
-        case r'@baseType':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.atBasetype = valueDes;
           break;
         case r'@type':
           final valueDes = serializers.deserialize(

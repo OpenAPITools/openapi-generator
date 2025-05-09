@@ -8,8 +8,8 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**someid** | **num** |  | [optional] 
-**somemap** | **Map<String, num>** |  | [optional] [default to const {}]
+**someId** | **num** |  | [optional] 
+**someMap** | **Map<String, num>** |  | [optional] [default to const {}]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

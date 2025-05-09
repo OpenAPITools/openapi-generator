@@ -13,16 +13,16 @@ part 'pizza.g.dart';
 /// Pizza
 ///
 /// Properties:
-/// * [pizzasize] 
+/// * [pizzaSize] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
-/// * [atSchemalocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
-/// * [atBasetype] - When sub-classing, this defines the super-class
+/// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
+/// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue(instantiable: false)
 abstract class Pizza implements Entity {
   @BuiltValueField(wireName: r'pizzaSize')
-  num? get pizzasize;
+  num? get pizzaSize;
 
   static const String discriminatorFieldName = r'@type';
 
@@ -63,11 +63,25 @@ class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
     Pizza object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.pizzasize != null) {
+    if (object.pizzaSize != null) {
       yield r'pizzaSize';
       yield serializers.serialize(
-        object.pizzasize,
+        object.pizzaSize,
         specifiedType: const FullType(num),
+      );
+    }
+    if (object.atSchemaLocation != null) {
+      yield r'@schemaLocation';
+      yield serializers.serialize(
+        object.atSchemaLocation,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.atBaseType != null) {
+      yield r'@baseType';
+      yield serializers.serialize(
+        object.atBaseType,
+        specifiedType: const FullType(String),
       );
     }
     if (object.href != null) {
@@ -81,20 +95,6 @@ class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
       yield r'id';
       yield serializers.serialize(
         object.id,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.atSchemalocation != null) {
-      yield r'@schemaLocation';
-      yield serializers.serialize(
-        object.atSchemalocation,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.atBasetype != null) {
-      yield r'@baseType';
-      yield serializers.serialize(
-        object.atBasetype,
         specifiedType: const FullType(String),
       );
     }
@@ -182,7 +182,21 @@ class _$$PizzaSerializer implements PrimitiveSerializer<$Pizza> {
             value,
             specifiedType: const FullType(num),
           ) as num;
-          result.pizzasize = valueDes;
+          result.pizzaSize = valueDes;
+          break;
+        case r'@schemaLocation':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.atSchemaLocation = valueDes;
+          break;
+        case r'@baseType':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.atBaseType = valueDes;
           break;
         case r'href':
           final valueDes = serializers.deserialize(
@@ -197,20 +211,6 @@ class _$$PizzaSerializer implements PrimitiveSerializer<$Pizza> {
             specifiedType: const FullType(String),
           ) as String;
           result.id = valueDes;
-          break;
-        case r'@schemaLocation':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.atSchemalocation = valueDes;
-          break;
-        case r'@baseType':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.atBasetype = valueDes;
           break;
         case r'@type':
           final valueDes = serializers.deserialize(

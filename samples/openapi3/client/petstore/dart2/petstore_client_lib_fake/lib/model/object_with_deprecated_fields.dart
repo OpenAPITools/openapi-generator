@@ -15,7 +15,7 @@ class ObjectWithDeprecatedFields {
   ObjectWithDeprecatedFields({
     this.uuid,
     this.id,
-    this.deprecatedref,
+    this.deprecatedRef,
     this.bars = const [],
   });
 
@@ -41,7 +41,7 @@ class ObjectWithDeprecatedFields {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  DeprecatedObject? deprecatedref;
+  DeprecatedObject? deprecatedRef;
 
   List<String> bars;
 
@@ -49,7 +49,7 @@ class ObjectWithDeprecatedFields {
   bool operator ==(Object other) => identical(this, other) || other is ObjectWithDeprecatedFields &&
     other.uuid == uuid &&
     other.id == id &&
-    other.deprecatedref == deprecatedref &&
+    other.deprecatedRef == deprecatedRef &&
     _deepEquality.equals(other.bars, bars);
 
   @override
@@ -57,11 +57,11 @@ class ObjectWithDeprecatedFields {
     // ignore: unnecessary_parenthesis
     (uuid == null ? 0 : uuid!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
-    (deprecatedref == null ? 0 : deprecatedref!.hashCode) +
+    (deprecatedRef == null ? 0 : deprecatedRef!.hashCode) +
     (bars.hashCode);
 
   @override
-  String toString() => 'ObjectWithDeprecatedFields[uuid=$uuid, id=$id, deprecatedref=$deprecatedref, bars=$bars]';
+  String toString() => 'ObjectWithDeprecatedFields[uuid=$uuid, id=$id, deprecatedRef=$deprecatedRef, bars=$bars]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -75,8 +75,8 @@ class ObjectWithDeprecatedFields {
     } else {
       json[r'id'] = null;
     }
-    if (this.deprecatedref != null) {
-      json[r'deprecatedRef'] = this.deprecatedref;
+    if (this.deprecatedRef != null) {
+      json[r'deprecatedRef'] = this.deprecatedRef;
     } else {
       json[r'deprecatedRef'] = null;
     }
@@ -105,7 +105,7 @@ class ObjectWithDeprecatedFields {
       return ObjectWithDeprecatedFields(
         uuid: mapValueOfType<String>(json, r'uuid'),
         id: num.parse('${json[r'id']}'),
-        deprecatedref: DeprecatedObject.fromJson(json[r'deprecatedRef']),
+        deprecatedRef: DeprecatedObject.fromJson(json[r'deprecatedRef']),
         bars: json[r'bars'] is Iterable
             ? (json[r'bars'] as Iterable).cast<String>().toList(growable: false)
             : const [],

@@ -13,12 +13,12 @@ part of openapi.api;
 class Capitalization {
   /// Returns a new [Capitalization] instance.
   Capitalization({
-    this.smallcamel,
-    this.capitalcamel,
+    this.smallCamel,
+    this.capitalCamel,
     this.smallSnake,
     this.capitalSnake,
-    this.scaEthFlowPoints,
-    this.attName,
+    this.sCAETHFlowPoints,
+    this.ATT_NAME,
   });
 
   ///
@@ -27,7 +27,7 @@ class Capitalization {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? smallcamel;
+  String? smallCamel;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -35,7 +35,7 @@ class Capitalization {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? capitalcamel;
+  String? capitalCamel;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -59,7 +59,7 @@ class Capitalization {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? scaEthFlowPoints;
+  String? sCAETHFlowPoints;
 
   /// Name of the pet 
   ///
@@ -68,39 +68,39 @@ class Capitalization {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? attName;
+  String? ATT_NAME;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
-    other.smallcamel == smallcamel &&
-    other.capitalcamel == capitalcamel &&
+    other.smallCamel == smallCamel &&
+    other.capitalCamel == capitalCamel &&
     other.smallSnake == smallSnake &&
     other.capitalSnake == capitalSnake &&
-    other.scaEthFlowPoints == scaEthFlowPoints &&
-    other.attName == attName;
+    other.sCAETHFlowPoints == sCAETHFlowPoints &&
+    other.ATT_NAME == ATT_NAME;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (smallcamel == null ? 0 : smallcamel!.hashCode) +
-    (capitalcamel == null ? 0 : capitalcamel!.hashCode) +
+    (smallCamel == null ? 0 : smallCamel!.hashCode) +
+    (capitalCamel == null ? 0 : capitalCamel!.hashCode) +
     (smallSnake == null ? 0 : smallSnake!.hashCode) +
     (capitalSnake == null ? 0 : capitalSnake!.hashCode) +
-    (scaEthFlowPoints == null ? 0 : scaEthFlowPoints!.hashCode) +
-    (attName == null ? 0 : attName!.hashCode);
+    (sCAETHFlowPoints == null ? 0 : sCAETHFlowPoints!.hashCode) +
+    (ATT_NAME == null ? 0 : ATT_NAME!.hashCode);
 
   @override
-  String toString() => 'Capitalization[smallcamel=$smallcamel, capitalcamel=$capitalcamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, scaEthFlowPoints=$scaEthFlowPoints, attName=$attName]';
+  String toString() => 'Capitalization[smallCamel=$smallCamel, capitalCamel=$capitalCamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, sCAETHFlowPoints=$sCAETHFlowPoints, ATT_NAME=$ATT_NAME]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.smallcamel != null) {
-      json[r'smallCamel'] = this.smallcamel;
+    if (this.smallCamel != null) {
+      json[r'smallCamel'] = this.smallCamel;
     } else {
       json[r'smallCamel'] = null;
     }
-    if (this.capitalcamel != null) {
-      json[r'CapitalCamel'] = this.capitalcamel;
+    if (this.capitalCamel != null) {
+      json[r'CapitalCamel'] = this.capitalCamel;
     } else {
       json[r'CapitalCamel'] = null;
     }
@@ -114,13 +114,13 @@ class Capitalization {
     } else {
       json[r'Capital_Snake'] = null;
     }
-    if (this.scaEthFlowPoints != null) {
-      json[r'SCA_ETH_Flow_Points'] = this.scaEthFlowPoints;
+    if (this.sCAETHFlowPoints != null) {
+      json[r'SCA_ETH_Flow_Points'] = this.sCAETHFlowPoints;
     } else {
       json[r'SCA_ETH_Flow_Points'] = null;
     }
-    if (this.attName != null) {
-      json[r'ATT_NAME'] = this.attName;
+    if (this.ATT_NAME != null) {
+      json[r'ATT_NAME'] = this.ATT_NAME;
     } else {
       json[r'ATT_NAME'] = null;
     }
@@ -146,12 +146,12 @@ class Capitalization {
       }());
 
       return Capitalization(
-        smallcamel: mapValueOfType<String>(json, r'smallCamel'),
-        capitalcamel: mapValueOfType<String>(json, r'CapitalCamel'),
+        smallCamel: mapValueOfType<String>(json, r'smallCamel'),
+        capitalCamel: mapValueOfType<String>(json, r'CapitalCamel'),
         smallSnake: mapValueOfType<String>(json, r'small_Snake'),
         capitalSnake: mapValueOfType<String>(json, r'Capital_Snake'),
-        scaEthFlowPoints: mapValueOfType<String>(json, r'SCA_ETH_Flow_Points'),
-        attName: mapValueOfType<String>(json, r'ATT_NAME'),
+        sCAETHFlowPoints: mapValueOfType<String>(json, r'SCA_ETH_Flow_Points'),
+        ATT_NAME: mapValueOfType<String>(json, r'ATT_NAME'),
       );
     }
     return null;

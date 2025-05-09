@@ -16,7 +16,7 @@ class Pet {
     this.id,
     this.category,
     required this.name,
-    this.photourls = const [],
+    this.photoUrls = const [],
     this.tags = const [],
     this.status,
   });
@@ -39,7 +39,7 @@ class Pet {
 
   String name;
 
-  List<String> photourls;
+  List<String> photoUrls;
 
   List<Tag> tags;
 
@@ -51,7 +51,7 @@ class Pet {
     other.id == id &&
     other.category == category &&
     other.name == name &&
-    _deepEquality.equals(other.photourls, photourls) &&
+    _deepEquality.equals(other.photoUrls, photoUrls) &&
     _deepEquality.equals(other.tags, tags) &&
     other.status == status;
 
@@ -61,12 +61,12 @@ class Pet {
     (id == null ? 0 : id!.hashCode) +
     (category == null ? 0 : category!.hashCode) +
     (name.hashCode) +
-    (photourls.hashCode) +
+    (photoUrls.hashCode) +
     (tags.hashCode) +
     (status == null ? 0 : status!.hashCode);
 
   @override
-  String toString() => 'Pet[id=$id, category=$category, name=$name, photourls=$photourls, tags=$tags, status=$status]';
+  String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -81,7 +81,7 @@ class Pet {
       json[r'category'] = null;
     }
       json[r'name'] = this.name;
-      json[r'photoUrls'] = this.photourls;
+      json[r'photoUrls'] = this.photoUrls;
       json[r'tags'] = this.tags;
     if (this.status != null) {
       json[r'status'] = this.status;
@@ -113,7 +113,7 @@ class Pet {
         id: mapValueOfType<int>(json, r'id'),
         category: Category.fromJson(json[r'category']),
         name: mapValueOfType<String>(json, r'name')!,
-        photourls: json[r'photoUrls'] is Iterable
+        photoUrls: json[r'photoUrls'] is Iterable
             ? (json[r'photoUrls'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         tags: Tag.listFromJson(json[r'tags']),

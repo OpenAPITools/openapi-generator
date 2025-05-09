@@ -14,13 +14,13 @@ class ChildWithNullable {
   /// Returns a new [ChildWithNullable] instance.
   ChildWithNullable({
     this.type,
-    this.nullableproperty,
-    this.otherproperty,
+    this.nullableProperty,
+    this.otherProperty,
   });
 
   ChildWithNullableTypeEnum? type;
 
-  String? nullableproperty;
+  String? nullableProperty;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -28,23 +28,23 @@ class ChildWithNullable {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? otherproperty;
+  String? otherProperty;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ChildWithNullable &&
     other.type == type &&
-    other.nullableproperty == nullableproperty &&
-    other.otherproperty == otherproperty;
+    other.nullableProperty == nullableProperty &&
+    other.otherProperty == otherProperty;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (type == null ? 0 : type!.hashCode) +
-    (nullableproperty == null ? 0 : nullableproperty!.hashCode) +
-    (otherproperty == null ? 0 : otherproperty!.hashCode);
+    (nullableProperty == null ? 0 : nullableProperty!.hashCode) +
+    (otherProperty == null ? 0 : otherProperty!.hashCode);
 
   @override
-  String toString() => 'ChildWithNullable[type=$type, nullableproperty=$nullableproperty, otherproperty=$otherproperty]';
+  String toString() => 'ChildWithNullable[type=$type, nullableProperty=$nullableProperty, otherProperty=$otherProperty]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -53,13 +53,13 @@ class ChildWithNullable {
     } else {
       json[r'type'] = null;
     }
-    if (this.nullableproperty != null) {
-      json[r'nullableProperty'] = this.nullableproperty;
+    if (this.nullableProperty != null) {
+      json[r'nullableProperty'] = this.nullableProperty;
     } else {
       json[r'nullableProperty'] = null;
     }
-    if (this.otherproperty != null) {
-      json[r'otherProperty'] = this.otherproperty;
+    if (this.otherProperty != null) {
+      json[r'otherProperty'] = this.otherProperty;
     } else {
       json[r'otherProperty'] = null;
     }
@@ -86,8 +86,8 @@ class ChildWithNullable {
 
       return ChildWithNullable(
         type: ChildWithNullableTypeEnum.fromJson(json[r'type']),
-        nullableproperty: mapValueOfType<String>(json, r'nullableProperty'),
-        otherproperty: mapValueOfType<String>(json, r'otherProperty'),
+        nullableProperty: mapValueOfType<String>(json, r'nullableProperty'),
+        otherProperty: mapValueOfType<String>(json, r'otherProperty'),
       );
     }
     return null;
@@ -151,11 +151,11 @@ class ChildWithNullableTypeEnum {
 
   String toJson() => value;
 
-  static const childwithnullable = ChildWithNullableTypeEnum._(r'ChildWithNullable');
+  static const childWithNullable = ChildWithNullableTypeEnum._(r'ChildWithNullable');
 
   /// List of all possible values in this [enum][ChildWithNullableTypeEnum].
   static const values = <ChildWithNullableTypeEnum>[
-    childwithnullable,
+    childWithNullable,
   ];
 
   static ChildWithNullableTypeEnum? fromJson(dynamic value) => ChildWithNullableTypeEnumTypeTransformer().decode(value);
@@ -194,7 +194,7 @@ class ChildWithNullableTypeEnumTypeTransformer {
   ChildWithNullableTypeEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'ChildWithNullable': return ChildWithNullableTypeEnum.childwithnullable;
+        case r'ChildWithNullable': return ChildWithNullableTypeEnum.childWithNullable;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');

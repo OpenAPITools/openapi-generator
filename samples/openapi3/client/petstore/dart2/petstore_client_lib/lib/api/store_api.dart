@@ -24,12 +24,12 @@ class StoreApi {
   ///
   /// Parameters:
   ///
-  /// * [String] orderid (required):
+  /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future<Response> deleteOrderWithHttpInfo(String orderid,) async {
+  Future<Response> deleteOrderWithHttpInfo(String orderId,) async {
     // ignore: prefer_const_declarations
     final path = r'/store/order/{orderId}'
-      .replaceAll('{orderId}', orderid);
+      .replaceAll('{orderId}', orderId);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -58,10 +58,10 @@ class StoreApi {
   ///
   /// Parameters:
   ///
-  /// * [String] orderid (required):
+  /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future<void> deleteOrder(String orderid,) async {
-    final response = await deleteOrderWithHttpInfo(orderid,);
+  Future<void> deleteOrder(String orderId,) async {
+    final response = await deleteOrderWithHttpInfo(orderId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -123,12 +123,12 @@ class StoreApi {
   ///
   /// Parameters:
   ///
-  /// * [int] orderid (required):
+  /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
-  Future<Response> getOrderByIdWithHttpInfo(int orderid,) async {
+  Future<Response> getOrderByIdWithHttpInfo(int orderId,) async {
     // ignore: prefer_const_declarations
     final path = r'/store/order/{orderId}'
-      .replaceAll('{orderId}', orderid.toString());
+      .replaceAll('{orderId}', orderId.toString());
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -157,10 +157,10 @@ class StoreApi {
   ///
   /// Parameters:
   ///
-  /// * [int] orderid (required):
+  /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
-  Future<Order?> getOrderById(int orderid,) async {
-    final response = await getOrderByIdWithHttpInfo(orderid,);
+  Future<Order?> getOrderById(int orderId,) async {
+    final response = await getOrderByIdWithHttpInfo(orderId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

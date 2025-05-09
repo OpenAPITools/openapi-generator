@@ -18,7 +18,7 @@ class HealthCheckResult {
   /// Returns a new [HealthCheckResult] instance.
   HealthCheckResult({
 
-     this.nullablemessage,
+     this.nullableMessage,
   });
 
   @JsonKey(
@@ -29,7 +29,7 @@ class HealthCheckResult {
   )
 
 
-  final String? nullablemessage;
+  final String? nullableMessage;
 
 
 
@@ -37,11 +37,11 @@ class HealthCheckResult {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
-      other.nullablemessage == nullablemessage;
+      other.nullableMessage == nullableMessage;
 
     @override
     int get hashCode =>
-        (nullablemessage == null ? 0 : nullablemessage.hashCode);
+        (nullableMessage == null ? 0 : nullableMessage.hashCode);
 
   factory HealthCheckResult.fromJson(Map<String, dynamic> json) => _$HealthCheckResultFromJson(json);
 

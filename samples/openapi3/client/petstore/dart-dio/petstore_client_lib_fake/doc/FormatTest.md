@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 **byte** | **String** |  | 
 **binary** | [**Uint8List**](Uint8List.md) |  | [optional] 
 **date** | [**Date**](Date.md) |  | 
-**datetime** | [**DateTime**](DateTime.md) |  | [optional] 
+**dateTime** | [**DateTime**](DateTime.md) |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 
 **patternWithDigits** | **String** | A string that is a 10 digit number. Can have leading zeros. | [optional] 

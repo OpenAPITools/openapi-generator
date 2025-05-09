@@ -58,7 +58,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Setter protected String pubRepository = null;
     @Setter protected String pubPublishTo = null;
     @Setter protected boolean useEnumExtension = false;
-    @Setter protected boolean useLowerCamelCase = true;
+    @Setter protected boolean useLowerCamelCase = false;
     @Setter protected String sourceFolder = "src";
     protected String libPath = "lib" + File.separator;
     protected String apiDocPath = "doc/";
@@ -306,9 +306,9 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
 
         if (additionalProperties.containsKey(USE_LOWER_CAMEL_CASE)) {
-            this.setUseEnumExtension(convertPropertyToBooleanAndWriteBack(USE_LOWER_CAMEL_CASE));
+            this.setUseLowerCamelCase(convertPropertyToBooleanAndWriteBack(USE_LOWER_CAMEL_CASE));
         } else {
-            additionalProperties.put(USE_ENUM_EXTENSION, useLowerCamelCase);
+            additionalProperties.put(USE_LOWER_CAMEL_CASE, useLowerCamelCase);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
@@ -395,8 +395,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
         name = name.replaceAll("^_", "");
 
-        // if it's all upper case, do nothing
-        if (!useLowerCamelCase && name.matches("^[A-Z_]*$")) {
+        // if it's all upper case and more than two letters
+        if (name.matches("^[A-Z_]*$")) {
             return name;
         }
 
@@ -408,14 +408,9 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // remove the rest
         name = sanitizeName(name);
 
-        if (useLowerCamelCase) {
-            //to camelize it correctly it needs to be lower cased
-            name = camelize(name.toLowerCase(), LOWERCASE_FIRST_LETTER);
-        } else {
-            // camelize (lower first character) the variable name
-            // pet_id => petId
-            name = camelize(name, LOWERCASE_FIRST_LETTER);
-        }
+        // camelize (lower first character) the variable name
+        // pet_id => petI
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         if (name.matches("^\\d.*")) {
             name = "n" + name;
@@ -746,9 +741,14 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             return enumNameMapping.get(value);
         }
 
-        if (value.length() == 0) {
+        if (value.isEmpty()) {
             return "empty";
         }
+
+        if (useLowerCamelCase && value.matches("^[A-Z_]*$")) {
+            value = value.toLowerCase();
+        }
+
         if (("number".equalsIgnoreCase(datatype) ||
                 "double".equalsIgnoreCase(datatype) ||
                 "int".equalsIgnoreCase(datatype)) &&

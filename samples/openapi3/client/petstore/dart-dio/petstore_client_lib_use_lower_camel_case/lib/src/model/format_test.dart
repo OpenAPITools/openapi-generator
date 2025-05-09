@@ -41,7 +41,7 @@ class FormatTest {
 
     required  this.date,
 
-     this.datetime,
+     this.dateTime,
 
      this.uuid,
 
@@ -197,7 +197,7 @@ class FormatTest {
   )
 
 
-  final DateTime? datetime;
+  final DateTime? dateTime;
 
 
 
@@ -266,7 +266,7 @@ class FormatTest {
       other.byte == byte &&
       other.binary == binary &&
       other.date == date &&
-      other.datetime == datetime &&
+      other.dateTime == dateTime &&
       other.uuid == uuid &&
       other.password == password &&
       other.patternWithDigits == patternWithDigits &&
@@ -285,7 +285,7 @@ class FormatTest {
         byte.hashCode +
         binary.hashCode +
         date.hashCode +
-        datetime.hashCode +
+        dateTime.hashCode +
         uuid.hashCode +
         password.hashCode +
         patternWithDigits.hashCode +

@@ -17,7 +17,7 @@ part 'pet.g.dart';
 /// * [id] 
 /// * [category] 
 /// * [name] 
-/// * [photourls] 
+/// * [photoUrls] 
 /// * [tags] 
 /// * [status] - pet status in the store
 @BuiltValue()
@@ -32,7 +32,7 @@ abstract class Pet implements Built<Pet, PetBuilder> {
   String get name;
 
   @BuiltValueField(wireName: r'photoUrls')
-  BuiltSet<String> get photourls;
+  BuiltSet<String> get photoUrls;
 
   @BuiltValueField(wireName: r'tags')
   BuiltList<Tag>? get tags;
@@ -86,7 +86,7 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
     );
     yield r'photoUrls';
     yield serializers.serialize(
-      object.photourls,
+      object.photoUrls,
       specifiedType: const FullType(BuiltSet, [FullType(String)]),
     );
     if (object.tags != null) {
@@ -152,7 +152,7 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
             value,
             specifiedType: const FullType(BuiltSet, [FullType(String)]),
           ) as BuiltSet<String>;
-          result.photourls.replace(valueDes);
+          result.photoUrls.replace(valueDes);
           break;
         case r'tags':
           final valueDes = serializers.deserialize(

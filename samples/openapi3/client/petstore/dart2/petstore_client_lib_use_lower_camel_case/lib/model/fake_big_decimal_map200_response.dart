@@ -13,8 +13,8 @@ part of openapi.api;
 class FakeBigDecimalMap200Response {
   /// Returns a new [FakeBigDecimalMap200Response] instance.
   FakeBigDecimalMap200Response({
-    this.someid,
-    this.somemap = const {},
+    this.someId,
+    this.someMap = const {},
   });
 
   ///
@@ -23,32 +23,32 @@ class FakeBigDecimalMap200Response {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? someid;
+  num? someId;
 
-  Map<String, num> somemap;
+  Map<String, num> someMap;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FakeBigDecimalMap200Response &&
-    other.someid == someid &&
-    _deepEquality.equals(other.somemap, somemap);
+    other.someId == someId &&
+    _deepEquality.equals(other.someMap, someMap);
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (someid == null ? 0 : someid!.hashCode) +
-    (somemap.hashCode);
+    (someId == null ? 0 : someId!.hashCode) +
+    (someMap.hashCode);
 
   @override
-  String toString() => 'FakeBigDecimalMap200Response[someid=$someid, somemap=$somemap]';
+  String toString() => 'FakeBigDecimalMap200Response[someId=$someId, someMap=$someMap]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.someid != null) {
-      json[r'someId'] = this.someid;
+    if (this.someId != null) {
+      json[r'someId'] = this.someId;
     } else {
       json[r'someId'] = null;
     }
-      json[r'someMap'] = this.somemap;
+      json[r'someMap'] = this.someMap;
     return json;
   }
 
@@ -71,8 +71,8 @@ class FakeBigDecimalMap200Response {
       }());
 
       return FakeBigDecimalMap200Response(
-        someid: num.parse('${json[r'someId']}'),
-        somemap: mapCastOfType<String, num>(json, r'someMap') ?? const {},
+        someId: num.parse('${json[r'someId']}'),
+        someMap: mapCastOfType<String, num>(json, r'someMap') ?? const {},
       );
     }
     return null;

@@ -358,7 +358,7 @@ class FakeApi {
   /// Test serialization of object with outer number type
   ///
   /// Parameters:
-  /// * [outercomposite] - Input composite as post body
+  /// * [outerComposite] - Input composite as post body
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -369,7 +369,7 @@ class FakeApi {
   /// Returns a [Future] containing a [Response] with a [OuterComposite] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<OuterComposite>> fakeOuterCompositeSerialize({ 
-    OuterComposite? outercomposite,
+    OuterComposite? outerComposite,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -395,7 +395,7 @@ class FakeApi {
 
     try {
       const _type = FullType(OuterComposite);
-      _bodyData = outercomposite == null ? null : _serializers.serialize(outercomposite, specifiedType: _type);
+      _bodyData = outerComposite == null ? null : _serializers.serialize(outerComposite, specifiedType: _type);
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -635,7 +635,7 @@ class FakeApi {
   /// Test serialization of enum (int) properties with examples
   ///
   /// Parameters:
-  /// * [outerobjectwithenumproperty] - Input enum (int) as post body
+  /// * [outerObjectWithEnumProperty] - Input enum (int) as post body
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -646,7 +646,7 @@ class FakeApi {
   /// Returns a [Future] containing a [Response] with a [OuterObjectWithEnumProperty] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<OuterObjectWithEnumProperty>> fakePropertyEnumIntegerSerialize({ 
-    required OuterObjectWithEnumProperty outerobjectwithenumproperty,
+    required OuterObjectWithEnumProperty outerObjectWithEnumProperty,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -672,7 +672,7 @@ class FakeApi {
 
     try {
       const _type = FullType(OuterObjectWithEnumProperty);
-      _bodyData = _serializers.serialize(outerobjectwithenumproperty, specifiedType: _type);
+      _bodyData = _serializers.serialize(outerObjectWithEnumProperty, specifiedType: _type);
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -863,7 +863,7 @@ class FakeApi {
   /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
   ///
   /// Parameters:
-  /// * [fileschematestclass] 
+  /// * [fileSchemaTestClass] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -874,7 +874,7 @@ class FakeApi {
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testBodyWithFileSchema({ 
-    required FileSchemaTestClass fileschematestclass,
+    required FileSchemaTestClass fileSchemaTestClass,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -900,7 +900,7 @@ class FakeApi {
 
     try {
       const _type = FullType(FileSchemaTestClass);
-      _bodyData = _serializers.serialize(fileschematestclass, specifiedType: _type);
+      _bodyData = _serializers.serialize(fileSchemaTestClass, specifiedType: _type);
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1005,7 +1005,7 @@ class FakeApi {
   /// To test \&quot;client\&quot; model
   ///
   /// Parameters:
-  /// * [modelclient] - client model
+  /// * [modelClient] - client model
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1016,7 +1016,7 @@ class FakeApi {
   /// Returns a [Future] containing a [Response] with a [ModelClient] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<ModelClient>> testClientModel({ 
-    required ModelClient modelclient,
+    required ModelClient modelClient,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1042,7 +1042,7 @@ class FakeApi {
 
     try {
       const _type = FullType(ModelClient);
-      _bodyData = _serializers.serialize(modelclient, specifiedType: _type);
+      _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1111,7 +1111,7 @@ class FakeApi {
   /// * [string] - None
   /// * [binary] - None
   /// * [date] - None
-  /// * [datetime] - None
+  /// * [dateTime] - None
   /// * [password] - None
   /// * [callback] - None
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -1135,7 +1135,7 @@ class FakeApi {
     String? string,
     Uint8List? binary,
     Date? date,
-    DateTime? datetime,
+    DateTime? dateTime,
     String? password,
     String? callback,
     CancelToken? cancelToken,
@@ -1180,7 +1180,7 @@ class FakeApi {
         r'byte': encodeQueryParameter(_serializers, byte, const FullType(String)),
         if (binary != null) r'binary': encodeQueryParameter(_serializers, binary, const FullType(Uint8List)),
         if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(Date)),
-        if (datetime != null) r'dateTime': encodeQueryParameter(_serializers, datetime, const FullType(DateTime)),
+        if (dateTime != null) r'dateTime': encodeQueryParameter(_serializers, dateTime, const FullType(DateTime)),
         if (password != null) r'password': encodeQueryParameter(_serializers, password, const FullType(String)),
         if (callback != null) r'callback': encodeQueryParameter(_serializers, callback, const FullType(String)),
       };
@@ -1450,7 +1450,7 @@ class FakeApi {
   /// 
   ///
   /// Parameters:
-  /// * [testinlinefreeformadditionalpropertiesrequest] - request body
+  /// * [testInlineFreeformAdditionalPropertiesRequest] - request body
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1461,7 +1461,7 @@ class FakeApi {
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testInlineFreeformAdditionalProperties({ 
-    required TestInlineFreeformAdditionalPropertiesRequest testinlinefreeformadditionalpropertiesrequest,
+    required TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1487,7 +1487,7 @@ class FakeApi {
 
     try {
       const _type = FullType(TestInlineFreeformAdditionalPropertiesRequest);
-      _bodyData = _serializers.serialize(testinlinefreeformadditionalpropertiesrequest, specifiedType: _type);
+      _bodyData = _serializers.serialize(testInlineFreeformAdditionalPropertiesRequest, specifiedType: _type);
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1588,7 +1588,7 @@ class FakeApi {
   /// 
   ///
   /// Parameters:
-  /// * [childwithnullable] - request body
+  /// * [childWithNullable] - request body
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1599,7 +1599,7 @@ class FakeApi {
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testNullable({ 
-    required ChildWithNullable childwithnullable,
+    required ChildWithNullable childWithNullable,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1625,7 +1625,7 @@ class FakeApi {
 
     try {
       const _type = FullType(ChildWithNullable);
-      _bodyData = _serializers.serialize(childwithnullable, specifiedType: _type);
+      _bodyData = _serializers.serialize(childWithNullable, specifiedType: _type);
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1660,7 +1660,7 @@ class FakeApi {
   /// * [http] 
   /// * [url] 
   /// * [context] 
-  /// * [allowempty] 
+  /// * [allowEmpty] 
   /// * [language] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -1677,7 +1677,7 @@ class FakeApi {
     required BuiltList<String> http,
     required BuiltList<String> url,
     required BuiltList<String> context,
-    required String allowempty,
+    required String allowEmpty,
     BuiltMap<String, String>? language,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1706,7 +1706,7 @@ class FakeApi {
       r'url': encodeCollectionQueryParameter<String>(_serializers, url, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
       r'context': encodeCollectionQueryParameter<String>(_serializers, context, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi,),
       if (language != null) r'language': encodeQueryParameter(_serializers, language, const FullType(BuiltMap, [FullType(String), FullType(String)]), ),
-      r'allowEmpty': encodeQueryParameter(_serializers, allowempty, const FullType(String)),
+      r'allowEmpty': encodeQueryParameter(_serializers, allowEmpty, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(

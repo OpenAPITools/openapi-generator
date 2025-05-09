@@ -13,31 +13,31 @@ part of openapi.api;
 class Animal {
   /// Returns a new [Animal] instance.
   Animal({
-    required this.classname,
+    required this.className,
     this.color = 'red',
   });
 
-  String classname;
+  String className;
 
   String color;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Animal &&
-    other.classname == classname &&
+    other.className == className &&
     other.color == color;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (classname.hashCode) +
+    (className.hashCode) +
     (color.hashCode);
 
   @override
-  String toString() => 'Animal[classname=$classname, color=$color]';
+  String toString() => 'Animal[className=$className, color=$color]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'className'] = this.classname;
+      json[r'className'] = this.className;
       json[r'color'] = this.color;
     return json;
   }
@@ -61,7 +61,7 @@ class Animal {
       }());
 
       return Animal(
-        classname: mapValueOfType<String>(json, r'className')!,
+        className: mapValueOfType<String>(json, r'className')!,
         color: mapValueOfType<String>(json, r'color') ?? 'red',
       );
     }

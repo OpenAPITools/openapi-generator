@@ -18,7 +18,7 @@ class ArrayOfNumberOnly {
   /// Returns a new [ArrayOfNumberOnly] instance.
   ArrayOfNumberOnly({
 
-     this.arraynumber,
+     this.arrayNumber,
   });
 
   @JsonKey(
@@ -29,7 +29,7 @@ class ArrayOfNumberOnly {
   )
 
 
-  final List<num>? arraynumber;
+  final List<num>? arrayNumber;
 
 
 
@@ -37,11 +37,11 @@ class ArrayOfNumberOnly {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ArrayOfNumberOnly &&
-      other.arraynumber == arraynumber;
+      other.arrayNumber == arrayNumber;
 
     @override
     int get hashCode =>
-        arraynumber.hashCode;
+        arrayNumber.hashCode;
 
   factory ArrayOfNumberOnly.fromJson(Map<String, dynamic> json) => _$ArrayOfNumberOnlyFromJson(json);
 

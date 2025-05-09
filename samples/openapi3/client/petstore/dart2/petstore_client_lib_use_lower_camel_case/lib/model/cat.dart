@@ -13,12 +13,12 @@ part of openapi.api;
 class Cat {
   /// Returns a new [Cat] instance.
   Cat({
-    required this.classname,
+    required this.className,
     this.color = 'red',
     this.declawed,
   });
 
-  String classname;
+  String className;
 
   String color;
 
@@ -32,23 +32,23 @@ class Cat {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Cat &&
-    other.classname == classname &&
+    other.className == className &&
     other.color == color &&
     other.declawed == declawed;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (classname.hashCode) +
+    (className.hashCode) +
     (color.hashCode) +
     (declawed == null ? 0 : declawed!.hashCode);
 
   @override
-  String toString() => 'Cat[classname=$classname, color=$color, declawed=$declawed]';
+  String toString() => 'Cat[className=$className, color=$color, declawed=$declawed]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'className'] = this.classname;
+      json[r'className'] = this.className;
       json[r'color'] = this.color;
     if (this.declawed != null) {
       json[r'declawed'] = this.declawed;
@@ -77,7 +77,7 @@ class Cat {
       }());
 
       return Cat(
-        classname: mapValueOfType<String>(json, r'className')!,
+        className: mapValueOfType<String>(json, r'className')!,
         color: mapValueOfType<String>(json, r'color') ?? 'red',
         declawed: mapValueOfType<bool>(json, r'declawed'),
       );

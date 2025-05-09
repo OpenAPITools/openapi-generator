@@ -18,7 +18,7 @@ class ModelFile {
   /// Returns a new [ModelFile] instance.
   ModelFile({
 
-     this.sourceuri,
+     this.sourceURI,
   });
 
       /// Test capitalization
@@ -30,7 +30,7 @@ class ModelFile {
   )
 
 
-  final String? sourceuri;
+  final String? sourceURI;
 
 
 
@@ -38,11 +38,11 @@ class ModelFile {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
-      other.sourceuri == sourceuri;
+      other.sourceURI == sourceURI;
 
     @override
     int get hashCode =>
-        sourceuri.hashCode;
+        sourceURI.hashCode;
 
   factory ModelFile.fromJson(Map<String, dynamic> json) => _$ModelFileFromJson(json);
 

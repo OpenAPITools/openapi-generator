@@ -230,14 +230,14 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [OuterComposite] outercomposite:
+  /// * [OuterComposite] outerComposite:
   ///   Input composite as post body
-  Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite? outercomposite, }) async {
+  Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite? outerComposite, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/outer/composite';
 
     // ignore: prefer_final_locals
-    Object? postBody = outercomposite;
+    Object? postBody = outerComposite;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -261,10 +261,10 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [OuterComposite] outercomposite:
+  /// * [OuterComposite] outerComposite:
   ///   Input composite as post body
-  Future<OuterComposite?> fakeOuterCompositeSerialize({ OuterComposite? outercomposite, }) async {
-    final response = await fakeOuterCompositeSerializeWithHttpInfo( outercomposite: outercomposite, );
+  Future<OuterComposite?> fakeOuterCompositeSerialize({ OuterComposite? outerComposite, }) async {
+    final response = await fakeOuterCompositeSerializeWithHttpInfo( outerComposite: outerComposite, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -392,14 +392,14 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [OuterObjectWithEnumProperty] outerobjectwithenumproperty (required):
+  /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
   ///   Input enum (int) as post body
-  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerobjectwithenumproperty,) async {
+  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty,) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/property/enum-int';
 
     // ignore: prefer_final_locals
-    Object? postBody = outerobjectwithenumproperty;
+    Object? postBody = outerObjectWithEnumProperty;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -423,10 +423,10 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [OuterObjectWithEnumProperty] outerobjectwithenumproperty (required):
+  /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
   ///   Input enum (int) as post body
-  Future<OuterObjectWithEnumProperty?> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerobjectwithenumproperty,) async {
-    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerobjectwithenumproperty,);
+  Future<OuterObjectWithEnumProperty?> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty,) async {
+    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -542,13 +542,13 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [FileSchemaTestClass] fileschematestclass (required):
-  Future<Response> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileschematestclass,) async {
+  /// * [FileSchemaTestClass] fileSchemaTestClass (required):
+  Future<Response> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass,) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/body-with-file-schema';
 
     // ignore: prefer_final_locals
-    Object? postBody = fileschematestclass;
+    Object? postBody = fileSchemaTestClass;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -572,9 +572,9 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [FileSchemaTestClass] fileschematestclass (required):
-  Future<void> testBodyWithFileSchema(FileSchemaTestClass fileschematestclass,) async {
-    final response = await testBodyWithFileSchemaWithHttpInfo(fileschematestclass,);
+  /// * [FileSchemaTestClass] fileSchemaTestClass (required):
+  Future<void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass,) async {
+    final response = await testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -633,14 +633,14 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [ModelClient] modelclient (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> testClientModelWithHttpInfo(ModelClient modelclient,) async {
+  Future<Response> testClientModelWithHttpInfo(ModelClient modelClient,) async {
     // ignore: prefer_const_declarations
     final path = r'/fake';
 
     // ignore: prefer_final_locals
-    Object? postBody = modelclient;
+    Object? postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -666,10 +666,10 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [ModelClient] modelclient (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<ModelClient?> testClientModel(ModelClient modelclient,) async {
-    final response = await testClientModelWithHttpInfo(modelclient,);
+  Future<ModelClient?> testClientModel(ModelClient modelClient,) async {
+    final response = await testClientModelWithHttpInfo(modelClient,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -724,7 +724,7 @@ class FakeApi {
   /// * [DateTime] date:
   ///   None
   ///
-  /// * [DateTime] datetime:
+  /// * [DateTime] dateTime:
   ///   None
   ///
   /// * [String] password:
@@ -732,7 +732,7 @@ class FakeApi {
   ///
   /// * [String] callback:
   ///   None
-  Future<Response> testEndpointParametersWithHttpInfo(num number, double double_, String patternWithoutDelimiter, String byte, { int? integer, int? int32, int? int64, double? float, String? string, MultipartFile? binary, DateTime? date, DateTime? datetime, String? password, String? callback, }) async {
+  Future<Response> testEndpointParametersWithHttpInfo(num number, double double_, String patternWithoutDelimiter, String byte, { int? integer, int? int32, int? int64, double? float, String? string, MultipartFile? binary, DateTime? date, DateTime? dateTime, String? password, String? callback, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake';
 
@@ -775,8 +775,8 @@ class FakeApi {
     if (date != null) {
       formParams[r'date'] = parameterToString(date);
     }
-    if (datetime != null) {
-      formParams[r'dateTime'] = parameterToString(datetime);
+    if (dateTime != null) {
+      formParams[r'dateTime'] = parameterToString(dateTime);
     }
     if (password != null) {
       formParams[r'password'] = parameterToString(password);
@@ -835,7 +835,7 @@ class FakeApi {
   /// * [DateTime] date:
   ///   None
   ///
-  /// * [DateTime] datetime:
+  /// * [DateTime] dateTime:
   ///   None
   ///
   /// * [String] password:
@@ -843,8 +843,8 @@ class FakeApi {
   ///
   /// * [String] callback:
   ///   None
-  Future<void> testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int? integer, int? int32, int? int64, double? float, String? string, MultipartFile? binary, DateTime? date, DateTime? datetime, String? password, String? callback, }) async {
-    final response = await testEndpointParametersWithHttpInfo(number, double_, patternWithoutDelimiter, byte,  integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, datetime: datetime, password: password, callback: callback, );
+  Future<void> testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int? integer, int? int32, int? int64, double? float, String? string, MultipartFile? binary, DateTime? date, DateTime? dateTime, String? password, String? callback, }) async {
+    final response = await testEndpointParametersWithHttpInfo(number, double_, patternWithoutDelimiter, byte,  integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1127,14 +1127,14 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [TestInlineFreeformAdditionalPropertiesRequest] testinlinefreeformadditionalpropertiesrequest (required):
+  /// * [TestInlineFreeformAdditionalPropertiesRequest] testInlineFreeformAdditionalPropertiesRequest (required):
   ///   request body
-  Future<Response> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testinlinefreeformadditionalpropertiesrequest,) async {
+  Future<Response> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/inline-freeform-additionalProperties';
 
     // ignore: prefer_final_locals
-    Object? postBody = testinlinefreeformadditionalpropertiesrequest;
+    Object? postBody = testInlineFreeformAdditionalPropertiesRequest;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1160,10 +1160,10 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [TestInlineFreeformAdditionalPropertiesRequest] testinlinefreeformadditionalpropertiesrequest (required):
+  /// * [TestInlineFreeformAdditionalPropertiesRequest] testInlineFreeformAdditionalPropertiesRequest (required):
   ///   request body
-  Future<void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testinlinefreeformadditionalpropertiesrequest,) async {
-    final response = await testInlineFreeformAdditionalPropertiesWithHttpInfo(testinlinefreeformadditionalpropertiesrequest,);
+  Future<void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,) async {
+    final response = await testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1239,14 +1239,14 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [ChildWithNullable] childwithnullable (required):
+  /// * [ChildWithNullable] childWithNullable (required):
   ///   request body
-  Future<Response> testNullableWithHttpInfo(ChildWithNullable childwithnullable,) async {
+  Future<Response> testNullableWithHttpInfo(ChildWithNullable childWithNullable,) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/nullable';
 
     // ignore: prefer_final_locals
-    Object? postBody = childwithnullable;
+    Object? postBody = childWithNullable;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1272,10 +1272,10 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [ChildWithNullable] childwithnullable (required):
+  /// * [ChildWithNullable] childWithNullable (required):
   ///   request body
-  Future<void> testNullable(ChildWithNullable childwithnullable,) async {
-    final response = await testNullableWithHttpInfo(childwithnullable,);
+  Future<void> testNullable(ChildWithNullable childWithNullable,) async {
+    final response = await testNullableWithHttpInfo(childWithNullable,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1297,10 +1297,10 @@ class FakeApi {
   ///
   /// * [List<String>] context (required):
   ///
-  /// * [String] allowempty (required):
+  /// * [String] allowEmpty (required):
   ///
   /// * [Map<String, String>] language:
-  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowempty, { Map<String, String>? language, }) async {
+  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/test-query-parameters';
 
@@ -1319,7 +1319,7 @@ class FakeApi {
     if (language != null) {
       queryParams.addAll(_queryParams('', 'language', language));
     }
-      queryParams.addAll(_queryParams('', 'allowEmpty', allowempty));
+      queryParams.addAll(_queryParams('', 'allowEmpty', allowEmpty));
 
     const contentTypes = <String>[];
 
@@ -1349,11 +1349,11 @@ class FakeApi {
   ///
   /// * [List<String>] context (required):
   ///
-  /// * [String] allowempty (required):
+  /// * [String] allowEmpty (required):
   ///
   /// * [Map<String, String>] language:
-  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowempty, { Map<String, String>? language, }) async {
-    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowempty,  language: language, );
+  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, }) async {
+    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty,  language: language, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

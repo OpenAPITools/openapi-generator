@@ -14,7 +14,7 @@ part 'mixed_properties_and_additional_properties_class.g.dart';
 ///
 /// Properties:
 /// * [uuid] 
-/// * [datetime] 
+/// * [dateTime] 
 /// * [map] 
 @BuiltValue()
 abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilder> {
@@ -22,7 +22,7 @@ abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<Mixe
   String? get uuid;
 
   @BuiltValueField(wireName: r'dateTime')
-  DateTime? get datetime;
+  DateTime? get dateTime;
 
   @BuiltValueField(wireName: r'map')
   BuiltMap<String, Animal>? get map;
@@ -57,10 +57,10 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Primiti
         specifiedType: const FullType(String),
       );
     }
-    if (object.datetime != null) {
+    if (object.dateTime != null) {
       yield r'dateTime';
       yield serializers.serialize(
-        object.datetime,
+        object.dateTime,
         specifiedType: const FullType(DateTime),
       );
     }
@@ -106,7 +106,7 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Primiti
             value,
             specifiedType: const FullType(DateTime),
           ) as DateTime;
-          result.datetime = valueDes;
+          result.dateTime = valueDes;
           break;
         case r'map':
           final valueDes = serializers.deserialize(

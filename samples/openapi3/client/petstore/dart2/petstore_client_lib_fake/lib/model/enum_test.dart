@@ -17,10 +17,10 @@ class EnumTest {
     required this.enumStringRequired,
     this.enumInteger,
     this.enumNumber,
-    this.outerenum,
-    this.outerenuminteger,
-    this.outerenumdefaultvalue,
-    this.outerenumintegerdefaultvalue,
+    this.outerEnum,
+    this.outerEnumInteger,
+    this.outerEnumDefaultValue,
+    this.outerEnumIntegerDefaultValue,
   });
 
   EnumTestEnumStringEnum? enumString;
@@ -31,7 +31,7 @@ class EnumTest {
 
   EnumTestEnumNumberEnum? enumNumber;
 
-  OuterEnum? outerenum;
+  OuterEnum? outerEnum;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -39,7 +39,7 @@ class EnumTest {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  OuterEnumInteger? outerenuminteger;
+  OuterEnumInteger? outerEnumInteger;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -47,7 +47,7 @@ class EnumTest {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  OuterEnumDefaultValue? outerenumdefaultvalue;
+  OuterEnumDefaultValue? outerEnumDefaultValue;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -55,7 +55,7 @@ class EnumTest {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  OuterEnumIntegerDefaultValue? outerenumintegerdefaultvalue;
+  OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
@@ -63,10 +63,10 @@ class EnumTest {
     other.enumStringRequired == enumStringRequired &&
     other.enumInteger == enumInteger &&
     other.enumNumber == enumNumber &&
-    other.outerenum == outerenum &&
-    other.outerenuminteger == outerenuminteger &&
-    other.outerenumdefaultvalue == outerenumdefaultvalue &&
-    other.outerenumintegerdefaultvalue == outerenumintegerdefaultvalue;
+    other.outerEnum == outerEnum &&
+    other.outerEnumInteger == outerEnumInteger &&
+    other.outerEnumDefaultValue == outerEnumDefaultValue &&
+    other.outerEnumIntegerDefaultValue == outerEnumIntegerDefaultValue;
 
   @override
   int get hashCode =>
@@ -75,13 +75,13 @@ class EnumTest {
     (enumStringRequired.hashCode) +
     (enumInteger == null ? 0 : enumInteger!.hashCode) +
     (enumNumber == null ? 0 : enumNumber!.hashCode) +
-    (outerenum == null ? 0 : outerenum!.hashCode) +
-    (outerenuminteger == null ? 0 : outerenuminteger!.hashCode) +
-    (outerenumdefaultvalue == null ? 0 : outerenumdefaultvalue!.hashCode) +
-    (outerenumintegerdefaultvalue == null ? 0 : outerenumintegerdefaultvalue!.hashCode);
+    (outerEnum == null ? 0 : outerEnum!.hashCode) +
+    (outerEnumInteger == null ? 0 : outerEnumInteger!.hashCode) +
+    (outerEnumDefaultValue == null ? 0 : outerEnumDefaultValue!.hashCode) +
+    (outerEnumIntegerDefaultValue == null ? 0 : outerEnumIntegerDefaultValue!.hashCode);
 
   @override
-  String toString() => 'EnumTest[enumString=$enumString, enumStringRequired=$enumStringRequired, enumInteger=$enumInteger, enumNumber=$enumNumber, outerenum=$outerenum, outerenuminteger=$outerenuminteger, outerenumdefaultvalue=$outerenumdefaultvalue, outerenumintegerdefaultvalue=$outerenumintegerdefaultvalue]';
+  String toString() => 'EnumTest[enumString=$enumString, enumStringRequired=$enumStringRequired, enumInteger=$enumInteger, enumNumber=$enumNumber, outerEnum=$outerEnum, outerEnumInteger=$outerEnumInteger, outerEnumDefaultValue=$outerEnumDefaultValue, outerEnumIntegerDefaultValue=$outerEnumIntegerDefaultValue]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -101,23 +101,23 @@ class EnumTest {
     } else {
       json[r'enum_number'] = null;
     }
-    if (this.outerenum != null) {
-      json[r'outerEnum'] = this.outerenum;
+    if (this.outerEnum != null) {
+      json[r'outerEnum'] = this.outerEnum;
     } else {
       json[r'outerEnum'] = null;
     }
-    if (this.outerenuminteger != null) {
-      json[r'outerEnumInteger'] = this.outerenuminteger;
+    if (this.outerEnumInteger != null) {
+      json[r'outerEnumInteger'] = this.outerEnumInteger;
     } else {
       json[r'outerEnumInteger'] = null;
     }
-    if (this.outerenumdefaultvalue != null) {
-      json[r'outerEnumDefaultValue'] = this.outerenumdefaultvalue;
+    if (this.outerEnumDefaultValue != null) {
+      json[r'outerEnumDefaultValue'] = this.outerEnumDefaultValue;
     } else {
       json[r'outerEnumDefaultValue'] = null;
     }
-    if (this.outerenumintegerdefaultvalue != null) {
-      json[r'outerEnumIntegerDefaultValue'] = this.outerenumintegerdefaultvalue;
+    if (this.outerEnumIntegerDefaultValue != null) {
+      json[r'outerEnumIntegerDefaultValue'] = this.outerEnumIntegerDefaultValue;
     } else {
       json[r'outerEnumIntegerDefaultValue'] = null;
     }
@@ -147,10 +147,10 @@ class EnumTest {
         enumStringRequired: EnumTestEnumStringRequiredEnum.fromJson(json[r'enum_string_required'])!,
         enumInteger: EnumTestEnumIntegerEnum.fromJson(json[r'enum_integer']),
         enumNumber: EnumTestEnumNumberEnum.fromJson(json[r'enum_number']),
-        outerenum: OuterEnum.fromJson(json[r'outerEnum']),
-        outerenuminteger: OuterEnumInteger.fromJson(json[r'outerEnumInteger']),
-        outerenumdefaultvalue: OuterEnumDefaultValue.fromJson(json[r'outerEnumDefaultValue']),
-        outerenumintegerdefaultvalue: OuterEnumIntegerDefaultValue.fromJson(json[r'outerEnumIntegerDefaultValue']),
+        outerEnum: OuterEnum.fromJson(json[r'outerEnum']),
+        outerEnumInteger: OuterEnumInteger.fromJson(json[r'outerEnumInteger']),
+        outerEnumDefaultValue: OuterEnumDefaultValue.fromJson(json[r'outerEnumDefaultValue']),
+        outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue.fromJson(json[r'outerEnumIntegerDefaultValue']),
       );
     }
     return null;
@@ -215,13 +215,13 @@ class EnumTestEnumStringEnum {
 
   String toJson() => value;
 
-  static const upper = EnumTestEnumStringEnum._(r'UPPER');
+  static const UPPER = EnumTestEnumStringEnum._(r'UPPER');
   static const lower = EnumTestEnumStringEnum._(r'lower');
   static const empty = EnumTestEnumStringEnum._(r'');
 
   /// List of all possible values in this [enum][EnumTestEnumStringEnum].
   static const values = <EnumTestEnumStringEnum>[
-    upper,
+    UPPER,
     lower,
     empty,
   ];
@@ -262,7 +262,7 @@ class EnumTestEnumStringEnumTypeTransformer {
   EnumTestEnumStringEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'UPPER': return EnumTestEnumStringEnum.upper;
+        case r'UPPER': return EnumTestEnumStringEnum.UPPER;
         case r'lower': return EnumTestEnumStringEnum.lower;
         case r'': return EnumTestEnumStringEnum.empty;
         default:
@@ -292,13 +292,13 @@ class EnumTestEnumStringRequiredEnum {
 
   String toJson() => value;
 
-  static const upper = EnumTestEnumStringRequiredEnum._(r'UPPER');
+  static const UPPER = EnumTestEnumStringRequiredEnum._(r'UPPER');
   static const lower = EnumTestEnumStringRequiredEnum._(r'lower');
   static const empty = EnumTestEnumStringRequiredEnum._(r'');
 
   /// List of all possible values in this [enum][EnumTestEnumStringRequiredEnum].
   static const values = <EnumTestEnumStringRequiredEnum>[
-    upper,
+    UPPER,
     lower,
     empty,
   ];
@@ -339,7 +339,7 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
   EnumTestEnumStringRequiredEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'UPPER': return EnumTestEnumStringRequiredEnum.upper;
+        case r'UPPER': return EnumTestEnumStringRequiredEnum.UPPER;
         case r'lower': return EnumTestEnumStringRequiredEnum.lower;
         case r'': return EnumTestEnumStringRequiredEnum.empty;
         default:
@@ -443,13 +443,13 @@ class EnumTestEnumNumberEnum {
 
   double toJson() => value;
 
-  static const number1period1 = EnumTestEnumNumberEnum._('1.1');
-  static const numberNegative1period2 = EnumTestEnumNumberEnum._('-1.2');
+  static const number1Period1 = EnumTestEnumNumberEnum._('1.1');
+  static const numberNegative1Period2 = EnumTestEnumNumberEnum._('-1.2');
 
   /// List of all possible values in this [enum][EnumTestEnumNumberEnum].
   static const values = <EnumTestEnumNumberEnum>[
-    number1period1,
-    numberNegative1period2,
+    number1Period1,
+    numberNegative1Period2,
   ];
 
   static EnumTestEnumNumberEnum? fromJson(dynamic value) => EnumTestEnumNumberEnumTypeTransformer().decode(value);
@@ -488,8 +488,8 @@ class EnumTestEnumNumberEnumTypeTransformer {
   EnumTestEnumNumberEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case '1.1': return EnumTestEnumNumberEnum.number1period1;
-        case '-1.2': return EnumTestEnumNumberEnum.numberNegative1period2;
+        case '1.1': return EnumTestEnumNumberEnum.number1Period1;
+        case '-1.2': return EnumTestEnumNumberEnum.numberNegative1Period2;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');

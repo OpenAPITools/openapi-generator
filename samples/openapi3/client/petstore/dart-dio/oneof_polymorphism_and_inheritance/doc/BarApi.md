@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **createBar**
-> Bar createBar(barcreate)
+> Bar createBar(barCreate)
 
 Create a Bar
 
@@ -22,10 +22,10 @@ Create a Bar
 import 'package:openapi/api.dart';
 
 final api = Openapi().getBarApi();
-final BarCreate barcreate = ; // BarCreate | 
+final BarCreate barCreate = ; // BarCreate | 
 
 try {
-    final response = api.createBar(barcreate);
+    final response = api.createBar(barCreate);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling BarApi->createBar: $e\n');
@@ -36,7 +36,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **barcreate** | [**BarCreate**](BarCreate.md)|  | 
+ **barCreate** | [**BarCreate**](BarCreate.md)|  | 
 
 ### Return type
 

@@ -24,14 +24,14 @@ class FakeClassnameTags123Api {
   ///
   /// Parameters:
   ///
-  /// * [ModelClient] modelclient (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> testClassnameWithHttpInfo(ModelClient modelclient,) async {
+  Future<Response> testClassnameWithHttpInfo(ModelClient modelClient,) async {
     // ignore: prefer_const_declarations
     final path = r'/fake_classname_test';
 
     // ignore: prefer_final_locals
-    Object? postBody = modelclient;
+    Object? postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -57,10 +57,10 @@ class FakeClassnameTags123Api {
   ///
   /// Parameters:
   ///
-  /// * [ModelClient] modelclient (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<ModelClient?> testClassname(ModelClient modelclient,) async {
-    final response = await testClassnameWithHttpInfo(modelclient,);
+  Future<ModelClient?> testClassname(ModelClient modelClient,) async {
+    final response = await testClassnameWithHttpInfo(modelClient,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

@@ -21,7 +21,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
      this.uuid,
 
-     this.datetime,
+     this.dateTime,
 
      this.map,
   });
@@ -46,7 +46,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   )
 
 
-  final DateTime? datetime;
+  final DateTime? dateTime;
 
 
 
@@ -67,13 +67,13 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     @override
     bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
       other.uuid == uuid &&
-      other.datetime == datetime &&
+      other.dateTime == dateTime &&
       other.map == map;
 
     @override
     int get hashCode =>
         uuid.hashCode +
-        datetime.hashCode +
+        dateTime.hashCode +
         map.hashCode;
 
   factory MixedPropertiesAndAdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$MixedPropertiesAndAdditionalPropertiesClassFromJson(json);

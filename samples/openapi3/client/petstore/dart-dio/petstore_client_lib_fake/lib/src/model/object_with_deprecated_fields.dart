@@ -15,7 +15,7 @@ part 'object_with_deprecated_fields.g.dart';
 /// Properties:
 /// * [uuid] 
 /// * [id] 
-/// * [deprecatedref] 
+/// * [deprecatedRef] 
 /// * [bars] 
 @BuiltValue()
 abstract class ObjectWithDeprecatedFields implements Built<ObjectWithDeprecatedFields, ObjectWithDeprecatedFieldsBuilder> {
@@ -26,9 +26,9 @@ abstract class ObjectWithDeprecatedFields implements Built<ObjectWithDeprecatedF
   @BuiltValueField(wireName: r'id')
   num? get id;
 
-  @Deprecated('deprecatedref has been deprecated')
+  @Deprecated('deprecatedRef has been deprecated')
   @BuiltValueField(wireName: r'deprecatedRef')
-  DeprecatedObject? get deprecatedref;
+  DeprecatedObject? get deprecatedRef;
 
   @Deprecated('bars has been deprecated')
   @BuiltValueField(wireName: r'bars')
@@ -71,10 +71,10 @@ class _$ObjectWithDeprecatedFieldsSerializer implements PrimitiveSerializer<Obje
         specifiedType: const FullType(num),
       );
     }
-    if (object.deprecatedref != null) {
+    if (object.deprecatedRef != null) {
       yield r'deprecatedRef';
       yield serializers.serialize(
-        object.deprecatedref,
+        object.deprecatedRef,
         specifiedType: const FullType(DeprecatedObject),
       );
     }
@@ -127,7 +127,7 @@ class _$ObjectWithDeprecatedFieldsSerializer implements PrimitiveSerializer<Obje
             value,
             specifiedType: const FullType(DeprecatedObject),
           ) as DeprecatedObject;
-          result.deprecatedref.replace(valueDes);
+          result.deprecatedRef.replace(valueDes);
           break;
         case r'bars':
           final valueDes = serializers.deserialize(

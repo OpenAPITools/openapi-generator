@@ -12,7 +12,7 @@ enum ModelEnumClass {
       @JsonValue(r'-efg')
       efg(r'-efg'),
       @JsonValue(r'(xyz)')
-      leftParenthesisXyzrightParenthesis(r'(xyz)'),
+      leftParenthesisXyzRightParenthesis(r'(xyz)'),
       @JsonValue(r'unknown_default_open_api')
       unknownDefaultOpenApi(r'unknown_default_open_api');
 

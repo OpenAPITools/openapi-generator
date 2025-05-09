@@ -11,11 +11,11 @@ part 'health_check_result.g.dart';
 /// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
 ///
 /// Properties:
-/// * [nullablemessage] 
+/// * [nullableMessage] 
 @BuiltValue()
 abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheckResultBuilder> {
   @BuiltValueField(wireName: r'NullableMessage')
-  String? get nullablemessage;
+  String? get nullableMessage;
 
   HealthCheckResult._();
 
@@ -40,10 +40,10 @@ class _$HealthCheckResultSerializer implements PrimitiveSerializer<HealthCheckRe
     HealthCheckResult object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.nullablemessage != null) {
+    if (object.nullableMessage != null) {
       yield r'NullableMessage';
       yield serializers.serialize(
-        object.nullablemessage,
+        object.nullableMessage,
         specifiedType: const FullType.nullable(String),
       );
     }
@@ -76,7 +76,7 @@ class _$HealthCheckResultSerializer implements PrimitiveSerializer<HealthCheckRe
             specifiedType: const FullType.nullable(String),
           ) as String?;
           if (valueDes == null) continue;
-          result.nullablemessage = valueDes;
+          result.nullableMessage = valueDes;
           break;
         default:
           unhandled.add(key);

@@ -140,12 +140,12 @@ class MapTestMapOfEnumStringEnum {
 
   String toJson() => value;
 
-  static const upper = MapTestMapOfEnumStringEnum._(r'UPPER');
+  static const UPPER = MapTestMapOfEnumStringEnum._(r'UPPER');
   static const lower = MapTestMapOfEnumStringEnum._(r'lower');
 
   /// List of all possible values in this [enum][MapTestMapOfEnumStringEnum].
   static const values = <MapTestMapOfEnumStringEnum>[
-    upper,
+    UPPER,
     lower,
   ];
 
@@ -185,7 +185,7 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
   MapTestMapOfEnumStringEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'UPPER': return MapTestMapOfEnumStringEnum.upper;
+        case r'UPPER': return MapTestMapOfEnumStringEnum.UPPER;
         case r'lower': return MapTestMapOfEnumStringEnum.lower;
         default:
           if (!allowNull) {

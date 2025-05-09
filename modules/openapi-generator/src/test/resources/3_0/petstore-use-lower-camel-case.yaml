@@ -1668,6 +1668,11 @@ components:
         - _abc
         - '-efg'
         - (xyz)
+        - TEST
+        - TEST_A
+        - TEST_A_ABC
+        - TEST_a
+        - tEST
     Enum_Test:
       type: object
       required:

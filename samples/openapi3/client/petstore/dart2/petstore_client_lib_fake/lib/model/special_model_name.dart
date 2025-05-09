@@ -13,7 +13,7 @@ part of openapi.api;
 class SpecialModelName {
   /// Returns a new [SpecialModelName] instance.
   SpecialModelName({
-    this.dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket,
+    this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
   });
 
   ///
@@ -22,24 +22,24 @@ class SpecialModelName {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  int? dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket;
+  int? dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is SpecialModelName &&
-    other.dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket == dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket;
+    other.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket == null ? 0 : dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket!.hashCode);
+    (dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == null ? 0 : dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket!.hashCode);
 
   @override
-  String toString() => 'SpecialModelName[dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket=$dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket]';
+  String toString() => 'SpecialModelName[dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket=$dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket != null) {
-      json[r'$special[property.name]'] = this.dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket;
+    if (this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket != null) {
+      json[r'$special[property.name]'] = this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
     } else {
       json[r'$special[property.name]'] = null;
     }
@@ -65,7 +65,7 @@ class SpecialModelName {
       }());
 
       return SpecialModelName(
-        dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket: mapValueOfType<int>(json, r'$special[property.name]'),
+        dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: mapValueOfType<int>(json, r'$special[property.name]'),
       );
     }
     return null;

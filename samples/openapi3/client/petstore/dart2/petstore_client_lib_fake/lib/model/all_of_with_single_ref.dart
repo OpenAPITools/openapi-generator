@@ -14,7 +14,7 @@ class AllOfWithSingleRef {
   /// Returns a new [AllOfWithSingleRef] instance.
   AllOfWithSingleRef({
     this.username,
-    this.singlereftype,
+    this.singleRefType,
   });
 
   ///
@@ -31,21 +31,21 @@ class AllOfWithSingleRef {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  SingleRefType? singlereftype;
+  SingleRefType? singleRefType;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
     other.username == username &&
-    other.singlereftype == singlereftype;
+    other.singleRefType == singleRefType;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (username == null ? 0 : username!.hashCode) +
-    (singlereftype == null ? 0 : singlereftype!.hashCode);
+    (singleRefType == null ? 0 : singleRefType!.hashCode);
 
   @override
-  String toString() => 'AllOfWithSingleRef[username=$username, singlereftype=$singlereftype]';
+  String toString() => 'AllOfWithSingleRef[username=$username, singleRefType=$singleRefType]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -54,8 +54,8 @@ class AllOfWithSingleRef {
     } else {
       json[r'username'] = null;
     }
-    if (this.singlereftype != null) {
-      json[r'SingleRefType'] = this.singlereftype;
+    if (this.singleRefType != null) {
+      json[r'SingleRefType'] = this.singleRefType;
     } else {
       json[r'SingleRefType'] = null;
     }
@@ -82,7 +82,7 @@ class AllOfWithSingleRef {
 
       return AllOfWithSingleRef(
         username: mapValueOfType<String>(json, r'username'),
-        singlereftype: SingleRefType.fromJson(json[r'SingleRefType']),
+        singleRefType: SingleRefType.fromJson(json[r'SingleRefType']),
       );
     }
     return null;

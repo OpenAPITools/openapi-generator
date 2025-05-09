@@ -9,9 +9,9 @@ import 'package:openapi/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | [optional] 
-**petid** | **int** |  | [optional] 
+**petId** | **int** |  | [optional] 
 **quantity** | **int** |  | [optional] 
-**shipdate** | [**DateTime**](DateTime.md) |  | [optional] 
+**shipDate** | [**DateTime**](DateTime.md) |  | [optional] 
 **status** | **String** | Order Status | [optional] 
 **complete** | **bool** |  | [optional] [default to false]
 

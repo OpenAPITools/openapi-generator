@@ -12,7 +12,7 @@ part 'cat.g.dart';
 /// Cat
 ///
 /// Properties:
-/// * [classname] 
+/// * [className] 
 /// * [color] 
 /// * [declawed] 
 @BuiltValue()
@@ -25,7 +25,7 @@ abstract class Cat implements Animal, Built<Cat, CatBuilder> {
   factory Cat([void updates(CatBuilder b)]) = _$Cat;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(CatBuilder b) => b..classname=b.discriminatorValue
+  static void _defaults(CatBuilder b) => b..className=b.discriminatorValue
       ..color = 'red';
 
   @BuiltValueSerializer(custom: true)
@@ -44,11 +44,6 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
     Cat object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'className';
-    yield serializers.serialize(
-      object.classname,
-      specifiedType: const FullType(String),
-    );
     if (object.color != null) {
       yield r'color';
       yield serializers.serialize(
@@ -63,6 +58,11 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
         specifiedType: const FullType(bool),
       );
     }
+    yield r'className';
+    yield serializers.serialize(
+      object.className,
+      specifiedType: const FullType(String),
+    );
   }
 
   @override
@@ -86,13 +86,6 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'className':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.classname = valueDes;
-          break;
         case r'color':
           final valueDes = serializers.deserialize(
             value,
@@ -106,6 +99,13 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
             specifiedType: const FullType(bool),
           ) as bool;
           result.declawed = valueDes;
+          break;
+        case r'className':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.className = valueDes;
           break;
         default:
           unhandled.add(key);

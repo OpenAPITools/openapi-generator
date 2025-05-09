@@ -14,26 +14,26 @@ class ParentWithNullable {
   /// Returns a new [ParentWithNullable] instance.
   ParentWithNullable({
     this.type,
-    this.nullableproperty,
+    this.nullableProperty,
   });
 
   ParentWithNullableTypeEnum? type;
 
-  String? nullableproperty;
+  String? nullableProperty;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ParentWithNullable &&
     other.type == type &&
-    other.nullableproperty == nullableproperty;
+    other.nullableProperty == nullableProperty;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (type == null ? 0 : type!.hashCode) +
-    (nullableproperty == null ? 0 : nullableproperty!.hashCode);
+    (nullableProperty == null ? 0 : nullableProperty!.hashCode);
 
   @override
-  String toString() => 'ParentWithNullable[type=$type, nullableproperty=$nullableproperty]';
+  String toString() => 'ParentWithNullable[type=$type, nullableProperty=$nullableProperty]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -42,8 +42,8 @@ class ParentWithNullable {
     } else {
       json[r'type'] = null;
     }
-    if (this.nullableproperty != null) {
-      json[r'nullableProperty'] = this.nullableproperty;
+    if (this.nullableProperty != null) {
+      json[r'nullableProperty'] = this.nullableProperty;
     } else {
       json[r'nullableProperty'] = null;
     }
@@ -70,7 +70,7 @@ class ParentWithNullable {
 
       return ParentWithNullable(
         type: ParentWithNullableTypeEnum.fromJson(json[r'type']),
-        nullableproperty: mapValueOfType<String>(json, r'nullableProperty'),
+        nullableProperty: mapValueOfType<String>(json, r'nullableProperty'),
       );
     }
     return null;
@@ -134,11 +134,11 @@ class ParentWithNullableTypeEnum {
 
   String toJson() => value;
 
-  static const childwithnullable = ParentWithNullableTypeEnum._(r'ChildWithNullable');
+  static const childWithNullable = ParentWithNullableTypeEnum._(r'ChildWithNullable');
 
   /// List of all possible values in this [enum][ParentWithNullableTypeEnum].
   static const values = <ParentWithNullableTypeEnum>[
-    childwithnullable,
+    childWithNullable,
   ];
 
   static ParentWithNullableTypeEnum? fromJson(dynamic value) => ParentWithNullableTypeEnumTypeTransformer().decode(value);
@@ -177,7 +177,7 @@ class ParentWithNullableTypeEnumTypeTransformer {
   ParentWithNullableTypeEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'ChildWithNullable': return ParentWithNullableTypeEnum.childwithnullable;
+        case r'ChildWithNullable': return ParentWithNullableTypeEnum.childWithNullable;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');

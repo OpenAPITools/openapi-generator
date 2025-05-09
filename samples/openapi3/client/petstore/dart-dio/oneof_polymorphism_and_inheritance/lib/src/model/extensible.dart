@@ -11,18 +11,18 @@ part 'extensible.g.dart';
 /// Extensible
 ///
 /// Properties:
-/// * [atSchemalocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
-/// * [atBasetype] - When sub-classing, this defines the super-class
+/// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
+/// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue(instantiable: false)
 abstract class Extensible  {
   /// A URI to a JSON-Schema file that defines additional attributes and relationships
   @BuiltValueField(wireName: r'@schemaLocation')
-  String? get atSchemalocation;
+  String? get atSchemaLocation;
 
   /// When sub-classing, this defines the super-class
   @BuiltValueField(wireName: r'@baseType')
-  String? get atBasetype;
+  String? get atBaseType;
 
   /// When sub-classing, this defines the sub-class Extensible name
   @BuiltValueField(wireName: r'@type')
@@ -44,17 +44,17 @@ class _$ExtensibleSerializer implements PrimitiveSerializer<Extensible> {
     Extensible object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.atSchemalocation != null) {
+    if (object.atSchemaLocation != null) {
       yield r'@schemaLocation';
       yield serializers.serialize(
-        object.atSchemalocation,
+        object.atSchemaLocation,
         specifiedType: const FullType(String),
       );
     }
-    if (object.atBasetype != null) {
+    if (object.atBaseType != null) {
       yield r'@baseType';
       yield serializers.serialize(
-        object.atBasetype,
+        object.atBaseType,
         specifiedType: const FullType(String),
       );
     }
@@ -131,14 +131,14 @@ class _$$ExtensibleSerializer implements PrimitiveSerializer<$Extensible> {
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.atSchemalocation = valueDes;
+          result.atSchemaLocation = valueDes;
           break;
         case r'@baseType':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.atBasetype = valueDes;
+          result.atBaseType = valueDes;
           break;
         case r'@type':
           final valueDes = serializers.deserialize(

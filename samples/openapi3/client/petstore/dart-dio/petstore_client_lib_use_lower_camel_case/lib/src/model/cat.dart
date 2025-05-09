@@ -21,7 +21,7 @@ class Cat {
   /// Returns a new [Cat] instance.
   Cat({
 
-    required  this.classname,
+    required  this.className,
 
      this.color = 'red',
 
@@ -36,7 +36,7 @@ class Cat {
   )
 
 
-  final String classname;
+  final String className;
 
 
 
@@ -68,13 +68,13 @@ class Cat {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Cat &&
-      other.classname == classname &&
+      other.className == className &&
       other.color == color &&
       other.declawed == declawed;
 
     @override
     int get hashCode =>
-        classname.hashCode +
+        className.hashCode +
         color.hashCode +
         declawed.hashCode;
 

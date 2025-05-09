@@ -13,26 +13,26 @@ part of openapi.api;
 class ArrayOfArrayOfNumberOnly {
   /// Returns a new [ArrayOfArrayOfNumberOnly] instance.
   ArrayOfArrayOfNumberOnly({
-    this.arrayarraynumber = const [],
+    this.arrayArrayNumber = const [],
   });
 
-  List<List<num>> arrayarraynumber;
+  List<List<num>> arrayArrayNumber;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayOfArrayOfNumberOnly &&
-    _deepEquality.equals(other.arrayarraynumber, arrayarraynumber);
+    _deepEquality.equals(other.arrayArrayNumber, arrayArrayNumber);
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (arrayarraynumber.hashCode);
+    (arrayArrayNumber.hashCode);
 
   @override
-  String toString() => 'ArrayOfArrayOfNumberOnly[arrayarraynumber=$arrayarraynumber]';
+  String toString() => 'ArrayOfArrayOfNumberOnly[arrayArrayNumber=$arrayArrayNumber]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'ArrayArrayNumber'] = this.arrayarraynumber;
+      json[r'ArrayArrayNumber'] = this.arrayArrayNumber;
     return json;
   }
 
@@ -55,7 +55,7 @@ class ArrayOfArrayOfNumberOnly {
       }());
 
       return ArrayOfArrayOfNumberOnly(
-        arrayarraynumber: json[r'ArrayArrayNumber'] is List
+        arrayArrayNumber: json[r'ArrayArrayNumber'] is List
           ? (json[r'ArrayArrayNumber'] as List).map((e) =>
               e == null ? const  <num>[] : (e as List).cast<num>()
             ).toList()

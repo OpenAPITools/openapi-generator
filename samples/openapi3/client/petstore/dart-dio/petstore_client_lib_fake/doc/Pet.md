@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **id** | **int** |  | [optional] 
 **category** | [**Category**](Category.md) |  | [optional] 
 **name** | **String** |  | 
-**photourls** | **BuiltSet&lt;String&gt;** |  | 
+**photoUrls** | **BuiltSet&lt;String&gt;** |  | 
 **tags** | [**BuiltList&lt;Tag&gt;**](Tag.md) |  | [optional] 
 **status** | **String** | pet status in the store | [optional] 
 

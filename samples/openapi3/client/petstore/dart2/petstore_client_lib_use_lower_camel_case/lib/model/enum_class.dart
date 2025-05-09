@@ -25,13 +25,23 @@ class EnumClass {
 
   static const abc = EnumClass._(r'_abc');
   static const efg = EnumClass._(r'-efg');
-  static const leftParenthesisXyzrightParenthesis = EnumClass._(r'(xyz)');
+  static const leftParenthesisXyzRightParenthesis = EnumClass._(r'(xyz)');
+  static const test = EnumClass._(r'TEST');
+  static const testA = EnumClass._(r'TEST_A');
+  static const testAAbc = EnumClass._(r'TEST_A_ABC');
+  static const tESTA = EnumClass._(r'TEST_a');
+  static const tEST = EnumClass._(r'tEST');
 
   /// List of all possible values in this [enum][EnumClass].
   static const values = <EnumClass>[
     abc,
     efg,
-    leftParenthesisXyzrightParenthesis,
+    leftParenthesisXyzRightParenthesis,
+    test,
+    testA,
+    testAAbc,
+    tESTA,
+    tEST,
   ];
 
   static EnumClass? fromJson(dynamic value) => EnumClassTypeTransformer().decode(value);
@@ -72,7 +82,12 @@ class EnumClassTypeTransformer {
       switch (data) {
         case r'_abc': return EnumClass.abc;
         case r'-efg': return EnumClass.efg;
-        case r'(xyz)': return EnumClass.leftParenthesisXyzrightParenthesis;
+        case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
+        case r'TEST': return EnumClass.test;
+        case r'TEST_A': return EnumClass.testA;
+        case r'TEST_A_ABC': return EnumClass.testAAbc;
+        case r'TEST_a': return EnumClass.tESTA;
+        case r'tEST': return EnumClass.tEST;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');

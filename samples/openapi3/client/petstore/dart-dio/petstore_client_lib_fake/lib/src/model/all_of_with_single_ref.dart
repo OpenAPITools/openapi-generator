@@ -13,15 +13,15 @@ part 'all_of_with_single_ref.g.dart';
 ///
 /// Properties:
 /// * [username] 
-/// * [singlereftype] 
+/// * [singleRefType] 
 @BuiltValue()
 abstract class AllOfWithSingleRef implements Built<AllOfWithSingleRef, AllOfWithSingleRefBuilder> {
   @BuiltValueField(wireName: r'username')
   String? get username;
 
   @BuiltValueField(wireName: r'SingleRefType')
-  SingleRefType? get singlereftype;
-  // enum singlereftypeEnum {  admin,  user,  };
+  SingleRefType? get singleRefType;
+  // enum singleRefTypeEnum {  admin,  user,  };
 
   AllOfWithSingleRef._();
 
@@ -53,10 +53,10 @@ class _$AllOfWithSingleRefSerializer implements PrimitiveSerializer<AllOfWithSin
         specifiedType: const FullType(String),
       );
     }
-    if (object.singlereftype != null) {
+    if (object.singleRefType != null) {
       yield r'SingleRefType';
       yield serializers.serialize(
-        object.singlereftype,
+        object.singleRefType,
         specifiedType: const FullType(SingleRefType),
       );
     }
@@ -95,7 +95,7 @@ class _$AllOfWithSingleRefSerializer implements PrimitiveSerializer<AllOfWithSin
             value,
             specifiedType: const FullType(SingleRefType),
           ) as SingleRefType;
-          result.singlereftype = valueDes;
+          result.singleRefType = valueDes;
           break;
         default:
           unhandled.add(key);

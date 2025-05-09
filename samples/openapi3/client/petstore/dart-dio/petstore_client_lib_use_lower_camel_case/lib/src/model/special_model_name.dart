@@ -18,7 +18,7 @@ class SpecialModelName {
   /// Returns a new [SpecialModelName] instance.
   SpecialModelName({
 
-     this.dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket,
+     this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
   });
 
   @JsonKey(
@@ -29,7 +29,7 @@ class SpecialModelName {
   )
 
 
-  final int? dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket;
+  final int? dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
 
 
@@ -37,11 +37,11 @@ class SpecialModelName {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is SpecialModelName &&
-      other.dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket == dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket;
+      other.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
     @override
     int get hashCode =>
-        dollarSpecialleftSquareBracketPropertyperiodNamerightSquareBracket.hashCode;
+        dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode;
 
   factory SpecialModelName.fromJson(Map<String, dynamic> json) => _$SpecialModelNameFromJson(json);
 

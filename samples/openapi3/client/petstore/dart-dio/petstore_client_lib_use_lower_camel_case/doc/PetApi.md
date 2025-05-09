@@ -65,7 +65,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **deletePet**
-> deletePet(petid, apiKey)
+> deletePet(petId, apiKey)
 
 Deletes a pet
 
@@ -78,11 +78,11 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 final api = Openapi().getPetApi();
-final int petid = 789; // int | Pet id to delete
+final int petId = 789; // int | Pet id to delete
 final String apiKey = apiKey_example; // String | 
 
 try {
-    api.deletePet(petid, apiKey);
+    api.deletePet(petId, apiKey);
 } catch on DioException (e) {
     print('Exception when calling PetApi->deletePet: $e\n');
 }
@@ -92,7 +92,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petid** | **int**| Pet id to delete | 
+ **petId** | **int**| Pet id to delete | 
  **apiKey** | **String**|  | [optional] 
 
 ### Return type
@@ -201,7 +201,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getPetById**
-> Pet getPetById(petid)
+> Pet getPetById(petId)
 
 Find pet by ID
 
@@ -216,10 +216,10 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getPetApi();
-final int petid = 789; // int | ID of pet to return
+final int petId = 789; // int | ID of pet to return
 
 try {
-    final response = api.getPetById(petid);
+    final response = api.getPetById(petId);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling PetApi->getPetById: $e\n');
@@ -230,7 +230,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petid** | **int**| ID of pet to return | 
+ **petId** | **int**| ID of pet to return | 
 
 ### Return type
 
@@ -292,7 +292,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePetWithForm**
-> updatePetWithForm(petid, name, status)
+> updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
@@ -305,12 +305,12 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 final api = Openapi().getPetApi();
-final int petid = 789; // int | ID of pet that needs to be updated
+final int petId = 789; // int | ID of pet that needs to be updated
 final String name = name_example; // String | Updated name of the pet
 final String status = status_example; // String | Updated status of the pet
 
 try {
-    api.updatePetWithForm(petid, name, status);
+    api.updatePetWithForm(petId, name, status);
 } catch on DioException (e) {
     print('Exception when calling PetApi->updatePetWithForm: $e\n');
 }
@@ -320,7 +320,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petid** | **int**| ID of pet that needs to be updated | 
+ **petId** | **int**| ID of pet that needs to be updated | 
  **name** | **String**| Updated name of the pet | [optional] 
  **status** | **String**| Updated status of the pet | [optional] 
 
@@ -340,7 +340,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **uploadFile**
-> ApiResponse uploadFile(petid, additionalmetadata, file)
+> ApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
@@ -353,12 +353,12 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 final api = Openapi().getPetApi();
-final int petid = 789; // int | ID of pet to update
-final String additionalmetadata = additionalmetadata_example; // String | Additional data to pass to server
+final int petId = 789; // int | ID of pet to update
+final String additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
 final MultipartFile file = BINARY_DATA_HERE; // MultipartFile | file to upload
 
 try {
-    final response = api.uploadFile(petid, additionalmetadata, file);
+    final response = api.uploadFile(petId, additionalMetadata, file);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling PetApi->uploadFile: $e\n');
@@ -369,8 +369,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petid** | **int**| ID of pet to update | 
- **additionalmetadata** | **String**| Additional data to pass to server | [optional] 
+ **petId** | **int**| ID of pet to update | 
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
  **file** | **MultipartFile**| file to upload | [optional] 
 
 ### Return type
@@ -389,7 +389,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **uploadFileWithRequiredFile**
-> ApiResponse uploadFileWithRequiredFile(petid, requiredfile, additionalmetadata)
+> ApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
 
@@ -402,12 +402,12 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
 
 final api = Openapi().getPetApi();
-final int petid = 789; // int | ID of pet to update
-final MultipartFile requiredfile = BINARY_DATA_HERE; // MultipartFile | file to upload
-final String additionalmetadata = additionalmetadata_example; // String | Additional data to pass to server
+final int petId = 789; // int | ID of pet to update
+final MultipartFile requiredFile = BINARY_DATA_HERE; // MultipartFile | file to upload
+final String additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
 
 try {
-    final response = api.uploadFileWithRequiredFile(petid, requiredfile, additionalmetadata);
+    final response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling PetApi->uploadFileWithRequiredFile: $e\n');
@@ -418,9 +418,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petid** | **int**| ID of pet to update | 
- **requiredfile** | **MultipartFile**| file to upload | 
- **additionalmetadata** | **String**| Additional data to pass to server | [optional] 
+ **petId** | **int**| ID of pet to update | 
+ **requiredFile** | **MultipartFile**| file to upload | 
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
 
 ### Return type
 

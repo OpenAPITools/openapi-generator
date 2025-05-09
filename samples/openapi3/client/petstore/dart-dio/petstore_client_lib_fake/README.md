@@ -48,10 +48,10 @@ import 'package:openapi/openapi.dart';
 
 
 final api = Openapi().getAnotherFakeApi();
-final ModelClient modelclient = ; // ModelClient | client model
+final ModelClient modelClient = ; // ModelClient | client model
 
 try {
-    final response = await api.call123testSpecialTags(modelclient);
+    final response = await api.call123testSpecialTags(modelClient);
     print(response);
 } catch on DioException (e) {
     print("Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n");

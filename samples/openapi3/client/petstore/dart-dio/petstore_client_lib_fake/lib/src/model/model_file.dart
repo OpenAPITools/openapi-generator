@@ -11,12 +11,12 @@ part 'model_file.g.dart';
 /// Must be named `File` for test.
 ///
 /// Properties:
-/// * [sourceuri] - Test capitalization
+/// * [sourceURI] - Test capitalization
 @BuiltValue()
 abstract class ModelFile implements Built<ModelFile, ModelFileBuilder> {
   /// Test capitalization
   @BuiltValueField(wireName: r'sourceURI')
-  String? get sourceuri;
+  String? get sourceURI;
 
   ModelFile._();
 
@@ -41,10 +41,10 @@ class _$ModelFileSerializer implements PrimitiveSerializer<ModelFile> {
     ModelFile object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.sourceuri != null) {
+    if (object.sourceURI != null) {
       yield r'sourceURI';
       yield serializers.serialize(
-        object.sourceuri,
+        object.sourceURI,
         specifiedType: const FullType(String),
       );
     }
@@ -76,7 +76,7 @@ class _$ModelFileSerializer implements PrimitiveSerializer<ModelFile> {
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.sourceuri = valueDes;
+          result.sourceURI = valueDes;
           break;
         default:
           unhandled.add(key);

@@ -14,16 +14,16 @@ part 'foo_ref_or_value.g.dart';
 /// FooRefOrValue
 ///
 /// Properties:
-/// * [foopropa] 
-/// * [foopropb] 
+/// * [fooPropA] 
+/// * [fooPropB] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
-/// * [atSchemalocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
-/// * [atBasetype] - When sub-classing, this defines the super-class
+/// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
+/// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
-/// * [foorefpropa] 
+/// * [foorefPropA] 
 /// * [name] - Name of the related entity.
-/// * [atReferredtype] - The actual type of the target instance when needed for disambiguation.
+/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
 @BuiltValue()
 abstract class FooRefOrValue implements Built<FooRefOrValue, FooRefOrValueBuilder> {
   /// One Of [Foo], [FooRef]

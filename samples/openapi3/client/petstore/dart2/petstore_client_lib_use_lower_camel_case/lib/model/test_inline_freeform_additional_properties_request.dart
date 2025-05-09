@@ -13,7 +13,7 @@ part of openapi.api;
 class TestInlineFreeformAdditionalPropertiesRequest {
   /// Returns a new [TestInlineFreeformAdditionalPropertiesRequest] instance.
   TestInlineFreeformAdditionalPropertiesRequest({
-    this.someproperty,
+    this.someProperty,
   });
 
   ///
@@ -22,24 +22,24 @@ class TestInlineFreeformAdditionalPropertiesRequest {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? someproperty;
+  String? someProperty;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is TestInlineFreeformAdditionalPropertiesRequest &&
-    other.someproperty == someproperty;
+    other.someProperty == someProperty;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (someproperty == null ? 0 : someproperty!.hashCode);
+    (someProperty == null ? 0 : someProperty!.hashCode);
 
   @override
-  String toString() => 'TestInlineFreeformAdditionalPropertiesRequest[someproperty=$someproperty]';
+  String toString() => 'TestInlineFreeformAdditionalPropertiesRequest[someProperty=$someProperty]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.someproperty != null) {
-      json[r'someProperty'] = this.someproperty;
+    if (this.someProperty != null) {
+      json[r'someProperty'] = this.someProperty;
     } else {
       json[r'someProperty'] = null;
     }
@@ -65,7 +65,7 @@ class TestInlineFreeformAdditionalPropertiesRequest {
       }());
 
       return TestInlineFreeformAdditionalPropertiesRequest(
-        someproperty: mapValueOfType<String>(json, r'someProperty'),
+        someProperty: mapValueOfType<String>(json, r'someProperty'),
       );
     }
     return null;

@@ -18,9 +18,9 @@ class FakeBigDecimalMap200Response {
   /// Returns a new [FakeBigDecimalMap200Response] instance.
   FakeBigDecimalMap200Response({
 
-     this.someid,
+     this.someId,
 
-     this.somemap,
+     this.someMap,
   });
 
   @JsonKey(
@@ -31,7 +31,7 @@ class FakeBigDecimalMap200Response {
   )
 
 
-  final num? someid;
+  final num? someId;
 
 
 
@@ -43,7 +43,7 @@ class FakeBigDecimalMap200Response {
   )
 
 
-  final Map<String, num>? somemap;
+  final Map<String, num>? someMap;
 
 
 
@@ -51,13 +51,13 @@ class FakeBigDecimalMap200Response {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is FakeBigDecimalMap200Response &&
-      other.someid == someid &&
-      other.somemap == somemap;
+      other.someId == someId &&
+      other.someMap == someMap;
 
     @override
     int get hashCode =>
-        someid.hashCode +
-        somemap.hashCode;
+        someId.hashCode +
+        someMap.hashCode;
 
   factory FakeBigDecimalMap200Response.fromJson(Map<String, dynamic> json) => _$FakeBigDecimalMap200ResponseFromJson(json);
 

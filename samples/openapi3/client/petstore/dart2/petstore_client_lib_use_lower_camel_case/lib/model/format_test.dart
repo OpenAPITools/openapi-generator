@@ -24,7 +24,7 @@ class FormatTest {
     required this.byte,
     this.binary,
     required this.date,
-    this.datetime,
+    this.dateTime,
     this.uuid,
     required this.password,
     this.patternWithDigits,
@@ -117,7 +117,7 @@ class FormatTest {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  DateTime? datetime;
+  DateTime? dateTime;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -160,7 +160,7 @@ class FormatTest {
     other.byte == byte &&
     other.binary == binary &&
     other.date == date &&
-    other.datetime == datetime &&
+    other.dateTime == dateTime &&
     other.uuid == uuid &&
     other.password == password &&
     other.patternWithDigits == patternWithDigits &&
@@ -180,14 +180,14 @@ class FormatTest {
     (byte.hashCode) +
     (binary == null ? 0 : binary!.hashCode) +
     (date.hashCode) +
-    (datetime == null ? 0 : datetime!.hashCode) +
+    (dateTime == null ? 0 : dateTime!.hashCode) +
     (uuid == null ? 0 : uuid!.hashCode) +
     (password.hashCode) +
     (patternWithDigits == null ? 0 : patternWithDigits!.hashCode) +
     (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter!.hashCode);
 
   @override
-  String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, datetime=$datetime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
+  String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -234,8 +234,8 @@ class FormatTest {
       json[r'binary'] = null;
     }
       json[r'date'] = _dateFormatter.format(this.date.toUtc());
-    if (this.datetime != null) {
-      json[r'dateTime'] = this.datetime!.toUtc().toIso8601String();
+    if (this.dateTime != null) {
+      json[r'dateTime'] = this.dateTime!.toUtc().toIso8601String();
     } else {
       json[r'dateTime'] = null;
     }
@@ -288,7 +288,7 @@ class FormatTest {
         byte: mapValueOfType<String>(json, r'byte')!,
         binary: null, // No support for decoding binary content from JSON
         date: mapDateTime(json, r'date', r'')!,
-        datetime: mapDateTime(json, r'dateTime', r''),
+        dateTime: mapDateTime(json, r'dateTime', r''),
         uuid: mapValueOfType<String>(json, r'uuid'),
         password: mapValueOfType<String>(json, r'password')!,
         patternWithDigits: mapValueOfType<String>(json, r'pattern_with_digits'),

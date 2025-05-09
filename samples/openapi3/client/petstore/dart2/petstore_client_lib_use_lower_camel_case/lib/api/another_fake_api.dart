@@ -24,14 +24,14 @@ class AnotherFakeApi {
   ///
   /// Parameters:
   ///
-  /// * [ModelClient] modelclient (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> call123testSpecialTagsWithHttpInfo(ModelClient modelclient,) async {
+  Future<Response> call123testSpecialTagsWithHttpInfo(ModelClient modelClient,) async {
     // ignore: prefer_const_declarations
     final path = r'/another-fake/dummy';
 
     // ignore: prefer_final_locals
-    Object? postBody = modelclient;
+    Object? postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -57,10 +57,10 @@ class AnotherFakeApi {
   ///
   /// Parameters:
   ///
-  /// * [ModelClient] modelclient (required):
+  /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<ModelClient?> call123testSpecialTags(ModelClient modelclient,) async {
-    final response = await call123testSpecialTagsWithHttpInfo(modelclient,);
+  Future<ModelClient?> call123testSpecialTags(ModelClient modelClient,) async {
+    final response = await call123testSpecialTagsWithHttpInfo(modelClient,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

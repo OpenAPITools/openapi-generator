@@ -22,9 +22,9 @@ class User {
 
      this.username,
 
-     this.firstname,
+     this.firstName,
 
-     this.lastname,
+     this.lastName,
 
      this.email,
 
@@ -32,7 +32,7 @@ class User {
 
      this.phone,
 
-     this.userstatus,
+     this.userStatus,
   });
 
   @JsonKey(
@@ -67,7 +67,7 @@ class User {
   )
 
 
-  final String? firstname;
+  final String? firstName;
 
 
 
@@ -79,7 +79,7 @@ class User {
   )
 
 
-  final String? lastname;
+  final String? lastName;
 
 
 
@@ -128,7 +128,7 @@ class User {
   )
 
 
-  final int? userstatus;
+  final int? userStatus;
 
 
 
@@ -138,23 +138,23 @@ class User {
     bool operator ==(Object other) => identical(this, other) || other is User &&
       other.id == id &&
       other.username == username &&
-      other.firstname == firstname &&
-      other.lastname == lastname &&
+      other.firstName == firstName &&
+      other.lastName == lastName &&
       other.email == email &&
       other.password == password &&
       other.phone == phone &&
-      other.userstatus == userstatus;
+      other.userStatus == userStatus;
 
     @override
     int get hashCode =>
         id.hashCode +
         username.hashCode +
-        firstname.hashCode +
-        lastname.hashCode +
+        firstName.hashCode +
+        lastName.hashCode +
         email.hashCode +
         password.hashCode +
         phone.hashCode +
-        userstatus.hashCode;
+        userStatus.hashCode;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

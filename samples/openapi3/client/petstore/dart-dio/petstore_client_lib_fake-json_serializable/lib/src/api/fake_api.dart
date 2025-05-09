@@ -340,7 +340,7 @@ _responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool'
   /// Test serialization of object with outer number type
   ///
   /// Parameters:
-  /// * [outercomposite] - Input composite as post body
+  /// * [outerComposite] - Input composite as post body
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -351,7 +351,7 @@ _responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool'
   /// Returns a [Future] containing a [Response] with a [OuterComposite] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<OuterComposite>> fakeOuterCompositeSerialize({ 
-    OuterComposite? outercomposite,
+    OuterComposite? outerComposite,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -376,7 +376,7 @@ _responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool'
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(outercomposite);
+_bodyData=jsonEncode(outerComposite);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -607,7 +607,7 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
   /// Test serialization of enum (int) properties with examples
   ///
   /// Parameters:
-  /// * [outerobjectwithenumproperty] - Input enum (int) as post body
+  /// * [outerObjectWithEnumProperty] - Input enum (int) as post body
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -618,7 +618,7 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
   /// Returns a [Future] containing a [Response] with a [OuterObjectWithEnumProperty] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<OuterObjectWithEnumProperty>> fakePropertyEnumIntegerSerialize({ 
-    required OuterObjectWithEnumProperty outerobjectwithenumproperty,
+    required OuterObjectWithEnumProperty outerObjectWithEnumProperty,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -643,7 +643,7 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(outerobjectwithenumproperty);
+_bodyData=jsonEncode(outerObjectWithEnumProperty);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -826,7 +826,7 @@ _bodyData=jsonEncode(body);
   /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
   ///
   /// Parameters:
-  /// * [fileschematestclass] 
+  /// * [fileSchemaTestClass] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -837,7 +837,7 @@ _bodyData=jsonEncode(body);
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testBodyWithFileSchema({ 
-    required FileSchemaTestClass fileschematestclass,
+    required FileSchemaTestClass fileSchemaTestClass,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -862,7 +862,7 @@ _bodyData=jsonEncode(body);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(fileschematestclass);
+_bodyData=jsonEncode(fileSchemaTestClass);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -964,7 +964,7 @@ _bodyData=jsonEncode(user);
   /// To test \&quot;client\&quot; model
   ///
   /// Parameters:
-  /// * [modelclient] - client model
+  /// * [modelClient] - client model
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -975,7 +975,7 @@ _bodyData=jsonEncode(user);
   /// Returns a [Future] containing a [Response] with a [ModelClient] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<ModelClient>> testClientModel({ 
-    required ModelClient modelclient,
+    required ModelClient modelClient,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1000,7 +1000,7 @@ _bodyData=jsonEncode(user);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(modelclient);
+_bodyData=jsonEncode(modelClient);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1064,7 +1064,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
   /// * [string] - None
   /// * [binary] - None
   /// * [date] - None
-  /// * [datetime] - None
+  /// * [dateTime] - None
   /// * [password] - None
   /// * [callback] - None
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -1088,7 +1088,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     String? string,
     MultipartFile? binary,
     DateTime? date,
-    DateTime? datetime,
+    DateTime? dateTime,
     String? password,
     String? callback,
     CancelToken? cancelToken,
@@ -1381,7 +1381,7 @@ _bodyData=jsonEncode(requestBody);
   /// 
   ///
   /// Parameters:
-  /// * [testinlinefreeformadditionalpropertiesrequest] - request body
+  /// * [testInlineFreeformAdditionalPropertiesRequest] - request body
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1392,7 +1392,7 @@ _bodyData=jsonEncode(requestBody);
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testInlineFreeformAdditionalProperties({ 
-    required TestInlineFreeformAdditionalPropertiesRequest testinlinefreeformadditionalpropertiesrequest,
+    required TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1417,7 +1417,7 @@ _bodyData=jsonEncode(requestBody);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(testinlinefreeformadditionalpropertiesrequest);
+_bodyData=jsonEncode(testInlineFreeformAdditionalPropertiesRequest);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1513,7 +1513,7 @@ _bodyData=jsonEncode(testinlinefreeformadditionalpropertiesrequest);
   /// 
   ///
   /// Parameters:
-  /// * [childwithnullable] - request body
+  /// * [childWithNullable] - request body
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1524,7 +1524,7 @@ _bodyData=jsonEncode(testinlinefreeformadditionalpropertiesrequest);
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testNullable({ 
-    required ChildWithNullable childwithnullable,
+    required ChildWithNullable childWithNullable,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1549,7 +1549,7 @@ _bodyData=jsonEncode(testinlinefreeformadditionalpropertiesrequest);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(childwithnullable);
+_bodyData=jsonEncode(childWithNullable);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1583,7 +1583,7 @@ _bodyData=jsonEncode(childwithnullable);
   /// * [http] 
   /// * [url] 
   /// * [context] 
-  /// * [allowempty] 
+  /// * [allowEmpty] 
   /// * [language] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -1600,7 +1600,7 @@ _bodyData=jsonEncode(childwithnullable);
     required List<String> http,
     required List<String> url,
     required List<String> context,
-    required String allowempty,
+    required String allowEmpty,
     Map<String, String>? language,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1629,7 +1629,7 @@ _bodyData=jsonEncode(childwithnullable);
       r'url': url,
       r'context': context,
       if (language != null) r'language': language,
-      r'allowEmpty': allowempty,
+      r'allowEmpty': allowEmpty,
     };
 
     final _response = await _dio.request<Object>(

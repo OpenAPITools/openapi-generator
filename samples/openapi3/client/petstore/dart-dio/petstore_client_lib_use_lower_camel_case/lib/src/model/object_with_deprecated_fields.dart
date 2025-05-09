@@ -23,7 +23,7 @@ class ObjectWithDeprecatedFields {
 
      this.id,
 
-     this.deprecatedref,
+     this.deprecatedRef,
 
      this.bars,
   });
@@ -53,7 +53,7 @@ class ObjectWithDeprecatedFields {
 
 
 
-  @Deprecated('deprecatedref has been deprecated')
+  @Deprecated('deprecatedRef has been deprecated')
   @JsonKey(
     
     name: r'deprecatedRef',
@@ -62,7 +62,7 @@ class ObjectWithDeprecatedFields {
   )
 
 
-  final DeprecatedObject? deprecatedref;
+  final DeprecatedObject? deprecatedRef;
 
 
 
@@ -85,14 +85,14 @@ class ObjectWithDeprecatedFields {
     bool operator ==(Object other) => identical(this, other) || other is ObjectWithDeprecatedFields &&
       other.uuid == uuid &&
       other.id == id &&
-      other.deprecatedref == deprecatedref &&
+      other.deprecatedRef == deprecatedRef &&
       other.bars == bars;
 
     @override
     int get hashCode =>
         uuid.hashCode +
         id.hashCode +
-        deprecatedref.hashCode +
+        deprecatedRef.hashCode +
         bars.hashCode;
 
   factory ObjectWithDeprecatedFields.fromJson(Map<String, dynamic> json) => _$ObjectWithDeprecatedFieldsFromJson(json);

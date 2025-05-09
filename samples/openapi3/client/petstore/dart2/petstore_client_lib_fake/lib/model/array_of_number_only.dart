@@ -13,26 +13,26 @@ part of openapi.api;
 class ArrayOfNumberOnly {
   /// Returns a new [ArrayOfNumberOnly] instance.
   ArrayOfNumberOnly({
-    this.arraynumber = const [],
+    this.arrayNumber = const [],
   });
 
-  List<num> arraynumber;
+  List<num> arrayNumber;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayOfNumberOnly &&
-    _deepEquality.equals(other.arraynumber, arraynumber);
+    _deepEquality.equals(other.arrayNumber, arrayNumber);
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (arraynumber.hashCode);
+    (arrayNumber.hashCode);
 
   @override
-  String toString() => 'ArrayOfNumberOnly[arraynumber=$arraynumber]';
+  String toString() => 'ArrayOfNumberOnly[arrayNumber=$arrayNumber]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'ArrayNumber'] = this.arraynumber;
+      json[r'ArrayNumber'] = this.arrayNumber;
     return json;
   }
 
@@ -55,7 +55,7 @@ class ArrayOfNumberOnly {
       }());
 
       return ArrayOfNumberOnly(
-        arraynumber: json[r'ArrayNumber'] is Iterable
+        arrayNumber: json[r'ArrayNumber'] is Iterable
             ? (json[r'ArrayNumber'] as Iterable).cast<num>().toList(growable: false)
             : const [],
       );

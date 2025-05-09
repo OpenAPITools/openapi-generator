@@ -21,7 +21,7 @@ class FakeClassnameTags123Api {
   /// To test class name in snake case
   ///
   /// Parameters:
-  /// * [modelclient] - client model
+  /// * [modelClient] - client model
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -32,7 +32,7 @@ class FakeClassnameTags123Api {
   /// Returns a [Future] containing a [Response] with a [ModelClient] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<ModelClient>> testClassname({ 
-    required ModelClient modelclient,
+    required ModelClient modelClient,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -64,7 +64,7 @@ class FakeClassnameTags123Api {
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(modelclient);
+_bodyData=jsonEncode(modelClient);
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(

@@ -13,7 +13,7 @@ part of openapi.api;
 class NumberOnly {
   /// Returns a new [NumberOnly] instance.
   NumberOnly({
-    this.justnumber,
+    this.justNumber,
   });
 
   ///
@@ -22,24 +22,24 @@ class NumberOnly {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? justnumber;
+  num? justNumber;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is NumberOnly &&
-    other.justnumber == justnumber;
+    other.justNumber == justNumber;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (justnumber == null ? 0 : justnumber!.hashCode);
+    (justNumber == null ? 0 : justNumber!.hashCode);
 
   @override
-  String toString() => 'NumberOnly[justnumber=$justnumber]';
+  String toString() => 'NumberOnly[justNumber=$justNumber]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.justnumber != null) {
-      json[r'JustNumber'] = this.justnumber;
+    if (this.justNumber != null) {
+      json[r'JustNumber'] = this.justNumber;
     } else {
       json[r'JustNumber'] = null;
     }
@@ -65,7 +65,7 @@ class NumberOnly {
       }());
 
       return NumberOnly(
-        justnumber: num.parse('${json[r'JustNumber']}'),
+        justNumber: num.parse('${json[r'JustNumber']}'),
       );
     }
     return null;

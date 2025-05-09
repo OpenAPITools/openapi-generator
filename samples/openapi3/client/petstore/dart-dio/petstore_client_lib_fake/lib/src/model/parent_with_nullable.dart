@@ -14,7 +14,7 @@ part 'parent_with_nullable.g.dart';
 ///
 /// Properties:
 /// * [type] 
-/// * [nullableproperty] 
+/// * [nullableProperty] 
 @BuiltValue(instantiable: false)
 abstract class ParentWithNullable  {
   @BuiltValueField(wireName: r'type')
@@ -22,7 +22,7 @@ abstract class ParentWithNullable  {
   // enum typeEnum {  ChildWithNullable,  };
 
   @BuiltValueField(wireName: r'nullableProperty')
-  String? get nullableproperty;
+  String? get nullableProperty;
 
   static const String discriminatorFieldName = r'type';
 
@@ -70,10 +70,10 @@ class _$ParentWithNullableSerializer implements PrimitiveSerializer<ParentWithNu
         specifiedType: const FullType(ParentWithNullableTypeEnum),
       );
     }
-    if (object.nullableproperty != null) {
+    if (object.nullableProperty != null) {
       yield r'nullableProperty';
       yield serializers.serialize(
-        object.nullableproperty,
+        object.nullableProperty,
         specifiedType: const FullType.nullable(String),
       );
     }
@@ -164,7 +164,7 @@ class _$$ParentWithNullableSerializer implements PrimitiveSerializer<$ParentWith
             specifiedType: const FullType.nullable(String),
           ) as String?;
           if (valueDes == null) continue;
-          result.nullableproperty = valueDes;
+          result.nullableProperty = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -198,7 +198,7 @@ class _$$ParentWithNullableSerializer implements PrimitiveSerializer<$ParentWith
 class ParentWithNullableTypeEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'ChildWithNullable')
-  static const ParentWithNullableTypeEnum childwithnullable = _$parentWithNullableTypeEnum_childwithnullable;
+  static const ParentWithNullableTypeEnum childWithNullable = _$parentWithNullableTypeEnum_childWithNullable;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
   static const ParentWithNullableTypeEnum unknownDefaultOpenApi = _$parentWithNullableTypeEnum_unknownDefaultOpenApi;
 

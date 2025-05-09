@@ -21,7 +21,7 @@ class Dog {
   /// Returns a new [Dog] instance.
   Dog({
 
-    required  this.classname,
+    required  this.className,
 
      this.color = 'red',
 
@@ -36,7 +36,7 @@ class Dog {
   )
 
 
-  final String classname;
+  final String className;
 
 
 
@@ -68,13 +68,13 @@ class Dog {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Dog &&
-      other.classname == classname &&
+      other.className == className &&
       other.color == color &&
       other.breed == breed;
 
     @override
     int get hashCode =>
-        classname.hashCode +
+        className.hashCode +
         color.hashCode +
         breed.hashCode;
 

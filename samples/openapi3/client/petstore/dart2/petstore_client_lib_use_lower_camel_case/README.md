@@ -42,10 +42,10 @@ import 'package:openapi/api.dart';
 
 
 final api_instance = AnotherFakeApi();
-final modelclient = ModelClient(); // ModelClient | client model
+final modelClient = ModelClient(); // ModelClient | client model
 
 try {
-    final result = api_instance.call123testSpecialTags(modelclient);
+    final result = api_instance.call123testSpecialTags(modelClient);
     print(result);
 } catch (e) {
     print('Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n');

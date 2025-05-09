@@ -26,7 +26,7 @@ class Pet {
 
     required  this.name,
 
-    required  this.photourls,
+    required  this.photoUrls,
 
      this.tags,
 
@@ -77,7 +77,7 @@ class Pet {
   )
 
 
-  final Set<String> photourls;
+  final Set<String> photoUrls;
 
 
 
@@ -114,7 +114,7 @@ class Pet {
       other.id == id &&
       other.category == category &&
       other.name == name &&
-      other.photourls == photourls &&
+      other.photoUrls == photoUrls &&
       other.tags == tags &&
       other.status == status;
 
@@ -123,7 +123,7 @@ class Pet {
         id.hashCode +
         category.hashCode +
         name.hashCode +
-        photourls.hashCode +
+        photoUrls.hashCode +
         tags.hashCode +
         status.hashCode;
 
