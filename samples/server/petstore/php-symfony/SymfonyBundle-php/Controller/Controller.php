@@ -214,6 +214,10 @@ class Controller extends AbstractController
             return 'application/xml';
         }
 
+        if (in_array('*/*', $accept)) {
+            return $produced[0];
+        }
+
         // If we reach this point, we don't have a common ground between server and client
         return null;
     }
