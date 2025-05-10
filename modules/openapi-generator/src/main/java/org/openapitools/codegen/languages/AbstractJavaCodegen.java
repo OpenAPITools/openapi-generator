@@ -2461,4 +2461,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             throw new RuntimeException(sb.toString());
         }
     }
+
+    @Override
+    public boolean supportsDividingOperationsByContentType() {
+        return true;
+    }
 }

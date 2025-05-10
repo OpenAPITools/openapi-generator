@@ -606,10 +606,10 @@ public class DefaultGenerator implements Generator {
             if (!processedModels.contains(key) && allSchemas.containsKey(key)) {
                 generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(key));
             } else {
-                LOGGER.info("Type " + variable.getComplexType() + " of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");
+                LOGGER.info("Type {} of variable {} could not be resolve because it is not declared as a model.", variable.getComplexType(), variable.getName());
             }
         } else {
-            LOGGER.info("Type " + variable.getOpenApiType() + " of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");
+            LOGGER.info("Type {} of variable {} could not be resolve because it is not declared as a model.", variable.getComplexType(), variable.getName());
         }
     }
 
@@ -1002,7 +1002,7 @@ public class DefaultGenerator implements Generator {
         File ignoreFile = new File(ignoreFileNameTarget);
         // use the entries provided by the users to pre-populate .openapi-generator-ignore
         try {
-            LOGGER.info("Writing file " + ignoreFileNameTarget + " (which is always overwritten when the option `openapiGeneratorIgnoreFile` is enabled.)");
+            LOGGER.info("Writing file {} (which is always overwritten when the option `openapiGeneratorIgnoreFile` is enabled.)", ignoreFileNameTarget);
             new File(config.outputFolder()).mkdirs();
             if (!ignoreFile.createNewFile()) {
                 // file may already exist, do nothing
@@ -1465,6 +1465,9 @@ public class DefaultGenerator implements Generator {
         if (paths == null) {
             return ops;
         }
+
+        var divideOperationsByContentType = config.supportsDividingOperationsByContentType();
+
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             String resourcePath = pathsEntry.getKey();
             PathItem path = pathsEntry.getValue();
@@ -1476,11 +1479,35 @@ public class DefaultGenerator implements Generator {
             processOperation(resourcePath, "patch", path.getPatch(), ops, path);
             processOperation(resourcePath, "options", path.getOptions(), ops, path);
             processOperation(resourcePath, "trace", path.getTrace(), ops, path);
+
+            if (divideOperationsByContentType) {
+                processAdditionalOperations(resourcePath, "x-get", "get", ops, path);
+                processAdditionalOperations(resourcePath, "x-head", "head", ops, path);
+                processAdditionalOperations(resourcePath, "x-put", "put", ops, path);
+                processAdditionalOperations(resourcePath, "x-post", "post", ops, path);
+                processAdditionalOperations(resourcePath, "x-delete", "delete", ops, path);
+                processAdditionalOperations(resourcePath, "x-patch", "patch", ops, path);
+                processAdditionalOperations(resourcePath, "x-options", "options", ops, path);
+                processAdditionalOperations(resourcePath, "x-trace", "trace", ops, path);
+            }
         }
         return ops;
     }
 
-    public Map<String, List<CodegenOperation>> processWebhooks(Map<String, PathItem> webhooks) {
+    protected void processAdditionalOperations(String resourcePath, String extName, String httpMethod, Map<String, List<CodegenOperation>> ops, PathItem path) {
+        if (path.getExtensions() == null || !path.getExtensions().containsKey(extName)) {
+            return;
+        }
+        var xOps = (List<Operation>) path.getExtensions().get(extName);
+        if (xOps == null) {
+            return;
+        }
+        for (Operation op : xOps) {
+            processOperation(resourcePath, httpMethod, op, ops, path);
+        }
+    }
+
+    public Map<String, List<CodegenOperation>>  processWebhooks(Map<String, PathItem> webhooks) {
         Map<String, List<CodegenOperation>> ops = new TreeMap<>();
         // when input file is not valid and doesn't contain any paths
         if (webhooks == null) {

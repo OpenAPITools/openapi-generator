@@ -333,6 +333,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     // Whether to automatically hardcode params that are considered Constants by OpenAPI Spec
     @Setter protected boolean autosetConstants = false;
+    @Setter
+    protected boolean groupByRequestAndResponseContentType = true;
+    @Setter
+    protected boolean groupByResponseContentType = true;
 
     @Override
     public boolean getAddSuffixToDuplicateOperationNicknames() {
@@ -392,8 +396,9 @@ public class DefaultCodegen implements CodegenConfig {
         convertPropertyToBooleanAndWriteBack(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, this::setDisallowAdditionalPropertiesIfNotPresent);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, this::setEnumUnknownDefaultCase);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.AUTOSET_CONSTANTS, this::setAutosetConstants);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.GROUP_BY_REQUEST_AND_RESPONSE_CONTENT_TYPE, this::setGroupByRequestAndResponseContentType);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.GROUP_BY_RESPONSE_CONTENT_TYPE, this::setGroupByResponseContentType);
     }
-
 
     /***
      * Preset map builder with commonly used Mustache lambdas.
@@ -910,7 +915,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the sanitized variable name for enum
      */
     public String toEnumVarName(String value, String datatype) {
-        if (value.length() == 0) {
+        if (value.isEmpty()) {
             return "EMPTY";
         }
 
@@ -1011,6 +1016,47 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
+
+        if (supportsDividingOperationsByContentType() && openAPI.getPaths() != null && !openAPI.getPaths().isEmpty()) {
+
+            for (Map.Entry<String, PathItem> entry : openAPI.getPaths().entrySet()) {
+                String pathStr = entry.getKey();
+                PathItem path = entry.getValue();
+                List<Operation> getOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.GET, path.getGet());
+                if (!getOps.isEmpty()) {
+                    path.addExtension("x-get", getOps);
+                }
+                List<Operation> putOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.PUT, path.getPut());
+                if (!putOps.isEmpty()) {
+                    path.addExtension("x-put", putOps);
+                }
+                List<Operation> postOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.POST, path.getPost());
+                if (!postOps.isEmpty()) {
+                    path.addExtension("x-post", postOps);
+                }
+                List<Operation> deleteOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.DELETE, path.getDelete());
+                if (!deleteOps.isEmpty()) {
+                    path.addExtension("x-delete", deleteOps);
+                }
+                List<Operation> optionsOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.OPTIONS, path.getOptions());
+                if (!optionsOps.isEmpty()) {
+                    path.addExtension("x-options", optionsOps);
+                }
+                List<Operation> headOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.HEAD, path.getHead());
+                if (!headOps.isEmpty()) {
+                    path.addExtension("x-head", headOps);
+                }
+                List<Operation> patchOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.PATCH, path.getPatch());
+                if (!patchOps.isEmpty()) {
+                    path.addExtension("x-patch", patchOps);
+                }
+                List<Operation> traceOps = divideOperationsByContentType(openAPI, pathStr, PathItem.HttpMethod.TRACE, path.getTrace());
+                if (!traceOps.isEmpty()) {
+                    path.addExtension("x-trace", traceOps);
+                }
+            }
+        }
+
         if (useOneOfInterfaces && openAPI.getComponents() != null) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<>(openAPI.getComponents().getSchemas());
@@ -1086,6 +1132,261 @@ public class DefaultCodegen implements CodegenConfig {
                     if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
                         addOneOfNameExtension(addProps, nOneOf);
                         addOneOfInterfaceModel(addProps, nOneOf);
+                    }
+                }
+            }
+        }
+    }
+
+    private List<Operation> divideOperationsByContentType(OpenAPI openAPI, String path, PathItem.HttpMethod httpMethod, Operation op) {
+
+        if (op == null) {
+            return Collections.emptyList();
+        }
+
+        var operationIndexes = new HashMap<String, Integer>();
+        operationIndexes.put(getOrGenerateOperationId(op, path, httpMethod.name()), 0);
+
+        var additionalOps = new ArrayList<Operation>();
+        divideOperationByRequestBody(openAPI, path, httpMethod, op, additionalOps, operationIndexes);
+
+        // Check responses content types and divide operations by them
+
+        var responses = op.getResponses();
+        if (responses == null || responses.isEmpty()) {
+            return additionalOps;
+        }
+        var unwrappedResponses = new ApiResponses();
+        var allPossibleContentTypes = new ArrayList<String>();
+        for (var responseEntry : responses.entrySet()) {
+            var apiResponse = ModelUtils.getReferencedApiResponse(openAPI, responseEntry.getValue());
+            unwrappedResponses.put(responseEntry.getKey(), apiResponse);
+            if (apiResponse.getContent() == null) {
+                continue;
+            }
+            for (var contentType : apiResponse.getContent().keySet()) {
+                contentType = contentType.toLowerCase();
+                if (!allPossibleContentTypes.contains(contentType)) {
+                    allPossibleContentTypes.add(contentType);
+                }
+            }
+        }
+        if (allPossibleContentTypes.isEmpty() || allPossibleContentTypes.size() == 1) {
+            return additionalOps;
+        }
+        op.setResponses(unwrappedResponses);
+        responses = unwrappedResponses;
+
+        var apiResponsesByContentType = new HashMap<String, ApiResponses>();
+        for (var contentType : allPossibleContentTypes) {
+            var apiResponses = new ApiResponses();
+            for (var responseEntry : responses.entrySet()) {
+                var code = responseEntry.getKey();
+                var response = responseEntry.getValue();
+                if (response.getContent() == null) {
+                    continue;
+                }
+                var mediaType = response.getContent().get(contentType);
+                if (mediaType == null) {
+                    continue;
+                }
+                apiResponses.addApiResponse(code, new ApiResponse()
+                    .description(response.getDescription())
+                    .headers(response.getHeaders())
+                    .links(response.getLinks())
+                    .extensions(response.getExtensions() != null ? new LinkedHashMap<>(response.getExtensions()) : new LinkedHashMap<>())
+                    .$ref(response.get$ref())
+                    .content(new Content()
+                        .addMediaType(contentType, mediaType)
+                    )
+                );
+            }
+            apiResponsesByContentType.put(contentType, apiResponses);
+        }
+
+        var addedContentTypes = new ArrayList<String>();
+        var finalAdditionalOps = new ArrayList<Operation>();
+        divideOperationByResponses(path, httpMethod, op, apiResponsesByContentType, finalAdditionalOps, addedContentTypes, operationIndexes);
+        for (var additionalOp : additionalOps) {
+            finalAdditionalOps.add(additionalOp);
+            divideOperationByResponses(path, httpMethod, additionalOp, apiResponsesByContentType, finalAdditionalOps, addedContentTypes, operationIndexes);
+        }
+
+        // remove correct processed contentTypes
+        apiResponsesByContentType.entrySet().removeIf(stringMediaTypeEntry -> addedContentTypes.contains(stringMediaTypeEntry.getKey()));
+
+        if (!apiResponsesByContentType.isEmpty()) {
+            appendCommonResponseMediaTypes(op, apiResponsesByContentType.values());
+            for (var additionalOp : additionalOps) {
+                appendCommonResponseMediaTypes(additionalOp, apiResponsesByContentType.values());
+            }
+        }
+
+        return finalAdditionalOps;
+    }
+
+    private void divideOperationByRequestBody(OpenAPI openAPI, String path, PathItem.HttpMethod httpMethod, Operation op,
+                                              List<Operation> additionalOps, Map<String, Integer> operationIndexes) {
+        RequestBody body = ModelUtils.getReferencedRequestBody(openAPI, op.getRequestBody());
+        if (body == null || body.getContent() == null) {
+            return;
+        }
+        op.setRequestBody(body);
+        Content content = body.getContent();
+        if (content.size() <= 1) {
+            return;
+        }
+        var firstEntry = content.entrySet().iterator().next();
+        var mediaTypesToRemove = new ArrayList<String>();
+        for (var entry : content.entrySet()) {
+            var contentType = entry.getKey();
+            MediaType mediaType = entry.getValue();
+            if (mediaTypesToRemove.contains(contentType) || contentType.equals(firstEntry.getKey())) {
+                continue;
+            }
+            var foundSameOpSignature = false;
+            // group by response content type
+            if (groupByResponseContentType) {
+                if (firstEntry.getValue().equals(mediaType)) {
+                    if (!groupByRequestAndResponseContentType) {
+                        foundSameOpSignature = true;
+                    }
+                } else {
+                    for (var additionalOp : additionalOps) {
+                        RequestBody additionalBody = ModelUtils.getReferencedRequestBody(openAPI, additionalOp.getRequestBody());
+                        if (additionalBody == null || additionalBody.getContent() == null) {
+                            return;
+                        }
+                        for (var addContentEntry : additionalBody.getContent().entrySet()) {
+                            if (addContentEntry.getValue().equals(mediaType)) {
+                                foundSameOpSignature = true;
+                                break;
+                            }
+                        }
+                        if (foundSameOpSignature) {
+                            additionalBody.getContent().put(contentType, mediaType);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (groupByResponseContentType && foundSameOpSignature) {
+                continue;
+            }
+            mediaTypesToRemove.add(contentType);
+
+            var apiResponsesCopy = new ApiResponses();
+            apiResponsesCopy.putAll(op.getResponses());
+
+            additionalOps.add(new Operation()
+                .deprecated(op.getDeprecated())
+                .callbacks(op.getCallbacks())
+                .description(op.getDescription())
+                .extensions(op.getExtensions() != null ? new LinkedHashMap<>(op.getExtensions()) : new LinkedHashMap<>())
+                .externalDocs(op.getExternalDocs())
+                .operationId(calcOperationId(path, httpMethod, op, operationIndexes))
+                .parameters(op.getParameters())
+                .responses(apiResponsesCopy)
+                .security(op.getSecurity())
+                .servers(op.getServers())
+                .summary(op.getSummary())
+                .tags(op.getTags())
+                .requestBody(new RequestBody()
+                    .description(body.getDescription())
+                    .extensions(body.getExtensions())
+                    .content(new Content()
+                        .addMediaType(contentType, mediaType))
+                )
+            );
+        }
+        if (!mediaTypesToRemove.isEmpty()) {
+            content.entrySet().removeIf(stringMediaTypeEntry -> mediaTypesToRemove.contains(stringMediaTypeEntry.getKey()));
+        }
+    }
+
+    private String calcOperationId(String path, PathItem.HttpMethod httpMethod, Operation op, Map<String, Integer> operationIndexes) {
+        var operationId = getOrGenerateOperationId(op, path, httpMethod.name());
+        var index = operationIndexes.get(operationId);
+        if (index != null) {
+            index++;
+            operationId += "_" + index;
+            operationIndexes.put(operationId, index);
+        } else {
+            operationIndexes.put(operationId, 0);
+        }
+        return operationId;
+    }
+
+    private void divideOperationByResponses(
+        String path,
+        PathItem.HttpMethod httpMethod,
+        Operation op,
+        Map<String, ApiResponses> apiResponsesByContentType,
+        List<Operation> additionalOps,
+        List<String> addedContentTypes,
+        Map<String, Integer> operationIndexes
+    ) {
+
+        if (!groupByResponseContentType) {
+            return;
+        }
+
+        var isFirst = true;
+        for (var entry : apiResponsesByContentType.entrySet()) {
+            var contentType = entry.getKey();
+            var apiResponses = entry.getValue();
+            var requestBody = op.getRequestBody();
+            // group by requestBody contentType
+            if (groupByRequestAndResponseContentType
+                && requestBody != null
+                && requestBody.getContent() != null
+                && !requestBody.getContent().containsKey(contentType)) {
+                continue;
+            }
+            addedContentTypes.add(contentType);
+            if (isFirst) {
+                op.setResponses(apiResponses);
+                isFirst = false;
+                continue;
+            }
+
+            additionalOps.add(new Operation()
+                .deprecated(op.getDeprecated())
+                .callbacks(op.getCallbacks())
+                .description(op.getDescription())
+                .extensions(op.getExtensions())
+                .externalDocs(op.getExternalDocs())
+                .operationId(calcOperationId(path, httpMethod, op, operationIndexes))
+                .parameters(op.getParameters())
+                .responses(apiResponses)
+                .security(op.getSecurity())
+                .servers(op.getServers())
+                .summary(op.getSummary())
+                .tags(op.getTags())
+                .requestBody(requestBody)
+            );
+        }
+    }
+
+    private void appendCommonResponseMediaTypes(Operation op, Collection<ApiResponses> commonResponsesList) {
+        if (commonResponsesList.isEmpty()) {
+            return;
+        }
+
+        for (var commonResponses : commonResponsesList) {
+            var adOpResponses = op.getResponses();
+            for (var responseEntry : adOpResponses.entrySet()) {
+                var content = responseEntry.getValue().getContent();
+                var commonResponse = commonResponses.get(responseEntry.getKey());
+                if (commonResponse != null && commonResponse.getContent() != null) {
+                    if (content == null) {
+                        content = new Content();
+                    }
+                    for (var commonResponseEntry : commonResponse.getContent().entrySet()) {
+                        if (!content.containsKey(commonResponseEntry.getKey())) {
+                            content.addMediaType(commonResponseEntry.getKey(), commonResponseEntry.getValue());
+                        }
                     }
                 }
             }
@@ -1191,8 +1492,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String escapeUnsafeCharacters(String input) {
-        LOGGER.warn("escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape " +
-                "unsafe characters");
+        LOGGER.warn("escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters");
         // doing nothing by default and code generator should implement
         // the logic to prevent code injection
         // later we'll make this method abstract to make sure
@@ -1208,8 +1508,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String escapeQuotationMark(String input) {
-        LOGGER.warn("escapeQuotationMark should be overridden in the code generator with proper logic to escape " +
-                "single/double quote");
+        LOGGER.warn("escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote");
         return input.replace("\"", "\\\"");
     }
 
@@ -1782,6 +2081,12 @@ public class DefaultCodegen implements CodegenConfig {
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
                 CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC).defaultValue(Boolean.FALSE.toString()));
+        if (supportsDividingOperationsByContentType()) {
+            cliOptions.add(CliOption.newBoolean(CodegenConstants.GROUP_BY_RESPONSE_CONTENT_TYPE,
+                CodegenConstants.GROUP_BY_RESPONSE_CONTENT_TYPE_DESC).defaultValue(Boolean.TRUE.toString()));
+            cliOptions.add(CliOption.newBoolean(CodegenConstants.GROUP_BY_REQUEST_AND_RESPONSE_CONTENT_TYPE,
+                CodegenConstants.GROUP_BY_REQUEST_AND_RESPONSE_CONTENT_TYPE_DESC).defaultValue(Boolean.TRUE.toString()));
+        }
 
         // option to change how we process + set the data in the discriminator mapping
         CliOption legacyDiscriminatorBehaviorOpt = CliOption.newBoolean(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR_DESC).defaultValue(Boolean.TRUE.toString());
@@ -8591,11 +8896,16 @@ public class DefaultCodegen implements CodegenConfig {
         return false;
     }
 
-    /*
-        A function to convert yaml or json ingested strings like property names
-        And convert special characters like newline, tab, carriage return
-        Into strings that can be rendered in the language that the generator will output to
-        */
+    @Override
+    public boolean supportsDividingOperationsByContentType() {
+        return false;
+    }
+
+    /**
+     * A function to convert yaml or json ingested strings like property names
+     * And convert special characters like newline, tab, carriage return
+     * Into strings that can be rendered in the language that the generator will output to
+     */
     protected String handleSpecialCharacters(String name) {
         return name;
     }

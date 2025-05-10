@@ -1004,7 +1004,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         // add Pageable import only if x-spring-paginated explicitly used
         // this allows to use a custom Pageable schema without importing Spring Pageable.
-        if (Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
+        if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
             importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         }
 
@@ -1093,7 +1093,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     private Set<String> reformatProvideArgsParams(Operation operation) {
         Set<String> provideArgsClassSet = new HashSet<>();
-        Object argObj = operation.getExtensions().get("x-spring-provide-args");
+        Object argObj = operation.getExtensions() != null ? operation.getExtensions().get("x-spring-provide-args") : null;
         if (argObj instanceof List) {
             List<String> provideArgs = (List<String>) argObj;
             if (!provideArgs.isEmpty()) {
@@ -1122,7 +1122,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                         formattedArgs.add(newArg);
                     }
                 }
-                operation.getExtensions().put("x-spring-provide-args", formattedArgs);
+                operation.addExtension("x-spring-provide-args", formattedArgs);
             }
         }
         return provideArgsClassSet;
