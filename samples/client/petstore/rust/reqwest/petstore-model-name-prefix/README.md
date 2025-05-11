@@ -32,6 +32,8 @@ Class | Method | HTTP request | Description
 *PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
 *PetApi* | [**find_pets_by_tags**](docs/PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
 *PetApi* | [**get_pet_by_id**](docs/PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
+*PetApi* | [**pets_explode_post**](docs/PetApi.md#pets_explode_post) | **POST** /pets/explode | List all pets
+*PetApi* | [**pets_post**](docs/PetApi.md#pets_post) | **POST** /pets | List all pets
 *PetApi* | [**update_pet**](docs/PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 *PetApi* | [**update_pet_with_form**](docs/PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**upload_file**](docs/PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -68,6 +70,7 @@ Class | Method | HTTP request | Description
  - [FooNumericEnumTesting](docs/FooNumericEnumTesting.md)
  - [FooOptionalTesting](docs/FooOptionalTesting.md)
  - [FooOrder](docs/FooOrder.md)
+ - [FooPage](docs/FooPage.md)
  - [FooPerson](docs/FooPerson.md)
  - [FooPet](docs/FooPet.md)
  - [FooPropertyTest](docs/FooPropertyTest.md)

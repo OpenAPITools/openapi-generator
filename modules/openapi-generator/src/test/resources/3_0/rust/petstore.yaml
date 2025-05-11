@@ -18,6 +18,49 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /pets:
+    post:
+      tags:
+        - pet
+      summary: List all pets
+      description: Returns a list of pets
+      parameters:
+        - name: page
+          in: query
+          description: The page number
+          required: false
+          schema:
+            $ref: '#/components/schemas/Page'
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid page number
+  /pets/explode:
+    post:
+      tags:
+        - pet
+      summary: List all pets
+      description: Returns a list of pets
+      parameters:
+        - $ref: '#/components/parameters/PageExplode'
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid page number
   /pet:
     post:
       tags:
@@ -1120,3 +1163,22 @@ components:
           oneOf:
             - $ref: '#/components/schemas/Order'
             - $ref: '#/components/schemas/Order'
+    Page:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        perPage:
+          type: integer
+          format: int32
+  parameters:
+    PageExplode:
+      name: pageExplode
+      in: query
+      description: Object containing page `size` and page `number`.
+      required: false
+      style: deepObject
+      explode: true
+      schema:
+        $ref: '#/components/schemas/Page'

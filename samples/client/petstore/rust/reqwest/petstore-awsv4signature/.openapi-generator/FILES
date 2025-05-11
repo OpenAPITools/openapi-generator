@@ -16,6 +16,7 @@ docs/NullableArray.md
 docs/NumericEnumTesting.md
 docs/OptionalTesting.md
 docs/Order.md
+docs/Page.md
 docs/Person.md
 docs/Pet.md
 docs/PetApi.md
@@ -59,6 +60,7 @@ src/models/nullable_array.rs
 src/models/numeric_enum_testing.rs
 src/models/optional_testing.rs
 src/models/order.rs
+src/models/page.rs
 src/models/person.rs
 src/models/pet.rs
 src/models/property_test.rs
