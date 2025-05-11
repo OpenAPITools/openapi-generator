@@ -426,7 +426,7 @@ pub fn pets_post(configuration: &configuration::Configuration, page: Option<mode
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref param_value) = p_page {
-        req_builder = req_builder.query(&[("page", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("page", &serde_json::to_string(param_value)?)]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());

@@ -217,16 +217,21 @@ impl {{classname}} for {{classname}}Client {
         {{/isDeepObject}}
         {{^isDeepObject}}
         {{#isObject}}
-        {{^isModel}}
+        if let Some(ref param_value) = {{{paramName}}} {
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_value(param_value)?)]);
+        };
+        {{/isObject}}
+        {{#isModel}}
         if let Some(ref param_value) = {{{paramName}}} {
             local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_value(param_value)?)]);
         };
         {{/isModel}}
-        {{/isObject}}
         {{^isObject}}
+        {{^isModel}}
         if let Some(ref param_value) = {{{paramName}}} {
             local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
         };
+        {{/isModel}}
         {{/isObject}}
         {{/isDeepObject}}
         {{/isNullable}}
@@ -260,12 +265,15 @@ impl {{classname}} for {{classname}}Client {
             {{/isDeepObject}}
             {{^isDeepObject}}
             {{#isObject}}
-            {{^isModel}}
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_value(param_value)?)]);
+            {{/isObject}}
+            {{#isModel}}
             local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_value(param_value)?)]);
             {{/isModel}}
-            {{/isObject}}
             {{^isObject}}
+            {{^isModel}}
             local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+            {{/isModel}}
             {{/isObject}}
             {{/isDeepObject}}
         }

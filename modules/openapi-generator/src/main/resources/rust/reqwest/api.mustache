@@ -180,17 +180,22 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/isDeepObject}}
     {{^isDeepObject}}
     {{#isObject}}
-    {{^isModel}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+    };
+    {{/isObject}}
+    {{#isModel}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
         req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
     };
     {{/isModel}}
-    {{/isObject}}
     {{/isDeepObject}}
     {{^isObject}}
+    {{^isModel}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
         req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
     };
+    {{/isModel}}
     {{/isObject}}
     {{/isNullable}}
     {{/isArray}}
@@ -224,12 +229,15 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         {{/isDeepObject}}
         {{^isDeepObject}}
         {{#isObject}}
-        {{^isModel}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        {{/isObject}}
+        {{#isModel}}
         req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
         {{/isModel}}
-        {{/isObject}}
         {{^isObject}}
+        {{^isModel}}
         req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+        {{/isModel}}
         {{/isObject}}
         {{/isDeepObject}}
         {{/isArray}}

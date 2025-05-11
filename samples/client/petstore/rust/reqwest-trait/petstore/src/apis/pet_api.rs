@@ -350,7 +350,7 @@ impl PetApi for PetApiClient {
         let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
         if let Some(ref param_value) = page {
-            local_var_req_builder = local_var_req_builder.query(&[("page", &param_value.to_string())]);
+            local_var_req_builder = local_var_req_builder.query(&[("page", &serde_json::to_value(param_value)?)]);
         }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
