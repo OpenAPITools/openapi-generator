@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StringProp
         /// </summary>
         [DataMember(Name = "string_prop", EmitDefaultValue = true)]
-        public string StringProp { get; set; }
+        public string? StringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DateProp
