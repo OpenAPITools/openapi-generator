@@ -95,7 +95,7 @@ public class PythonClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/ping";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        final CodegenOperation op = codegen.fromOperation(path, "get",0, p, null);
         // pattern_no_forward_slashes '^pattern$'
         Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
         // pattern_two_slashes '/^pattern$/'
@@ -171,7 +171,7 @@ public class PythonClientCodegenTest {
 
         final String path = "/api/v1beta3/namespaces/{namespaces}/bindings";
         final Operation operation = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation codegenOperation = codegen.fromOperation(path, "get", operation, null);
+        final CodegenOperation codegenOperation = codegen.fromOperation(path, "get",0, operation, null);
         Assert.assertEquals(codegenOperation.returnType, "V1beta3Binding");
         Assert.assertEquals(codegenOperation.returnBaseType, "V1beta3Binding");
     }
@@ -448,14 +448,14 @@ public class PythonClientCodegenTest {
         // path parameter
         String path = "/store/order/{orderId}";
         Operation p = openAPI.getPaths().get(path).getGet();
-        CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        CodegenOperation op = codegen.fromOperation(path, "get",0, p, null);
         Assert.assertEquals(op.allParams.get(0).containerType, null);
         Assert.assertEquals(op.allParams.get(0).baseName, "orderId");
 
         // query parameter
         path = "/user/login";
         p = openAPI.getPaths().get(path).getGet();
-        op = codegen.fromOperation(path, "get", p, null);
+        op = codegen.fromOperation(path, "get",0, p, null);
         Assert.assertEquals(op.allParams.get(0).containerType, null);
         Assert.assertEquals(op.allParams.get(0).baseName, "username");
         Assert.assertEquals(op.allParams.get(1).containerType, null);
@@ -464,14 +464,14 @@ public class PythonClientCodegenTest {
         // body parameter
         path = "/user/createWithList";
         p = openAPI.getPaths().get(path).getPost();
-        op = codegen.fromOperation(path, "post", p, null);
+        op = codegen.fromOperation(path, "post",0, p, null);
         Assert.assertEquals(op.allParams.get(0).baseName, "User");
         Assert.assertEquals(op.allParams.get(0).containerType, "array");
         Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "List");
 
         path = "/pet";
         p = openAPI.getPaths().get(path).getPost();
-        op = codegen.fromOperation(path, "post", p, null);
+        op = codegen.fromOperation(path, "post",0, p, null);
         Assert.assertEquals(op.allParams.get(0).baseName, "Pet");
         Assert.assertEquals(op.allParams.get(0).containerType, null);
         Assert.assertEquals(op.allParams.get(0).containerTypeMapped, null);
@@ -486,7 +486,7 @@ public class PythonClientCodegenTest {
         // query parameter
         String path = "/query_parameter_dict";
         Operation p = openAPI.getPaths().get(path).getGet();
-        CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        CodegenOperation op = codegen.fromOperation(path, "get",0, p, null);
         Assert.assertEquals(op.allParams.get(0).containerType, "map");
         Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "Dict");
         Assert.assertEquals(op.allParams.get(0).baseName, "dict_string_integer");

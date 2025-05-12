@@ -577,8 +577,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+    public CodegenOperation fromOperation(String path, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
 
         // Add a vendor extension attribute that provides a map of auth methods and the scopes
         // which are expected by the operation.  This map is then used by postProcessOperationsWithModels
