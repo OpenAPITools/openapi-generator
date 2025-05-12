@@ -1,0 +1,15 @@
+.gitignore
+.travis.yml
+Cargo.toml
+README.md
+docs/DefaultApi.md
+docs/ListNotRequiredParameter.md
+docs/ListPageQueryParameter.md
+git_push.sh
+src/apis/configuration.rs
+src/apis/default_api.rs
+src/apis/mod.rs
+src/lib.rs
+src/models/list_not_required_parameter.rs
+src/models/list_page_query_parameter.rs
+src/models/mod.rs
