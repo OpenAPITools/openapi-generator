@@ -6,7 +6,6 @@
 
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
-#define TYPICAL_MAX_NUMBER_LENGTH_FLOAT 32
 #define MAX_NUMBER_LENGTH_LONG 21
 
 
@@ -628,15 +627,14 @@ UserAPI_testInt32Int64FloatDouble(apiClient_t *apiClient, float floatnum, double
 
     // query parameters
     char *keyQuery_floatnum = NULL;
-    char * valueQuery_floatnum ;
+    char * valueQuery_floatnum = NULL;
     keyValuePair_t *keyPairQuery_floatnum = 0;
     {
         keyQuery_floatnum = strdup("floatnum");
-        valueQuery_floatnum = calloc(1,TYPICAL_MAX_NUMBER_LENGTH_FLOAT);
-        int s = snprintf(valueQuery_floatnum, TYPICAL_MAX_NUMBER_LENGTH_FLOAT, "%.7e", floatnum);
-        if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
+        int s = snprintf(NULL, 0, "%.7e", floatnum);
+        if (s >= 0)
         {
-            valueQuery_floatnum = realloc(valueQuery_floatnum, s+1);
+            valueQuery_floatnum = calloc(1,s+1);
             snprintf(valueQuery_floatnum, s+1, "%.7e", floatnum);
         }
         keyPairQuery_floatnum = keyValuePair_create(keyQuery_floatnum, valueQuery_floatnum);
@@ -645,15 +643,14 @@ UserAPI_testInt32Int64FloatDouble(apiClient_t *apiClient, float floatnum, double
 
     // query parameters
     char *keyQuery_doublenum = NULL;
-    char * valueQuery_doublenum ;
+    char * valueQuery_doublenum = NULL;
     keyValuePair_t *keyPairQuery_doublenum = 0;
     {
         keyQuery_doublenum = strdup("doublenum");
-        valueQuery_doublenum = calloc(1,TYPICAL_MAX_NUMBER_LENGTH_FLOAT);
-        int s = snprintf(valueQuery_doublenum, TYPICAL_MAX_NUMBER_LENGTH_FLOAT, "%.16e", doublenum);
-        if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
+        int s = snprintf(NULL, 0, "%.16e", doublenum);
+        if (s >= 0)
         {
-            valueQuery_doublenum = realloc(valueQuery_doublenum, s+1);
+            valueQuery_doublenum = calloc(1,s+1);
             snprintf(valueQuery_doublenum, s+1, "%.16e", doublenum);
         }
         keyPairQuery_doublenum = keyValuePair_create(keyQuery_doublenum, valueQuery_doublenum);

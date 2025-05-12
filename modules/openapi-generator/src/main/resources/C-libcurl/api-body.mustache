@@ -6,7 +6,6 @@
 
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
-#define TYPICAL_MAX_NUMBER_LENGTH_FLOAT 32
 #define MAX_NUMBER_LENGTH_LONG 21
 
 {{#operations}}
@@ -232,7 +231,7 @@ end:
     // query parameters
     {{^isArray}}
     char *keyQuery_{{{paramName}}} = NULL;
-    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}char *{{/isLong}}{{#isInteger}}char *{{/isInteger}}{{#isDouble}}char *{{/isDouble}}{{#isFloat}}char *{{/isFloat}}{{#isBoolean}}char *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueQuery_{{{paramName}}} {{#isString}}{{^isEnum}}= NULL{{/isEnum}}{{/isString}}{{#isInteger}}= NULL{{/isInteger}}{{#isBoolean}}= NULL{{/isBoolean}};
+    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}char *{{/isLong}}{{#isInteger}}char *{{/isInteger}}{{#isDouble}}char *{{/isDouble}}{{#isFloat}}char *{{/isFloat}}{{#isBoolean}}char *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueQuery_{{{paramName}}} {{#isString}}{{^isEnum}}= NULL{{/isEnum}}{{/isString}}{{#isInteger}}= NULL{{/isInteger}}{{#isBoolean}}= NULL{{/isBoolean}}{{#isDouble}}= NULL{{/isDouble}}{{#isFloat}}= NULL{{/isFloat}};
     keyValuePair_t *keyPairQuery_{{paramName}} = 0;
     {{/isArray}}
     {{^isLong}}
@@ -253,20 +252,18 @@ end:
         snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
         {{/isInteger}}
         {{#isFloat}}
-        valueQuery_{{{paramName}}} = calloc(1,TYPICAL_MAX_NUMBER_LENGTH_FLOAT);
-        int s = snprintf(valueQuery_{{{paramName}}}, TYPICAL_MAX_NUMBER_LENGTH_FLOAT, "%.7e", {{{paramName}}});
-        if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
+        int s = snprintf(NULL, 0, "%.7e", {{{paramName}}});
+        if (s >= 0)
         {
-            valueQuery_{{{paramName}}} = realloc(valueQuery_{{{paramName}}}, s+1);
+            valueQuery_{{{paramName}}} = calloc(1,s+1);
             snprintf(valueQuery_{{{paramName}}}, s+1, "%.7e", {{{paramName}}});
         }
         {{/isFloat}}
         {{#isDouble}}
-        valueQuery_{{{paramName}}} = calloc(1,TYPICAL_MAX_NUMBER_LENGTH_FLOAT);
-        int s = snprintf(valueQuery_{{{paramName}}}, TYPICAL_MAX_NUMBER_LENGTH_FLOAT, "%.16e", {{{paramName}}});
-        if (s >= 0 && s >= TYPICAL_MAX_NUMBER_LENGTH_FLOAT)
+        int s = snprintf(NULL, 0, "%.16e", {{{paramName}}});
+        if (s >= 0)
         {
-            valueQuery_{{{paramName}}} = realloc(valueQuery_{{{paramName}}}, s+1);
+            valueQuery_{{{paramName}}} = calloc(1,s+1);
             snprintf(valueQuery_{{{paramName}}}, s+1, "%.16e", {{{paramName}}});
         }
         {{/isDouble}}
