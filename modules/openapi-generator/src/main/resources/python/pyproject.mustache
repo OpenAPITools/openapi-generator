@@ -1,34 +1,37 @@
-[tool.poetry]
+[project]
 name = "{{{packageName}}}"
 version = "{{{packageVersion}}}"
 description = "{{{appName}}}"
-authors = ["{{infoName}}{{^infoName}}OpenAPI Generator Community{{/infoName}} <{{infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}>"]
+authors = [
+  {name = "{{infoName}}{{^infoName}}OpenAPI Generator Community{{/infoName}}",email = "{{infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}"},
+]
 license = "{{{licenseInfo}}}{{^licenseInfo}}NoLicense{{/licenseInfo}}"
 readme = "README.md"
-repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
 keywords = ["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"]
-include = ["{{packageName}}/py.typed"]
+requires-python = "^3.9"
 
-[tool.poetry.dependencies]
-python = "^3.9"
-
-urllib3 = ">= 2.1.0, < 3.0.0"
-python-dateutil = ">= 2.8.2"
+dependencies = [
+  "urllib3 (>=2.1.0,<3.0.0)",
+  "python-dateutil (>=2.8.2)",
 {{#asyncio}}
-aiohttp = ">= 3.8.4"
-aiohttp-retry = ">= 2.8.3"
+  "aiohttp (>=3.8.4)",
+  "aiohttp-retry (>=2.8.3)",
 {{/asyncio}}
 {{#tornado}}
-tornado = ">=4.2, <5"
+  "tornado (>=4.2,<5)",
 {{/tornado}}
 {{#hasHttpSignatureMethods}}
-pem = ">= 19.3.0"
-pycryptodome = ">= 3.9.0"
+  "pem (>=19.3.0)",
+  "pycryptodome (>=3.9.0)",
 {{/hasHttpSignatureMethods}}
-pydantic = ">= 2"
-typing-extensions = ">= 4.7.1"
+  "pydantic (>=2)",
+  "typing-extensions (>=4.7.1)"
+]
 
-[tool.poetry.dev-dependencies]
+[tool.poetry]
+requires-poetry = ">=2.0"
+
+[tool.poetry.group.dev.dependencies]
 pytest = ">= 7.2.1"
 pytest-cov = ">= 2.8.1"
 tox = ">= 3.9.0"
