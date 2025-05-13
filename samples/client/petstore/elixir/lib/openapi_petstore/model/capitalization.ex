@@ -27,6 +27,13 @@ defmodule OpenapiPetstore.Model.Capitalization do
     field :ATT_NAME, :string
   end
 
+  @spec from_params(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
+  def from_params(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> Ecto.Changeset.apply_action(:insert)
+  end
+
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = struct, params) do
     struct
