@@ -10,7 +10,7 @@ parameterNameMappings:
   _type: underscoreType
   type_: typeWithUnderscore
 additionalProperties:
-  defaultToEmptyContainer: "array?"
+  defaultToEmptyContainer: "array?|map?"
   artifactId: petstore-okhttp-gson
   hideGenerationTimestamp: true
   useOneOfDiscriminatorLookup: true

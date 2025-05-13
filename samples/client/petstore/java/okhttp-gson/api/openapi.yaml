@@ -348,6 +348,7 @@ paths:
                 additionalProperties:
                   format: int32
                   type: integer
+                default: []
                 type: object
           description: successful operation
       security:
@@ -1062,6 +1063,7 @@ paths:
             schema:
               additionalProperties:
                 type: string
+              default: []
               type: object
         description: request body
         required: true
@@ -1856,6 +1858,7 @@ components:
     Address:
       additionalProperties:
         type: integer
+      default: []
       type: object
     Animal:
       discriminator:
@@ -2005,12 +2008,15 @@ components:
         map_property:
           additionalProperties:
             type: string
+          default: []
           type: object
         map_of_map_property:
           additionalProperties:
             additionalProperties:
               type: string
+            default: []
             type: object
+          default: []
           type: object
         anytype_1: {}
         map_with_undeclared_properties_anytype_1:
@@ -2020,6 +2026,7 @@ components:
           type: object
         map_with_undeclared_properties_anytype_3:
           additionalProperties: true
+          default: []
           type: object
         empty_map:
           additionalProperties: false
@@ -2029,6 +2036,7 @@ components:
         map_with_undeclared_properties_string:
           additionalProperties:
             type: string
+          default: []
           type: object
       type: object
     MixedPropertiesAndAdditionalPropertiesClass:
@@ -2042,6 +2050,7 @@ components:
         map:
           additionalProperties:
             $ref: '#/components/schemas/Animal'
+          default: []
           type: object
       type: object
     List:
@@ -2096,7 +2105,9 @@ components:
           additionalProperties:
             additionalProperties:
               type: string
+            default: []
             type: object
+          default: []
           type: object
         map_of_enum_string:
           additionalProperties:
@@ -2104,14 +2115,17 @@ components:
             - UPPER
             - lower
             type: string
+          default: []
           type: object
         direct_map:
           additionalProperties:
             type: boolean
+          default: []
           type: object
         indirect_map:
           additionalProperties:
             type: boolean
+          default: []
           type: object
       type: object
     ArrayTest:
@@ -2181,11 +2195,13 @@ components:
       type: object
     FreeFormObject:
       additionalProperties: true
+      default: []
       description: A schema consisting only of additional properties
       type: object
     MapOfString:
       additionalProperties:
         type: string
+      default: []
       description: A schema consisting only of additional properties of type string
       type: object
     OuterEnum:
@@ -2241,6 +2257,7 @@ components:
     StringBooleanMap:
       additionalProperties:
         type: boolean
+      default: []
       type: object
     FileSchemaTestClass:
       example:
@@ -2353,6 +2370,7 @@ components:
           additionalProperties:
             nullable: true
             type: object
+          default: []
           type: object
       type: object
     fruit:
@@ -3073,6 +3091,7 @@ components:
       oneOf:
       - type: string
       - additionalProperties: true
+        default: []
         type: object
     ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
