@@ -15,10 +15,9 @@ defmodule OuterEnumTest do
 
   @tag timeout: :infinity
   test "json_decode/2 with valid JSON" do
-    enum_test =
+    {:ok, enum_test} =
       JSON.decode!(@valid_json)
-      |> then(fn params -> EnumTest.changeset(%EnumTest{}, params) end)
-      |> Ecto.Changeset.apply_action!(:insert)
+      |> EnumTest.from_params
 
     assert enum_test ==
       %EnumTest{

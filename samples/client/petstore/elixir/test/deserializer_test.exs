@@ -29,10 +29,9 @@ defmodule DeserializerTest do
   """
 
   test "can deserialize valid JSON" do
-    pet =
+    {:ok, pet} =
       JSON.decode!(@valid_json)
-      |> then(fn params -> Pet.changeset(%Pet{}, params) end)
-      |> Ecto.Changeset.apply_action!(:insert)
+      |> Pet.from_params
 
     assert pet ==
       %Pet{
