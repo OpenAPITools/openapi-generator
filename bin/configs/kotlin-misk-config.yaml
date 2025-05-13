@@ -8,4 +8,7 @@ additionalProperties:
   moduleClassName: "PetStoreModule"
   generateStubImplClasses: true
   addModelMoshiJsonAnnotation: true
-  actionPathPrefix : "samplePrefix"
+  actionPathPrefix: "samplePrefix"
+  actionAnnotations: "@LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)"
+  actionImports: "import misk.web.actions.WebAction"
+  actionParentClass: "WebAction"

@@ -55,6 +55,9 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     private static final String ROOT_PACKAGE = "rootPackage";
     public static final String GENERATE_STUB_IMPL_CLASSES = "generateStubImplClasses";
     public static final String ADD_MODEL_MOSHI_JSON_ANNOTATION = "addModelMoshiJsonAnnotation";
+    public static final String ACTION_ANNOTATIONS = "actionAnnotations";
+    public static final String ACTION_IMPORTS = "actionImports";
+    public static final String ACTION_PARENT_CLASS = "actionParentClass";
 
     private boolean useBeanValidation = true;
 
@@ -69,6 +72,9 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
 
     @Setter protected String moduleClassName = "OpenApiModule";
     @Setter protected String actionPathPrefix = "";
+    @Setter protected String actionAnnotations = "";
+    @Setter protected String actionImports = "import misk.web.actions.WebAction";
+    @Setter protected String actionParentClass = "WebAction";
 
     @Override
     public CodegenType getTag() {
@@ -122,6 +128,9 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
 
         addOption(MODULE_CLASS_NAME, "Name of the generated module class", moduleClassName);
         addOption(ACTION_PATH_PREFIX, "Prefix for action path", actionPathPrefix);
+        addOption(ACTION_ANNOTATIONS, "Action Annotations", actionAnnotations);
+        addOption(ACTION_IMPORTS, "Imports for Actions", actionImports);
+        addOption(ACTION_PARENT_CLASS, "Parent Class for Action", actionParentClass);
 
         apiTestTemplateFiles.clear();
         apiTestTemplateFiles.put("api_test.mustache", ".kt");
@@ -173,6 +182,21 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         }
         writePropertyBack(ACTION_PATH_PREFIX, actionPathPrefix);
 
+        if (additionalProperties.containsKey(ACTION_ANNOTATIONS)) {
+            setActionAnnotations((String) additionalProperties.get(ACTION_ANNOTATIONS));
+        }
+        writePropertyBack(ACTION_ANNOTATIONS, actionAnnotations);
+
+        if (additionalProperties.containsKey(ACTION_IMPORTS)) {
+            setActionImports((String) additionalProperties.get(ACTION_IMPORTS));
+        }
+        writePropertyBack(ACTION_IMPORTS, actionImports);
+
+        if (additionalProperties.containsKey(ACTION_PARENT_CLASS)) {
+            setActionParentClass((String) additionalProperties.get(ACTION_PARENT_CLASS));
+        }
+        writePropertyBack(ACTION_PARENT_CLASS, actionParentClass);
+
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
@@ -187,6 +211,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
             setAddModelMoshiJsonAnnotation(convertPropertyToBoolean(ADD_MODEL_MOSHI_JSON_ANNOTATION));
         }
         writePropertyBack(ADD_MODEL_MOSHI_JSON_ANNOTATION, addModelMoshiJsonAnnotation);
+
         applyJakartaPackage();
 
         String apiModuleFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
