@@ -187,7 +187,7 @@ class FakeController extends Controller
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $body = $request->bool('body');
+        $body = $request->boolean('body');
 
         try {
             $apiResult = $this->api->fakeOuterBooleanSerialize($body);
@@ -830,13 +830,13 @@ class FakeController extends Controller
 
         $requiredStringGroup = $request->integer('requiredStringGroup');
 
-        $requiredBooleanGroup = $request->bool('requiredBooleanGroup');
+        $requiredBooleanGroup = $request->boolean('requiredBooleanGroup');
 
         $requiredInt64Group = $request->integer('requiredInt64Group');
 
         $stringGroup = $request->integer('stringGroup');
 
-        $booleanGroup = $request->bool('booleanGroup');
+        $booleanGroup = $request->boolean('booleanGroup');
 
         $int64Group = $request->integer('int64Group');
 
