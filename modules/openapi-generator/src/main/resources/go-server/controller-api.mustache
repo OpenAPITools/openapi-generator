@@ -66,7 +66,7 @@ func (c *{{classname}}Controller) Routes() Routes {
 {{#operations}}
 	{{#operation}}
 		"{{operationId}}": Route{
-			"{{operationId}}",
+			"{{{operationId}}}",
 			strings.ToUpper("{{httpMethod}}"),
 			"{{{basePathWithoutHost}}}{{{path}}}",
 			c.{{operationId}},
@@ -82,7 +82,7 @@ func (c *{{classname}}Controller) OrderedRoutes() []Route {
 {{#operations}}
 	{{#operation}}
 		Route{
-			"{{operationId}}",
+			"{{{operationId}}}",
 			strings.ToUpper("{{httpMethod}}"),
 			"{{{basePathWithoutHost}}}{{{path}}}",
 			c.{{operationId}},

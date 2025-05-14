@@ -29,7 +29,7 @@ type Routes map[string]Route
 // Router defines the required methods for retrieving api routes
 type Router interface {
 	Routes() Routes
-    OrderedRoutes() []Route
+	OrderedRoutes() []Route
 }
 
 // NewRouter creates a new router for any number of api routers
