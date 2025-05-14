@@ -31,13 +31,13 @@ import {{invokerPackage}}.auth.Authentication;
 public class ApiClient {
 
     /** Underlying HTTP-client */
-    private WSClient wsClient;
+    protected WSClient wsClient;
 
     /** Supported auths */
-    private Map<String, Authentication> authentications;
+    protected Map<String, Authentication> authentications;
 
     /** API base path */
-    private String basePath = "{{{basePath}}}";
+    protected String basePath = "{{{basePath}}}";
 
     public ApiClient(WSClient wsClient) {
         this();

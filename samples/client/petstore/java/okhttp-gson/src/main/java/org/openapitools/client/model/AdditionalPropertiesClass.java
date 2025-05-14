@@ -395,18 +395,10 @@ public class AdditionalPropertiesClass {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("map_property");
-    openapiFields.add("map_of_map_property");
-    openapiFields.add("anytype_1");
-    openapiFields.add("map_with_undeclared_properties_anytype_1");
-    openapiFields.add("map_with_undeclared_properties_anytype_2");
-    openapiFields.add("map_with_undeclared_properties_anytype_3");
-    openapiFields.add("empty_map");
-    openapiFields.add("map_with_undeclared_properties_string");
+    openapiFields = new HashSet<String>(Arrays.asList("map_property", "map_of_map_property", "anytype_1", "map_with_undeclared_properties_anytype_1", "map_with_undeclared_properties_anytype_2", "map_with_undeclared_properties_anytype_3", "empty_map", "map_with_undeclared_properties_string"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

@@ -1271,7 +1271,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.exclusiveMaximum = cp.exclusiveMaximum;
             this.required = cp.required;
             this.deprecated = cp.deprecated;
-            this.hasMoreNonReadOnly = cp.hasMoreNonReadOnly;
             this.isPrimitiveType = cp.isPrimitiveType;
             this.isModel = cp.isModel;
             this.isContainer = cp.isContainer;
@@ -1379,9 +1378,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.hasAuthMethods = o.hasAuthMethods;
             this.hasConsumes = o.hasConsumes;
             this.hasProduces = o.hasProduces;
-            this.hasParams = o.hasParams;
             this.hasOptionalParams = o.hasOptionalParams;
-            this.hasRequiredParams = o.hasRequiredParams;
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
@@ -1392,12 +1389,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isResponseFile = o.isResponseFile;
             this.isResponseOptional = o.isResponseOptional;
             this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
             this.isDeprecated = o.isDeprecated;
             this.isCallbackRequest = o.isCallbackRequest;
             this.uniqueItems = o.uniqueItems;

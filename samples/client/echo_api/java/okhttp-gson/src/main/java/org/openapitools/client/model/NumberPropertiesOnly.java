@@ -176,13 +176,10 @@ public class NumberPropertiesOnly {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("number");
-    openapiFields.add("float");
-    openapiFields.add("double");
+    openapiFields = new HashSet<String>(Arrays.asList("number", "float", "double"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

@@ -143,12 +143,10 @@ public class ParentPet extends GrandparentAnimal {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("pet_type");
+    openapiFields = new HashSet<String>(0);
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("pet_type");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("pet_type"));
   }
 
   /**

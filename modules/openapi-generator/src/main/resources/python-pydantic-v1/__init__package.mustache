@@ -6,6 +6,23 @@
 
 __version__ = "{{packageVersion}}"
 
+# Define package exports
+__all__ = [
+    {{#apiInfo}}{{#apis}}"{{classname}}",
+    {{/apis}}{{/apiInfo}}"ApiResponse",
+    "ApiClient",
+    "Configuration",
+    "OpenApiException",
+    "ApiTypeError",
+    "ApiValueError",
+    "ApiKeyError",
+    "ApiAttributeError",
+    "ApiException",
+    {{#hasHttpSignatureMethods}}"HttpSigningConfiguration",
+    {{/hasHttpSignatureMethods}}{{#models}}{{#model}}"{{classname}}"{{^-last}},
+    {{/-last}}{{#-last}},{{/-last}}{{/model}}{{/models}}
+]
+
 # import apis into sdk package
 {{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classFilename}} import {{classname}}
 {{/apis}}{{/apiInfo}}

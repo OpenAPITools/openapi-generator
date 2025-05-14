@@ -227,13 +227,10 @@ public class ArrayTest implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("array_of_string");
-    openapiFields.add("array_array_of_integer");
-    openapiFields.add("array_array_of_model");
+    openapiFields = new HashSet<String>(Arrays.asList("array_of_string", "array_array_of_integer", "array_array_of_model"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

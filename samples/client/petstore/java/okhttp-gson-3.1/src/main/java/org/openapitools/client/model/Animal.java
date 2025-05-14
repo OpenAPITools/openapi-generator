@@ -194,13 +194,10 @@ public class Animal {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("className");
-    openapiFields.add("color");
+    openapiFields = new HashSet<String>(Arrays.asList("className", "color"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("className");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("className"));
   }
 
   /**

@@ -32,6 +32,8 @@ Class | Method | HTTP request | Description
 *PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status) | **Get** /pet/findByStatus | Finds Pets by status
 *PetApi* | [**find_pets_by_tags**](docs/PetApi.md#find_pets_by_tags) | **Get** /pet/findByTags | Finds Pets by tags
 *PetApi* | [**get_pet_by_id**](docs/PetApi.md#get_pet_by_id) | **Get** /pet/{petId} | Find pet by ID
+*PetApi* | [**pets_explode_post**](docs/PetApi.md#pets_explode_post) | **Post** /pets/explode | List all pets
+*PetApi* | [**pets_post**](docs/PetApi.md#pets_post) | **Post** /pets | List all pets
 *PetApi* | [**update_pet**](docs/PetApi.md#update_pet) | **Put** /pet | Update an existing pet
 *PetApi* | [**update_pet_with_form**](docs/PetApi.md#update_pet_with_form) | **Post** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**upload_file**](docs/PetApi.md#upload_file) | **Post** /pet/{petId}/uploadImage | uploads an image
@@ -68,6 +70,7 @@ Class | Method | HTTP request | Description
  - [NumericEnumTesting](docs/NumericEnumTesting.md)
  - [OptionalTesting](docs/OptionalTesting.md)
  - [Order](docs/Order.md)
+ - [Page](docs/Page.md)
  - [Person](docs/Person.md)
  - [Pet](docs/Pet.md)
  - [PropertyTest](docs/PropertyTest.md)
@@ -80,6 +83,7 @@ Class | Method | HTTP request | Description
  - [UniqueItemArrayTesting](docs/UniqueItemArrayTesting.md)
  - [User](docs/User.md)
  - [Vehicle](docs/Vehicle.md)
+ - [WithInnerOneOf](docs/WithInnerOneOf.md)
 
 
 To get access to the crate's generated documentation, use:

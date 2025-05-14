@@ -16,6 +16,7 @@ docs/FooNullableArray.md
 docs/FooNumericEnumTesting.md
 docs/FooOptionalTesting.md
 docs/FooOrder.md
+docs/FooPage.md
 docs/FooPerson.md
 docs/FooPet.md
 docs/FooPropertyTest.md
@@ -28,6 +29,7 @@ docs/FooTypeTesting.md
 docs/FooUniqueItemArrayTesting.md
 docs/FooUser.md
 docs/FooVehicle.md
+docs/FooWithInnerOneOf.md
 docs/PetApi.md
 docs/StoreApi.md
 docs/TestingApi.md
@@ -55,6 +57,7 @@ src/models/foo_nullable_array.rs
 src/models/foo_numeric_enum_testing.rs
 src/models/foo_optional_testing.rs
 src/models/foo_order.rs
+src/models/foo_page.rs
 src/models/foo_person.rs
 src/models/foo_pet.rs
 src/models/foo_property_test.rs
@@ -66,4 +69,5 @@ src/models/foo_type_testing.rs
 src/models/foo_unique_item_array_testing.rs
 src/models/foo_user.rs
 src/models/foo_vehicle.rs
+src/models/foo_with_inner_one_of.rs
 src/models/mod.rs

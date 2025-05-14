@@ -134,7 +134,7 @@ namespace {{packageName}}.Client
             {
 #if (NETCOREAPP)
                 string framework = RuntimeInformation.FrameworkDescription;
-                string key = framework.StartsWith(".NET 9")?parameter.Key:HttpUtility.UrlEncode(parameter.Key);
+                string key = framework.StartsWith(".NET 9") ? parameter.Key : {{#net90OrLater}}HttpUtility.UrlEncode({{/net90OrLater}}parameter.Key{{#net90OrLater}}){{/net90OrLater}};
                 if (parameter.Value.Count > 1)
                 { // array
                     foreach (var value in parameter.Value)

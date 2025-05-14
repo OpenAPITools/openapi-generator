@@ -38,7 +38,7 @@ web::json::value SchemaWithSet_vaccinationBook::toJson() const
     if(m_VaccinesIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("vaccines"))] = ModelBase::toJson(m_Vaccines);
+        val[utility::conversions::to_string_t(_XPLATSTR("vaccines"))] = ModelBase::toJson(m_Vaccines);
     }
 
     return val;
@@ -47,9 +47,9 @@ web::json::value SchemaWithSet_vaccinationBook::toJson() const
 bool SchemaWithSet_vaccinationBook::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("vaccines"))))
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("vaccines"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("vaccines")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("vaccines")));
         if(!fieldValue.is_null())
         {
             std::set<std::shared_ptr<Vaccine>> refVal_setVaccines;
@@ -64,13 +64,13 @@ bool SchemaWithSet_vaccinationBook::fromJson(const web::json::value& val)
 void SchemaWithSet_vaccinationBook::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(_XPLATSTR(".")))
     {
-        namePrefix += utility::conversions::to_string_t(U("."));
+        namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
     if(m_VaccinesIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("vaccines")), m_Vaccines));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("vaccines")), m_Vaccines));
     }
 }
 
@@ -78,15 +78,15 @@ bool SchemaWithSet_vaccinationBook::fromMultiPart(std::shared_ptr<MultipartFormD
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(_XPLATSTR(".")))
     {
-        namePrefix += utility::conversions::to_string_t(U("."));
+        namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("vaccines"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("vaccines"))))
     {
         std::set<std::shared_ptr<Vaccine>> refVal_setVaccines;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("vaccines"))), refVal_setVaccines );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("vaccines"))), refVal_setVaccines );
         setVaccines(refVal_setVaccines);
     }
     return ok;

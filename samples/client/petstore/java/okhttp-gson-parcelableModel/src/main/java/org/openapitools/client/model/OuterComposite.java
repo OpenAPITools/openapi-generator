@@ -201,13 +201,10 @@ public class OuterComposite implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("my_number");
-    openapiFields.add("my_string");
-    openapiFields.add("my_boolean");
+    openapiFields = new HashSet<String>(Arrays.asList("my_number", "my_string", "my_boolean"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
