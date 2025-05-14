@@ -24,6 +24,8 @@ pub mod foo_optional_testing;
 pub use self::foo_optional_testing::FooOptionalTesting;
 pub mod foo_order;
 pub use self::foo_order::FooOrder;
+pub mod foo_page;
+pub use self::foo_page::FooPage;
 pub mod foo_person;
 pub use self::foo_person::FooPerson;
 pub mod foo_pet;
