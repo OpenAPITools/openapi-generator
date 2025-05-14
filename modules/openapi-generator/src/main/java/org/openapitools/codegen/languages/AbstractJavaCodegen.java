@@ -18,7 +18,9 @@
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
@@ -1399,7 +1401,74 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isObjectSchema(schema)) {
             if (schema.getDefault() != null) {
-                return super.toDefaultValue(schema);
+                try {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append("new " + cp.datatypeWithEnum + "()");
+                    Map<String, Schema> propertySchemas = schema.getProperties();
+                    if(propertySchemas != null) {
+                        // With `parseOptions.setResolve(true)`, objects with 1 key-value pair are LinkedHashMap and objects with more than 1 are ObjectNode
+                        // When not set, objects of any size are ObjectNode
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ObjectNode objectNode;
+                        if(!(schema.getDefault() instanceof ObjectNode)) {
+                            objectNode = objectMapper.valueToTree(schema.getDefault());
+                        } else {
+                            objectNode = (ObjectNode) schema.getDefault();
+
+                        }
+                        Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
+                        for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
+                            String key = defaultProperty.getKey();
+                            JsonNode value = defaultProperty.getValue();
+                            Schema propertySchema = propertySchemas.get(key);
+                            if (!value.isValueNode() || propertySchema == null) { //Skip complex objects for now
+                                continue;
+                            }
+
+                            String defaultPropertyExpression = null;
+                            if(ModelUtils.isLongSchema(propertySchema)) {
+                                defaultPropertyExpression = value.asText()+"l";
+                            } else if(ModelUtils.isIntegerSchema(propertySchema)) {
+                                defaultPropertyExpression = value.asText();
+                            } else if(ModelUtils.isDoubleSchema(propertySchema)) {
+                                defaultPropertyExpression = value.asText()+"d";
+                            } else if(ModelUtils.isFloatSchema(propertySchema)) {
+                                defaultPropertyExpression = value.asText()+"f";
+                            } else if(ModelUtils.isNumberSchema(propertySchema)) {
+                                defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
+                            } else if(ModelUtils.isURISchema(propertySchema)) {
+                                defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
+                            } else if(ModelUtils.isDateSchema(propertySchema)) {
+                                if("java8".equals(getDateLibrary())) {
+                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDate.parse(\"%s\")", value.asText());
+                                }
+                            } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
+                                if("java8".equals(getDateLibrary())) {
+                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.OffsetDateTime.parse(\"%s\", %s)",
+                                            value.asText(),
+                                            "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
+                                }
+                            } else if(ModelUtils.isUUIDSchema(propertySchema)) {
+                                defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
+                            } else if(ModelUtils.isStringSchema(propertySchema)) {
+                                defaultPropertyExpression = "\"" + value.asText() + "\"";
+                            } else if(ModelUtils.isBooleanSchema(propertySchema)) {
+                                defaultPropertyExpression = value.asText();
+                            }
+                            if(defaultPropertyExpression != null) {
+                                stringBuilder
+//                                        .append(System.lineSeparator())
+                                        .append(".")
+                                        .append(toVarName(key))
+                                        .append("(").append(defaultPropertyExpression).append(")");
+                            }
+                        }
+                    }
+                    return stringBuilder.toString();
+                } catch (ClassCastException e) {
+                    LOGGER.error("Can't resolve default value: "+schema.getDefault(), e);
+                    return null;
+                }
             }
             return null;
         } else if (ModelUtils.isComposedSchema(schema)) {
