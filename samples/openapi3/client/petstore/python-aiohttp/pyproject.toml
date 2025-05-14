@@ -7,10 +7,6 @@ authors = [
 ]
 license = "Apache-2.0"
 readme = "README.md"
-
-[project.urls]
-Repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
-
 keywords = ["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"]
 requires-python = "^3.9"
 
@@ -24,6 +20,9 @@ dependencies = [
   "pydantic (>=2)",
   "typing-extensions (>=4.7.1)"
 ]
+
+[project.urls]
+Repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
 
 [tool.poetry]
 requires-poetry = ">=2.0"
