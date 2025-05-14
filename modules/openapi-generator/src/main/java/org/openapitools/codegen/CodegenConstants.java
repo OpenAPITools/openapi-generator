@@ -205,6 +205,9 @@ public class CodegenConstants {
     public static final String USE_COLLECTION = "useCollection";
     public static final String USE_COLLECTION_DESC = "Deserialize array types to Collection<T> instead of List<T>.";
 
+    public static final String USE_IENUMERABLE = "useIEnumerable";
+    public static final String USE_IENUMERABLE_DESC = "Deserialize array types to IEnumerable<T> instead of List<T>.";
+
     public static final String INTERFACE_PREFIX = "interfacePrefix";
     public static final String INTERFACE_PREFIX_DESC = "Prefix interfaces with a community standard or widely accepted prefix.";
 
