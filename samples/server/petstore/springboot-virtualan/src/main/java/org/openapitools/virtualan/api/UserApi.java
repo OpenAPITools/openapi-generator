@@ -60,7 +60,7 @@ public interface UserApi {
         description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "default", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -91,7 +91,7 @@ public interface UserApi {
         description = "",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "default", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -122,7 +122,7 @@ public interface UserApi {
         description = "",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "default", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -154,8 +154,8 @@ public interface UserApi {
         description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
-            @ApiResponse(responseCode = "404", description = "User not found")
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         }
     )
     @RequestMapping(
@@ -191,8 +191,8 @@ public interface UserApi {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class)),
                 @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
-            @ApiResponse(responseCode = "404", description = "User not found")
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         }
     )
     @RequestMapping(
@@ -243,7 +243,7 @@ public interface UserApi {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = String.class)),
                 @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
+            @ApiResponse(responseCode = "400", description = "Invalid username/password supplied", content = @Content)
         }
     )
     @RequestMapping(
@@ -274,7 +274,7 @@ public interface UserApi {
         description = "",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "default", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -306,8 +306,8 @@ public interface UserApi {
         description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "400", description = "Invalid user supplied"),
-            @ApiResponse(responseCode = "404", description = "User not found")
+            @ApiResponse(responseCode = "400", description = "Invalid user supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         }
     )
     @RequestMapping(
