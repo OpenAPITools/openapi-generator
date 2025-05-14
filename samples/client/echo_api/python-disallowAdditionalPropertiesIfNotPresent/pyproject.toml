@@ -7,6 +7,10 @@ authors = [
 ]
 license = "Apache 2.0"
 readme = "README.md"
+
+[project.urls]
+Repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
+
 keywords = ["OpenAPI", "OpenAPI-Generator", "Echo Server API"]
 requires-python = "^3.9"
 
