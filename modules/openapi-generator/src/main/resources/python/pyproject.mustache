@@ -20,12 +20,6 @@ readme = "README.md"
 {{#poetry1}}
 repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
 {{/poetry1}}
-{{^poetry1}}
-
-[project.urls]
-Repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
-
-{{/poetry1}}
 keywords = ["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"]
 {{#poetry1}}
 include = ["{{packageName}}/py.typed"]
@@ -68,8 +62,11 @@ dependencies = [
   "pydantic (>=2)",
   "typing-extensions (>=4.7.1)"
 ]
-{{/poetry1}}
 
+[project.urls]
+Repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
+
+{{/poetry1}}
 {{^poetry1}}
 [tool.poetry]
 requires-poetry = ">=2.0"
