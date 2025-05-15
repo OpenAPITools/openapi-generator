@@ -699,26 +699,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TypeTesting'
-  '/tests/discriminatorDuplicateEnums':
-    get:
-      tags:
-        - testing
-      summary: 'Test for duplicate enums when using discriminator. (One of the issues in #20500)'
-      responses:
-        '200':
-          description: test
-          content:
-            application/json:
-              schema:
-                anyOf:
-                  - $ref: '#/components/schemas/Person'
-                  - $ref: '#/components/schemas/Vehicle'
-                discriminator:
-                  propertyName: objectType
-                  mapping:
-                    student: '#/components/schemas/Person'
-                    teacher: '#/components/schemas/Person'
-                    car: '#/components/schemas/Vehicle'
   '/tests/allOfWithOneModel':
     get:
       tags:
@@ -1121,16 +1101,6 @@ components:
       required:
        - type
        - speed
-    DuplicateTest:
-      type: object
-      properties:
-        name:
-          type: string
-    Duplicatetest: # explicitly testing the same name with different casing
-      type: object
-      properties:
-        name:
-          type: string
     existing_tags_array:
       type: array
       items:
@@ -1150,11 +1120,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/existing_tags_array'
             - description: This is a test for allOf with metadata only fields
-    DuplicateOneOf:
-      type: object
-      oneOf:
-        - $ref: '#/components/schemas/Order'
-        - $ref: '#/components/schemas/Order'
     WithInnerOneOf:
       type: object
       properties:
