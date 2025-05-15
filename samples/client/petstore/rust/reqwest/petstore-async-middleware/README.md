@@ -42,7 +42,6 @@ Class | Method | HTTP request | Description
 *StoreApi* | [**get_order_by_id**](docs/StoreApi.md#get_order_by_id) | **GET** /store/order/{orderId} | Find purchase order by ID
 *StoreApi* | [**place_order**](docs/StoreApi.md#place_order) | **POST** /store/order | Place an order for a pet
 *TestingApi* | [**tests_all_of_with_one_model_get**](docs/TestingApi.md#tests_all_of_with_one_model_get) | **GET** /tests/allOfWithOneModel | Test for allOf with a single option. (One of the issues in #20500)
-*TestingApi* | [**tests_discriminator_duplicate_enums_get**](docs/TestingApi.md#tests_discriminator_duplicate_enums_get) | **GET** /tests/discriminatorDuplicateEnums | Test for duplicate enums when using discriminator. (One of the issues in #20500)
 *TestingApi* | [**tests_file_response_get**](docs/TestingApi.md#tests_file_response_get) | **GET** /tests/fileResponse | Returns an image file
 *TestingApi* | [**tests_type_testing_get**](docs/TestingApi.md#tests_type_testing_get) | **GET** /tests/typeTesting | Route to test the TypeTesting schema
 *UserApi* | [**create_user**](docs/UserApi.md#create_user) | **POST** /user | Create user
@@ -63,8 +62,6 @@ Class | Method | HTTP request | Description
  - [ArrayItemRefTest](docs/ArrayItemRefTest.md)
  - [Baz](docs/Baz.md)
  - [Category](docs/Category.md)
- - [DuplicateTest](docs/DuplicateTest.md)
- - [Duplicatetest](docs/Duplicatetest.md)
  - [EnumArrayTesting](docs/EnumArrayTesting.md)
  - [NullableArray](docs/NullableArray.md)
  - [NumericEnumTesting](docs/NumericEnumTesting.md)
@@ -78,7 +75,6 @@ Class | Method | HTTP request | Description
  - [Return](docs/Return.md)
  - [Tag](docs/Tag.md)
  - [TestAllOfWithMultiMetadataOnly](docs/TestAllOfWithMultiMetadataOnly.md)
- - [TestsDiscriminatorDuplicateEnumsGet200Response](docs/TestsDiscriminatorDuplicateEnumsGet200Response.md)
  - [TypeTesting](docs/TypeTesting.md)
  - [UniqueItemArrayTesting](docs/UniqueItemArrayTesting.md)
  - [User](docs/User.md)

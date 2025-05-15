@@ -9,8 +9,6 @@ docs/FooApiResponse.md
 docs/FooArrayItemRefTest.md
 docs/FooBaz.md
 docs/FooCategory.md
-docs/FooDuplicateTest.md
-docs/FooDuplicatetest.md
 docs/FooEnumArrayTesting.md
 docs/FooNullableArray.md
 docs/FooNumericEnumTesting.md
@@ -24,7 +22,6 @@ docs/FooRef.md
 docs/FooReturn.md
 docs/FooTag.md
 docs/FooTestAllOfWithMultiMetadataOnly.md
-docs/FooTestsDiscriminatorDuplicateEnumsGet200Response.md
 docs/FooTypeTesting.md
 docs/FooUniqueItemArrayTesting.md
 docs/FooUser.md
@@ -43,15 +40,12 @@ src/apis/store_api.rs
 src/apis/testing_api.rs
 src/apis/user_api.rs
 src/lib.rs
-src/models/foo__tests_discriminator_duplicate_enums_get_200_response.rs
 src/models/foo_action_container.rs
 src/models/foo_any_type_test.rs
 src/models/foo_api_response.rs
 src/models/foo_array_item_ref_test.rs
 src/models/foo_baz.rs
 src/models/foo_category.rs
-src/models/foo_duplicate_test.rs
-src/models/foo_duplicatetest.rs
 src/models/foo_enum_array_testing.rs
 src/models/foo_nullable_array.rs
 src/models/foo_numeric_enum_testing.rs
