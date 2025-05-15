@@ -97,7 +97,7 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: MediaTypes.APPLICATION_JSON
+ - **Accept**: APPLICATION_JSON
 
 <a name="getOrderById"></a>
 # **getOrderById**
@@ -144,7 +144,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON
+ - **Accept**: APPLICATION_XML, APPLICATION_JSON
 
 <a name="placeOrder"></a>
 # **placeOrder**
@@ -190,6 +190,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_JSON
- - **Accept**: MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON
+ - **Content-Type**: APPLICATION_JSON
+ - **Accept**: APPLICATION_XML, APPLICATION_JSON
 

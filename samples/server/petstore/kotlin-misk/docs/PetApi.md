@@ -58,8 +58,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML
- - **Accept**: MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON
+ - **Content-Type**: APPLICATION_JSON, APPLICATION_XML
+ - **Accept**: APPLICATION_XML, APPLICATION_JSON
 
 <a name="deletePet"></a>
 # **deletePet**
@@ -154,7 +154,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON
+ - **Accept**: APPLICATION_XML, APPLICATION_JSON
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
@@ -201,7 +201,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON
+ - **Accept**: APPLICATION_XML, APPLICATION_JSON
 
 <a name="getPetById"></a>
 # **getPetById**
@@ -248,7 +248,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON
+ - **Accept**: APPLICATION_XML, APPLICATION_JSON
 
 <a name="updatePet"></a>
 # **updatePet**
@@ -294,8 +294,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML
- - **Accept**: MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON
+ - **Content-Type**: APPLICATION_JSON, APPLICATION_XML
+ - **Accept**: APPLICATION_XML, APPLICATION_JSON
 
 <a name="updatePetWithForm"></a>
 # **updatePetWithForm**
@@ -344,7 +344,7 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_FORM_URLENCODED
+ - **Content-Type**: APPLICATION_FORM_URLENCODED
  - **Accept**: Not defined
 
 <a name="uploadFile"></a>
@@ -395,6 +395,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.FORM_DATA
- - **Accept**: MediaTypes.APPLICATION_JSON
+ - **Content-Type**: FORM_DATA
+ - **Accept**: APPLICATION_JSON
 

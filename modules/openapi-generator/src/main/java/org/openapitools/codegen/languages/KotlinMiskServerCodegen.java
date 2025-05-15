@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +59,10 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     public static final String ACTION_ANNOTATIONS = "actionAnnotations";
     public static final String ACTION_IMPORTS = "actionImports";
     public static final String ACTION_PARENT_CLASS = "actionParentClass";
+    public static final String ACTION_REQUEST_CONTENT_TYPE = "actionRequestContentType";
+    public static final String ACTION_REQUEST_CONTENT_TYPE_PREFIX = "actionRequestContentTypePrefix";
+    public static final String TESTING_MODULE = "testingModule";
+    private static final String TESTING_MODULE_NAME = "testingModuleName";
 
     private boolean useBeanValidation = true;
 
@@ -72,9 +77,15 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
 
     @Setter protected String moduleClassName = "OpenApiModule";
     @Setter protected String actionPathPrefix = "";
-    @Setter protected String actionAnnotations = "";
-    @Setter protected String actionImports = "import misk.web.actions.WebAction";
+    @Setter protected List<String> actionAnnotations =
+            List.of("@LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)");
+    @Setter protected List<String> actionImports =
+            List.of("misk.web.actions.WebAction","misk.web.interceptors.LogRequestResponse");
     @Setter protected String actionParentClass = "WebAction";
+    @Setter protected String actionRequestContentType = "@RequestContentType";
+    @Setter protected String actionRequestContentTypePrefix = "MediaTypes";
+    @Setter protected String testingModule = "misk.testing.MiskTestModule";
+    @Setter protected String testingModuleName;
 
     @Override
     public CodegenType getTag() {
@@ -128,9 +139,12 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
 
         addOption(MODULE_CLASS_NAME, "Name of the generated module class", moduleClassName);
         addOption(ACTION_PATH_PREFIX, "Prefix for action path", actionPathPrefix);
-        addOption(ACTION_ANNOTATIONS, "Action Annotations", actionAnnotations);
-        addOption(ACTION_IMPORTS, "Imports for Actions", actionImports);
+        addOption(ACTION_IMPORTS, "String Imports for Actions separated by a semicolon(;)", String.join(";", actionImports));
+        addOption(ACTION_ANNOTATIONS, "String Annotations for Actions separated by a semicolon(;)", String.join(";", actionAnnotations));
         addOption(ACTION_PARENT_CLASS, "Parent Class for Action", actionParentClass);
+        addOption(ACTION_REQUEST_CONTENT_TYPE, "Request ContentType for Action", actionRequestContentType);
+        addOption(ACTION_REQUEST_CONTENT_TYPE_PREFIX, "Request ContentType Prefix for Action", actionRequestContentTypePrefix);
+        addOption(TESTING_MODULE, "Testing module class", testingModule);
 
         apiTestTemplateFiles.clear();
         apiTestTemplateFiles.put("api_test.mustache", ".kt");
@@ -172,6 +186,23 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     public void processOpts() {
         super.processOpts();
 
+        if (additionalProperties.containsKey(ACTION_ANNOTATIONS)) {
+            convertPropertyToTypeAndWriteBack(ACTION_ANNOTATIONS,
+                    it -> Arrays.asList(it.split(";")), this::setActionAnnotations);
+        }
+        writePropertyBack(ACTION_ANNOTATIONS, actionAnnotations);
+
+        if (additionalProperties.containsKey(ACTION_IMPORTS)) {
+            convertPropertyToTypeAndWriteBack(ACTION_IMPORTS,
+                    it -> Arrays.asList(it.split(";")), this::setActionImports);
+        }
+        writePropertyBack(ACTION_IMPORTS, actionImports);
+
+        if (additionalProperties.containsKey(ACTION_PARENT_CLASS)) {
+            setActionParentClass((String) additionalProperties.get(ACTION_PARENT_CLASS));
+        }
+        writePropertyBack(ACTION_PARENT_CLASS, actionParentClass);
+
         if (additionalProperties.containsKey(MODULE_CLASS_NAME)) {
             setModuleClassName((String) additionalProperties.get(MODULE_CLASS_NAME));
         }
@@ -182,20 +213,22 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         }
         writePropertyBack(ACTION_PATH_PREFIX, actionPathPrefix);
 
-        if (additionalProperties.containsKey(ACTION_ANNOTATIONS)) {
-            setActionAnnotations((String) additionalProperties.get(ACTION_ANNOTATIONS));
+        if (additionalProperties.containsKey(ACTION_REQUEST_CONTENT_TYPE)) {
+            setActionRequestContentType((String) additionalProperties.get(ACTION_REQUEST_CONTENT_TYPE));
         }
-        writePropertyBack(ACTION_ANNOTATIONS, actionAnnotations);
+        writePropertyBack(ACTION_REQUEST_CONTENT_TYPE, actionRequestContentType);
 
-        if (additionalProperties.containsKey(ACTION_IMPORTS)) {
-            setActionImports((String) additionalProperties.get(ACTION_IMPORTS));
+        if (additionalProperties.containsKey(ACTION_REQUEST_CONTENT_TYPE_PREFIX)) {
+            setActionRequestContentTypePrefix((String) additionalProperties.get(ACTION_REQUEST_CONTENT_TYPE_PREFIX));
         }
-        writePropertyBack(ACTION_IMPORTS, actionImports);
+        writePropertyBack(ACTION_REQUEST_CONTENT_TYPE_PREFIX, actionRequestContentTypePrefix);
 
-        if (additionalProperties.containsKey(ACTION_PARENT_CLASS)) {
-            setActionParentClass((String) additionalProperties.get(ACTION_PARENT_CLASS));
+        if (additionalProperties.containsKey(TESTING_MODULE)) {
+            setTestingModule((String) additionalProperties.get(TESTING_MODULE));
         }
-        writePropertyBack(ACTION_PARENT_CLASS, actionParentClass);
+        writePropertyBack(TESTING_MODULE, testingModule);
+
+        writePropertyBack(TESTING_MODULE_NAME, getTestingModuleName());
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
@@ -255,7 +288,11 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     }
 
     private String mapMediaType(String mediaType) {
-        return MEDIA_MAPPING.getOrDefault(mediaType, "MediaTypes.APPLICATION_OCTETSTREAM /* @todo(unknown) -> " + mediaType + " */ ");
+        return MEDIA_MAPPING.getOrDefault(mediaType, "APPLICATION_OCTETSTREAM /* @todo(unknown) -> " + mediaType + " */ ");
+    }
+
+    public String getTestingModuleName() {
+        return testingModule.substring(testingModule.lastIndexOf(".")+1);
     }
 
     private final static Map<String, String> MEDIA_MAPPING = getMappings();
@@ -263,31 +300,31 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     private static Map<String, String> getMappings() {
         // add new values in order
         Map<String, String> result = new HashMap<>();
-        result.put("*/*", "MediaTypes.ALL");
+        result.put("*/*", "ALL");
 
-        result.put("application/grpc", "MediaTypes.APPLICATION_GRPC");
-        result.put("application/javascript", "MediaTypes.APPLICATION_JAVASCRIPT");
-        result.put("application/json", "MediaTypes.APPLICATION_JSON");
-        result.put("application/jwt", "MediaTypes.APPLICATION_JWT");
-        result.put("application/octetstream", "MediaTypes.APPLICATION_OCTETSTREAM");
-        result.put("application/pdf", "MediaTypes.APPLICATION_OCTETSTREAM");
-        result.put("application/x-protobuf", "MediaTypes.APPLICATION_PROTOBUF");
-        result.put("application/x-www-form-urlencoded", "MediaTypes.APPLICATION_FORM_URLENCODED");
-        result.put("application/xml", "MediaTypes.APPLICATION_XML");
-        result.put("application/zip", "MediaTypes.APPLICATION_ZIP");
+        result.put("application/grpc", "APPLICATION_GRPC");
+        result.put("application/javascript", "APPLICATION_JAVASCRIPT");
+        result.put("application/json", "APPLICATION_JSON");
+        result.put("application/jwt", "APPLICATION_JWT");
+        result.put("application/octetstream", "APPLICATION_OCTETSTREAM");
+        result.put("application/pdf", "APPLICATION_OCTETSTREAM");
+        result.put("application/x-protobuf", "APPLICATION_PROTOBUF");
+        result.put("application/x-www-form-urlencoded", "APPLICATION_FORM_URLENCODED");
+        result.put("application/xml", "APPLICATION_XML");
+        result.put("application/zip", "APPLICATION_ZIP");
 
-        result.put("image/gif", "MediaTypes.IMAGE_GIF");
-        result.put("image/x-icon", "MediaTypes.IMAGE_ICO");
-        result.put("image/jpeg", "MediaTypes.IMAGE_JPEG");
-        result.put("image/png", "MediaTypes.IMAGE_PNG");
-        result.put("image/svg+xml", "MediaTypes.IMAGE_SVG");
-        result.put("image/tiff", "MediaTypes.IMAGE_TIFF");
+        result.put("image/gif", "IMAGE_GIF");
+        result.put("image/x-icon", "IMAGE_ICO");
+        result.put("image/jpeg", "IMAGE_JPEG");
+        result.put("image/png", "IMAGE_PNG");
+        result.put("image/svg+xml", "IMAGE_SVG");
+        result.put("image/tiff", "IMAGE_TIFF");
 
-        result.put("multipart/form-data", "MediaTypes.FORM_DATA");
+        result.put("multipart/form-data", "FORM_DATA");
 
-        result.put("text/css", "MediaTypes.TEXT_CSS");
-        result.put("text/html", "MediaTypes.TEXT_HTML");
-        result.put("text/plain", "MediaTypes.TEXT_PLAIN_UTF8");
+        result.put("text/css", "TEXT_CSS");
+        result.put("text/html", "TEXT_HTML");
+        result.put("text/plain", "TEXT_PLAIN_UTF8");
 
         return result;
     }
