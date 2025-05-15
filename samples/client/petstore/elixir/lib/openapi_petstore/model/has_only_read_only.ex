@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.HasOnlyReadOnly do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -13,12 +13,11 @@ defmodule OpenapiPetstore.Model.HasOnlyReadOnly do
   ]
 
   @type t :: %__MODULE__{
-    :bar => String.t | nil,
-    :foo => String.t | nil
-  }
+          :bar => String.t() | nil,
+          :foo => String.t() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.Tag do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -13,12 +13,11 @@ defmodule OpenapiPetstore.Model.Tag do
   ]
 
   @type t :: %__MODULE__{
-    :id => integer() | nil,
-    :name => String.t | nil
-  }
+          :id => integer() | nil,
+          :name => String.t() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

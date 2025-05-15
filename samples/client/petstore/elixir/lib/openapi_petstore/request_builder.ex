@@ -114,11 +114,11 @@ defmodule OpenapiPetstore.RequestBuilder do
   def add_param(request, :file, name, path) do
     request
     |> Map.put_new_lazy(:body, &Tesla.Multipart.new/0)
-    |> Map.update!(:body, &(Tesla.Multipart.add_file(&1, path, name: name)))
+    |> Map.update!(:body, &Tesla.Multipart.add_file(&1, path, name: name))
   end
 
   def add_param(request, :form, name, value) do
-    Map.update(request, :body, %{name => value}, &(Map.put(&1, name, value)))
+    Map.update(request, :body, %{name => value}, &Map.put(&1, name, value))
   end
 
   def add_param(request, location, key, value) do
@@ -174,11 +174,12 @@ defmodule OpenapiPetstore.RequestBuilder do
   def evaluate_response({:error, _} = error, _), do: error
 
   defp resolve_mapping(%Tesla.Env{status: status} = env, [{mapping_status, struct} | _], _)
-      when status == mapping_status do
+       when status == mapping_status do
     decode(env, struct)
   end
 
-  defp resolve_mapping(env, [{:default, struct} | tail], _), do: resolve_mapping(env, tail, struct)
+  defp resolve_mapping(env, [{:default, struct} | tail], _),
+    do: resolve_mapping(env, tail, struct)
 
   defp resolve_mapping(env, [_ | tail], struct), do: resolve_mapping(env, tail, struct)
 

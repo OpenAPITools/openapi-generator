@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.FakeBigDecimalMap200Response do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -13,12 +13,11 @@ defmodule OpenapiPetstore.Model.FakeBigDecimalMap200Response do
   ]
 
   @type t :: %__MODULE__{
-    :someId => number() | nil,
-    :someMap => %{optional(String.t) => number()} | nil
-  }
+          :someId => number() | nil,
+          :someMap => %{optional(String.t()) => number()} | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

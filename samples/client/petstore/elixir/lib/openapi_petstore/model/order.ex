@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.Order do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -17,16 +17,15 @@ defmodule OpenapiPetstore.Model.Order do
   ]
 
   @type t :: %__MODULE__{
-    :id => integer() | nil,
-    :petId => integer() | nil,
-    :quantity => integer() | nil,
-    :shipDate => DateTime.t | nil,
-    :status => String.t | nil,
-    :complete => boolean() | nil
-  }
+          :id => integer() | nil,
+          :petId => integer() | nil,
+          :quantity => integer() | nil,
+          :shipDate => DateTime.t() | nil,
+          :status => String.t() | nil,
+          :complete => boolean() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

@@ -55,7 +55,7 @@ defmodule OpenapiPetstore.Connection do
           {:token_scopes, list(String.t())},
           {:username, String.t() | nil},
           {:password, String.t() | nil},
-          {:bearer_token, String.t() | nil},
+          {:bearer_token, String.t() | nil}
         ]
 
   @doc "Forward requests to Tesla."
@@ -109,6 +109,7 @@ defmodule OpenapiPetstore.Connection do
 
     username = Keyword.get(options, :username)
     password = Keyword.get(options, :password)
+
     middleware =
       if username || password do
         [{Tesla.Middleware.BasicAuth, %{username: username, password: password}} | middleware]

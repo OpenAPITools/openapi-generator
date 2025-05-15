@@ -35,6 +35,7 @@ defmodule PetTest do
 
     {:ok, response} = PetApi.delete_pet(connection, petId)
     assert response.status == 200
+
     retry_assert(fn ->
       {:ok, response} = PetApi.get_pet_by_id(connection, petId)
       assert response.status == 404
@@ -54,16 +55,21 @@ defmodule PetTest do
     {:ok, response} = PetApi.update_pet(connection, pet)
     assert response.status == 200
 
-    retry_assert(fn ->
-      {:ok, pet} = PetApi.get_pet_by_id(connection, petId)
-      assert pet.id == petId
-      assert pet.name == "elixir client updatePet"
-      assert pet.status == "pending"
-    end, 5, 100)
+    retry_assert(
+      fn ->
+        {:ok, pet} = PetApi.get_pet_by_id(connection, petId)
+        assert pet.id == petId
+        assert pet.name == "elixir client updatePet"
+        assert pet.status == "pending"
+      end,
+      5,
+      100
+    )
   end
 
   def retry_assert(fun, attempts \\ 3, delay \\ 100)
   def retry_assert(_fun, 0, _delay), do: flunk("assertion failed after retries")
+
   def retry_assert(fun, attempts, delay) do
     try do
       fun.()

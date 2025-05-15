@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -12,14 +12,13 @@ defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   ]
 
   @type t :: %__MODULE__{
-    :value => OpenapiPetstore.Model.OuterEnumInteger.t
-  }
+          :value => OpenapiPetstore.Model.OuterEnumInteger.t()
+        }
 
   alias OpenapiPetstore.Deserializer
 
   def decode(value) do
     value
-     |> Deserializer.deserialize(:value, :struct, OpenapiPetstore.Model.OuterEnumInteger)
+    |> Deserializer.deserialize(:value, :struct, OpenapiPetstore.Model.OuterEnumInteger)
   end
 end
-

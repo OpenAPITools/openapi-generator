@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.Pet do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -17,20 +17,19 @@ defmodule OpenapiPetstore.Model.Pet do
   ]
 
   @type t :: %__MODULE__{
-    :id => integer() | nil,
-    :category => OpenapiPetstore.Model.Category.t | nil,
-    :name => String.t,
-    :photoUrls => [String.t],
-    :tags => [OpenapiPetstore.Model.Tag.t] | nil,
-    :status => String.t | nil
-  }
+          :id => integer() | nil,
+          :category => OpenapiPetstore.Model.Category.t() | nil,
+          :name => String.t(),
+          :photoUrls => [String.t()],
+          :tags => [OpenapiPetstore.Model.Tag.t()] | nil,
+          :status => String.t() | nil
+        }
 
   alias OpenapiPetstore.Deserializer
 
   def decode(value) do
     value
-     |> Deserializer.deserialize(:category, :struct, OpenapiPetstore.Model.Category)
-     |> Deserializer.deserialize(:tags, :list, OpenapiPetstore.Model.Tag)
+    |> Deserializer.deserialize(:category, :struct, OpenapiPetstore.Model.Category)
+    |> Deserializer.deserialize(:tags, :list, OpenapiPetstore.Model.Tag)
   end
 end
-

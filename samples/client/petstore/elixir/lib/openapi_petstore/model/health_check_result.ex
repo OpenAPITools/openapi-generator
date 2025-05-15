@@ -12,11 +12,10 @@ defmodule OpenapiPetstore.Model.HealthCheckResult do
   ]
 
   @type t :: %__MODULE__{
-    :NullableMessage => String.t | nil
-  }
+          :NullableMessage => String.t() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

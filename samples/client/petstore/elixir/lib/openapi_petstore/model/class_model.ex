@@ -12,11 +12,10 @@ defmodule OpenapiPetstore.Model.ClassModel do
   ]
 
   @type t :: %__MODULE__{
-    :_class => String.t | nil
-  }
+          :_class => String.t() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

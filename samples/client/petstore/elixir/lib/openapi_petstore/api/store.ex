@@ -24,7 +24,8 @@ defmodule OpenapiPetstore.Api.Store do
   - `{:ok, nil}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec delete_order(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec delete_order(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, nil} | {:error, Tesla.Env.t()}
   def delete_order(connection, order_id, _opts \\ []) do
     request =
       %{}
@@ -54,7 +55,8 @@ defmodule OpenapiPetstore.Api.Store do
   - `{:ok, %{}}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec get_inventory(Tesla.Env.client, keyword()) :: {:ok, %{optional(String.t) => integer()}} | {:error, Tesla.Env.t}
+  @spec get_inventory(Tesla.Env.client(), keyword()) ::
+          {:ok, %{optional(String.t()) => integer()}} | {:error, Tesla.Env.t()}
   def get_inventory(connection, _opts \\ []) do
     request =
       %{}
@@ -84,7 +86,8 @@ defmodule OpenapiPetstore.Api.Store do
   - `{:ok, OpenapiPetstore.Model.Order.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec get_order_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
+  @spec get_order_by_id(Tesla.Env.client(), integer(), keyword()) ::
+          {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t()} | {:error, Tesla.Env.t()}
   def get_order_by_id(connection, order_id, _opts \\ []) do
     request =
       %{}
@@ -103,7 +106,7 @@ defmodule OpenapiPetstore.Api.Store do
 
   @doc """
   Place an order for a pet
-  
+
 
   ### Parameters
 
@@ -116,7 +119,8 @@ defmodule OpenapiPetstore.Api.Store do
   - `{:ok, OpenapiPetstore.Model.Order.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec place_order(Tesla.Env.client, OpenapiPetstore.Model.Order.t, keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
+  @spec place_order(Tesla.Env.client(), OpenapiPetstore.Model.Order.t(), keyword()) ::
+          {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t()} | {:error, Tesla.Env.t()}
   def place_order(connection, order, _opts \\ []) do
     request =
       %{}

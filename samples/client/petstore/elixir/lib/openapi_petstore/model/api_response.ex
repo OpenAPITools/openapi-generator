@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.ApiResponse do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -14,13 +14,12 @@ defmodule OpenapiPetstore.Model.ApiResponse do
   ]
 
   @type t :: %__MODULE__{
-    :code => integer() | nil,
-    :type => String.t | nil,
-    :message => String.t | nil
-  }
+          :code => integer() | nil,
+          :type => String.t() | nil,
+          :message => String.t() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

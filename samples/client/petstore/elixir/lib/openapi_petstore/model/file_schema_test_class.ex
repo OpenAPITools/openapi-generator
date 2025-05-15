@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.FileSchemaTestClass do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -13,16 +13,15 @@ defmodule OpenapiPetstore.Model.FileSchemaTestClass do
   ]
 
   @type t :: %__MODULE__{
-    :file => OpenapiPetstore.Model.File.t | nil,
-    :files => [OpenapiPetstore.Model.File.t] | nil
-  }
+          :file => OpenapiPetstore.Model.File.t() | nil,
+          :files => [OpenapiPetstore.Model.File.t()] | nil
+        }
 
   alias OpenapiPetstore.Deserializer
 
   def decode(value) do
     value
-     |> Deserializer.deserialize(:file, :struct, OpenapiPetstore.Model.File)
-     |> Deserializer.deserialize(:files, :list, OpenapiPetstore.Model.File)
+    |> Deserializer.deserialize(:file, :struct, OpenapiPetstore.Model.File)
+    |> Deserializer.deserialize(:files, :list, OpenapiPetstore.Model.File)
   end
 end
-

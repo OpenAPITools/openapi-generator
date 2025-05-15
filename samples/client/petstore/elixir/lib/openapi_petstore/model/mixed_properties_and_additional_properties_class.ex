@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -14,16 +14,15 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   ]
 
   @type t :: %__MODULE__{
-    :uuid => String.t | nil,
-    :dateTime => DateTime.t | nil,
-    :map => %{optional(String.t) => OpenapiPetstore.Model.Animal.t} | nil
-  }
+          :uuid => String.t() | nil,
+          :dateTime => DateTime.t() | nil,
+          :map => %{optional(String.t()) => OpenapiPetstore.Model.Animal.t()} | nil
+        }
 
   alias OpenapiPetstore.Deserializer
 
   def decode(value) do
     value
-     |> Deserializer.deserialize(:map, :map, OpenapiPetstore.Model.Animal)
+    |> Deserializer.deserialize(:map, :map, OpenapiPetstore.Model.Animal)
   end
 end
-

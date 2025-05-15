@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.ArrayOfNumberOnly do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -12,11 +12,10 @@ defmodule OpenapiPetstore.Model.ArrayOfNumberOnly do
   ]
 
   @type t :: %__MODULE__{
-    :ArrayNumber => [number()] | nil
-  }
+          :ArrayNumber => [number()] | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.ParentWithNullable do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -13,12 +13,11 @@ defmodule OpenapiPetstore.Model.ParentWithNullable do
   ]
 
   @type t :: %__MODULE__{
-    :type => String.t | nil,
-    :nullableProperty => String.t | nil
-  }
+          :type => String.t() | nil,
+          :nullableProperty => String.t() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

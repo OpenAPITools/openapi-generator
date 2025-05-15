@@ -93,7 +93,7 @@ defmodule OpenapiPetstore.Deserializer do
 
   defp to_struct(value, module)
   defp to_struct(nil, _), do: nil
-  
+
   defp to_struct(list, module) when is_list(list) and is_atom(module) do
     Enum.map(list, &to_struct(&1, module))
   end

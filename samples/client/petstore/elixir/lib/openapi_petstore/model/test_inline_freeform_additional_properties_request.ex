@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.TestInlineFreeformAdditionalPropertiesRequest do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -12,11 +12,10 @@ defmodule OpenapiPetstore.Model.TestInlineFreeformAdditionalPropertiesRequest do
   ]
 
   @type t :: %__MODULE__{
-    :someProperty => String.t | nil
-  }
+          :someProperty => String.t() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

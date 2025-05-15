@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -13,12 +13,12 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
   ]
 
   @type t :: %__MODULE__{
-    :map_property => %{optional(String.t) => String.t} | nil,
-    :map_of_map_property => %{optional(String.t) => %{optional(String.t) => String.t}} | nil
-  }
+          :map_property => %{optional(String.t()) => String.t()} | nil,
+          :map_of_map_property =>
+            %{optional(String.t()) => %{optional(String.t()) => String.t()}} | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

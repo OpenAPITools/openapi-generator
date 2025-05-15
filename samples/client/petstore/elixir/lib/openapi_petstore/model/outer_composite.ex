@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.OuterComposite do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -14,13 +14,12 @@ defmodule OpenapiPetstore.Model.OuterComposite do
   ]
 
   @type t :: %__MODULE__{
-    :my_number => number() | nil,
-    :my_string => String.t | nil,
-    :my_boolean => boolean() | nil
-  }
+          :my_number => number() | nil,
+          :my_string => String.t() | nil,
+          :my_boolean => boolean() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

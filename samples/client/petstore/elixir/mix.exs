@@ -41,10 +41,10 @@ defmodule OpenapiPetstore.Mixfile do
     ]
   end
 
-   defp package do
-      [
-        name: "openapi_petstore",
-        files: ~w(.formatter.exs config lib mix.exs README* LICENSE*),
-      ]
+  defp package do
+    [
+      name: "openapi_petstore",
+      files: ~w(.formatter.exs config lib mix.exs README* LICENSE*)
+    ]
   end
 end

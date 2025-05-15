@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -15,17 +15,16 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   ]
 
   @type t :: %__MODULE__{
-    :uuid => String.t | nil,
-    :id => number() | nil,
-    :deprecatedRef => OpenapiPetstore.Model.DeprecatedModel.t | nil,
-    :bars => [String.t] | nil
-  }
+          :uuid => String.t() | nil,
+          :id => number() | nil,
+          :deprecatedRef => OpenapiPetstore.Model.DeprecatedModel.t() | nil,
+          :bars => [String.t()] | nil
+        }
 
   alias OpenapiPetstore.Deserializer
 
   def decode(value) do
     value
-     |> Deserializer.deserialize(:deprecatedRef, :struct, OpenapiPetstore.Model.DeprecatedModel)
+    |> Deserializer.deserialize(:deprecatedRef, :struct, OpenapiPetstore.Model.DeprecatedModel)
   end
 end
-

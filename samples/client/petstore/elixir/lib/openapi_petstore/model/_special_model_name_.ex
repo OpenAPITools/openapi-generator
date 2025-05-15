@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.SpecialModelName do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -12,11 +12,10 @@ defmodule OpenapiPetstore.Model.SpecialModelName do
   ]
 
   @type t :: %__MODULE__{
-    :"$special[property.name]" => integer() | nil
-  }
+          :"$special[property.name]" => integer() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

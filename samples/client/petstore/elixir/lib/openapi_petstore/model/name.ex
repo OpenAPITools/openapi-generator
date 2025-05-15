@@ -15,14 +15,13 @@ defmodule OpenapiPetstore.Model.Name do
   ]
 
   @type t :: %__MODULE__{
-    :name => integer(),
-    :snake_case => integer() | nil,
-    :property => String.t | nil,
-    :"123Number" => integer() | nil
-  }
+          :name => integer(),
+          :snake_case => integer() | nil,
+          :property => String.t() | nil,
+          :"123Number" => integer() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

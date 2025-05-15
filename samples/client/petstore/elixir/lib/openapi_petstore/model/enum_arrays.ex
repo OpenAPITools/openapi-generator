@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.EnumArrays do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -13,12 +13,11 @@ defmodule OpenapiPetstore.Model.EnumArrays do
   ]
 
   @type t :: %__MODULE__{
-    :just_symbol => String.t | nil,
-    :array_enum => [String.t] | nil
-  }
+          :just_symbol => String.t() | nil,
+          :array_enum => [String.t()] | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

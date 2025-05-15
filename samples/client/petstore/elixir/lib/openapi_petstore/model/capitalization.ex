@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.Capitalization do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -17,16 +17,15 @@ defmodule OpenapiPetstore.Model.Capitalization do
   ]
 
   @type t :: %__MODULE__{
-    :smallCamel => String.t | nil,
-    :CapitalCamel => String.t | nil,
-    :small_Snake => String.t | nil,
-    :Capital_Snake => String.t | nil,
-    :SCA_ETH_Flow_Points => String.t | nil,
-    :ATT_NAME => String.t | nil
-  }
+          :smallCamel => String.t() | nil,
+          :CapitalCamel => String.t() | nil,
+          :small_Snake => String.t() | nil,
+          :Capital_Snake => String.t() | nil,
+          :SCA_ETH_Flow_Points => String.t() | nil,
+          :ATT_NAME => String.t() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

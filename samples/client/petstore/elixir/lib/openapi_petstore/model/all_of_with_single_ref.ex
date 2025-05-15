@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -13,15 +13,14 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   ]
 
   @type t :: %__MODULE__{
-    :username => String.t | nil,
-    :SingleRefType => OpenapiPetstore.Model.SingleRefType.t | nil
-  }
+          :username => String.t() | nil,
+          :SingleRefType => OpenapiPetstore.Model.SingleRefType.t() | nil
+        }
 
   alias OpenapiPetstore.Deserializer
 
   def decode(value) do
     value
-     |> Deserializer.deserialize(:SingleRefType, :struct, OpenapiPetstore.Model.SingleRefType)
+    |> Deserializer.deserialize(:SingleRefType, :struct, OpenapiPetstore.Model.SingleRefType)
   end
 end
-

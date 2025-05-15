@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.NullableClass do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -23,22 +23,21 @@ defmodule OpenapiPetstore.Model.NullableClass do
   ]
 
   @type t :: %__MODULE__{
-    :integer_prop => integer() | nil,
-    :number_prop => number() | nil,
-    :boolean_prop => boolean() | nil,
-    :string_prop => String.t | nil,
-    :date_prop => Date.t | nil,
-    :datetime_prop => DateTime.t | nil,
-    :array_nullable_prop => [map()] | nil,
-    :array_and_items_nullable_prop => [map()] | nil,
-    :array_items_nullable => [map()] | nil,
-    :object_nullable_prop => %{optional(String.t) => map()} | nil,
-    :object_and_items_nullable_prop => %{optional(String.t) => map()} | nil,
-    :object_items_nullable => %{optional(String.t) => map()} | nil
-  }
+          :integer_prop => integer() | nil,
+          :number_prop => number() | nil,
+          :boolean_prop => boolean() | nil,
+          :string_prop => String.t() | nil,
+          :date_prop => Date.t() | nil,
+          :datetime_prop => DateTime.t() | nil,
+          :array_nullable_prop => [map()] | nil,
+          :array_and_items_nullable_prop => [map()] | nil,
+          :array_items_nullable => [map()] | nil,
+          :object_nullable_prop => %{optional(String.t()) => map()} | nil,
+          :object_and_items_nullable_prop => %{optional(String.t()) => map()} | nil,
+          :object_items_nullable => %{optional(String.t()) => map()} | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

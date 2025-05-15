@@ -13,12 +13,11 @@ defmodule OpenapiPetstore.Model.Model200Response do
   ]
 
   @type t :: %__MODULE__{
-    :name => integer() | nil,
-    :class => String.t | nil
-  }
+          :name => integer() | nil,
+          :class => String.t() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

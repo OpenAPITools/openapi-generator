@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.FormatTest do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -27,26 +27,25 @@ defmodule OpenapiPetstore.Model.FormatTest do
   ]
 
   @type t :: %__MODULE__{
-    :integer => integer() | nil,
-    :int32 => integer() | nil,
-    :int64 => integer() | nil,
-    :number => number(),
-    :float => float() | nil,
-    :double => float() | nil,
-    :decimal => float() | nil,
-    :string => String.t | nil,
-    :byte => binary(),
-    :binary => String.t | nil,
-    :date => Date.t,
-    :dateTime => DateTime.t | nil,
-    :uuid => String.t | nil,
-    :password => String.t,
-    :pattern_with_digits => String.t | nil,
-    :pattern_with_digits_and_delimiter => String.t | nil
-  }
+          :integer => integer() | nil,
+          :int32 => integer() | nil,
+          :int64 => integer() | nil,
+          :number => number(),
+          :float => float() | nil,
+          :double => float() | nil,
+          :decimal => float() | nil,
+          :string => String.t() | nil,
+          :byte => binary(),
+          :binary => String.t() | nil,
+          :date => Date.t(),
+          :dateTime => DateTime.t() | nil,
+          :uuid => String.t() | nil,
+          :password => String.t(),
+          :pattern_with_digits => String.t() | nil,
+          :pattern_with_digits_and_delimiter => String.t() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

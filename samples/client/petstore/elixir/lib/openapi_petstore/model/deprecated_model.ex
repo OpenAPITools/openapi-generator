@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.DeprecatedModel do
   @moduledoc """
-  
+
   """
 
   @derive JSON.Encoder
@@ -12,11 +12,10 @@ defmodule OpenapiPetstore.Model.DeprecatedModel do
   ]
 
   @type t :: %__MODULE__{
-    :name => String.t | nil
-  }
+          :name => String.t() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

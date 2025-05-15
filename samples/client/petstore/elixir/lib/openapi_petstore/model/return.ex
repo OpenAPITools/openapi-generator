@@ -12,11 +12,10 @@ defmodule OpenapiPetstore.Model.Return do
   ]
 
   @type t :: %__MODULE__{
-    :return => integer() | nil
-  }
+          :return => integer() | nil
+        }
 
   def decode(value) do
     value
   end
 end
-

@@ -21,7 +21,8 @@ defmodule OpenapiPetstore.Api.Default do
   - `{:ok, OpenapiPetstore.Model.FooGetDefaultResponse.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec foo_get(Tesla.Env.client, keyword()) :: {:ok, OpenapiPetstore.Model.FooGetDefaultResponse.t} | {:error, Tesla.Env.t}
+  @spec foo_get(Tesla.Env.client(), keyword()) ::
+          {:ok, OpenapiPetstore.Model.FooGetDefaultResponse.t()} | {:error, Tesla.Env.t()}
   def foo_get(connection, _opts \\ []) do
     request =
       %{}
