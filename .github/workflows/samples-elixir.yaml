@@ -35,5 +35,8 @@ jobs:
         run: mix deps.get
         working-directory: ${{ matrix.sample }}
       - name: mix test
+        run: mix format --check-formatted
+        working-directory: ${{ matrix.sample }}
+      - name: mix test
         run: mix test
         working-directory: ${{ matrix.sample }}
