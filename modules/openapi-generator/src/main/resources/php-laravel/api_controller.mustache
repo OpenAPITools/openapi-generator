@@ -44,7 +44,7 @@ class {{controllerName}} extends Controller
         ${{paramName}} = $request->file('{{paramName}}');
         {{/isFile}}
         {{#isBoolean}}
-        ${{paramName}} = $request->bool('{{paramName}}');
+        ${{paramName}} = $request->boolean('{{paramName}}');
         {{/isBoolean}}
         {{#isInteger}}
         ${{paramName}} = $request->integer('{{paramName}}');

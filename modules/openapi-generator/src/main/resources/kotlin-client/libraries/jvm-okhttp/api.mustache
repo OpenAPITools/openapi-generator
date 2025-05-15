@@ -123,7 +123,7 @@ import {{packageName}}.infrastructure.toMultiValue
     {{/isEnum}}
     {{/allParams}}
     /**
-     * {{{httpMethod}}} {{{path}}}
+     * {{{httpMethod}}} {{#sanitizePathComment}}{{{path}}}{{/sanitizePathComment}}
      * {{summary}}
      * {{notes}}
      {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
@@ -161,7 +161,7 @@ import {{packageName}}.infrastructure.toMultiValue
     }
 
     /**
-     * {{{httpMethod}}} {{{path}}}
+     * {{{httpMethod}}} {{#sanitizePathComment}}{{{path}}}{{/sanitizePathComment}}
      * {{summary}}
      * {{notes}}
      {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}

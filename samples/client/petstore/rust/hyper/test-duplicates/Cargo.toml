@@ -1,0 +1,19 @@
+[package]
+name = "test-duplicates-hyper"
+version = "1.0.0"
+authors = ["OpenAPI Generator team and contributors"]
+description = "To test duplicates"
+license = "Apache-2.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "^1.0", features = ["derive"] }
+serde_json = "^1.0"
+serde_repr = "^0.1"
+url = "^2.5"
+hyper = { version = "^1.3.1", features = ["full"] }
+hyper-util = { version = "0.1.5", features = ["client", "client-legacy", "http1", "http2"] }
+http-body-util = { version = "0.1.2" }
+http = "~0.2"
+base64 = "~0.7.0"
+futures = "^0.3"

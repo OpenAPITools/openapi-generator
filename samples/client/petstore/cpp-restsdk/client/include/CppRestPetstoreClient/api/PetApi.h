@@ -25,6 +25,7 @@
 #include "CppRestPetstoreClient/model/ApiResponse.h"
 #include "CppRestPetstoreClient/model/Color.h"
 #include "CppRestPetstoreClient/HttpContent.h"
+#include "CppRestPetstoreClient/model/Page.h"
 #include "CppRestPetstoreClient/model/Pet.h"
 #include <vector>
 #include <cpprest/details/basic_types.h>
@@ -108,6 +109,16 @@ public:
     /// <param name="petId">ID of pet to return</param>
     pplx::task<std::shared_ptr<Pet>> getPetById(
         int64_t petId
+    ) const;
+    /// <summary>
+    /// List all pets
+    /// </summary>
+    /// <remarks>
+    /// Returns a list of pets
+    /// </remarks>
+    /// <param name="page">The page number (optional, default to nullptr)</param>
+    pplx::task<std::vector<std::shared_ptr<Pet>>> petsPost(
+        boost::optional<std::shared_ptr<Page>> page
     ) const;
     /// <summary>
     /// Update an existing pet

@@ -62,21 +62,21 @@ import org.openapitools.client.auth.ApiKeyAuth;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
-  private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private Map<String, String> defaultCookieMap = new HashMap<String, String>();
-  private String basePath = "http://localhost:3000";
-  private boolean debugging = false;
+  protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+  protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
+  protected String basePath = "http://localhost:3000";
+  protected boolean debugging = false;
 
-  private Client httpClient;
-  private JSON json;
-  private String tempFolderPath = null;
+  protected Client httpClient;
+  protected JSON json;
+  protected String tempFolderPath = null;
 
-  private Map<String, Authentication> authentications;
+  protected Map<String, Authentication> authentications;
 
-  private int statusCode;
-  private Map<String, List<String>> responseHeaders;
+  protected int statusCode;
+  protected Map<String, List<String>> responseHeaders;
 
-  private DateFormat dateFormat;
+  protected DateFormat dateFormat;
 
   public ApiClient() {
     json = new JSON();
@@ -695,7 +695,7 @@ public class ApiClient extends JavaTimeFormatter {
     }
   }
 
-  private Response invoke(Invocation.Builder invocationBuilder, String method, Entity<?> entity) throws ApiException {
+  protected Response invoke(Invocation.Builder invocationBuilder, String method, Entity<?> entity) throws ApiException {
     Response response = null;
 
     if ("GET".equals(method)) {
@@ -724,7 +724,7 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Build the Client used to make HTTP requests.
    */
-  private Client buildHttpClient(boolean debugging) {
+  protected Client buildHttpClient(boolean debugging) {
     final ClientConfiguration clientConfig = new ClientConfiguration(ResteasyProviderFactory.getInstance());
     clientConfig.register(json);
     if(debugging){
@@ -732,7 +732,7 @@ public class ApiClient extends JavaTimeFormatter {
     }
     return ClientBuilder.newClient(clientConfig);
   }
-  private Map<String, List<String>> buildResponseHeaders(Response response) {
+  protected Map<String, List<String>> buildResponseHeaders(Response response) {
     Map<String, List<String>> responseHeaders = new HashMap<String, List<String>>();
     for (Entry<String, List<Object>> entry: response.getHeaders().entrySet()) {
       List<Object> values = entry.getValue();
@@ -750,7 +750,7 @@ public class ApiClient extends JavaTimeFormatter {
    *
    * @param authNames The authentications to apply
    */
-  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
+  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);

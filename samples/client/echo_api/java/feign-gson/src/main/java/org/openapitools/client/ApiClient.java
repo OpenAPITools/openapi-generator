@@ -33,13 +33,13 @@ import org.openapitools.client.auth.ApiKeyAuth;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ApiClient {
-  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+  protected static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   public interface Api {}
 
-  private String basePath = "http://localhost:3000";
-  private Map<String, RequestInterceptor> apiAuthorizations;
-  private Feign.Builder feignBuilder;
+  protected String basePath = "http://localhost:3000";
+  protected Map<String, RequestInterceptor> apiAuthorizations;
+  protected Feign.Builder feignBuilder;
 
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
@@ -219,7 +219,7 @@ public class ApiClient {
     feignBuilder.requestInterceptor(authorization);
   }
 
-  private <T extends RequestInterceptor> T getAuthorization(Class<T> type) {
+  protected <T extends RequestInterceptor> T getAuthorization(Class<T> type) {
     return (T) apiAuthorizations.values()
                                 .stream()
                                 .filter(requestInterceptor -> type.isAssignableFrom(requestInterceptor.getClass()))
