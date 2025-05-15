@@ -31,7 +31,7 @@ jobs:
         with:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
-      - name: mix deps.get 
+      - name: mix deps.get
         run: mix deps.get
         working-directory: ${{ matrix.sample }}
       - name: mix test
