@@ -1,5 +1,5 @@
 [package]
-name = "petstore-reqwest"
+name = "test-duplicates-reqwest"
 version = "1.0.0"
 authors = ["OpenAPI Generator team and contributors"]
 description = "To test duplicates"

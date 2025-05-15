@@ -5,7 +5,7 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/test_duplicates
 templateDir: modules/openapi-generator/src/main/resources/rust
 additionalProperties:
   supportAsync: false
-  packageName: petstore-reqwest
+  packageName: test-duplicates-reqwest
 enumNameMappings:
   delivered: shipped
 modelNameMappings:

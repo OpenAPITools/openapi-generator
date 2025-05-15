@@ -5,6 +5,6 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/test_duplicates
 templateDir: modules/openapi-generator/src/main/resources/rust
 additionalProperties:
   supportAsync: "false"
-  packageName: petstore-hyper
+  packageName: test-duplicates-hyper
 modelNameMappings:
   Duplicatetest: another_test

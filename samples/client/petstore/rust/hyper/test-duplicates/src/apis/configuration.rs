@@ -42,7 +42,7 @@ impl Configuration<HttpConnector> {
     /// # Example
     ///
     /// ```
-    /// # use petstore_hyper::apis::configuration::Configuration;
+    /// # use test_duplicates_hyper::apis::configuration::Configuration;
     /// let api_config = Configuration {
     ///   basic_auth: Some(("user".into(), None)),
     ///   ..Configuration::new()
@@ -62,7 +62,7 @@ impl<C: Connect> Configuration<C>
     ///
     /// ```
     /// # use core::time::Duration;
-    /// # use petstore_hyper::apis::configuration::Configuration;
+    /// # use test_duplicates_hyper::apis::configuration::Configuration;
     /// use hyper_util::client::legacy::Client;
     /// use hyper_util::rt::TokioExecutor;
     ///
