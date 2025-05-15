@@ -18,7 +18,9 @@ import {{javaxPackage}}.validation.constraints.*;
 import {{javaxPackage}}.validation.Valid;
 
 {{/useBeanValidation}}
+{{#generateClientAsBean}}
 import org.springframework.beans.factory.annotation.Autowired;
+{{/generateClientAsBean}}
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -48,7 +50,9 @@ public class {{classname}} {
         this(new ApiClient());
     }
 
+{{#generateClientAsBean}}
     @Autowired
+{{/generateClientAsBean}}
     public {{classname}}(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
