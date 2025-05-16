@@ -65,6 +65,11 @@ class ApiResponse(BaseModel):
         if not isinstance(obj, dict):
             return ApiResponse.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in ApiResponse) in the input: " + obj)
+
         _obj = ApiResponse.parse_obj({
             "code": obj.get("code"),
             "type": obj.get("type"),

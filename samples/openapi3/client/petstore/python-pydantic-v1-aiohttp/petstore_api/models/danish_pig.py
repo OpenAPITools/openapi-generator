@@ -64,6 +64,11 @@ class DanishPig(BaseModel):
         if not isinstance(obj, dict):
             return DanishPig.parse_obj(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in DanishPig) in the input: " + obj)
+
         _obj = DanishPig.parse_obj({
             "class_name": obj.get("className"),
             "size": obj.get("size")
