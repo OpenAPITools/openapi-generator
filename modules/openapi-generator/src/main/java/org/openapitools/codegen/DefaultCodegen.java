@@ -422,7 +422,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("forwardslash", new ForwardSlashLambda())
                 .put("backslash", new BackSlashLambda())
                 .put("doublequote", new DoubleQuoteLambda())
-                .put("composedannotationlambda", new ComposedRequestMappingAnnotationLambda())
+                .put("composedannotation", new ComposedRequestMappingAnnotationLambda())
                 .put("indented", new IndentedLambda())
                 .put("indented_8", new IndentedLambda(8, " ", false, false))
                 .put("indented_12", new IndentedLambda(12, " ", false, false))

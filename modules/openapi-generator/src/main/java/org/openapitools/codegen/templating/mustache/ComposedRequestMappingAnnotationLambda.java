@@ -30,18 +30,19 @@ import java.io.Writer;
  *
  * Register:
  * <pre>
- * additionalProperties.put("composedannotationlambda", new ComposedRequestMappingAnnotationLambda());
+ * additionalProperties.put("composedannotation", new ComposedRequestMappingAnnotationLambda());
  * </pre>
  *
  * Use:
  * <pre>
- * {{#lambda.composedannotationlambda}}{{httpMethod}}{{/lambda.composedannotationlambda}}
+ * {{#lambda.composedannotation}}{{httpMethod}}{{/lambda.composedannotation}}
  * </pre>
  */
 public class ComposedRequestMappingAnnotationLambda implements Mustache.Lambda {
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
             String text = fragment.execute();
+            if(text == null || text.isEmpty()) return;
             writer.write(String.format("@%sMapping(",text.substring(0,1).toUpperCase()+text.substring(1).toLowerCase()));
     }
 }

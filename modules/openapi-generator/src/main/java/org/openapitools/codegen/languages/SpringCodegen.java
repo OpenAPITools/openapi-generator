@@ -99,7 +99,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
     public static final String USE_API_COMPOSED_ANNOTATION = "useApiComposedAnnotation";
-    public static final String API_COMPOSED_ANNOTATION_LAMBDA = "apiComposedAnnotationLambda";
 
     @Getter
     public enum RequestMappingMode {
@@ -160,7 +159,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Getter @Setter
     protected boolean useSpringBuiltInValidation = false;
     @Getter @Setter
-    protected boolean useApiComposedAnnotation = false;
+    protected boolean useApiComposedAnnotation = true;
 
     public SpringCodegen() {
         super();
@@ -229,7 +228,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Disable `@Validated` at the class level when using built-in validation.",
                 useSpringBuiltInValidation));
         cliOptions.add(CliOption.newBoolean(USE_API_COMPOSED_ANNOTATION,
-                "Use @<method>Mapping instead of @RequestMapping(method = RequestMethod.<method>) when generating the API interfaces.",
+                "Use @<method>Mapping instead of @RequestMapping(method = RequestMethod.<method>) when generating the API interfaces. Defaults to true",
                 useApiComposedAnnotation));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION,
                 "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));

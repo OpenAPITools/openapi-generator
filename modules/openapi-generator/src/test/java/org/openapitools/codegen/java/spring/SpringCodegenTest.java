@@ -121,8 +121,7 @@ public class SpringCodegenTest {
                 .assertMethodAnnotations()
                 .hasSize(2)
                 .containsWithNameAndAttributes("Operation", ImmutableMap.of("operationId", "\"getZebras\""))
-                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
-                        "method", "RequestMethod.GET",
+                .containsWithNameAndAttributes("GetMapping", ImmutableMap.of(
                         "value", "\"/zebras\""
                 ))
                 .toMethod()
@@ -199,8 +198,7 @@ public class SpringCodegenTest {
                 .assertMethodAnnotations()
                 .hasSize(2)
                 .containsWithNameAndAttributes("Operation", ImmutableMap.of("operationId", "\"getZebras\""))
-                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
-                        "method", "RequestMethod.GET",
+                .containsWithNameAndAttributes("GetMapping", ImmutableMap.of(
                         "value", "\"/zebras\""
                 ))
                 .toMethod()
@@ -2393,7 +2391,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("UsersApi.java"))
                 .assertMethod("wildcardSubTypeForContentType")
                 .assertMethodAnnotations()
-                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
+                .containsWithNameAndAttributes("GetMapping", ImmutableMap.of(
                         "produces", "{ \"application/json\", \"application/*\" }",
                         "consumes", "{ \"application/octet-stream\", \"application/*\" }"
                 ));
@@ -5556,7 +5554,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void shouldNotUseApiComposedAnnotationByDefault() throws IOException {
+    public void shouldUseApiComposedAnnotationByDefault() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
@@ -5565,26 +5563,26 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(file)
                 .assertMethod("getUserByName")
                 .assertMethodAnnotations()
-                .containsWithName("RequestMapping")
-                .doesNotContainWithName("GetMapping");
+                .containsWithName("GetMapping")
+                .doesNotContainWithName("RequestMapping");
 
         JavaFileAssert.assertThat(file)
                 .assertMethod("createUser")
                 .assertMethodAnnotations()
-                .containsWithName("RequestMapping")
-                .doesNotContainWithName("PostMapping");
+                .containsWithName("PostMapping")
+                .doesNotContainWithName("RequestMapping");
 
         JavaFileAssert.assertThat(file)
                 .assertMethod("updateUser")
                 .assertMethodAnnotations()
-                .containsWithName("RequestMapping")
-                .doesNotContainWithName("PutMapping");
+                .containsWithName("PutMapping")
+                .doesNotContainWithName("RequestMapping");
 
         JavaFileAssert.assertThat(file)
                 .assertMethod("deleteUser")
                 .assertMethodAnnotations()
-                .containsWithName("RequestMapping")
-                .doesNotContainWithName("DeleteMapping");
+                .containsWithName("DeleteMapping")
+                .doesNotContainWithName("RequestMapping");
     }
 
     @Test
