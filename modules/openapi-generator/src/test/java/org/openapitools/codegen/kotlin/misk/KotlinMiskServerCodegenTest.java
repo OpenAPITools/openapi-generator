@@ -33,7 +33,8 @@ public class KotlinMiskServerCodegenTest {
         Assert.assertEquals(codegen.apiPackage(), "org.openapitools.server.api.api");
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.server.api.model");
         
-        // Test PROTOBUF wire format
+        // Test wire formats
+        Assert.assertTrue(codegen.getFeatureSet().getWireFormatFeatures().contains(WireFormatFeature.JSON));
         Assert.assertTrue(codegen.getFeatureSet().getWireFormatFeatures().contains(WireFormatFeature.PROTOBUF));
     }
 

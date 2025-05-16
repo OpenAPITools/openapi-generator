@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * SomeObj
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class SomeObj implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -278,15 +278,10 @@ public class SomeObj implements Serializable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("$_type");
-    openapiFields.add("id");
-    openapiFields.add("name");
-    openapiFields.add("active");
-    openapiFields.add("type");
+    openapiFields = new HashSet<String>(Arrays.asList("$_type", "id", "name", "active", "type"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

@@ -19,7 +19,6 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import feign.okhttp.OkHttpClient;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -45,22 +44,21 @@ import org.openapitools.client.auth.OauthPasswordGrant;
 import org.openapitools.client.auth.OauthClientCredentialsGrant;
 import feign.Retryer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ApiClient {
-  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+  protected static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   public interface Api {}
 
   protected ObjectMapper objectMapper;
-  private String basePath = "http://petstore.swagger.io:80/v2";
-  private Map<String, RequestInterceptor> apiAuthorizations;
-  private Feign.Builder feignBuilder;
+  protected String basePath = "http://petstore.swagger.io:80/v2";
+  protected Map<String, RequestInterceptor> apiAuthorizations;
+  protected Feign.Builder feignBuilder;
 
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
     objectMapper = createObjectMapper();
     feignBuilder = Feign.builder()
-                .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
                 .decoder(new ApiResponseDecoder(objectMapper))
                 .errorDecoder(new ApiErrorDecoder())
@@ -137,7 +135,7 @@ public class ApiClient {
     return this;
   }
 
-  private ObjectMapper createObjectMapper() {
+  protected ObjectMapper createObjectMapper() {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
@@ -152,7 +150,7 @@ public class ApiClient {
     return objectMapper;
   }
 
-  private RequestInterceptor buildOauthRequestInterceptor(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
+  protected RequestInterceptor buildOauthRequestInterceptor(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
     switch (flow) {
       case PASSWORD:
         return new OauthPasswordGrant(tokenUrl, scopes);
@@ -328,7 +326,7 @@ public class ApiClient {
     feignBuilder.requestInterceptor(authorization);
   }
 
-  private <T extends RequestInterceptor> T getAuthorization(Class<T> type) {
+  protected <T extends RequestInterceptor> T getAuthorization(Class<T> type) {
     return (T) apiAuthorizations.values()
                                 .stream()
                                 .filter(requestInterceptor -> type.isAssignableFrom(requestInterceptor.getClass()))

@@ -126,7 +126,7 @@ open class PetAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "api_key": apiKey?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "api_key": apiKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -193,7 +193,7 @@ open class PetAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "status": (wrappedValue: status.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "status": (wrappedValue: status.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
@@ -257,7 +257,7 @@ open class PetAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "tags": (wrappedValue: tags.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "tags": (wrappedValue: tags.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
@@ -442,8 +442,8 @@ open class PetAPI {
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
-            "name": name?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "status": status?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "name": name?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "status": status?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -513,8 +513,8 @@ open class PetAPI {
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
-            "additionalMetadata": additionalMetadata?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "file": file?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "additionalMetadata": additionalMetadata?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "file": file?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -584,8 +584,8 @@ open class PetAPI {
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
-            "additionalMetadata": additionalMetadata?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "requiredFile": requiredFile.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "additionalMetadata": additionalMetadata?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "requiredFile": requiredFile.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)

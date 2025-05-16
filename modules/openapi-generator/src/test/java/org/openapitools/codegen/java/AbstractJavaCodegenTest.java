@@ -70,6 +70,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void toEnumVarNameShouldNotShortenUnderScore() {
+        codegen.setEnumPropertyNaming("MACRO_CASE");
         Assert.assertEquals(codegen.toEnumVarName("_", "String"), "UNDERSCORE");
         Assert.assertEquals(codegen.toEnumVarName("__", "String"), "__");
         Assert.assertEquals(codegen.toEnumVarName("_,.", "String"), "__");
@@ -80,15 +81,26 @@ public class AbstractJavaCodegenTest {
      */
     @Test
     public void toEnumVarNameShouldNotResultInSingleUnderscore() {
+        codegen.setEnumPropertyNaming("MACRO_CASE");
         Assert.assertNotEquals(codegen.toEnumVarName(" ", "String"), "_");
         Assert.assertNotEquals(codegen.toEnumVarName("==", "String"), "_");
     }
 
     @Test
     public void toEnumVarNameAddUnderscoresIfValueIsPascalCase() {
+        codegen.setEnumPropertyNaming("MACRO_CASE");
         Assert.assertEquals(codegen.toEnumVarName("OnlyCamelCase", "String"), "ONLY_CAMEL_CASE");
         Assert.assertEquals(codegen.toEnumVarName("WithNumber1", "String"), "WITH_NUMBER1");
         Assert.assertEquals(codegen.toEnumVarName("_LeadingUnderscore", "String"), "_LEADING_UNDERSCORE");
+    }
+
+    @Test
+    public void toEnumVarKeepOriginal() {
+        codegen.setEnumPropertyNaming(CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original.name());
+        Assert.assertEquals(codegen.toEnumVarName("IfReallyNecessary_6_Keep__Original", "String"), "IfReallyNecessary_6_Keep__Original");
+        Assert.assertEquals(codegen.toEnumVarName("this_should_Actually_not_Be_used_AS_ENUM_VALUE1", "String"), "this_should_Actually_not_Be_used_AS_ENUM_VALUE1");
+        Assert.assertEquals(codegen.toEnumVarName("There should be warning in the logger", "String"), "thereShouldBeWarningInTheLogger");
+        Assert.assertEquals(codegen.toEnumVarName("^", "String"), "CARET");
     }
 
     @Test
@@ -975,4 +987,9 @@ public class AbstractJavaCodegenTest {
     //     DateSchema dateSchema = (DateSchema) openAPI.getPaths().get("/thingy/{date}").getPost().getParameters().get(0).getSchema();
     //     Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(dateSchema)).matches("2021-01-01"));
     // }
+
+    @Test(description = "test sanitizing name of dataType when using schemaMapping and oneOf/allOf (issue 20718)")
+    public void testSanitizedDataType() {
+        assertThat(codegen.sanitizeDataType("org.somepkg.DataType")).isEqualTo("orgsomepkgDataType");
+    }
 }

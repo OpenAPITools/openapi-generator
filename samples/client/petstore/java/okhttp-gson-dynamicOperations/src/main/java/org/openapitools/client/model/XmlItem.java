@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * XmlItem
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class XmlItem {
   public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
@@ -924,39 +924,10 @@ public class XmlItem {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("attribute_string");
-    openapiFields.add("attribute_number");
-    openapiFields.add("attribute_integer");
-    openapiFields.add("attribute_boolean");
-    openapiFields.add("wrapped_array");
-    openapiFields.add("name_string");
-    openapiFields.add("name_number");
-    openapiFields.add("name_integer");
-    openapiFields.add("name_boolean");
-    openapiFields.add("name_array");
-    openapiFields.add("name_wrapped_array");
-    openapiFields.add("prefix_string");
-    openapiFields.add("prefix_number");
-    openapiFields.add("prefix_integer");
-    openapiFields.add("prefix_boolean");
-    openapiFields.add("prefix_array");
-    openapiFields.add("prefix_wrapped_array");
-    openapiFields.add("namespace_string");
-    openapiFields.add("namespace_number");
-    openapiFields.add("namespace_integer");
-    openapiFields.add("namespace_boolean");
-    openapiFields.add("namespace_array");
-    openapiFields.add("namespace_wrapped_array");
-    openapiFields.add("prefix_ns_string");
-    openapiFields.add("prefix_ns_number");
-    openapiFields.add("prefix_ns_integer");
-    openapiFields.add("prefix_ns_boolean");
-    openapiFields.add("prefix_ns_array");
-    openapiFields.add("prefix_ns_wrapped_array");
+    openapiFields = new HashSet<String>(Arrays.asList("attribute_string", "attribute_number", "attribute_integer", "attribute_boolean", "wrapped_array", "name_string", "name_number", "name_integer", "name_boolean", "name_array", "name_wrapped_array", "prefix_string", "prefix_number", "prefix_integer", "prefix_boolean", "prefix_array", "prefix_wrapped_array", "namespace_string", "namespace_number", "namespace_integer", "namespace_boolean", "namespace_array", "namespace_wrapped_array", "prefix_ns_string", "prefix_ns_number", "prefix_ns_integer", "prefix_ns_boolean", "prefix_ns_array", "prefix_ns_wrapped_array"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

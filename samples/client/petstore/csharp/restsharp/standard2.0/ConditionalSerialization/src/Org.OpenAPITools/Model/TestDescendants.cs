@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="alternativeName">alternativeName (required).</param>
         /// <param name="objectType">objectType (required).</param>
-        public TestDescendants(string alternativeName = default(string), ObjectTypeEnum objectType = default(ObjectTypeEnum))
+        public TestDescendants(string alternativeName = default, ObjectTypeEnum objectType = default)
         {
             // to ensure "alternativeName" is required (not null)
             if (alternativeName == null)

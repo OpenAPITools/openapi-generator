@@ -101,6 +101,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String WEBCLIENT_BLOCKING_OPERATIONS = "webclientBlockingOperations";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String FAIL_ON_UNKNOWN_PROPERTIES = "failOnUnknownProperties";
+    public static final String SUPPORT_VERTX_FUTURE = "supportVertxFuture";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -136,6 +137,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected String gradleProperties;
     @Setter protected String errorObjectType;
     @Getter @Setter protected boolean failOnUnknownProperties = false;
+    @Setter protected boolean supportVertxFuture = false;
     protected String authFolder;
     /**
      * Serialization library.
@@ -243,6 +245,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_VERTX_FUTURE, "Also generate api methods that return a vertx Future instead of taking a callback. Only `vertx` supports this option. Requires vertx 4 or greater.", this.supportVertxFuture));
 
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.1.1. JSON processing: Jackson 2.17.1");
@@ -419,6 +422,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToStringAndWriteBack(ERROR_OBJECT_TYPE, this::setErrorObjectType);
         convertPropertyToBooleanAndWriteBack(WEBCLIENT_BLOCKING_OPERATIONS, op -> webclientBlockingOperations = op);
         convertPropertyToBooleanAndWriteBack(FAIL_ON_UNKNOWN_PROPERTIES, this::setFailOnUnknownProperties);
+        convertPropertyToBooleanAndWriteBack(SUPPORT_VERTX_FUTURE, this::setSupportVertxFuture);
 
         // add URL query deepObject support to native, apache-httpclient by default
         if (!additionalProperties.containsKey(SUPPORT_URL_QUERY)) {
@@ -585,6 +589,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // The flag below should be set for all Java libraries, but the templates need to be ported
             // one by one for each library.
             supportsAdditionalPropertiesWithComposedSchema = true;
+            if (useJakartaEe) {
+                LOGGER.warn("Jersey 2 is not compatible with Jakarta EE. Please use Jersey 3 or set {} to false.", USE_JAKARTA_EE);
+            }
         } else if (libJersey3) {
             additionalProperties.put("jersey3", true);
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -601,6 +608,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // The flag below should be set for all Java libraries, but the templates need to be ported
             // one by one for each library.
             supportsAdditionalPropertiesWithComposedSchema = true;
+            setUseJakartaEe(true);
             applyJakartaPackage();
         } else if (libNative) {
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
@@ -632,6 +640,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (libRestClient) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             applyJakartaPackage();
+
+            // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+            // In principle, this should be enabled by default for all code generators. However due to limitations
+            // in other code generators, support needs to be enabled on a case-by-case basis.
+            // The flag below should be set for all Java libraries, but the templates need to be ported
+            // one by one for each library.
+            supportsAdditionalPropertiesWithComposedSchema = true;
         } else if (libVertx) {
             typeMapping.put("file", "AsyncFile");
             importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");

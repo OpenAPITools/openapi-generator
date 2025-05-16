@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Animal: Sendable, Codable, QueryStringEncodable, Hashable {
+public struct Animal: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var className: String
     public var color: String? = "red"

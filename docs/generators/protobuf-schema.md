@@ -20,9 +20,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |addJsonNameAnnotation|Append &quot;json_name&quot; annotation to message field when the specification name differs from the protobuf field name| |false|
 |aggregateModelsName|Aggregated model filename. If set, all generated models will be combined into this single file.| |null|
+|customOptionsApi|Custom options for the api files.| |null|
+|customOptionsModel|Custom options for the model files.| |null|
 |numberedFieldNumberList|Field numbers in order.| |false|
 |startEnumsWithUnspecified|Introduces &quot;UNSPECIFIED&quot; as the first element of enumerations.| |false|
 |supportMultipleResponses|Support multiple responses| |true|
+|useSimplifiedEnumNames|Use a simple name for enums| |false|
 |wrapComplexType|Generate Additional message for complex type| |true|
 
 ## IMPORT MAPPING

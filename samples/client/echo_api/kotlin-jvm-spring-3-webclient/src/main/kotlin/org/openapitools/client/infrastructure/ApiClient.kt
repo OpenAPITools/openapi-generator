@@ -38,9 +38,8 @@ open class ApiClient(protected val client: WebClient) {
         method(HttpMethod.valueOf(requestConfig.method.name))
 
     private fun <I> WebClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
-        uri { builder ->
+        uri(requestConfig.path) { builder ->
             builder
-                .path(requestConfig.path)
                 .queryParams(LinkedMultiValueMap(requestConfig.query))
                 .build(requestConfig.params)
         }
@@ -52,6 +51,7 @@ open class ApiClient(protected val client: WebClient) {
         when {
             requestConfig.headers[HttpHeaders.CONTENT_TYPE] == MediaType.MULTIPART_FORM_DATA_VALUE -> {
                 val builder = MultipartBodyBuilder()
+                @Suppress("UNCHECKED_CAST")
                 (requestConfig.body as Map<String, PartConfig<*>>).forEach { (name, part) ->
                     if (part.body != null) {
                         val partBuilder = builder.part(name, part.body)

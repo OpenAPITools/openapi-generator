@@ -65,6 +65,7 @@ import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.utils.ExamplesUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
@@ -402,6 +403,8 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * If common lambdas are not desired, override addMustacheLambdas() method
      * and return empty builder.
+     *
+     * Corresponding user documentation: docs/templating.md, section "Mustache Lambdas"
      *
      * @return preinitialized map with common lambdas
      */
@@ -958,11 +961,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("static-method")
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("################################################################################");
+        System.out.println("############################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                                      #");
+        System.out.println("# We appreciate your support! Please consider donation to help us maintain this project.   #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                                      #");
+        System.out.println("############################################################################################");
     }
 
     // override with any special post-processing
@@ -2336,6 +2339,10 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Schema unaliasSchema(Schema schema) {
         return ModelUtils.unaliasSchema(this.openAPI, schema, schemaMapping);
+    }
+
+    private List<Map<String, Object>> unaliasExamples(Map<String, Example> examples){
+        return ExamplesUtils.unaliasExamples(this.openAPI, examples);
     }
 
     /**
@@ -4829,22 +4836,6 @@ public class DefaultCodegen implements CodegenConfig {
         // legacy support
         op.nickname = op.operationId;
 
-        if (op.allParams.size() > 0) {
-            op.hasParams = true;
-        }
-        op.hasRequiredParams = op.requiredParams.size() > 0;
-
-        // check if the operation has only a single parameter
-        op.hasSingleParam = op.allParams.size() == 1;
-
-        // set Restful Flag
-        op.isRestfulShow = op.isRestfulShow();
-        op.isRestfulIndex = op.isRestfulIndex();
-        op.isRestfulCreate = op.isRestfulCreate();
-        op.isRestfulUpdate = op.isRestfulUpdate();
-        op.isRestfulDestroy = op.isRestfulDestroy();
-        op.isRestful = op.isRestful();
-
         return op;
     }
 
@@ -4921,9 +4912,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
         r.schema = responseSchema;
         r.message = escapeText(response.getDescription());
-        // TODO need to revise and test examples in responses
-        // ApiResponse does not support examples at the moment
-        //r.examples = toExamples(response.getExamples());
+
+        // adding examples to API responses
+        Map<String, Example> examples = ExamplesUtils.getExamplesFromResponse(openAPI, response);
+
+        if (examples != null && !examples.isEmpty())
+            r.examples = unaliasExamples(examples);
+
         r.jsonSchema = Json.pretty(response);
         if (response.getExtensions() != null && !response.getExtensions().isEmpty()) {
             r.vendorExtensions.putAll(response.getExtensions());
@@ -8669,6 +8664,5 @@ public class DefaultCodegen implements CodegenConfig {
                 operation.allParams.add(p);
             }
         }
-        operation.hasParams = !operation.allParams.isEmpty();
     }
 }
