@@ -543,7 +543,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return The sanitized filename
      */
     protected String sanitizeFilename(String filename) {
-        return filename.replaceAll(".*[/\\\\]", "");
+        return filename.replaceFirst("^.*[/\\\\]", "");
     }
 
     /**
