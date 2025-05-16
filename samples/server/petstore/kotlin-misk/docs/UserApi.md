@@ -57,7 +57,7 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_JSON
+ - **Content-Type**: APPLICATION_JSON
  - **Accept**: Not defined
 
 <a name="createUsersWithArrayInput"></a>
@@ -103,7 +103,7 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_JSON
+ - **Content-Type**: APPLICATION_JSON
  - **Accept**: Not defined
 
 <a name="createUsersWithListInput"></a>
@@ -149,7 +149,7 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_JSON
+ - **Content-Type**: APPLICATION_JSON
  - **Accept**: Not defined
 
 <a name="deleteUser"></a>
@@ -243,7 +243,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON
+ - **Accept**: APPLICATION_XML, APPLICATION_JSON
 
 <a name="loginUser"></a>
 # **loginUser**
@@ -292,7 +292,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON
+ - **Accept**: APPLICATION_XML, APPLICATION_JSON
 
 <a name="logoutUser"></a>
 # **logoutUser**
@@ -381,6 +381,6 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_JSON
+ - **Content-Type**: APPLICATION_JSON
  - **Accept**: Not defined
 
