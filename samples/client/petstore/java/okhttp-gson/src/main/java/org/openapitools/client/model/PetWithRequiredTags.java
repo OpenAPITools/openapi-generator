@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * PetWithRequiredTags
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class PetWithRequiredTags {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -371,19 +371,10 @@ public class PetWithRequiredTags {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("id");
-    openapiFields.add("category");
-    openapiFields.add("name");
-    openapiFields.add("photoUrls");
-    openapiFields.add("tags");
-    openapiFields.add("status");
+    openapiFields = new HashSet<String>(Arrays.asList("id", "category", "name", "photoUrls", "tags", "status"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("name");
-    openapiRequiredFields.add("photoUrls");
-    openapiRequiredFields.add("tags");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("name", "photoUrls", "tags"));
   }
 
   /**

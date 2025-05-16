@@ -16,14 +16,16 @@ import misk.web.PathParam
 import misk.web.QueryParam
 import misk.web.RequestBody
 import misk.web.RequestHeader
-{{#imports}}import {{import}}
+{{#imports}}
+import {{import}}
 {{/imports}}
 
 {{#operations}}
 interface {{classname}} {
 {{#operation}}
 
-    fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}}
+    fun {{operationId}}({{#allParams}}
+        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
 {{/operation}}
 }
 {{/operations}}

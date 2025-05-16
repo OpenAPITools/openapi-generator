@@ -1,10 +1,21 @@
 package org.openapitools.codegen.kotlin;
 
+import lombok.Getter;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.checkerframework.checker.units.qual.C;
 import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.antlr4.KotlinLexer;
+import org.openapitools.codegen.antlr4.KotlinParser;
+import org.openapitools.codegen.antlr4.KotlinParserBaseListener;
 import org.openapitools.codegen.languages.KotlinServerCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -12,13 +23,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.openapitools.codegen.CodegenConstants.LIBRARY;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKARTA_EE;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INTERFACE_ONLY;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.*;
 import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEANVALIDATION;
 
 public class KotlinServerCodegenTest {
@@ -251,5 +263,52 @@ public class KotlinServerCodegenTest {
                 order,
                 "@get:Size(max=50)"
         );
+    }
+
+    @DataProvider(name = "dollarEscapeTest")
+    private Object[][] createData() {
+        return new Object[][]{
+                new Object[]{JAXRS_SPEC},
+                new Object[]{JAVALIN5},
+                new Object[]{JAVALIN6},
+        };
+    }
+    @Test(description = "Issue #20960", dataProvider = "dollarEscapeTest")
+    public void givenSchemaObjectPropertyNameContainsDollarSignWhenGenerateThenDollarSignIsProperlyEscapedInAnnotation(String library) throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.LIBRARY, library);
+        properties.put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE.toString());
+        properties.put(INTERFACE_ONLY, true);
+        properties.put(RETURN_RESPONSE, true);
+        properties.put(API_PACKAGE, "com.toasttab.service.scim.api");
+        properties.put(MODEL_PACKAGE, "com.toasttab.service.scim.models");
+        properties.put(PACKAGE_NAME, "com.toasttab.service.scim");
+        codegen.additionalProperties().putAll(properties);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/issue_20960.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/com/toasttab/service/scim";
+        Path baseGroupModel = Paths.get(outputPath + "/models/BaseGroupMembersInner.kt");
+        String baseGroupModelContent = Files.readString(baseGroupModel);
+        KotlinLexer kotlinLexer = new KotlinLexer(CharStreams.fromString(baseGroupModelContent));
+        KotlinTestUtils.SyntaxErrorListener syntaxErrorListener = new KotlinTestUtils.SyntaxErrorListener();
+        kotlinLexer.addErrorListener(syntaxErrorListener);
+        CommonTokenStream commonTokenStream = new CommonTokenStream(kotlinLexer);
+        KotlinParser kotlinParser = new KotlinParser(commonTokenStream);
+        kotlinParser.addErrorListener(syntaxErrorListener);
+        ParseTree parseTree = kotlinParser.kotlinFile();
+        ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
+        KotlinTestUtils.CustomKotlinParseListener customKotlinParseListener = new KotlinTestUtils.CustomKotlinParseListener();
+        parseTreeWalker.walk(customKotlinParseListener, parseTree);
+        Assert.assertTrue(syntaxErrorListener.getSyntaxErrorCount() == 0);
+        Assert.assertTrue(customKotlinParseListener.getStringReferenceCount() == 0);
     }
 }

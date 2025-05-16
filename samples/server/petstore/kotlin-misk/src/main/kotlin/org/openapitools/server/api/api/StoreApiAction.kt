@@ -11,6 +11,8 @@ import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
+import misk.web.actions.WebAction
+import misk.web.interceptors.LogRequestResponse
 import misk.web.Delete
 import misk.web.Description
 import misk.web.Get
@@ -24,23 +26,21 @@ import misk.web.RequestBody
 import misk.web.RequestContentType
 import misk.web.RequestHeader
 import misk.web.ResponseContentType
-import misk.web.actions.WebAction
-import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
 import org.openapitools.server.api.model.Order
 
 /**
- * Generated file, please change StoreApiImpl.
- */
+* @TODO("Fill out implementation")
+*/
 @Singleton
 class StoreApiAction @Inject constructor(
-    private val storeApi: StoreApi
-) : WebAction, StoreApi {
+) : WebAction {
 
     @Delete("/store/order/{orderId}")
     @Description("Delete purchase order by ID")
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun deleteOrder(@PathParam("orderId") orderId: kotlin.String) {
+    fun deleteOrder(
+        @PathParam("orderId") orderId: kotlin.String) {
         TODO()
     }
 
@@ -48,7 +48,7 @@ class StoreApiAction @Inject constructor(
     @Description("Returns pet inventories by status")
     @ResponseContentType(MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int> {
+    fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int> {
         TODO()
     }
 
@@ -56,7 +56,8 @@ class StoreApiAction @Inject constructor(
     @Description("Find purchase order by ID")
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun getOrderById(@Min(1L) @Max(5L) @PathParam("orderId") orderId: kotlin.Long): Order {
+    fun getOrderById(
+        @Min(1L) @Max(5L) @PathParam("orderId") orderId: kotlin.Long): Order {
         TODO()
     }
 
@@ -65,7 +66,8 @@ class StoreApiAction @Inject constructor(
     @RequestContentType(MediaTypes.APPLICATION_JSON)
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun placeOrder(@Valid @RequestBody order: Order): Order {
+    fun placeOrder(
+        @Valid @RequestBody order: Order): Order {
         TODO()
     }
 }
