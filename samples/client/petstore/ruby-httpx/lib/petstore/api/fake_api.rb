@@ -1033,7 +1033,7 @@ module Petstore
       end
 
       if @api_client.config.client_side_validation && !opts[:'password'].nil? && opts[:'password'].to_s.length < 10
-        fail ArgumentError, 'invalid value for "opts[:"password"]" when calling FakeApi.test_endpoint_parameters, the character length must be great than or equal to 10.'
+        fail ArgumentError, 'invalid value for "opts[:"password"]" when calling FakeApi.test_endpoint_parameters, the character length must be greater than or equal to 10.'
       end
 
       # resource path

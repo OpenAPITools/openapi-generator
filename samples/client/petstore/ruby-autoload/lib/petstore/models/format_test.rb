@@ -269,7 +269,7 @@ module Petstore
       end
 
       if @password.to_s.length < 10
-        invalid_properties.push('invalid value for "password", the character length must be great than or equal to 10.')
+        invalid_properties.push('invalid value for "password", the character length must be greater than or equal to 10.')
       end
 
       pattern = Regexp.new(/^\d{10}$/)
@@ -448,7 +448,7 @@ module Petstore
       end
 
       if password.to_s.length < 10
-        fail ArgumentError, 'invalid value for "password", the character length must be great than or equal to 10.'
+        fail ArgumentError, 'invalid value for "password", the character length must be greater than or equal to 10.'
       end
 
       @password = password
