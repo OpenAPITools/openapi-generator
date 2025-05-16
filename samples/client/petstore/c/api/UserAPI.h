@@ -54,6 +54,14 @@ void
 UserAPI_logoutUser(apiClient_t *apiClient);
 
 
+// test int32, int64 float and double query parameters in API
+//
+// This can test int32, int64 float and double query parameters in API.
+//
+void
+UserAPI_testInt32Int64FloatDouble(apiClient_t *apiClient, float floatnum, double doublenum, int *int32num, long int64num);
+
+
 // test integer and boolean query parameters in API
 //
 // This can test integer and boolean query parameters in API.
