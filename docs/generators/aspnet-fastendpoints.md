@@ -71,6 +71,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Guid</li>
 <li>Guid?</li>
 <li>ICollection</li>
+<li>IEnumerable</li>
 <li>Int32</li>
 <li>Int64</li>
 <li>List</li>
