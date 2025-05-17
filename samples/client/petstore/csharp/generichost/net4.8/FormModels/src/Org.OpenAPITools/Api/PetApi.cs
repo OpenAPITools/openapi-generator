@@ -793,7 +793,11 @@ namespace Org.OpenAPITools.Api
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar2);
 
                     if (httpRequestMessageLocalVar.Content != null) {
-                        string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         httpSignatureTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
                     }
@@ -808,13 +812,21 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
+#if NET6_0_OR_GREATER
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+#else
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<AddPetApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<AddPetApiResponse>();
 
@@ -1006,13 +1018,21 @@ namespace Org.OpenAPITools.Api
                     tokenBaseLocalVars.Add(oauthTokenLocalVar1);
 
                     oauthTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
+#if NET6_0_OR_GREATER
+                    httpRequestMessageLocalVar.Method = HttpMethod.Delete;
+#else
                     httpRequestMessageLocalVar.Method = new HttpMethod("DELETE");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<DeletePetApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<DeletePetApiResponse>();
 
@@ -1206,7 +1226,11 @@ namespace Org.OpenAPITools.Api
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar2);
 
                     if (httpRequestMessageLocalVar.Content != null) {
-                        string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         httpSignatureTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
                     }
@@ -1220,13 +1244,21 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+#if NET6_0_OR_GREATER
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+#else
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<FindPetsByStatusApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<FindPetsByStatusApiResponse>();
 
@@ -1295,7 +1327,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(RawContent, _jsonSerializerOptions)
-                    : default;
+                    :
+                #if NET6_0_OR_GREATER
+                        null;
+                #else
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -1303,7 +1340,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk(out List<Pet> result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out List<Pet> result)
             {
                 result = null;
 
@@ -1484,7 +1525,11 @@ namespace Org.OpenAPITools.Api
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar2);
 
                     if (httpRequestMessageLocalVar.Content != null) {
-                        string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         httpSignatureTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
                     }
@@ -1498,13 +1543,21 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+#if NET6_0_OR_GREATER
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+#else
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<FindPetsByTagsApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<FindPetsByTagsApiResponse>();
 
@@ -1573,7 +1626,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<List<Pet>>(RawContent, _jsonSerializerOptions)
-                    : default;
+                    :
+                #if NET6_0_OR_GREATER
+                        null;
+                #else
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -1581,7 +1639,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk(out List<Pet> result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out List<Pet> result)
             {
                 result = null;
 
@@ -1728,13 +1790,21 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+#if NET6_0_OR_GREATER
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+#else
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<GetPetByIdApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<GetPetByIdApiResponse>();
 
@@ -1803,7 +1873,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.Pet>(RawContent, _jsonSerializerOptions)
-                    : default;
+                    :
+                #if NET6_0_OR_GREATER
+                        null;
+                #else
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -1811,7 +1886,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk(out Org.OpenAPITools.Model.Pet result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out Org.OpenAPITools.Model.Pet result)
             {
                 result = null;
 
@@ -1968,7 +2047,11 @@ namespace Org.OpenAPITools.Api
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar2);
 
                     if (httpRequestMessageLocalVar.Content != null) {
-                        string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         httpSignatureTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
                     }
@@ -1983,13 +2066,21 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
+#if NET6_0_OR_GREATER
+                    httpRequestMessageLocalVar.Method = HttpMethod.Put;
+#else
                     httpRequestMessageLocalVar.Method = new HttpMethod("PUT");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<UpdatePetApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<UpdatePetApiResponse>();
 
@@ -2222,13 +2313,21 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
+#if NET6_0_OR_GREATER
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+#else
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<UpdatePetWithFormApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<UpdatePetWithFormApiResponse>();
 
@@ -2457,13 +2556,21 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+#if NET6_0_OR_GREATER
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+#else
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<UploadFileApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<UploadFileApiResponse>();
 
@@ -2532,7 +2639,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.ApiResponse>(RawContent, _jsonSerializerOptions)
-                    : default;
+                    :
+                #if NET6_0_OR_GREATER
+                        null;
+                #else
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -2540,7 +2652,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk(out Org.OpenAPITools.Model.ApiResponse result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out Org.OpenAPITools.Model.ApiResponse result)
             {
                 result = null;
 
@@ -2724,13 +2840,21 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+#if NET6_0_OR_GREATER
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+#else
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<UploadFileWithRequiredFileApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<UploadFileWithRequiredFileApiResponse>();
 
@@ -2799,7 +2923,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.ApiResponse>(RawContent, _jsonSerializerOptions)
-                    : default;
+                    :
+                #if NET6_0_OR_GREATER
+                        null;
+                #else
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -2807,7 +2936,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk(out Org.OpenAPITools.Model.ApiResponse result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out Org.OpenAPITools.Model.ApiResponse result)
             {
                 result = null;
 
