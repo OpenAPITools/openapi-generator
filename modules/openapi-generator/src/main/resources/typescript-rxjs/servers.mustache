@@ -5,7 +5,20 @@
  *
  */
 export class ServerConfiguration<T extends { [key: string]: string }> {
+    {{^useErasableSyntax}}
     public constructor(private url: string, private variableConfiguration: T, private description: string) {}
+    {{/useErasableSyntax}}
+    {{#useErasableSyntax}}
+    private url: string;
+    private variableConfiguration: T;
+    private description: string;
+
+    public constructor(url: string, variableConfiguration: T, description: string) {
+        this.url = url;
+        this.variableConfiguration = variableConfiguration;
+        this.description = description;
+    }
+    {{/useErasableSyntax}}
 
     /**
      * Sets the value of the variables of this server.
@@ -25,15 +38,15 @@ export class ServerConfiguration<T extends { [key: string]: string }> {
     }
 
     /**
-     * Constructions the URL this server using the url with variables
-     * replaced with their respective values
+     * Constructs the URL for this server using the url with variables
+     * replaced with their respective values.
      */
     public getUrl(): string {
         let replacedUrl = this.url;
         for (const key in this.variableConfiguration) {
             if (this.variableConfiguration.hasOwnProperty(key)) {
-                 const re = new RegExp("{" + key + "}","g");
-                 replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
+                const re = new RegExp("{" + key + "}", "g");
+                replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
             }
         }
         return replacedUrl;
