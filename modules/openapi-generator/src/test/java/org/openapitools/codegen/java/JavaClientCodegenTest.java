@@ -17,6 +17,12 @@
 
 package org.openapitools.codegen.java;
 
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.visitor.*;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -60,7 +66,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
-import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.newTempFolder;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
@@ -3591,5 +3597,75 @@ public class JavaClientCodegenTest {
                 "public some.pkg.A getsomepkgA() throws ClassCastException {",
                 "public some.pkg.B getsomepkgB() throws ClassCastException {"
         );
+    }
+
+    @Test(description = "Issue #21051")
+    public void givenComplexObjectHasDefaultValueWhenGenerateThenDefaultAssignmentsAreValid() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(APIS, false);
+        properties.put(API_DOCS, false);
+        properties.put(API_TESTS, false);
+        properties.put(MODEL_DOCS, false);
+        properties.put(MODEL_TESTS, false);
+
+        codegen.additionalProperties().putAll(properties);
+        Generator generator = new DefaultGenerator();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_1/issue_21051.yaml")
+                .setGeneratorName("java")
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath());
+        ClientOptInput clientOptInput = configurator.toClientOptInput();
+        generator.opts(clientOptInput)
+                .generate();
+        System.out.println("Generator Settings: " + clientOptInput.getGeneratorSettings());
+        String outputPath = output.getAbsolutePath() + "/src/main/java/org/openapitools";
+        File testModel = new File(outputPath, "/client/model/Test.java");
+        String fileContent = Files.readString(testModel.toPath());
+
+        System.out.println(fileContent);
+        TestUtils.assertValidJavaSourceCode(fileContent);
+        CompilationUnit compilationUnit = StaticJavaParser.parse(testModel);
+        Map<String, FieldDeclaration> defaultFields = compilationUnit.getType(0).getFields().stream()
+                .collect(Collectors.toMap((f) -> f.getVariable(0).getName().asString(), (f) -> f));
+        //chain method calls for object initialization
+        class MethodCallVisitor extends VoidVisitorAdapter<Void> {
+            Map<String, Expression> expressionMap = new HashMap<>();
+            @Override
+            public void visit(MethodCallExpr n, Void arg) {
+                expressionMap.put(n.getNameAsString(), n.getArgument(0));
+                if(n.getScope().isPresent()) {
+                    n.getScope().get().accept(this, arg);
+                }
+            }
+
+        }
+        MethodCallVisitor visitor = new MethodCallVisitor();
+        defaultFields.get("testComplexInlineObject").getVariable(0).getInitializer().get().asMethodCallExpr()
+                .accept(visitor, null);
+        Map<String, Expression> expressionMap = visitor.expressionMap;
+        assertTrue(expressionMap.get("foo").isStringLiteralExpr());
+        assertTrue(expressionMap.get("fooInt").isIntegerLiteralExpr());
+        assertTrue(expressionMap.get("fooLong").isLongLiteralExpr());
+        assertTrue(expressionMap.get("fooBool").isBooleanLiteralExpr());
+        assertTrue(expressionMap.get("fooFloat").isDoubleLiteralExpr());
+        assertTrue(expressionMap.get("fooDouble").isDoubleLiteralExpr());
+        assertTrue(expressionMap.containsKey("_void"));
+
+        assertFalse(expressionMap.containsKey("nonExistentDefault"));
+        assertFalse(expressionMap.containsKey("nonDefaultedProperty"));
+
+        assertTrue(defaultFields.get("testEmptyInlineObject").getVariable(0).getInitializer().get().isObjectCreationExpr());
+        assertTrue(defaultFields.get("testNullableEmptyInlineObject").getVariable(0).getInitializer().get().isObjectCreationExpr());
+        assertTrue(defaultFields.get("testNullableComplexInlineObject").getVariable(0).getInitializer().get().isMethodCallExpr());
+        assertTrue(defaultFields.get("testEmptyReference").getVariable(0).getInitializer().get().isObjectCreationExpr());
+        assertTrue(defaultFields.get("testComplexReference").getVariable(0).getInitializer().get().isMethodCallExpr());
+        assertTrue(defaultFields.get("testNullableEmptyReference").getVariable(0).getInitializer().get().isObjectCreationExpr());
+        assertTrue(defaultFields.get("testNullableComplexReference").getVariable(0).getInitializer().get().isMethodCallExpr());
     }
 }
