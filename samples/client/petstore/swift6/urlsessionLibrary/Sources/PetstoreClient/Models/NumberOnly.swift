@@ -12,7 +12,7 @@ public typealias NumberOnly = PetstoreClientAPI.NumberOnly
 
 extension PetstoreClientAPI {
 
-public final class NumberOnly: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class NumberOnly: @unchecked Sendable, Codable, Hashable {
 
     public private(set) var justNumber: Double?
 
