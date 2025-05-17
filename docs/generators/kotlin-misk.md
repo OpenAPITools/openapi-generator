@@ -18,7 +18,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|actionAnnotations|String Annotations for Actions separated by a semicolon(;)| |@LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)|
+|actionImports|String Imports for Actions separated by a semicolon(;)| |misk.web.actions.WebAction;misk.web.interceptors.LogRequestResponse|
+|actionParentClass|Parent Class for Action| |WebAction|
 |actionPathPrefix|Prefix for action path| ||
+|actionRequestContentType|Request ContentType for Action| |@RequestContentType|
+|actionRequestContentTypePrefix|Request ContentType Prefix for Action| |MediaTypes|
 |addModelMoshiJsonAnnotation|Add a Moshi JSON adapter annotation to all model classes| |true|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |apiSuffix|suffix for api classes| |Api|
@@ -35,6 +40,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
+|testingModule|Testing module class| |misk.testing.MiskTestModule|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
 
 ## IMPORT MAPPING

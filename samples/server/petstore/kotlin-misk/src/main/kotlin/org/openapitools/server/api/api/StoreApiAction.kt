@@ -11,6 +11,8 @@ import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
+import misk.web.actions.WebAction
+import misk.web.interceptors.LogRequestResponse
 import misk.web.Delete
 import misk.web.Description
 import misk.web.Get
@@ -24,8 +26,6 @@ import misk.web.RequestBody
 import misk.web.RequestContentType
 import misk.web.RequestHeader
 import misk.web.ResponseContentType
-import misk.web.actions.WebAction
-import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
 import org.openapitools.server.api.model.Order
 
