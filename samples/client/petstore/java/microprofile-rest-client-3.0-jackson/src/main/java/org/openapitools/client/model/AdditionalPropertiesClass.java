@@ -45,7 +45,7 @@ public class AdditionalPropertiesClass  {
    * Get mapProperty
    * @return mapProperty
    **/
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, String> getMapProperty() {
     return mapProperty;
@@ -54,7 +54,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Set mapProperty
    */
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
@@ -77,7 +77,7 @@ public class AdditionalPropertiesClass  {
    * Get mapOfMapProperty
    * @return mapOfMapProperty
    **/
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
@@ -86,7 +86,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Set mapOfMapProperty
    */
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;

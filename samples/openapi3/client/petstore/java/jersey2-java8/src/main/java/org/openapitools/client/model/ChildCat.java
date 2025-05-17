@@ -74,7 +74,7 @@ public class ChildCat extends ParentPet {
    * @return name
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
@@ -82,7 +82,7 @@ public class ChildCat extends ParentPet {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
@@ -107,7 +107,7 @@ public class ChildCat extends ParentPet {
    * @return petType
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PET_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_PET_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPetType() {
@@ -115,7 +115,7 @@ public class ChildCat extends ParentPet {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PET_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_PET_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPetType(@javax.annotation.Nullable String petType) {
     if (!PET_TYPE_VALUES.contains(petType)) {
