@@ -1,7 +1,7 @@
 # coding: utf-8
 
 {{>partial_header}}
-
+import os
 import copy
 import http.client as httplib
 import logging
@@ -416,6 +416,28 @@ conf = {{{packageName}}}.Configuration(
         self.proxy_headers = None
         """Proxy headers
         """
+        self.no_proxy: Optional[str] = None
+        """bypass proxy"""
+
+        {{!-- custom env‑var overrides --}}
+        if os.getenv("HTTPS_PROXY"): self.proxy = os.getenv("HTTPS_PROXY")
+        if os.getenv("https_proxy"): self.proxy = os.getenv("https_proxy")
+        if os.getenv("HTTP_PROXY"): self.proxy = os.getenv("HTTP_PROXY")
+        if os.getenv("http_proxy"): self.proxy = os.getenv("http_proxy")
+        if os.getenv("NO_PROXY"): self.no_proxy = os.getenv("NO_PROXY")
+        if os.getenv("no_proxy"): self.no_proxy = os.getenv("no_proxy")
+
+        {{#cliOptions}}
+        /**
+        * {{{description}}}
+        */
+        {{#defaultValue}}
+        self.{{name}} = {{defaultValue}}
+        {{/defaultValue}}
+        {{^defaultValue}}
+        self.{{name}} = None
+        {{/defaultValue}}
+        {{/cliOptions}}
         self.safe_chars_for_path_param = ''
         """Safe chars for path_param
         """
