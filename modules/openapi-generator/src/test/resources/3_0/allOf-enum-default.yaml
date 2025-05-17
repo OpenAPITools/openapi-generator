@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /person:
+    get:
+      parameters:
+        - name: enum
+          in: query
+          required: true
+          description: Enum value
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/MyEnum'
+              - default: "One"
+      operationId: list
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    MyEnum:
+      type: string
+      enum:
+        - One
+        - Two

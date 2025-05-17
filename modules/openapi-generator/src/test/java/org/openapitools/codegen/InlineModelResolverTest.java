@@ -1205,4 +1205,18 @@ public class InlineModelResolverTest {
         assertNotNull(allOfRefWithDescriptionAndReadonly.getAllOf());
         assertEquals(numberRangeRef, ((Schema) allOfRefWithDescriptionAndReadonly.getAllOf().get(0)).get$ref());
     }
+
+    @Test
+    public void testAllOfEnumWithDefault() {
+        // The flattened spec should still have both allOf items in query parameter, to allow generators to generate the default value
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf-enum-default.yaml");
+        var parameters = openAPI
+                .getPaths()
+                .get("/person")
+                .getGet()
+                .getParameters();
+        assertEquals(1, parameters.size());
+        var parameter = parameters.get(0);
+        assertEquals(2, parameter.getSchema().getAllOf().size());
+    }
 }
