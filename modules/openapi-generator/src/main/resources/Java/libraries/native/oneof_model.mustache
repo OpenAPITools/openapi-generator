@@ -224,7 +224,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
      * @return The actual instance of `{{{.}}}`
      * @throws ClassCastException if the instance is not `{{{.}}}`
      */
-    public {{{.}}} get{{{.}}}() throws ClassCastException {
+    public {{{.}}} get{{#sanitizeGeneric}}{{{.}}}{{/sanitizeGeneric}}() throws ClassCastException {
         return ({{{.}}})super.getActualInstance();
     }
 
