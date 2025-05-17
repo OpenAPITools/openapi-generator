@@ -2375,7 +2375,8 @@ public class ModelUtils {
                 schema.getContains() != null ||
                 schema.get$dynamicAnchor() != null ||
                 schema.get$anchor() != null ||
-                schema.getContentSchema() != null;
+                schema.getContentSchema() != null ||
+                schema.getDefault() != null;
     }
 
 
