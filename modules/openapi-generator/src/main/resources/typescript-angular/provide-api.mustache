@@ -1,0 +1,14 @@
+import { makeEnvironmentProviders } from "@angular/core";
+import { {{configurationClassName}}, {{configurationParametersInterfaceName}} } from './configuration';
+import { BASE_PATH } from './variables';
+
+export function provideApi(configOrBasePath: string | {{configurationParametersInterfaceName}}) {
+    return makeEnvironmentProviders([
+        typeof configOrBasePath === "string"
+            ? { provide: BASE_PATH, useValue: configOrBasePath }
+            : {
+                provide: {{configurationClassName}},
+                useValue: new {{configurationClassName}}({ ...configOrBasePath }),
+            },
+    ]);
+}
