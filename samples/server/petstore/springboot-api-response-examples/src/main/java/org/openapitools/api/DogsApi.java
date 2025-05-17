@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
+import org.springframework.lang.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -80,7 +81,7 @@ public interface DogsApi {
     )
     
     default ResponseEntity<Dog> createDog(
-        @Parameter(name = "Dog", description = "") @Valid @RequestBody(required = false) Dog dog
+        @Parameter(name = "Dog", description = "") @Valid @RequestBody(required = false) @Nullable Dog dog
     ) {
         return getDelegate().createDog(dog);
     }

@@ -98,13 +98,13 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet id(Long id) {
+  public Pet id(@Nullable Long id) {
     this.id = id;
     return this;
   }
 
 
-  public Pet category(Category category) {
+  public Pet category(@Nullable Category category) {
     this.category = category;
     return this;
   }
@@ -144,7 +144,7 @@ public class Pet {
   }
 
 
-  public Pet status(StatusEnum status) {
+  public Pet status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
   }

@@ -21,6 +21,7 @@ import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.lang.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -98,7 +99,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
-        @ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Boolean body
+        @ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -130,7 +131,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
-        @ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) OuterComposite outerComposite
+        @ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterComposite outerComposite
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -171,7 +172,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
-        @ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) BigDecimal body
+        @ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -203,7 +204,7 @@ public interface FakeApi {
     )
     
     default ResponseEntity<String> fakeOuterStringSerialize(
-        @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) String body
+        @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -446,10 +447,10 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testEnumParameters(
-        @ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
+        @ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
         @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
-        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
-        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
+        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
+        @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
         @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $", defaultValue = "$") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
         @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     ) {
@@ -489,8 +490,8 @@ public interface FakeApi {
     default ResponseEntity<Void> testGroupParameters(
         @NotNull @ApiParam(value = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
         @NotNull @ApiParam(value = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
-        @ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,
-        @ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group
+        @ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup,
+        @ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
