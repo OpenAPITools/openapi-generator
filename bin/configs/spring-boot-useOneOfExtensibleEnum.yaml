@@ -10,4 +10,3 @@ additionalProperties:
   useBeanValidation: true
   artifactId: spring-boot-useoneofextensibleenum
   hideGenerationTimestamp: "true"
-  generateBuilders: true
