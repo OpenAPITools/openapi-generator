@@ -6,8 +6,82 @@
 {{>typeInfoAnnotation}}
 {{/discriminator}}
 {{>generatedAnnotation}}
+{{#vendorExtensions.x-extensible-enum}}
+@JsonDeserialize(using = {{classname}}.EnumDeserializer.class)
+{{/vendorExtensions.x-extensible-enum}}
 public {{>sealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
     {{#discriminator}}
     public {{propertyType}} {{propertyGetter}}();
+    {{/discriminator}}
+    {{^discriminator}}
+    {{#vendorExtensions.x-extensible-enum}}
+    {{#useBeanValidation}}@Valid{{/useBeanValidation}}
+    @JsonValue
+    String getValue();
+
+    static {{classname}} fromValue(String value) {
+    {{#interfaceModels}}
+        try {
+          return {{classname}}.fromValue(value);
+        } catch (IllegalArgumentException e) {
+          // continue
+        }
+    {{/interfaceModels}}
+    {{#useString}}
+        return new {{stringClassName}}(value);
+    {{/useString}}
+    {{^useString}}
+        throw new IllegalArgumentException(value + " not supported in classes " + Arrays.asList({{#interfaceModels}}"{{classname}}"{{^-last}}, {{/-last}}{{/interfaceModels}}));
+    {{/useString}}
+    }
+
+    // custom jackson deserializer
+    class EnumDeserializer extends StdDeserializer<{{classname}}> {
+
+       public EnumDeserializer() {
+          super({{classname}}.class);
+       }
+
+       @Override
+       public {{classname}} deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+         String value = p.readValueAs(String.class);
+         return {{classname}}.fromValue(value);
+      }
+    }
+    {{#useString}}
+    {{#property.description}}
+    /**
+    * {{{.}}}
+    */
+    {{/property.description}}
+    class {{stringClassName}} implements {{classname}} {
+        private final String value;
+        public {{stringClassName}}(String value) {
+            this.value = value;
+        }
+
+        {{#useBeanValidation}}@NotNull {{#property}}{{>beanValidationCore}} {{/property}}{{/useBeanValidation}}
+        @Override
+        public String getValue() {
+            return value;
+        }
+        @Override
+        public String toString() {
+            return "{{stringClassName}}:" + value;
+        }
+
+        @Override
+        public final boolean equals(Object o) {
+          if (!(o instanceof {{stringClassName}} )) return false;
+          return value.equals((({{stringClassName}})o).value);
+        }
+
+        @Override
+        public int hashCode() {
+          return value.hashCode();
+        }
+    }
+    {{/useString}}
+    {{/vendorExtensions.x-extensible-enum}}
     {{/discriminator}}
 }

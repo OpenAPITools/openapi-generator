@@ -101,6 +101,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
+    public static final String USE_ONE_OF_EXTENSIBLE_ENUMS = "useOneOfExtensibleEnums";
     public static final String LOMBOK = "lombok";
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
     public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generateConstructorWithAllArgs";
@@ -153,6 +154,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'MACRO_CASE', 'legacy' and 'original'";
     @Getter protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.MACRO_CASE;
 
+    @Getter @Setter
+    protected boolean useOneOfExtensibleEnums = false;
     /**
      * -- SETTER --
      * Set whether discriminator value lookup is case-sensitive or not.
@@ -570,6 +573,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToStringAndWriteBack(IMPLICIT_HEADERS_REGEX, this::setImplicitHeadersRegex);
         convertPropertyToBooleanAndWriteBack(CAMEL_CASE_DOLLAR_SIGN, this::setCamelCaseDollarSign);
         convertPropertyToBooleanAndWriteBack(USE_ONE_OF_INTERFACES, this::setUseOneOfInterfaces);
+        convertPropertyToBooleanAndWriteBack(USE_ONE_OF_EXTENSIBLE_ENUMS, this::setUseOneOfExtensibleEnums);
         convertPropertyToStringAndWriteBack(CodegenConstants.ENUM_PROPERTY_NAMING, this::setEnumPropertyNaming);
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
@@ -621,6 +625,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
+        if (useOneOfExtensibleEnums) {
+            importMapping.put("DeserializationContext", "com.fasterxml.jackson.databind.DeserializationContext");
+            importMapping.put("StdDeserializer", "com.fasterxml.jackson.databind.deser.std.StdDeserializer");
+            importMapping.put("JsonParser", "com.fasterxml.jackson.core.JsonParser");
+        }
         convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
         convertPropertyToStringAndWriteBack(DATE_LIBRARY, this::setDateLibrary);
 
@@ -2395,14 +2404,49 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
         if (jackson) {
-            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
-                Map<String, String> oneImport = new HashMap<>();
-                oneImport.put("import", importMapping.get(i));
-                if (!imports.contains(oneImport)) {
-                    imports.add(oneImport);
-                }
+            addAdditionalImports(imports, "JsonSubTypes", "JsonTypeInfo");
+        }
+    }
+
+    protected void addAdditionalImports(List<Map<String, String>> imports, String... additionalImports) {
+        for (String i : additionalImports) {
+            Map<String, String> oneImport = new HashMap<>();
+            oneImport.put("import", Objects.requireNonNull(importMapping.get(i), "importMapping not found " + i));
+            if (!imports.contains(oneImport)) {
+                imports.add(oneImport);
             }
         }
+    }
+
+    @Override
+    public void addExtensibleEnum(Map<String, ModelsMap> objs, CodegenModel cm, List<Map<String, String>> imports) {
+        if (jackson) {
+            addAdditionalImports(imports,
+                    "DeserializationContext",
+                    "JsonDeserialize",
+                    "StdDeserializer",
+                    "JsonValue",
+                    "JsonParser",
+                    "IOException");
+
+            ExtensibleEnumParam param = new ExtensibleEnumParam();
+            cm.vendorExtensions.put("x-extensible-enum", param);
+            if (cm.oneOf.contains("String")) {
+                param.useString = true;
+                param.property = cm.getComposedSchemas().getOneOf().stream().filter(p -> "String".equals(p.datatypeWithEnum))
+                        .findFirst().orElseThrow();
+                // The name of the String property looks like oneOf1
+                // Use a sensible name instead
+                param.stringClassName = cm.classname + "String";
+
+            }
+        }
+    }
+
+    static class ExtensibleEnumParam {
+        public boolean useString;
+        public String stringClassName;
+        public CodegenProperty property;
     }
 
     @Override

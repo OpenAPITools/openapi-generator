@@ -1,0 +1,13 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-useoneofextensibleenum
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/extended-enums.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  groupId: org.openapitools.openapi3
+  documentationProvider: springfox
+  useOneOfExtensibleEnums: true
+  useOneOfInterfaces: true
+  useBeanValidation: true
+  artifactId: spring-boot-useoneofextensibleenum
+  hideGenerationTimestamp: "true"
+  generateBuilders: true

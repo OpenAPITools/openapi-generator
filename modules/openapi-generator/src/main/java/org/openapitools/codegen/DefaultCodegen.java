@@ -514,6 +514,7 @@ public class DefaultCodegen implements CodegenConfig {
                     CodegenModel cm = mo.getModel();
                     if (cm.oneOf.size() > 0) {
                         cm.vendorExtensions.put("x-is-one-of-interface", true);
+
                         for (String one : cm.oneOf) {
                             if (!additionalDataMap.containsKey(one)) {
                                 additionalDataMap.put(one, new OneOfImplementorAdditionalData(one));
@@ -522,6 +523,10 @@ public class DefaultCodegen implements CodegenConfig {
                         }
                         // if this is oneOf interface, make sure we include the necessary imports for it
                         addImportsToOneOfInterface(modelsImports);
+                        boolean hasOfEnum = (cm.interfaceModels != null) && cm.interfaceModels.stream().anyMatch(m -> m.isEnum) ;
+                        if (hasOfEnum) {
+                            addExtensibleEnum(objs, cm, modelsImports);
+                        }
                     }
                 }
             }
@@ -8383,6 +8388,9 @@ public class DefaultCodegen implements CodegenConfig {
         cm.interfaceModels = new ArrayList<>();
 
         addOneOfInterfaces.add(cm);
+    }
+
+    public void addExtensibleEnum(Map<String, ModelsMap> objs, CodegenModel cm, List<Map<String, String>> imports) {
     }
 
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
