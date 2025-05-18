@@ -5508,7 +5508,6 @@ public class SpringCodegenTest {
         codegen.setUseOneOfExtensibleEnums(true);
         codegen.setUseBeanValidation(true);
         Map<String, File> files = generateFiles(codegen,"src/test/resources/3_0/java/extended-enums.yaml");
-
         JavaFileAssert.assertThat(files.get("Country.java"))
                 .fileContains("@JsonDeserialize(using = Country.EnumDeserializer.class)",
                         "String getValue()",
