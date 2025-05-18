@@ -5527,9 +5527,9 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("PetDto.java"))
-                .fileContains("private List<@Valid TagDto> tags;")
+                .fileContains("private @Nullable List<@Valid TagDto> tags;")
                 .fileContains("private List<@Valid TagDto> tagsRequiredList = new ArrayList<>();")
-                .fileContains("private List<String> stringList;")
+                .fileContains("private @Nullable List<String> stringList;")
                 .fileContains("private List<String> stringRequiredList = new ArrayList<>();");
     }
 }
