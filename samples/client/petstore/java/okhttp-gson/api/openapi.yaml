@@ -1757,6 +1757,7 @@ components:
           example: doggie
           type: string
         photoUrls:
+          default: []
           items:
             type: string
           type: array
@@ -2639,6 +2640,7 @@ components:
           example: doggie
           type: string
         photoUrls:
+          default: []
           items:
             type: string
           type: array
@@ -2646,6 +2648,7 @@ components:
             name: photoUrl
             wrapped: true
         tags:
+          default: []
           items:
             $ref: '#/components/schemas/Tag'
           type: array
@@ -2773,6 +2776,7 @@ components:
           example: doggie
           type: string
         photoUrls:
+          default: []
           items:
             type: string
           type: array
@@ -2841,6 +2845,7 @@ components:
           example: doggie
           type: string
         photoUrls:
+          default: []
           items:
             type: string
           type: array
@@ -3132,6 +3137,7 @@ components:
     AllOfModelArrayAnyOf_allOf_linkListColumn1:
       properties:
         value:
+          default: []
           items:
             $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1_value'
           type: array

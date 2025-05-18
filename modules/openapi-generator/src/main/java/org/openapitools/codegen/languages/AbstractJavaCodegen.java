@@ -1240,7 +1240,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 if (schema.getDefault() instanceof ArrayNode) { // array of default values
                     ArrayNode _default = (ArrayNode) schema.getDefault();
                     if (_default.isEmpty()) { // e.g. default: []
-                        return getDefaultCollectionType(schema);
+                        return getDefaultCollectionType(schema, "");
                     }
 
                     List<String> final_values = _values;
@@ -1253,6 +1253,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     _default.forEach((element) -> {
                         final_values.add(String.valueOf(element));
                     });
+
+                    if (_default != null && _default.isEmpty() && defaultToEmptyContainer) {
+                        // e.g. [] with the option defaultToEmptyContainer enabled
+                        return getDefaultCollectionType(schema, "");
+                    }
                 } else { // single value
                     _values = java.util.Collections.singletonList(String.valueOf(schema.getDefault()));
                 }
@@ -1431,12 +1436,31 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     private String getDefaultCollectionType(Schema schema, String defaultValues) {
         String arrayFormat = "new %s<>(Arrays.asList(%s))";
+
+        if (defaultToEmptyContainer) {
+            // respect the default value in the spec
+            if (defaultValues == null) { // default value not provided
+                return null;
+            } else if (defaultValues.isEmpty()) { // e.g. [] to indicates empty container
+                arrayFormat = "new %s<>()";
+                return getDefaultCollectionType(arrayFormat, defaultValues, ModelUtils.isSet(schema));
+            } else { // default value not empty
+                return getDefaultCollectionType(arrayFormat, defaultValues, ModelUtils.isSet(schema));
+            }
+        }
+
         if (defaultValues == null || defaultValues.isEmpty()) {
+            // default to empty container even though default value is null
+            // to respect default values provided in the spec, set the option `defaultToEmptyContainer` properly
             defaultValues = "";
             arrayFormat = "new %s<>()";
         }
 
-        if (ModelUtils.isSet(schema)) {
+        return getDefaultCollectionType(arrayFormat, defaultValues, ModelUtils.isSet(schema));
+    }
+
+    private String getDefaultCollectionType(String arrayFormat, String defaultValues, boolean isSet) {
+        if (isSet) {
             return String.format(Locale.ROOT, arrayFormat,
                     instantiationTypes().getOrDefault("set", "LinkedHashSet"), defaultValues);
         }

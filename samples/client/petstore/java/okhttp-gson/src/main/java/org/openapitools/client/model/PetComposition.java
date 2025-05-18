@@ -72,7 +72,7 @@ public class PetComposition {
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
   @javax.annotation.Nonnull
-  private List<String> photoUrls;
+  private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)

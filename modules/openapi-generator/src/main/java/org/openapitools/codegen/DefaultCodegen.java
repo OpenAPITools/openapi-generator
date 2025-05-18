@@ -401,6 +401,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(DEFAULT_TO_EMPTY_CONTAINER) && additionalProperties.get(DEFAULT_TO_EMPTY_CONTAINER) instanceof String) {
             parseDefaultToEmptyContainer((String) additionalProperties.get(DEFAULT_TO_EMPTY_CONTAINER));
+            defaultToEmptyContainer = true;
         }
     }
 
@@ -4328,11 +4329,18 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     LOGGER.error("Skipped invalid container type `{}` in the rule `{}`.", containerType, input);
                 }
+            } else { // required
+                containerType = rule;
+                if ("array".equalsIgnoreCase(containerType)) {
+                    arrayDefaultToEmpty = true;
+                } else if ("map".equalsIgnoreCase(containerType)) {
+                    mapDefaultToEmpty = true;
+                } else {
+                    LOGGER.error("Skipped invalid container type `{}` in the rule `{}`.", containerType, input);
+                }
             }
 
-            defaultToEmptyContainer = true;
         }
-
     }
 
     /**
