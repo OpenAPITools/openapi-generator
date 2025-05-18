@@ -1306,7 +1306,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String toDefaultValue(CodegenProperty cp, Schema schema) {
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
-            if (schema.getDefault() == null) {
+            if (defaultToEmptyContainer) {
+                // if default to empty container option is set, respect the default values provided in the spec
+                return toArrayDefaultValue(cp, schema);
+            } else if (schema.getDefault() == null) {
                 // nullable or containerDefaultToNull set to true
                 if (cp.isNullable || containerDefaultToNull) {
                     return null;
@@ -1321,6 +1324,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     return super.toDefaultValue(schema);
                 }
                 return null;
+            }
+
+            if (defaultToEmptyContainer) {
+                // respect the default values provided in the spec when the option is enabled
+                if (schema.getDefault() != null) {
+                    return String.format(Locale.ROOT, "new %s<>()",
+                            instantiationTypes().getOrDefault("map", "HashMap"));
+                } else {
+                    return null;
+                }
             }
 
             // nullable or containerDefaultToNull set to true

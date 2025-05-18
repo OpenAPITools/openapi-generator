@@ -336,6 +336,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Setter @Getter boolean arrayDefaultToEmpty, arrayNullableDefaultToEmpty, arrayOptionalNullableDefaultToEmpty, arrayOptionalDefaultToEmpty;
     @Setter @Getter boolean mapDefaultToEmpty, mapNullableDefaultToEmpty, mapOptionalNullableDefaultToEmpty, mapOptionalDefaultToEmpty;
+    @Setter @Getter protected boolean defaultToEmptyContainer;
     final String DEFAULT_TO_EMPTY_CONTAINER = "defaultToEmptyContainer";
     final List EMPTY_LIST = new ArrayList();
 
@@ -4235,7 +4236,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // override defaultValue if it's not set and defaultToEmptyContainer is set
-        if (p.getDefault() == null && additionalProperties.containsKey("defaultToEmptyContainer")) {
+        if (p.getDefault() == null && defaultToEmptyContainer) {
             updateDefaultToEmptyContainer(property, p);
         }
 
@@ -4328,6 +4329,8 @@ public class DefaultCodegen implements CodegenConfig {
                     LOGGER.error("Skipped invalid container type `{}` in the rule `{}`.", containerType, input);
                 }
             }
+
+            defaultToEmptyContainer = true;
         }
 
     }

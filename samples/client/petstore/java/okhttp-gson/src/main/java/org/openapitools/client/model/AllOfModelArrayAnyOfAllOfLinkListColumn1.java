@@ -56,7 +56,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
   public static final String SERIALIZED_NAME_VALUE = "value";
   @SerializedName(SERIALIZED_NAME_VALUE)
   @javax.annotation.Nonnull
-  private List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value = new ArrayList<>();
+  private List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value;
 
   public AllOfModelArrayAnyOfAllOfLinkListColumn1() {
   }
