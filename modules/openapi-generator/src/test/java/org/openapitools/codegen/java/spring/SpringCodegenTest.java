@@ -5510,7 +5510,15 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen,"src/test/resources/3_0/java/extended-enums.yaml");
 
         JavaFileAssert.assertThat(files.get("Country.java"))
-                .fileContains("axxx-ue;");
+                .fileContains("@JsonDeserialize(using = Country.EnumDeserializer.class)",
+                        "String getValue()",
+                        "class EnumDeserializer extends StdDeserializer<Country>",
+                        "class CountryString implements Country");
+        JavaFileAssert.assertThat(files.get("CountryOrOther.java"))
+                .fileContains("@JsonDeserialize(using = CountryOrOther.EnumDeserializer.class)",
+                        "String getValue()",
+                        "class EnumDeserializer extends StdDeserializer<CountryOrOther>",
+                        "static CountryOrOther fromValue(String value)");
 
     }
 }
