@@ -12,8 +12,10 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum FooResponse {
     /// Re-serialize and echo the request data
-    Status200_Re(models::Message),
+    Status200_Re
+    (models::Message)
 }
+
 
 /// Default
 #[async_trait]
@@ -21,10 +23,10 @@ pub enum FooResponse {
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// Foo - POST /
     async fn foo(
-        &self,
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        body: &models::Message,
+    &self,
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+            body: &models::Message,
     ) -> Result<FooResponse, E>;
 }
