@@ -996,14 +996,14 @@ impl std::str::FromStr for Message {
 #[serde(untagged)]
 #[allow(non_camel_case_types)]
 pub enum SomethingCompletelyDifferent {
-    VecOfObject(Box<Vec<crate::types::Object>>),
+    Object(Box<Vec<crate::types::Object>>),
     Object(Box<crate::types::Object>),
 }
 
 impl validator::Validate for SomethingCompletelyDifferent {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
-            Self::VecOfObject(_) => std::result::Result::Ok(()),
+            Self::Object(_) => std::result::Result::Ok(()),
             Self::Object(x) => x.validate(),
         }
     }
@@ -1011,7 +1011,7 @@ impl validator::Validate for SomethingCompletelyDifferent {
 
 impl From<Vec<crate::types::Object>> for SomethingCompletelyDifferent {
     fn from(value: Vec<crate::types::Object>) -> Self {
-        Self::VecOfObject(Box::new(value))
+        Self::Object(Box::new(value))
     }
 }
 impl From<crate::types::Object> for SomethingCompletelyDifferent {
