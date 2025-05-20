@@ -54,7 +54,7 @@ class UserApi:
         _request_auth: Optional[Dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=3)] = 0,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=4)] = 0,
     ) -> None:
         """Create user
 
@@ -120,7 +120,7 @@ class UserApi:
         _request_auth: Optional[Dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=3)] = 0,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=4)] = 0,
     ) -> ApiResponse[None]:
         """Create user
 
@@ -186,7 +186,7 @@ class UserApi:
         _request_auth: Optional[Dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=3)] = 0,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=4)] = 0,
     ) -> RESTResponseType:
         """Create user
 
@@ -243,6 +243,7 @@ class UserApi:
     ) -> RequestSerialized:
 
         _hosts = [
+            'http://localhost/v2',
             'http://petstore.swagger.io/v2',
             'http://path-server-test.petstore.local/v2',
             'http://{server}.swagger.io:{port}/v2'
