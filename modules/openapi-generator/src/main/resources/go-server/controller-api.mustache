@@ -14,8 +14,9 @@ import (
 	{{/isBodyParam}}
 	"net/http"
 	"strings"
-{{#imports}}	"{{import}}"
-	{{/imports}}
+{{#imports}}
+    "{{import}}"
+{{/imports}}
 {{#hasPathParams}}
 
 {{#routers}}
@@ -112,7 +113,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#isPathParam}}
 	{{#isNumber}}
 	{{paramName}}Param, err := parseNumericParameter[float32](
-		{{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
+		{{#routers}}{{#stdmux}}r.PathValue("{{baseName}}"){{/stdmux}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
 		WithDefaultOrParse[float32]({{defaultValue}}, parseFloat32),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[float32](parseFloat32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
 		WithParse[float32](parseFloat32),{{/required}}{{/defaultValue}}{{#minimum}}
@@ -126,7 +127,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isNumber}}
 	{{#isFloat}}
 	{{paramName}}Param, err := parseNumericParameter[float32](
-		{{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
+		{{#routers}}{{#stdmux}}r.PathValue("{{baseName}}"){{/stdmux}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
 		WithDefaultOrParse[float32]({{defaultValue}}, parseFloat32),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[float32](parseFloat32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
 		WithParse[float32](parseFloat32),{{/required}}{{/defaultValue}}{{#minimum}}
@@ -140,7 +141,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isFloat}}
 	{{#isDouble}}
 	{{paramName}}Param, err := parseNumericParameter[float64](
-		{{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
+		{{#routers}}{{#stdmux}}r.PathValue("{{baseName}}"){{/stdmux}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
 		WithDefaultOrParse[float64]({{defaultValue}}, parseFloat64),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[float64](parseFloat64),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
 		WithParse[float64](parseFloat64),{{/required}}{{/defaultValue}}{{#minimum}}
@@ -154,7 +155,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isDouble}}
 	{{#isLong}}
 	{{paramName}}Param, err := parseNumericParameter[int64](
-		{{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
+		{{#routers}}{{#stdmux}}r.PathValue("{{baseName}}"){{/stdmux}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
 		WithDefaultOrParse[int64]({{defaultValue}}, parseInt64),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[int64](parseInt64),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
 		WithParse[int64](parseInt64),{{/required}}{{/defaultValue}}{{#minimum}}
@@ -168,7 +169,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isLong}}
 	{{#isInteger}}
 	{{paramName}}Param, err := parseNumericParameter[int32](
-		{{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
+		{{#routers}}{{#stdmux}}r.PathValue("{{baseName}}"){{/stdmux}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
 		WithDefaultOrParse[int32]({{defaultValue}}, parseInt32),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[int32](parseInt32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
 		WithParse[int32](parseInt32),{{/required}}{{/defaultValue}}{{#minimum}}
@@ -181,7 +182,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isInteger}}
 	{{#isDateTime}}
-	{{paramName}}Param, err := parseTime({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	{{paramName}}Param, err := parseTime({{#routers}}{{#stdmux}}r.PathValue("{{baseName}}"){{/stdmux}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Param: "{{baseName}}", Err: err}, nil)
 		return
@@ -194,14 +195,14 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isInteger}}
 	{{^isDateTime}}
 	{{^isEnumRef}}
-	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
+	{{paramName}}Param := {{#routers}}{{#stdmux}}r.PathValue("{{baseName}}"){{/stdmux}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
 	if {{paramName}}Param == "" {
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
 	{{/isEnumRef}}
 	{{#isEnumRef}}
-	{{paramName}}Param, err := New{{dataType}}FromValue({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	{{paramName}}Param, err := New{{dataType}}FromValue({{#routers}}{{#stdmux}}r.PathValue("{{baseName}}"){{/stdmux}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Param: "{{baseName}}", Err: err}, nil)
 		return
