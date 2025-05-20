@@ -541,7 +541,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return The sanitized filename
      */
     protected String sanitizeFilename(String filename) {
-        return filename.replaceAll(".*[/\\\\]", "");
+        return filename.replaceFirst("^.*[/\\\\]", "");
     }
 
     /**
