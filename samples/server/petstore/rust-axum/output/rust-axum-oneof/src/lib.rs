@@ -6,7 +6,7 @@
     unused_extern_crates,
     non_camel_case_types,
     unused_imports,
-    unused_attributes,
+    unused_attributes
 )]
 #![allow(
     clippy::derive_partial_eq_without_eq,
@@ -20,9 +20,9 @@ pub const API_VERSION: &str = "0.0.1";
 #[cfg(feature = "server")]
 pub mod server;
 
+pub mod apis;
 pub mod models;
 pub mod types;
-pub mod apis;
 
 #[cfg(feature = "server")]
 pub(crate) mod header;

@@ -17,7 +17,7 @@ pub fn new<I, A, E, C>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
     A: apis::another_fake::AnotherFake<E>
-        + apis::fake::Fake<E>
+        + apis::fake::Fake<E, Claims = C>
         + apis::fake_classname_tags123::FakeClassnameTags123<E>
         + apis::pet::Pet<E, Claims = C>
         + apis::store::Store<E, Claims = C>
@@ -38,46 +38,49 @@ where
         )
         .route(
             "/v2/fake",
-            get(test_enum_parameters::<I, A, E>)
-                .patch(test_client_model::<I, A, E>)
-                .post(test_endpoint_parameters::<I, A, E>),
+            get(test_enum_parameters::<I, A, E, C>)
+                .patch(test_client_model::<I, A, E, C>)
+                .post(test_endpoint_parameters::<I, A, E, C>),
         )
         .route(
             "/v2/fake/body-with-query-params",
-            put(test_body_with_query_params::<I, A, E>),
+            put(test_body_with_query_params::<I, A, E, C>),
         )
         .route(
-            "/v2/fake/hyphenParam/:hyphen_param",
-            get(hyphen_param::<I, A, E>),
+            "/v2/fake/hyphenParam/{hyphen_param}",
+            get(hyphen_param::<I, A, E, C>),
         )
         .route(
             "/v2/fake/inline-additionalProperties",
-            post(test_inline_additional_properties::<I, A, E>),
+            post(test_inline_additional_properties::<I, A, E, C>),
         )
-        .route("/v2/fake/jsonFormData", get(test_json_form_data::<I, A, E>))
+        .route(
+            "/v2/fake/jsonFormData",
+            get(test_json_form_data::<I, A, E, C>),
+        )
         .route(
             "/v2/fake/operation-with-numeric-id",
-            get(call123example::<I, A, E>),
+            get(call123example::<I, A, E, C>),
         )
         .route(
             "/v2/fake/outer/boolean",
-            post(fake_outer_boolean_serialize::<I, A, E>),
+            post(fake_outer_boolean_serialize::<I, A, E, C>),
         )
         .route(
             "/v2/fake/outer/composite",
-            post(fake_outer_composite_serialize::<I, A, E>),
+            post(fake_outer_composite_serialize::<I, A, E, C>),
         )
         .route(
             "/v2/fake/outer/number",
-            post(fake_outer_number_serialize::<I, A, E>),
+            post(fake_outer_number_serialize::<I, A, E, C>),
         )
         .route(
             "/v2/fake/outer/string",
-            post(fake_outer_string_serialize::<I, A, E>),
+            post(fake_outer_string_serialize::<I, A, E, C>),
         )
         .route(
             "/v2/fake/response-with-numerical-description",
-            get(fake_response_with_numerical_description::<I, A, E>),
+            get(fake_response_with_numerical_description::<I, A, E, C>),
         )
         .route("/v2/fake_classname_test", patch(test_classname::<I, A, E>))
         .route(
@@ -85,33 +88,27 @@ where
             post(add_pet::<I, A, E, C>).put(update_pet::<I, A, E, C>),
         )
         .route(
-            "/v2/pet/:pet_id",
+            "/v2/pet/findByStatus",
+            get(find_pets_by_status::<I, A, E, C>),
+        )
+        .route("/v2/pet/findByTags", get(find_pets_by_tags::<I, A, E, C>))
+        .route(
+            "/v2/pet/{pet_id}",
             delete(delete_pet::<I, A, E, C>)
                 .get(get_pet_by_id::<I, A, E, C>)
                 .post(update_pet_with_form::<I, A, E, C>),
         )
         .route(
-            "/v2/pet/:pet_id/uploadImage",
+            "/v2/pet/{pet_id}/uploadImage",
             post(upload_file::<I, A, E, C>),
         )
-        .route(
-            "/v2/pet/findByStatus",
-            get(find_pets_by_status::<I, A, E, C>),
-        )
-        .route("/v2/pet/findByTags", get(find_pets_by_tags::<I, A, E, C>))
         .route("/v2/store/inventory", get(get_inventory::<I, A, E, C>))
         .route("/v2/store/order", post(place_order::<I, A, E, C>))
         .route(
-            "/v2/store/order/:order_id",
+            "/v2/store/order/{order_id}",
             delete(delete_order::<I, A, E, C>).get(get_order_by_id::<I, A, E, C>),
         )
         .route("/v2/user", post(create_user::<I, A, E>))
-        .route(
-            "/v2/user/:username",
-            delete(delete_user::<I, A, E>)
-                .get(get_user_by_name::<I, A, E>)
-                .put(update_user::<I, A, E>),
-        )
         .route(
             "/v2/user/createWithArray",
             post(create_users_with_array_input::<I, A, E>),
@@ -122,6 +119,12 @@ where
         )
         .route("/v2/user/login", get(login_user::<I, A, E>))
         .route("/v2/user/logout", get(logout_user::<I, A, E>))
+        .route(
+            "/v2/user/{username}",
+            delete(delete_user::<I, A, E>)
+                .get(get_user_by_name::<I, A, E>)
+                .put(update_user::<I, A, E>),
+        )
         .with_state(api_impl)
 }
 
@@ -222,7 +225,7 @@ fn call123example_validation() -> std::result::Result<(), ValidationErrors> {
 }
 /// Call123example - GET /v2/fake/operation-with-numeric-id
 #[tracing::instrument(skip_all)]
-async fn call123example<I, A, E>(
+async fn call123example<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -230,7 +233,7 @@ async fn call123example<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
@@ -295,7 +298,7 @@ fn fake_outer_boolean_serialize_validation(
 }
 /// FakeOuterBooleanSerialize - POST /v2/fake/outer/boolean
 #[tracing::instrument(skip_all)]
-async fn fake_outer_boolean_serialize<I, A, E>(
+async fn fake_outer_boolean_serialize<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -304,7 +307,7 @@ async fn fake_outer_boolean_serialize<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
@@ -389,7 +392,7 @@ fn fake_outer_composite_serialize_validation(
 }
 /// FakeOuterCompositeSerialize - POST /v2/fake/outer/composite
 #[tracing::instrument(skip_all)]
-async fn fake_outer_composite_serialize<I, A, E>(
+async fn fake_outer_composite_serialize<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -398,7 +401,7 @@ async fn fake_outer_composite_serialize<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
@@ -483,7 +486,7 @@ fn fake_outer_number_serialize_validation(
 }
 /// FakeOuterNumberSerialize - POST /v2/fake/outer/number
 #[tracing::instrument(skip_all)]
-async fn fake_outer_number_serialize<I, A, E>(
+async fn fake_outer_number_serialize<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -492,7 +495,7 @@ async fn fake_outer_number_serialize<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
@@ -577,7 +580,7 @@ fn fake_outer_string_serialize_validation(
 }
 /// FakeOuterStringSerialize - POST /v2/fake/outer/string
 #[tracing::instrument(skip_all)]
-async fn fake_outer_string_serialize<I, A, E>(
+async fn fake_outer_string_serialize<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -586,7 +589,7 @@ async fn fake_outer_string_serialize<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
@@ -658,7 +661,7 @@ fn fake_response_with_numerical_description_validation() -> std::result::Result<
 }
 /// FakeResponseWithNumericalDescription - GET /v2/fake/response-with-numerical-description
 #[tracing::instrument(skip_all)]
-async fn fake_response_with_numerical_description<I, A, E>(
+async fn fake_response_with_numerical_description<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -666,7 +669,7 @@ async fn fake_response_with_numerical_description<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
@@ -722,7 +725,7 @@ fn hyphen_param_validation(
 }
 /// HyphenParam - GET /v2/fake/hyphenParam/{hyphen-param}
 #[tracing::instrument(skip_all)]
-async fn hyphen_param<I, A, E>(
+async fn hyphen_param<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -731,7 +734,7 @@ async fn hyphen_param<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
@@ -797,7 +800,7 @@ fn test_body_with_query_params_validation(
 }
 /// TestBodyWithQueryParams - PUT /v2/fake/body-with-query-params
 #[tracing::instrument(skip_all)]
-async fn test_body_with_query_params<I, A, E>(
+async fn test_body_with_query_params<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -807,7 +810,7 @@ async fn test_body_with_query_params<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
@@ -872,7 +875,7 @@ fn test_client_model_validation(
 }
 /// TestClientModel - PATCH /v2/fake
 #[tracing::instrument(skip_all)]
-async fn test_client_model<I, A, E>(
+async fn test_client_model<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -881,7 +884,7 @@ async fn test_client_model<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
@@ -963,18 +966,32 @@ fn test_endpoint_parameters_validation(
 }
 /// TestEndpointParameters - POST /v2/fake
 #[tracing::instrument(skip_all)]
-async fn test_endpoint_parameters<I, A, E>(
+async fn test_endpoint_parameters<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     State(api_impl): State<I>,
     Form(body): Form<models::TestEndpointParametersRequest>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + apis::ApiAuthBasic<Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
+    // Authentication
+    let claims_in_auth_header = api_impl
+        .as_ref()
+        .extract_claims_from_auth_header(apis::BasicAuthKind::Basic, &headers, "authorization")
+        .await;
+    let claims = None.or(claims_in_auth_header);
+    let Some(claims) = claims else {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    };
+
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || test_endpoint_parameters_validation(body))
         .await
@@ -989,7 +1006,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .test_endpoint_parameters(&method, &host, &cookies, &body)
+        .test_endpoint_parameters(&method, &host, &cookies, &claims, &body)
         .await;
 
     let mut response = Response::builder();
@@ -1052,7 +1069,7 @@ fn test_enum_parameters_validation(
 }
 /// TestEnumParameters - GET /v2/fake
 #[tracing::instrument(skip_all)]
-async fn test_enum_parameters<I, A, E>(
+async fn test_enum_parameters<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1063,7 +1080,7 @@ async fn test_enum_parameters<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     // Header parameters
@@ -1188,7 +1205,7 @@ fn test_inline_additional_properties_validation(
 }
 /// TestInlineAdditionalProperties - POST /v2/fake/inline-additionalProperties
 #[tracing::instrument(skip_all)]
-async fn test_inline_additional_properties<I, A, E>(
+async fn test_inline_additional_properties<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1197,7 +1214,7 @@ async fn test_inline_additional_properties<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
@@ -1261,7 +1278,7 @@ fn test_json_form_data_validation(
 }
 /// TestJsonFormData - GET /v2/fake/jsonFormData
 #[tracing::instrument(skip_all)]
-async fn test_json_form_data<I, A, E>(
+async fn test_json_form_data<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1270,7 +1287,7 @@ async fn test_json_form_data<I, A, E>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::fake::Fake<E> + Send + Sync,
+    A: apis::fake::Fake<E, Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
@@ -2035,7 +2052,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .upload_file(&method, &host, &cookies, &path_params, &body)
+        .upload_file(&method, &host, &cookies, &path_params, body)
         .await;
 
     let mut response = Response::builder();
