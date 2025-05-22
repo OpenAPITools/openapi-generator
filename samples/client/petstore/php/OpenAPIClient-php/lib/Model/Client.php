@@ -258,11 +258,11 @@ class Client implements ModelInterface, ArrayAccess, \JsonSerializable
     */
     private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
+        $apivar = $this->attributeMap()[$variableName];
+        if (self::isNullable($variableName) && array_key_exists($apivar, $fields) && is_null($fields[$apivar])) {
+            $this->openAPINullablesSetToNull[] = $apivar;
         }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
+        $this->container[$variableName] = $fields[$apivar] ?? $defaultValue;
     }
 
     /**
