@@ -9,6 +9,8 @@ Method | HTTP request | Description
 [**find_pets_by_status**](PetApi.md#find_pets_by_status) | **Get** /pet/findByStatus | Finds Pets by status
 [**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **Get** /pet/findByTags | Finds Pets by tags
 [**get_pet_by_id**](PetApi.md#get_pet_by_id) | **Get** /pet/{petId} | Find pet by ID
+[**pets_explode_post**](PetApi.md#pets_explode_post) | **Post** /pets/explode | List all pets
+[**pets_post**](PetApi.md#pets_post) | **Post** /pets | List all pets
 [**update_pet**](PetApi.md#update_pet) | **Put** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **Post** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PetApi.md#upload_file) | **Post** /pet/{petId}/uploadImage | uploads an image
@@ -163,6 +165,66 @@ Name | Type | Description  | Required | Notes
 
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## pets_explode_post
+
+> Vec<models::Pet> pets_explode_post(page_explode)
+List all pets
+
+Returns a list of pets
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**page_explode** | Option<[**Page**](.md)> | Object containing page `size` and page `number`. |  |
+
+### Return type
+
+[**Vec<models::Pet>**](Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## pets_post
+
+> Vec<models::Pet> pets_post(page)
+List all pets
+
+Returns a list of pets
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**page** | Option<[**Page**](.md)> | The page number |  |
+
+### Return type
+
+[**Vec<models::Pet>**](Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

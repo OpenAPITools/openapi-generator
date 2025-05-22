@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Banana: Sendable, Codable, QueryStringEncodable, Hashable {
+public struct Banana: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var count: Double?
 

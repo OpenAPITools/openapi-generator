@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Pet: NSObject, Codable, QueryStringEncodable {
+@objcMembers public class Pet: NSObject, Codable, ParameterConvertible {
 
     public enum Status: String, Sendable, Codable, CaseIterable {
         case available = "available"

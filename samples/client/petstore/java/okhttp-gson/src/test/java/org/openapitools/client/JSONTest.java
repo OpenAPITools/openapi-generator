@@ -7,7 +7,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -274,13 +276,13 @@ public class JSONTest {
         assertEquals(t2.getName(), "tag test 1");
         assertEquals(t2.getId(), null);
 
-        // with all required fields 
+        // with all required fields
         String json3 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"]}";
         Pet t3 = gson.fromJson(json3, Pet.class);
         assertEquals(t3.getName(), "pet test 1");
         assertEquals(t3.getId(), Long.valueOf(5847));
 
-        // with all required fields and tags (optional) 
+        // with all required fields and tags (optional)
         String json4 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"],\"tags\":[{\"id\":\"tag 123\"}]}";
         Pet t4 = gson.fromJson(json3, Pet.class);
         assertEquals(t4.getName(), "pet test 1");
@@ -670,5 +672,13 @@ public class JSONTest {
             });
             assertTrue(exception.getMessage().contains("java.io.IOException: The JSON string is invalid for"));
         }
+    }
+
+    @Test
+    public void testDeserializeInputStream() throws Exception {
+        final String str = "\"2016-09-09\"";
+        final InputStream inputStream = new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
+        final LocalDate date = LocalDate.of(2016, 9, 9);
+        assertEquals(date, json.deserialize(inputStream, LocalDate.class));
     }
 }

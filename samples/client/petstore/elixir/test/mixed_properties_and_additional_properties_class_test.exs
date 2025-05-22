@@ -15,7 +15,7 @@ defmodule MixedPropertiesAndAdditionalPropertiesClass do
            |> Model.decode() ==
              %Model{
                uuid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-               dateTime: ~U[2013-10-20T18:20:30Z],
+               dateTime: "2013-10-20T19:20:30+01:00",
                map: %{
                  # TODO values should be Dog and Cat structs instead of an Animal
                  "doggie" => %Animal{

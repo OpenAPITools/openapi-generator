@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct OuterComposite: Sendable, Codable, QueryStringEncodable {
+internal struct OuterComposite: Sendable, Codable, ParameterConvertible {
 
     internal private(set) var myNumber: Double?
     internal private(set) var myString: String?

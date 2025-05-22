@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AdditionalPropertiesObject: Sendable, Codable, QueryStringEncodable, Hashable {
+public struct AdditionalPropertiesObject: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var name: String?
 

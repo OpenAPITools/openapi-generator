@@ -417,8 +417,8 @@ class PetApiTest extends TestCase
         $contents = $request->getBody()->getContents();
 
         $this->assertBodyContents('name', $name, $contents);
-        $this->assertBodyContents('photoUrls[0]', $photo_urls[0], $contents);
-        $this->assertBodyContents('photoUrls[1]', $photo_urls[1], $contents);
+        $this->assertBodyContents('photo_urls[0]', $photo_urls[0], $contents);
+        $this->assertBodyContents('photo_urls[1]', $photo_urls[1], $contents);
         $this->assertBodyContents('category[id]', $category->getId(), $contents);
         $this->assertBodyContents('category[name]', $category->getName(), $contents);
         $this->assertBodyContents('tags[0][id]', $tags[0]->getId(), $contents);

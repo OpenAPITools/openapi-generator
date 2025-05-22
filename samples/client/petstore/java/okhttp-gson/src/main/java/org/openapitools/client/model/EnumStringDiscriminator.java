@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * An object to test discriminator of enum string
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class EnumStringDiscriminator {
   /**
    * enum string type
@@ -220,12 +220,10 @@ public class EnumStringDiscriminator {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("enum_str_type");
+    openapiFields = new HashSet<String>(Arrays.asList("enum_str_type"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("enum_str_type");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("enum_str_type"));
   }
 
   /**

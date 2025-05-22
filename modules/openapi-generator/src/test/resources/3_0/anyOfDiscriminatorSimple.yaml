@@ -1,0 +1,36 @@
+openapi: 3.0.1
+info:
+   title: fruity
+   version: 0.0.1
+paths:
+   /:
+      get:
+         responses:
+            '200':
+               description: desc
+               content:
+                  application/json:
+                     schema:
+                        $ref: '#/components/schemas/FruitAnyOfDisc'
+components:
+   schemas:
+    FruitAnyOfDisc:
+      anyOf:
+        - $ref: '#/components/schemas/AppleAnyOfDisc'
+        - $ref: '#/components/schemas/BananaAnyOfDisc'
+      discriminator:
+        propertyName: fruitType
+    AppleAnyOfDisc:
+      type: object
+      required:
+        - fruitType
+      properties:
+        fruitType:
+          type: string
+    BananaAnyOfDisc:
+      type: object
+      required:
+        - fruitType
+      properties:
+        fruitType:
+          type: string

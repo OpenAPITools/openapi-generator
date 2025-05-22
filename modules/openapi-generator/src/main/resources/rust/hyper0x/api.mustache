@@ -73,7 +73,15 @@ impl<C: hyper::client::connect::Connect>{{{classname}}} for {{{classname}}}Clien
         {{/required}}
         {{^required}}
         if let Some(ref s) = {{{paramName}}} {
-            let query_value = {{#isArray}}s.iter().map(|s| s.to_string()).collect::<Vec<String>>().join(","){{/isArray}}{{^isArray}}s.to_string(){{/isArray}};
+            {{#isArray}}
+            let query_value = s.iter().map(|s| s.to_string()).collect::<Vec<String>>().join(",");
+            {{/isArray}}
+            {{^isArray}}
+            let query_value = match serde_json::to_string(s) {
+                Ok(value) => value,
+                Err(e) => return Box::pin(futures::future::err(Error::Serde(e))),
+            };
+            {{/isArray}}
             req = req.with_query_param("{{{baseName}}}".to_string(), query_value);
         }
         {{/required}}

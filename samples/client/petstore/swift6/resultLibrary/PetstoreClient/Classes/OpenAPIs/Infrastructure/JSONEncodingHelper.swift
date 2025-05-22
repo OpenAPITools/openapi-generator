@@ -26,20 +26,4 @@ internal class JSONEncodingHelper {
         return params
     }
 
-    internal class func encodingParameters(forEncodableObject encodableObj: Any?, codableHelper: CodableHelper) -> [String: any Sendable]? {
-        var params: [String: any Sendable]?
-
-        if let encodableObj = encodableObj {
-            do {
-                let data = try JSONSerialization.data(withJSONObject: encodableObj, options: .prettyPrinted)
-                params = JSONDataEncoding.encodingParameters(jsonData: data)
-            } catch {
-                print(error.localizedDescription)
-                return nil
-            }
-        }
-
-        return params
-    }
-
 }

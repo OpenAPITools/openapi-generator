@@ -273,8 +273,8 @@ internal class UserAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "username": (wrappedValue: username.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "password": (wrappedValue: password.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "username": (wrappedValue: username.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "password": (wrappedValue: password.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [

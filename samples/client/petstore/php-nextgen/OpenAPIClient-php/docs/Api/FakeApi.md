@@ -5,6 +5,7 @@ All URIs are relative to http://petstore.swagger.io:80/v2, except if the operati
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
 | [**fakeBigDecimalMap()**](FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap |  |
+| [**fakeDeletePet()**](FakeApi.md#fakeDeletePet) | **DELETE** /fake/pet/{pet_id} |  |
 | [**fakeEnumEndpoint()**](FakeApi.md#fakeEnumEndpoint) | **GET** /fake/enum/endpoint | test endpoint with enum parameter |
 | [**fakeHealthGet()**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
 | [**fakeHttpSignatureTest()**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication |
@@ -82,6 +83,59 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: `*/*`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fakeDeletePet()`
+
+```php
+fakeDeletePet($pet_id)
+```
+
+
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$pet_id = 'pet_id_example'; // string | The id of the pet to retrieve
+
+try {
+    $apiInstance->fakeDeletePet($pet_id);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakeDeletePet: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet_id** | **string**| The id of the pet to retrieve | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)

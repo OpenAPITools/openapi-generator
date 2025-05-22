@@ -625,10 +625,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
             CodegenComposedSchemas composedSchemas = model.getComposedSchemas();
             if (composedSchemas != null) {
+                Set<String> composedPropertyNames = new HashSet<String>();
                 List<CodegenProperty> allOf = composedSchemas.getAllOf();
                 if (allOf != null) {
                     for (CodegenProperty property : allOf) {
-                        property.name = patchPropertyName(model, camelize(property.baseType));
+                        property.name = patchPropertyName(model, camelize(property.baseType), composedPropertyNames);
                         patchPropertyVendorExtensions(property);
                     }
                 }
@@ -637,7 +638,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (anyOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for (CodegenProperty property : anyOf) {
-                        property.name = patchPropertyName(model, camelize(property.baseType));
+                        property.name = patchPropertyName(model, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
                         patchPropertyVendorExtensions(property);
                         property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
@@ -648,7 +649,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (oneOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for (CodegenProperty property : oneOf) {
-                        property.name = patchPropertyName(model, camelize(property.baseType));
+                        property.name = patchPropertyName(model, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
                         patchPropertyVendorExtensions(property);
                         property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
@@ -715,11 +716,25 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
     }
 
-    private String patchPropertyName(CodegenModel model, String value) {
+    private String patchPropertyName(CodegenModel model, String value, Set<String> composedPropertyNames) {
         String name = escapeReservedWord(model, value);
 
         if (name.startsWith(AbstractCSharpCodegen.invalidParameterNamePrefix)) {
             name = AbstractCSharpCodegen.invalidPropertyNamePrefix + name.substring(AbstractCSharpCodegen.invalidParameterNamePrefix.length());
+        }
+
+        // ensure the name we use for a composed property does not already exist as a property or composed property
+        // only do this if the set of composed property names was provided to ensure this method is idempotent
+        // we would not calling this method multiple times to result in different values
+        if (composedPropertyNames != null) {
+            String tmpName = name;
+            long count = model.allVars.stream().map(v -> v.name).filter(n -> n.equals(tmpName)).count() + composedPropertyNames.stream().filter(n -> n.equals(tmpName)).count();
+
+            if (count > 0) {
+                name = name + count++;
+            }
+
+            composedPropertyNames.add(name);
         }
 
         return name;
@@ -753,7 +768,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         patchPropertyVendorExtensions(property);
 
-        property.name = patchPropertyName(model, property.name);
+        property.name = patchPropertyName(model, property.name, null);
 
         String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
 

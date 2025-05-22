@@ -13,7 +13,9 @@
 #include "{{packageName}}/ApiException.h"
 #include "{{packageName}}/IHttpBody.h"
 #include "{{packageName}}/HttpContent.h"
-
+{{^hasModelImport}}
+#include "{{packageName}}/ModelBase.h"
+{{/hasModelImport}}
 #if  defined (_WIN32) || defined (_WIN64)
 #undef U
 #endif
@@ -52,6 +54,9 @@ public:
     static utility::string_t parameterToString(double value);
     static utility::string_t parameterToString(const utility::datetime &value);
     static utility::string_t parameterToString(bool value);
+    {{^hasModelImport}}
+    static utility::string_t parameterToString(const ModelBase& value);
+    {{/hasModelImport}}
     template<class T>
     static utility::string_t parameterToString(const std::vector<T>& value);
     template<class T>

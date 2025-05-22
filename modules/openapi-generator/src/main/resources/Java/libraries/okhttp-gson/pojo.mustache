@@ -322,16 +322,20 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    {{#allVars}}
-    openapiFields.add("{{baseName}}");
-    {{/allVars}}
+    {{#hasVars}}
+    openapiFields = new HashSet<String>(Arrays.asList({{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}));
+    {{/hasVars}}
+    {{^hasVars}}
+    openapiFields = new HashSet<String>(0);
+    {{/hasVars}}
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    {{#requiredVars}}
-    openapiRequiredFields.add("{{baseName}}");
-    {{/requiredVars}}
+    {{#hasRequired}}
+    openapiRequiredFields = new HashSet<String>(Arrays.asList({{#requiredVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/requiredVars}}));
+    {{/hasRequired}}
+    {{^hasRequired}}
+    openapiRequiredFields = new HashSet<String>(0);
+    {{/hasRequired}}
   }
 
   /**

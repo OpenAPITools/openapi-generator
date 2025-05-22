@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct BigCat: Sendable, Codable, QueryStringEncodable, Hashable {
+public struct BigCat: Sendable, Codable, ParameterConvertible, Hashable {
 
     public enum Kind: String, Sendable, Codable, CaseIterable {
         case lions = "lions"

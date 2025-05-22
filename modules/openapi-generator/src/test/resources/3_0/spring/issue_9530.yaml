@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  version: "1.0.0"
+  title: use-optional-multipart-spring-boot-request-body-issue
+paths:
+  /pet/{petId}/uploadImage:
+    post:
+      tags:
+        - pet tag
+      summary: uploads an image
+      operationId: uploadFile
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - length
+              properties:
+                additionalMetadata:
+                  type: string
+                  description: Additional data to pass to server
+                length:
+                  type: integer
+                  description: Content length
+                file:
+                  type: string
+                  description: file to upload
+                  format: binary
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+components:
+  schemas:
+    ApiResponse:
+      title: An uploaded response
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      description: Describes the result of uploading an image resource
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/api/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
+

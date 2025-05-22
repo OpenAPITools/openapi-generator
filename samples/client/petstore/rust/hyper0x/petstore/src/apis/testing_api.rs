@@ -37,7 +37,6 @@ impl<C: hyper::client::connect::Connect> TestingApiClient<C>
 
 pub trait TestingApi {
     fn tests_all_of_with_one_model_get(&self, person: models::Person) -> Pin<Box<dyn Future<Output = Result<String, Error>>>>;
-    fn tests_discriminator_duplicate_enums_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::TestsDiscriminatorDuplicateEnumsGet200Response, Error>>>>;
     fn tests_file_response_get(&self, ) -> Pin<Box<dyn Future<Output = Result<std::path::PathBuf, Error>>>>;
     fn tests_type_testing_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::TypeTesting, Error>>>>;
 }
@@ -49,14 +48,6 @@ impl<C: hyper::client::connect::Connect>TestingApi for TestingApiClient<C>
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/allOfWithOneModel".to_string())
         ;
         req = req.with_body_param(person);
-
-        req.execute(self.configuration.borrow())
-    }
-
-    #[allow(unused_mut)]
-    fn tests_discriminator_duplicate_enums_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::TestsDiscriminatorDuplicateEnumsGet200Response, Error>>>> {
-        let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/discriminatorDuplicateEnums".to_string())
-        ;
 
         req.execute(self.configuration.borrow())
     }

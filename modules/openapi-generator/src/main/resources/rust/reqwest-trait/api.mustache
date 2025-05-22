@@ -192,36 +192,90 @@ impl {{classname}} for {{classname}}Client {
         {{/isNullable}}
         {{#isNullable}}
         {{#isDeepObject}}
-        if let Some(ref local_var_str) = {{{paramName}}} {
-            let params = crate::apis::parse_deep_object("{{{baseName}}}", local_var_str);
+        {{^isExplode}}
+        if let Some(ref param_value) = {{{paramName}}} {
+            let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
             local_var_req_builder = local_var_req_builder.query(&params);
-        };
+        }
+        {{/isExplode}}
+        {{#isExplode}}
+        {{#isModel}}
+        if let Some(ref param_value) = {{{paramName}}} {
+            local_var_req_builder = local_var_req_builder.query(&param_value);
+        }
+        {{/isModel}}
+        {{#isMap}}
+        if let Some(ref param_value) = {{{paramName}}} {
+            let mut query_params = Vec::with_capacity(param_value.len());
+            for (key, value) in param_value.iter() {
+                query_params.push((key.to_string(), serde_json::to_string(value)?));
+            }
+            local_var_req_builder = local_var_req_builder.query(&query_params);
+        }
+        {{/isMap}}
+        {{/isExplode}}
         {{/isDeepObject}}
         {{^isDeepObject}}
-        if let Some(ref local_var_str) = {{{paramName}}} {
-            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+        {{#isObject}}
+        if let Some(ref param_value) = {{{paramName}}} {
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_value(param_value)?)]);
         };
+        {{/isObject}}
+        {{#isModel}}
+        if let Some(ref param_value) = {{{paramName}}} {
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_value(param_value)?)]);
+        };
+        {{/isModel}}
+        {{^isObject}}
+        {{^isModel}}
+        if let Some(ref param_value) = {{{paramName}}} {
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+        };
+        {{/isModel}}
+        {{/isObject}}
         {{/isDeepObject}}
         {{/isNullable}}
         {{/isArray}}
         {{/required}}
         {{^required}}
-        if let Some(ref local_var_str) = {{{paramName}}} {
+        if let Some(ref param_value) = {{{paramName}}} {
             {{#isArray}}
             local_var_req_builder = match "{{collectionFormat}}" {
-                "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-                _ => local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+                "multi" => local_var_req_builder.query(&param_value.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+                _ => local_var_req_builder.query(&[("{{{baseName}}}", &param_value.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
             };
             {{/isArray}}
-            {{^isArray}}
             {{#isDeepObject}}
-            let params = crate::apis::parse_deep_object("{{{baseName}}}", local_var_str);
+            {{^isExplode}}
+            let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
             local_var_req_builder = local_var_req_builder.query(&params);
+            {{/isExplode}}
+            {{#isExplode}}
+            {{#isModel}}
+            local_var_req_builder = local_var_req_builder.query(&param_value);
+            {{/isModel}}
+            {{#isMap}}
+            let mut query_params = Vec::with_capacity(param_value.len());
+            for (key, value) in param_value.iter() {
+                query_params.push((key.to_string(), serde_json::to_string(value)?));
+            }
+            local_var_req_builder = local_var_req_builder.query(&query_params);
+            {{/isMap}}
+            {{/isExplode}}
             {{/isDeepObject}}
             {{^isDeepObject}}
-            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+            {{#isObject}}
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_value(param_value)?)]);
+            {{/isObject}}
+            {{#isModel}}
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_value(param_value)?)]);
+            {{/isModel}}
+            {{^isObject}}
+            {{^isModel}}
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+            {{/isModel}}
+            {{/isObject}}
             {{/isDeepObject}}
-            {{/isArray}}
         }
         {{/required}}
         {{/queryParams}}

@@ -46,22 +46,22 @@ import org.openapitools.client.auth.Authentication;
 public class ApiClient {
 
     /** Underlying HTTP-client */
-    private WSClient wsClient;
+    protected WSClient wsClient;
 
     /** Creates HTTP call instances */
-    private Play26CallFactory callFactory;
+    protected Play26CallFactory callFactory;
 
     /** Create {@link java.util.concurrent.CompletionStage} instances from HTTP calls */
-    private Play26CallAdapterFactory callAdapterFactory;
+    protected Play26CallAdapterFactory callAdapterFactory;
 
     /** Supported auths */
-    private Map<String, Authentication> authentications;
+    protected Map<String, Authentication> authentications;
 
     /** API base path */
-    private String basePath = "http://petstore.swagger.io:80/v2";
+    protected String basePath = "http://petstore.swagger.io:80/v2";
 
     /** Default ObjectMapper */
-    private ObjectMapper defaultMapper;
+    protected ObjectMapper defaultMapper;
 
     public ApiClient(WSClient wsClient) {
         this();

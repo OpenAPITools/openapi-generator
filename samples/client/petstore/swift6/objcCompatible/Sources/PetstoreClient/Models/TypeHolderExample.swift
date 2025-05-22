@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class TypeHolderExample: NSObject, Codable, QueryStringEncodable {
+@objcMembers public class TypeHolderExample: NSObject, Codable, ParameterConvertible {
 
     public var stringItem: String
     public var numberItem: Double

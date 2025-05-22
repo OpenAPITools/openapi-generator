@@ -52,7 +52,7 @@ object Order {
       petId <- c.downField("petId").as[Option[Long]]
       quantity <- c.downField("quantity").as[Option[Int]]
       shipDate <- c.downField("shipDate").as[Option[Instant]]
-      status <- c.downField("status").as[Option[OrderStatus]]
+      status <- mapEmptyStringToNull(c.downField("status")).as[Option[OrderStatus]]
       complete <- c.downField("complete").as[Option[Boolean]]
     } yield Order(
       id = id,

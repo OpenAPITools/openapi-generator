@@ -32,8 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class ModelUtilsTest {
 
@@ -474,6 +473,54 @@ public class ModelUtilsTest {
         Schema arrayWithPrefixItems = ModelUtils.getSchema(openAPI, "ArrayWithPrefixItems");
         Assert.assertNotNull(ModelUtils.getSchemaItems((Schema) arrayWithPrefixItems.getProperties().get("with_prefixitems")));
         Assert.assertNotNull(ModelUtils.getSchemaItems((Schema) arrayWithPrefixItems.getProperties().get("without_items")));
+    }
+
+    @Test
+    public void simplyOneOfAnyOfWithOnlyOneNonNullSubSchema() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
+        Schema schema;
+        List<Schema> subSchemas;
+
+        Schema anyOfWithSeveralSubSchemasButSingleNonNull = ModelUtils.getSchema(openAPI, "AnyOfTest");
+        subSchemas = anyOfWithSeveralSubSchemasButSingleNonNull.getAnyOf();
+        schema = ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, anyOfWithSeveralSubSchemasButSingleNonNull, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertTrue(schema.getNullable());
+        assertEquals("string", schema.getType());
+
+        Schema anyOfWithSingleNonNullSubSchema = ModelUtils.getSchema(openAPI, "Parent");
+        subSchemas = ((Schema) anyOfWithSingleNonNullSubSchema.getProperties().get("number")).getAnyOf();
+        schema = ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, anyOfWithSingleNonNullSubSchema, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertNull(schema.getNullable());
+        assertEquals(schema.get$ref(), "#/components/schemas/Number");
+
+        Schema oneOfWithSeveralSubSchemasButSingleNonNull = ModelUtils.getSchema(openAPI, "OneOfTest");
+        subSchemas = oneOfWithSeveralSubSchemasButSingleNonNull.getOneOf();
+        schema = ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfWithSeveralSubSchemasButSingleNonNull, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertTrue(schema.getNullable());
+        assertEquals("integer", schema.getType());
+
+        Schema oneOfWithSingleNonNullSubSchema = ModelUtils.getSchema(openAPI, "ParentWithOneOfProperty");
+        subSchemas = ((Schema) oneOfWithSingleNonNullSubSchema.getProperties().get("number")).getOneOf();
+        schema = ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfWithSingleNonNullSubSchema, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNull(schema.getAnyOf());
+        assertNull(schema.getNullable());
+        assertEquals(schema.get$ref(), "#/components/schemas/Number");
+
+        Schema oneOfWithSeveralSubSchemas = ModelUtils.getSchema(openAPI, "ParentWithPluralOneOfProperty");
+        subSchemas = ((Schema) oneOfWithSeveralSubSchemas.getProperties().get("number")).getOneOf();
+        schema = ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfWithSeveralSubSchemas, subSchemas);
+        assertNull(schema.getOneOf());
+        assertNotNull(oneOfWithSeveralSubSchemas.getProperties().get("number"));
+        assertNull(schema.getAnyOf());
+        assertNull(schema.getNullable());
+        assertEquals(((Schema) oneOfWithSeveralSubSchemas.getProperties().get("number")).getOneOf().size(), 2);
     }
 
     @Test

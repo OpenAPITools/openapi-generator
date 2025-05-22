@@ -1,5 +1,6 @@
 package org.openapitools.codegen.java.assertions;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
@@ -71,5 +72,33 @@ public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotatio
     @SuppressWarnings("unchecked")
     private ACTUAL myself() {
         return (ACTUAL) this;
+    }
+
+    public ACTUAL recursivelyContainsWithName(String name) {
+        super
+            .withFailMessage("Should have annotation with name: " + name)
+            .anyMatch(annotation -> containsSpecificAnnotationName(annotation, name));
+
+        return myself();
+    }
+
+    private boolean containsSpecificAnnotationName(Node node, String name) {
+        if (node == null || name == null)
+            return false;
+
+        if (node instanceof AnnotationExpr) {
+            AnnotationExpr annotation = (AnnotationExpr) node;
+
+            if(annotation.getNameAsString().equals(name))
+                return true;
+
+        }
+
+        for(Node child: node.getChildNodes()){
+            if(containsSpecificAnnotationName(child, name))
+                return true;
+        }
+
+        return false;
     }
 }

@@ -15,7 +15,7 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.13.0`):
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.14.0`):
 [![Build Status](https://api.travis-ci.com/OpenAPITools/openapi-generator.svg?branch=master&status=passed)](https://app.travis-ci.com/github/OpenAPITools/openapi-generator/builds)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
@@ -74,6 +74,8 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/route4me.png" width="128" height="128">](https://route4me.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img src="https://openapi-generator.tech/img/companies/dm.png" width="128" height="128">](https://www.dotcom-monitor.com/sponsoring-open-source-projects/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img src="https://openapi-generator.tech/img/companies/clickit.jpg" width="128" height="128">](https://www.clickittech.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img src="https://openapi-generator.tech/img/companies/unified_to.jpg" width="128" height="128">](https://unified.to/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img src="https://openapi-generator.tech/img/companies/savetwt.jpg" width="128" height="128">](https://unified.to/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS, Checkly for sponsoring the API monitoring and Gradle for sponsoring Develocity
 
@@ -96,32 +98,48 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 ## Table of contents
 
-  - [OpenAPI Generator](#openapi-generator)
-  - [Overview](#overview)
-  - [Table of Contents](#table-of-contents)
-  - [1 - Installation](#1---installation)
-    - [1.1 - Compatibility](#11---compatibility)
-    - [1.2 - Artifacts on Maven Central](#12---artifacts-on-maven-central)
-    - [1.3 - Download JAR](#13---download-jar)
-    - [1.4 - Build Projects](#14---build-projects)
-    - [1.5 - Homebrew](#15---homebrew)
-    - [1.6 - Docker](#16---docker)
-    - [1.7 - NPM](#17---npm)
-    - [1.8 - pip](#18---pip)
-  - [2 - Getting Started](#2---getting-started)
-  - [3 - Usage](#3---usage)
-    - [3.1 - Customization](#31---customization)
-    - [3.2 - Workflow Integration](#32---workflow-integration-maven-gradle-github-cicd)
-    - [3.3 - Online Generators](#33---online-openapi-generator)
-    - [3.4 - License Information on Generated Code](#34---license-information-on-generated-code)
-    - [3.5 - IDE Integration](#35---ide-integration)
-  - [4 - Companies/Projects using OpenAPI Generator](#4---companiesprojects-using-openapi-generator)
-  - [5 - Presentations/Videos/Tutorials/Books](#5---presentationsvideostutorialsbooks)
-  - [6 - About Us](#6---about-us)
-    - [6.1 - OpenAPI Generator Core Team](#61---openapi-generator-core-team)
-    - [6.2 - OpenAPI Generator Technical Committee](#62---openapi-generator-technical-committee)
-    - [6.3 - History of OpenAPI Generator](#63---history-of-openapi-generator)
-  - [7 - License](#7---license)
+- [Sponsors](#sponsors)
+    - [Thank you to our bronze sponsors!](#thank-you-to-our-bronze-sponsors)
+    - [Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS, Checkly for sponsoring the API monitoring and Gradle for sponsoring Develocity](#thank-you-godaddy-for-sponsoring-the-domain-names-linode-for-sponsoring-the-vps-checkly-for-sponsoring-the-api-monitoring-and-gradle-for-sponsoring-develocity)
+- [Overview](#overview)
+- [Table of contents](#table-of-contents)
+- [1 - Installation](#1---installation)
+  - [1.1 - Compatibility](#11---compatibility)
+- [1.2 - Artifacts on Maven Central](#12---artifacts-on-maven-central)
+  - [1.3 - Download JAR](#13---download-jar)
+  - [Launcher Script](#launcher-script)
+  - [1.4 - Build Projects](#14---build-projects)
+    - [Nix users](#nix-users)
+  - [1.5 - Homebrew](#15---homebrew)
+  - [1.6 - Docker](#16---docker)
+    - [Public Pre-built Docker images](#public-pre-built-docker-images)
+    - [OpenAPI Generator CLI Docker Image](#openapi-generator-cli-docker-image)
+    - [OpenAPI Generator Online Docker Image](#openapi-generator-online-docker-image)
+    - [Development in docker](#development-in-docker)
+      - [Troubleshooting](#troubleshooting)
+    - [Run Docker in Vagrant](#run-docker-in-vagrant)
+  - [1.7 - NPM](#17---npm)
+  - [1.8 - pip](#18---pip)
+- [2 - Getting Started](#2---getting-started)
+- [3 - Usage](#3---usage)
+  - [To generate a sample client library](#to-generate-a-sample-client-library)
+  - [3.1 - Customization](#31---customization)
+  - [3.2 - Workflow Integration (Maven, Gradle, Github, CI/CD)](#32---workflow-integration-maven-gradle-github-cicd)
+  - [3.3 - Online OpenAPI generator](#33---online-openapi-generator)
+  - [3.4 - License information on Generated Code](#34---license-information-on-generated-code)
+  - [3.5 - IDE Integration](#35---ide-integration)
+- [4 - Companies/Projects using OpenAPI Generator](#4---companiesprojects-using-openapi-generator)
+- [5 - Presentations/Videos/Tutorials/Books](#5---presentationsvideostutorialsbooks)
+- [6 - About Us](#6---about-us)
+  - [6.1 - OpenAPI Generator Core Team](#61---openapi-generator-core-team)
+    - [Core Team Members](#core-team-members)
+    - [Template Creator](#template-creator)
+    - [How to join the core team](#how-to-join-the-core-team)
+  - [6.2 - OpenAPI Generator Technical Committee](#62---openapi-generator-technical-committee)
+    - [Members of Technical Committee](#members-of-technical-committee)
+  - [6.3 - History of OpenAPI Generator](#63---history-of-openapi-generator)
+    - [Founding Members (alphabetical order):](#founding-members-alphabetical-order)
+- [7 - License](#7---license)
 
 ## [1 - Installation](#table-of-contents)
 
@@ -131,8 +149,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 7.13.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.13.0-SNAPSHOT/) | 02.04.2025   | Minor release with breaking changes (with fallback) |
-| [7.12.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.12.0) (latest stable release)                                                    | 28.02.2025   | Minor release with breaking changes (with fallback) |
+| 7.14.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.14.0-SNAPSHOT/) | 29.05.2025   | Minor release with breaking changes (with fallback) |
+| [7.13.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.13.0) (latest stable release)                                                    | 27.04.2025   | Minor release with breaking changes (with fallback) |
 | [6.6.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.6.0)                                                    | 11.05.2023   | Minor release with breaking changes (with fallback) |
 | [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
@@ -195,16 +213,16 @@ See the different versions of the [openapi-generator-cli](https://search.maven.o
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 11 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.12.0/openapi-generator-cli-7.12.0.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.13.0/openapi-generator-cli-7.13.0.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.12.0/openapi-generator-cli-7.12.0.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.13.0/openapi-generator-cli-7.13.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.12.0/openapi-generator-cli-7.12.0.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.13.0/openapi-generator-cli-7.13.0.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -439,7 +457,7 @@ openapi-generator-cli version
 To use a specific version of "openapi-generator-cli"
 
 ```sh
-openapi-generator-cli version-manager set 7.12.0
+openapi-generator-cli version-manager set 7.13.0
 ```
 
 Or install it as dev-dependency:
@@ -463,7 +481,7 @@ pip install openapi-generator-cli
 
 To install a specific version
 ```
-pip install openapi-generator-cli==7.12.0
+pip install openapi-generator-cli==7.13.0
 ```
 
 You can also install with [jdk4py](https://github.com/activeviam/jdk4py) instead of java binary. (python>=3.10 is required)
@@ -489,7 +507,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 <!-- RELEASE_VERSION -->
-You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.12.0/openapi-generator-cli-7.12.0.jar)
+You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.13.0/openapi-generator-cli-7.13.0.jar)
 <!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
@@ -1218,7 +1236,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Apex                  |                                                                                                                                                                                                                                                       |
 | Bash                  | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09)                                                                                                                                                                                           |
 | C                     | @zhemant (2018/11) @ityuhui (2019/12) @michelealbano (2020/03) @eafer (2024/12)                                                                                                                                                                                        |
-| C++                   | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08)                                                                                                                                         |
+| C++                   | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08) @aminya (2025/05)                                                                                                                                         |
 | C#                    | @mandrean (2017/08) @shibayan (2020/02) @Blackclaws (2021/03) @lucamazzanti (2021/05) @iBicha (2023/07)                                                                                                                                          |
 | Clojure               |                                                                                                                                                                                                                                                       |
 | Crystal               | @cyangle (2021/01)                                                                                                                                                                                                                                    |

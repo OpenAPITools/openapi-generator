@@ -160,15 +160,43 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#isNullable}}
     {{#isDeepObject}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
-        let params = crate::apis::parse_deep_object("{{{baseName}}}", param_value);
+        {{^isExplode}}
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
         req_builder = req_builder.query(&params);
+        {{/isExplode}}
+        {{#isExplode}}
+        {{#isModel}}
+        req_builder = req_builder.query(&param_value);
+        {{/isModel}}
+        {{#isMap}}
+        let mut query_params = Vec::with_capacity(param_value.len());
+        for (key, value) in param_value.iter() {
+            query_params.push((key.to_string(), serde_json::to_string(value)?));
+        }
+        req_builder = req_builder.query(&query_params);
+        {{/isMap}}
+        {{/isExplode}}
     };
     {{/isDeepObject}}
     {{^isDeepObject}}
+    {{#isObject}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+    };
+    {{/isObject}}
+    {{#isModel}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+    };
+    {{/isModel}}
+    {{/isDeepObject}}
+    {{^isObject}}
+    {{^isModel}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
         req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
     };
-    {{/isDeepObject}}
+    {{/isModel}}
+    {{/isObject}}
     {{/isNullable}}
     {{/isArray}}
     {{/required}}
@@ -182,11 +210,35 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         {{/isArray}}
         {{^isArray}}
         {{#isDeepObject}}
-        let params = crate::apis::parse_deep_object("{{{baseName}}}", param_value);
+        {{^isExplode}}
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
         req_builder = req_builder.query(&params);
+        {{/isExplode}}
+        {{#isExplode}}
+        {{#isModel}}
+        req_builder = req_builder.query(&param_value);
+        {{/isModel}}
+        {{#isMap}}
+        let mut query_params = Vec::with_capacity(param_value.len());
+        for (key, value) in param_value.iter() {
+            query_params.push((key.to_string(), serde_json::to_string(value)?));
+        }
+        req_builder = req_builder.query(&query_params);
+        {{/isMap}}
+        {{/isExplode}}
         {{/isDeepObject}}
         {{^isDeepObject}}
+        {{#isObject}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        {{/isObject}}
+        {{#isModel}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        {{/isModel}}
+        {{^isObject}}
+        {{^isModel}}
         req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+        {{/isModel}}
+        {{/isObject}}
         {{/isDeepObject}}
         {{/isArray}}
     }

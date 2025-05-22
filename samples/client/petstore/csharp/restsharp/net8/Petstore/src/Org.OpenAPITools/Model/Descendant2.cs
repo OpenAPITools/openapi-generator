@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="confidentiality">confidentiality (required).</param>
         /// <param name="alternativeName">alternativeName (required).</param>
         /// <param name="objectType">objectType (required) (default to ObjectTypeEnum.Descendant2).</param>
-        public Descendant2(string confidentiality = default(string), string alternativeName = default(string), ObjectTypeEnum objectType = ObjectTypeEnum.Descendant2) : base(alternativeName, objectType)
+        public Descendant2(string confidentiality = default, string alternativeName = default, ObjectTypeEnum objectType = ObjectTypeEnum.Descendant2) : base(alternativeName, objectType)
         {
             // to ensure "confidentiality" is required (not null)
             if (confidentiality == null)

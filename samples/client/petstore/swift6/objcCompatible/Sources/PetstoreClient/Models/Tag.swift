@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Tag: NSObject, Codable, QueryStringEncodable {
+@objcMembers public class Tag: NSObject, Codable, ParameterConvertible {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {

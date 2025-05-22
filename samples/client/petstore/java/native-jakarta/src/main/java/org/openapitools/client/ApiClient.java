@@ -51,20 +51,20 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * <p>The setter methods of this class return the current object to facilitate
  * a fluent style of configuration.</p>
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ApiClient {
 
-  private HttpClient.Builder builder;
-  private ObjectMapper mapper;
-  private String scheme;
-  private String host;
-  private int port;
-  private String basePath;
-  private Consumer<HttpRequest.Builder> interceptor;
-  private Consumer<HttpResponse<InputStream>> responseInterceptor;
-  private Consumer<HttpResponse<String>> asyncResponseInterceptor;
-  private Duration readTimeout;
-  private Duration connectTimeout;
+  protected HttpClient.Builder builder;
+  protected ObjectMapper mapper;
+  protected String scheme;
+  protected String host;
+  protected int port;
+  protected String basePath;
+  protected Consumer<HttpRequest.Builder> interceptor;
+  protected Consumer<HttpResponse<InputStream>> responseInterceptor;
+  protected Consumer<HttpResponse<String>> asyncResponseInterceptor;
+  protected Duration readTimeout;
+  protected Duration connectTimeout;
 
   public static String valueToString(Object value) {
     if (value == null) {
@@ -207,7 +207,7 @@ public class ApiClient {
     return mapper;
   }
 
-  private String getDefaultBaseUri() {
+  protected String getDefaultBaseUri() {
     return "http://petstore.swagger.io/v2";
   }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct EnumArrays: Sendable, Codable, QueryStringEncodable {
+internal struct EnumArrays: Sendable, Codable, ParameterConvertible {
 
     internal enum JustSymbol: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case greaterThanOrEqualTo = ">="

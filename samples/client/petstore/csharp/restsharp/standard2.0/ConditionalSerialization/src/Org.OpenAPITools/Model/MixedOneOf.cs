@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedOneOf" /> class.
         /// </summary>
         /// <param name="content">content.</param>
-        public MixedOneOf(MixedOneOfContent content = default(MixedOneOfContent))
+        public MixedOneOf(MixedOneOfContent content = default)
         {
             this._Content = content;
             if (this.Content != null)

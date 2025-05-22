@@ -27,7 +27,7 @@ class DateFormatTests: XCTestCase {
 		super.tearDown()
 	}
 
-	func testencodeToQueryStringAlwaysResultsInUTCEncodedDate() {
+	func testAsParameterAlwaysResultsInUTCEncodedDate() {
 		var dateComponents = DateComponents()
 		dateComponents.calendar = Calendar(identifier: .gregorian)
 		dateComponents.year = 2018
@@ -47,7 +47,7 @@ class DateFormatTests: XCTestCase {
 			return
 		}
 
-		var encodedDate = utcDate.encodeToQueryString(codableHelper: PetstoreClientAPIConfiguration.shared.codableHelper) as! String
+		var encodedDate = utcDate.asParameter(codableHelper: PetstoreClientAPIConfiguration.shared.codableHelper) as! String
 		XCTAssert(encodedDate.hasSuffix("Z"))
 
 		// test with a positive timzone offset from UTC
@@ -59,7 +59,7 @@ class DateFormatTests: XCTestCase {
 			return
 		}
 
-		encodedDate = nonUTCDate1.encodeToQueryString(codableHelper: PetstoreClientAPIConfiguration.shared.codableHelper) as! String
+		encodedDate = nonUTCDate1.asParameter(codableHelper: PetstoreClientAPIConfiguration.shared.codableHelper) as! String
 		XCTAssert(encodedDate.hasSuffix("Z"))
 
 		// test with a negative timzone offset from UTC
@@ -71,7 +71,7 @@ class DateFormatTests: XCTestCase {
 			return
 		}
 
-		encodedDate = nonUTCDate2.encodeToQueryString(codableHelper: PetstoreClientAPIConfiguration.shared.codableHelper) as! String
+		encodedDate = nonUTCDate2.asParameter(codableHelper: PetstoreClientAPIConfiguration.shared.codableHelper) as! String
 		XCTAssert(encodedDate.hasSuffix("Z"))
 	}
 

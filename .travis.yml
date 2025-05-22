@@ -37,12 +37,12 @@ services:
 
 # comment out the host table change to use the public petstore server
 addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-5
-  chrome: stable
+  #apt:
+  #  sources:
+  #    - ubuntu-toolchain-r-test
+  #  packages:
+  #    - g++-5
+  #chrome: stable
   hosts:
     - petstore.swagger.io
 

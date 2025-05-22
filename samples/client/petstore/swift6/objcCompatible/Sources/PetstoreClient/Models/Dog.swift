@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Dog: NSObject, Codable, QueryStringEncodable {
+@objcMembers public class Dog: NSObject, Codable, ParameterConvertible {
 
     public var _className: String
     public var color: String? = "red"
