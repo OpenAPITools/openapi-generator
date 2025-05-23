@@ -282,14 +282,14 @@ public class EnumTest {
    * @return enumString
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public EnumStringEnum getEnumString() {
     return enumString;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumString(@javax.annotation.Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -306,14 +306,14 @@ public class EnumTest {
    * @return enumStringRequired
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING_REQUIRED, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING_REQUIRED, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setEnumStringRequired(@javax.annotation.Nonnull EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
@@ -330,14 +330,14 @@ public class EnumTest {
    * @return enumInteger
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumInteger(@javax.annotation.Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
@@ -354,14 +354,14 @@ public class EnumTest {
    * @return enumIntegerOnly
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER_ONLY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public EnumIntegerOnlyEnum getEnumIntegerOnly() {
     return enumIntegerOnly;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER_ONLY)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER_ONLY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumIntegerOnly(@javax.annotation.Nullable EnumIntegerOnlyEnum enumIntegerOnly) {
     this.enumIntegerOnly = enumIntegerOnly;
@@ -378,14 +378,14 @@ public class EnumTest {
    * @return enumNumber
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumNumber(@javax.annotation.Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
@@ -407,7 +407,7 @@ public class EnumTest {
         return outerEnum.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<OuterEnum> getOuterEnum_JsonNullable() {
@@ -434,14 +434,14 @@ public class EnumTest {
    * @return outerEnumInteger
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOuterEnumInteger(@javax.annotation.Nullable OuterEnumInteger outerEnumInteger) {
     this.outerEnumInteger = outerEnumInteger;
@@ -458,14 +458,14 @@ public class EnumTest {
    * @return outerEnumDefaultValue
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public OuterEnumDefaultValue getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOuterEnumDefaultValue(@javax.annotation.Nullable OuterEnumDefaultValue outerEnumDefaultValue) {
     this.outerEnumDefaultValue = outerEnumDefaultValue;
@@ -482,14 +482,14 @@ public class EnumTest {
    * @return outerEnumIntegerDefaultValue
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOuterEnumIntegerDefaultValue(@javax.annotation.Nullable OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
