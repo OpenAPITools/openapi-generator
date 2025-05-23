@@ -224,18 +224,25 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
+#else
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<APIKEYSApi.GetApiKeysIdApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<APIKEYSApi.GetApiKeysIdApiResponse>();
 
-                        APIKEYSApi.GetApiKeysIdApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api_keys/{id}", requestedAtLocalVar, _jsonSerializerOptions);
+                        APIKEYSApi.GetApiKeysIdApiResponse apiResponseLocalVar = new APIKEYSApi.GetApiKeysIdApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api_keys/{id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetApiKeysIdDefaultImplementation(apiResponseLocalVar, id);
 

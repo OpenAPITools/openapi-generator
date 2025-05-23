@@ -164,7 +164,11 @@ namespace {{packageName}}.{{clientPackage}}
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool Try{{.}}({{#net60OrLater}}[NotNullWhen(true)]{{/net60OrLater}}out TType{{nrt?}} result);
+        bool Try{{.}}(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out TType{{nrt?}} result);
     }
     {{/x-http-statuses-with-return}}
 }

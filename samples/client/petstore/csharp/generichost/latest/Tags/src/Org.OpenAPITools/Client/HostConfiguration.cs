@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyNullableJsonConverter());
-            JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
+            JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new JsonSerializerOptionsProvider(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<APIKEYSApiEvents>();

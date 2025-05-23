@@ -251,18 +251,25 @@ namespace Org.OpenAPITools.Api
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
+#if NET6_0_OR_GREATER
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
+#else
+                    httpRequestMessageLocalVar.Method = new HttpMethod("GET");
+#endif
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(
+#if NET6_0_OR_GREATER
+                                cancellationToken
+#endif
+                            ).ConfigureAwait(false);
 
                         ILogger<ListApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<ListApiResponse>();
 
-                        ListApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/person/display/{personId}", requestedAtLocalVar, _jsonSerializerOptions);
+                        ListApiResponse apiResponseLocalVar = new ListApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/person/display/{personId}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterListDefaultImplementation(apiResponseLocalVar, personId);
 
@@ -323,7 +330,12 @@ namespace Org.OpenAPITools.Api
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.Person>(RawContent, _jsonSerializerOptions)
-                    : null;
+                    :
+                #if NET6_0_OR_GREATER
+                        null;
+                #else
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -331,7 +343,11 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Org.OpenAPITools.Model.Person? result)
+            public bool TryOk(
+#if NET6_0_OR_GREATER
+                [NotNullWhen(true)]
+#endif
+                out Org.OpenAPITools.Model.Person? result)
             {
                 result = null;
 
