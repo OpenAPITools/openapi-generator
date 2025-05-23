@@ -6,28 +6,28 @@
   "fields": [
     {
       "name": "code",
-      "type": ["int", "null"],
+      "type": ["null", "int"],
       "doc": "",
       "default": null
     },
     {
       "name": "type",
-      "type": ["string", "null"],
+      "type": ["null", "string"],
       "doc": "",
       "default": null
     },
     {
       "name": "message",
-      "type": ["string", "null"],
+      "type": ["null", "string"],
       "doc": "",
       "default": null
     },
     {
       "name": "statuses",
-      "type": [{
+      "type": ["null", {
         "type": "array",
         "items": "model.ApiResponseStatuses"
-      }, "null"],
+      }],
       "doc": "",
       "default": null
     }

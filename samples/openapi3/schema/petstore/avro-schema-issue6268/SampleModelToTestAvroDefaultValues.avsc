@@ -8,7 +8,7 @@
       "name": "name",
       "type": ["string", "null"],
       "doc": "",
-      "default": defaultName
+      "default": "defaultName"
     },
     {
       "name": "age",
@@ -26,14 +26,14 @@
       "name": "createdAt",
       "type": ["string", "null"],
       "doc": "",
-      "default": 2023-01-01T00:00Z
+      "default": "2023-01-01T00:00Z"
     },
     {
       "name": "tagsNotRequired",
-      "type": [{
+      "type": ["null", {
         "type": "array",
         "items": "string"
-      }, "null"],
+      }],
       "doc": "",
       "default": null
     },
@@ -52,8 +52,7 @@
         "type": "array",
         "items": "string"
       },
-      "doc": "",
-      "default": null
+      "doc": ""
     },
     {
       "name": "tagsRequiredWithDefault",

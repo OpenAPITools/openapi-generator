@@ -6,21 +6,20 @@
   "fields": [
     {
       "name": "id",
-      "type": ["long", "null"],
+      "type": ["null", "long"],
       "doc": "",
       "default": null
     },
     {
       "name": "category",
-      "type": ["model.Category", "null"],
+      "type": ["null", "model.Category"],
       "doc": "",
       "default": null
     },
     {
       "name": "name",
       "type": "string",
-      "doc": "",
-      "default": null
+      "doc": ""
     },
     {
       "name": "photoUrls",
@@ -28,21 +27,20 @@
         "type": "array",
         "items": "string"
       },
-      "doc": "",
-      "default": null
+      "doc": ""
     },
     {
       "name": "tags",
-      "type": [{
+      "type": ["null", {
         "type": "array",
         "items": "model.Tag"
-      }, "null"],
+      }],
       "doc": "",
       "default": null
     },
     {
       "name": "status",
-      "type": [{
+      "type": ["null", {
         "type": "enum",
         "name": "Pet_status",
         "symbols": [
@@ -50,7 +48,7 @@
           "pending",
           "sold"
         ]
-      }, "null"],
+      }],
       "doc": "pet status in the store",
       "default": null
     }

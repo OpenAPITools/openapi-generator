@@ -6,7 +6,7 @@
   "fields": [
     {
       "name": "type",
-      "type": [{
+      "type": ["null", {
         "type": "enum",
         "name": "Sample_type",
         "symbols": [
@@ -17,33 +17,33 @@
           "coll_ision",
           "coll_ision2"
         ]
-      }, "null"],
+      }],
       "doc": "",
       "default": null
     },
     {
       "name": "another",
-      "type": [{
+      "type": ["null", {
         "type": "enum",
         "name": "Sample_another",
         "symbols": [
           "x",
           "y"
         ]
-      }, "null"],
+      }],
       "doc": "",
       "default": null
     },
     {
       "name": "equivalent",
-      "type": [{
+      "type": ["null", {
         "type": "enum",
         "name": "Sample_equivalent",
         "symbols": [
           "x",
           "y"
         ]
-      }, "null"],
+      }],
       "doc": "",
       "default": null
     }

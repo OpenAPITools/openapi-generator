@@ -6,13 +6,13 @@
   "fields": [
     {
       "name": "id",
-      "type": ["long", "null"],
+      "type": ["null", "long"],
       "doc": "",
       "default": null
     },
     {
       "name": "name",
-      "type": ["string", "null"],
+      "type": ["null", "string"],
       "doc": "",
       "default": null
     }
