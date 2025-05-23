@@ -12,7 +12,7 @@ class_name DemoActionContainerModel
 
 # Required: True
 # isArray: false
-@export var action: Baz:
+@export var action: DemoBazModel:
 	set(value):
 		__action__was__set = true
 		action = value
@@ -37,7 +37,7 @@ func bzz_normalize() -> Dictionary:
 static func bzz_denormalize_single(from_dict: Dictionary):
 	var me := new()
 	if from_dict.has("action"):
-		me.action = from_dict["action"]
+		me.action = DemoBazModel.bzz_denormalize_single(from_dict["action"])
 	return me
 
 

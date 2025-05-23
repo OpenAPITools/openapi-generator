@@ -6,31 +6,31 @@
   "fields": [
     {
       "name": "id",
-      "type": ["null", "long"],
+      "type": ["long", "null"],
       "doc": "",
       "default": null
     },
     {
       "name": "petId",
-      "type": ["null", "long"],
+      "type": ["long", "null"],
       "doc": "",
       "default": null
     },
     {
       "name": "quantity",
-      "type": ["null", "int"],
+      "type": ["int", "null"],
       "doc": "",
       "default": null
     },
     {
       "name": "shipDate",
-      "type": ["null", { "type": "long", "logicalType": "timestamp-nanos" }],
+      "type": [{ "type": "long", "logicalType": "timestamp-nanos" }, "null"],
       "doc": "",
       "default": null
     },
     {
       "name": "status",
-      "type": ["null", {
+      "type": [{
         "type": "enum",
         "name": "Order_status",
         "symbols": [
@@ -38,7 +38,7 @@
           "approved",
           "delivered"
         ]
-      }],
+      }, "null"],
       "doc": "Order Status",
       "default": null
     },

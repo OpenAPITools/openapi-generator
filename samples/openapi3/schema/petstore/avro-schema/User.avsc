@@ -6,49 +6,49 @@
   "fields": [
     {
       "name": "id",
-      "type": ["null", "long"],
+      "type": ["long", "null"],
       "doc": "",
       "default": null
     },
     {
       "name": "username",
-      "type": ["null", "string"],
+      "type": ["string", "null"],
       "doc": "",
       "default": null
     },
     {
       "name": "firstName",
-      "type": ["null", "string"],
+      "type": ["string", "null"],
       "doc": "",
       "default": null
     },
     {
       "name": "lastName",
-      "type": ["null", "string"],
+      "type": ["string", "null"],
       "doc": "",
       "default": null
     },
     {
       "name": "email",
-      "type": ["null", "string"],
+      "type": ["string", "null"],
       "doc": "",
       "default": null
     },
     {
       "name": "password",
-      "type": ["null", "string"],
+      "type": ["string", "null"],
       "doc": "",
       "default": null
     },
     {
       "name": "phone",
-      "type": ["null", "string"],
+      "type": ["string", "null"],
       "doc": "",
       "default": null
     },
     {
       "name": "userStatus",
-      "type": ["null", "int"],
+      "type": ["int", "null"],
       "doc": "User Status",
       "default": null
     }
