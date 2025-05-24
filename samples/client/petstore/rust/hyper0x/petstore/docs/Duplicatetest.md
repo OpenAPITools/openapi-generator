@@ -1,4 +1,4 @@
-# Duplicatetest
+# DuplicateTest
 
 ## Properties
 
