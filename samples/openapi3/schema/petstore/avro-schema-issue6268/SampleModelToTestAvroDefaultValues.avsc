@@ -1,0 +1,68 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "SampleModelToTestAvroDefaultValues",
+  "fields": [
+    {
+      "name": "name",
+      "type": ["string", "null"],
+      "doc": "",
+      "default": "defaultName"
+    },
+    {
+      "name": "age",
+      "type": ["int", "null"],
+      "doc": "",
+      "default": 25
+    },
+    {
+      "name": "isActive",
+      "type": ["boolean", "null"],
+      "doc": "",
+      "default": true
+    },
+    {
+      "name": "createdAt",
+      "type": ["string", "null"],
+      "doc": "",
+      "default": "2023-01-01T00:00Z"
+    },
+    {
+      "name": "tagsNotRequired",
+      "type": ["null", {
+        "type": "array",
+        "items": "string"
+      }],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "tagsNotRequiredWithDefault",
+      "type": [{
+        "type": "array",
+        "items": "string"
+      }, "null"],
+      "doc": "",
+      "default": ["defaultTag"]
+    },
+    {
+      "name": "tagsRequired",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "doc": ""
+    },
+    {
+      "name": "tagsRequiredWithDefault",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "doc": "",
+      "default": ["defaultTag"]
+    }
+  ]
+
+}

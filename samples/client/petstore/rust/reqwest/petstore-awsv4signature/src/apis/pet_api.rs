@@ -56,6 +56,22 @@ pub enum GetPetByIdError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`pets_explode_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PetsExplodePostError {
+    Status400(),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`pets_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PetsPostError {
+    Status400(),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`update_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -357,6 +373,86 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
     } else {
         let content = resp.text()?;
         let entity: Option<GetPetByIdError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Returns a list of pets
+pub fn pets_explode_post(configuration: &configuration::Configuration, page_explode: Option<models::Page>) -> Result<Vec<models::Pet>, Error<PetsExplodePostError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_page_explode = page_explode;
+
+    let uri_str = format!("{}/pets/explode", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref param_value) = p_page_explode {
+        req_builder = req_builder.query(&param_value);
+    }
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req)?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text()?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`")))),
+        }
+    } else {
+        let content = resp.text()?;
+        let entity: Option<PetsExplodePostError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Returns a list of pets
+pub fn pets_post(configuration: &configuration::Configuration, page: Option<models::Page>) -> Result<Vec<models::Pet>, Error<PetsPostError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_page = page;
+
+    let uri_str = format!("{}/pets", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref param_value) = p_page {
+        req_builder = req_builder.query(&[("page", &serde_json::to_string(param_value)?)]);
+    }
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req)?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text()?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`")))),
+        }
+    } else {
+        let content = resp.text()?;
+        let entity: Option<PetsPostError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

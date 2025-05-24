@@ -53,6 +53,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.lang.model.SourceVersion;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -147,16 +148,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter @Setter
     protected String testFolder = projectTestFolder + "/java";
 
-    protected enum ENUM_PROPERTY_NAMING_TYPE {MACRO_CASE, legacy}
+    protected enum ENUM_PROPERTY_NAMING_TYPE {MACRO_CASE, legacy, original}
 
-    protected static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'MACRO_CASE' and 'legacy'";
+    protected static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'MACRO_CASE', 'legacy' and 'original'";
     @Getter protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.MACRO_CASE;
 
     /**
      * -- SETTER --
      * Set whether discriminator value lookup is case-sensitive or not.
      *
-     * @param discriminatorCaseSensitive true if the discriminator value lookup should be case-sensitive.
      */
     @Setter protected boolean discriminatorCaseSensitive = true;
     @Getter @Setter
@@ -2034,6 +2034,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return sanitizeName(camelize(property.name)) + "Enum";
     }
 
+    private boolean isValidVariableNameInVersion(CharSequence name, SourceVersion version) {
+        return SourceVersion.isIdentifier(name) && !SourceVersion.isKeyword(name, version);
+    }
+
     @Override
     public String toEnumVarName(String value, String datatype) {
         if (enumNameMapping.containsKey(value)) {
@@ -2069,6 +2073,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             case legacy:
                 // legacy ,e.g. WITHNUMBER1
                 var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
+                break;
+            case original:
+                // keep value as it is, if meets language naming convention
+                if (isValidVariableNameInVersion(value, SourceVersion.RELEASE_11)) {
+                    return value;
+                } else {
+                    LOGGER.warn("Enum value '{}' is not a valid variable name in Java 11. Enum value will be renamed.", value);
+                    var = value;
+                }
                 break;
             default:
                 // default to MACRO_CASE, e.g. WITH_NUMBER1
@@ -2373,7 +2386,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 operation.allParams.add(p);
             }
         }
-        operation.hasParams = !operation.allParams.isEmpty();
     }
 
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {

@@ -404,6 +404,8 @@ public class DefaultCodegen implements CodegenConfig {
      * If common lambdas are not desired, override addMustacheLambdas() method
      * and return empty builder.
      *
+     * Corresponding user documentation: docs/templating.md, section "Mustache Lambdas"
+     *
      * @return preinitialized map with common lambdas
      */
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
@@ -959,11 +961,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("static-method")
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("################################################################################");
+        System.out.println("############################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                                      #");
+        System.out.println("# We appreciate your support! Please consider donation to help us maintain this project.   #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                                      #");
+        System.out.println("############################################################################################");
     }
 
     // override with any special post-processing
@@ -4834,22 +4836,6 @@ public class DefaultCodegen implements CodegenConfig {
         // legacy support
         op.nickname = op.operationId;
 
-        if (op.allParams.size() > 0) {
-            op.hasParams = true;
-        }
-        op.hasRequiredParams = op.requiredParams.size() > 0;
-
-        // check if the operation has only a single parameter
-        op.hasSingleParam = op.allParams.size() == 1;
-
-        // set Restful Flag
-        op.isRestfulShow = op.isRestfulShow();
-        op.isRestfulIndex = op.isRestfulIndex();
-        op.isRestfulCreate = op.isRestfulCreate();
-        op.isRestfulUpdate = op.isRestfulUpdate();
-        op.isRestfulDestroy = op.isRestfulDestroy();
-        op.isRestful = op.isRestful();
-
         return op;
     }
 
@@ -8678,6 +8664,5 @@ public class DefaultCodegen implements CodegenConfig {
                 operation.allParams.add(p);
             }
         }
-        operation.hasParams = !operation.allParams.isEmpty();
     }
 }

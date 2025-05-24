@@ -922,6 +922,9 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
+        // Remove duplicate oneOf entries
+        ModelUtils.deduplicateOneOfSchema(schema);
+
         // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
 
@@ -1405,7 +1408,6 @@ public class OpenAPINormalizer {
      * then simply it to just boolean.
      *
      * @param schema Schema
-     * @return Schema
      */
     protected void processSimplifyBooleanEnum(Schema schema) {
         if (!getRule(SIMPLIFY_BOOLEAN_ENUM)) {
@@ -1425,7 +1427,6 @@ public class OpenAPINormalizer {
      * then add x-unsigned to use unsigned integer/long instead.
      *
      * @param schema Schema
-     * @return Schema
      */
     protected void processAddUnsignedToIntegerWithInvalidMaxValue(Schema schema) {
         if (!getRule(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE)) {

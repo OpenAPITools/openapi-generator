@@ -1,0 +1,41 @@
+# See: https://github.com/OpenAPITools/openapi-generator/pull/20618#issuecomment-2690874645
+openapi: 3.0.0
+servers:
+  - url: 'https://example.org/v1'
+info:
+  description: >-
+    Example created
+  version: 1.0.0
+  title: OpenAPI Stuff API created to reproduce issue
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: stuff
+    description: All about the stuff
+security:
+  - bearerAuth: []
+paths:
+  /foo/*:
+    get:
+      tags:
+        - stuff
+      summary: Finds stuff
+      description: Finds stuff
+      operationId: findStuff
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

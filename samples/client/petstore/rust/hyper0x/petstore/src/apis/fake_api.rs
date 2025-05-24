@@ -46,7 +46,10 @@ impl<C: hyper::client::connect::Connect>FakeApi for FakeApiClient<C>
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/fake/user/{user_name}".to_string())
         ;
         if let Some(ref s) = content {
-            let query_value = s.to_string();
+            let query_value = match serde_json::to_string(s) {
+                Ok(value) => value,
+                Err(e) => return Box::pin(futures::future::err(Error::Serde(e))),
+            };
             req = req.with_query_param("content".to_string(), query_value);
         }
         req = req.with_query_param("anyType".to_string(), any_type.to_string());

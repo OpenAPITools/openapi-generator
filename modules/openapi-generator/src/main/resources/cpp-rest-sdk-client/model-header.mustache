@@ -92,6 +92,15 @@ class {{declspec}} {{classname}}
 {
 public:
     {{classname}}();
+    {{classname}}(utility::string_t str);
+    operator utility::string_t() const {
+        return enumToStrMap.at(getValue());
+    }
+
+    {{! operator std::string() const {
+        return enumToStrMap.at(getValue());
+    } }}
+
     virtual ~{{classname}}();
 
     /////////////////////////////////////////////
@@ -124,6 +133,21 @@ public:
 
     protected:
         e{{classname}} m_value;
+        std::map<e{{classname}},utility::string_t> enumToStrMap = {
+        {{#allowableValues}}
+        {{#enumVars}}
+        { e{{classname}}::{{classname}}_{{{name}}}, "{{{name}}}" }{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+};
+        std::map<utility::string_t,e{{classname}}> strToEnumMap = {
+        {{#allowableValues}}
+        {{#enumVars}}
+        { "{{{name}}}", e{{classname}}::{{classname}}_{{{name}}} }{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+};
+
 };
 {{/isEnum}}
 {{^isEnum}}

@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * inline schema in webhooks
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class FakeWebhooksSourcesDeletedPostRequest {
   public static final String SERIALIZED_NAME_EVENT_TIMESTAMP = "event_timestamp";
   @SerializedName(SERIALIZED_NAME_EVENT_TIMESTAMP)
@@ -221,16 +221,10 @@ public class FakeWebhooksSourcesDeletedPostRequest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("event_timestamp");
-    openapiFields.add("event_type");
-    openapiFields.add("event");
+    openapiFields = new HashSet<String>(Arrays.asList("event_timestamp", "event_type", "event"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("event_timestamp");
-    openapiRequiredFields.add("event_type");
-    openapiRequiredFields.add("event");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("event_timestamp", "event_type", "event"));
   }
 
   /**
