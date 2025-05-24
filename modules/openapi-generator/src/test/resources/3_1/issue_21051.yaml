@@ -33,7 +33,7 @@ components:
           type: string
           nullable: true
       nullable: true
-    Test:
+    TestCase:
       type: object
       properties:
         testEmptyInlineObject:
