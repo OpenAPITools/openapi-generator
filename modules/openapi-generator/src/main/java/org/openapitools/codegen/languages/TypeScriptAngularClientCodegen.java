@@ -204,7 +204,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("param.mustache", getIndexDirectory(), "param.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
+
+        if(ngVersionAtLeast_17) {
+            supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
+        }
+        else {
+            supportingFiles.add(new SupportingFile("README_beforeV17.mustache", getIndexDirectory(), "README.md"));
+        }
+
 
         if (!ngVersion.atLeast("9.0.0")) {
             throw new IllegalArgumentException("Invalid ngVersion: " + ngVersion + ". Only Angular v9+ is supported.");
