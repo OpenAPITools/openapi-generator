@@ -63,15 +63,15 @@ import { ApiModule } from '@openapitools/typescript-angular-petstore';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-imports: [
-ApiModule,
-// make sure to import the HttpClientModule in the AppModule only,
-// see https://github.com/angular/angular/issues/20575
-HttpClientModule
-],
-declarations: [ AppComponent ],
-providers: [],
-bootstrap: [ AppComponent ]
+    imports: [
+        ApiModule,
+        // make sure to import the HttpClientModule in the AppModule only,
+        // see https://github.com/angular/angular/issues/20575
+        HttpClientModule
+    ],
+    declarations: [ AppComponent ],
+    providers: [],
+    bootstrap: [ AppComponent ]
 })
 export class AppModule {}
 ```
@@ -81,17 +81,17 @@ export class AppModule {}
 import { ApiModule, Configuration, ConfigurationParameters } from '@openapitools/typescript-angular-petstore';
 
 export function apiConfigFactory (): Configuration {
-const params: ConfigurationParameters = {
-// set configuration parameters here.
-}
-return new Configuration(params);
+  const params: ConfigurationParameters = {
+    // set configuration parameters here.
+  }
+  return new Configuration(params);
 }
 
 @NgModule({
-imports: [ ApiModule.forRoot(apiConfigFactory) ],
-declarations: [ AppComponent ],
-providers: [],
-bootstrap: [ AppComponent ]
+    imports: [ ApiModule.forRoot(apiConfigFactory) ],
+    declarations: [ AppComponent ],
+    providers: [],
+    bootstrap: [ AppComponent ]
 })
 export class AppModule {}
 ```
@@ -101,22 +101,22 @@ export class AppModule {}
 import { ApiModule, Configuration } from '@openapitools/typescript-angular-petstore';
 
 @NgModule({
-imports: [ ApiModule ],
-declarations: [ AppComponent ],
-providers: [
-{
-provide: Configuration,
-useFactory: (authService: AuthService) => new Configuration(
-{
-basePath: environment.apiUrl,
-accessToken: authService.getAccessToken.bind(authService)
-}
-),
-deps: [AuthService],
-multi: false
-}
-],
-bootstrap: [ AppComponent ]
+    imports: [ ApiModule ],
+    declarations: [ AppComponent ],
+    providers: [
+      {
+        provide: Configuration,
+        useFactory: (authService: AuthService) => new Configuration(
+          {
+            basePath: environment.apiUrl,
+            accessToken: authService.getAccessToken.bind(authService)
+          }
+        ),
+        deps: [AuthService],
+        multi: false
+      }
+    ],
+    bootstrap: [ AppComponent ]
 })
 export class AppModule {}
 ```
@@ -125,7 +125,7 @@ export class AppModule {}
 import { DefaultApi } from '@openapitools/typescript-angular-petstore';
 
 export class AppComponent {
-constructor(private apiGateway: DefaultApi) { }
+    constructor(private apiGateway: DefaultApi) { }
 }
 ```
 
@@ -144,13 +144,13 @@ import { ApiModule as OtherApiModule } from 'my-other-api-path';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-imports: [
-ApiModule,
-OtherApiModule,
-// make sure to import the HttpClientModule in the AppModule only,
-// see https://github.com/angular/angular/issues/20575
-HttpClientModule
-]
+  imports: [
+    ApiModule,
+    OtherApiModule,
+    // make sure to import the HttpClientModule in the AppModule only,
+    // see https://github.com/angular/angular/issues/20575
+    HttpClientModule
+  ]
 })
 export class AppModule {
 
@@ -165,7 +165,7 @@ If different than the generated base path, during app bootstrap, you can provide
 import { BASE_PATH } from '@openapitools/typescript-angular-petstore';
 
 bootstrap(AppComponent, [
-{ provide: BASE_PATH, useValue: 'https://your-web-service.com' },
+    { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
 ]);
 ```
 
@@ -175,10 +175,10 @@ or
 import { BASE_PATH } from '@openapitools/typescript-angular-petstore';
 
 @NgModule({
-imports: [],
-declarations: [ AppComponent ],
-providers: [ provide: BASE_PATH, useValue: 'https://your-web-service.com' ],
-bootstrap: [ AppComponent ]
+    imports: [],
+    declarations: [ AppComponent ],
+    providers: [ provide: BASE_PATH, useValue: 'https://your-web-service.com' ],
+    bootstrap: [ AppComponent ]
 })
 export class AppModule {}
 ```
@@ -189,8 +189,8 @@ First extend your `src/environments/*.ts` files by adding the corresponding base
 
 ```typescript
 export const environment = {
-production: false,
-API_BASE_PATH: 'http://127.0.0.1:8080'
+  production: false,
+  API_BASE_PATH: 'http://127.0.0.1:8080'
 };
 ```
 
@@ -201,12 +201,12 @@ import { BASE_PATH } from '@openapitools/typescript-angular-petstore';
 import { environment } from '../environments/environment';
 
 @NgModule({
-declarations: [
-AppComponent
-],
-imports: [ ],
-providers: [{ provide: BASE_PATH, useValue: environment.API_BASE_PATH }],
-bootstrap: [ AppComponent ]
+  declarations: [
+    AppComponent
+  ],
+  imports: [ ],
+  providers: [{ provide: BASE_PATH, useValue: environment.API_BASE_PATH }],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
 ```
@@ -227,7 +227,7 @@ Example value for use in your Configuration-Provider:
 
 ```typescript
 new Configuration({
-encodeParam: (param: Param) => myFancyParamEncoder(param),
+    encodeParam: (param: Param) => myFancyParamEncoder(param),
 })
 ```
 
