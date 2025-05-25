@@ -865,4 +865,13 @@ components:
         perPage:
           type: integer
           format: int32
+        reference_test:
+          type: array
+          readOnly: true
+          items: 
+            $ref: "#/components/schemas/UUID"
+    UUID:
+      format: "uuid"
+      pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+      type: "string"
         

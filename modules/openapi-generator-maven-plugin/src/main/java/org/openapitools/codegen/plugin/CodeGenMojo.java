@@ -563,11 +563,17 @@ public class CodeGenMojo extends AbstractMojo {
         }
 
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
+            // make sure the path can be processed correct under Windows OS
+            inputSpecRootDirectory = inputSpecRootDirectory.replaceAll("\\\\", "/");
+
             inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
                     mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion)
                     .buildMergedSpec();
             LOGGER.info("Merge input spec would be used - {}", inputSpec);
         }
+
+        // make sure the path can be processed correct under Windows OS
+        inputSpec = inputSpec.replaceAll("\\\\", "/");
 
         File inputSpecFile = new File(inputSpec);
 

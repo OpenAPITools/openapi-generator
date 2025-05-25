@@ -24,6 +24,7 @@ Page::Page()
     m_PageIsSet = false;
     m_PerPage = 0;
     m_PerPageIsSet = false;
+    m_Reference_testIsSet = false;
 }
 
 Page::~Page()
@@ -47,6 +48,11 @@ web::json::value Page::toJson() const
     {   
         
         val[utility::conversions::to_string_t(_XPLATSTR("perPage"))] = ModelBase::toJson(m_PerPage);
+    }
+    if(m_Reference_testIsSet)
+    {   
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("reference_test"))] = ModelBase::toJson(m_Reference_test);
     }
 
     return val;
@@ -77,6 +83,17 @@ bool Page::fromJson(const web::json::value& val)
             
         }
     }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("reference_test"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("reference_test")));
+        if(!fieldValue.is_null())
+        {
+            std::vector<utility::string_t> refVal_setReferenceTest;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setReferenceTest);
+            setReferenceTest(refVal_setReferenceTest);
+            
+        }
+    }
     return ok;
 }
 
@@ -94,6 +111,10 @@ void Page::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utili
     if(m_PerPageIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("perPage")), m_PerPage));
+    }
+    if(m_Reference_testIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("reference_test")), m_Reference_test));
     }
 }
 
@@ -117,6 +138,12 @@ bool Page::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const uti
         int32_t refVal_setPerPage;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("perPage"))), refVal_setPerPage );
         setPerPage(refVal_setPerPage);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("reference_test"))))
+    {
+        std::vector<utility::string_t> refVal_setReferenceTest;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("reference_test"))), refVal_setReferenceTest );
+        setReferenceTest(refVal_setReferenceTest);
     }
     return ok;
 }
@@ -161,6 +188,27 @@ bool Page::perPageIsSet() const
 void Page::unsetPerPage()
 {
     m_PerPageIsSet = false;
+}
+std::vector<utility::string_t> Page::getReferenceTest() const
+{
+    return m_Reference_test;
+}
+
+
+void Page::setReferenceTest(const std::vector<utility::string_t>& value)
+{
+    m_Reference_test = value;
+    m_Reference_testIsSet = true;
+}
+
+bool Page::referenceTestIsSet() const
+{
+    return m_Reference_testIsSet;
+}
+
+void Page::unsetReference_test()
+{
+    m_Reference_testIsSet = false;
 }
 
 }

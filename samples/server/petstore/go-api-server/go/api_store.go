@@ -52,27 +52,63 @@ func NewStoreAPIController(s StoreAPIServicer, opts ...StoreAPIOption) *StoreAPI
 func (c *StoreAPIController) Routes() Routes {
 	return Routes{
 		"GetInventory": Route{
+			"GetInventory",
 			strings.ToUpper("Get"),
 			"/v2/store/inventory",
 			c.GetInventory,
 		},
 		"PlaceOrder": Route{
+			"PlaceOrder",
 			strings.ToUpper("Post"),
 			"/v2/store/order",
 			c.PlaceOrder,
 		},
 		"GetOrderById": Route{
+			"GetOrderById",
 			strings.ToUpper("Get"),
 			"/v2/store/order/{orderId}",
 			c.GetOrderById,
 		},
 		"DeleteOrder": Route{
+			"DeleteOrder",
 			strings.ToUpper("Delete"),
 			"/v2/store/order/{orderId}",
 			c.DeleteOrder,
 		},
 	}
 }
+
+// OrderedRoutes returns all the api routes in a deterministic order for the StoreAPIController
+func (c *StoreAPIController) OrderedRoutes() []Route {
+	return []Route{
+		Route{
+			"GetInventory",
+			strings.ToUpper("Get"),
+			"/v2/store/inventory",
+			c.GetInventory,
+		},
+		Route{
+			"PlaceOrder",
+			strings.ToUpper("Post"),
+			"/v2/store/order",
+			c.PlaceOrder,
+		},
+		Route{
+			"GetOrderById",
+			strings.ToUpper("Get"),
+			"/v2/store/order/{orderId}",
+			c.GetOrderById,
+		},
+		Route{
+			"DeleteOrder",
+			strings.ToUpper("Delete"),
+			"/v2/store/order/{orderId}",
+			c.DeleteOrder,
+		},
+	}
+}
+
+
 
 // GetInventory - Returns pet inventories by status
 func (c *StoreAPIController) GetInventory(w http.ResponseWriter, r *http.Request) {
