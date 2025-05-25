@@ -134,7 +134,7 @@ Endpoints do not require authorization.
 - apiName: Api
 - caseInsensitiveResponseHeaders: 
 - conditionalSerialization: false
-- disallowAdditionalPropertiesIfNotPresent: 
+- disallowAdditionalPropertiesIfNotPresent: true
 - gitHost: github.com
 - gitRepoId: GIT_REPO_ID
 - gitUserId: GIT_USER_ID

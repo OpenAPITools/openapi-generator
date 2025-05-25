@@ -152,7 +152,7 @@ Authentication schemes defined for the API:
 - apiName: Api
 - caseInsensitiveResponseHeaders: 
 - conditionalSerialization: false
-- disallowAdditionalPropertiesIfNotPresent: 
+- disallowAdditionalPropertiesIfNotPresent: true
 - gitHost: github.com
 - gitRepoId: GIT_REPO_ID
 - gitUserId: GIT_USER_ID
