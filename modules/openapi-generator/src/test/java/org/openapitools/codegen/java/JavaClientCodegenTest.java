@@ -3604,8 +3604,6 @@ public class JavaClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        JavaClientCodegen codegen = new JavaClientCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
         Map<String, Object> properties = new HashMap<>();
         properties.put(APIS, false);
         properties.put(API_DOCS, false);
@@ -3613,7 +3611,6 @@ public class JavaClientCodegenTest {
         properties.put(MODEL_DOCS, false);
         properties.put(MODEL_TESTS, false);
 
-        codegen.additionalProperties().putAll(properties);
         Generator generator = new DefaultGenerator();
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setInputSpec("src/test/resources/3_1/issue_21051.yaml")
@@ -3625,7 +3622,7 @@ public class JavaClientCodegenTest {
                 .generate();
         System.out.println("Generator Settings: " + clientOptInput.getGeneratorSettings());
         String outputPath = output.getAbsolutePath() + "/src/main/java/org/openapitools";
-        File testModel = new File(outputPath, "/client/model/Test.java");
+        File testModel = new File(outputPath, "/client/model/TestCase.java");
         String fileContent = Files.readString(testModel.toPath());
 
         System.out.println(fileContent);
