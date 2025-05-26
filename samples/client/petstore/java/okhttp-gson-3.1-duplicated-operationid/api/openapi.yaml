@@ -39,10 +39,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/myObject'
+                $ref: "#/components/schemas/myObject"
             application/json:
               schema:
-                $ref: '#/components/schemas/myObject'
+                $ref: "#/components/schemas/myObject"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -64,7 +64,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/myObject'
+                $ref: "#/components/schemas/myObject"
           description: ""
       tags:
       - fake

@@ -24,14 +24,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Person'
+                $ref: "#/components/schemas/Person"
           description: OK
 components:
   schemas:
     Person:
       discriminator:
         mapping:
-          a: '#/components/schemas/Adult'
+          a: "#/components/schemas/Adult"
           c: Child
         propertyName: $_type
       example:
@@ -48,11 +48,11 @@ components:
       type: object
     Adult:
       allOf:
-      - $ref: '#/components/schemas/Person'
+      - $ref: "#/components/schemas/Person"
       - properties:
           children:
             items:
-              $ref: '#/components/schemas/Child'
+              $ref: "#/components/schemas/Child"
             type: array
         type: object
       description: A representation of an adult
@@ -63,7 +63,7 @@ components:
             format: int32
             type: integer
         type: object
-      - $ref: '#/components/schemas/Person'
+      - $ref: "#/components/schemas/Person"
       description: A representation of a child
       properties:
         boosterSeat:

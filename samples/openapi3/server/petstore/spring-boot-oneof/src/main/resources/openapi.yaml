@@ -15,13 +15,7 @@ paths:
       operationId: getAllFoos
       responses:
         "200":
-          content:
-            application/json;charset=utf-8:
-              schema:
-                items:
-                  $ref: '#/components/schemas/FooRefOrValue'
-                type: array
-          description: Success
+          $ref: "#/components/responses/200FooArray"
       summary: GET all Foos
       tags:
       - Foo
@@ -32,14 +26,10 @@ paths:
     post:
       operationId: createFoo
       requestBody:
-        $ref: '#/components/requestBodies/Foo'
+        $ref: "#/components/requestBodies/Foo"
       responses:
         "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FooRefOrValue'
-          description: Error
+          $ref: "#/components/responses/201Foo"
       summary: Create a Foo
       tags:
       - Foo
@@ -55,14 +45,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Bar_Create'
+              $ref: "#/components/schemas/Bar_Create"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Bar'
+                $ref: "#/components/schemas/Bar"
           description: Bar created
       summary: Create a Bar
       tags:
@@ -78,7 +68,7 @@ components:
       content:
         application/json;charset=utf-8:
           schema:
-            $ref: '#/components/schemas/Foo'
+            $ref: "#/components/schemas/Foo"
       description: The Foo to be created
   responses:
     "204":
@@ -88,14 +78,14 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/FooRefOrValue'
+            $ref: "#/components/schemas/FooRefOrValue"
       description: Error
     "200FooArray":
       content:
         application/json;charset=utf-8:
           schema:
             items:
-              $ref: '#/components/schemas/FooRefOrValue'
+              $ref: "#/components/schemas/FooRefOrValue"
             type: array
       description: Success
   schemas:
@@ -126,15 +116,15 @@ components:
       type: object
     Entity:
       allOf:
-      - $ref: '#/components/schemas/Addressable'
-      - $ref: '#/components/schemas/Extensible'
+      - $ref: "#/components/schemas/Addressable"
+      - $ref: "#/components/schemas/Extensible"
       discriminator:
         propertyName: '@type'
       type: object
     EntityRef:
       allOf:
-      - $ref: '#/components/schemas/Addressable'
-      - $ref: '#/components/schemas/Extensible'
+      - $ref: "#/components/schemas/Addressable"
+      - $ref: "#/components/schemas/Extensible"
       description: Entity reference schema to be use for all entityRef class.
       discriminator:
         propertyName: '@type'
@@ -150,13 +140,13 @@ components:
       discriminator:
         propertyName: '@type'
       oneOf:
-      - $ref: '#/components/schemas/Foo'
-      - $ref: '#/components/schemas/FooRef'
+      - $ref: "#/components/schemas/Foo"
+      - $ref: "#/components/schemas/FooRef"
       type: object
       x-one-of-name: FooRefOrValue
     Foo:
       allOf:
-      - $ref: '#/components/schemas/Entity'
+      - $ref: "#/components/schemas/Entity"
       example:
         fooPropA: fooPropA
         fooPropB: fooPropB
@@ -168,29 +158,29 @@ components:
       type: object
     FooRef:
       allOf:
-      - $ref: '#/components/schemas/EntityRef'
+      - $ref: "#/components/schemas/EntityRef"
       properties:
         foorefPropA:
           type: string
       type: object
     BarRef:
       allOf:
-      - $ref: '#/components/schemas/EntityRef'
+      - $ref: "#/components/schemas/EntityRef"
       type: object
     Bar_Create:
       allOf:
-      - $ref: '#/components/schemas/Entity'
+      - $ref: "#/components/schemas/Entity"
       properties:
         barPropA:
           type: string
         fooPropB:
           type: string
         foo:
-          $ref: '#/components/schemas/FooRefOrValue'
+          $ref: "#/components/schemas/FooRefOrValue"
       type: object
     Bar:
       allOf:
-      - $ref: '#/components/schemas/Entity'
+      - $ref: "#/components/schemas/Entity"
       example:
         foo:
           fooPropA: fooPropA
@@ -206,33 +196,33 @@ components:
         fooPropB:
           type: string
         foo:
-          $ref: '#/components/schemas/FooRefOrValue'
+          $ref: "#/components/schemas/FooRefOrValue"
       required:
       - id
       type: object
     BarRefOrValue:
       oneOf:
-      - $ref: '#/components/schemas/Bar'
-      - $ref: '#/components/schemas/BarRef'
+      - $ref: "#/components/schemas/Bar"
+      - $ref: "#/components/schemas/BarRef"
       type: object
       x-one-of-name: BarRefOrValue
     Pizza:
       allOf:
-      - $ref: '#/components/schemas/Entity'
+      - $ref: "#/components/schemas/Entity"
       properties:
         pizzaSize:
           type: number
       type: object
     Pasta:
       allOf:
-      - $ref: '#/components/schemas/Entity'
+      - $ref: "#/components/schemas/Entity"
       properties:
         vendor:
           type: string
       type: object
     PizzaSpeziale:
       allOf:
-      - $ref: '#/components/schemas/Pizza'
+      - $ref: "#/components/schemas/Pizza"
       properties:
         toppings:
           type: string
@@ -245,15 +235,15 @@ components:
     Fruit:
       discriminator:
         mapping:
-          APPLE: '#/components/schemas/Apple'
-          BANANA: '#/components/schemas/Banana'
+          APPLE: "#/components/schemas/Apple"
+          BANANA: "#/components/schemas/Banana"
         propertyName: fruitType
       oneOf:
-      - $ref: '#/components/schemas/Apple'
-      - $ref: '#/components/schemas/Banana'
+      - $ref: "#/components/schemas/Apple"
+      - $ref: "#/components/schemas/Banana"
       properties:
         fruitType:
-          $ref: '#/components/schemas/FruitType'
+          $ref: "#/components/schemas/FruitType"
       required:
       - fruitType
       type: object
