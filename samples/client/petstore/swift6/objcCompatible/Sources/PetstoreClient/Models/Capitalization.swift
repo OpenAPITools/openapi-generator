@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Capitalization: NSObject, Codable, ParameterConvertible {
+@objcMembers public class Capitalization: NSObject, Codable {
 
     public var smallCamel: String?
     public var capitalCamel: String?
