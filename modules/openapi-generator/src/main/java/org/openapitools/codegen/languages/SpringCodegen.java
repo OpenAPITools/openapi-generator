@@ -237,6 +237,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions
                 .add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(SPRING_CONTROLLER, "Annotate the generated API as a Spring Controller", useSpringController));
+        cliOptions.add(CliOption.newBoolean(USE_ONE_OF_EXTENSIBLE_ENUMS, "whether to generate custom extensible enumeration using the extensible enums with interface pattern", useOneOfExtensibleEnums));
 
         CliOption requestMappingOpt = new CliOption(REQUEST_MAPPING_OPTION,
                 "Where to generate the class level @RequestMapping annotation.")

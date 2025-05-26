@@ -102,6 +102,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useFeignClientContextId|Whether to generate Feign client with contextId parameter.| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
+|useOneOfExtensibleEnums|whether to generate custom extensible enumeration using the extensible enums with interface pattern| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |useOptional|Use Optional container for optional parameters| |false|
 |useResponseEntity|Use the `ResponseEntity` type to wrap return values of generated API methods. If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition| |true|

@@ -5501,4 +5501,23 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("SomeObject.java"))
                 .fileContains("private final String value");
     }
+
+    @Test
+    public void testExtensibleEnum() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseOneOfExtensibleEnums(true);
+        codegen.setUseBeanValidation(true);
+        Map<String, File> files = generateFiles(codegen,"src/test/resources/3_0/java/extended-enums.yaml");
+        JavaFileAssert.assertThat(files.get("Country.java"))
+                .fileContains("@JsonDeserialize(using = Country.EnumDeserializer.class)",
+                        "String getValue()",
+                        "class EnumDeserializer extends StdDeserializer<Country>",
+                        "class CountryString implements Country");
+        JavaFileAssert.assertThat(files.get("CountryOrOther.java"))
+                .fileContains("@JsonDeserialize(using = CountryOrOther.EnumDeserializer.class)",
+                        "String getValue()",
+                        "class EnumDeserializer extends StdDeserializer<CountryOrOther>",
+                        "static CountryOrOther fromValue(String value)");
+
+    }
 }

@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  title: Extended enum
+  description: ''
+  version: v1
+servers:
+  - url: http://localhost
+    description: test
+paths:
+  /test:
+    get:
+      operationId: test
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+components:
+  schemas:
+    Address:
+      properties:
+        street:
+          type: string
+        countryOrString:
+          $ref: '#/components/schemas/Country'
+        countryOrOther:
+          $ref: '#/components/schemas/countryOrOther'
+    Country:
+      oneOf:
+        - $ref: '#/components/schemas/SubsetCountry'
+        - type: string
+          description: other coutries
+          title: OtherCountry
+          pattern: ^[A-Z]{2}$
+    SubsetCountry:
+      type: string
+      enum:
+        - BE
+        - LU
+        - NL
+    countryOrOther:
+      oneOf:
+        - $ref: '#/components/schemas/SubsetCountry'
+        - $ref: '#/components/schemas/OtherCountryEnum'
+    OtherCountryEnum:
+      type: string
+      enum:
+        - IT
+        - DE
+        - FR
+
+
