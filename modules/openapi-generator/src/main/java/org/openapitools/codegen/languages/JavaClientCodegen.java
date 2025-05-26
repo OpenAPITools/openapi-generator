@@ -239,7 +239,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(CONFIG_KEY_FROM_CLASS_NAME, "If true, set tag as key in @RegisterRestClient. Default to false. Only `microprofile` supports this option."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
-        cliOptions.add(CliOption.newString(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to \"true\" will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to \"static\" does the same as \"true\", but also makes the generated arguments class static with single parameter instantiation.").defaultValue("false"));
+        cliOptions.add(CliOption.newString(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to \"true\" will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY native, jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to \"static\" does the same as \"true\", but also makes the generated arguments class static with single parameter instantiation.").defaultValue("false"));
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, restclient and webclient, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
@@ -800,7 +800,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
 
-        if (this.getSingleRequestParameter() && (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(OKHTTP_GSON))) {
+        if (this.getSingleRequestParameter() && (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(OKHTTP_GSON) || isLibrary(NATIVE))) {
             // loop through operations to set x-group-parameters extension to true if useSingleRequestParameter option is enabled
             OperationMap operations = objs.getOperations();
             if (operations != null) {
