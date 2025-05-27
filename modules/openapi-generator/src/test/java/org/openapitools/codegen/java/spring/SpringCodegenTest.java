@@ -5501,4 +5501,35 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("SomeObject.java"))
                 .fileContains("private final String value");
     }
+
+    @Test
+    public void testCollectionTypesWithDefaults_issue_collection() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/java/issue_collection.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_NAME_SUFFIX, "Controller");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+        codegen.additionalProperties().put("defaultToEmptyContainer", "array");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetDto.java"))
+                .fileContains("private @Nullable List<@Valid TagDto> tags;")
+                .fileContains("private List<@Valid TagDto> tagsRequiredList = new ArrayList<>();")
+                .fileContains("private @Nullable List<String> stringList;")
+                .fileContains("private List<String> stringRequiredList = new ArrayList<>();");
+    }
 }

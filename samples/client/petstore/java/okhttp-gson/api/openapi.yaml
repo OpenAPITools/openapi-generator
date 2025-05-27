@@ -108,6 +108,7 @@ paths:
         name: status
         required: true
         schema:
+          default: []
           items:
             default: available
             enum:
@@ -122,11 +123,13 @@ paths:
           content:
             application/xml:
               schema:
+                default: []
                 items:
                   $ref: '#/components/schemas/Pet'
                 type: array
             application/json:
               schema:
+                default: []
                 items:
                   $ref: '#/components/schemas/Pet'
                 type: array
@@ -156,6 +159,7 @@ paths:
         name: tags
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -165,11 +169,13 @@ paths:
           content:
             application/xml:
               schema:
+                default: []
                 items:
                   $ref: '#/components/schemas/Pet'
                 type: array
             application/json:
               schema:
+                default: []
                 items:
                   $ref: '#/components/schemas/Pet'
                 type: array
@@ -342,6 +348,7 @@ paths:
                 additionalProperties:
                   format: int32
                   type: integer
+                default: []
                 type: object
           description: successful operation
       security:
@@ -739,6 +746,7 @@ paths:
         name: enum_header_string_array
         required: false
         schema:
+          default: []
           items:
             default: $
             enum:
@@ -766,6 +774,7 @@ paths:
         name: enum_query_string_array
         required: false
         schema:
+          default: []
           items:
             default: $
             enum:
@@ -1054,6 +1063,7 @@ paths:
             schema:
               additionalProperties:
                 type: string
+              default: []
               type: object
         description: request body
         required: true
@@ -1195,6 +1205,7 @@ paths:
         name: pipe
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -1204,6 +1215,7 @@ paths:
         name: ioutil
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -1213,6 +1225,7 @@ paths:
         name: http
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -1222,6 +1235,7 @@ paths:
         name: url
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -1231,6 +1245,7 @@ paths:
         name: context
         required: true
         schema:
+          default: []
           items:
             type: string
           type: array
@@ -1558,6 +1573,7 @@ components:
               - username: foo
               - username: bar
           schema:
+            default: []
             items:
               $ref: '#/components/schemas/User'
             type: array
@@ -1741,6 +1757,7 @@ components:
           example: doggie
           type: string
         photoUrls:
+          default: []
           items:
             type: string
           type: array
@@ -1748,6 +1765,7 @@ components:
             name: photoUrl
             wrapped: true
         tags:
+          default: []
           items:
             $ref: '#/components/schemas/Tag'
           type: array
@@ -1841,6 +1859,7 @@ components:
     Address:
       additionalProperties:
         type: integer
+      default: []
       type: object
     Animal:
       discriminator:
@@ -1990,12 +2009,15 @@ components:
         map_property:
           additionalProperties:
             type: string
+          default: []
           type: object
         map_of_map_property:
           additionalProperties:
             additionalProperties:
               type: string
+            default: []
             type: object
+          default: []
           type: object
         anytype_1: {}
         map_with_undeclared_properties_anytype_1:
@@ -2005,6 +2027,7 @@ components:
           type: object
         map_with_undeclared_properties_anytype_3:
           additionalProperties: true
+          default: []
           type: object
         empty_map:
           additionalProperties: false
@@ -2014,6 +2037,7 @@ components:
         map_with_undeclared_properties_string:
           additionalProperties:
             type: string
+          default: []
           type: object
       type: object
     MixedPropertiesAndAdditionalPropertiesClass:
@@ -2027,6 +2051,7 @@ components:
         map:
           additionalProperties:
             $ref: '#/components/schemas/Animal'
+          default: []
           type: object
       type: object
     List:
@@ -2081,7 +2106,9 @@ components:
           additionalProperties:
             additionalProperties:
               type: string
+            default: []
             type: object
+          default: []
           type: object
         map_of_enum_string:
           additionalProperties:
@@ -2089,31 +2116,39 @@ components:
             - UPPER
             - lower
             type: string
+          default: []
           type: object
         direct_map:
           additionalProperties:
             type: boolean
+          default: []
           type: object
         indirect_map:
           additionalProperties:
             type: boolean
+          default: []
           type: object
       type: object
     ArrayTest:
       properties:
         array_of_string:
+          default: []
           items:
             type: string
           type: array
         array_array_of_integer:
+          default: []
           items:
+            default: []
             items:
               format: int64
               type: integer
             type: array
           type: array
         array_array_of_model:
+          default: []
           items:
+            default: []
             items:
               $ref: '#/components/schemas/ReadOnlyFirst'
             type: array
@@ -2127,6 +2162,7 @@ components:
     ArrayOfNumberOnly:
       properties:
         ArrayNumber:
+          default: []
           items:
             type: number
           type: array
@@ -2134,7 +2170,9 @@ components:
     ArrayOfArrayOfNumberOnly:
       properties:
         ArrayArrayNumber:
+          default: []
           items:
+            default: []
             items:
               type: number
             type: array
@@ -2148,6 +2186,7 @@ components:
           - $
           type: string
         array_enum:
+          default: []
           items:
             enum:
             - fish
@@ -2157,11 +2196,13 @@ components:
       type: object
     FreeFormObject:
       additionalProperties: true
+      default: []
       description: A schema consisting only of additional properties
       type: object
     MapOfString:
       additionalProperties:
         type: string
+      default: []
       description: A schema consisting only of additional properties of type string
       type: object
     OuterEnum:
@@ -2217,6 +2258,7 @@ components:
     StringBooleanMap:
       additionalProperties:
         type: boolean
+      default: []
       type: object
     FileSchemaTestClass:
       example:
@@ -2229,6 +2271,7 @@ components:
         file:
           $ref: '#/components/schemas/File'
         files:
+          default: []
           items:
             $ref: '#/components/schemas/File'
           type: array
@@ -2308,6 +2351,7 @@ components:
           nullable: true
           type: array
         array_items_nullable:
+          default: []
           items:
             nullable: true
             type: object
@@ -2327,6 +2371,7 @@ components:
           additionalProperties:
             nullable: true
             type: object
+          default: []
           type: object
       type: object
     fruit:
@@ -2456,6 +2501,7 @@ components:
         nullableShape:
           $ref: '#/components/schemas/NullableShape'
         shapes:
+          default: []
           items:
             $ref: '#/components/schemas/Shape'
           type: array
@@ -2551,6 +2597,7 @@ components:
       - $ref: '#/components/schemas/GrandparentAnimal'
       type: object
     ArrayOfEnums:
+      default: []
       items:
         $ref: '#/components/schemas/OuterEnum'
       type: array
@@ -2575,6 +2622,7 @@ components:
         deprecatedRef:
           $ref: '#/components/schemas/DeprecatedObject'
         bars:
+          default: []
           deprecated: true
           items:
             $ref: '#/components/schemas/Bar'
@@ -2592,6 +2640,7 @@ components:
           example: doggie
           type: string
         photoUrls:
+          default: []
           items:
             type: string
           type: array
@@ -2599,6 +2648,7 @@ components:
             name: photoUrl
             wrapped: true
         tags:
+          default: []
           items:
             $ref: '#/components/schemas/Tag'
           type: array
@@ -2628,6 +2678,7 @@ components:
           example: doggie
           type: string
         array_allof_dog_property:
+          default: []
           items:
             $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner'
           type: array
@@ -2656,6 +2707,7 @@ components:
             type: string
           type: array
         WithoutDefault:
+          default: []
           items:
             type: string
           type: array
@@ -2692,6 +2744,7 @@ components:
       - type: boolean
       description: Values of scalar type using anyOf
     Array:
+      default: []
       description: Values of array type
       items:
         $ref: '#/components/schemas/Scalar'
@@ -2723,6 +2776,7 @@ components:
           example: doggie
           type: string
         photoUrls:
+          default: []
           items:
             type: string
           type: array
@@ -2730,6 +2784,7 @@ components:
             name: photoUrl
             wrapped: true
         tags:
+          default: []
           items:
             allOf:
             - $ref: '#/components/schemas/Tag'
@@ -2790,6 +2845,7 @@ components:
           example: doggie
           type: string
         photoUrls:
+          default: []
           items:
             type: string
           type: array
@@ -2797,6 +2853,7 @@ components:
             name: photoUrl
             wrapped: true
         tags:
+          default: []
           items:
             allOf:
             - $ref: '#/components/schemas/Tag'
@@ -2841,13 +2898,15 @@ components:
     ArrayOneOf:
       oneOf:
       - type: integer
-      - items:
+      - default: []
+        items:
           type: string
         type: array
     ArrayAnyOf:
       anyOf:
       - type: integer
-      - items:
+      - default: []
+        items:
           type: string
         type: array
     ModelWithOneOfAnyOfProperties:
@@ -2887,6 +2946,7 @@ components:
     testEnumParameters_request:
       properties:
         enum_form_string_array:
+          default: []
           description: Form parameter enum test (string array)
           items:
             default: $
@@ -2992,18 +3052,22 @@ components:
       type: object
     _fake_oneOfWIthSameErasure_get_200_response:
       oneOf:
-      - items:
+      - default: []
+        items:
           type: string
         type: array
-      - items:
+      - default: []
+        items:
           type: integer
         type: array
     _fake_anyOfWIthSameErasure_get_200_response:
       anyOf:
-      - items:
+      - default: []
+        items:
           type: string
         type: array
-      - items:
+      - default: []
+        items:
           type: integer
         type: array
     testInlineFreeformAdditionalProperties_request:
@@ -3032,6 +3096,7 @@ components:
       oneOf:
       - type: string
       - additionalProperties: true
+        default: []
         type: object
     ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
@@ -3072,6 +3137,7 @@ components:
     AllOfModelArrayAnyOf_allOf_linkListColumn1:
       properties:
         value:
+          default: []
           items:
             $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1_value'
           type: array
