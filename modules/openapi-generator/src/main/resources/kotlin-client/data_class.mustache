@@ -291,6 +291,16 @@ import {{packageName}}.infrastructure.ITransformForStorage
               String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be an array in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
             }
             {{/required}}
+            {{#items.isPrimitiveType}}
+            // ensure the items in json array are primitive
+            if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null) {
+              for (i in 0 until jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").size()) {
+                require(jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").get(i).isJsonPrimitive) {
+                  String.format("Expected the property in array `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be primitive")
+                }
+              }
+            }
+            {{/items.isPrimitiveType}}
             {{/items.isModel}}
             {{/isArray}}
             {{^isContainer}}
