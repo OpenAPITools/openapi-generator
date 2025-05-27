@@ -451,6 +451,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             name = camelize(name, LOWERCASE_FIRST_LETTER);
         } else if ("PascalCase".equals(variableNamingConvention)) {
             name = camelize(name, UPPERCASE_FIRST_CHAR);
+        } else if ("off".equals(variableNamingConvention)) {
+            // return the name as it is
         } else { // default to snake case
             // return the name in underscore style
             // PhoneNumber => phone_number
