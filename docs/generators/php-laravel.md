@@ -38,7 +38,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |srcBasePath|The directory to serve as source root.| |null|
-|variableNamingConvention|naming convention of variable name, e.g. camelCase.| |snake_case|
+|variableNamingConvention|naming convention of variable name, e.g. camelCase.|`camelCase`, `PascalCase`, `snake_case`, `off`|snake_case|
 
 ## IMPORT MAPPING
 
