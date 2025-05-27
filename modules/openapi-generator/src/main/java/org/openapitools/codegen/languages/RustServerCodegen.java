@@ -233,6 +233,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         supportingFiles.add(new SupportingFile("server-server_auth.mustache", "src/server", "server_auth.rs"));
         supportingFiles.add(new SupportingFile("client-mod.mustache", "src/client", "mod.rs"));
         supportingFiles.add(new SupportingFile("example-server-main.mustache", "examples/server", "main.rs"));
+        supportingFiles.add(new SupportingFile("example-server-tokio-io.rs", "examples/server", "tokio_io.rs"));
         supportingFiles.add(new SupportingFile("example-server-server.mustache", "examples/server", "server.rs"));
         supportingFiles.add(new SupportingFile("example-server-auth.mustache", "examples/server", "server_auth.rs"));
         supportingFiles.add(new SupportingFile("example-client-main.mustache", "examples/client", "main.rs"));

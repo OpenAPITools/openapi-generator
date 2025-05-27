@@ -30,6 +30,18 @@ where
     }
 }
 
+impl<T, A> Clone for MakeAddContext<T, A>
+where
+    T: Clone,
+{
+    fn clone(&self) -> Self {
+        Self {
+            inner: self.inner.clone(),
+            marker: PhantomData,
+        }
+    }
+}
+
 // Make a service that adds context.
 impl<Target, T, A, B, C, D> Service<Target> for
     MakeAddContext<T, A>
