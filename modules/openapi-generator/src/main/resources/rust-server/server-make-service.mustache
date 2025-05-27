@@ -45,11 +45,7 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     type Error = crate::ServiceError;
     type Future = future::Ready<Result<Self::Response, Self::Error>>;
 
-    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
-        Poll::Ready(Ok(()))
-    }
-
-    fn call(&mut self, target: Target) -> Self::Future {
+    fn call(&self, target: Target) -> Self::Future {
         let service = Service::new(self.api_impl.clone()){{^apiUsesMultipartFormData}};{{/apiUsesMultipartFormData}}
 {{#apiUsesMultipartFormData}}
             .multipart_form_size_limit(self.multipart_form_size_limit);

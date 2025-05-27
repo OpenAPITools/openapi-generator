@@ -21,7 +21,7 @@
         });
 
         // Add the message body to the request object.
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = BoxBody::new(Full::new(Bytes::from(body)));
   {{/x-consumes-multipart-related}}
   {{#x-consumes-form}}
 
@@ -94,7 +94,7 @@
         let body = serde_json::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");
         {{/x-consumes-json}}
       {{/vendorExtensions}}
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = body_from_string(body);
       {{^required}}
         }
       {{/required}}
