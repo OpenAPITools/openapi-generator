@@ -1,7 +1,6 @@
 import {HttpLibrary, RequestContext, ResponseContext} from './http';
 import { from, Observable } from '../rxjsStub';
 import fetch from "node-fetch";
-import { AbortSignal } from "node-fetch/externals";
 
 export class IsomorphicFetchHttpLibrary implements HttpLibrary {
 
