@@ -152,7 +152,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                 .addEnum("camelCase", "Use camelCase convention")
                 .addEnum("PascalCase", "Use PascalCase convention")
                 .addEnum("snake_case", "Use snake_case convention")
-                .addEnum("off", "Do not change the variable name")
+                .addEnum("original", "Do not change the variable name")
                 .defaultValue("snake_case"));
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
         cliOptions.add(new CliOption(PACKAGE_NAME, "The main package name for classes. e.g. GeneratedPetstore"));
@@ -455,7 +455,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             name = camelize(name, LOWERCASE_FIRST_LETTER);
         } else if ("PascalCase".equals(variableNamingConvention)) {
             name = camelize(name, UPPERCASE_FIRST_CHAR);
-        } else if ("off".equals(variableNamingConvention)) {
+        } else if ("original".equals(variableNamingConvention)) {
             // return the name as it is
         } else { // default to snake case
             // return the name in underscore style
