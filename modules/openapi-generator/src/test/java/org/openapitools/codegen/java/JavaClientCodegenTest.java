@@ -3665,4 +3665,177 @@ public class JavaClientCodegenTest {
         assertTrue(defaultFields.get("testNullableEmptyReference").getVariable(0).getInitializer().get().isObjectCreationExpr());
         assertTrue(defaultFields.get("testNullableComplexReference").getVariable(0).getInitializer().get().isMethodCallExpr());
     }
+
+    @DataProvider(name = "allJavaClients")
+    public Object[][] allJavaClients() {
+        return new Object[][] {
+                { JavaClientCodegen.FEIGN },
+                { JavaClientCodegen.GOOGLE_API_CLIENT },
+                { JavaClientCodegen.JERSEY2 },
+                { JavaClientCodegen.JERSEY3 },
+                { JavaClientCodegen.NATIVE },
+                { JavaClientCodegen.OKHTTP_GSON },
+                { JavaClientCodegen.RESTEASY },
+                { JavaClientCodegen.RESTTEMPLATE },
+                { JavaClientCodegen.WEBCLIENT },
+                { JavaClientCodegen.RESTCLIENT },
+                { JavaClientCodegen.REST_ASSURED },
+                { JavaClientCodegen.RETROFIT_2 },
+                { JavaClientCodegen.VERTX },
+                { JavaClientCodegen.MICROPROFILE },
+                { JavaClientCodegen.APACHE }
+        };
+    }
+
+    @Test(dataProvider = "allJavaClients")
+    public void testClientWithAnyOfCausedCompileError(String client) {
+        if(JavaClientCodegen.MICROPROFILE.equals(client))
+        {
+            // MikroProfile currently does not support anyOf
+            return;
+        }
+
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/java/petstore.yaml", null, new ParseOptions())
+                .getOpenAPI();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+        codegen.setLibrary(client);
+
+        final ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        validateJavaSourceFiles(files);
+    }
+
+    @Test(dataProvider = "allJavaClients")
+    public void testClientWithUseOneOfInterface_issue_17419(String client) {
+        // given
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_17419.yaml", null, new ParseOptions())
+                .getOpenAPI();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLibrary(client);
+
+        final ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        // when
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        // then
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/Details.java"),
+                "public interface Details {"
+        );
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/InlineDetails.java"),
+                "implements Details"
+        );
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/ReferencedDetails.java"),
+                "implements Details"
+        );
+
+    }
+
+    @Test(dataProvider = "allJavaClients")
+    public void testClientWithUseOneOfInterfaceWithoutDiscriminator_issue_17419(String client) {
+        // given
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(client)
+                .setAdditionalProperties(Map.of("useOneOfInterfaces", "true"))
+                .setInputSpec("src/test/resources/3_0/typescript-fetch/oneOf.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final ClientOptInput input = configurator.toClientOptInput();
+
+        // when
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        // then
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/TestResponse.java"),
+                "public interface TestResponse {"
+        );
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/TestA.java"),
+                "implements TestResponse"
+        );
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/TestB.java"),
+                "implements TestResponse"
+        );
+
+    }
+
+    @Test(dataProvider = "allJavaClients")
+    public void testClientWithUseOneOfInterfaceShouldntGenerateOneOfExample_issue_17419(String client) {
+        // given
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(client)
+                .setAdditionalProperties(Map.of("useOneOfInterfaces", "true"))
+                .setInputSpec("src/test/resources/3_0/typescript-fetch/oneOf.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final ClientOptInput input = configurator.toClientOptInput();
+
+        // when
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        // then
+        validateJavaSourceFiles(files);
+
+        // must only check if the library generates the doc
+        if(Files.exists(output.resolve("docs/TestResponse.md")))
+        {
+            TestUtils.assertFileNotContains(
+                    output.resolve("docs/TestResponse.md"),
+                    "## Example",
+                    "exampleTestResponse.setActualInstance(exampleTestA);"
+            );
+        }
+
+    }
+
+    @Test
+    public void testOkHttpGsonClientWithUseOneOfInterfaceShouldntRegisterInterfaceAsTypeAdapter_issue_17419() {
+        // given
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(OKHTTP_GSON)
+                .setAdditionalProperties(Map.of("useOneOfInterfaces", "true"))
+                .setInputSpec("src/test/resources/3_0/typescript-fetch/oneOf.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final ClientOptInput input = configurator.toClientOptInput();
+
+        // when
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        // then
+        validateJavaSourceFiles(files);
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/org/openapitools/client/model/TestResponse.java"),
+                "CustomTypeAdapterFactory"
+        );
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/org/openapitools/client/JSON.java"),
+                "new org.openapitools.client.model.TestResponse.CustomTypeAdapterFactory()"
+        );
+    }
+
 }
