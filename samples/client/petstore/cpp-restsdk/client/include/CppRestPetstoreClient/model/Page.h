@@ -64,10 +64,10 @@ public:
     void unsetPerPage();
     void setPerPage(int32_t value);
 
-    std::vector<utility::string_t> getReferenceTest() const;
+    std::vector<std::shared_ptr<utility::string_t>> getReferenceTest() const;
     bool referenceTestIsSet() const;
     void unsetReference_test();
-    void setReferenceTest(const std::vector<utility::string_t>& value);
+    void setReferenceTest(const std::vector<std::shared_ptr<utility::string_t>>& value);
 
 
 protected:
@@ -77,7 +77,7 @@ protected:
     int32_t m_PerPage;
     bool m_PerPageIsSet;
 
-    std::vector<utility::string_t> m_Reference_test;
+    std::vector<std::shared_ptr<utility::string_t>> m_Reference_test;
     bool m_Reference_testIsSet;
 
 };
