@@ -100,6 +100,54 @@ public class FakeApi {
   }
 
   /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
+  }
+
+  /**
    * 
    * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
    * @return FakeBigDecimalMap200Response
@@ -137,13 +185,17 @@ public class FakeApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        FakeBigDecimalMap200Response responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<FakeBigDecimalMap200Response>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<FakeBigDecimalMap200Response>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<FakeBigDecimalMap200Response>() {})
+            responseValue
         );
       } finally {
       }
@@ -214,13 +266,17 @@ public class FakeApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        HealthCheckResult responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<HealthCheckResult>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<HealthCheckResult>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<HealthCheckResult>() {})
+            responseValue
         );
       } finally {
       }
@@ -293,13 +349,17 @@ public class FakeApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        Boolean responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Boolean>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<Boolean>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Boolean>() {})
+            responseValue
         );
       } finally {
       }
@@ -378,13 +438,17 @@ public class FakeApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        OuterComposite responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<OuterComposite>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<OuterComposite>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<OuterComposite>() {})
+            responseValue
         );
       } finally {
       }
@@ -463,13 +527,17 @@ public class FakeApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        BigDecimal responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<BigDecimal>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<BigDecimal>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<BigDecimal>() {})
+            responseValue
         );
       } finally {
       }
@@ -548,13 +616,17 @@ public class FakeApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        String responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<String>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {})
+            responseValue
         );
       } finally {
       }
@@ -626,13 +698,17 @@ public class FakeApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        List<OuterEnum> responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<OuterEnum>>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<List<OuterEnum>>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<OuterEnum>>() {})
+            responseValue
         );
       } finally {
       }
@@ -703,13 +779,17 @@ public class FakeApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        List<OuterEnum> responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<OuterEnum>>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<List<OuterEnum>>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<OuterEnum>>() {})
+            responseValue
         );
       } finally {
       }
@@ -1046,13 +1126,17 @@ public class FakeApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        Client responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<Client>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {})
+            responseValue
         );
       } finally {
       }
