@@ -28,6 +28,7 @@ Pet::Pet()
     m_PhotoUrlsIsSet = false;
     m_TagsIsSet = false;
     m_StatusIsSet = false;
+    m_MetadataIsSet = false;
 }
 
 Pet::~Pet()
@@ -73,6 +74,11 @@ web::json::value Pet::toJson() const
         utility::string_t refVal = fromStatusEnum(m_Status);
         val[utility::conversions::to_string_t(_XPLATSTR("status"))] = ModelBase::toJson(refVal);
         
+    }
+    if(m_MetadataIsSet)
+    {   
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("metadata"))] = ModelBase::toJson(m_Metadata);
     }
 
     return val;
@@ -148,6 +154,17 @@ bool Pet::fromJson(const web::json::value& val)
             
         }
     }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("metadata"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("metadata")));
+        if(!fieldValue.is_null())
+        {
+            std::shared_ptr<Object> refVal_setMetadata;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setMetadata);
+            setMetadata(refVal_setMetadata);
+            
+        }
+    }
     return ok;
 }
 
@@ -181,6 +198,10 @@ void Pet::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utilit
     if(m_StatusIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("status")), fromStatusEnum(m_Status)));
+    }
+    if(m_MetadataIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("metadata")), m_Metadata));
     }
 }
 
@@ -228,6 +249,12 @@ bool Pet::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const util
         utility::string_t refVal_setStatus;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("status"))), refVal_setStatus );
         setStatus(toStatusEnum(refVal_setStatus));
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("metadata"))))
+    {
+        std::shared_ptr<Object> refVal_setMetadata;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("metadata"))), refVal_setMetadata );
+        setMetadata(refVal_setMetadata);
     }
     return ok;
 }
@@ -390,6 +417,27 @@ bool Pet::statusIsSet() const
 void Pet::unsetStatus()
 {
     m_StatusIsSet = false;
+}
+std::shared_ptr<Object> Pet::getMetadata() const
+{
+    return m_Metadata;
+}
+
+
+void Pet::setMetadata(const std::shared_ptr<Object>& value)
+{
+    m_Metadata = value;
+    m_MetadataIsSet = true;
+}
+
+bool Pet::metadataIsSet() const
+{
+    return m_MetadataIsSet;
+}
+
+void Pet::unsetMetadata()
+{
+    m_MetadataIsSet = false;
 }
 
 }
