@@ -41,6 +41,7 @@ pycryptodome = ">= 3.9.0"
 {{/hasHttpSignatureMethods}}
 pydantic = ">= 2"
 typing-extensions = ">= 4.7.1"
+lazy-imports = ">= 1, < 2"
 {{/poetry1}}
 {{^poetry1}}
 requires-python = "^3.9"
@@ -60,7 +61,8 @@ dependencies = [
   "pycryptodome (>=3.9.0)",
 {{/hasHttpSignatureMethods}}
   "pydantic (>=2)",
-  "typing-extensions (>=4.7.1)"
+  "typing-extensions (>=4.7.1)",
+  "lazy-imports (>=1,<2)"
 ]
 
 [project.urls]
