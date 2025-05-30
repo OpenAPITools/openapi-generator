@@ -1,13 +1,23 @@
 package org.openapitools.codegen.typescript.axios;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.List;
+import java.util.Map;
+
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.assertEquals;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_AXIOS})
 public class TypeScriptAxiosClientCodegenTest {
@@ -129,5 +139,73 @@ public class TypeScriptAxiosClientCodegenTest {
         codegen.processOpts();
 
         assertEquals(codegen.additionalProperties().get("axiosVersion"), "^1.2.3");
+    }
+
+    @Test
+    public void testDetectsAwsIamAuthenticationWithExtension() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/typescript-axios/with-aws-iam.yaml");
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+        // Call preprocessOpenAPI which will detect AWS and set the property
+        codegen.preprocessOpenAPI(openAPI);
+
+        // Should detect AWS V4 signature due to x-amazon-apigateway-authtype extension
+        assertTrue((Boolean) codegen.additionalProperties().get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT));
+    }
+
+    @Test
+    public void testDetectsAwsIamAuthenticationWithNaming() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/typescript-axios/with-aws-iam.yaml");
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+        // Call preprocessOpenAPI which will detect AWS and set the property
+        codegen.preprocessOpenAPI(openAPI);
+
+        // Should detect AWS V4 signature due to scheme name patterns and AWS API Gateway URL
+        assertTrue((Boolean) codegen.additionalProperties().get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT));
+    }
+
+    @Test
+    public void testDoesNotDetectAwsIamInRegularPetstore() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+        // Call preprocessOpenAPI
+        codegen.preprocessOpenAPI(openAPI);
+
+        // Should NOT detect AWS V4 signature in regular petstore
+        assertFalse(codegen.additionalProperties().containsKey(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT) &&
+                (Boolean) codegen.additionalProperties().get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT));
+    }
+
+    @Test
+    public void testDoesNotDetectAwsIamInSwagger2Petstore() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore.yaml");
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+        // Call preprocessOpenAPI
+        codegen.preprocessOpenAPI(openAPI);
+
+        // Should NOT detect AWS V4 signature in Swagger 2.0 petstore either
+        assertFalse(codegen.additionalProperties().containsKey(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT) &&
+                (Boolean) codegen.additionalProperties().get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT));
+    }
+
+    @Test
+    public void testFromSecuritySetsAwsV4Flag() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/typescript-axios/with-aws-iam.yaml");
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+        // Call preprocessOpenAPI first to set up the openAPI object
+        codegen.preprocessOpenAPI(openAPI);
+
+        // Test fromSecurity method directly
+        Map<String, SecurityScheme> securitySchemes =
+                openAPI.getComponents().getSecuritySchemes();
+        List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
+
+        // Should have AWS V4 signature flagged on individual security schemes
+        boolean hasAwsV4 = securities.stream().anyMatch(s -> Boolean.TRUE.equals(s.isAWSV4Signature));
+        assertTrue(hasAwsV4, "fromSecurity should set isAWSV4Signature=true for AWS schemes");
     }
 }
