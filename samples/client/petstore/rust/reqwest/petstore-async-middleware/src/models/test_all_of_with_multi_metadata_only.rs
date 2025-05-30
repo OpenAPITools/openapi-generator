@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 pub struct TestAllOfWithMultiMetadataOnly {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
-    /// existing_tags_array
+    /// This is a test for allOf with metadata only fields
     #[serde(rename = "foo", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub foo: Option<Option<Vec<String>>>,
 }
