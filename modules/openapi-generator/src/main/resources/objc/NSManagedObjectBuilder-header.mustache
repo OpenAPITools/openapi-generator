@@ -11,6 +11,7 @@
 
 {{>licenceInfo}}
 
+
 @interface {{classname}}ManagedObjectBuilder : NSObject
 
 {{#isArray}}@property (nonatomic, strong) {{arrayModelType}}ManagedObjectBuilder * entriesBuilder;{{/isArray}}{{#vars}}{{#complexType}}@property (nonatomic, strong) {{complexType}}ManagedObjectBuilder * {{name}}Builder;
