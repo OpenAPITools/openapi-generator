@@ -26,10 +26,7 @@ export interface Middleware {
 }
 
 export class PromiseMiddlewareWrapper implements Middleware {
-
-    public constructor(private middleware: PromiseMiddleware) {
-
-    }
+    public constructor(private middleware: PromiseMiddleware) {}
 
     pre(context: RequestContext): Observable<RequestContext> {
         return from(this.middleware.pre(context));
@@ -38,7 +35,6 @@ export class PromiseMiddlewareWrapper implements Middleware {
     post(context: ResponseContext): Observable<ResponseContext> {
         return from(this.middleware.post(context));
     }
-
 }
 
 /**
