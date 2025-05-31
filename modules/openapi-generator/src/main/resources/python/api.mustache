@@ -1,6 +1,7 @@
 # coding: utf-8
 
 {{>partial_header}}
+
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -33,6 +34,7 @@ class {{classname}}:
     @validate_call
     {{#asyncio}}async {{/asyncio}}def {{operationId}}{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
 {{>partial_api}}
+
         response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
@@ -47,6 +49,7 @@ class {{classname}}:
     @validate_call
     {{#asyncio}}async {{/asyncio}}def {{operationId}}_with_http_info{{>partial_api_args}} -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
 {{>partial_api}}
+
         response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
@@ -61,6 +64,7 @@ class {{classname}}:
     @validate_call
     {{#asyncio}}async {{/asyncio}}def {{operationId}}_without_preload_content{{>partial_api_args}} -> RESTResponseType:
 {{>partial_api}}
+
         response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout

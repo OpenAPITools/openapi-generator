@@ -38,6 +38,7 @@
       {{/formParams}}
       {{#formParams}}
 {{>generate-multipart-related}}
+
                                                     let header = "multipart/related";
                                                     response.headers_mut().insert(CONTENT_TYPE,
                                                         HeaderValue::from_bytes(

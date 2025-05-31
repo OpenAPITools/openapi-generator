@@ -48,7 +48,7 @@ object {{classname}} {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
       req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)){{#bodyParam}}.withBody({{paramName}}){{/bodyParam}}
-      {{>clientFunction}}
+      {{>clientFunction}}{{! prevent indent}}
     } yield resp
   }
 
@@ -77,7 +77,7 @@ class HttpService{{classname}}(service: HttpService) {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
       req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)){{#bodyParam}}.withBody({{paramName}}){{/bodyParam}}
-      {{>clientFunction}}
+      {{>clientFunction}}{{! prevent indent}}
     } yield resp
   }
 

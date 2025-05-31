@@ -86,6 +86,7 @@
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 {{>client-request-body-instance}}
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -213,6 +214,7 @@
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
 
 {{>client-response-body-instance}}
+
 
                 Ok({{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
 {{^headers}}
