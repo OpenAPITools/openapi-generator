@@ -30,7 +30,7 @@ public class Model200ResponseDto {
 
   private @Nullable String propertyClass;
 
-  public Model200ResponseDto name(Integer name) {
+  public Model200ResponseDto name(@Nullable Integer name) {
     this.name = name;
     return this;
   }
@@ -42,15 +42,15 @@ public class Model200ResponseDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public Integer getName() {
+  public @Nullable Integer getName() {
     return name;
   }
 
-  public void setName(Integer name) {
+  public void setName(@Nullable Integer name) {
     this.name = name;
   }
 
-  public Model200ResponseDto propertyClass(String propertyClass) {
+  public Model200ResponseDto propertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
     return this;
   }
@@ -62,11 +62,11 @@ public class Model200ResponseDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("class")
-  public String getPropertyClass() {
+  public @Nullable String getPropertyClass() {
     return propertyClass;
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
 

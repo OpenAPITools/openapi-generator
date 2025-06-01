@@ -26,7 +26,7 @@ public class SpecialModelName {
 
   private @Nullable Long $specialPropertyName;
 
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+  public SpecialModelName $specialPropertyName(@Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -38,11 +38,11 @@ public class SpecialModelName {
   
   @Schema(name = "$special[property.name]", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("$special[property.name]")
-  public Long get$SpecialPropertyName() {
+  public @Nullable Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
 
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
+  public void set$SpecialPropertyName(@Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 

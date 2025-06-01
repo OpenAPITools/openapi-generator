@@ -49,7 +49,7 @@ public class Dog extends Animal {
       this.breed = breed;
   }
 
-  public Dog breed(String breed) {
+  public Dog breed(@Nullable String breed) {
     this.breed = breed;
     return this;
   }
@@ -61,11 +61,11 @@ public class Dog extends Animal {
   
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
-  public String getBreed() {
+  public @Nullable String getBreed() {
     return breed;
   }
 
-  public void setBreed(String breed) {
+  public void setBreed(@Nullable String breed) {
     this.breed = breed;
   }
 

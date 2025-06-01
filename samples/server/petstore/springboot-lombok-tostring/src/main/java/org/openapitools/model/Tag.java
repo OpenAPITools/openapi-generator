@@ -32,13 +32,13 @@ public class Tag {
 
   private @Nullable String name;
 
-  public Tag id(Long id) {
+  public Tag id(@Nullable Long id) {
     this.id = id;
     return this;
   }
 
 
-  public Tag name(String name) {
+  public Tag name(@Nullable String name) {
     this.name = name;
     return this;
   }

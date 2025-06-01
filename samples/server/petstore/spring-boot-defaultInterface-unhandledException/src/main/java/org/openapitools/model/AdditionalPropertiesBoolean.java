@@ -28,7 +28,7 @@ public class AdditionalPropertiesBoolean {
 
   private @Nullable String name;
 
-  public AdditionalPropertiesBoolean name(String name) {
+  public AdditionalPropertiesBoolean name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -40,11 +40,11 @@ public class AdditionalPropertiesBoolean {
   
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
     /**
