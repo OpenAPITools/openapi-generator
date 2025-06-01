@@ -27,6 +27,7 @@
 #include "CppRestPetstoreClient/model/Tag.h"
 #include "CppRestPetstoreClient/model/Category.h"
 #include <cpprest/details/basic_types.h>
+#include "CppRestPetstoreClient/Object.h"
 #include "CppRestPetstoreClient/model/Pet.h"
 #include <vector>
 
