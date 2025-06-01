@@ -72,7 +72,7 @@ using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}util
     {
     {{#enumVars}}
     case {{value}}:
-        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+        return {{classname}}::e{{classname}}::{{name}};
     {{#-last}}
     default:
         break;
@@ -83,7 +83,7 @@ using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}util
 {{^isNumeric}}
     {{#enumVars}}
     if (val == utility::conversions::to_string_t(_XPLATSTR("{{{value}}}")))
-        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+        return {{classname}}::e{{classname}}::{{name}};
     {{/enumVars}}
 {{/isNumeric}}
 {{/allowableValues}}
@@ -96,7 +96,7 @@ EnumUnderlyingType fromEnum({{classname}}::e{{classname}} e)
     switch (e)
     {
 {{#enumVars}}
-    case {{classname}}::e{{classname}}::{{classname}}_{{name}}:
+    case {{classname}}::e{{classname}}::{{name}}:
         return {{#isNumeric}}{{value}}{{/isNumeric}}{{^isNumeric}}_XPLATSTR("{{value}}"){{/isNumeric}};
 {{#-last}}
     default:
@@ -354,7 +354,7 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 {
     {{#allowableValues}}{{#enumVars}}
     if (value == utility::conversions::to_string_t("{{value}}")) {
-        return {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{value}};
+        return {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{name}};
     }
     {{/enumVars}}{{/allowableValues}}
     throw std::invalid_argument("Invalid value for conversion to {{{datatypeWithEnum}}}");
@@ -369,7 +369,7 @@ const {{dataType}} {{classname}}::from{{{datatypeWithEnum}}}(const {{{datatypeWi
     switch(value)
     {
         {{#allowableValues}}{{#enumVars}}
-        case {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{value}}: return utility::conversions::to_string_t("{{value}}");
+        case {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{name}}: return utility::conversions::to_string_t("{{value}}");
         {{/enumVars}}{{/allowableValues}}
     }
 }

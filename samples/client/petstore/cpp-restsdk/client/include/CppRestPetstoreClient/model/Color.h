@@ -54,11 +54,11 @@ public:
 
     enum class eColor
     {
-        Color_BLACK,
-        Color_WHITE,
-        Color_BROWN,
-        Color_GOLDEN,
-        Color_MIXED,
+        BLACK,
+        WHITE,
+        BROWN,
+        GOLDEN,
+        MIXED,
     };
 
     eColor getValue() const;
@@ -67,18 +67,18 @@ public:
     protected:
         eColor m_value;
         std::map<eColor,utility::string_t> enumToStrMap = {
-        { eColor::Color_BLACK, "BLACK" },
-        { eColor::Color_WHITE, "WHITE" },
-        { eColor::Color_BROWN, "BROWN" },
-        { eColor::Color_GOLDEN, "GOLDEN" },
-        { eColor::Color_MIXED, "MIXED" }
+        { eColor::BLACK, "BLACK" },
+        { eColor::WHITE, "WHITE" },
+        { eColor::BROWN, "BROWN" },
+        { eColor::GOLDEN, "GOLDEN" },
+        { eColor::MIXED, "MIXED" }
 };
         std::map<utility::string_t,eColor> strToEnumMap = {
-        { "BLACK", eColor::Color_BLACK },
-        { "WHITE", eColor::Color_WHITE },
-        { "BROWN", eColor::Color_BROWN },
-        { "GOLDEN", eColor::Color_GOLDEN },
-        { "MIXED", eColor::Color_MIXED }
+        { "BLACK", eColor::BLACK },
+        { "WHITE", eColor::WHITE },
+        { "BROWN", eColor::BROWN },
+        { "GOLDEN", eColor::GOLDEN },
+        { "MIXED", eColor::MIXED }
 };
 
 };
