@@ -350,7 +350,16 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
                 // model oneOf as sealed trait
 
                 CodegenModel cModel = model.getModel();
-                cModel.getVendorExtensions().put("x-isSealedTrait", !cModel.oneOf.isEmpty());
+
+                if (!cModel.oneOf.isEmpty()) {
+                    cModel.getVendorExtensions().put("x-isSealedTrait", true);
+                }
+                else if (cModel.isEnum) {
+                    cModel.getVendorExtensions().put("x-isEnum", true);
+
+                } else {
+                    cModel.getVendorExtensions().put("x-another", true);
+                }
 
                 if (cModel.discriminator != null) {
                     cModel.getVendorExtensions().put("x-use-discr", true);
