@@ -59,23 +59,7 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-if (UNIX)
-    message(STATUS "Building client library for Linux/Unix")
-    if (BUILD_SHARED_LIBS)
-        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest)
-    else()
-        find_library(CRYPTO_LIB crypto REQUIRED) 
-        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest ${CRYPTO_LIB})
-    endif()
-else()
-    message(STATUS "Building client library for Windows")
-    if (BUILD_SHARED_LIBS)
-        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest)
-    else()
-        find_library(BCRYPT_LIB bcrypt REQUIRED) 
-        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest ${BCRYPT_LIB})
-    endif()
-endif()
+target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest)
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
