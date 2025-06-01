@@ -5,20 +5,33 @@ defmodule OpenapiPetstore.Model.ParentWithNullable do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :type,
-    :nullableProperty
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :type => String.t | nil,
     :nullableProperty => String.t | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:type, :nullableProperty]}
+  @primary_key false
+  embedded_schema do
+    field :type, :string
+    field :nullableProperty, :string
+  end
+
+  @spec from_params(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
+  def from_params(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> Ecto.Changeset.apply_action(:insert)
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:type, :nullableProperty])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.validate_inclusion(:type, ["ChildWithNullable"])
   end
 end
 

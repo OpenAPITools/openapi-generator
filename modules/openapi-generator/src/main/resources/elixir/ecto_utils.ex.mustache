@@ -1,0 +1,33 @@
+{{>licenseInfo}}
+defmodule {{moduleName}}.EctoUtils do
+  def cast_nested_map(changeset, field, schema) do
+    case Map.get(changeset.changes, field) do
+      nil ->
+        changeset
+
+      values ->
+        {result_map, errors} =
+          Enum.reduce(values, {%{}, []}, fn {key, params}, {acc, errs} ->
+            changeset = schema.changeset(struct(schema), params)
+
+            case Ecto.Changeset.apply_action(changeset, changeset.action || :insert) do
+              {:ok, struct} ->
+                {Map.put(acc, key, struct), errs}
+
+              {:error, nested_cs} ->
+                {Map.put(acc, key, nested_cs), [{key, nested_cs} | errs]}
+            end
+          end)
+
+        changeset =
+          Ecto.Changeset.put_change(changeset, field, result_map)
+
+        if errors == [] do
+          changeset
+        else
+          Ecto.Changeset.add_error(changeset, field, "contains invalid nested entries")
+          |> Map.put(:valid?, false)
+        end
+    end
+  end
+end

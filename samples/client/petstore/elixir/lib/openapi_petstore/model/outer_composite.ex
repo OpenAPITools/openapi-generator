@@ -5,13 +5,7 @@ defmodule OpenapiPetstore.Model.OuterComposite do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :my_number,
-    :my_string,
-    :my_boolean
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :my_number => number() | nil,
@@ -19,8 +13,26 @@ defmodule OpenapiPetstore.Model.OuterComposite do
     :my_boolean => boolean() | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:my_number, :my_string, :my_boolean]}
+  @primary_key false
+  embedded_schema do
+    field :my_number, :float
+    field :my_string, :string
+    field :my_boolean, :boolean
+  end
+
+  @spec from_params(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
+  def from_params(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> Ecto.Changeset.apply_action(:insert)
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:my_number, :my_string, :my_boolean])
+    |> Ecto.Changeset.validate_required([])
   end
 end
 
