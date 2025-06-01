@@ -14,55 +14,6 @@ All URIs are relative to *http://localhost*
 
 Oneof array test
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class OneOfArrayExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://localhost";
-            var apiInstance = new DefaultApi(config);
-            var oneOfArrayRequest = new OneOfArrayRequest(); // OneOfArrayRequest |  (optional) 
-
-            try
-            {
-                apiInstance.OneOfArray(oneOfArrayRequest);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling DefaultApi.OneOfArray: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the OneOfArrayWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    apiInstance.OneOfArrayWithHttpInfo(oneOfArrayRequest);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling DefaultApi.OneOfArrayWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 

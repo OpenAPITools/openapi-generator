@@ -14,57 +14,6 @@ Show API Key
 
 Show API Key
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class GetApiKeysIdExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://app.files.com/api/rest/v1";
-            var apiInstance = new ApiKeysApi(config);
-            var id = 56;  // int | Api Key ID.
-
-            try
-            {
-                // Show API Key
-                apiInstance.GetApiKeysId(id);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling ApiKeysApi.GetApiKeysId: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the GetApiKeysIdWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Show API Key
-    apiInstance.GetApiKeysIdWithHttpInfo(id);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling ApiKeysApi.GetApiKeysIdWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
