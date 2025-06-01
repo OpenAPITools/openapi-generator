@@ -91,6 +91,54 @@ public class PetApi {
   }
 
   /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
+  }
+
+  /**
    * Add a new pet to the store
    * 
    * @param pet Pet object that needs to be added to the store (required)
@@ -292,13 +340,17 @@ public class PetApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        List<Pet> responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<List<Pet>>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {})
+            responseValue
         );
       } finally {
       }
@@ -394,13 +446,17 @@ public class PetApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        List<Pet> responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<List<Pet>>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Pet>>() {})
+            responseValue
         );
       } finally {
       }
@@ -492,13 +548,17 @@ public class PetApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        Pet responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<Pet>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {})
+            responseValue
         );
       } finally {
       }
@@ -758,13 +818,17 @@ public class PetApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        ModelApiResponse responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<ModelApiResponse>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {})
+            responseValue
         );
       } finally {
       }
@@ -880,13 +944,17 @@ public class PetApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        ModelApiResponse responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<ModelApiResponse>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<ModelApiResponse>() {})
+            responseValue
         );
       } finally {
       }
