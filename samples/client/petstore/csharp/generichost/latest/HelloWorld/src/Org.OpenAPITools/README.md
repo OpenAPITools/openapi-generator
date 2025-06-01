@@ -7,7 +7,7 @@ Create a config.yaml file similar to what is below, then run the following power
 ```yaml
 generatorName: csharp
 inputSpec: modules/openapi-generator/src/test/resources/3_1/csharp/hello-world.yaml
-outputDir: /mnt/c/Users/devhl/repos/openapi-generator/samples/client/petstore/csharp/generichost/latest/HelloWorld
+outputDir: out
 
 # https://openapi-generator.tech/docs/generators/csharp
 additionalProperties:

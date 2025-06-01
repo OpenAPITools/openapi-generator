@@ -7,7 +7,7 @@ Create a config.yaml file similar to what is below, then run the following power
 ```yaml
 generatorName: csharp
 inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
-outputDir: /mnt/c/Users/devhl/repos/openapi-generator/samples/client/petstore/csharp/generichost/net9/FormModels
+outputDir: out
 
 # https://openapi-generator.tech/docs/generators/csharp
 additionalProperties:
