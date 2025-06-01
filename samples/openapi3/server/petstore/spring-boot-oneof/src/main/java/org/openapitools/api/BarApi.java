@@ -59,8 +59,7 @@ public interface BarApi {
             })
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/bar",
         produces = { "application/json" },
         consumes = { "application/json" }

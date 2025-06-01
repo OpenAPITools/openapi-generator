@@ -34,8 +34,7 @@ public interface PetApi {
      * @return successful operation (status code 200)
      *         or Invalid input (status code 405)
      */
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/pet",
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
@@ -54,8 +53,7 @@ public interface PetApi {
      * @param apiKey  (optional)
      * @return Invalid pet value (status code 400)
      */
-    @RequestMapping(
-        method = RequestMethod.DELETE,
+    @DeleteMapping(
         value = "/pet/{petId}"
     )
     
@@ -73,8 +71,7 @@ public interface PetApi {
      * @return successful operation (status code 200)
      *         or Invalid status value (status code 400)
      */
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/pet/findByStatus",
         produces = { "application/json", "application/xml" }
     )
@@ -94,8 +91,7 @@ public interface PetApi {
      * @deprecated
      */
     @Deprecated
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/pet/findByTags",
         produces = { "application/json", "application/xml" }
     )
@@ -114,8 +110,7 @@ public interface PetApi {
      *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      */
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/pet/{petId}",
         produces = { "application/json", "application/xml" }
     )
@@ -137,8 +132,7 @@ public interface PetApi {
      * API documentation for the updatePet operation
      * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
-    @RequestMapping(
-        method = RequestMethod.PUT,
+    @PutMapping(
         value = "/pet",
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
@@ -158,8 +152,7 @@ public interface PetApi {
      * @param status Updated status of the pet (optional)
      * @return Invalid input (status code 405)
      */
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/pet/{petId}",
         consumes = "application/x-www-form-urlencoded"
     )
@@ -180,8 +173,7 @@ public interface PetApi {
      * @param file file to upload (optional)
      * @return successful operation (status code 200)
      */
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/pet/{petId}/uploadImage",
         produces = { "application/json" },
         consumes = "multipart/form-data"

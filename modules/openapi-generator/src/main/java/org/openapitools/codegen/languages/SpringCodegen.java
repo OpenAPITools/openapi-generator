@@ -17,7 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -46,6 +48,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -1203,4 +1207,21 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         return extensions;
     }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas().put("composedannotation", new ComposedRequestMappingAnnotationLambda());
+    }
+
+    public static class ComposedRequestMappingAnnotationLambda implements Mustache.Lambda {
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            String text = fragment.execute();
+            if(text == null || text.isEmpty()) return;
+            writer.write(String.format("@%sMapping(",text.substring(0,1).toUpperCase()+text.substring(1).toLowerCase()));
+        }
+    }
+
+
 }

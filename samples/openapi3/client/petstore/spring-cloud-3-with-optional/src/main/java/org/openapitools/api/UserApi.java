@@ -33,8 +33,7 @@ public interface UserApi {
      * @param user Created user object (required)
      * @return successful operation (status code 200)
      */
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/user",
         consumes = "application/json"
     )
@@ -51,8 +50,7 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/user/createWithArray",
         consumes = "application/json"
     )
@@ -69,8 +67,7 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/user/createWithList",
         consumes = "application/json"
     )
@@ -88,8 +85,7 @@ public interface UserApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @RequestMapping(
-        method = RequestMethod.DELETE,
+    @DeleteMapping(
         value = "/user/{username}"
     )
     
@@ -107,8 +103,7 @@ public interface UserApi {
      *         or Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/user/{username}",
         produces = { "application/json", "application/xml" }
     )
@@ -127,8 +122,7 @@ public interface UserApi {
      * @return successful operation (status code 200)
      *         or Invalid username/password supplied (status code 400)
      */
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/user/login",
         produces = { "application/json", "application/xml" }
     )
@@ -145,8 +139,7 @@ public interface UserApi {
      *
      * @return successful operation (status code 200)
      */
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/user/logout"
     )
     
@@ -164,8 +157,7 @@ public interface UserApi {
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @RequestMapping(
-        method = RequestMethod.PUT,
+    @PutMapping(
         value = "/user/{username}",
         consumes = "application/json"
     )

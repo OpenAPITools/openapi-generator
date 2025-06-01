@@ -63,8 +63,7 @@ public interface FakeClassnameTestApi {
             @SecurityRequirement(name = "api_key_query")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.PATCH,
+    @PatchMapping(
         value = "/fake_classname_test",
         produces = { "application/json" },
         consumes = { "application/json" }

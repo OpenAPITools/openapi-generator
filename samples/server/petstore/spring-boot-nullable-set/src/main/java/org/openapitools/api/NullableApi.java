@@ -58,8 +58,7 @@ public interface NullableApi {
             @ApiResponse(responseCode = "405", description = "Invalid input")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/nullable",
         consumes = "application/json"
     )

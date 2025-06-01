@@ -72,8 +72,7 @@ public interface DogsApi {
             })
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/dogs",
         produces = { "application/json" },
         consumes = { "application/json" }

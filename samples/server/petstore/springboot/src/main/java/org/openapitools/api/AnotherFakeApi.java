@@ -48,8 +48,7 @@ public interface AnotherFakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = ClientDto.class)
     })
-    @RequestMapping(
-        method = RequestMethod.PATCH,
+    @PatchMapping(
         value = "/another-fake/dummy",
         produces = { "application/json" },
         consumes = { "application/json" }

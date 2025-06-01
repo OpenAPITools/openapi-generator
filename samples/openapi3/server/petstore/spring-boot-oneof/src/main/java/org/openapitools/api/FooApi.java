@@ -59,8 +59,7 @@ public interface FooApi {
             })
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/foo",
         produces = { "application/json" },
         consumes = { "application/json;charset=utf-8" }
@@ -98,8 +97,7 @@ public interface FooApi {
             })
         }
     )
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/foo",
         produces = { "application/json;charset=utf-8" }
     )
