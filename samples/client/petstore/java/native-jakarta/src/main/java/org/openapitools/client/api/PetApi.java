@@ -814,7 +814,9 @@ public class PetApi {
 
     MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
     boolean hasFiles = false;
-    multiPartBuilder.addTextBody("additionalMetadata", additionalMetadata.toString());
+    if (additionalMetadata != null) {
+        multiPartBuilder.addTextBody("additionalMetadata", additionalMetadata.toString());
+    }
     multiPartBuilder.addBinaryBody("file", _file);
     hasFiles = true;
     HttpEntity entity = multiPartBuilder.build();
