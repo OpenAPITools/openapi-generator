@@ -53,7 +53,10 @@ namespace YourProject
     {
         public static async Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();{{#apiInfo}}{{#apis}}{{#-first}}
+            var host = CreateHostBuilder(args).Build();
+            {{#apiInfo}}
+            {{#apis}}
+            {{#-first}}
             var api = host.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
             {{#operations}}
             {{#-first}}

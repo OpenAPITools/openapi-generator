@@ -53,7 +53,8 @@ namespace YourProject
     {
         public static async Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();        }
+            var host = CreateHostBuilder(args).Build();
+        }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
           .ConfigureApi((context, services, options) =>
