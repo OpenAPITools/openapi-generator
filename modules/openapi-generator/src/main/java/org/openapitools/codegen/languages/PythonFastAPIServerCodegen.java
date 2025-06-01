@@ -232,15 +232,6 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             for (final CodegenOperation operation : ops) {
-                List<CodegenResponse> responses = operation.responses;
-                if (responses != null) {
-                    for (final CodegenResponse resp : responses) {
-                        // Convert "default" value (0) to OK (200).
-                        if ("0".equals(resp.code)) {
-                            resp.code = "200";
-                        }
-                    }
-                }
                 List<CodegenSecurity> securityMethods = operation.authMethods;
                 if (securityMethods != null) {
                     for (final CodegenSecurity securityMethod : securityMethods) {

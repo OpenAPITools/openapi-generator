@@ -39,7 +39,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 @router.post(
     "/user",
     responses={
-        200: {"description": "successful operation"},
+        "default": {"description": "successful operation"},
     },
     tags=["user"],
     summary="Create user",
@@ -60,7 +60,7 @@ async def create_user(
 @router.post(
     "/user/createWithArray",
     responses={
-        200: {"description": "successful operation"},
+        "default": {"description": "successful operation"},
     },
     tags=["user"],
     summary="Creates list of users with given input array",
@@ -81,7 +81,7 @@ async def create_users_with_array_input(
 @router.post(
     "/user/createWithList",
     responses={
-        200: {"description": "successful operation"},
+        "default": {"description": "successful operation"},
     },
     tags=["user"],
     summary="Creates list of users with given input array",
@@ -164,7 +164,7 @@ async def login_user(
 @router.get(
     "/user/logout",
     responses={
-        200: {"description": "successful operation"},
+        "default": {"description": "successful operation"},
     },
     tags=["user"],
     summary="Logs out current logged in user session",
