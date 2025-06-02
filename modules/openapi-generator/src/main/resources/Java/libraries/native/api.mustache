@@ -484,7 +484,9 @@ public class {{classname}} {
         hasFiles = true;
         {{/isFile}}
         {{^isFile}}
-        multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.get(i).toString());
+        if ({{paramName}}.get(i) != null) {
+            multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.get(i).toString());
+        }
         {{/isFile}}
     }
     {{/isArray}}
@@ -494,7 +496,9 @@ public class {{classname}} {
     hasFiles = true;
     {{/isFile}}
     {{^isFile}}
-    multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.toString());
+    if ({{paramName}} != null) {
+        multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.toString());
+    }
     {{/isFile}}
     {{/isArray}}
     {{/formParams}}
