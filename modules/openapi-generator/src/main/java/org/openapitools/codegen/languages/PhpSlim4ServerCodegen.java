@@ -360,9 +360,10 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     @Override
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
+                                          Integer contentTypeIndex,
                                           Operation operation,
                                           List<Server> servers) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        CodegenOperation op = super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
         op.path = encodePath(path);
         return op;
     }
