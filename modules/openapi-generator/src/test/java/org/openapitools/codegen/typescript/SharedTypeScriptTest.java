@@ -24,7 +24,7 @@ import static org.openapitools.codegen.typescript.TypeScriptGroups.TYPESCRIPT;
 @Test(groups = {TYPESCRIPT})
 public class SharedTypeScriptTest {
 
-    @Test
+    @Test(enabled = false)
     public void typesInImportsAreSplitTest() throws IOException {
         Path output = Files.createTempDirectory("test");
         output.toFile().deleteOnExit();

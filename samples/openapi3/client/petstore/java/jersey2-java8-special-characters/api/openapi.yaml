@@ -12,13 +12,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MySchemaName._-Characters'
+              $ref: "#/components/schemas/MySchemaName._-Characters"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MySchemaName._-Characters'
+                $ref: "#/components/schemas/MySchemaName._-Characters"
           description: the response
       x-content-type: application/json
       x-accepts:
@@ -33,7 +33,7 @@ components:
           type: string
     ChildSchema:
       allOf:
-      - $ref: '#/components/schemas/Parent'
+      - $ref: "#/components/schemas/Parent"
       - properties:
           prop1:
             type: string
@@ -41,7 +41,7 @@ components:
       description: A schema that does not have any special character.
     MySchemaName._-Characters:
       allOf:
-      - $ref: '#/components/schemas/Parent'
+      - $ref: "#/components/schemas/Parent"
       - properties:
           prop2:
             type: string
