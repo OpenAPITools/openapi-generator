@@ -11,7 +11,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Apa'
+              $ref: "#/components/schemas/Apa"
         required: true
       responses:
         "200":
