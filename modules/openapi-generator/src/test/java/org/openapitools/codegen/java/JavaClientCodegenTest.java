@@ -3237,6 +3237,7 @@ public class JavaClientCodegenTest {
                 "String apiKey()",
                 "DeletePetRequest apiKey(@jakarta.annotation.Nullable String apiKey) {",
                 "public void deletePet(DeletePetRequest requestParameters) throws RestClientResponseException {",
+                "Pet getPetById(@jakarta.annotation.Nonnull Long petId) throws RestClientResponseException",
                 "public ResponseEntity<Void> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws RestClientResponseException {",
                 "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws RestClientResponseException {",
                 "public void deletePet(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {",
@@ -3664,5 +3665,38 @@ public class JavaClientCodegenTest {
         assertTrue(defaultFields.get("testComplexReference").getVariable(0).getInitializer().get().isMethodCallExpr());
         assertTrue(defaultFields.get("testNullableEmptyReference").getVariable(0).getInitializer().get().isObjectCreationExpr());
         assertTrue(defaultFields.get("testNullableComplexReference").getVariable(0).getInitializer().get().isMethodCallExpr());
+    }
+
+    @Test
+    public void testNativeClientWithUseSingleRequestParameter() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(NATIVE)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "true"
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
+                "public static final class APIDeletePetRequest {",
+                "private APIDeletePetRequest(Builder builder) {",
+                "public Builder petId(@javax.annotation.Nonnull Long petId) {",
+                "public Builder apiKey(@javax.annotation.Nullable String apiKey) {",
+                "Long petId()",
+                "String apiKey()",
+                "public void deletePet(APIDeletePetRequest apiRequest) throws ApiException {",
+                "Pet getPetById(@javax.annotation.Nonnull Long petId) throws ApiException",
+                "public ApiResponse<Void> deletePetWithHttpInfo(APIDeletePetRequest apiRequest) throws ApiException {",
+                "public void deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {",
+                "public ApiResponse<Void> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {"
+        );
+        TestUtils.assertFileNotContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
+                "public record DeletePetRequest(Long petId, String apiKey){}");
     }
 }

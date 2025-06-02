@@ -106,7 +106,7 @@ public class {{classname}} {
   /**
    * {{summary}}
    * {{notes}}
-   * @param apiRequest {@link API{{operationId}}Request}
+   * @param apiRequest {@link API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request}
    {{#returnType}}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
    {{/returnType}}
@@ -127,7 +127,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}(API{{operationId}}Request apiRequest) throws ApiException {
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest) throws ApiException {
     {{#allParams}}
     {{>nullable_var_annotations}}
     {{{dataType}}} {{paramName}} = apiRequest.{{paramName}}();
@@ -138,7 +138,7 @@ public class {{classname}} {
   /**
    * {{summary}}
    * {{notes}}
-   * @param apiRequest {@link API{{operationId}}Request}
+   * @param apiRequest {@link API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;{{#asyncNative}}&gt;{{/asyncNative}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
@@ -152,7 +152,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo(API{{operationId}}Request apiRequest) throws ApiException {
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest) throws ApiException {
     {{#allParams}}
     {{{dataType}}} {{paramName}} = apiRequest.{{paramName}}();
     {{/allParams}}
@@ -574,7 +574,7 @@ public class {{classname}} {
   {{#vendorExtensions.x-group-parameters}}
   {{#hasParams}}
 
-  public static final class API{{operationId}}Request {
+  public static final class API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
     {{#requiredParams}}
     {{>nullable_var_annotations}}
     private {{{dataType}}} {{paramName}}; // {{description}} (required)
@@ -584,7 +584,7 @@ public class {{classname}} {
     private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}})
     {{/optionalParams}}
 
-    private API{{operationId}}Request(Builder builder) {
+    private API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request(Builder builder) {
       {{#requiredParams}}
       this.{{paramName}} = builder.{{paramName}};
       {{/requiredParams}}
@@ -616,8 +616,8 @@ public class {{classname}} {
         return this;
       }
       {{/allParams}}
-      public API{{operationId}}Request build() {
-        return new API{{operationId}}Request(this);
+      public API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request build() {
+        return new API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request(this);
       }
     }
   }
