@@ -1,0 +1,54 @@
+name: Samples Ruby Petstore
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/ruby/**
+      - samples/client/petstore/ruby-faraday/**
+      - samples/client/petstore/ruby-httpx/**
+      - samples/client/petstore/ruby-autoload/**
+  pull_request:
+    paths:
+      - samples/client/petstore/ruby/**
+      - samples/client/petstore/ruby-faraday/**
+      - samples/client/petstore/ruby-httpx/**
+      - samples/client/petstore/ruby-autoload/**
+
+jobs:
+  build:
+    name: Build Ruby
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/ruby/
+          - samples/client/petstore/ruby-faraday/
+          - samples/client/petstore/ruby-httpx/
+          - samples/client/petstore/ruby-autoload/
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add hosts to /etc/hosts
+        run: |
+          sudo echo "127.0.0.1    petstore.swagger.io" | sudo tee -a /etc/hosts
+          cat /etc/hosts
+          sleep 30
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+          bundler-cache: true
+      - name: Install bundle
+        working-directory: ${{ matrix.sample }}
+        run: bundle install
+      - name: Run rspec
+        working-directory: ${{ matrix.sample }}
+        run: rspec
