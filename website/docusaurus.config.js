@@ -102,7 +102,7 @@ const docusaurusConfig = {
             },
             {
               label: 'Chat Room',
-              href: 'https://join.slack.com/t/openapi-generator/shared_invite/zt-12jxxd7p2-XUeQM~4pzsU9x~eGLQqX2g',
+              href: 'https://join.slack.com/t/openapi-generator/shared_invite/zt-36ucx4ybl-jYrN6euoYn6zxXNZdldoZA',
             },
             {
               label: 'Twitter',
