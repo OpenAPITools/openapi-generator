@@ -329,6 +329,39 @@ public abstract class JavaJaxrsBaseTest {
         assertCallsSuperInEqualsAndHashcode(files.get("ChildWithoutProperties.java"));
     }
 
+    @Test
+    public void testUseOneOfInterfaceOptionGeneratesInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_5381.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/model/Foo.java"), "public class Foo implements FooRefOrValue");
+        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/model/FooRef.java"), "public class FooRef implements FooRefOrValue");
+        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/model/FooRefOrValue.java"), "public interface FooRefOrValue");
+    }
+
     private static void assertCallsSuperInEqualsAndHashcode(File toCheck) {
         JavaFileAssert.assertThat(toCheck).assertMethod("equals").bodyContainsLines("super.equals");
         JavaFileAssert.assertThat(toCheck).assertMethod("hashCode").bodyContainsLines("super.hashCode");
