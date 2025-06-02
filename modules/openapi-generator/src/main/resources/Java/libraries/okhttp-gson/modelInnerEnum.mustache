@@ -17,7 +17,7 @@
     {{#withXml}}
     @XmlEnumValue({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}})
     {{/withXml}}
-    {{{name}}}({{^isUri}}{{^isNumeric}}{{dataType}}.valueOf({{/isNumeric}}{{/isUri}}{{{value}}}{{^isUri}}{{^isNumeric}}){{/isNumeric}}{{/isUri}}){{^-last}},
+    {{{name}}}({{^isUri}}{{^isNumeric}}{{^isFreeFormObject}}{{dataType}}.valueOf({{/isFreeFormObject}}{{/isNumeric}}{{/isUri}}{{{value}}}{{^isUri}}{{^isNumeric}}{{^isFreeFormObject}}){{/isFreeFormObject}}{{/isNumeric}}{{/isUri}}){{^-last}},
     {{/-last}}{{#-last}};{{/-last}}
       {{/enumVars}}
     {{/allowableValues}}

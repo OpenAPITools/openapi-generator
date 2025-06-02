@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -31,7 +32,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Order.JSON_PROPERTY_QUANTITY,
   Order.JSON_PROPERTY_SHIP_DATE,
   Order.JSON_PROPERTY_STATUS,
-  Order.JSON_PROPERTY_COMPLETE
+  Order.JSON_PROPERTY_COMPLETE,
+  Order.JSON_PROPERTY_PAYMENT_METHOD,
+  Order.JSON_PROPERTY_ORDER_STATUS
 })
 
 public class Order  {
@@ -54,7 +57,7 @@ public class Order  {
 
   public enum StatusEnum {
 
-    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
+        PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
 
 
     String value;
@@ -94,6 +97,84 @@ public class Order  {
   public static final String JSON_PROPERTY_COMPLETE = "complete";
   
   private Boolean complete = false;
+
+  public enum PaymentMethodEnum {
+
+        NUMBER_1(new BigDecimal("1")), NUMBER_2(new BigDecimal("2"));
+
+
+    BigDecimal value;
+
+    PaymentMethodEnum (BigDecimal v) {
+        value = v;
+    }
+
+    @JsonValue
+    public BigDecimal value() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+    @JsonCreator
+        public static PaymentMethodEnum fromValue(BigDecimal value) {
+            for (PaymentMethodEnum b : PaymentMethodEnum.values()) {
+                if (b.value.equals(value)) {
+                    return b;
+                }
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        }
+  }
+
+  public static final String JSON_PROPERTY_PAYMENT_METHOD = "paymentMethod";
+ /**
+  * Various payment methods
+  */
+  
+  private PaymentMethodEnum paymentMethod = PaymentMethodEnum.NUMBER_1;
+
+  public enum OrderStatusEnum {
+
+        PENDING("PENDING"), PROCESSING("PROCESSING");
+
+
+    Object value;
+
+    OrderStatusEnum (Object v) {
+        value = v;
+    }
+
+    @JsonValue
+    public Object value() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+    @JsonCreator
+        public static OrderStatusEnum fromValue(Object value) {
+            for (OrderStatusEnum b : OrderStatusEnum.values()) {
+                if (b.value.equals(value)) {
+                    return b;
+                }
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        }
+  }
+
+  public static final String JSON_PROPERTY_ORDER_STATUS = "OrderStatus";
+ /**
+  * Order status
+  */
+  
+  private OrderStatusEnum orderStatus;
 
   /**
    * Get id
@@ -239,6 +320,54 @@ public class Order  {
     return this;
   }
 
+  /**
+   * Various payment methods
+   * @return paymentMethod
+   **/
+  @JsonProperty(JSON_PROPERTY_PAYMENT_METHOD)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public PaymentMethodEnum getPaymentMethod() {
+    return paymentMethod;
+  }
+
+  /**
+   * Set paymentMethod
+   */
+  @JsonProperty(JSON_PROPERTY_PAYMENT_METHOD)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaymentMethod(PaymentMethodEnum paymentMethod) {
+    this.paymentMethod = paymentMethod;
+  }
+
+  public Order paymentMethod(PaymentMethodEnum paymentMethod) {
+    this.paymentMethod = paymentMethod;
+    return this;
+  }
+
+  /**
+   * Order status
+   * @return orderStatus
+   **/
+  @JsonProperty(JSON_PROPERTY_ORDER_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public OrderStatusEnum getOrderStatus() {
+    return orderStatus;
+  }
+
+  /**
+   * Set orderStatus
+   */
+  @JsonProperty(JSON_PROPERTY_ORDER_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOrderStatus(OrderStatusEnum orderStatus) {
+    this.orderStatus = orderStatus;
+  }
+
+  public Order orderStatus(OrderStatusEnum orderStatus) {
+    this.orderStatus = orderStatus;
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
@@ -263,6 +392,8 @@ public class Order  {
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+    sb.append("    paymentMethod: ").append(toIndentedString(paymentMethod)).append("\n");
+    sb.append("    orderStatus: ").append(toIndentedString(orderStatus)).append("\n");
     sb.append("}");
     return sb.toString();
   }

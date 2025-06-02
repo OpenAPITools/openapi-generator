@@ -38,7 +38,7 @@ public class MapTest  {
   @JsonbTypeDeserializer(InnerEnum.Deserializer.class)
   public enum InnerEnum {
 
-    UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
+        UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
 
 
     String value;

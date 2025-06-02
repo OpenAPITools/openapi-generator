@@ -29,6 +29,10 @@ class Order {
      this.status,
 
      this.complete = false,
+
+     this.paymentMethod = const OrderPaymentMethodEnum._(1),
+
+     this.orderStatus,
   });
 
   @JsonKey(
@@ -105,6 +109,34 @@ class Order {
 
 
 
+      /// Various payment methods
+  @JsonKey(
+    defaultValue: 1,
+    name: r'paymentMethod',
+    required: false,
+    includeIfNull: false,
+  unknownEnumValue: OrderPaymentMethodEnum.unknownDefaultOpenApi,
+  )
+
+
+  final OrderPaymentMethodEnum? paymentMethod;
+
+
+
+      /// Order status
+  @JsonKey(
+    
+    name: r'OrderStatus',
+    required: false,
+    includeIfNull: false,
+  unknownEnumValue: OrderOrderStatusEnum.unknownDefaultOpenApi,
+  )
+
+
+  final OrderOrderStatusEnum? orderStatus;
+
+
+
 
 
     @override
@@ -114,7 +146,9 @@ class Order {
       other.quantity == quantity &&
       other.shipDate == shipDate &&
       other.status == status &&
-      other.complete == complete;
+      other.complete == complete &&
+      other.paymentMethod == paymentMethod &&
+      other.orderStatus == orderStatus;
 
     @override
     int get hashCode =>
@@ -123,7 +157,9 @@ class Order {
         quantity.hashCode +
         shipDate.hashCode +
         status.hashCode +
-        complete.hashCode;
+        complete.hashCode +
+        paymentMethod.hashCode +
+        orderStatus.hashCode;
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 
@@ -152,6 +188,48 @@ delivered(r'delivered'),
 unknownDefaultOpenApi(r'unknown_default_open_api');
 
 const OrderStatusEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
+}
+
+
+/// Various payment methods
+enum OrderPaymentMethodEnum {
+    /// Various payment methods
+@JsonValue('1')
+n1(''1''),
+    /// Various payment methods
+@JsonValue('2')
+n2(''2''),
+    /// Various payment methods
+@JsonValue('11184809')
+unknownDefaultOpenApi(''11184809'');
+
+const OrderPaymentMethodEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
+}
+
+
+/// Order status
+enum OrderOrderStatusEnum {
+    /// Order status
+@JsonValue('PENDING')
+PENDING(''PENDING''),
+    /// Order status
+@JsonValue('PROCESSING')
+PROCESSING(''PROCESSING''),
+    /// Order status
+@JsonValue('11184809')
+unknownDefaultOpenApi(''11184809'');
+
+const OrderOrderStatusEnum(this.value);
 
 final String value;
 

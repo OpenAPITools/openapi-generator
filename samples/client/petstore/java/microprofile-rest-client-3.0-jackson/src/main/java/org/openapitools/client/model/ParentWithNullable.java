@@ -45,7 +45,7 @@ public class ParentWithNullable  {
   
   public enum TypeEnum {
 
-    CHILD_WITH_NULLABLE(String.valueOf("ChildWithNullable"));
+        CHILD_WITH_NULLABLE(String.valueOf("ChildWithNullable"));
 
 
     String value;

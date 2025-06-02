@@ -1434,6 +1434,25 @@ components:
         complete:
           type: boolean
           default: false
+        paymentMethod:
+          type: number
+          format: int32
+          description: "Various payment methods"
+          default: 1
+          example: 1
+          x-enum-description:
+            - Paypal
+            - Creditcard
+          enum:
+            - 1
+            - 2
+        OrderStatus:
+          type: string
+          description: Order status
+          additionalProperties: false
+          enum:
+            - PENDING
+            - PROCESSING
       xml:
         name: Order
     Category:

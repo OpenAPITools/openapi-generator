@@ -39,7 +39,7 @@ public class EnumArrays  {
   @JsonbTypeDeserializer(JustSymbolEnum.Deserializer.class)
   public enum JustSymbolEnum {
 
-    GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
+        GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
 
 
     String value;
@@ -84,7 +84,7 @@ public class EnumArrays  {
   @JsonbTypeDeserializer(ArrayEnumEnum.Deserializer.class)
   public enum ArrayEnumEnum {
 
-    FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
+        FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
 
 
     String value;

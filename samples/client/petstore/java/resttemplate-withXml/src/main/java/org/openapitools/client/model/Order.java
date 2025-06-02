@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -37,7 +38,9 @@ import io.github.threetenjaxb.core.*;
   Order.JSON_PROPERTY_QUANTITY,
   Order.JSON_PROPERTY_SHIP_DATE,
   Order.JSON_PROPERTY_STATUS,
-  Order.JSON_PROPERTY_COMPLETE
+  Order.JSON_PROPERTY_COMPLETE,
+  Order.JSON_PROPERTY_PAYMENT_METHOD,
+  Order.JSON_PROPERTY_ORDER_STATUS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 @XmlRootElement(name = "Order")
@@ -116,6 +119,94 @@ public class Order {
   @XmlElement(name = "complete")
   @javax.annotation.Nullable
   private Boolean complete = false;
+
+  /**
+   * Various payment methods
+   */
+  @XmlType(name="PaymentMethodEnum")
+  @XmlEnum(BigDecimal.class)
+  public enum PaymentMethodEnum {
+    @XmlEnumValue(new BigDecimal("1"))
+    NUMBER_1(new BigDecimal("1")),
+    
+    @XmlEnumValue(new BigDecimal("2"))
+    NUMBER_2(new BigDecimal("2"));
+
+    private BigDecimal value;
+
+    PaymentMethodEnum(BigDecimal value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public BigDecimal getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static PaymentMethodEnum fromValue(BigDecimal value) {
+      for (PaymentMethodEnum b : PaymentMethodEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_PAYMENT_METHOD = "paymentMethod";
+  @XmlElement(name = "paymentMethod")
+  @javax.annotation.Nullable
+  private PaymentMethodEnum paymentMethod = PaymentMethodEnum.NUMBER_1;
+
+  /**
+   * Order status
+   */
+  @XmlType(name="OrderStatusEnum")
+  @XmlEnum(Object.class)
+  public enum OrderStatusEnum {
+    @XmlEnumValue("PENDING")
+    PENDING("PENDING"),
+    
+    @XmlEnumValue("PROCESSING")
+    PROCESSING("PROCESSING");
+
+    private Object value;
+
+    OrderStatusEnum(Object value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public Object getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static OrderStatusEnum fromValue(Object value) {
+      for (OrderStatusEnum b : OrderStatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_ORDER_STATUS = "OrderStatus";
+  @XmlElement(name = "OrderStatus")
+  @javax.annotation.Nullable
+  private OrderStatusEnum orderStatus;
 
   public Order() {
   }
@@ -282,6 +373,60 @@ public class Order {
     this.complete = complete;
   }
 
+  public Order paymentMethod(@javax.annotation.Nullable PaymentMethodEnum paymentMethod) {
+    
+    this.paymentMethod = paymentMethod;
+    return this;
+  }
+
+  /**
+   * Various payment methods
+   * @return paymentMethod
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PAYMENT_METHOD)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "paymentMethod")
+
+  public PaymentMethodEnum getPaymentMethod() {
+    return paymentMethod;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PAYMENT_METHOD)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "paymentMethod")
+  public void setPaymentMethod(@javax.annotation.Nullable PaymentMethodEnum paymentMethod) {
+    this.paymentMethod = paymentMethod;
+  }
+
+  public Order orderStatus(@javax.annotation.Nullable OrderStatusEnum orderStatus) {
+    
+    this.orderStatus = orderStatus;
+    return this;
+  }
+
+  /**
+   * Order status
+   * @return orderStatus
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ORDER_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "OrderStatus")
+
+  public OrderStatusEnum getOrderStatus() {
+    return orderStatus;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ORDER_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "OrderStatus")
+  public void setOrderStatus(@javax.annotation.Nullable OrderStatusEnum orderStatus) {
+    this.orderStatus = orderStatus;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -297,12 +442,14 @@ public class Order {
         Objects.equals(this.quantity, order.quantity) &&
         Objects.equals(this.shipDate, order.shipDate) &&
         Objects.equals(this.status, order.status) &&
-        Objects.equals(this.complete, order.complete);
+        Objects.equals(this.complete, order.complete) &&
+        Objects.equals(this.paymentMethod, order.paymentMethod) &&
+        Objects.equals(this.orderStatus, order.orderStatus);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+    return Objects.hash(id, petId, quantity, shipDate, status, complete, paymentMethod, orderStatus);
   }
 
   @Override
@@ -315,6 +462,8 @@ public class Order {
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+    sb.append("    paymentMethod: ").append(toIndentedString(paymentMethod)).append("\n");
+    sb.append("    orderStatus: ").append(toIndentedString(orderStatus)).append("\n");
     sb.append("}");
     return sb.toString();
   }
