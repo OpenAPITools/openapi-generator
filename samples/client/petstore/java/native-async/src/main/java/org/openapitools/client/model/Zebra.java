@@ -29,8 +29,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -43,7 +41,7 @@ import org.openapitools.client.ApiClient;
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
-public class Zebra extends HashMap<String, Object> {
+public class Zebra {
   /**
    * Gets or Sets type
    */
@@ -197,20 +195,18 @@ public class Zebra extends HashMap<String, Object> {
     Zebra zebra = (Zebra) o;
     return Objects.equals(this.type, zebra.type) &&
         Objects.equals(this.className, zebra.className)&&
-        Objects.equals(this.additionalProperties, zebra.additionalProperties) &&
-        super.equals(o);
+        Objects.equals(this.additionalProperties, zebra.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, className, super.hashCode(), additionalProperties);
+    return Objects.hash(type, className, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Zebra {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
