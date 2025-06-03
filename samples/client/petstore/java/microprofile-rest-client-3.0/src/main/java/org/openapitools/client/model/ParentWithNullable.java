@@ -38,7 +38,7 @@ public class ParentWithNullable  {
   @JsonbTypeDeserializer(TypeEnum.Deserializer.class)
   public enum TypeEnum {
 
-        CHILD_WITH_NULLABLE(String.valueOf("ChildWithNullable"));
+    CHILD_WITH_NULLABLE(String.valueOf("ChildWithNullable"));
 
 
     String value;

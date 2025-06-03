@@ -50,7 +50,7 @@ public class Order  {
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
   public enum StatusEnum {
 
-        PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
+    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
 
 
     String value;
@@ -101,7 +101,7 @@ public class Order  {
   @JsonbTypeDeserializer(PaymentMethodEnum.Deserializer.class)
   public enum PaymentMethodEnum {
 
-        NUMBER_1(new BigDecimal("1")), NUMBER_2(new BigDecimal("2"));
+    NUMBER_1(new BigDecimal("1")), NUMBER_2(new BigDecimal("2"));
 
 
     BigDecimal value;
@@ -149,7 +149,7 @@ public class Order  {
   @JsonbTypeDeserializer(OrderStatusEnum.Deserializer.class)
   public enum OrderStatusEnum {
 
-        PENDING("PENDING"), PROCESSING("PROCESSING");
+    PENDING("PENDING"), PROCESSING("PROCESSING");
 
 
     Object value;

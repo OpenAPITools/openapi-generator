@@ -44,7 +44,7 @@ public class EnumTest  {
   
   public enum EnumStringEnum {
 
-        UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
+    UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
 
 
     String value;
@@ -80,7 +80,7 @@ public class EnumTest  {
 
   public enum EnumStringRequiredEnum {
 
-        UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
+    UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
 
 
     String value;
@@ -116,7 +116,7 @@ public class EnumTest  {
 
   public enum EnumIntegerEnum {
 
-        NUMBER_1(1), NUMBER_MINUS_1(-1);
+    NUMBER_1(1), NUMBER_MINUS_1(-1);
 
 
     Integer value;
@@ -152,7 +152,7 @@ public class EnumTest  {
 
   public enum EnumNumberEnum {
 
-        NUMBER_1_DOT_1(1.1), NUMBER_MINUS_1_DOT_2(-1.2);
+    NUMBER_1_DOT_1(1.1), NUMBER_MINUS_1_DOT_2(-1.2);
 
 
     Double value;

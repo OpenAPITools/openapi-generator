@@ -89,7 +89,7 @@ public enum PaymentMethodEnum {
 
 public enum OrderStatusEnum {
 
-    PENDING(Object.valueOf("PENDING")), PROCESSING(Object.valueOf("PROCESSING"));
+    PENDING("PENDING"), PROCESSING("PROCESSING");
 
     Object value;
 

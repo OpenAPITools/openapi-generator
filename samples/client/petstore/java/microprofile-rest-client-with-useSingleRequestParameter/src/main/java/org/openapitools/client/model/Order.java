@@ -52,7 +52,7 @@ public class Order  {
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
   public enum StatusEnum {
 
-        PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
+    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
 
 
     String value;

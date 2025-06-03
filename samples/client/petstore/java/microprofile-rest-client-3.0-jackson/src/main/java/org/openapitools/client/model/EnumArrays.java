@@ -36,7 +36,7 @@ public class EnumArrays  {
   
   public enum JustSymbolEnum {
 
-        GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
+    GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
 
 
     String value;
@@ -72,7 +72,7 @@ public class EnumArrays  {
 
   public enum ArrayEnumEnum {
 
-        FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
+    FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
 
 
     String value;

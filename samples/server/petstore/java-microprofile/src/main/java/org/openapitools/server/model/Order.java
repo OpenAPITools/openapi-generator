@@ -55,7 +55,7 @@ public class Order  {
 
   public enum StatusEnum {
 
-        PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
+    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
 
 
     String value;
