@@ -31,7 +31,7 @@ class TestModelWithEnumDefault(BaseModel):
     test_string: Optional[StrictStr] = None
     test_enum_with_default: Optional[TestEnumWithDefault] = None
     test_string_with_default: Optional[StrictStr] = 'ahoy matey'
-    test_inline_defined_enum_with_default: Optional[StrictStr] = 'Bs'
+    test_inline_defined_enum_with_default: Optional[StrictStr] = 'B'
     additional_properties: Dict[str, Any] = {}
     __properties = ["test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
 
@@ -91,7 +91,7 @@ class TestModelWithEnumDefault(BaseModel):
             "test_string": obj.get("test_string"),
             "test_enum_with_default": obj.get("test_enum_with_default"),
             "test_string_with_default": obj.get("test_string_with_default") if obj.get("test_string_with_default") is not None else 'ahoy matey',
-            "test_inline_defined_enum_with_default": obj.get("test_inline_defined_enum_with_default") if obj.get("test_inline_defined_enum_with_default") is not None else 'Bs'
+            "test_inline_defined_enum_with_default": obj.get("test_inline_defined_enum_with_default") if obj.get("test_inline_defined_enum_with_default") is not None else 'B'
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

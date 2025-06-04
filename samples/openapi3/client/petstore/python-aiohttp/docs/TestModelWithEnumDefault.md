@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **test_string** | **str** |  | [optional] 
 **test_enum_with_default** | [**TestEnumWithDefault**](TestEnumWithDefault.md) |  | [optional] [default to TestEnumWithDefault.ZWEI]
 **test_string_with_default** | **str** |  | [optional] [default to 'ahoy matey']
-**test_inline_defined_enum_with_default** | **str** |  | [optional] [default to Bs]
+**test_inline_defined_enum_with_default** | **str** |  | [optional] [default to 'B']
 
 ## Example
 

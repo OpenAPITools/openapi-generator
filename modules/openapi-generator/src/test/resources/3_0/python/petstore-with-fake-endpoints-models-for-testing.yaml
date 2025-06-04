@@ -2897,7 +2897,7 @@ components:
             - A
             - B
             - C
-          default: Bs
+          default: B
     PonySizes:
       type: object
       properties:
