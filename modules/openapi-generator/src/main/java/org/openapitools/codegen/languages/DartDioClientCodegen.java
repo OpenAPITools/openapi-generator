@@ -274,6 +274,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("serialization/json_serializable/deserialize.mustache", srcFolder,
                 "deserialize.dart"));
 
+        typeMapping.put("file", "Uint8List");
+        typeMapping.put("binary", "Uint8List");
+
         // most of these are defined in AbstractDartCodegen, we are overriding
         // just the binary / file handling
         languageSpecificPrimitives.add("Object");
