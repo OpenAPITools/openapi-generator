@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
+import 'dart:typed_data';
 import 'package:openapi/src/model/api_response.dart';
 import 'package:openapi/src/model/pet.dart';
 
