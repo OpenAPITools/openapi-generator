@@ -16,10 +16,6 @@
 
 package org.openapitools.codegen.dart.dio;
 
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.DartDioClientCodegen;
