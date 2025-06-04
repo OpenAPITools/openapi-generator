@@ -12,6 +12,7 @@ import org.openapitools.model.Pet;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.lang.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -102,7 +103,7 @@ public interface PetApi {
     
     default ResponseEntity<Void> deletePet(
         @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey
+        @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -201,7 +202,7 @@ public interface PetApi {
     
     default ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,
-        @ApiParam(value = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.") @RequestHeader(value = "size", required = false) String size,
+        @ApiParam(value = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.") @RequestHeader(value = "size", required = false) @Nullable String size,
         @ApiIgnore final Pageable pageable
     ) {
         getRequest().ifPresent(request -> {

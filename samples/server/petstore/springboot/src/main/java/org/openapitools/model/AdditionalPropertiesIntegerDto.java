@@ -31,7 +31,7 @@ public class AdditionalPropertiesIntegerDto {
 
   private @Nullable String name;
 
-  public AdditionalPropertiesIntegerDto name(String name) {
+  public AdditionalPropertiesIntegerDto name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -43,11 +43,11 @@ public class AdditionalPropertiesIntegerDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
     /**

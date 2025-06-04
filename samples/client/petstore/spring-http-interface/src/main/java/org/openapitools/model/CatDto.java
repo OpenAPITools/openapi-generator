@@ -40,7 +40,7 @@ public class CatDto extends AnimalDto {
     super();
   }
 
-  public CatDto declawed(Boolean declawed) {
+  public CatDto declawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
     return this;
   }
@@ -51,11 +51,11 @@ public class CatDto extends AnimalDto {
    */
   
   @JsonProperty("declawed")
-  public Boolean getDeclawed() {
+  public @Nullable Boolean getDeclawed() {
     return declawed;
   }
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
   }
 

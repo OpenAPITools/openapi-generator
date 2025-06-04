@@ -36,19 +36,19 @@ public class ModelApiResponse {
 
   private @Nullable String message;
 
-  public ModelApiResponse code(Integer code) {
+  public ModelApiResponse code(@Nullable Integer code) {
     this.code = code;
     return this;
   }
 
 
-  public ModelApiResponse type(String type) {
+  public ModelApiResponse type(@Nullable String type) {
     this.type = type;
     return this;
   }
 
 
-  public ModelApiResponse message(String message) {
+  public ModelApiResponse message(@Nullable String message) {
     this.message = message;
     return this;
   }

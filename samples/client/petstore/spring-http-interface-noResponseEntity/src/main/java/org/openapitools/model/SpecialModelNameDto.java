@@ -24,7 +24,7 @@ public class SpecialModelNameDto {
 
   private @Nullable Long $specialPropertyName;
 
-  public SpecialModelNameDto $specialPropertyName(Long $specialPropertyName) {
+  public SpecialModelNameDto $specialPropertyName(@Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -35,11 +35,11 @@ public class SpecialModelNameDto {
    */
   
   @JsonProperty("$special[property.name]")
-  public Long get$SpecialPropertyName() {
+  public @Nullable Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
 
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
+  public void set$SpecialPropertyName(@Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 
