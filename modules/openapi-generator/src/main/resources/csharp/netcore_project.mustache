@@ -36,13 +36,13 @@
     <PackageReference Include="RestSharp" Version="112.0.0" />
     {{/useRestSharp}}
     {{#useGenericHost}}
-    <PackageReference Include="Microsoft.Extensions.Http" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.0  {{/net6.0}}{{#net7.0}}7.0.0  {{/net7.0}}{{#net8.0}}8.0.0  {{/net8.0}}{{#net9.0}}9.0.0  {{/net9.0}}{{/lambda.first}}" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.1  {{/net6.0}}{{#net7.0}}7.0.1  {{/net7.0}}{{#net8.0}}8.0.0  {{/net8.0}}{{#net9.0}}9.0.0  {{/net9.0}}{{/lambda.first}}" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.0  {{/net6.0}}{{#net7.0}}7.0.0  {{/net7.0}}{{#net8.0}}8.0.0  {{/net8.0}}{{#net9.0}}9.0.5  {{/net9.0}}{{/lambda.first}}" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.1  {{/net6.0}}{{#net7.0}}7.0.1  {{/net7.0}}{{#net8.0}}8.0.0  {{/net8.0}}{{#net9.0}}9.0.5  {{/net9.0}}{{/lambda.first}}" />
     {{#supportsRetry}}
-    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="{{#lambda.first}}{{#netStandard}}5.0.1  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.19  {{/net6.0}}{{#net7.0}}7.0.11  {{/net7.0}}{{#net8.0}}8.0.8  {{/net8.0}}{{#net9.0}}9.0.0  {{/net9.0}}{{/lambda.first}}" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="{{#lambda.first}}{{#netStandard}}5.0.1  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.19  {{/net6.0}}{{#net7.0}}7.0.11  {{/net7.0}}{{#net8.0}}8.0.8  {{/net8.0}}{{#net9.0}}9.0.5  {{/net9.0}}{{/lambda.first}}" />
     {{/supportsRetry}}
     {{#net80OrLater}}
-    <PackageReference Include="Microsoft.Net.Http.Headers" Version="{{#lambda.first}}{{#net8.0}}8.0.8  {{/net8.0}}{{#net9.0}}9.0.0  {{/net9.0}}{{/lambda.first}}" />
+    <PackageReference Include="Microsoft.Net.Http.Headers" Version="{{#lambda.first}}{{#net8.0}}8.0.8  {{/net8.0}}{{#net9.0}}9.0.5  {{/net9.0}}{{/lambda.first}}" />
     {{/net80OrLater}}
     {{^net60OrLater}}
     <PackageReference Include="System.Threading.Channels" Version="8.0.0" />

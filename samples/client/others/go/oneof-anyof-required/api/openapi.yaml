@@ -25,9 +25,9 @@ components:
       - field2
     Object:
       oneOf:
-      - $ref: '#/components/schemas/NestedObject1'
-      - $ref: '#/components/schemas/NestedObject2'
+      - $ref: "#/components/schemas/NestedObject1"
+      - $ref: "#/components/schemas/NestedObject2"
     Object2:
       anyOf:
-      - $ref: '#/components/schemas/NestedObject1'
-      - $ref: '#/components/schemas/NestedObject2'
+      - $ref: "#/components/schemas/NestedObject1"
+      - $ref: "#/components/schemas/NestedObject2"

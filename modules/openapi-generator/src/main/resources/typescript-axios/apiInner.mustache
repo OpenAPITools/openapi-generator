@@ -3,7 +3,7 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-import type { Configuration } from '{{apiRelativeToRoot}}configuration';
+import type { Configuration } from '{{apiRelativeToRoot}}configuration{{importFileExtension}}';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 {{#withNodeImports}}
@@ -16,12 +16,12 @@ import FormData from 'form-data'
 {{/withNodeImports}}
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '{{apiRelativeToRoot}}common';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '{{apiRelativeToRoot}}base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '{{apiRelativeToRoot}}base{{importFileExtension}}';
 {{#imports}}
 // @ts-ignore
-import type { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
+import type { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}{{importFileExtension}}';
 {{/imports}}
 {{/withSeparateModelsAndApi}}
 {{^withSeparateModelsAndApi}}

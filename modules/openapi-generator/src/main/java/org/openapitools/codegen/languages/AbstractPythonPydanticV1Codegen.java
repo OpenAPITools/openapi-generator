@@ -1593,6 +1593,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     }
 
     public String toEnumVariableName(String name, String datatype) {
+        name = name.replace(".", "_DOT_");
+
         if ("int".equals(datatype)) {
             return "NUMBER_" + name.replace("-", "MINUS_");
         }

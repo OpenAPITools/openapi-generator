@@ -81,31 +81,31 @@ public class Order {
 
   private Boolean complete = false;
 
-  public Order id(Long id) {
+  public Order id(@Nullable Long id) {
     this.id = id;
     return this;
   }
 
 
-  public Order petId(Long petId) {
+  public Order petId(@Nullable Long petId) {
     this.petId = petId;
     return this;
   }
 
 
-  public Order quantity(Integer quantity) {
+  public Order quantity(@Nullable Integer quantity) {
     this.quantity = quantity;
     return this;
   }
 
 
-  public Order shipDate(OffsetDateTime shipDate) {
+  public Order shipDate(@Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
     return this;
   }
 
 
-  public Order status(StatusEnum status) {
+  public Order status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
   }

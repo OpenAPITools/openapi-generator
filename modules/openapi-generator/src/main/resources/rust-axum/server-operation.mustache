@@ -226,10 +226,10 @@ where
         {{/x-consumes-multipart}}
         {{/x-consumes-multipart-related}}
         {{#x-consumes-multipart}}
-          &body,
+          body,
         {{/x-consumes-multipart}}
         {{#x-consumes-multipart-related}}
-          &body,
+          body,
         {{/x-consumes-multipart-related}}
       {{/vendorExtensions}}
   ).await;

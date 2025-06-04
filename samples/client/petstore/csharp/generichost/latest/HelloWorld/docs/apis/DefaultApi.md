@@ -14,57 +14,6 @@ Example webhook
 
 Send when an example is needed
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class HelloWorldPostExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://localhost";
-            var apiInstance = new DefaultApi(config);
-            var helloWorldPostRequest = new HelloWorldPostRequest(); // HelloWorldPostRequest | Contains the details of the hello world webhook (optional) 
-
-            try
-            {
-                // Example webhook
-                apiInstance.HelloWorldPost(helloWorldPostRequest);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling DefaultApi.HelloWorldPost: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the HelloWorldPostWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Example webhook
-    apiInstance.HelloWorldPostWithHttpInfo(helloWorldPostRequest);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling DefaultApi.HelloWorldPostWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 

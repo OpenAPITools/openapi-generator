@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.lang.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -94,7 +95,7 @@ public interface PetApi {
     
     ResponseEntity<Void> deletePet(
         @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) String apiKey
+        @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     );
 
 
@@ -170,7 +171,7 @@ public interface PetApi {
     
     ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "tags", required = true) List<String> tags,
-        @Parameter(name = "size", description = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.", in = ParameterIn.HEADER) @RequestHeader(value = "size", required = false) String size,
+        @Parameter(name = "size", description = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.", in = ParameterIn.HEADER) @RequestHeader(value = "size", required = false) @Nullable String size,
         @ParameterObject final Pageable pageable
     );
 

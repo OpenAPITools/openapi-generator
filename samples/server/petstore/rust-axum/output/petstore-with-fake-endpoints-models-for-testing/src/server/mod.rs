@@ -2052,7 +2052,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .upload_file(&method, &host, &cookies, &path_params, &body)
+        .upload_file(&method, &host, &cookies, &path_params, body)
         .await;
 
     let mut response = Response::builder();

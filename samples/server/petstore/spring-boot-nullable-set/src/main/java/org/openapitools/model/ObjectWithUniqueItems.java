@@ -163,7 +163,7 @@ public class ObjectWithUniqueItems {
     this.notNullList = notNullList;
   }
 
-  public ObjectWithUniqueItems notNullDateField(OffsetDateTime notNullDateField) {
+  public ObjectWithUniqueItems notNullDateField(@Nullable OffsetDateTime notNullDateField) {
     this.notNullDateField = notNullDateField;
     return this;
   }
@@ -175,15 +175,15 @@ public class ObjectWithUniqueItems {
   @Valid 
   @Schema(name = "notNullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullDateField")
-  public OffsetDateTime getNotNullDateField() {
+  public @Nullable OffsetDateTime getNotNullDateField() {
     return notNullDateField;
   }
 
-  public void setNotNullDateField(OffsetDateTime notNullDateField) {
+  public void setNotNullDateField(@Nullable OffsetDateTime notNullDateField) {
     this.notNullDateField = notNullDateField;
   }
 
-  public ObjectWithUniqueItems nullDateField(OffsetDateTime nullDateField) {
+  public ObjectWithUniqueItems nullDateField(@Nullable OffsetDateTime nullDateField) {
     this.nullDateField = nullDateField;
     return this;
   }
@@ -195,11 +195,11 @@ public class ObjectWithUniqueItems {
   @Valid 
   @Schema(name = "nullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullDateField")
-  public OffsetDateTime getNullDateField() {
+  public @Nullable OffsetDateTime getNullDateField() {
     return nullDateField;
   }
 
-  public void setNullDateField(OffsetDateTime nullDateField) {
+  public void setNullDateField(@Nullable OffsetDateTime nullDateField) {
     this.nullDateField = nullDateField;
   }
 

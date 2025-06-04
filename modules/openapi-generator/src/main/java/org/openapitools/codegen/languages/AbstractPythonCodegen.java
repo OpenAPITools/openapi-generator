@@ -1061,6 +1061,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     public String toEnumVariableName(String name, String datatype) {
+        name = name.replace(".", "_DOT_");
+
         if ("int".equals(datatype)) {
             return "NUMBER_" + name.replace("-", "MINUS_");
         }

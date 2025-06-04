@@ -20,7 +20,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/dummyPut_request'
+              $ref: "#/components/schemas/dummyPut_request"
         required: true
       responses:
         "200":
@@ -108,7 +108,7 @@ paths:
           content:
             application/yaml:
               schema:
-                $ref: '#/components/schemas/get_yaml_response'
+                $ref: "#/components/schemas/get_yaml_response"
           description: OK
   /allOf:
     get:
@@ -119,7 +119,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/allOfObject'
+                $ref: "#/components/schemas/allOfObject"
           description: OK
 components:
   requestBodies:
@@ -145,7 +145,7 @@ components:
       type: object
     allOfObject:
       allOf:
-      - $ref: '#/components/schemas/baseAllOf'
+      - $ref: "#/components/schemas/baseAllOf"
       example:
         sampleProperty: sampleProperty
       properties:
@@ -171,7 +171,7 @@ components:
       description: An object of objects
       properties:
         inner:
-          $ref: '#/components/schemas/ObjectOfObjects_inner'
+          $ref: "#/components/schemas/ObjectOfObjects_inner"
       type: object
     get_yaml_response:
       description: structured response

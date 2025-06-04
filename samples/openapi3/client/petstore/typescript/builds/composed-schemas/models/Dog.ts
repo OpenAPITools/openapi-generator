@@ -12,6 +12,9 @@
 
 import { HttpFile } from '../http/http';
 
+/**
+* Dog information
+*/
 export class Dog {
     'bark'?: boolean;
     'breed'?: DogBreedEnum;

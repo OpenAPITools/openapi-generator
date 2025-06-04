@@ -260,7 +260,9 @@ public class FormApi {
 
     MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
     boolean hasFiles = false;
-    multiPartBuilder.addTextBody("marker", marker.toString());
+    if (marker != null) {
+        multiPartBuilder.addTextBody("marker", marker.toString());
+    }
     HttpEntity entity = multiPartBuilder.build();
     HttpRequest.BodyPublisher formDataPublisher;
     if (hasFiles) {

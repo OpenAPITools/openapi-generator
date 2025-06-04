@@ -89,6 +89,7 @@ docs/ParentWithOptionalDict.md
 docs/Pet.md
 docs/PetApi.md
 docs/Pig.md
+docs/PonySizes.md
 docs/PoopCleaning.md
 docs/PrimitiveString.md
 docs/PropertyMap.md
@@ -113,6 +114,7 @@ docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/TestModelWithEnumDefault.md
 docs/TestObjectForMultipartRequestsRequestMarker.md
 docs/Tiger.md
+docs/Type.md
 docs/UnnamedDictWithAdditionalModelListProperties.md
 docs/UnnamedDictWithAdditionalStringListProperties.md
 docs/UploadFileWithAdditionalPropertiesRequestObject.md
@@ -215,6 +217,7 @@ petstore_api/models/parent.py
 petstore_api/models/parent_with_optional_dict.py
 petstore_api/models/pet.py
 petstore_api/models/pig.py
+petstore_api/models/pony_sizes.py
 petstore_api/models/poop_cleaning.py
 petstore_api/models/primitive_string.py
 petstore_api/models/property_map.py
@@ -238,6 +241,7 @@ petstore_api/models/test_inline_freeform_additional_properties_request.py
 petstore_api/models/test_model_with_enum_default.py
 petstore_api/models/test_object_for_multipart_requests_request_marker.py
 petstore_api/models/tiger.py
+petstore_api/models/type.py
 petstore_api/models/unnamed_dict_with_additional_model_list_properties.py
 petstore_api/models/unnamed_dict_with_additional_string_list_properties.py
 petstore_api/models/upload_file_with_additional_properties_request_object.py

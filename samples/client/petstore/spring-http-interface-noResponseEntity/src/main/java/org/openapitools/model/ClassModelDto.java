@@ -24,7 +24,7 @@ public class ClassModelDto {
 
   private @Nullable String propertyClass;
 
-  public ClassModelDto propertyClass(String propertyClass) {
+  public ClassModelDto propertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
     return this;
   }
@@ -35,11 +35,11 @@ public class ClassModelDto {
    */
   
   @JsonProperty("_class")
-  public String getPropertyClass() {
+  public @Nullable String getPropertyClass() {
     return propertyClass;
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
 

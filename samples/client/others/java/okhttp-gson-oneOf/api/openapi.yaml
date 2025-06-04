@@ -12,7 +12,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/_myExample_post_request'
+              $ref: "#/components/schemas/_myExample_post_request"
       responses:
         "200":
           description: OK

@@ -27,7 +27,7 @@ public class AdditionalPropertiesNumber {
 
   private @Nullable String name;
 
-  public AdditionalPropertiesNumber name(String name) {
+  public AdditionalPropertiesNumber name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -38,11 +38,11 @@ public class AdditionalPropertiesNumber {
    */
   
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
     /**

@@ -13,26 +13,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Dog'
+              $ref: "#/components/schemas/Dog"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Dog'
+                $ref: "#/components/schemas/Dog"
           description: OK
         "400":
           content:
             application/json:
               examples:
                 dog name length:
-                  $ref: '#/components/examples/DogNameBiggerThan50Error'
+                  $ref: "#/components/examples/DogNameBiggerThan50Error"
                 dog name contains numbers:
-                  $ref: '#/components/examples/DogNameContainsNumbersError'
+                  $ref: "#/components/examples/DogNameContainsNumbersError"
                 dog age negative:
-                  $ref: '#/components/examples/DogAgeNegativeError'
+                  $ref: "#/components/examples/DogAgeNegativeError"
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
           description: Bad Request
       summary: Create a dog
       x-content-type: application/json

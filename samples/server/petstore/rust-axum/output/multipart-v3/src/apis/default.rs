@@ -41,7 +41,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-        body: &axum::body::Body,
+        body: axum::body::Body,
     ) -> Result<MultipartRelatedRequestPostResponse, E>;
 
     /// MultipartRequestPost - POST /multipart_request
@@ -50,7 +50,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-        body: &Multipart,
+        body: Multipart,
     ) -> Result<MultipartRequestPostResponse, E>;
 
     /// MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
@@ -59,6 +59,6 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-        body: &axum::body::Body,
+        body: axum::body::Body,
     ) -> Result<MultipleIdenticalMimeTypesPostResponse, E>;
 }

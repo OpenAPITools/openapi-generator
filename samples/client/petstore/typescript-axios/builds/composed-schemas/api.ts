@@ -43,7 +43,7 @@ export interface Cat {
     'age'?: number;
 }
 /**
- * 
+ * Dog information
  * @export
  * @interface Dog
  */

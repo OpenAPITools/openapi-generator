@@ -13,7 +13,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/oneOfArray_request'
+              $ref: "#/components/schemas/oneOfArray_request"
       responses:
         "204":
           description: Successful operation
@@ -30,6 +30,6 @@ components:
           type: string
         type: array
       - items:
-          $ref: '#/components/schemas/TestObject'
+          $ref: "#/components/schemas/TestObject"
         type: array
 

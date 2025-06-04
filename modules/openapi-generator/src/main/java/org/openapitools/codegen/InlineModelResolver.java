@@ -418,18 +418,7 @@ public class InlineModelResolver {
                     if (schema.getAllOf().size() == 1) {
                         // handle earlier in this function when looping through properties
                     } else if (schema.getAllOf().size() > 1) {
-                        // Check if there is only one "non metadata" schema.
-                        // For example, there may be an `description` only schema that is used to override the descrption.
-                        // In these cases, we can simply discard those schemas.
-                        List<Schema> nonMetadataOnlySchemas = (List<Schema>) schema.getAllOf().stream()
-                                .filter(v -> ModelUtils.isMetadataOnlySchema((Schema) v))
-                                .collect(Collectors.toList());
-
-                        if (nonMetadataOnlySchemas.size() == 1) {
-                            schema.setAllOf(nonMetadataOnlySchemas);
-                        } else {
-                            LOGGER.warn("allOf schema `{}` containing multiple types (not model) is not supported at the moment.", schema.getName());
-                        }
+                        LOGGER.warn("allOf schema `{}` containing multiple types (not model) is not supported at the moment.", schema.getName());
                     } else {
                         LOGGER.error("allOf schema `{}` contains no items.", schema.getName());
                     }

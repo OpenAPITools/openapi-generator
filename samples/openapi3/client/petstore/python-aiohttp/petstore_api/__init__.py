@@ -116,6 +116,7 @@ __all__ = [
     "ParentWithOptionalDict",
     "Pet",
     "Pig",
+    "PonySizes",
     "PoopCleaning",
     "PrimitiveString",
     "PropertyMap",
@@ -139,6 +140,7 @@ __all__ = [
     "TestModelWithEnumDefault",
     "TestObjectForMultipartRequestsRequestMarker",
     "Tiger",
+    "Type",
     "UnnamedDictWithAdditionalModelListProperties",
     "UnnamedDictWithAdditionalStringListProperties",
     "UploadFileWithAdditionalPropertiesRequestObject",
@@ -249,6 +251,7 @@ from petstore_api.models.parent import Parent as Parent
 from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict as ParentWithOptionalDict
 from petstore_api.models.pet import Pet as Pet
 from petstore_api.models.pig import Pig as Pig
+from petstore_api.models.pony_sizes import PonySizes as PonySizes
 from petstore_api.models.poop_cleaning import PoopCleaning as PoopCleaning
 from petstore_api.models.primitive_string import PrimitiveString as PrimitiveString
 from petstore_api.models.property_map import PropertyMap as PropertyMap
@@ -272,6 +275,7 @@ from petstore_api.models.test_inline_freeform_additional_properties_request impo
 from petstore_api.models.test_model_with_enum_default import TestModelWithEnumDefault as TestModelWithEnumDefault
 from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker as TestObjectForMultipartRequestsRequestMarker
 from petstore_api.models.tiger import Tiger as Tiger
+from petstore_api.models.type import Type as Type
 from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties as UnnamedDictWithAdditionalModelListProperties
 from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties as UnnamedDictWithAdditionalStringListProperties
 from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject as UploadFileWithAdditionalPropertiesRequestObject

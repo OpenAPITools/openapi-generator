@@ -101,7 +101,7 @@ public class EnumArraysDto {
   
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
-  public EnumArraysDto justSymbol(JustSymbolEnum justSymbol) {
+  public EnumArraysDto justSymbol(@Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
     return this;
   }
@@ -112,11 +112,11 @@ public class EnumArraysDto {
    */
   
   @JsonProperty("just_symbol")
-  public JustSymbolEnum getJustSymbol() {
+  public @Nullable JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
 
-  public void setJustSymbol(JustSymbolEnum justSymbol) {
+  public void setJustSymbol(@Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 

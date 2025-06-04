@@ -80,6 +80,25 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerRefactorAllofWithMetadataOnlySchemas() {
+        // to test the rule REF_AS_PARENT_IN_ALLOF
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allof_with_metadata_only_schemas.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ReferenceNumber");
+        assertEquals(schema.getAllOf().size(), 3);
+        assertEquals(((Schema) schema.getAllOf().get(2)).getExample(), "IEAN1234");
+
+        Map<String, String> options = new HashMap<>();
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("ReferenceNumber");
+        assertEquals(schema2.getAllOf().size(), 1);
+        assertEquals(schema2.getExample(), "IEAN1234");
+        assertEquals(((Schema) schema2.getAllOf().get(0)).get$ref(), "#/components/schemas/IEAN8");
+    }
+
+    @Test
     public void testOpenAPINormalizerEnableKeepOnlyFirstTagInOperation() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 

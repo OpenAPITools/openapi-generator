@@ -34,7 +34,7 @@ public class FileSchemaTestClassDto {
   @Valid
   private List<@Valid FileDto> files = new ArrayList<>();
 
-  public FileSchemaTestClassDto file(FileDto file) {
+  public FileSchemaTestClassDto file(@Nullable FileDto file) {
     this.file = file;
     return this;
   }
@@ -46,11 +46,11 @@ public class FileSchemaTestClassDto {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("file")
-  public FileDto getFile() {
+  public @Nullable FileDto getFile() {
     return file;
   }
 
-  public void setFile(FileDto file) {
+  public void setFile(@Nullable FileDto file) {
     this.file = file;
   }
 

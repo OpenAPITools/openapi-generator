@@ -65,7 +65,7 @@ module Petstore
         when 'Time'
           return Time.parse(data)
         when 'Date'
-          return Date.parse(data)
+          return Date.iso8601(data)
         when 'String'
           return data if data.instance_of?(String)
         when 'Object' # "type: object"

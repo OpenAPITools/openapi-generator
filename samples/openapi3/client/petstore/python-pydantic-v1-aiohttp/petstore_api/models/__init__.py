@@ -94,6 +94,7 @@ from petstore_api.models.parent import Parent
 from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig
+from petstore_api.models.pony_sizes import PonySizes
 from petstore_api.models.poop_cleaning import PoopCleaning
 from petstore_api.models.primitive_string import PrimitiveString
 from petstore_api.models.property_map import PropertyMap
@@ -117,6 +118,7 @@ from petstore_api.models.test_inline_freeform_additional_properties_request impo
 from petstore_api.models.test_model_with_enum_default import TestModelWithEnumDefault
 from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker
 from petstore_api.models.tiger import Tiger
+from petstore_api.models.type import Type
 from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties
 from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties
 from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
