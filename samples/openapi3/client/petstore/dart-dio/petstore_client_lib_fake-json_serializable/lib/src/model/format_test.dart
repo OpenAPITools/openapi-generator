@@ -3,7 +3,7 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:dio/dio.dart';
+import 'dart:typed_data';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'format_test.g.dart';
@@ -173,7 +173,7 @@ class FormatTest {
   @JsonKey(ignore: true)
 
 
-  final MultipartFile? binary;
+  final Uint8List? binary;
 
 
 
