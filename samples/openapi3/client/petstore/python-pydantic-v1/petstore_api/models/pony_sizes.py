@@ -19,31 +19,16 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictStr, validator
-from petstore_api.models.test_enum import TestEnum
-from petstore_api.models.test_enum_with_default import TestEnumWithDefault
+from pydantic import BaseModel
+from petstore_api.models.type import Type
 
-class TestModelWithEnumDefault(BaseModel):
+class PonySizes(BaseModel):
     """
-    TestModelWithEnumDefault
+    PonySizes
     """
-    test_enum: TestEnum = Field(...)
-    test_string: Optional[StrictStr] = None
-    test_enum_with_default: Optional[TestEnumWithDefault] = None
-    test_string_with_default: Optional[StrictStr] = 'ahoy matey'
-    test_inline_defined_enum_with_default: Optional[StrictStr] = 'Bs'
+    type: Optional[Type] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
-
-    @validator('test_inline_defined_enum_with_default')
-    def test_inline_defined_enum_with_default_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in ('A', 'B', 'C',):
-            raise ValueError("must be one of enum values ('A', 'B', 'C')")
-        return value
+    __properties = ["type"]
 
     class Config:
         """Pydantic configuration"""
@@ -59,8 +44,8 @@ class TestModelWithEnumDefault(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> TestModelWithEnumDefault:
-        """Create an instance of TestModelWithEnumDefault from a JSON string"""
+    def from_json(cls, json_str: str) -> PonySizes:
+        """Create an instance of PonySizes from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -78,20 +63,16 @@ class TestModelWithEnumDefault(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> TestModelWithEnumDefault:
-        """Create an instance of TestModelWithEnumDefault from a dict"""
+    def from_dict(cls, obj: dict) -> PonySizes:
+        """Create an instance of PonySizes from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return TestModelWithEnumDefault.parse_obj(obj)
+            return PonySizes.parse_obj(obj)
 
-        _obj = TestModelWithEnumDefault.parse_obj({
-            "test_enum": obj.get("test_enum"),
-            "test_string": obj.get("test_string"),
-            "test_enum_with_default": obj.get("test_enum_with_default"),
-            "test_string_with_default": obj.get("test_string_with_default") if obj.get("test_string_with_default") is not None else 'ahoy matey',
-            "test_inline_defined_enum_with_default": obj.get("test_inline_defined_enum_with_default") if obj.get("test_inline_defined_enum_with_default") is not None else 'Bs'
+        _obj = PonySizes.parse_obj({
+            "type": obj.get("type")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
