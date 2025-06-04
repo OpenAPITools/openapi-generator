@@ -192,6 +192,81 @@ public class PetApi extends BaseApi {
   }
 
   /**
+   * downloads an image
+   * 
+   * @param petId ID of pet to update (required)
+   * @return File
+   * @throws ApiException if fails to make API call
+   */
+  public File downloadFile(@javax.annotation.Nonnull Long petId) throws ApiException {
+    return this.downloadFile(petId, Collections.emptyMap());
+  }
+
+
+  /**
+   * downloads an image
+   * 
+   * @param petId ID of pet to update (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return File
+   * @throws ApiException if fails to make API call
+   */
+  public File downloadFile(@javax.annotation.Nonnull Long petId, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling downloadFile");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/pet/{petId}/downloadImage"
+      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(apiClient.parameterToString(petId)));
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "application/zip"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { "petstore_auth" };
+
+    TypeReference<File> localVarReturnType = new TypeReference<File>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "POST",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter (required)

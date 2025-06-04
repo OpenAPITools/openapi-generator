@@ -93,6 +93,23 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.deletePet(petId, apiKey, securityContext);
     }
+    @javax.ws.rs.POST
+    @Path("/{petId}/downloadImage")
+    
+    @Produces({ "application/zip" })
+    @io.swagger.annotations.ApiOperation(value = "downloads an image", notes = "", response = File.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+            @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+            @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
+        })
+    }, tags={ "pet", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = File.class)
+    })
+    public Response downloadFile(@ApiParam(value = "ID of pet to update", required = true) @PathParam("petId") @NotNull  Long petId,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.downloadFile(petId, securityContext);
+    }
     @javax.ws.rs.GET
     @Path("/findByStatus")
     

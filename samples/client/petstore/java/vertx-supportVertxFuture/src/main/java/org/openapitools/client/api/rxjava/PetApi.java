@@ -120,6 +120,51 @@ public class PetApi {
         ));
     }
     /**
+    * downloads an image
+    * 
+    * @param petId ID of pet to update (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void downloadFile(Long petId, Handler<AsyncResult<AsyncFile>> resultHandler) {
+        delegate.downloadFile(petId, resultHandler);
+    }
+
+    /**
+    * downloads an image
+    * 
+    * @param petId ID of pet to update (required)
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void downloadFile(Long petId, ApiClient.AuthInfo authInfo, Handler<AsyncResult<AsyncFile>> resultHandler) {
+        delegate.downloadFile(petId, authInfo, resultHandler);
+    }
+
+    /**
+    * downloads an image
+    * 
+    * @param petId ID of pet to update (required)
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<AsyncFile> rxDownloadFile(Long petId) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.downloadFile(petId, fut)
+        ));
+    }
+
+    /**
+    * downloads an image
+    * 
+    * @param petId ID of pet to update (required)
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<AsyncFile> rxDownloadFile(Long petId, ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.downloadFile(petId, authInfo, fut)
+        ));
+    }
+    /**
     * Finds Pets by status
     * Multiple status values can be provided with comma separated strings
     * @param status Status values that need to be considered for filter (required)

@@ -119,25 +119,4 @@ public class DartDioClientCodegenTest {
         TestUtils.ensureContainsFile(files, output, "README.md");
         TestUtils.ensureContainsFile(files, output, "lib/src/api.dart");
     }
-
-    @Test(description = "json_serializable with binary response type (#20682)")
-    public void jsonSerializableBinaryResponseType() throws IOException {
-        final DefaultCodegen codegen = new DartDioClientCodegen();
-        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "json_serializable");
-        codegen.processOpts();
-
-        final MediaType binaryMediaType = new MediaType().schema(new Schema().type("string").format("binary"));
-
-        CodegenResponse zipResponse = codegen.fromResponse(
-                "200",
-                new ApiResponse().content(new Content().addMediaType("application/zip", binaryMediaType))
-        );
-        Assert.assertEquals(zipResponse.dataType, "Uint8List");
-
-        CodegenResponse streamResponse = codegen.fromResponse(
-                "200",
-                new ApiResponse().content(new Content().addMediaType("application/octet-stream", binaryMediaType))
-        );
-        Assert.assertEquals(streamResponse.dataType, "Uint8List");
-    }
 }

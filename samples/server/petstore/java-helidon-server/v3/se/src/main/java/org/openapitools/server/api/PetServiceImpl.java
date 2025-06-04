@@ -27,6 +27,10 @@ public class PetServiceImpl implements PetService {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
+    public void downloadFile(ServerRequest request, ServerResponse response) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
     public void findPetsByStatus(ServerRequest request, ServerResponse response) {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }

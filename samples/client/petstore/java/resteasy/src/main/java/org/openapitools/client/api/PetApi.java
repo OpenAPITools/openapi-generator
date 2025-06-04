@@ -126,6 +126,50 @@ public class PetApi {
     apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
+   * downloads an image
+   * 
+   * @param petId ID of pet to update (required)
+   * @return a {@code File}
+   * @throws ApiException if fails to make API call
+   */
+  public File downloadFile(@javax.annotation.Nonnull Long petId) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling downloadFile");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/pet/{petId}/downloadImage".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/zip"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { "petstore_auth" };
+
+    GenericType<File> localVarReturnType = new GenericType<File>() {};
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
+  /**
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter (required)

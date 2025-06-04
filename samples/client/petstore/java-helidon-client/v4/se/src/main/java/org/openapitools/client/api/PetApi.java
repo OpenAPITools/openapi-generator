@@ -46,6 +46,14 @@ public interface PetApi {
   ApiResponse<Void> deletePet(Long petId, String apiKey);
 
  /**
+  * downloads an image
+  * 
+  * @param petId ID of pet to update (required)
+  * @return {@code ApiResponse<File>}
+  */
+  ApiResponse<File> downloadFile(Long petId);
+
+ /**
   * Finds Pets by status
   * Multiple status values can be provided with comma separated strings
   * @param status Status values that need to be considered for filter (required)

@@ -149,6 +149,69 @@ module Petstore
       return data, status_code, headers
     end
 
+    # downloads an image
+    # 
+    # @param pet_id [Integer] ID of pet to update
+    # @param [Hash] opts the optional parameters
+    # @return [File]
+    def download_file(pet_id, opts = {})
+      data, _status_code, _headers = download_file_with_http_info(pet_id, opts)
+      data
+    end
+
+    # downloads an image
+    # 
+    # @param pet_id [Integer] ID of pet to update
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(File, Integer, Hash)>] File data, response status code and response headers
+    def download_file_with_http_info(pet_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: PetApi.download_file ...'
+      end
+      # verify the required parameter 'pet_id' is set
+      if @api_client.config.client_side_validation && pet_id.nil?
+        fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.download_file"
+      end
+      # resource path
+      local_var_path = '/pet/{petId}/downloadImage'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/zip']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'File'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
+
+      new_options = opts.merge(
+        :operation => :"PetApi.download_file",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PetApi#download_file\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Finds Pets by status
     # Multiple status values can be provided with comma separated strings
     # @param status [Array<String>] Status values that need to be considered for filter

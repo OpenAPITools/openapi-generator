@@ -34,6 +34,10 @@ export interface DeletePetRequest {
     apiKey?: string;
 }
 
+export interface DownloadFileRequest {
+    petId: number;
+}
+
 export interface FindPetsByStatusRequest {
     status: Array<FindPetsByStatusStatusEnum>;
 }
@@ -156,6 +160,46 @@ export class PetApi extends runtime.BaseAPI {
      */
     async deletePet(requestParameters: DeletePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deletePetRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 
+     * downloads an image
+     */
+    async downloadFileRaw(requestParameters: DownloadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
+        if (requestParameters['petId'] == null) {
+            throw new runtime.RequiredError(
+                'petId',
+                'Required parameter "petId" was null or undefined when calling downloadFile().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
+        }
+
+        const response = await this.request({
+            path: `/pet/{petId}/downloadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.BlobApiResponse(response);
+    }
+
+    /**
+     * 
+     * downloads an image
+     */
+    async downloadFile(requestParameters: DownloadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
+        const response = await this.downloadFileRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

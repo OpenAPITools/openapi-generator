@@ -107,6 +107,37 @@ public class PetApiMockServer {
 
 
 
+    public static MappingBuilder stubDownloadFile200(@javax.annotation.Nonnull String petId, String response) {
+        MappingBuilder stub = post(urlPathTemplate("/pet/{petId}/downloadImage"))
+            .withHeader("Accept", havingExactly("application/zip"))
+            .withHeader("Authorization", matching(".*"))
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withHeader("Content-Type", "application/zip")
+                .withBody(response)
+            );
+
+        stub = stub.withPathParam("petId", equalTo(petId));
+
+        return stub;
+    }
+
+    public static MappingBuilder stubDownloadFileFault(@javax.annotation.Nonnull String petId, Fault fault) {
+        MappingBuilder stub = post(urlPathTemplate("/pet/{petId}/downloadImage"))
+            .withHeader("Accept", havingExactly("application/zip"))
+            .withHeader("Authorization", matching(".*"))
+            .willReturn(aResponse()
+                .withFault(fault)
+            );
+
+        stub = stub.withPathParam("petId", equalTo(petId));
+
+        return stub;
+    }
+
+
+
+
     public static MappingBuilder stubFindPetsByStatus200(@javax.annotation.Nonnull String status, String response) {
         MappingBuilder stub = get(urlPathEqualTo("/pet/findByStatus"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))

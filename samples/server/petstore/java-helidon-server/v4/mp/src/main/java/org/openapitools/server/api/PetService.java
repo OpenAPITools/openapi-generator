@@ -40,6 +40,11 @@ public interface PetService {
     @Path("/pet/{petId}")
     void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")  String apiKey);
 
+    @POST
+    @Path("/pet/{petId}/downloadImage")
+    @Produces({ "application/zip" })
+    File downloadFile(@PathParam("petId") Long petId);
+
     @GET
     @Path("/pet/findByStatus")
     @Produces({ "application/xml", "application/json" })

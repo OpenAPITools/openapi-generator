@@ -103,6 +103,7 @@ Class | Method | HTTP request | Description
 *Petstore::FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *Petstore::PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *Petstore::PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
+*Petstore::PetApi* | [**download_file**](docs/PetApi.md#download_file) | **POST** /pet/{petId}/downloadImage | downloads an image
 *Petstore::PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
 *Petstore::PetApi* | [**find_pets_by_tags**](docs/PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
 *Petstore::PetApi* | [**get_pet_by_id**](docs/PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID

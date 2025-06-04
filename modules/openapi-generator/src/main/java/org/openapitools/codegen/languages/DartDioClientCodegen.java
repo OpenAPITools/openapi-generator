@@ -274,9 +274,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("serialization/json_serializable/deserialize.mustache", srcFolder,
                 "deserialize.dart"));
 
-        typeMapping.put("file", "Uint8List");
-        typeMapping.put("binary", "Uint8List");
-
         // most of these are defined in AbstractDartCodegen, we are overriding
         // just the binary / file handling
         languageSpecificPrimitives.add("Object");
@@ -658,6 +655,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                             addBuiltValueSerializerImport("Uint8List");
                         }
                     }
+                }
+            }
+
+            if (SERIALIZATION_LIBRARY_JSON_SERIALIZABLE.equals(library)) {
+                // built_value serialization uses Uint8List for all MultipartFile types
+                // in json_serialization, MultipartFile is used as the file parameter type, but
+                // MultipartFile isn't readable, instead we convert this to a Uin8List
+                if (op.isResponseFile) {
+                    op.returnType = "Uint8List";
+                    op.returnBaseType = "Uint8List";
                 }
             }
 

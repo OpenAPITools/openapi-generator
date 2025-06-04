@@ -205,6 +205,26 @@ class PetApi extends Controller
         return response('How about implementing updatePetWithForm as a post method ?');
     }
     /**
+     * Operation downloadFile
+     *
+     * downloads an image.
+     *
+     * @param int $pet_id ID of pet to update (required)
+     *
+     * @return Http response
+     */
+    public function downloadFile($pet_id)
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing downloadFile as a post method ?');
+    }
+    /**
      * Operation uploadFile
      *
      * uploads an image.

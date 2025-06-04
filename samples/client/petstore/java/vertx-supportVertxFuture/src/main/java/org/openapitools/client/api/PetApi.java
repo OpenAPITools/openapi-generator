@@ -47,6 +47,22 @@ public interface PetApi {
         return promise.future();
     }
 
+    void downloadFile(@javax.annotation.Nonnull Long petId, Handler<AsyncResult<AsyncFile>> handler);
+
+    default Future<AsyncFile> downloadFile(@javax.annotation.Nonnull Long petId){
+        Promise<AsyncFile> promise = Promise.promise();
+        downloadFile(petId, promise);
+        return promise.future();
+    }
+
+    void downloadFile(@javax.annotation.Nonnull Long petId, ApiClient.AuthInfo authInfo, Handler<AsyncResult<AsyncFile>> handler);
+
+    default Future<AsyncFile> downloadFile(@javax.annotation.Nonnull Long petId, ApiClient.AuthInfo authInfo){
+        Promise<AsyncFile> promise = Promise.promise();
+        downloadFile(petId, authInfo, promise);
+        return promise.future();
+    }
+
     void findPetsByStatus(@javax.annotation.Nonnull List<String> status, Handler<AsyncResult<List<Pet>>> handler);
 
     default Future<List<Pet>> findPetsByStatus(@javax.annotation.Nonnull List<String> status){

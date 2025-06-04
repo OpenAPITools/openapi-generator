@@ -57,6 +57,20 @@ interface PetApiInterface {
 
 
     /**
+     * Operation downloadFile
+     *
+     * downloads an image
+     * @param int $petId
+     * @return \Illuminate\Http\UploadedFile
+     */
+    public function downloadFile(
+            int $petId,
+    ):
+        \Illuminate\Http\UploadedFile
+    ;
+
+
+    /**
      * Operation findPetsByStatus
      *
      * Finds Pets by status

@@ -9,7 +9,6 @@ import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
-import 'dart:typed_data';
 import 'package:openapi/src/model/child_with_nullable.dart';
 import 'package:openapi/src/model/fake_big_decimal_map200_response.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
@@ -1095,7 +1094,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     int? int64,
     double? float,
     String? string,
-    Uint8List? binary,
+    MultipartFile? binary,
     DateTime? date,
     DateTime? dateTime,
     String? password,
