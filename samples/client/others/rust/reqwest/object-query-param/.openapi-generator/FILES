@@ -3,6 +3,10 @@
 Cargo.toml
 README.md
 docs/DefaultApi.md
+docs/ListDeepParameter.md
+docs/ListDeepParameterFoo.md
+docs/ListNotRequiredDeepParameter.md
+docs/ListNotRequiredDeepParameterFoo.md
 docs/ListNotRequiredParameter.md
 docs/ListPageQueryParameter.md
 docs/Page.md
@@ -11,6 +15,10 @@ src/apis/configuration.rs
 src/apis/default_api.rs
 src/apis/mod.rs
 src/lib.rs
+src/models/list_deep_parameter.rs
+src/models/list_deep_parameter_foo.rs
+src/models/list_not_required_deep_parameter.rs
+src/models/list_not_required_deep_parameter_foo.rs
 src/models/list_not_required_parameter.rs
 src/models/list_page_query_parameter.rs
 src/models/mod.rs

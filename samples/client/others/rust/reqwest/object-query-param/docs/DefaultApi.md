@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## list
 
-> list(page_query, page_query_schema, not_required)
+> list(page_query, page_query_schema, deep, not_required, not_required_deep)
 
 
 ### Parameters
@@ -20,7 +20,9 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **page_query** | [**ListPageQueryParameter**](.md) |  | [required] |
 **page_query_schema** | [**Page**](.md) |  | [required] |
+**deep** | [**ListDeepParameter**](.md) |  | [required] |
 **not_required** | Option<[**ListNotRequiredParameter**](.md)> |  |  |
+**not_required_deep** | Option<[**ListNotRequiredDeepParameter**](.md)> |  |  |
 
 ### Return type
 
