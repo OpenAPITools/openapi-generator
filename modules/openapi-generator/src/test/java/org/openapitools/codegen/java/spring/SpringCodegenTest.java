@@ -5532,4 +5532,42 @@ public class SpringCodegenTest {
                 .fileContains("private @Nullable List<String> stringList;")
                 .fileContains("private List<String> stringRequiredList = new ArrayList<>();");
     }
+
+    @Test
+    public void testGenericReturnTypeWhenUsingResponseEntity_issue1096() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_RESPONSE_ENTITY, "true");
+        additionalProperties.put(SpringCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, "true");
+        additionalProperties.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        additionalProperties.put(CodegenConstants.MODEL_TESTS, "false");
+        additionalProperties.put(CodegenConstants.MODEL_DOCS, "false");
+        additionalProperties.put(CodegenConstants.APIS, "true");
+        additionalProperties.put(CodegenConstants.SUPPORTING_FILES, "false");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("getPetById").hasReturnType("ResponseEntity<?>")
+                .toFileAssert()
+                .assertMethod("findPetsByStatus").hasReturnType("ResponseEntity<?>");
+    }
+
+    @Test
+    public void testGenericReturnTypeWhenNotUsingResponseEntity_issue1096() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_RESPONSE_ENTITY, "false");
+        additionalProperties.put(SpringCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, "true");
+        additionalProperties.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        additionalProperties.put(CodegenConstants.MODEL_TESTS, "false");
+        additionalProperties.put(CodegenConstants.MODEL_DOCS, "false");
+        additionalProperties.put(CodegenConstants.APIS, "true");
+        additionalProperties.put(CodegenConstants.SUPPORTING_FILES, "false");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("getPetById").hasReturnType("Pet")
+                .toFileAssert()
+                .assertMethod("findPetsByStatus").hasReturnType("List<Pet>");
+    }
 }
