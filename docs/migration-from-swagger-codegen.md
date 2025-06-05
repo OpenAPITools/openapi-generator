@@ -1,13 +1,22 @@
----
+<dependency>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator</artifactId>
+</dependency>---
 id: swagger-codegen-migration
 title: Migrating from Swagger Codegen
 ---
-
+<dependency>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator</artifactId>
+</dependency>
 OpenAPI Generator is a fork of `swagger-codegen` between version `2.3.1` and `2.4.0`. For the reasons behind the fork, please refer to the [Q&A](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/qna.md).
 This community-driven version called "OpenAPI Generator" provides similar functionalities and can be used as drop-in replacement.
 This guide explains the major differences in order to help you with the migration.
 
-
+<dependency>
+    <groupId>io.swagger</groupId>
+    <artifactId>swagger-codegen-maven-plugin</artifactId>
+</dependency>
 **Table of contents**
 
   - [New docker images](#new-docker-images)
@@ -44,7 +53,10 @@ Old: `swaggerapi/swagger-generator`
 
 New: `openapitools/openapi-generator-online`
 
-
+<dependency>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator-cli</artifactId>
+</dependency>
 ## New maven coordinates
 
 You can find our released artefact on maven central:
@@ -59,7 +71,10 @@ Old:
     <artifactId>swagger-codegen</artifactId>
 </dependency>
 ```
-
+<dependency>
+    <groupId>io.swagger</groupId>
+    <artifactId>swagger-codegen-maven-plugin</artifactId>
+</dependency>
 New:
 
 ```xml
@@ -77,7 +92,10 @@ New:
     <artifactId>swagger-codegen-cli</artifactId>
 </dependency>
 ```
-
+<dependency>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator-maven-plugin</artifactId>
+</dependency>
 New:
 
 ```xml
