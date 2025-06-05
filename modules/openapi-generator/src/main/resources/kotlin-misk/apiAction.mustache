@@ -25,6 +25,7 @@ import misk.web.QueryParam
 import misk.web.RequestBody
 import misk.web.RequestContentType
 import misk.web.RequestHeader
+import misk.web.Response
 import misk.web.ResponseContentType
 import misk.web.actions.WebAction
 import misk.web.interceptors.LogRequestResponse
@@ -46,8 +47,11 @@ class {{classname}}Action @Inject constructor(
     @RequestContentType({{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
     @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    fun {{operationId}}({{#allParams}}
-        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
+    fun {{operationId}}(
+{{#allParams}}
+        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}
+{{/allParams}}
+    ): {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response<Unit>{{/returnType}} {
         TODO()
     }
 {{/operation}}
