@@ -10,6 +10,7 @@ from typing_extensions import Annotated
 {{import}}
 {{/imports}}
 
+import allure
 from {{packageName}}.api_client import ApiClient, RequestSerialized
 from {{packageName}}.api_response import ApiResponse
 from {{packageName}}.rest import RESTResponseType
@@ -29,19 +30,19 @@ class {{classname}}:
         self.api_client = api_client
 {{#operation}}
 
-
     @validate_call
     {{#asyncio}}async {{/asyncio}}def {{operationId}}{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
 {{>partial_api}}
-        response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        {{#asyncio}}await {{/asyncio}}response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
+        with allure.step("{{httpMethod}} {{{path}}}"):
+            response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
+                *_param,
+                _request_timeout=_request_timeout
+            )
+            {{#asyncio}}await {{/asyncio}}response_data.read()
+            return self.api_client.response_deserialize(
+                response_data=response_data,
+                response_types_map=_response_types_map,
+            ).data
 
 
     @validate_call
