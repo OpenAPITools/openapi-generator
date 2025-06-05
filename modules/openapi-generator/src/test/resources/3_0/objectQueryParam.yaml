@@ -39,6 +39,41 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/Page'
+        - in: query
+          name: deep
+          required: true
+          schema:
+            type: object
+            required:
+              - foo
+              - bar
+            properties:
+              foo:
+                type: object
+                required:
+                  - baz
+                properties:
+                  baz:
+                    type: integer
+                    format: int32
+              bar:
+                type: integer
+                format: int32
+        - in: query
+          name: notRequiredDeep
+          required: false
+          schema:
+            type: object
+            properties:
+              foo:
+                type: object
+                properties:
+                  baz:
+                    type: integer
+                    format: int32
+              bar:
+                type: integer
+                format: int32
       responses:
         '200':
           description: OK
