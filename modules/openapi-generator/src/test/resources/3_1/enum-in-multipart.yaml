@@ -1,0 +1,105 @@
+openapi: 3.1.0
+info:
+  description: API
+  title: API
+  version: 1.0.0
+servers:
+- description: "Localhost, used when testing"
+  url: http://localhost:8080
+security:
+- basicAuth: []
+paths:
+  /messages:
+    post:
+      description: Creates a new message
+      x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
+      operationId: CreateMessage
+      requestBody:
+        $ref: "#/components/requestBodies/CreateMessageBody"
+      responses:
+        "201":
+          $ref: "#/components/responses/MessageCreatedResponse"
+      summary: Creates a new message
+      tags:
+      - BAS
+components:
+  parameters:
+    messageId:
+      description: The identifier the message
+      explode: false
+      in: path
+      name: messageId
+      required: true
+      schema:
+        format: uuid
+        type: string
+      style: simple
+  requestBodies:
+    CreateMessageBody:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/CreateMessage_request"
+      required: true
+  responses:
+    MessageCreatedResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/inline_object"
+      description: The message was created.
+  schemas:
+    DataDirection:
+      description: The direction a message travels
+      enum:
+      - INGOING
+      - OUTGOING
+      type: string
+    DataChannel:
+      description: The transport-channel
+      enum:
+      - BIKE
+      - CAR
+      - BUS
+      - PLANE
+      type: string
+    messageId:
+      description: The messageID
+      format: uuid
+      type: string
+    CreateMessage_request:
+      properties:
+        fileContent:
+          description: The message payload
+          format: binary
+          type: string
+        idempotencyKey:
+          type: string
+        dataDirection:
+          $ref: "#/components/schemas/DataDirection"
+        dataChannel:
+          $ref: "#/components/schemas/DataChannel"
+      required:
+      - dataChannel
+      - dataDirection
+      - fileContent
+      - fileType
+      - idempotencyKey
+      type: object
+    inline_object:
+      example:
+        messageId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        messageId:
+          description: The messageID
+          format: uuid
+          type: string
+      required:
+      - messageId
+  securitySchemes:
+    basicAuth:
+      scheme: basic
+      type: http
+
