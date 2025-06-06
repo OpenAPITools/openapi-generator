@@ -210,6 +210,13 @@ Route::POST('/v2/pet', [\OpenAPI\Server\Http\Controllers\PetController::class, '
 Route::DELETE('/v2/pet/{petId}', [\OpenAPI\Server\Http\Controllers\PetController::class, 'deletePet'])->name('pet.delete.pet');
 
 /**
+ * POST downloadFile
+ * Summary: downloads an image
+ * Notes: 
+ */
+Route::POST('/v2/pet/{petId}/downloadImage', [\OpenAPI\Server\Http\Controllers\PetController::class, 'downloadFile'])->name('pet.download.file');
+
+/**
  * GET findPetsByStatus
  * Summary: Finds Pets by status
  * Notes: Multiple status values can be provided with comma separated strings

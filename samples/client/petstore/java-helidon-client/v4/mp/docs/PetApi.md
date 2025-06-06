@@ -6,6 +6,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 |------------- | ------------- | -------------|
 | [**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store |
 | [**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**downloadFile**](PetApi.md#downloadFile) | **POST** /pet/{petId}/downloadImage | downloads an image |
 | [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status |
 | [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags |
 | [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID |
@@ -87,6 +88,41 @@ Deletes a pet
 |-------------|-------------|------------------|
 | **200** | Successful operation |  -  |
 | **400** | Invalid pet value |  -  |
+
+
+## downloadFile
+
+> File downloadFile(petId)
+
+downloads an image
+
+
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to update | |
+
+### Return type
+
+[**File**](File.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/zip
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 
 
 ## findPetsByStatus

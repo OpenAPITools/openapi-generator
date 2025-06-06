@@ -311,6 +311,33 @@ paths:
                   description: file to upload
                   type: string
                   format: binary
+  '/pet/{petId}/downloadImage':
+    post:
+      tags:
+        - pet
+      summary: downloads an image
+      description: ''
+      operationId: downloadFile
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
   /store/inventory:
     get:
       tags:

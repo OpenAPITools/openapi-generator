@@ -6,6 +6,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 |------------- | ------------- | -------------|
 | [**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store |
 | [**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**downloadFile**](PetApi.md#downloadFile) | **POST** /pet/{petId}/downloadImage | downloads an image |
 | [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status |
 | [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags |
 | [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID |
@@ -158,6 +159,77 @@ null (empty response body)
 |-------------|-------------|------------------|
 | **200** | Successful operation |  -  |
 | **400** | Invalid pet value |  -  |
+
+
+## downloadFile
+
+> File downloadFile(petId)
+
+downloads an image
+
+
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.PetApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure OAuth2 access token for authorization: petstore_auth
+        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
+        PetApi apiInstance = new PetApi(defaultClient);
+        Long petId = 56L; // Long | ID of pet to update
+        try {
+            File result = apiInstance.downloadFile(petId);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#downloadFile");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to update | |
+
+### Return type
+
+[**File**](File.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/zip
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 
 
 ## findPetsByStatus

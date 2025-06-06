@@ -6,6 +6,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | ------ | ------------ | ----------- |
 | [**add_pet**](PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store |
 | [**delete_pet**](PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**download_file**](PetApi.md#download_file) | **POST** /pet/{petId}/downloadImage | downloads an image |
 | [**find_pets_by_status**](PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status |
 | [**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags |
 | [**get_pet_by_id**](PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID |
@@ -153,6 +154,75 @@ nil (empty response body)
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
+
+## download_file
+
+> File download_file(pet_id)
+
+downloads an image
+
+
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = 'YOUR ACCESS TOKEN'
+end
+
+api_instance = Petstore::PetApi.new
+pet_id = 789 # Integer | ID of pet to update
+
+begin
+  # downloads an image
+  result = api_instance.download_file(pet_id)
+  p result
+rescue Petstore::ApiError => e
+  puts "Error when calling PetApi->download_file: #{e}"
+end
+```
+
+#### Using the download_file_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(File, Integer, Hash)> download_file_with_http_info(pet_id)
+
+```ruby
+begin
+  # downloads an image
+  data, status_code, headers = api_instance.download_file_with_http_info(pet_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => File
+rescue Petstore::ApiError => e
+  puts "Error when calling PetApi->download_file_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet_id** | **Integer** | ID of pet to update |  |
+
+### Return type
+
+**File**
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/zip
 
 
 ## find_pets_by_status

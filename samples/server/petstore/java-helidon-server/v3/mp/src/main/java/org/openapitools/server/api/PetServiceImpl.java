@@ -42,6 +42,14 @@ public class PetServiceImpl implements PetService {
     public void deletePet(@PathParam("petId") Long petId,@HeaderParam("api_key")  String apiKey) {
     }
 
+    @POST
+    @Path("/pet/{petId}/downloadImage")
+    @Produces({ "application/zip" })
+    public File downloadFile(@PathParam("petId") Long petId) {
+        File result = null; // Replace with correct business logic.
+        return result;
+    }
+
     @GET
     @Path("/pet/findByStatus")
     @Produces({ "application/xml", "application/json" })

@@ -43,6 +43,13 @@ public class PetServiceImpl extends PetService {
     }
 
     @Override
+    protected void handleDownloadFile(ServerRequest request, ServerResponse response, 
+                Long petId) {
+
+        response.status(Status.NOT_IMPLEMENTED_501).send();
+    }
+
+    @Override
     protected void handleFindPetsByStatus(ServerRequest request, ServerResponse response, 
                 List<String> status) {
 

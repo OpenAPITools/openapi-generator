@@ -104,6 +104,23 @@ public class PetApi {
         return Response.ok().entity("magic!").build();
     }
 
+    @POST
+    @Path("/{petId}/downloadImage")
+    @Produces({ "application/zip" })
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "petstore_auth", scopes = {  "write:pets",  "read:pets"  })
+    })
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "downloadFile", summary = "downloads an image", description = "")
+    @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="pet")
+    @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = { 
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/zip", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = File.class))
+            })
+        })
+    public Response downloadFile(@PathParam("petId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet to update") Long petId) {
+        return Response.ok().entity("magic!").build();
+    }
+
     @GET
     @Path("/findByStatus")
     @Produces({ "application/xml", "application/json" })

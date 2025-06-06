@@ -144,6 +144,54 @@ public class PetApiImpl implements PetApi {
         apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
+    * downloads an image
+    * 
+        * @param petId ID of pet to update (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void downloadFile(Long petId, Handler<AsyncResult<AsyncFile>> resultHandler) {
+        downloadFile(petId, null, resultHandler);
+    }
+
+    /**
+    * downloads an image
+    * 
+    * @param petId ID of pet to update (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void downloadFile(Long petId, ApiClient.AuthInfo authInfo, Handler<AsyncResult<AsyncFile>> resultHandler) {
+        Object localVarBody = null;
+        
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'petId' when calling downloadFile"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/pet/{petId}/downloadImage".replaceAll("\\{" + "petId" + "\\}", encodeParameter(petId.toString()));
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = { "application/zip" };
+        String[] localVarContentTypes = {  };
+        String[] localVarAuthNames = new String[] { "petstore_auth" };
+        TypeReference<AsyncFile> localVarReturnType = new TypeReference<AsyncFile>() {};
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
+    }
+    /**
     * Finds Pets by status
     * Multiple status values can be provided with comma separated strings
         * @param status Status values that need to be considered for filter (required)

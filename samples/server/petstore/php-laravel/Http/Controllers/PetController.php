@@ -140,6 +140,50 @@ class PetController extends Controller
         return response()->abort(500);
     }
     /**
+     * Operation downloadFile
+     *
+     * downloads an image.
+     *
+     */
+    public function downloadFile(Request $request, int $petId): JsonResponse
+    {
+        $validator = Validator::make(
+            array_merge(
+                [
+                    'petId' => $petId,
+                ],
+                $request->all(),
+            ),
+            [
+                'petId' => [
+                    'required',
+                    'integer',
+                ],
+            ],
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+
+        try {
+            $apiResult = $this->api->downloadFile($petId);
+        } catch (\Exception $exception) {
+            // This shouldn't happen
+            report($exception);
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+
+        if ($apiResult instanceof \Illuminate\Http\UploadedFile) {
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
+        }
+
+
+        // This shouldn't happen
+        return response()->abort(500);
+    }
+    /**
      * Operation findPetsByStatus
      *
      * Finds Pets by status.
