@@ -17,7 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -46,6 +48,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -98,6 +102,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_SEALED = "useSealed";
     public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
+    public static final String USE_API_COMPOSED_ANNOTATION = "useApiComposedAnnotation";
 
     @Getter
     public enum RequestMappingMode {
@@ -157,6 +162,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean optionalAcceptNullable = true;
     @Getter @Setter
     protected boolean useSpringBuiltInValidation = false;
+    @Getter @Setter
+    protected boolean useApiComposedAnnotation = true;
 
     public SpringCodegen() {
         super();
@@ -224,6 +231,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BUILT_IN_VALIDATION,
                 "Disable `@Validated` at the class level when using built-in validation.",
                 useSpringBuiltInValidation));
+        cliOptions.add(CliOption.newBoolean(USE_API_COMPOSED_ANNOTATION,
+                "Use @<method>Mapping instead of @RequestMapping(method = RequestMethod.<method>) when generating the API interfaces. Defaults to true",
+                useApiComposedAnnotation));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION,
                 "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(USE_SEALED,
@@ -435,6 +445,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(USE_RESPONSE_ENTITY, this::setUseResponseEntity);
         convertPropertyToBooleanAndWriteBack(OPTIONAL_ACCEPT_NULLABLE, this::setOptionalAcceptNullable);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
+        convertPropertyToBooleanAndWriteBack(USE_API_COMPOSED_ANNOTATION, this::setUseApiComposedAnnotation);
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
@@ -1196,4 +1207,21 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         return extensions;
     }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas().put("composedannotation", new ComposedRequestMappingAnnotationLambda());
+    }
+
+    public static class ComposedRequestMappingAnnotationLambda implements Mustache.Lambda {
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            String text = fragment.execute();
+            if(text == null || text.isEmpty()) return;
+            writer.write(String.format("@%sMapping(",text.substring(0,1).toUpperCase()+text.substring(1).toLowerCase()));
+        }
+    }
+
+
 }

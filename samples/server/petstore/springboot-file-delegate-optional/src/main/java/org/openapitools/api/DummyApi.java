@@ -53,8 +53,7 @@ public interface DummyApi {
             @ApiResponse(responseCode = "200", description = "successful operation")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/dummy",
         consumes = { "application/octet-stream" }
     )
