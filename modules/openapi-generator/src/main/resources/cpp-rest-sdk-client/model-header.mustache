@@ -136,14 +136,14 @@ public:
         std::map<e{{classname}},utility::string_t> enumToStrMap = {
         {{#allowableValues}}
         {{#enumVars}}
-        { e{{classname}}::{{{name}}}, "{{{name}}}" }{{^-last}},{{/-last}}
+        { e{{classname}}::{{{name}}}, _XPLATSTR("{{{name}}}") }{{^-last}},{{/-last}}
         {{/enumVars}}
         {{/allowableValues}}
 };
         std::map<utility::string_t,e{{classname}}> strToEnumMap = {
         {{#allowableValues}}
         {{#enumVars}}
-        { "{{{name}}}", e{{classname}}::{{{name}}} }{{^-last}},{{/-last}}
+        { _XPLATSTR("{{{name}}}"), e{{classname}}::{{{name}}} }{{^-last}},{{/-last}}
         {{/enumVars}}
         {{/allowableValues}}
 };
