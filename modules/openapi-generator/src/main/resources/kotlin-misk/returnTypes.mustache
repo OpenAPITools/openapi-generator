@@ -1,1 +1,1 @@
-{{#isMap}}Map<String, {{{returnType}}}>{{/isMap}}{{#isArray}}{{{returnContainer}}}<{{{returnType}}}>{{/isArray}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}
+{{#isMap}}Map<String, {{{returnType}}}>{{/isMap}}{{#isArray}}{{{returnContainer}}}<{{{returnType}}}>{{/isArray}}{{^returnContainer}}{{#isFile}}Response<ByteString>{{/isFile}}{{^isFile}}{{{returnType}}}{{/isFile}}{{/returnContainer}}
