@@ -54,7 +54,7 @@ class UserApiAction @Inject constructor(
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 2.0)
     @Suppress("unused")
     fun createUsersWithArrayInput(
-        @Valid @RequestBody user: kotlin.List<User>
+        @Valid @RequestBody user: kotlin.collections.List<User>
     ): Response<Unit> {
         TODO()
     }
@@ -65,7 +65,7 @@ class UserApiAction @Inject constructor(
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 2.0)
     @Suppress("unused")
     fun createUsersWithListInput(
-        @Valid @RequestBody user: kotlin.List<User>
+        @Valid @RequestBody user: kotlin.collections.List<User>
     ): Response<Unit> {
         TODO()
     }
