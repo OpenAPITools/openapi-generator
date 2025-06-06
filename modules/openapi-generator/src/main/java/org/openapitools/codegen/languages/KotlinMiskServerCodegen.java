@@ -172,7 +172,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         artifactId = "openapi-kotlin-misk-server";
         artifactVersion = apiVersion;
 
-        typeMapping.put("File", "Response<ByteString>");
+        typeMapping.put("array", "kotlin.List");
 
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);

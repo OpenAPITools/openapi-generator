@@ -52,7 +52,7 @@ class UserApiAction @Inject constructor(
     @RequestContentType(MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
     fun createUsersWithArrayInput(
-        @Valid @RequestBody user: kotlin.Array<User>
+        @Valid @RequestBody user: kotlin.List<User>
     ): Response<Unit> {
         TODO()
     }
@@ -62,7 +62,7 @@ class UserApiAction @Inject constructor(
     @RequestContentType(MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
     fun createUsersWithListInput(
-        @Valid @RequestBody user: kotlin.Array<User>
+        @Valid @RequestBody user: kotlin.List<User>
     ): Response<Unit> {
         TODO()
     }

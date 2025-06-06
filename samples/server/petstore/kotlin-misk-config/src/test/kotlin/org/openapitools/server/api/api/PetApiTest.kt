@@ -47,7 +47,7 @@ internal class PetApiTest {
     @Test
     fun `should handle findPetsByStatus`() {
         val status = TODO()
-        val response: kotlin.Array<Pet> = petApi.findPetsByStatus(status)
+        val response: kotlin.List<Pet> = petApi.findPetsByStatus(status)
     }
 
     /**
@@ -56,7 +56,7 @@ internal class PetApiTest {
     @Test
     fun `should handle findPetsByTags`() {
         val tags = TODO()
-        val response: kotlin.Array<Pet> = petApi.findPetsByTags(tags)
+        val response: kotlin.List<Pet> = petApi.findPetsByTags(tags)
     }
 
     /**
