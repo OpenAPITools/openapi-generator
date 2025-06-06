@@ -651,7 +651,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testEnumParameters**
-> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString)
+> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble)
 
 To test enum parameters
 
@@ -671,9 +671,11 @@ final double enumQueryDouble = 1.2; // double | Query parameter enum test (doubl
 final List<ModelEnumClass> enumQueryModelArray = ; // List<ModelEnumClass> | 
 final List<String> enumFormStringArray = ; // List<String> | Form parameter enum test (string array)
 final String enumFormString = enumFormString_example; // String | Form parameter enum test (string)
+final int enumFormInteger = 56; // int | Form parameter enum test (integer)
+final num enumFormDouble = 8.14; // num | Form parameter enum test (double)
 
 try {
-    api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+    api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
 } catch on DioException (e) {
     print('Exception when calling FakeApi->testEnumParameters: $e\n');
 }
@@ -692,6 +694,8 @@ Name | Type | Description  | Notes
  **enumQueryModelArray** | [**List&lt;ModelEnumClass&gt;**](ModelEnumClass.md)|  | [optional] 
  **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to '$']
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to '-efg']
+ **enumFormInteger** | **int**| Form parameter enum test (integer) | [optional] [default to 1]
+ **enumFormDouble** | **num**| Form parameter enum test (double) | [optional] [default to 1.1]
 
 ### Return type
 

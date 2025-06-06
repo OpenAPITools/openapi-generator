@@ -56,13 +56,13 @@ public class BigCat extends Cat {
    */
   @JsonAdapter(KindEnum.Adapter.class)
   public enum KindEnum {
-    LIONS("lions"),
+    LIONS(String.valueOf("lions")),
     
-    TIGERS("tigers"),
+    TIGERS(String.valueOf("tigers")),
     
-    LEOPARDS("leopards"),
+    LEOPARDS(String.valueOf("leopards")),
     
-    JAGUARS("jaguars");
+    JAGUARS(String.valueOf("jaguars"));
 
     private String value;
 

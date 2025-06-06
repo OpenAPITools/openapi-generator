@@ -1436,8 +1436,10 @@ components:
       type: string
     Order:
       example:
+        OrderStatus: "{}"
         petId: 6
         quantity: 1
+        paymentMethod: 1
         id: 0
         shipDate: 2000-01-23T04:56:07.000+00:00
         complete: false
@@ -1465,6 +1467,25 @@ components:
         complete:
           default: false
           type: boolean
+        paymentMethod:
+          default: 1
+          description: Various payment methods
+          enum:
+          - 1
+          - 2
+          example: 1
+          format: int32
+          type: number
+          x-enum-description:
+          - Paypal
+          - Creditcard
+        OrderStatus:
+          additionalProperties: false
+          description: Order status
+          enum:
+          - PENDING
+          - PROCESSING
+          type: object
       type: object
       xml:
         name: Order
@@ -2217,6 +2238,23 @@ components:
           - -efg
           - (xyz)
           type: string
+        enum_form_integer:
+          default: 1
+          description: Form parameter enum test (integer)
+          enum:
+          - 1
+          - -1
+          - 0
+          type: integer
+        enum_form_double:
+          default: 1.1
+          description: Form parameter enum test (double)
+          enum:
+          - 1.1
+          - -1.1
+          - 0.1
+          - 0.0
+          type: number
       type: object
     testEndpointParameters_request:
       properties:

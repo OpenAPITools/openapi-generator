@@ -10,6 +10,8 @@
 | **ship_date** | **Time** |  | [optional] |
 | **status** | **String** | Order Status | [optional] |
 | **complete** | **Boolean** |  | [optional][default to false] |
+| **payment_method** | **Float** | Various payment methods | [optional][default to PAYMENT_METHOD::N1] |
+| **order_status** | **Object** | Order status | [optional] |
 
 ## Example
 
@@ -22,7 +24,9 @@ instance = Petstore::Order.new(
   quantity: null,
   ship_date: null,
   status: null,
-  complete: null
+  complete: null,
+  payment_method: 1,
+  order_status: null
 )
 ```
 
