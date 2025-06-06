@@ -125,9 +125,11 @@ import kotlinx.serialization.encoding.*
 {{/hasBodyParam}}
 {{#isArray}}
 {{>serial_wrapper_response_list}}
+
 {{/isArray}}
 {{#isMap}}
 {{>serial_wrapper_response_map}}
+
 {{/isMap}}
 
     {{/operation}}

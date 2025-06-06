@@ -3,12 +3,14 @@
 
         // Consumes multipart/form body
 {{>client-request-body-multipart-form}}
+
   {{/x-consumes-multipart-form}}
   {{#x-consumes-multipart-related}}
 
         // Consumes multipart/related body
     {{#formParams}}
 {{>generate-multipart-related}}
+
     {{/formParams}}
 
         let header = "multipart/related";

@@ -151,7 +151,7 @@ void {{vendorExtensions.x-codegen-resource-name}}Resource::defaultSessionClose(c
 void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session)
 {
     {{#lambda.indented}}
-    {{>api-source-HandlerBody}}
+    {{>api-source-HandlerBody}}{{! prevent indent}}
     {{/lambda.indented}}
 
 }
@@ -160,7 +160,7 @@ void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}
 // x-extension
 void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session) {
     {{#lambda.indented}}
-    {{>api-source-HandlerBody}}
+    {{>api-source-HandlerBody}}{{! prevent indent}}
     {{/lambda.indented}}
 
 }
