@@ -1,0 +1,8 @@
+generatorName: php-laravel
+outputDir: samples/server/petstore/php-laravel-issue-21334
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue21334.yaml
+templateDir: modules/openapi-generator/src/main/resources/php-laravel
+gitUserId: openapitools
+gitRepoId: petstore
+additionalProperties:
+  variableNamingConvention: "original"
