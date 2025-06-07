@@ -23,8 +23,7 @@ const std::string UserApi::base = "/v2";
 
 UserApi::UserApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : ApiBase(rtr)
-{
-}
+{}
 
 void UserApi::init() {
     setupRoutes();
@@ -93,7 +92,22 @@ void UserApi::create_user_handler(const Pistache::Rest::Request &request, Pistac
     }
 
     try {
-        this->create_user(user, response);
+
+
+    #ifndef HTTP_BASIC_AUTH_DEFINED
+    #define HTTP_BASIC_AUTH_DEFINED 0
+    #endif
+    #ifndef HTTP_BEARER_AUTH_DEFINED
+    #define HTTP_BEARER_AUTH_DEFINED 0
+    #endif
+
+
+
+    
+
+        
+
+    this->create_user(user, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -105,6 +119,17 @@ void UserApi::create_user_handler(const Pistache::Rest::Request &request, Pistac
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/user" 
+    static_assert(HTTP_BASIC_AUTH_DEFINED + HTTP_BEARER_AUTH_DEFINED < 2, "Path '" REST_PATH "' has more than one security scheme specified, and the Pistache server generator does not support that." );
+#undef REST_PATH
+
+    #ifdef HTTP_BEARER_AUTH_DEFINED
+    #undef HTTP_BEARER_AUTH_DEFINED
+    #endif
+    #ifdef HTTP_BASIC_AUTH_DEFINED
+    #undef HTTP_BASIC_AUTH_DEFINED
+    #endif
 
 }
 void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
@@ -124,7 +149,22 @@ void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Reques
     }
 
     try {
-        this->create_users_with_array_input(user, response);
+
+
+    #ifndef HTTP_BASIC_AUTH_DEFINED
+    #define HTTP_BASIC_AUTH_DEFINED 0
+    #endif
+    #ifndef HTTP_BEARER_AUTH_DEFINED
+    #define HTTP_BEARER_AUTH_DEFINED 0
+    #endif
+
+
+
+    
+
+        
+
+    this->create_users_with_array_input(user, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -136,6 +176,17 @@ void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Reques
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/user/createWithArray" 
+    static_assert(HTTP_BASIC_AUTH_DEFINED + HTTP_BEARER_AUTH_DEFINED < 2, "Path '" REST_PATH "' has more than one security scheme specified, and the Pistache server generator does not support that." );
+#undef REST_PATH
+
+    #ifdef HTTP_BEARER_AUTH_DEFINED
+    #undef HTTP_BEARER_AUTH_DEFINED
+    #endif
+    #ifdef HTTP_BASIC_AUTH_DEFINED
+    #undef HTTP_BASIC_AUTH_DEFINED
+    #endif
 
 }
 void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
@@ -155,7 +206,22 @@ void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request
     }
 
     try {
-        this->create_users_with_list_input(user, response);
+
+
+    #ifndef HTTP_BASIC_AUTH_DEFINED
+    #define HTTP_BASIC_AUTH_DEFINED 0
+    #endif
+    #ifndef HTTP_BEARER_AUTH_DEFINED
+    #define HTTP_BEARER_AUTH_DEFINED 0
+    #endif
+
+
+
+    
+
+        
+
+    this->create_users_with_list_input(user, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -167,6 +233,17 @@ void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/user/createWithList" 
+    static_assert(HTTP_BASIC_AUTH_DEFINED + HTTP_BEARER_AUTH_DEFINED < 2, "Path '" REST_PATH "' has more than one security scheme specified, and the Pistache server generator does not support that." );
+#undef REST_PATH
+
+    #ifdef HTTP_BEARER_AUTH_DEFINED
+    #undef HTTP_BEARER_AUTH_DEFINED
+    #endif
+    #ifdef HTTP_BASIC_AUTH_DEFINED
+    #undef HTTP_BASIC_AUTH_DEFINED
+    #endif
 
 }
 void UserApi::delete_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
@@ -176,7 +253,21 @@ void UserApi::delete_user_handler(const Pistache::Rest::Request &request, Pistac
     auto username = request.param(":username").as<std::string>();
     
     try {
-        this->delete_user(username, response);
+
+    #ifndef HTTP_BASIC_AUTH_DEFINED
+    #define HTTP_BASIC_AUTH_DEFINED 0
+    #endif
+    #ifndef HTTP_BEARER_AUTH_DEFINED
+    #define HTTP_BEARER_AUTH_DEFINED 0
+    #endif
+
+
+
+    
+
+        
+
+    this->delete_user(username, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -188,6 +279,17 @@ void UserApi::delete_user_handler(const Pistache::Rest::Request &request, Pistac
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/user/:username" 
+    static_assert(HTTP_BASIC_AUTH_DEFINED + HTTP_BEARER_AUTH_DEFINED < 2, "Path '" REST_PATH "' has more than one security scheme specified, and the Pistache server generator does not support that." );
+#undef REST_PATH
+
+    #ifdef HTTP_BEARER_AUTH_DEFINED
+    #undef HTTP_BEARER_AUTH_DEFINED
+    #endif
+    #ifdef HTTP_BASIC_AUTH_DEFINED
+    #undef HTTP_BASIC_AUTH_DEFINED
+    #endif
 
 }
 void UserApi::get_user_by_name_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
@@ -197,7 +299,15 @@ void UserApi::get_user_by_name_handler(const Pistache::Rest::Request &request, P
     auto username = request.param(":username").as<std::string>();
     
     try {
-        this->get_user_by_name(username, response);
+
+
+
+
+    
+
+        
+
+    this->get_user_by_name(username, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -209,6 +319,10 @@ void UserApi::get_user_by_name_handler(const Pistache::Rest::Request &request, P
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/user/:username" 
+#undef REST_PATH
+
 
 }
 void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
@@ -234,7 +348,15 @@ void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistach
     }
     
     try {
-        this->login_user(username, password, response);
+
+
+
+
+    
+
+        
+
+    this->login_user(username, password, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -246,6 +368,10 @@ void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistach
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/user/login" 
+#undef REST_PATH
+
 
 }
 void UserApi::logout_user_handler(const Pistache::Rest::Request &, Pistache::Http::ResponseWriter response) {
@@ -253,7 +379,21 @@ void UserApi::logout_user_handler(const Pistache::Rest::Request &, Pistache::Htt
 
 
     try {
-        this->logout_user(response);
+
+    #ifndef HTTP_BASIC_AUTH_DEFINED
+    #define HTTP_BASIC_AUTH_DEFINED 0
+    #endif
+    #ifndef HTTP_BEARER_AUTH_DEFINED
+    #define HTTP_BEARER_AUTH_DEFINED 0
+    #endif
+
+
+
+    
+
+        
+
+    this->logout_user(response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -265,6 +405,17 @@ void UserApi::logout_user_handler(const Pistache::Rest::Request &, Pistache::Htt
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/user/logout" 
+    static_assert(HTTP_BASIC_AUTH_DEFINED + HTTP_BEARER_AUTH_DEFINED < 2, "Path '" REST_PATH "' has more than one security scheme specified, and the Pistache server generator does not support that." );
+#undef REST_PATH
+
+    #ifdef HTTP_BEARER_AUTH_DEFINED
+    #undef HTTP_BEARER_AUTH_DEFINED
+    #endif
+    #ifdef HTTP_BASIC_AUTH_DEFINED
+    #undef HTTP_BASIC_AUTH_DEFINED
+    #endif
 
 }
 void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
@@ -286,7 +437,22 @@ void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistac
     }
 
     try {
-        this->update_user(username, user, response);
+
+
+    #ifndef HTTP_BASIC_AUTH_DEFINED
+    #define HTTP_BASIC_AUTH_DEFINED 0
+    #endif
+    #ifndef HTTP_BEARER_AUTH_DEFINED
+    #define HTTP_BEARER_AUTH_DEFINED 0
+    #endif
+
+
+
+    
+
+        
+
+    this->update_user(username, user, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -298,6 +464,17 @@ void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistac
     } catch (std::exception &e) {
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
     }
+
+#define REST_PATH "/user/:username" 
+    static_assert(HTTP_BASIC_AUTH_DEFINED + HTTP_BEARER_AUTH_DEFINED < 2, "Path '" REST_PATH "' has more than one security scheme specified, and the Pistache server generator does not support that." );
+#undef REST_PATH
+
+    #ifdef HTTP_BEARER_AUTH_DEFINED
+    #undef HTTP_BEARER_AUTH_DEFINED
+    #endif
+    #ifdef HTTP_BASIC_AUTH_DEFINED
+    #undef HTTP_BASIC_AUTH_DEFINED
+    #endif
 
 }
 
