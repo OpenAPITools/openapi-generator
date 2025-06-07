@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
@@ -610,5 +611,27 @@ public class PythonClientCodegenTest {
         assertFileContains(initFilePath, "from openapi_client.models.pet import Pet as Pet");
         assertFileContains(initFilePath, "from openapi_client.models.tag import Tag as Tag");
         assertFileContains(initFilePath, "from openapi_client.models.user import User as User");
+    }
+
+    @Test(description = "tests NoProxyPyClient")
+    public void testNoProxyPyClient() throws Exception {
+
+        final String gen = "python";
+        final String spec = "src/test/resources/3_0/petstore.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(gen)
+                .setInputSpec(spec)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        for (String f : new String[] { "openapi_client/configuration.py", "openapi_client/rest.py" } ) {
+            TestUtils.ensureContainsFile(files, output, f);
+            Path p = output.toPath().resolve(f);
+            TestUtils.assertFileContains(p, "no_proxy");
+        }
     }
 }

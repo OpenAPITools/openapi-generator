@@ -13,9 +13,12 @@
 
 
 import io
+import ipaddress
 import json
 import re
 import ssl
+from urllib.parse import urlparse
+from urllib.request import proxy_bypass
 
 import urllib3
 
@@ -99,7 +102,7 @@ class RESTClientObject:
         # https pool manager
         self.pool_manager: urllib3.PoolManager
 
-        if configuration.proxy:
+        if configuration.proxy and not should_bypass_proxies(configuration.host, no_proxy=configuration.no_proxy or ''):
             if is_socks_proxy_url(configuration.proxy):
                 from urllib3.contrib.socks import SOCKSProxyManager
                 pool_args["proxy_url"] = configuration.proxy
@@ -256,3 +259,54 @@ class RESTClientObject:
             raise ApiException(status=0, reason=msg)
 
         return RESTResponse(r)
+
+def is_ipv4(target):
+    """ Test if IPv4 address or not
+    """
+    try:
+       chk = ipaddress.IPv4Address(target)
+       return True
+    except ipaddress.AddressValueError:
+       return False
+
+def in_ipv4net(target, net):
+    """ Test if target belongs to given IPv4 network
+    """
+    try:
+        nw = ipaddress.IPv4Network(net)
+        ip = ipaddress.IPv4Address(target)
+        if ip in nw:
+            return True
+        return False
+    except ipaddress.AddressValueError:
+        return False
+    except ipaddress.NetmaskValueError:
+        return False
+
+def should_bypass_proxies(url, no_proxy=None):
+    """ Yet another requests.should_bypass_proxies
+    Test if proxies should not be used for a particular url.
+    """
+
+    parsed = urlparse(url)
+
+    # special cases
+    if parsed.hostname in [None, '']:
+        return True
+
+    # special cases
+    if no_proxy in [None , '']:
+        return False
+    if no_proxy == '*':
+        return True
+
+    no_proxy = no_proxy.lower().replace(' ','');
+    entries = (
+        host for host in no_proxy.split(',') if host
+    )
+
+    if is_ipv4(parsed.hostname):
+        for item in entries:
+           if in_ipv4net(parsed.hostname, item):
+               return True
+    return proxy_bypass(parsed.hostname, {'no': no_proxy} )
