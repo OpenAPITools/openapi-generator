@@ -68,14 +68,14 @@ public class DataQuery extends Query {
    * @return suffix
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonProperty(value = JSON_PROPERTY_SUFFIX, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSuffix() {
     return suffix;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonProperty(value = JSON_PROPERTY_SUFFIX, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSuffix(@javax.annotation.Nullable String suffix) {
     this.suffix = suffix;
@@ -92,14 +92,14 @@ public class DataQuery extends Query {
    * @return text
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getText() {
     return text;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setText(@javax.annotation.Nullable String text) {
     this.text = text;
@@ -116,14 +116,14 @@ public class DataQuery extends Query {
    * @return date
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Instant getDate() {
     return date;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDate(@javax.annotation.Nullable Instant date) {
     this.date = date;

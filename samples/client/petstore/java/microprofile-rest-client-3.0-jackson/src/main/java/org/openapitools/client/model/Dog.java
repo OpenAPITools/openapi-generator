@@ -48,7 +48,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
    **/
-  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonProperty(value = JSON_PROPERTY_BREED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBreed() {
     return breed;
@@ -57,7 +57,7 @@ public class Dog extends Animal {
   /**
    * Set breed
    */
-  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonProperty(value = JSON_PROPERTY_BREED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBreed(String breed) {
     this.breed = breed;
