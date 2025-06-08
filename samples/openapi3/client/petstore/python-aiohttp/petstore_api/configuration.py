@@ -375,6 +375,9 @@ conf = petstore_api.Configuration(
         self.proxy: Optional[str] = None
         """Proxy URL
         """
+        self.no_proxy: Optional[str] = None
+        """Hosts for which to bypass the proxy
+        """
         self.proxy_headers = None
         """Proxy headers
         """

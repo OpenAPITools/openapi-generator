@@ -17,6 +17,8 @@ import io
 import json
 import re
 import ssl
+from urllib.parse import urlparse
+from urllib.request import getproxies, proxy_bypass
 
 import urllib3
 
@@ -100,14 +102,23 @@ class RESTClientObject:
         # https pool manager
         self.pool_manager: urllib3.PoolManager
 
-        if configuration.proxy:
-            if is_socks_proxy_url(configuration.proxy):
+        parsed = urlparse(configuration.host)
+        proxy = getproxies().get(parsed.scheme) if configuration.proxy is None else configuration.proxy
+        if proxy:
+            if configuration.no_proxy is not None:
+                if _proxy_bypass(parsed.netloc, configuration.no_proxy):
+                    proxy = None
+            elif proxy_bypass(parsed.netloc):
+                proxy = None
+
+        if proxy:
+            if is_socks_proxy_url(proxy):
                 from urllib3.contrib.socks import SOCKSProxyManager
-                pool_args["proxy_url"] = configuration.proxy
+                pool_args["proxy_url"] = proxy
                 pool_args["headers"] = configuration.proxy_headers
                 self.pool_manager = SOCKSProxyManager(**pool_args)
             else:
-                pool_args["proxy_url"] = configuration.proxy
+                pool_args["proxy_url"] = proxy
                 pool_args["proxy_headers"] = configuration.proxy_headers
                 self.pool_manager = urllib3.ProxyManager(**pool_args)
         else:
@@ -257,3 +268,27 @@ class RESTClientObject:
             raise ApiException(status=0, reason=msg)
 
         return RESTResponse(r)
+
+# Adapted from urllib.request.proxy_bypass_environment
+def _proxy_bypass(netloc: str, no_proxy: str):
+    if no_proxy == '*':
+        return True
+
+    host = netloc.lower()
+    if match := re.match(r'(.*):([0-9]*)', host):
+        hostonly, _port = match.groups()
+    else:
+        hostonly = host
+
+    for name in no_proxy.split(','):
+        name = name.strip()
+        if name:
+            name = name.lstrip('.')
+            name = name.lower()
+            if hostonly == name or host == name:
+                return True
+            name = '.' + name
+            if hostonly.endswith(name) or host.endswith(name):
+                return True
+
+    return False
