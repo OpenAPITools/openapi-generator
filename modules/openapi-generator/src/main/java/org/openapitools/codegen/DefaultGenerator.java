@@ -660,14 +660,20 @@ public class DefaultGenerator implements Generator {
             LOGGER.info("Skipping generation of APIs.");
             return;
         }
-        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
         Set<String> apisToGenerate = null;
         String apiNames = GlobalSettings.getProperty(CodegenConstants.APIS);
         if (apiNames != null && !apiNames.isEmpty()) {
             apisToGenerate = new HashSet<>(Arrays.asList(apiNames.split(",")));
+            //first filter full paths
+            Set<String> fullPathsToGenerate = apisToGenerate.stream().filter(s->s.contains("/")).collect(Collectors.toSet());
+            Set<String> filteredPathsKeysToRemove = this.openAPI.getPaths().keySet().stream().filter(k->!fullPathsToGenerate.contains(k)).collect(Collectors.toSet());
+            filteredPathsKeysToRemove.forEach(p->this.openAPI.getPaths().remove(p));
+            apisToGenerate = apisToGenerate.stream().filter(s->!s.contains("/")).collect(Collectors.toSet());
         }
+        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
         if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
             Map<String, List<CodegenOperation>> updatedPaths = new TreeMap<>();
+            //second we filter for basename
             for (String m : paths.keySet()) {
                 if (apisToGenerate.contains(m)) {
                     updatedPaths.put(m, paths.get(m));
