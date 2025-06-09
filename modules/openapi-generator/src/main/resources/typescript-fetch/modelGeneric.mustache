@@ -13,7 +13,7 @@ import {
 {{/hasImports}}
 {{#discriminator}}
 {{#discriminator.mappedModels}}
-import { {{modelName}}, {{modelName}}FromJSONTyped, {{modelName}}ToJSON, {{modelName}}ToJSONTyped } from './{{modelName}}{{importFileExtension}}';
+import { type {{modelName}}, {{modelName}}FromJSONTyped, {{modelName}}ToJSON, {{modelName}}ToJSONTyped } from './{{modelName}}{{importFileExtension}}';
 {{/discriminator.mappedModels}}
 {{/discriminator}}
 {{>modelGenericInterfaces}}
