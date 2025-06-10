@@ -11,7 +11,6 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addPet**](PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 [**deletePet**](PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
-[**downloadFile**](PetApi.md#downloadfile) | **POST** /pet/{petId}/downloadImage | downloads an image
 [**findPetsByStatus**](PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**findPetsByTags**](PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
 [**getPetById**](PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
@@ -108,51 +107,6 @@ void (empty response body)
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **downloadFile**
-> MultipartFile downloadFile(petId)
-
-downloads an image
-
-
-
-### Example
-```dart
-import 'package:openapi/api.dart';
-// TODO Configure OAuth2 access token for authorization: petstore_auth
-//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
-
-final api_instance = PetApi();
-final petId = 789; // int | ID of pet to update
-
-try {
-    final result = api_instance.downloadFile(petId);
-    print(result);
-} catch (e) {
-    print('Exception when calling PetApi->downloadFile: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to update | 
-
-### Return type
-
-[**MultipartFile**](MultipartFile.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/zip
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

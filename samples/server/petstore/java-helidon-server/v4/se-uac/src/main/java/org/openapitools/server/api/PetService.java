@@ -40,7 +40,6 @@ public abstract class PetService implements HttpService {
 
     protected AddPetOp addPetOp = createAddPetOp();
     protected DeletePetOp deletePetOp = createDeletePetOp();
-    protected DownloadFileOp downloadFileOp = createDownloadFileOp();
     protected FindPetsByStatusOp findPetsByStatusOp = createFindPetsByStatusOp();
     protected FindPetsByTagsOp findPetsByTagsOp = createFindPetsByTagsOp();
     protected GetPetByIdOp getPetByIdOp = createGetPetByIdOp();
@@ -58,7 +57,6 @@ public abstract class PetService implements HttpService {
     public void routing(HttpRules rules) {
         rules.post("/pet", this::addPet);
         rules.delete("/pet/{petId}", this::deletePet);
-        rules.post("/pet/{petId}/downloadImage", this::downloadFile);
         rules.get("/pet/findByStatus", this::findPetsByStatus);
         rules.get("/pet/findByTags", this::findPetsByTags);
         rules.get("/pet/{petId}", this::getPetById);
@@ -135,36 +133,6 @@ public abstract class PetService implements HttpService {
     protected abstract void handleDeletePet(ServerRequest request, ServerResponse response, 
                 Long petId, 
                 Optional<String> apiKey);
-
-    /**
-     * POST /pet/{petId}/downloadImage : downloads an image.
-     *
-     * @param request the server request
-     * @param response the server response
-     */
-    protected void downloadFile(ServerRequest request, ServerResponse response) { 
-
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
-
-        // Parameter: petId
-        Long petId = downloadFileOp.petId(request, validator);
-
-        validator.require("petId", petId);
-        validator.execute();
-
-        handleDownloadFile(request, response, 
-                    petId);
-    }
-
-    /**
-     * Handle POST /pet/{petId}/downloadImage : downloads an image.
-     *
-     * @param request the server request
-     * @param response the server response
-     * @param petId ID of pet to update 
-     */
-    protected abstract void handleDownloadFile(ServerRequest request, ServerResponse response, 
-                Long petId);
 
     /**
      * GET /pet/findByStatus : Finds Pets by status.
@@ -735,119 +703,6 @@ public abstract class PetService implements HttpService {
             void send(ServerResponse _serverResponse) {
                 _serverResponse.status(Status.BAD_REQUEST_400);
                 _serverResponse.send();
-            }
-        }
-    }
-
-    /**
-     * Returns a new instance of the class which handles parameters to and responses from the downloadFile operation.
-     * <p>
-     *     Developers can override this method if they extend the PetService class.
-     * </p>
-     *
-     * @return new DownloadFile
-     */
-    protected DownloadFileOp createDownloadFileOp() {
-        return new DownloadFileOp();
-    }
-
-    /**
-     * Helper elements for the {@code downloadFile} operation.
-     * <p>
-     * Also below are records for each response declared in the OpenAPI document, organized by response status.
-     * <p>
-     *     Once your code determines which (if any) declared response to send it can use the static {@code builder} method for
-     *     that specific result, passing the required elements of the response as parameters, and then assign any optional
-     *     response elements using the other builder methods.
-     * <p>
-     *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
-     *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
-     *     the response including any appropriate entity.
-     * </p>
-     */
-    public static class DownloadFileOp {
-
-        /**
-         * Prepares the petId parameter.
-         *
-         * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
-         * @param validator {@link org.openapitools.server.api.ValidatorUtils.Validator} for validating all parameters to the operation
-         * @return petId parameter value
-         */
-        protected Long petId(ServerRequest request, ValidatorUtils.Validator validator) {
-            return request.path()
-                .pathParameters()
-                .first("petId")
-                .asOptional()
-                .map(Long::valueOf)
-                .orElse(null);
-        }
-
-        /**
-         * Response for HTTP status code {@code 200}.
-        *
-         * @param response 
-         */
-        record Response200(InputStream response) {
-
-            /**
-             * Creates a response builder for the status {@code 200} response
-             * for the downloadFile operation; there are no required result values for this response.
-             *
-             * @return new builder for status 200
-             */
-            static Builder builder() {
-                return new Builder();
-            }
-
-            /**
-             * Builder for the Response200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
-
-                private InputStream response;
-                @Override
-                public Response200 build() {
-                    return new Response200(response);
-                }
-
-                /**
-                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
-                 * assigning the HTTP status, any response headers, and any response entity.
-                 * <p>
-                 *     Equivalent to {@snippet :
-                 *     build().send(_serverResponse);
-                 *     }
-                 * </p>
-                 *
-                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
-                 */
-                void send(ServerResponse _serverResponse) {
-                    build().send(_serverResponse);
-                }
-
-                /**
-                 * Sets the value for the optional return property {@code response}.
-                 * @param response 
-                 * @return updated result builder
-                 */
-                Builder response(InputStream response) {
-                    this.response = response;
-                    return this;
-                }
-            }
-
-            /**
-             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
-             * HTTP status, any response headers, and any response entity.
-             *
-             * @param _serverResponse the server response to which to apply these result values
-             */
-            void send(ServerResponse _serverResponse) {
-                _serverResponse.status(Status.OK_200);
-                if (response != null) { 
-                   _serverResponse.contentLength(response.transferTo(_serverResponse.outputStream()));
-                }                _serverResponse.send();
             }
         }
     }

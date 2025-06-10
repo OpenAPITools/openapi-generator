@@ -36,7 +36,6 @@ public interface PetService extends HttpService {
     default void routing(HttpRules rules) {
         rules.post("/pet", this::addPet);
         rules.delete("/pet/{petId}", this::deletePet);
-        rules.post("/pet/{petId}/downloadImage", this::downloadFile);
         rules.get("/pet/findByStatus", this::findPetsByStatus);
         rules.get("/pet/findByTags", this::findPetsByTags);
         rules.get("/pet/{petId}", this::getPetById);
@@ -61,13 +60,6 @@ public interface PetService extends HttpService {
      * @param response the server response
      */
     void deletePet(ServerRequest request, ServerResponse response);
-    /**
-     * POST /pet/{petId}/downloadImage : downloads an image.
-     *
-     * @param request the server request
-     * @param response the server response
-     */
-    void downloadFile(ServerRequest request, ServerResponse response);
     /**
      * GET /pet/findByStatus : Finds Pets by status.
      *

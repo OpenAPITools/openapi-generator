@@ -51,7 +51,6 @@ public class PetApiImpl implements PetApi {
 
   protected static final GenericType<Void> RESPONSE_TYPE_addPet = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_deletePet = ResponseType.create(Void.class);
-  protected static final GenericType<File> RESPONSE_TYPE_downloadFile = ResponseType.create(File.class);
   protected static final GenericType<List<Pet>> RESPONSE_TYPE_findPetsByStatus = ResponseType.create(List.class, Pet.class);
   protected static final GenericType<List<Pet>> RESPONSE_TYPE_findPetsByTags = ResponseType.create(List.class, Pet.class);
   protected static final GenericType<Pet> RESPONSE_TYPE_getPetById = ResponseType.create(Pet.class);
@@ -154,45 +153,6 @@ public class PetApiImpl implements PetApi {
   protected ApiResponse<Void> deletePetSubmit(WebClientRequestBuilder webClientRequestBuilder, Long petId, String apiKey) {
     Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit();
     return ApiResponse.create(RESPONSE_TYPE_deletePet, webClientResponse);
-  }
-
-  @Override
-  public ApiResponse<File> downloadFile(Long petId) {
-    Objects.requireNonNull(petId, "Required parameter 'petId' not specified");
-    WebClientRequestBuilder webClientRequestBuilder = downloadFileRequestBuilder(petId);
-    return downloadFileSubmit(webClientRequestBuilder, petId);
-  }
-
-  /**
-   * Creates a {@code WebClientRequestBuilder} for the downloadFile operation.
-   * Optional customization point for subclasses.
-   *
-   * @param petId ID of pet to update (required)
-   * @return WebClientRequestBuilder for downloadFile
-   */
-  protected WebClientRequestBuilder downloadFileRequestBuilder(Long petId) {
-    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
-            .method("POST");
-
-    String path = "/pet/{petId}/downloadImage"
-            .replace("{petId}", ApiClient.urlEncode(petId.toString()));
-    webClientRequestBuilder.path(path);
-    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
-
-    return webClientRequestBuilder;
-  }
-
-  /**
-   * Initiates the request for the downloadFile operation.
-   * Optional customization point for subclasses.
-   *
-   * @param webClientRequestBuilder the request builder to use for submitting the request
-   * @param petId ID of pet to update (required)
-   * @return {@code ApiResponse<File>} for the submitted request
-   */
-  protected ApiResponse<File> downloadFileSubmit(WebClientRequestBuilder webClientRequestBuilder, Long petId) {
-    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit();
-    return ApiResponse.create(RESPONSE_TYPE_downloadFile, webClientResponse);
   }
 
   @Override

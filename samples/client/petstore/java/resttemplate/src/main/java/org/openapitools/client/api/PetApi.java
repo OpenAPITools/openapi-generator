@@ -141,55 +141,6 @@ public class PetApi extends BaseApi {
         return apiClient.invokeAPI("/pet/{petId}", HttpMethod.DELETE, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
-     * downloads an image
-     * 
-     * <p><b>200</b> - successful operation
-     * @param petId ID of pet to update (required)
-     * @return File
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public File downloadFile(Long petId) throws RestClientException {
-        return downloadFileWithHttpInfo(petId).getBody();
-    }
-
-    /**
-     * downloads an image
-     * 
-     * <p><b>200</b> - successful operation
-     * @param petId ID of pet to update (required)
-     * @return ResponseEntity&lt;File&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public ResponseEntity<File> downloadFileWithHttpInfo(Long petId) throws RestClientException {
-        Object localVarPostBody = null;
-        
-        // verify the required parameter 'petId' is set
-        if (petId == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'petId' when calling downloadFile");
-        }
-        
-        // create path and map variables
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
-        uriVariables.put("petId", petId);
-
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
-
-        final String[] localVarAccepts = { 
-            "application/zip"
-         };
-        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {  };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[] { "petstore_auth" };
-
-        ParameterizedTypeReference<File> localReturnType = new ParameterizedTypeReference<File>() {};
-        return apiClient.invokeAPI("/pet/{petId}/downloadImage", HttpMethod.POST, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
-    }
-    /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * <p><b>200</b> - successful operation

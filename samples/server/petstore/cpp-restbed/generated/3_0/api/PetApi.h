@@ -210,68 +210,6 @@ private:
 };
 
 /// <summary>
-/// downloads an image
-/// </summary>
-/// <remarks>
-/// 
-/// </remarks>
-class  PetPetIdDownloadImageResource: public restbed::Resource
-{
-public:
-    PetPetIdDownloadImageResource(const std::string& context = "/v2");
-    virtual ~PetPetIdDownloadImageResource() = default;
-
-    PetPetIdDownloadImageResource(
-        const PetPetIdDownloadImageResource& other) = default; // copy constructor
-    PetPetIdDownloadImageResource(PetPetIdDownloadImageResource&& other) noexcept = default; // move constructor
-
-    PetPetIdDownloadImageResource& operator=(const PetPetIdDownloadImageResource& other) = default; // copy assignment
-    PetPetIdDownloadImageResource& operator=(PetPetIdDownloadImageResource&& other) noexcept = default; // move assignment
-
-    /////////////////////////////////////////////////////
-    // Set these to implement the server functionality //
-    /////////////////////////////////////////////////////
-    std::function<std::pair<int, std::string>(
-        int64_t & petId)> handler_POST_func =
-            [](int64_t &) -> std::pair<int, std::string>
-                { throw PetApiException(501, "Not implemented"); };
-
-
-protected:
-    //////////////////////////////////////////////////////////
-    // As an alternative to setting the `std::function`s    //
-    // override these to implement the server functionality //
-    //////////////////////////////////////////////////////////
-
-    virtual std::pair<int, std::string> handler_POST(
-        int64_t & petId);
-
-
-protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string extractBodyContent(const std::shared_ptr<restbed::Session>& session);
-    virtual std::string extractFormParamsFromBody(const std::string& paramName, const std::string& body);
-
-    virtual std::pair<int, std::string> handlePetApiException(const PetApiException& e);
-    virtual std::pair<int, std::string> handleStdException(const std::exception& e);
-    virtual std::pair<int, std::string> handleUnspecifiedException();
-
-    virtual void setResponseHeader(const std::shared_ptr<restbed::Session>& session,
-        const std::string& header);
-
-    virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
-    virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result);
-
-private:
-    void handler_POST_internal(const std::shared_ptr<restbed::Session> session);
-};
-
-/// <summary>
 /// Finds Pets by status
 /// </summary>
 /// <remarks>
@@ -523,7 +461,6 @@ private:
 
 using PetApiPetResource [[deprecated]] = PetApiResources::PetResource;
 using PetApiPetPetIdResource [[deprecated]] = PetApiResources::PetPetIdResource;
-using PetApiPetPetIdDownloadImageResource [[deprecated]] = PetApiResources::PetPetIdDownloadImageResource;
 using PetApiPetFindByStatusResource [[deprecated]] = PetApiResources::PetFindByStatusResource;
 using PetApiPetFindByTagsResource [[deprecated]] = PetApiResources::PetFindByTagsResource;
 using PetApiPetPetIdUploadImageResource [[deprecated]] = PetApiResources::PetPetIdUploadImageResource;
@@ -540,7 +477,6 @@ public:
 
     std::shared_ptr<PetApiResources::PetResource> getPetResource();
     std::shared_ptr<PetApiResources::PetPetIdResource> getPetPetIdResource();
-    std::shared_ptr<PetApiResources::PetPetIdDownloadImageResource> getPetPetIdDownloadImageResource();
     std::shared_ptr<PetApiResources::PetFindByStatusResource> getPetFindByStatusResource();
     std::shared_ptr<PetApiResources::PetFindByTagsResource> getPetFindByTagsResource();
     std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> getPetPetIdUploadImageResource();
@@ -548,7 +484,6 @@ public:
 
     void setResource(std::shared_ptr<PetApiResources::PetResource> resource);
     void setResource(std::shared_ptr<PetApiResources::PetPetIdResource> resource);
-    void setResource(std::shared_ptr<PetApiResources::PetPetIdDownloadImageResource> resource);
     void setResource(std::shared_ptr<PetApiResources::PetFindByStatusResource> resource);
     void setResource(std::shared_ptr<PetApiResources::PetFindByTagsResource> resource);
     void setResource(std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> resource);
@@ -557,8 +492,6 @@ public:
     virtual void setPetApiPetResource(std::shared_ptr<PetApiResources::PetResource> spPetApiPetResource);
     [[deprecated("use setResource()")]]
     virtual void setPetApiPetPetIdResource(std::shared_ptr<PetApiResources::PetPetIdResource> spPetApiPetPetIdResource);
-    [[deprecated("use setResource()")]]
-    virtual void setPetApiPetPetIdDownloadImageResource(std::shared_ptr<PetApiResources::PetPetIdDownloadImageResource> spPetApiPetPetIdDownloadImageResource);
     [[deprecated("use setResource()")]]
     virtual void setPetApiPetFindByStatusResource(std::shared_ptr<PetApiResources::PetFindByStatusResource> spPetApiPetFindByStatusResource);
     [[deprecated("use setResource()")]]
@@ -575,7 +508,6 @@ public:
 protected:
     std::shared_ptr<PetApiResources::PetResource> m_spPetResource;
     std::shared_ptr<PetApiResources::PetPetIdResource> m_spPetPetIdResource;
-    std::shared_ptr<PetApiResources::PetPetIdDownloadImageResource> m_spPetPetIdDownloadImageResource;
     std::shared_ptr<PetApiResources::PetFindByStatusResource> m_spPetFindByStatusResource;
     std::shared_ptr<PetApiResources::PetFindByTagsResource> m_spPetFindByTagsResource;
     std::shared_ptr<PetApiResources::PetPetIdUploadImageResource> m_spPetPetIdUploadImageResource;

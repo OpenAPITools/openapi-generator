@@ -351,37 +351,6 @@ paths:
       x-content-type: multipart/form-data
       x-accepts:
       - application/json
-  /pet/{petId}/downloadImage:
-    post:
-      description: ""
-      operationId: downloadFile
-      parameters:
-      - description: ID of pet to update
-        explode: false
-        in: path
-        name: petId
-        required: true
-        schema:
-          format: int64
-          type: integer
-        style: simple
-      responses:
-        "200":
-          content:
-            application/zip:
-              schema:
-                format: binary
-                type: string
-          description: successful operation
-      security:
-      - petstore_auth:
-        - write:pets
-        - read:pets
-      summary: downloads an image
-      tags:
-      - pet
-      x-accepts:
-      - application/zip
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities

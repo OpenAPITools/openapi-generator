@@ -39,13 +39,6 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public void downloadFile(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
-
-        response.status(Status.NOT_IMPLEMENTED_501).send();
-    }
-
-    @Override
     public void findPetsByStatus(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 

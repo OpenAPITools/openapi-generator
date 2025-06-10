@@ -21,10 +21,6 @@ public interface PetApi {
 
     void deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
-    void downloadFile(@javax.annotation.Nonnull Long petId, Handler<AsyncResult<AsyncFile>> handler);
-
-    void downloadFile(@javax.annotation.Nonnull Long petId, ApiClient.AuthInfo authInfo, Handler<AsyncResult<AsyncFile>> handler);
-
     void findPetsByStatus(@javax.annotation.Nonnull List<String> status, Handler<AsyncResult<List<Pet>>> handler);
 
     void findPetsByStatus(@javax.annotation.Nonnull List<String> status, ApiClient.AuthInfo authInfo, Handler<AsyncResult<List<Pet>>> handler);

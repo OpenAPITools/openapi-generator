@@ -560,121 +560,6 @@ std::string PetPetIdResource::extractFormParamsFromBody(const std::string& param
     }
     return "";
 }
-PetPetIdDownloadImageResource::PetPetIdDownloadImageResource(const std::string& context /* = "/v2" */)
-{
-	this->set_path(context + "/pet/{petId: .*}/downloadImage");
-	this->set_method_handler("POST",
-		std::bind(&PetPetIdDownloadImageResource::handler_POST_internal, this,
-			std::placeholders::_1));
-}
-
-std::pair<int, std::string> PetPetIdDownloadImageResource::handlePetApiException(const PetApiException& e)
-{
-    return std::make_pair<int, std::string>(e.getStatus(), e.what());
-}
-
-std::pair<int, std::string> PetPetIdDownloadImageResource::handleStdException(const std::exception& e)
-{
-    return std::make_pair<int, std::string>(500, e.what());
-}
-
-std::pair<int, std::string> PetPetIdDownloadImageResource::handleUnspecifiedException()
-{
-    return std::make_pair<int, std::string>(500, "Unknown exception occurred");
-}
-
-void PetPetIdDownloadImageResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
-{
-    session->set_header(header, "");
-}
-
-void PetPetIdDownloadImageResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
-{
-    responseHeaders.insert(std::make_pair("Connection", "close"));
-    session->close(status, result, responseHeaders);
-}
-
-void PetPetIdDownloadImageResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
-{
-    session->close(status, result, { {"Connection", "close"} });
-}
-
-void PetPetIdDownloadImageResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
-{
-    const auto request = session->get_request();
-    // Getting the path params
-    int64_t petId = request->get_path_parameter("petId", 0L);
-    
-    int status_code = 500;
-    std::string resultObject = "";
-    std::string result = "";
-    
-    try {
-        std::tie(status_code, resultObject) =
-            handler_POST(petId);
-    }
-    catch(const PetApiException& e) {
-        std::tie(status_code, result) = handlePetApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/zip",
-    };
-    static const std::string acceptTypes{
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        result = resultObject.toJsonString();
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
-    
-    
-}
-
-
-std::pair<int, std::string> PetPetIdDownloadImageResource::handler_POST(
-        int64_t & petId)
-{
-    return handler_POST_func(petId);
-}
-
-
-std::string PetPetIdDownloadImageResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
-  const auto request = session->get_request();
-  int content_length = request->get_header("Content-Length", 0);
-  std::string bodyContent;
-  session->fetch(content_length,
-                 [&bodyContent](const std::shared_ptr<restbed::Session> session,
-                                const restbed::Bytes &body) {
-                   bodyContent = restbed::String::format(
-                       "%.*s\n", (int)body.size(), body.data());
-                 });
-  return bodyContent;
-}
-
-std::string PetPetIdDownloadImageResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
-    const auto uri = restbed::Uri("urlencoded?" + body, true);
-    const auto params = uri.get_query_parameters();
-    const auto result = params.find(paramName);
-    if (result != params.cend()) {
-        return result->second;
-    }
-    return "";
-}
 PetFindByStatusResource::PetFindByStatusResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/pet/findByStatus");
@@ -1183,12 +1068,6 @@ std::shared_ptr<PetApiResources::PetPetIdResource> PetApi::getPetPetIdResource()
     }
     return m_spPetPetIdResource;
 }
-std::shared_ptr<PetApiResources::PetPetIdDownloadImageResource> PetApi::getPetPetIdDownloadImageResource() {
-    if (!m_spPetPetIdDownloadImageResource) {
-        setResource(std::make_shared<PetApiResources::PetPetIdDownloadImageResource>());
-    }
-    return m_spPetPetIdDownloadImageResource;
-}
 std::shared_ptr<PetApiResources::PetFindByStatusResource> PetApi::getPetFindByStatusResource() {
     if (!m_spPetFindByStatusResource) {
         setResource(std::make_shared<PetApiResources::PetFindByStatusResource>());
@@ -1221,10 +1100,6 @@ void PetApi::setResource(std::shared_ptr<PetApiResources::PetPetIdResource> reso
     m_spPetPetIdResource = resource;
     m_service->publish(m_spPetPetIdResource);
 }
-void PetApi::setResource(std::shared_ptr<PetApiResources::PetPetIdDownloadImageResource> resource) {
-    m_spPetPetIdDownloadImageResource = resource;
-    m_service->publish(m_spPetPetIdDownloadImageResource);
-}
 void PetApi::setResource(std::shared_ptr<PetApiResources::PetFindByStatusResource> resource) {
     m_spPetFindByStatusResource = resource;
     m_service->publish(m_spPetFindByStatusResource);
@@ -1248,10 +1123,6 @@ void PetApi::setPetApiPetResource(std::shared_ptr<PetApiResources::PetResource> 
 void PetApi::setPetApiPetPetIdResource(std::shared_ptr<PetApiResources::PetPetIdResource> spPetPetIdResource) {
     m_spPetPetIdResource = spPetPetIdResource;
     m_service->publish(m_spPetPetIdResource);
-}
-void PetApi::setPetApiPetPetIdDownloadImageResource(std::shared_ptr<PetApiResources::PetPetIdDownloadImageResource> spPetPetIdDownloadImageResource) {
-    m_spPetPetIdDownloadImageResource = spPetPetIdDownloadImageResource;
-    m_service->publish(m_spPetPetIdDownloadImageResource);
 }
 void PetApi::setPetApiPetFindByStatusResource(std::shared_ptr<PetApiResources::PetFindByStatusResource> spPetFindByStatusResource) {
     m_spPetFindByStatusResource = spPetFindByStatusResource;
@@ -1277,9 +1148,6 @@ void PetApi::publishDefaultResources() {
     }
     if (!m_spPetPetIdResource) {
         setResource(std::make_shared<PetApiResources::PetPetIdResource>());
-    }
-    if (!m_spPetPetIdDownloadImageResource) {
-        setResource(std::make_shared<PetApiResources::PetPetIdDownloadImageResource>());
     }
     if (!m_spPetFindByStatusResource) {
         setResource(std::make_shared<PetApiResources::PetFindByStatusResource>());

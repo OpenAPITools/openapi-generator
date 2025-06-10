@@ -93,20 +93,6 @@ public class PetApi  {
         return delegate.deletePet(petId, apiKey, securityContext);
     }
 
-    @jakarta.ws.rs.POST
-    @Path("/{petId}/downloadImage")
-    @Produces({ "application/zip" })
-    @Operation(summary = "downloads an image", description = "", responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = 
-                @Content(schema = @Schema(implementation = File.class))),
-            },security = {
-            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
-        }, tags={ "pet", }) 
-    public Response downloadFile(@Schema(description= "ID of pet to update", required = true) @PathParam("petId") @NotNull  Long petId,@Context SecurityContext securityContext)
-    throws NotFoundException {
-        return delegate.downloadFile(petId, securityContext);
-    }
-
     @jakarta.ws.rs.GET
     @Path("/findByStatus")
     @Produces({ "application/xml", "application/json" })

@@ -125,65 +125,6 @@ class PetApi {
     }
   }
 
-  /// downloads an image
-  ///
-  /// 
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [int] petId (required):
-  ///   ID of pet to update
-  Future<Response> downloadFileWithHttpInfo(int petId,) async {
-    // ignore: prefer_const_declarations
-    final path = r'/pet/{petId}/downloadImage'
-      .replaceAll('{petId}', petId.toString());
-
-    // ignore: prefer_final_locals
-    Object? postBody;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    const contentTypes = <String>[];
-
-
-    return apiClient.invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  /// downloads an image
-  ///
-  /// 
-  ///
-  /// Parameters:
-  ///
-  /// * [int] petId (required):
-  ///   ID of pet to update
-  Future<MultipartFile?> downloadFile(int petId,) async {
-    final response = await downloadFileWithHttpInfo(petId,);
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'MultipartFile',) as MultipartFile;
-    
-    }
-    return null;
-  }
-
   /// Finds Pets by status
   ///
   /// Multiple status values can be provided with comma separated strings

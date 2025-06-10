@@ -65,17 +65,6 @@ public interface PetApi  {
     void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")  String apiKey) throws ApiException, ProcessingException;
 
     /**
-     * downloads an image
-     *
-     * 
-     *
-     */
-    @POST
-    @Path("/pet/{petId}/downloadImage")
-    @Produces({ "application/zip" })
-    File downloadFile(@PathParam("petId") Long petId) throws ApiException, ProcessingException;
-
-    /**
      * Finds Pets by status
      *
      * Multiple status values can be provided with comma separated strings

@@ -38,7 +38,6 @@ curl -X POST http://petstore.swagger.io:80/v2/stringMap-reference
 curl -X PATCH http://petstore.swagger.io:80/v2
 curl -X POST http://petstore.swagger.io:80/v2/pet
 curl -X DELETE http://petstore.swagger.io:80/v2/pet/{petId}
-curl -X POST http://petstore.swagger.io:80/v2/pet/{petId}/downloadImage
 curl -X GET http://petstore.swagger.io:80/v2/pet/findByStatus
 curl -X GET http://petstore.swagger.io:80/v2/pet/findByTags
 curl -X GET http://petstore.swagger.io:80/v2/pet/{petId}

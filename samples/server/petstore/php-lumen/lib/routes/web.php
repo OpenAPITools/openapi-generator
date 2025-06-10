@@ -269,13 +269,6 @@ $router->get('/v2/pet/{petId}', 'PetApi@getPetById');
 $router->post('/v2/pet/{petId}', 'PetApi@updatePetWithForm');
 
 /**
- * post downloadFile
- * Summary: downloads an image
- * Notes: 
- */
-$router->post('/v2/pet/{petId}/downloadImage', 'PetApi@downloadFile');
-
-/**
  * post uploadFile
  * Summary: uploads an image
  * Notes: 

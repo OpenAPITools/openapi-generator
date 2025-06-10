@@ -76,33 +76,6 @@ public interface PetApi extends ApiClient.Api {
 
 
   /**
-   * downloads an image
-   * 
-   * @param petId ID of pet to update (required)
-   * @return File
-   */
-  @RequestLine("POST /pet/{petId}/downloadImage")
-  @Headers({
-    "Accept: application/zip",
-  })
-  File downloadFile(@Param("petId") @javax.annotation.Nonnull Long petId);
-
-  /**
-   * downloads an image
-   * Similar to <code>downloadFile</code> but it also returns the http response headers .
-   * 
-   * @param petId ID of pet to update (required)
-   * @return A ApiResponse that wraps the response boyd and the http headers.
-   */
-  @RequestLine("POST /pet/{petId}/downloadImage")
-  @Headers({
-    "Accept: application/zip",
-  })
-  ApiResponse<File> downloadFileWithHttpInfo(@Param("petId") @javax.annotation.Nonnull Long petId);
-
-
-
-  /**
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter (required)

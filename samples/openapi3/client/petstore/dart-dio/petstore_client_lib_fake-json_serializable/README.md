@@ -93,7 +93,6 @@ Class | Method | HTTP request | Description
 [*FakeClassnameTags123Api*](doc/FakeClassnameTags123Api.md) | [**testClassname**](doc/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 [*PetApi*](doc/PetApi.md) | [**addPet**](doc/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 [*PetApi*](doc/PetApi.md) | [**deletePet**](doc/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
-[*PetApi*](doc/PetApi.md) | [**downloadFile**](doc/PetApi.md#downloadfile) | **POST** /pet/{petId}/downloadImage | downloads an image
 [*PetApi*](doc/PetApi.md) | [**findPetsByStatus**](doc/PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
 [*PetApi*](doc/PetApi.md) | [**findPetsByTags**](doc/PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
 [*PetApi*](doc/PetApi.md) | [**getPetById**](doc/PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
