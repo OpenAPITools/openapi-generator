@@ -5,9 +5,11 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.openapitools.codegen.TestUtils.linearize;
 
@@ -20,7 +22,8 @@ public class RustAxumServerCodegenTest {
                 .setInputSpec("src/test/resources/3_1/issue_21144.yaml")
                 .setSkipOverwrite(false)
                 .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
-        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
         Path outputPath = Path.of(target.toString(), "/src/server/mod.rs");
         String routerSpec = linearize("Router::new() " +
                 ".route(\"/api/test\", " +
