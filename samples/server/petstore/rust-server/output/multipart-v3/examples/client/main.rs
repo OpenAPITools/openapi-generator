@@ -104,7 +104,7 @@ fn main() {
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    match matches.get_one::<String>("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
         Some("MultipartRelatedRequestPost") => {
             let result = rt.block_on(client.multipart_related_request_post(
                   swagger::ByteArray(Vec::from("BINARY_DATA_HERE")),

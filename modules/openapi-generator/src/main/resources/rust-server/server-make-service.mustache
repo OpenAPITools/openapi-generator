@@ -1,5 +1,5 @@
 
-pub struct MakeService<T, C, Target>
+pub struct MakeService<T, C>
 where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
@@ -8,10 +8,10 @@ where
 {{#apiUsesMultipartFormData}}
     multipart_form_size_limit: Option<u64>,
 {{/apiUsesMultipartFormData}}
-    marker: PhantomData<(C, Target)>,
+    marker: PhantomData<C>,
 }
 
-impl<T, C> MakeService<T, C, ()>
+impl<T, C> MakeService<T, C>
 where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
@@ -39,22 +39,23 @@ where
 {{/apiUsesMultipartFormData}}
 }
 
-impl<T, C, Target> Clone for MakeService<T, C, Target>
+impl<T, C> Clone for MakeService<T, C>
 where
     T: Api<C> + Clone + Send + 'static,
-    C: Has<XSpanIdString>  + Send + Sync + 'static
+    C: Has<XSpanIdString>  {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     fn clone(&self) -> Self {
         Self {
             api_impl: self.api_impl.clone(),
+{{#apiUsesMultipartFormData}}
+            multipart_form_size_limit: Some(8 * 1024 * 1024),
+{{/apiUsesMultipartFormData}}
             marker: PhantomData,
         }
     }
 }
 
-// `MakeService` itself doesn't take the request type (so we use `()`),
-// but we need the `Target` type parameter to track the inner hyper `Service`.
-impl<T, C, Target> hyper::service::Service<()> for MakeService<T, C, Target>
+impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C>
 where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
@@ -63,7 +64,7 @@ where
     type Error = crate::ServiceError;
     type Future = future::Ready<Result<Self::Response, Self::Error>>;
 
-    fn call(&self, (): ()) -> Self::Future {
+    fn call(&self, target: Target) -> Self::Future {
         let service = Service::new(self.api_impl.clone()){{^apiUsesMultipartFormData}};{{/apiUsesMultipartFormData}}
 {{#apiUsesMultipartFormData}}
             .multipart_form_size_limit(self.multipart_form_size_limit);

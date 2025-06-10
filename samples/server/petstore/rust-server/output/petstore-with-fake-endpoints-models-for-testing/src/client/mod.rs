@@ -6,7 +6,7 @@ use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use hyper::{body::{Body, Incoming}, Request, Response, service::Service, Uri};
 use percent_encoding::{utf8_percent_encode, AsciiSet};
 use std::borrow::Cow;
-use std::convert::TryInto;
+use std::convert::{TryInto, Infallible};
 use std::io::{ErrorKind, Read};
 use std::error::Error;
 use std::future::Future;
@@ -173,7 +173,7 @@ impl<Connector, C> Client<
     ///
     /// # Arguments
     ///
-    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     /// * `protocol` - Which protocol to use when constructing the request url, e.g. `Some("http")`
     /// * `connector` - Implementation of `hyper::client::Connect` to use for the client
     pub fn try_new_with_connector(
@@ -218,7 +218,7 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
     /// Create an HTTP client.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     pub fn try_new(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
@@ -258,7 +258,7 @@ impl<C> Client<
     DropContextService<
         hyper_util::service::TowerToHyperService<
             hyper_util::client::legacy::Client<
-                HttpsConnector,
+                hyper_util::client::legacy::connect::HttpConnector,
                 BoxBody<Bytes, Infallible>
             >
         >,
@@ -271,7 +271,7 @@ impl<C> Client<
     /// Create an HTTP client.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     pub fn try_new_http(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
@@ -282,10 +282,10 @@ impl<C> Client<
 }
 
 #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
-type HttpsConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
+type HttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;
+type HttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
 impl<C> Client<
     DropContextService<
@@ -304,7 +304,7 @@ impl<C> Client<
     /// Create a client with a TLS connection to the server
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     pub fn try_new_https(base_path: &str) -> Result<Self, ClientInitError>
     {
         let https_connector = Connector::builder()
@@ -317,7 +317,7 @@ impl<C> Client<
     /// Create a client with a TLS connection to the server using a pinned certificate
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn try_new_https_pinned<CA>(
@@ -338,7 +338,7 @@ impl<C> Client<
     /// Create a client with a mutually authenticated TLS connection to the server.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
@@ -429,6 +429,7 @@ impl Error for ClientInitError {
     }
 }
 
+#[allow(dead_code)]
 fn body_from_string(s: String) -> BoxBody<Bytes, Infallible> {
     BoxBody::new(Full::new(Bytes::from(s)))
 }
@@ -443,6 +444,7 @@ impl<S, C> Api<C> for Client<S, C> where
     C: Has<XSpanIdString> + Has<Option<AuthData>> + Clone + Send + Sync + 'static,
 {
 
+    #[allow(clippy::vec_init_then_push)]
     async fn test_special_tags(
         &self,
         param_body: models::Client,
@@ -535,6 +537,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn call123example(
         &self,
         context: &C) -> Result<Call123exampleResponse, ApiError>
@@ -603,6 +606,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn fake_outer_boolean_serialize(
         &self,
         param_body: Option<models::OuterBoolean>,
@@ -697,6 +701,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn fake_outer_composite_serialize(
         &self,
         param_body: Option<models::OuterComposite>,
@@ -791,6 +796,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn fake_outer_number_serialize(
         &self,
         param_body: Option<models::OuterNumber>,
@@ -885,6 +891,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn fake_outer_string_serialize(
         &self,
         param_body: Option<models::OuterString>,
@@ -979,6 +986,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn fake_response_with_numerical_description(
         &self,
         context: &C) -> Result<FakeResponseWithNumericalDescriptionResponse, ApiError>
@@ -1047,6 +1055,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn test_body_with_query_params(
         &self,
         param_query: String,
@@ -1130,6 +1139,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn test_client_model(
         &self,
         param_body: models::Client,
@@ -1222,6 +1232,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn test_endpoint_parameters(
         &self,
         param_number: f64,
@@ -1336,7 +1347,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        *request.body_mut() = Body::from(body.into_bytes());
+        *request.body_mut() = body_from_string(body);
 
         let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
@@ -1352,17 +1363,14 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                AuthData::Basic(basic_header) => {
-                    let auth = swagger::auth::Header(basic_header.clone());
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
-                        Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
-                    };
+                AuthData::Basic(ref basic_user, ref basic_password) => {
+                    let auth = headers::Authorization::basic(basic_user.as_str(), basic_password.as_str());
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
-                        header);
+                        auth.0.encode());
                 },
                 _ => {}
             }
@@ -1402,6 +1410,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn test_enum_parameters(
         &self,
         param_enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
@@ -1468,7 +1477,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        *request.body_mut() = Body::from(body.into_bytes());
+        *request.body_mut() = body_from_string(body);
 
         let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
@@ -1488,7 +1497,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Some(param_enum_header_string_array) => {
         request.headers_mut().append(
             HeaderName::from_static("enum_header_string_array"),
-            #[allow(clippy::redundant_clone)]
+            #[allow(clippy::redundant_clone, clippy::clone_on_copy)]
             match header::IntoHeaderValue(param_enum_header_string_array.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -1505,7 +1514,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Some(param_enum_header_string) => {
         request.headers_mut().append(
             HeaderName::from_static("enum_header_string"),
-            #[allow(clippy::redundant_clone)]
+            #[allow(clippy::redundant_clone, clippy::clone_on_copy)]
             match header::IntoHeaderValue(param_enum_header_string.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -1551,6 +1560,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn test_inline_additional_properties(
         &self,
         param_param: std::collections::HashMap<String, String>,
@@ -1631,6 +1641,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn test_json_form_data(
         &self,
         param_param: String,
@@ -1677,7 +1688,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        *request.body_mut() = Body::from(body.into_bytes());
+        *request.body_mut() = body_from_string(body);
 
         let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
@@ -1720,6 +1731,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn hyphen_param(
         &self,
         param_hyphen_param: String,
@@ -1790,6 +1802,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn test_classname(
         &self,
         param_body: models::Client,
@@ -1846,6 +1859,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
@@ -1893,6 +1907,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn add_pet(
         &self,
         param_body: models::Pet,
@@ -1946,17 +1961,17 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                AuthData::Bearer(bearer_header) => {
-                    let auth = swagger::auth::Header(bearer_header.clone());
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
+                AuthData::Bearer(ref bearer_header) => {
+                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
                         Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
                     };
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
-                        header);
+                        header.0.encode());
                 },
                 _ => {}
             }
@@ -1991,6 +2006,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn find_pets_by_status(
         &self,
         param_status: &Vec<models::FindPetsByStatusStatusParameterInner>,
@@ -2035,17 +2051,17 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                AuthData::Bearer(bearer_header) => {
-                    let auth = swagger::auth::Header(bearer_header.clone());
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
+                AuthData::Bearer(ref bearer_header) => {
+                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
                         Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
                     };
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
-                        header);
+                        header.0.encode());
                 },
                 _ => {}
             }
@@ -2099,6 +2115,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn find_pets_by_tags(
         &self,
         param_tags: &Vec<String>,
@@ -2143,17 +2160,17 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                AuthData::Bearer(bearer_header) => {
-                    let auth = swagger::auth::Header(bearer_header.clone());
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
+                AuthData::Bearer(ref bearer_header) => {
+                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
                         Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
                     };
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
-                        header);
+                        header.0.encode());
                 },
                 _ => {}
             }
@@ -2207,6 +2224,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn update_pet(
         &self,
         param_body: models::Pet,
@@ -2260,17 +2278,17 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                AuthData::Bearer(bearer_header) => {
-                    let auth = swagger::auth::Header(bearer_header.clone());
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
+                AuthData::Bearer(ref bearer_header) => {
+                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
                         Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
                     };
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
-                        header);
+                        header.0.encode());
                 },
                 _ => {}
             }
@@ -2315,6 +2333,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn delete_pet(
         &self,
         param_pet_id: i64,
@@ -2359,17 +2378,17 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                AuthData::Bearer(bearer_header) => {
-                    let auth = swagger::auth::Header(bearer_header.clone());
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
+                AuthData::Bearer(ref bearer_header) => {
+                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
                         Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
                     };
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
-                        header);
+                        header.0.encode());
                 },
                 _ => {}
             }
@@ -2381,7 +2400,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Some(param_api_key) => {
         request.headers_mut().append(
             HeaderName::from_static("api_key"),
-            #[allow(clippy::redundant_clone)]
+            #[allow(clippy::redundant_clone, clippy::clone_on_copy)]
             match header::IntoHeaderValue(param_api_key.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -2422,6 +2441,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn get_pet_by_id(
         &self,
         param_pet_id: i64,
@@ -2465,6 +2485,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
@@ -2524,6 +2545,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn update_pet_with_form(
         &self,
         param_pet_id: i64,
@@ -2576,7 +2598,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        *request.body_mut() = Body::from(body.into_bytes());
+        *request.body_mut() = body_from_string(body);
 
         let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
@@ -2592,17 +2614,17 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                AuthData::Bearer(bearer_header) => {
-                    let auth = swagger::auth::Header(bearer_header.clone());
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
+                AuthData::Bearer(ref bearer_header) => {
+                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
                         Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
                     };
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
-                        header);
+                        header.0.encode());
                 },
                 _ => {}
             }
@@ -2637,6 +2659,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn upload_file(
         &self,
         param_pet_id: i64,
@@ -2686,7 +2709,7 @@ impl<S, C> Api<C> for Client<S, C> where
             };
 
             let additional_metadata_vec = additional_metadata_str.as_bytes().to_vec();
-            let additional_metadata_mime = mime_0_2::Mime::from_str("application/json").expect("impossible to fail to parse");
+            let additional_metadata_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
             let additional_metadata_cursor = Cursor::new(additional_metadata_vec);
 
             multipart.add_stream("additional_metadata",  additional_metadata_cursor,  None as Option<&str>, Some(additional_metadata_mime));
@@ -2698,7 +2721,7 @@ impl<S, C> Api<C> for Client<S, C> where
             };
 
             let file_vec = file_str.as_bytes().to_vec();
-            let file_mime = mime_0_2::Mime::from_str("application/json").expect("impossible to fail to parse");
+            let file_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
             let file_cursor = Cursor::new(file_vec);
 
             multipart.add_stream("file",  file_cursor,  None as Option<&str>, Some(file_mime));
@@ -2739,17 +2762,17 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                AuthData::Bearer(bearer_header) => {
-                    let auth = swagger::auth::Header(bearer_header.clone());
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
+                AuthData::Bearer(ref bearer_header) => {
+                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
                         Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
                     };
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
-                        header);
+                        header.0.encode());
                 },
                 _ => {}
             }
@@ -2796,6 +2819,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn get_inventory(
         &self,
         context: &C) -> Result<GetInventoryResponse, ApiError>
@@ -2837,6 +2861,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
@@ -2884,6 +2909,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn place_order(
         &self,
         param_body: models::Order,
@@ -2983,6 +3009,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn delete_order(
         &self,
         param_order_id: String,
@@ -3058,6 +3085,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn get_order_by_id(
         &self,
         param_order_id: i64,
@@ -3152,6 +3180,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn create_user(
         &self,
         param_body: models::User,
@@ -3232,6 +3261,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn create_users_with_array_input(
         &self,
         param_body: &Vec<models::User>,
@@ -3312,6 +3342,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn create_users_with_list_input(
         &self,
         param_body: &Vec<models::User>,
@@ -3392,6 +3423,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn login_user(
         &self,
         param_username: String,
@@ -3517,6 +3549,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn logout_user(
         &self,
         context: &C) -> Result<LogoutUserResponse, ApiError>
@@ -3585,6 +3618,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn delete_user(
         &self,
         param_username: String,
@@ -3660,6 +3694,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn get_user_by_name(
         &self,
         param_username: String,
@@ -3754,6 +3789,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn update_user(
         &self,
         param_username: String,

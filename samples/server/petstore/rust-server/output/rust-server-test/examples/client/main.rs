@@ -44,11 +44,13 @@ fn main() {
             .value_parser([
                 "AllOfGet",
                 "DummyGet",
+                "DummyPut",
                 "FileResponseGet",
                 "GetStructuredYaml",
                 "HtmlPost",
                 "PostYaml",
                 "RawJsonGet",
+                "SoloObjectPost",
             ])
             .required(true)
             .index(1))
@@ -114,7 +116,7 @@ fn main() {
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    match matches.get_one::<String>("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
         Some("AllOfGet") => {
             let result = rt.block_on(client.all_of_get(
             ));

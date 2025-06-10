@@ -60,7 +60,7 @@
 
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        *request.body_mut() = Body::from(body.into_bytes());
+        *request.body_mut() = body_from_string(body);
 
         let header = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
@@ -81,7 +81,7 @@
       {{#vendorExtensions}}
         {{#x-consumes-plain-text}}
           {{#isByteArray}}
-        let body = param_{{{paramName}}}.0;
+        let body = String::from_utf8(param_body.0).expect("Body was not valid UTF8");
           {{/isByteArray}}
           {{^isByteArray}}
         let body = param_{{{paramName}}};

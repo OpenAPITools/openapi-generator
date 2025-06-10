@@ -90,6 +90,7 @@ fn main() {
                 "XmlOtherPut",
                 "XmlPost",
                 "XmlPut",
+                "EnumInPathPathParamGet",
                 "MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet",
                 "CreateRepo",
                 "GetRepoInfo",
@@ -166,7 +167,7 @@ fn main() {
     // We could do HTTPS here, but for simplicity we don't
     rt.spawn(server::create("127.0.0.1:8081", false));
 
-    match matches.get_one::<String>("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
         Some("AnyOfGet") => {
             let result = rt.block_on(client.any_of_get(
                   Some(&Vec::new())

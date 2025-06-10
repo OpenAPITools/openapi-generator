@@ -34,6 +34,7 @@ fn main() {
         .arg(Arg::new("operation")
             .help("Sets the operation to run")
             .value_parser([
+                "OpGet",
             ])
             .required(true)
             .index(1))
@@ -99,7 +100,7 @@ fn main() {
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    match matches.get_one::<String>("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
         /* Disabled because there's no example.
         Some("OpGet") => {
             let result = rt.block_on(client.op_get(

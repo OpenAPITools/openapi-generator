@@ -1,8 +1,8 @@
 use std::collections::BTreeSet;
 use crate::server::Authorization;
 use serde::{Deserialize, Serialize};
-use swagger::{ApiError, auth::{Basic, Bearer}};
-
+use swagger::ApiError;
+use headers::authorization::{Basic, Bearer};
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
     pub sub: String,

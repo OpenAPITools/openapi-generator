@@ -15,7 +15,7 @@
             };
 
             let {{{paramName}}}_vec = {{{paramName}}}_str.as_bytes().to_vec();
-            let {{{paramName}}}_mime = mime_0_2::Mime::from_str("application/json").expect("impossible to fail to parse");
+            let {{{paramName}}}_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
             let {{{paramName}}}_cursor = Cursor::new({{{paramName}}}_vec);
 
             multipart.add_stream("{{{paramName}}}",  {{{paramName}}}_cursor,  None as Option<&str>, Some({{{paramName}}}_mime));
@@ -25,7 +25,7 @@
         {{#isByteArray}}
             let {{{paramName}}}_vec = param_{{{paramName}}}.to_vec();
 
-            let {{{paramName}}}_mime = match mime_0_2::Mime::from_str("application/octet-stream") {
+            let {{{paramName}}}_mime = match mime::Mime::from_str("application/octet-stream") {
                 Ok(mime) => mime,
                 Err(err) => return Err(ApiError(format!("Unable to get mime type: {:?}", err))),
             };

@@ -1,8 +1,8 @@
 use swagger::{
     ApiError,
-    auth::{Basic, Bearer},
     Has,
     XSpanIdString};
+use headers::authorization::{Basic, Bearer};
 use petstore_with_fake_endpoints_models_for_testing::{AuthenticationApi, Claims};
 use crate::server::Server;
 use jsonwebtoken::{decode, errors as JwtError, decode_header, DecodingKey, TokenData, Validation};
@@ -88,9 +88,9 @@ impl<C> AuthenticationApi for Server<C> where C: Has<XSpanIdString> + Send + Syn
 
     /// Implementation of the method to map a Bearer-token to an Authorization
     fn bearer_authorization(&self, bearer: &Bearer) -> Result<Authorization, ApiError> {
-        debug!("\tAuthorizationApi: Received Bearer-token, {token:#?}");
+        debug!("\tAuthorizationApi: Received Bearer-token, {bearer:#?}");
 
-        match extract_token_data(&bearer.token, b"secret") {
+        match extract_token_data(&bearer.token(), b"secret") {
             Ok(auth_data) => {
                 debug!("\tUnpack auth_data as: {auth_data:#?}");
                 let authorization = build_authorization(auth_data.claims);

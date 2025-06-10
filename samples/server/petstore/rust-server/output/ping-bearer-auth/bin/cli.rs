@@ -34,12 +34,12 @@ struct Cli {
 
     /// Path to the client private key if using client-side TLS authentication
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-    #[clap(long, requires_all(&["client-certificate", "server-certificate"]))]
+    #[clap(long, requires_all(&["client_certificate", "server_certificate"]))]
     client_key: Option<String>,
 
     /// Path to the client's public certificate associated with the private key
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-    #[clap(long, requires_all(&["client-key", "server-certificate"]))]
+    #[clap(long, requires_all(&["client_key", "server_certificate"]))]
     client_certificate: Option<String>,
 
     /// Path to CA certificate used to authenticate the server
@@ -55,7 +55,7 @@ struct Cli {
     verbosity: clap_verbosity_flag::Verbosity,
 
     /// Bearer token if used for authentication
-    #[clap(env = "PING_BEARER_AUTH_BEARER_TOKEN", hide_env_values = true)]
+    #[arg(env = "PING_BEARER_AUTH_BEARER_TOKEN", hide_env = true)]
     bearer_token: Option<String>,
 }
 
@@ -111,7 +111,7 @@ async fn main() -> Result<()> {
 
     if let Some(ref bearer_token) = args.bearer_token {
         debug!("Using bearer token");
-        auth_data = Some(AuthData::bearer(bearer_token));
+        auth_data = AuthData::bearer(bearer_token);
     }
 
     #[allow(trivial_casts)]
