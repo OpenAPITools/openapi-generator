@@ -3718,13 +3718,9 @@ public class JavaClientCodegenTest {
         ClientOptInput clientOptInput = configurator.toClientOptInput();
         generator.opts(clientOptInput)
                 .generate();
-        //TODO Delete
-        System.out.println("Generator Settings: " + clientOptInput.getGeneratorSettings());
         String outputPath = output.getAbsolutePath() + "/src/main/java/org/openapitools";
         File testModel = new File(outputPath, "/client/model/Fruit.java");
         String fileContent = Files.readString(testModel.toPath());
-        //TODO Delete
-        System.out.println(fileContent);
         TestUtils.assertValidJavaSourceCode(fileContent);
         TestUtils.assertFileNotContains(testModel.toPath(), "com.fasterxml.jackson");
     }
