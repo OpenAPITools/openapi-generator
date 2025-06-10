@@ -122,6 +122,7 @@ org.openapitools.codegen.languages.RubySinatraServerCodegen
 org.openapitools.codegen.languages.RustAxumServerCodegen
 org.openapitools.codegen.languages.RustClientCodegen
 org.openapitools.codegen.languages.RustServerCodegen
+org.openapitools.codegen.languages.RustServerCodegenDeprecated
 org.openapitools.codegen.languages.ScalatraServerCodegen
 org.openapitools.codegen.languages.ScalaAkkaClientCodegen
 org.openapitools.codegen.languages.ScalaCaskServerCodegen

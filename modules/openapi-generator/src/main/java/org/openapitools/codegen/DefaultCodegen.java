@@ -54,6 +54,7 @@ import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.languages.PhpNextgenClientCodegen;
 import org.openapitools.codegen.languages.RustAxumServerCodegen;
 import org.openapitools.codegen.languages.RustServerCodegen;
+import org.openapitools.codegen.languages.RustServerCodegenDeprecated;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -5328,7 +5329,7 @@ public class DefaultCodegen implements CodegenConfig {
             parameterSchema = unaliasSchema(parameter.getSchema());
             parameterModelName = getParameterDataType(parameter, parameterSchema);
             CodegenProperty prop;
-            if (this instanceof RustServerCodegen) {
+            if (this instanceof RustServerCodegen || this instanceof RustServerCodegenDeprecated) {
                 // for rust server, we need to do something special as it uses
                 // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
                 prop = fromProperty(parameter.getName(), parameterSchema, false);
