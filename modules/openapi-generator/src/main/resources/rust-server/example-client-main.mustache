@@ -49,11 +49,7 @@ fn main() {
   {{#apis}}
     {{#operations}}
       {{#operation}}
-        {{#vendorExtensions}}
-          {{^x-no-client-example}}
                 "{{{operationId}}}",
-          {{/x-no-client-example}}
-        {{/vendorExtensions}}
       {{/operation}}
     {{/operations}}
   {{/apis}}
@@ -139,7 +135,7 @@ fn main() {
     rt.spawn(server::create("127.0.0.1:8081", false));
 {{/hasCallbacks}}
 
-    match matches.get_one::<String>("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
 {{#apiInfo}}
   {{#apis}}
     {{#operations}}

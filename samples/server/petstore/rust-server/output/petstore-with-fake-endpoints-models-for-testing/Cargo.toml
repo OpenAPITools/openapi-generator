@@ -10,13 +10,11 @@ publish = ["crates-io"]
 [features]
 default = ["client", "server"]
 client = [
-    "mime_0_2",
     "multipart", "multipart/client", "swagger/multipart_form",
     "serde_urlencoded",
     "hyper", "hyper-util/http1", "hyper-util/http2", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
 ]
 server = [
-    "mime_0_2",
     "multipart", "multipart/server", "swagger/multipart_form",
    "serde_ignored", "hyper", "regex", "percent-encoding", "url", "lazy_static"
 ]
@@ -39,7 +37,8 @@ openssl = { version = "0.10", optional = true }
 async-trait = "0.1.88"
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.3"
-swagger = { version = "7.0.0-rc1", features = ["serdejson", "server", "client", "tls"] }
+swagger = { version = "7.0.0-rc2", features = ["serdejson", "server", "client", "tls"] }
+headers = "0.4.0"
 log = "0.4.27"
 mime = "0.3"
 
@@ -51,8 +50,7 @@ validator = { version = "0.20", features = ["derive"] }
 # TODO: this should be updated to point at the official crate once
 # https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
 serde-xml-rs = {git = "https://github.com/Metaswitch/serde-xml-rs" , branch = "master"}
-mime_0_2 = { package = "mime", version = "0.2.6", optional = true }
-multipart = { version = "0.16", default-features = false, optional = true }
+multipart = { version = "0.18", default-features = false, optional = true }
 uuid = { version = "1.17.0", features = ["serde", "v4"]}
 
 # Common between server and client features
@@ -74,6 +72,7 @@ regex = { version = "1.11", optional = true }
 
 # CLI-specific
 anyhow = { version = "1", optional = true }
+clap = { version = "4.5", features = ["env"], optional = true }
 clap-verbosity-flag = { version = "3.0", optional = true }
 simple_logger = { version = "5.0", features = ["stderr"], optional = true }
 tokio = { version = "1.45", features = ["rt-multi-thread", "macros"], optional = true }

@@ -9,6 +9,7 @@ use openapi_v3::{
     AnyOfGetResponse,
     CallbackWithHeaderPostResponse,
     ComplexQueryParamGetResponse,
+    ExamplesTestResponse,
     FormTestResponse,
     GetWithBooleanParameterResponse,
     JsonComplexQueryParamGetResponse,
@@ -63,12 +64,12 @@ struct Cli {
 
     /// Path to the client private key if using client-side TLS authentication
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-    #[clap(long, requires_all(&["client-certificate", "server-certificate"]))]
+    #[clap(long, requires_all(&["client_certificate", "server_certificate"]))]
     client_key: Option<String>,
 
     /// Path to the client's public certificate associated with the private key
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-    #[clap(long, requires_all(&["client-key", "server-certificate"]))]
+    #[clap(long, requires_all(&["client_key", "server_certificate"]))]
     client_certificate: Option<String>,
 
     /// Path to CA certificate used to authenticate the server
@@ -84,7 +85,7 @@ struct Cli {
     verbosity: clap_verbosity_flag::Verbosity,
 
     /// Bearer token if used for authentication
-    #[clap(env = "OPENAPI_V3_BEARER_TOKEN", hide_env_values = true)]
+    #[arg(env = "OPENAPI_V3_BEARER_TOKEN", hide_env = true)]
     bearer_token: Option<String>,
 }
 
@@ -92,19 +93,25 @@ struct Cli {
 enum Operation {
     AnyOfGet {
         /// list of any of objects
-        #[clap(value_parser = parse_json::<Vec<models::AnyOfObject>>), long]
+        #[clap(value_parser = parse_json::<Vec<models::AnyOfObject>>, long)]
         any_of: Option<Vec<models::AnyOfObject>>,
     },
     CallbackWithHeaderPost {
         url: String,
     },
     ComplexQueryParamGet {
-        #[clap(value_parser = parse_json::<Vec<models::StringObject>>), long]
+        #[clap(value_parser = parse_json::<Vec<models::StringObject>>, long)]
         list_of_strings: Option<Vec<models::StringObject>>,
+    },
+    /// Test examples
+    ExamplesTest {
+        /// A list of IDs to get
+        #[clap(value_parser = parse_json::<Vec<String>>, long)]
+        ids: Option<Vec<String>>,
     },
     /// Test a Form Post
     FormTest {
-        #[clap(value_parser = parse_json::<Vec<String>>), long]
+        #[clap(value_parser = parse_json::<Vec<String>>, long)]
         required_array: Option<Vec<String>>,
     },
     GetWithBooleanParameter {
@@ -113,7 +120,7 @@ enum Operation {
         iambool: bool,
     },
     JsonComplexQueryParamGet {
-        #[clap(value_parser = parse_json::<Vec<models::StringObject>>), long]
+        #[clap(value_parser = parse_json::<Vec<models::StringObject>>, long)]
         list_of_strings: Option<Vec<models::StringObject>>,
     },
     MandatoryRequestHeaderGet {
@@ -251,7 +258,7 @@ async fn main() -> Result<()> {
 
     if let Some(ref bearer_token) = args.bearer_token {
         debug!("Using bearer token");
-        auth_data = Some(AuthData::bearer(bearer_token));
+        auth_data = AuthData::bearer(bearer_token);
     }
 
     #[allow(trivial_casts)]
@@ -323,6 +330,24 @@ async fn main() -> Result<()> {
                 ComplexQueryParamGetResponse::Success
                 => "Success\n".to_string()
                     ,
+            }
+        }
+        Operation::ExamplesTest {
+            ids,
+        } => {
+            info!("Performing a ExamplesTest request");
+
+            let result = client.examples_test(
+                ids.as_ref(),
+            ).await?;
+            debug!("Result: {:?}", result);
+
+            match result {
+                ExamplesTestResponse::OK
+                (body)
+                => "OK\n".to_string()
+                   +
+                    &serde_json::to_string_pretty(&body)?,
             }
         }
         Operation::FormTest {

@@ -15,8 +15,6 @@ pub use swagger::auth::Authorization;
 use swagger::auth::Scopes;
 use url::form_urlencoded;
 {{#apiUsesMultipartRelated}}
-use hyper_0_10::header::{Headers, ContentType};
-use mime_0_2::{TopLevel, SubLevel, Mime as Mime2};
 use mime_multipart::{read_multipart_body, Node, Part};
 {{/apiUsesMultipartRelated}}
 {{#apiUsesMultipartFormData}}

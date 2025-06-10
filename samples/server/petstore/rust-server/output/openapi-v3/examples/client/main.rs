@@ -9,6 +9,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       AnyOfGetResponse,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
+                      ExamplesTestResponse,
                       FormTestResponse,
                       GetWithBooleanParameterResponse,
                       JsonComplexQueryParamGetResponse,
@@ -67,6 +68,7 @@ fn main() {
                 "AnyOfGet",
                 "CallbackWithHeaderPost",
                 "ComplexQueryParamGet",
+                "ExamplesTest",
                 "FormTest",
                 "GetWithBooleanParameter",
                 "JsonComplexQueryParamGet",
@@ -90,6 +92,7 @@ fn main() {
                 "XmlOtherPut",
                 "XmlPost",
                 "XmlPut",
+                "EnumInPathPathParamGet",
                 "MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet",
                 "CreateRepo",
                 "GetRepoInfo",
@@ -166,7 +169,7 @@ fn main() {
     // We could do HTTPS here, but for simplicity we don't
     rt.spawn(server::create("127.0.0.1:8081", false));
 
-    match matches.get_one::<String>("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
         Some("AnyOfGet") => {
             let result = rt.block_on(client.any_of_get(
                   Some(&Vec::new())
@@ -182,6 +185,12 @@ fn main() {
         Some("ComplexQueryParamGet") => {
             let result = rt.block_on(client.complex_query_param_get(
                   Some(&Vec::new())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("ExamplesTest") => {
+            let result = rt.block_on(client.examples_test(
+                  Some(&vec!["foo".to_string()])
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

@@ -69,12 +69,12 @@ struct Cli {
 
     /// Path to the client private key if using client-side TLS authentication
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-    #[clap(long, requires_all(&["client-certificate", "server-certificate"]))]
+    #[clap(long, requires_all(&["client_certificate", "server_certificate"]))]
     client_key: Option<String>,
 
     /// Path to the client's public certificate associated with the private key
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-    #[clap(long, requires_all(&["client-key", "server-certificate"]))]
+    #[clap(long, requires_all(&["client_key", "server_certificate"]))]
     client_certificate: Option<String>,
 
     /// Path to CA certificate used to authenticate the server
@@ -95,7 +95,7 @@ struct Cli {
     force: bool,
 
     /// Bearer token if used for authentication
-    #[clap(env = "PETSTORE_WITH_FAKE_ENDPOINTS_MODELS_FOR_TESTING_BEARER_TOKEN", hide_env_values = true)]
+    #[arg(env = "PETSTORE_WITH_FAKE_ENDPOINTS_MODELS_FOR_TESTING_BEARER_TOKEN", hide_env = true)]
     bearer_token: Option<String>,
 }
 
@@ -178,13 +178,13 @@ enum Operation {
     /// To test enum parameters
     TestEnumParameters {
         /// Header parameter enum test (string array)
-        #[clap(value_parser = parse_json::<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>), long]
+        #[clap(value_parser = parse_json::<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>, long)]
         enum_header_string_array: Option<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         /// Header parameter enum test (string)
         #[clap(value_parser = parse_json::<models::TestEnumParametersEnumHeaderStringParameter>)]
         enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         /// Query parameter enum test (string array)
-        #[clap(value_parser = parse_json::<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>), long]
+        #[clap(value_parser = parse_json::<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>, long)]
         enum_query_string_array: Option<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         /// Query parameter enum test (string)
         #[clap(value_parser = parse_json::<models::TestEnumParametersEnumHeaderStringParameter>)]
@@ -230,13 +230,13 @@ enum Operation {
     /// Finds Pets by status
     FindPetsByStatus {
         /// Status values that need to be considered for filter
-        #[clap(value_parser = parse_json::<Vec<models::FindPetsByStatusStatusParameterInner>>), long]
+        #[clap(value_parser = parse_json::<Vec<models::FindPetsByStatusStatusParameterInner>>, long)]
         status: Vec<models::FindPetsByStatusStatusParameterInner>,
     },
     /// Finds Pets by tags
     FindPetsByTags {
         /// Tags to filter by
-        #[clap(value_parser = parse_json::<Vec<String>>), long]
+        #[clap(value_parser = parse_json::<Vec<String>>, long)]
         tags: Vec<String>,
     },
     /// Update an existing pet
@@ -303,13 +303,13 @@ enum Operation {
     /// Creates list of users with given input array
     CreateUsersWithArrayInput {
         /// List of user object
-        #[clap(value_parser = parse_json::<Vec<models::User>>), long]
+        #[clap(value_parser = parse_json::<Vec<models::User>>, long)]
         body: Vec<models::User>,
     },
     /// Creates list of users with given input array
     CreateUsersWithListInput {
         /// List of user object
-        #[clap(value_parser = parse_json::<Vec<models::User>>), long]
+        #[clap(value_parser = parse_json::<Vec<models::User>>, long)]
         body: Vec<models::User>,
     },
     /// Logs user into the system
@@ -388,7 +388,7 @@ async fn main() -> Result<()> {
 
     if let Some(ref bearer_token) = args.bearer_token {
         debug!("Using bearer token");
-        auth_data = Some(AuthData::bearer(bearer_token));
+        auth_data = AuthData::bearer(bearer_token);
     }
 
     #[allow(trivial_casts)]

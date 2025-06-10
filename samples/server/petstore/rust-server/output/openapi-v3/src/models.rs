@@ -37,17 +37,17 @@ impl std::ops::DerefMut for AdditionalPropertiesReferencedAnyOfObject {
 }
 
 /// Converts the AdditionalPropertiesReferencedAnyOfObject value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for AdditionalPropertiesReferencedAnyOfObject {
-    fn to_string(&self) -> String {
-        // ToString for this model is not supported
-        "".to_string()
+impl std::fmt::Display for AdditionalPropertiesReferencedAnyOfObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Display for this model is not supported
+        write!(f, "")
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a AdditionalPropertiesReferencedAnyOfObject value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for AdditionalPropertiesReferencedAnyOfObject {
     type Err = &'static str;
@@ -180,17 +180,17 @@ impl std::ops::DerefMut for AdditionalPropertiesWithList {
 }
 
 /// Converts the AdditionalPropertiesWithList value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for AdditionalPropertiesWithList {
-    fn to_string(&self) -> String {
-        // ToString for this model is not supported
-        "".to_string()
+impl std::fmt::Display for AdditionalPropertiesWithList {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Display for this model is not supported
+        write!(f, "")
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a AdditionalPropertiesWithList value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for AdditionalPropertiesWithList {
     type Err = &'static str;
@@ -320,10 +320,10 @@ impl AdditionalPropertiesWithNullable {
 }
 
 /// Converts the AdditionalPropertiesWithNullable value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for AdditionalPropertiesWithNullable {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for AdditionalPropertiesWithNullable {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.nullable_string.as_ref().map(|nullable_string| {
                 [
@@ -334,12 +334,12 @@ impl std::string::ToString for AdditionalPropertiesWithNullable {
             // Skipping map nullableMap in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a AdditionalPropertiesWithNullable value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for AdditionalPropertiesWithNullable {
     type Err = String;
@@ -554,16 +554,16 @@ impl std::ops::DerefMut for AnotherXmlArray {
 }
 
 /// Converts the AnotherXmlArray value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for AnotherXmlArray {
-    fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+impl std::fmt::Display for AnotherXmlArray {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a AnotherXmlArray value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for AnotherXmlArray {
     type Err = <String as std::str::FromStr>::Err;
@@ -702,9 +702,9 @@ impl std::ops::DerefMut for AnotherXmlInner {
     }
 }
 
-impl std::string::ToString for AnotherXmlInner {
-    fn to_string(&self) -> String {
-       self.0.clone()
+impl std::fmt::Display for AnotherXmlInner {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
@@ -830,10 +830,10 @@ impl AnotherXmlObject {
 }
 
 /// Converts the AnotherXmlObject value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for AnotherXmlObject {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for AnotherXmlObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.inner_string.as_ref().map(|inner_string| {
                 [
@@ -843,12 +843,12 @@ impl std::string::ToString for AnotherXmlObject {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a AnotherXmlObject value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for AnotherXmlObject {
     type Err = String;
@@ -1025,17 +1025,17 @@ impl std::ops::DerefMut for AnyOfGet202Response {
 }
 
 /// Converts the AnyOfGet202Response value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for AnyOfGet202Response {
-    fn to_string(&self) -> String {
-        // ToString for this model is not supported
-        "".to_string()
+impl std::fmt::Display for AnyOfGet202Response {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Display for this model is not supported
+        write!(f, "")
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a AnyOfGet202Response value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for AnyOfGet202Response {
     type Err = &'static str;
@@ -1169,17 +1169,17 @@ impl std::ops::DerefMut for AnyOfHashMapObject {
 }
 
 /// Converts the AnyOfHashMapObject value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for AnyOfHashMapObject {
-    fn to_string(&self) -> String {
-        // ToString for this model is not supported
-        "".to_string()
+impl std::fmt::Display for AnyOfHashMapObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Display for this model is not supported
+        write!(f, "")
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a AnyOfHashMapObject value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for AnyOfHashMapObject {
     type Err = &'static str;
@@ -1313,17 +1313,17 @@ impl std::ops::DerefMut for AnyOfObject {
 }
 
 /// Converts the AnyOfObject value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for AnyOfObject {
-    fn to_string(&self) -> String {
-        // ToString for this model is not supported
-        "".to_string()
+impl std::fmt::Display for AnyOfObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Display for this model is not supported
+        write!(f, "")
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a AnyOfObject value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for AnyOfObject {
     type Err = &'static str;
@@ -1579,21 +1579,21 @@ impl AnyOfProperty {
 }
 
 /// Converts the AnyOfProperty value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for AnyOfProperty {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for AnyOfProperty {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping non-primitive type requiredAnyOf in query parameter serialization
             // Skipping non-primitive type optionalAnyOf in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a AnyOfProperty value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for AnyOfProperty {
     type Err = String;
@@ -1762,10 +1762,10 @@ impl DuplicateXmlObject {
 }
 
 /// Converts the DuplicateXmlObject value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for DuplicateXmlObject {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for DuplicateXmlObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.inner_string.as_ref().map(|inner_string| {
                 [
@@ -1776,12 +1776,12 @@ impl std::string::ToString for DuplicateXmlObject {
             // Skipping non-primitive type inner_array in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a DuplicateXmlObject value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for DuplicateXmlObject {
     type Err = String;
@@ -2094,9 +2094,9 @@ impl std::ops::DerefMut for Err {
     }
 }
 
-impl std::string::ToString for Err {
-    fn to_string(&self) -> String {
-       self.0.clone()
+impl std::fmt::Display for Err {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
@@ -2229,9 +2229,9 @@ impl std::ops::DerefMut for Error {
     }
 }
 
-impl std::string::ToString for Error {
-    fn to_string(&self) -> String {
-       self.0.clone()
+impl std::fmt::Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
@@ -2366,17 +2366,17 @@ impl std::ops::DerefMut for Model12345AnyOfObject {
 }
 
 /// Converts the Model12345AnyOfObject value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Model12345AnyOfObject {
-    fn to_string(&self) -> String {
-        // ToString for this model is not supported
-        "".to_string()
+impl std::fmt::Display for Model12345AnyOfObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Display for this model is not supported
+        write!(f, "")
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Model12345AnyOfObject value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for Model12345AnyOfObject {
     type Err = &'static str;
@@ -2631,10 +2631,10 @@ impl MultigetGet201Response {
 }
 
 /// Converts the MultigetGet201Response value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MultigetGet201Response {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for MultigetGet201Response {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.foo.as_ref().map(|foo| {
                 [
@@ -2644,12 +2644,12 @@ impl std::string::ToString for MultigetGet201Response {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a MultigetGet201Response value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for MultigetGet201Response {
     type Err = String;
@@ -2817,16 +2817,16 @@ impl std::ops::DerefMut for MyId {
 }
 
 /// Converts the MyId value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for MyId {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for MyId {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a MyId value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for MyId {
     type Err = String;
@@ -2997,16 +2997,16 @@ impl std::ops::DerefMut for MyIdList {
 }
 
 /// Converts the MyIdList value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MyIdList {
-    fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+impl std::fmt::Display for MyIdList {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a MyIdList value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for MyIdList {
     type Err = <i32 as std::str::FromStr>::Err;
@@ -3144,9 +3144,9 @@ impl std::ops::DerefMut for NullableObject {
     }
 }
 
-impl std::string::ToString for NullableObject {
-    fn to_string(&self) -> String {
-       self.0.clone()
+impl std::fmt::Display for NullableObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
@@ -3321,10 +3321,10 @@ impl NullableTest {
 }
 
 /// Converts the NullableTest value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for NullableTest {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for NullableTest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("nullable".to_string()),
             Some(self.nullable.as_ref().map_or("null".to_string(), |x| x.to_string())),
@@ -3372,12 +3372,12 @@ impl std::string::ToString for NullableTest {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a NullableTest value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for NullableTest {
     type Err = String;
@@ -3559,10 +3559,10 @@ impl ObjectHeader {
 }
 
 /// Converts the ObjectHeader value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ObjectHeader {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ObjectHeader {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("requiredObjectHeader".to_string()),
             Some(self.required_object_header.to_string()),
@@ -3574,12 +3574,12 @@ impl std::string::ToString for ObjectHeader {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ObjectHeader value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for ObjectHeader {
     type Err = String;
@@ -3745,10 +3745,10 @@ impl ObjectParam {
 }
 
 /// Converts the ObjectParam value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ObjectParam {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ObjectParam {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("requiredParam".to_string()),
             Some(self.required_param.to_string()),
@@ -3760,12 +3760,12 @@ impl std::string::ToString for ObjectParam {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ObjectParam value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for ObjectParam {
     type Err = String;
@@ -3940,10 +3940,10 @@ impl ObjectUntypedProps {
 }
 
 /// Converts the ObjectUntypedProps value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ObjectUntypedProps {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ObjectUntypedProps {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping non-primitive type required_untyped in query parameter serialization
             // Skipping non-primitive type required_untyped_nullable in query parameter serialization
@@ -3951,12 +3951,12 @@ impl std::string::ToString for ObjectUntypedProps {
             // Skipping non-primitive type not_required_untyped_nullable in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ObjectUntypedProps value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for ObjectUntypedProps {
     type Err = String;
@@ -4125,10 +4125,10 @@ impl ObjectWithArrayOfObjects {
 }
 
 /// Converts the ObjectWithArrayOfObjects value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ObjectWithArrayOfObjects {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ObjectWithArrayOfObjects {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.object_array.as_ref().map(|object_array| {
                 [
@@ -4138,12 +4138,12 @@ impl std::string::ToString for ObjectWithArrayOfObjects {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ObjectWithArrayOfObjects value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for ObjectWithArrayOfObjects {
     type Err = String;
@@ -4309,9 +4309,9 @@ impl std::ops::DerefMut for Ok {
     }
 }
 
-impl std::string::ToString for Ok {
-    fn to_string(&self) -> String {
-       self.0.clone()
+impl std::fmt::Display for Ok {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
@@ -4445,17 +4445,17 @@ impl std::ops::DerefMut for OneOfGet200Response {
 }
 
 /// Converts the OneOfGet200Response value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for OneOfGet200Response {
-    fn to_string(&self) -> String {
-        // ToString for this model is not supported
-        "".to_string()
+impl std::fmt::Display for OneOfGet200Response {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Display for this model is not supported
+        write!(f, "")
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a OneOfGet200Response value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for OneOfGet200Response {
     type Err = &'static str;
@@ -4588,16 +4588,16 @@ impl std::ops::DerefMut for OptionalObjectHeader {
 }
 
 /// Converts the OptionalObjectHeader value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for OptionalObjectHeader {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for OptionalObjectHeader {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a OptionalObjectHeader value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for OptionalObjectHeader {
     type Err = String;
@@ -4733,16 +4733,16 @@ impl std::ops::DerefMut for RequiredObjectHeader {
 }
 
 /// Converts the RequiredObjectHeader value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for RequiredObjectHeader {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for RequiredObjectHeader {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a RequiredObjectHeader value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for RequiredObjectHeader {
     type Err = String;
@@ -4877,9 +4877,9 @@ impl std::ops::DerefMut for Result {
     }
 }
 
-impl std::string::ToString for Result {
-    fn to_string(&self) -> String {
-       self.0.clone()
+impl std::fmt::Display for Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
@@ -5140,9 +5140,9 @@ impl std::ops::DerefMut for StringObject {
     }
 }
 
-impl std::string::ToString for StringObject {
-    fn to_string(&self) -> String {
-       self.0.clone()
+impl std::fmt::Display for StringObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
@@ -5277,16 +5277,16 @@ impl std::ops::DerefMut for UuidObject {
 }
 
 /// Converts the UuidObject value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for UuidObject {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for UuidObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a UuidObject value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for UuidObject {
     type Err = String;
@@ -5467,16 +5467,16 @@ impl std::ops::DerefMut for XmlArray {
 }
 
 /// Converts the XmlArray value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for XmlArray {
-    fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+impl std::fmt::Display for XmlArray {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a XmlArray value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for XmlArray {
     type Err = <String as std::str::FromStr>::Err;
@@ -5615,9 +5615,9 @@ impl std::ops::DerefMut for XmlInner {
     }
 }
 
-impl std::string::ToString for XmlInner {
-    fn to_string(&self) -> String {
-       self.0.clone()
+impl std::fmt::Display for XmlInner {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
@@ -5748,10 +5748,10 @@ impl XmlObject {
 }
 
 /// Converts the XmlObject value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for XmlObject {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for XmlObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.inner_string.as_ref().map(|inner_string| {
                 [
@@ -5767,12 +5767,12 @@ impl std::string::ToString for XmlObject {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a XmlObject value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for XmlObject {
     type Err = String;

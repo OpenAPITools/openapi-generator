@@ -6,7 +6,7 @@ use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use hyper::{body::{Body, Incoming}, Request, Response, service::Service, Uri};
 use percent_encoding::{utf8_percent_encode, AsciiSet};
 use std::borrow::Cow;
-use std::convert::TryInto;
+use std::convert::{TryInto, Infallible};
 use std::io::{ErrorKind, Read};
 use std::error::Error;
 use std::future::Future;
@@ -25,7 +25,7 @@ use tower_service::Service as _;
 use mime::Mime;
 use std::io::Cursor;
 use multipart::client::lazy::Multipart;
-use hyper_0_10::header::{Headers, ContentType};
+use hyper::header::HeaderMap;
 use mime_multipart::{Node, Part, write_multipart};
 
 use crate::models;
@@ -71,8 +71,7 @@ fn into_base_path(input: impl TryInto<Uri, Error=hyper::http::uri::InvalidUri>, 
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C),
-           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -89,8 +88,7 @@ pub struct Client<S, C> where
 
 impl<S, C> fmt::Debug for Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C),
-           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -102,8 +100,7 @@ impl<S, C> fmt::Debug for Client<S, C> where
 
 impl<S, C> Clone for Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C),
-           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -143,7 +140,7 @@ impl<Connector, C> Client<
     ///
     /// # Arguments
     ///
-    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     /// * `protocol` - Which protocol to use when constructing the request url, e.g. `Some("http")`
     /// * `connector` - Implementation of `hyper::client::Connect` to use for the client
     pub fn try_new_with_connector(
@@ -188,7 +185,7 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
     /// Create an HTTP client.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     pub fn try_new(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
@@ -228,7 +225,7 @@ impl<C> Client<
     DropContextService<
         hyper_util::service::TowerToHyperService<
             hyper_util::client::legacy::Client<
-                HttpsConnector,
+                hyper_util::client::legacy::connect::HttpConnector,
                 BoxBody<Bytes, Infallible>
             >
         >,
@@ -241,7 +238,7 @@ impl<C> Client<
     /// Create an HTTP client.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     pub fn try_new_http(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
@@ -252,10 +249,10 @@ impl<C> Client<
 }
 
 #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
-type HttpsConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
+type HttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;
+type HttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
 impl<C> Client<
     DropContextService<
@@ -274,7 +271,7 @@ impl<C> Client<
     /// Create a client with a TLS connection to the server
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     pub fn try_new_https(base_path: &str) -> Result<Self, ClientInitError>
     {
         let https_connector = Connector::builder()
@@ -287,7 +284,7 @@ impl<C> Client<
     /// Create a client with a TLS connection to the server using a pinned certificate
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn try_new_https_pinned<CA>(
@@ -308,7 +305,7 @@ impl<C> Client<
     /// Create a client with a mutually authenticated TLS connection to the server.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
@@ -336,8 +333,7 @@ impl<C> Client<
 
 impl<S, C> Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C),
-           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -399,20 +395,25 @@ impl Error for ClientInitError {
     }
 }
 
+#[allow(dead_code)]
 fn body_from_string(s: String) -> BoxBody<Bytes, Infallible> {
     BoxBody::new(Full::new(Bytes::from(s)))
 }
 
 #[async_trait]
-impl<S, C> Api<C> for Client<S, C> where
+impl<S, C, B> Api<C> for Client<S, C> where
     S: Service<
        (Request<BoxBody<Bytes, Infallible>>, C),
-       Response=Response<Incoming>> + Clone + Sync + Send + 'static,
+       Response=Response<B>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Has<XSpanIdString>  + Clone + Send + Sync + 'static,
+    B: hyper::body::Body + Send + 'static + Unpin,
+    B::Data: Send,
+    B::Error: Into<Box<dyn Error + Send + Sync>>,
 {
 
+    #[allow(clippy::vec_init_then_push)]
     async fn multipart_related_request_post(
         &self,
         param_required_binary_field: swagger::ByteArray,
@@ -456,9 +457,9 @@ impl<S, C> Api<C> for Client<S, C> where
         if let Some(object_field) = param_object_field {
             let part = Node::Part(Part {
                 headers: {
-                    let mut h = Headers::new();
-                    h.set(ContentType("application/json".parse().unwrap()));
-                    h.set_raw("Content-ID", vec![b"object_field".to_vec()]);
+                    let mut h = HeaderMap::new();
+                    h.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                    h.insert("Content-ID", HeaderValue::from_static("object_field"));
                     h
                 },
                 body: serde_json::to_string(&object_field)
@@ -471,9 +472,9 @@ impl<S, C> Api<C> for Client<S, C> where
         if let Some(optional_binary_field) = param_optional_binary_field {
             let part = Node::Part(Part {
                 headers: {
-                    let mut h = Headers::new();
-                    h.set(ContentType("application/zip".parse().unwrap()));
-                    h.set_raw("Content-ID", vec![b"optional_binary_field".to_vec()]);
+                    let mut h = HeaderMap::new();
+                    h.insert(CONTENT_TYPE, HeaderValue::from_static("application/zip"));
+                    h.insert("Content-ID", HeaderValue::from_static("optional_binary_field"));
                     h
                 },
                 body: optional_binary_field.0,
@@ -484,9 +485,9 @@ impl<S, C> Api<C> for Client<S, C> where
         {
             let part = Node::Part(Part {
                 headers: {
-                    let mut h = Headers::new();
-                    h.set(ContentType("image/png".parse().unwrap()));
-                    h.set_raw("Content-ID", vec![b"required_binary_field".to_vec()]);
+                    let mut h = HeaderMap::new();
+                    h.insert(CONTENT_TYPE, HeaderValue::from_static("image/png"));
+                    h.insert("Content-ID", HeaderValue::from_static("required_binary_field"));
                     h
                 },
                 body: param_required_binary_field.0,
@@ -543,13 +544,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn multipart_request_post(
         &self,
         param_string_field: String,
@@ -599,7 +601,7 @@ impl<S, C> Api<C> for Client<S, C> where
             };
 
             let string_field_vec = string_field_str.as_bytes().to_vec();
-            let string_field_mime = mime_0_2::Mime::from_str("application/json").expect("impossible to fail to parse");
+            let string_field_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
             let string_field_cursor = Cursor::new(string_field_vec);
 
             multipart.add_stream("string_field",  string_field_cursor,  None as Option<&str>, Some(string_field_mime));
@@ -611,7 +613,7 @@ impl<S, C> Api<C> for Client<S, C> where
             };
 
             let optional_string_field_vec = optional_string_field_str.as_bytes().to_vec();
-            let optional_string_field_mime = mime_0_2::Mime::from_str("application/json").expect("impossible to fail to parse");
+            let optional_string_field_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
             let optional_string_field_cursor = Cursor::new(optional_string_field_vec);
 
             multipart.add_stream("optional_string_field",  optional_string_field_cursor,  None as Option<&str>, Some(optional_string_field_mime));
@@ -623,7 +625,7 @@ impl<S, C> Api<C> for Client<S, C> where
             };
 
             let object_field_vec = object_field_str.as_bytes().to_vec();
-            let object_field_mime = mime_0_2::Mime::from_str("application/json").expect("impossible to fail to parse");
+            let object_field_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
             let object_field_cursor = Cursor::new(object_field_vec);
 
             multipart.add_stream("object_field",  object_field_cursor,  None as Option<&str>, Some(object_field_mime));
@@ -632,7 +634,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
             let binary_field_vec = param_binary_field.to_vec();
 
-            let binary_field_mime = match mime_0_2::Mime::from_str("application/octet-stream") {
+            let binary_field_mime = match mime::Mime::from_str("application/octet-stream") {
                 Ok(mime) => mime,
                 Err(err) => return Err(ApiError(format!("Unable to get mime type: {:?}", err))),
             };
@@ -697,13 +699,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn multiple_identical_mime_types_post(
         &self,
         param_binary1: Option<swagger::ByteArray>,
@@ -746,9 +749,9 @@ impl<S, C> Api<C> for Client<S, C> where
         if let Some(binary1) = param_binary1 {
             let part = Node::Part(Part {
                 headers: {
-                    let mut h = Headers::new();
-                    h.set(ContentType("application/octet-stream".parse().unwrap()));
-                    h.set_raw("Content-ID", vec![b"binary1".to_vec()]);
+                    let mut h = HeaderMap::new();
+                    h.insert(CONTENT_TYPE, HeaderValue::from_static("application/octet-stream"));
+                    h.insert("Content-ID", HeaderValue::from_static("binary1"));
                     h
                 },
                 body: binary1.0,
@@ -759,9 +762,9 @@ impl<S, C> Api<C> for Client<S, C> where
         if let Some(binary2) = param_binary2 {
             let part = Node::Part(Part {
                 headers: {
-                    let mut h = Headers::new();
-                    h.set(ContentType("application/octet-stream".parse().unwrap()));
-                    h.set_raw("Content-ID", vec![b"binary2".to_vec()]);
+                    let mut h = HeaderMap::new();
+                    h.insert(CONTENT_TYPE, HeaderValue::from_static("application/octet-stream"));
+                    h.insert("Content-ID", HeaderValue::from_static("binary2"));
                     h
                 },
                 body: binary2.0,
@@ -818,7 +821,7 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }

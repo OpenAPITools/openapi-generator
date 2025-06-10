@@ -1,4 +1,4 @@
-.cargo/config
+.cargo/config.toml
 .gitignore
 Cargo.toml
 README.md
@@ -16,7 +16,6 @@ examples/server-key.pem
 examples/server/main.rs
 examples/server/server.rs
 examples/server/server_auth.rs
-examples/server/tokio_io.rs
 src/auth.rs
 src/client/mod.rs
 src/context.rs

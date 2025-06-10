@@ -1,3 +1,5 @@
+#![allow(clippy::clone_on_copy)]
+#![allow(clippy::vec_init_then_push)]
 use async_trait::async_trait;
 use futures::{Stream, future, future::BoxFuture, stream, future::TryFutureExt, future::FutureExt, stream::StreamExt};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};

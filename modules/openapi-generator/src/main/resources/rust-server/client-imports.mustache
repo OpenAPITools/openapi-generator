@@ -6,7 +6,7 @@ use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use hyper::{body::{Body, Incoming}, Request, Response, service::Service, Uri};
 use percent_encoding::{utf8_percent_encode, AsciiSet};
 use std::borrow::Cow;
-use std::convert::TryInto;
+use std::convert::{TryInto, Infallible};
 use std::io::{ErrorKind, Read};
 use std::error::Error;
 use std::future::Future;
@@ -28,7 +28,7 @@ use std::io::Cursor;
 use multipart::client::lazy::Multipart;
 {{/apiUsesMultipartFormData}}
 {{#apiUsesMultipartRelated}}
-use hyper_0_10::header::{Headers, ContentType};
+use hyper::header::HeaderMap;
 use mime_multipart::{Node, Part, write_multipart};
 {{/apiUsesMultipartRelated}}
 

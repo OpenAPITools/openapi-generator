@@ -1,3 +1,4 @@
+    #[allow(clippy::vec_init_then_push)]
     async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#vendorExtensions}}
@@ -95,45 +96,40 @@
 {{#hasAuthMethods}}
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
+            use headers::authorization::Credentials;
             {{! Currently only authentication with Basic and Bearer are supported }}
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
             {{#authMethods}}
                 {{#isBasicBasic}}
-                AuthData::Basic(basic_header) => {
-                    let auth = swagger::auth::Header(basic_header.clone());
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
-                        Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
-                    };
+                AuthData::Basic(ref basic_user, ref basic_password) => {
+                    let auth = headers::Authorization::basic(basic_user.as_str(), basic_password.as_str());
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
-                        header);
+                        auth.0.encode());
                 },
                 {{/isBasicBasic}}
                 {{#isBasicBearer}}
-                AuthData::Bearer(bearer_header) => {
-                    let auth = swagger::auth::Header(bearer_header.clone());
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
+                AuthData::Bearer(ref bearer_header) => {
+                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
                         Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
                     };
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
-                        header);
+                        header.0.encode());
                 },
                 {{/isBasicBearer}}
                 {{#isOAuth}}
                 {{^isBasicBearer}}
-                AuthData::Bearer(bearer_header) => {
-                    let auth = swagger::auth::Header(bearer_header.clone());
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
+                AuthData::Bearer(ref bearer_header) => {
+                    let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
                         Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
                     };
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
-                        header);
+                        header.0.encode());
                 },
                 {{/isBasicBearer}}
                 {{/isOAuth}}
@@ -155,7 +151,7 @@
 {{/required}}
         request.headers_mut().append(
             HeaderName::from_static("{{{nameInLowerCase}}}"),
-            #[allow(clippy::redundant_clone)]
+            #[allow(clippy::redundant_clone, clippy::clone_on_copy)]
             match header::IntoHeaderValue(param_{{{paramName}}}.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -211,7 +207,7 @@
                 let body = http_body_util::BodyExt::collect(body)
                         .await
                         .map(|f| f.to_bytes().to_vec())
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e.into())))?;
 
 {{>client-response-body-instance}}
 
@@ -260,7 +256,7 @@
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }

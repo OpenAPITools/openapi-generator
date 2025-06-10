@@ -206,7 +206,7 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
     /// Create a client with a TLS connection to the server
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
     pub fn try_new_https(base_path: &str) -> Result<Self, ClientInitError>
     {
         let https_connector = Connector::builder()
@@ -219,7 +219,7 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
     /// Create a client with a TLS connection to the server using a pinned certificate
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn try_new_https_pinned<CA>(
@@ -240,7 +240,7 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
     /// Create a client with a mutually authenticated TLS connection to the server.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key

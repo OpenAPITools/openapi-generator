@@ -46,6 +46,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -1531,8 +1532,18 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
             }
         } else if (param.isArray) {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            example = (param.example != null) ? param.example : "&Vec::new()";
-        } else {
+            if (param.items.isString) {
+                // We iterate through the list of string and ensure they end up in the format vec!["example".to_string()]
+                example = (param.example != null)
+                    ? "&vec![" + Arrays.stream(param.example.replace("[", "").replace("]", "").split(","))
+                        .map(item -> item + ".to_string()")
+                        .collect(Collectors.joining(", ")) + "]"
+                    : "&Vec::new()";
+            } else {
+                example = (param.example != null) ? param.example : "&Vec::new()";
+            }
+        }
+            else {
             param.vendorExtensions.put("x-format-string", "{:?}");
             if (param.example != null) {
                 example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";

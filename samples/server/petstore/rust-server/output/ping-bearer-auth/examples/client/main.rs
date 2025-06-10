@@ -100,7 +100,7 @@ fn main() {
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    match matches.get_one::<String>("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
         Some("PingGet") => {
             let result = rt.block_on(client.ping_get(
             ));

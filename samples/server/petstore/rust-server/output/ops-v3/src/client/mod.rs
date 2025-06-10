@@ -6,7 +6,7 @@ use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use hyper::{body::{Body, Incoming}, Request, Response, service::Service, Uri};
 use percent_encoding::{utf8_percent_encode, AsciiSet};
 use std::borrow::Cow;
-use std::convert::TryInto;
+use std::convert::{TryInto, Infallible};
 use std::io::{ErrorKind, Read};
 use std::error::Error;
 use std::future::Future;
@@ -100,8 +100,7 @@ fn into_base_path(input: impl TryInto<Uri, Error=hyper::http::uri::InvalidUri>, 
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C),
-           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -118,8 +117,7 @@ pub struct Client<S, C> where
 
 impl<S, C> fmt::Debug for Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C),
-           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -131,8 +129,7 @@ impl<S, C> fmt::Debug for Client<S, C> where
 
 impl<S, C> Clone for Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C),
-           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -172,7 +169,7 @@ impl<Connector, C> Client<
     ///
     /// # Arguments
     ///
-    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     /// * `protocol` - Which protocol to use when constructing the request url, e.g. `Some("http")`
     /// * `connector` - Implementation of `hyper::client::Connect` to use for the client
     pub fn try_new_with_connector(
@@ -217,7 +214,7 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
     /// Create an HTTP client.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     pub fn try_new(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
@@ -257,7 +254,7 @@ impl<C> Client<
     DropContextService<
         hyper_util::service::TowerToHyperService<
             hyper_util::client::legacy::Client<
-                HttpsConnector,
+                hyper_util::client::legacy::connect::HttpConnector,
                 BoxBody<Bytes, Infallible>
             >
         >,
@@ -270,7 +267,7 @@ impl<C> Client<
     /// Create an HTTP client.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "http://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     pub fn try_new_http(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
@@ -281,10 +278,10 @@ impl<C> Client<
 }
 
 #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
-type HttpsConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
+type HttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;
+type HttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
 impl<C> Client<
     DropContextService<
@@ -303,7 +300,7 @@ impl<C> Client<
     /// Create a client with a TLS connection to the server
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     pub fn try_new_https(base_path: &str) -> Result<Self, ClientInitError>
     {
         let https_connector = Connector::builder()
@@ -316,7 +313,7 @@ impl<C> Client<
     /// Create a client with a TLS connection to the server using a pinned certificate
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn try_new_https_pinned<CA>(
@@ -337,7 +334,7 @@ impl<C> Client<
     /// Create a client with a mutually authenticated TLS connection to the server.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "https://www.my-api-implementation.com"
+    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
@@ -365,8 +362,7 @@ impl<C> Client<
 
 impl<S, C> Client<S, C> where
     S: Service<
-           (Request<BoxBody<Bytes, Infallible>>, C),
-           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C)> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -428,20 +424,25 @@ impl Error for ClientInitError {
     }
 }
 
+#[allow(dead_code)]
 fn body_from_string(s: String) -> BoxBody<Bytes, Infallible> {
     BoxBody::new(Full::new(Bytes::from(s)))
 }
 
 #[async_trait]
-impl<S, C> Api<C> for Client<S, C> where
+impl<S, C, B> Api<C> for Client<S, C> where
     S: Service<
        (Request<BoxBody<Bytes, Infallible>>, C),
-       Response=Response<Incoming>> + Clone + Sync + Send + 'static,
+       Response=Response<B>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Has<XSpanIdString>  + Clone + Send + Sync + 'static,
+    B: hyper::body::Body + Send + 'static + Unpin,
+    B::Data: Send,
+    B::Error: Into<Box<dyn Error + Send + Sync>>,
 {
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op10_get(
         &self,
         context: &C) -> Result<Op10GetResponse, ApiError>
@@ -503,13 +504,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op11_get(
         &self,
         context: &C) -> Result<Op11GetResponse, ApiError>
@@ -571,13 +573,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op12_get(
         &self,
         context: &C) -> Result<Op12GetResponse, ApiError>
@@ -639,13 +642,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op13_get(
         &self,
         context: &C) -> Result<Op13GetResponse, ApiError>
@@ -707,13 +711,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op14_get(
         &self,
         context: &C) -> Result<Op14GetResponse, ApiError>
@@ -775,13 +780,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op15_get(
         &self,
         context: &C) -> Result<Op15GetResponse, ApiError>
@@ -843,13 +849,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op16_get(
         &self,
         context: &C) -> Result<Op16GetResponse, ApiError>
@@ -911,13 +918,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op17_get(
         &self,
         context: &C) -> Result<Op17GetResponse, ApiError>
@@ -979,13 +987,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op18_get(
         &self,
         context: &C) -> Result<Op18GetResponse, ApiError>
@@ -1047,13 +1056,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op19_get(
         &self,
         context: &C) -> Result<Op19GetResponse, ApiError>
@@ -1115,13 +1125,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op1_get(
         &self,
         context: &C) -> Result<Op1GetResponse, ApiError>
@@ -1183,13 +1194,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op20_get(
         &self,
         context: &C) -> Result<Op20GetResponse, ApiError>
@@ -1251,13 +1263,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op21_get(
         &self,
         context: &C) -> Result<Op21GetResponse, ApiError>
@@ -1319,13 +1332,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op22_get(
         &self,
         context: &C) -> Result<Op22GetResponse, ApiError>
@@ -1387,13 +1401,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op23_get(
         &self,
         context: &C) -> Result<Op23GetResponse, ApiError>
@@ -1455,13 +1470,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op24_get(
         &self,
         context: &C) -> Result<Op24GetResponse, ApiError>
@@ -1523,13 +1539,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op25_get(
         &self,
         context: &C) -> Result<Op25GetResponse, ApiError>
@@ -1591,13 +1608,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op26_get(
         &self,
         context: &C) -> Result<Op26GetResponse, ApiError>
@@ -1659,13 +1677,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op27_get(
         &self,
         context: &C) -> Result<Op27GetResponse, ApiError>
@@ -1727,13 +1746,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op28_get(
         &self,
         context: &C) -> Result<Op28GetResponse, ApiError>
@@ -1795,13 +1815,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op29_get(
         &self,
         context: &C) -> Result<Op29GetResponse, ApiError>
@@ -1863,13 +1884,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op2_get(
         &self,
         context: &C) -> Result<Op2GetResponse, ApiError>
@@ -1931,13 +1953,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op30_get(
         &self,
         context: &C) -> Result<Op30GetResponse, ApiError>
@@ -1999,13 +2022,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op31_get(
         &self,
         context: &C) -> Result<Op31GetResponse, ApiError>
@@ -2067,13 +2091,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op32_get(
         &self,
         context: &C) -> Result<Op32GetResponse, ApiError>
@@ -2135,13 +2160,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op33_get(
         &self,
         context: &C) -> Result<Op33GetResponse, ApiError>
@@ -2203,13 +2229,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op34_get(
         &self,
         context: &C) -> Result<Op34GetResponse, ApiError>
@@ -2271,13 +2298,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op35_get(
         &self,
         context: &C) -> Result<Op35GetResponse, ApiError>
@@ -2339,13 +2367,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op36_get(
         &self,
         context: &C) -> Result<Op36GetResponse, ApiError>
@@ -2407,13 +2436,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op37_get(
         &self,
         context: &C) -> Result<Op37GetResponse, ApiError>
@@ -2475,13 +2505,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op3_get(
         &self,
         context: &C) -> Result<Op3GetResponse, ApiError>
@@ -2543,13 +2574,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op4_get(
         &self,
         context: &C) -> Result<Op4GetResponse, ApiError>
@@ -2611,13 +2643,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op5_get(
         &self,
         context: &C) -> Result<Op5GetResponse, ApiError>
@@ -2679,13 +2712,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op6_get(
         &self,
         context: &C) -> Result<Op6GetResponse, ApiError>
@@ -2747,13 +2781,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op7_get(
         &self,
         context: &C) -> Result<Op7GetResponse, ApiError>
@@ -2815,13 +2850,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op8_get(
         &self,
         context: &C) -> Result<Op8GetResponse, ApiError>
@@ -2883,13 +2919,14 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn op9_get(
         &self,
         context: &C) -> Result<Op9GetResponse, ApiError>
@@ -2951,7 +2988,7 @@ impl<S, C> Api<C> for Client<S, C> where
                             Ok(body) => body,
                             Err(e) => format!("<Body was not UTF8: {:?}>", e),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }

@@ -5,6 +5,7 @@
 use async_trait::async_trait;
 use futures::{future, Stream, StreamExt, TryFutureExt, TryStreamExt};
 use hyper::server::conn::http1;
+use hyper_util::rt::TokioIo;
 use hyper::service::{service_fn, Service};
 use log::info;
 use std::future::Future;
@@ -17,36 +18,26 @@ use swagger::auth::MakeAllowAllAuthenticator;
 use swagger::EmptyContext;
 use tokio::net::TcpListener;
 
-use crate::tokio_io::TokioIo;
-
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 use openssl::ssl::{Ssl, SslAcceptor, SslAcceptorBuilder, SslFiletype, SslMethod};
 
 use ping_bearer_auth::models;
 
-/// Needed because `hyper`'s `service_fn` is sent to a `tokio::task::spawn`,
-/// which requires the future to be `'static`.
-///
-/// Because `MakeAllowAllAuthenticator` is not `Clone`, this is a shorthand way
-/// of creating the `service`.
-///
-/// This is not a `fn` because the generics are extremely deeply nested.
-macro_rules! create_service {
-    () => {
-        {
-            let server = Server::new();
-            let service = MakeService::new(server);
-            let service = MakeAllowAllAuthenticator::new(service, "cosmo");
-            ping_bearer_auth::server::context::MakeAddContext::<_, EmptyContext>::new(
-                service
-            )
-        }
-    };
-}
-
 /// Builds an SSL implementation for Simple HTTPS from some hard-coded file names
 pub async fn create(addr: &str, https: bool) {
     let addr: SocketAddr = addr.parse().expect("Failed to parse bind address");
+    let listener = TcpListener::bind(&addr).await.unwrap();
+
+    let server = Server::new();
+
+    let service = MakeService::new(server);
+    let service = MakeAllowAllAuthenticator::new(service, "cosmo");
+
+    #[allow(unused_mut)]
+    let mut service =
+        ping_bearer_auth::server::context::MakeAddContext::<_, EmptyContext>::new(
+            service
+        );
 
     if https {
         #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
@@ -64,21 +55,19 @@ pub async fn create(addr: &str, https: bool) {
             ssl.check_private_key().expect("Failed to check private key");
 
             let tls_acceptor = ssl.build();
-            let tcp_listener = TcpListener::bind(&addr).await.unwrap();
 
             info!("Starting a server (with https)");
             loop {
-                if let Ok((tcp, _)) = tcp_listener.accept().await {
+                if let Ok((tcp, addr)) = listener.accept().await {
                     let ssl = Ssl::new(tls_acceptor.context()).unwrap();
-                    let addr = tcp.peer_addr().expect("Unable to get remote address");
-                    let service = create_service!().call(addr);
+                    let service = service.call(addr);
 
                     tokio::spawn(async move {
                         let tls = tokio_openssl::SslStream::new(ssl, tcp).map_err(|_| ())?;
                         let service = service.await.map_err(|_| ())?;
 
                         http1::Builder::new()
-                            .serve_connection(TokioIo::new(tcp_stream), service)
+                            .serve_connection(TokioIo::new(tls), service)
                             .await
                             .map_err(|_| ())
                     });
@@ -100,40 +89,18 @@ pub async fn create(addr: &str, https: bool) {
             // has work to do. In this case, a connection arrives on the port we are listening on and
             // the task is woken up, at which point the task is then put back on a thread, and is
             // driven forward by the runtime, eventually yielding a TCP stream.
-            let (tcp_stream, _addr) = listener.accept().await.expect("Failed to accept connection");
+            let (tcp_stream, addr) = listener.accept().await.expect("Failed to accept connection");
 
-            let service = create_service!();
-            let my_service_fn = service_fn(move |req| {
-                let add_context = service.call(());
-
-                async move {
-                    let add_context = add_context.await?;
-                    add_context.call(req).await
-                }
-            });
-
+            let service = service.call(addr).await.unwrap();
+            let io = TokioIo::new(tcp_stream);
             // Spin up a new task in Tokio so we can continue to listen for new TCP connection on the
             // current task without waiting for the processing of the HTTP1 connection we just received
             // to finish
             tokio::task::spawn(async move {
                 // Handle the connection from the client using HTTP1 and pass any
                 // HTTP requests received on that connection to the `hello` function
-                let result = hyper::server::conn::http1::Builder::new()
-                    .serve_connection(TokioIo::new(tcp_stream), my_service_fn)
-                    // `always_send` is here, because we run into:
-                    //
-                    // ```md
-                    // implementation of `From` is not general enough
-                    //
-                    // `Box<(dyn StdError + std::marker::Send + Sync + 'static)>` must implement `From<Box<(dyn StdError + std::marker::Send + Sync + '0)>>`, for any lifetime `'0`...
-                    // ...but it actually implements `From<Box<(dyn StdError + std::marker::Send + Sync + 'static)>>`
-                    // ```
-                    //
-                    // This is caused by this rust bug:
-                    //
-                    // <https://users.rust-lang.org/t/implementation-of-from-is-not-general-enough-with-hyper/105799>
-                    // <https://github.com/rust-lang/rust/issues/102211>
-                    .always_send()
+                let result = http1::Builder::new()
+                    .serve_connection(io, service)
                     .await;
                 if let Err(err) = result
                 {

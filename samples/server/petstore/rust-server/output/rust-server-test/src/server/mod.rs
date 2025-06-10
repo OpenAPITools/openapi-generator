@@ -63,16 +63,16 @@ mod paths {
 }
 
 
-pub struct MakeService<T, C, Target>
+pub struct MakeService<T, C>
 where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString>  + Send + Sync + 'static
 {
     api_impl: T,
-    marker: PhantomData<(C, Target)>,
+    marker: PhantomData<C>,
 }
 
-impl<T, C> MakeService<T, C, ()>
+impl<T, C> MakeService<T, C>
 where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString>  + Send + Sync + 'static
@@ -85,10 +85,10 @@ where
     }
 }
 
-impl<T, C, Target> Clone for MakeService<T, C, Target>
+impl<T, C> Clone for MakeService<T, C>
 where
     T: Api<C> + Clone + Send + 'static,
-    C: Has<XSpanIdString>  + Send + Sync + 'static
+    C: Has<XSpanIdString>   + Send + Sync + 'static
 {
     fn clone(&self) -> Self {
         Self {
@@ -98,9 +98,7 @@ where
     }
 }
 
-// `MakeService` itself doesn't take the request type (so we use `()`),
-// but we need the `Target` type parameter to track the inner hyper `Service`.
-impl<T, C, Target> hyper::service::Service<()> for MakeService<T, C, Target>
+impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C>
 where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString>  + Send + Sync + 'static
@@ -109,7 +107,7 @@ where
     type Error = crate::ServiceError;
     type Future = future::Ready<Result<Self::Response, Self::Error>>;
 
-    fn call(&self, (): ()) -> Self::Future {
+    fn call(&self, target: Target) -> Self::Future {
         let service = Service::new(self.api_impl.clone());
 
         future::ok(service)
@@ -156,6 +154,7 @@ impl<T, C> Clone for Service<T, C> where
     }
 }
 
+#[allow(dead_code)]
 fn body_from_string(s: String) -> BoxBody<Bytes, Infallible> {
     BoxBody::new(Full::new(Bytes::from(s)))
 }
@@ -164,22 +163,28 @@ fn body_from_str(s: &str) -> BoxBody<Bytes, Infallible> {
     BoxBody::new(Full::new(Bytes::copy_from_slice(s.as_bytes())))
 }
 
-impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> where
+impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T, C> where
     T: Api<C> + Clone + Send + Sync + 'static,
-    C: Has<XSpanIdString>  + Send + Sync + 'static
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
 {
     type Response = Response<BoxBody<Bytes, Infallible>>;
     type Error = crate::ServiceError;
     type Future = ServiceFuture;
 
-    fn call(&self, req: (Request<Incoming>, C)) -> Self::Future {
-        async fn run<T, C>(
+    fn call(&self, req: (Request<ReqBody>, C)) -> Self::Future {
+        async fn run<T, C, ReqBody>(
             mut api_impl: T,
-            req: (Request<Incoming>, C),
+            req: (Request<ReqBody>, C),
         ) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
         where
             T: Api<C> + Clone + Send + 'static,
-            C: Has<XSpanIdString>  + Send + Sync + 'static
+            C: Has<XSpanIdString>  + Send + Sync + 'static,
+            ReqBody: Body + Send + 'static,
+            ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+            ReqBody::Data: Send,
         {
             let (request, context) = req;
             let (parts, body) = request.into_parts();
@@ -266,7 +271,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                      Ok(body) => {
                                 let mut unused_elements : Vec<String> = vec![];
                                 let param_nested_response: Option<models::DummyPutRequest> = if !body.is_empty() {
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -274,9 +279,10 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                                         Ok(param_nested_response) => param_nested_response,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter nested_response - doesn't match schema: {}", e)))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter nested_response - doesn't match schema: {}", e)))
                                                         .expect("Unable to create Bad Request response for invalid body parameter nested_response due to schema")),
                                     }
+
                                 } else {
                                     None
                                 };
@@ -284,7 +290,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                                     Some(param_nested_response) => param_nested_response,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Missing required body parameter nested_response"))
+                                                        .body(BoxBody::new("Missing required body parameter nested_response".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter nested_response")),
                                 };
 
@@ -325,7 +331,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(body_from_string(format!("Unable to read body: {}", e)))
+                                                .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -390,7 +396,6 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                                                         HeaderValue::from_str("application/yaml")
                                                             .expect("Unable to create Content-Type header for application/yaml"));
                                                     // Plain text Body
-                                                    let body = body;
                                                     *response.body_mut() = body_from_string(body);
 
                                                 },
@@ -419,7 +424,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                                         Ok(param_body) => Some(param_body),
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - not valid UTF-8: {}", e)))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter body - not valid UTF-8: {}", e)))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to UTF-8")),
                                     }
                                 } else {
@@ -429,7 +434,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                                     Some(param_body) => param_body,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
 
@@ -455,7 +460,6 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                                                         HeaderValue::from_str("text/html")
                                                             .expect("Unable to create Content-Type header for text/html"));
                                                     // Plain text Body
-                                                    let body = body;
                                                     *response.body_mut() = body_from_string(body);
 
                                                 },
@@ -472,7 +476,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(body_from_string(format!("Unable to read body: {}", e)))
+                                                .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -490,7 +494,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                                         Ok(param_value) => Some(param_value),
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter value - not valid UTF-8: {}", e)))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter value - not valid UTF-8: {}", e)))
                                                         .expect("Unable to create Bad Request response for invalid body parameter value due to UTF-8")),
                                     }
                                 } else {
@@ -500,7 +504,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                                     Some(param_value) => param_value,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Missing required body parameter value"))
+                                                        .body(BoxBody::new("Missing required body parameter value".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter value")),
                                 };
 
@@ -535,7 +539,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(body_from_string(format!("Unable to read body: {}", e)))
+                                                .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -588,7 +592,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                      Ok(body) => {
                                 let mut unused_elements : Vec<String> = vec![];
                                 let param_value: Option<serde_json::Value> = if !body.is_empty() {
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -596,9 +600,10 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                                         Ok(param_value) => param_value,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter value - doesn't match schema: {}", e)))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter value - doesn't match schema: {}", e)))
                                                         .expect("Unable to create Bad Request response for invalid body parameter value due to schema")),
                                     }
+
                                 } else {
                                     None
                                 };
@@ -606,7 +611,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                                     Some(param_value) => param_value,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Missing required body parameter value"))
+                                                        .body(BoxBody::new("Missing required body parameter value".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter value")),
                                 };
 
@@ -647,7 +652,7 @@ impl<T, C> hyper::service::Service<(Request<Incoming>, C)> for Service<T, C> whe
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(body_from_string(format!("Unable to read body: {}", e)))
+                                                .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },

@@ -68,31 +68,41 @@ fn main() {
         .arg(Arg::new("operation")
             .help("Sets the operation to run")
             .value_parser([
+                "TestSpecialTags",
                 "Call123example",
                 "FakeOuterBooleanSerialize",
                 "FakeOuterCompositeSerialize",
                 "FakeOuterNumberSerialize",
                 "FakeOuterStringSerialize",
                 "FakeResponseWithNumericalDescription",
+                "TestBodyWithQueryParams",
+                "TestClientModel",
                 "TestEndpointParameters",
                 "TestEnumParameters",
+                "TestInlineAdditionalProperties",
                 "TestJsonFormData",
                 "HyphenParam",
+                "TestClassname",
+                "AddPet",
                 "FindPetsByStatus",
                 "FindPetsByTags",
+                "UpdatePet",
                 "DeletePet",
                 "GetPetById",
                 "UpdatePetWithForm",
                 "UploadFile",
                 "GetInventory",
+                "PlaceOrder",
                 "DeleteOrder",
                 "GetOrderById",
+                "CreateUser",
                 "CreateUsersWithArrayInput",
                 "CreateUsersWithListInput",
                 "LoginUser",
                 "LogoutUser",
                 "DeleteUser",
                 "GetUserByName",
+                "UpdateUser",
             ])
             .required(true)
             .index(1))
@@ -161,7 +171,7 @@ fn main() {
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    match matches.get_one::<String>("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
         /* Disabled because there's no example.
         Some("TestSpecialTags") => {
             let result = rt.block_on(client.test_special_tags(
