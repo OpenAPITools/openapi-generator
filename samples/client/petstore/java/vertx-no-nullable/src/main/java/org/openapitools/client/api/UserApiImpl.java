@@ -438,7 +438,7 @@ public class UserApiImpl implements UserApi {
 
     private String encodeParameter(String parameter) {
         try {
-            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name());
+            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name()).replaceAll("\\+", "%20");
         } catch (UnsupportedEncodingException e) {
             return parameter;
         }
