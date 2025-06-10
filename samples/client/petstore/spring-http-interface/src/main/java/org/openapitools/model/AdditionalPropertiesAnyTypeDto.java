@@ -28,7 +28,7 @@ public class AdditionalPropertiesAnyTypeDto {
 
   private @Nullable String name;
 
-  public AdditionalPropertiesAnyTypeDto name(String name) {
+  public AdditionalPropertiesAnyTypeDto name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -39,11 +39,11 @@ public class AdditionalPropertiesAnyTypeDto {
    */
   
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
     /**

@@ -27,7 +27,7 @@ public class Tag {
 
   private @Nullable String name;
 
-  public Tag id(Long id) {
+  public Tag id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -39,15 +39,15 @@ public class Tag {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public Tag name(String name) {
+  public Tag name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -59,11 +59,11 @@ public class Tag {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
 

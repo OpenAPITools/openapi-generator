@@ -2898,3 +2898,15 @@ components:
             - B
             - C
           default: B
+    PonySizes:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/Type'
+    Type:
+      type: float
+      enum:
+        - 2.0
+        - 1.0
+        - 0.5
+        - 0.25

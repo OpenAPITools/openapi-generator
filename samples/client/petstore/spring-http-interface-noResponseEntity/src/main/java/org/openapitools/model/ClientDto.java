@@ -24,7 +24,7 @@ public class ClientDto {
 
   private @Nullable String client;
 
-  public ClientDto client(String client) {
+  public ClientDto client(@Nullable String client) {
     this.client = client;
     return this;
   }
@@ -35,11 +35,11 @@ public class ClientDto {
    */
   
   @JsonProperty("client")
-  public String getClient() {
+  public @Nullable String getClient() {
     return client;
   }
 
-  public void setClient(String client) {
+  public void setClient(@Nullable String client) {
     this.client = client;
   }
 

@@ -28,7 +28,7 @@ public class AdditionalPropertiesString {
 
   private @Nullable String name;
 
-  public AdditionalPropertiesString name(String name) {
+  public AdditionalPropertiesString name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -40,11 +40,11 @@ public class AdditionalPropertiesString {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
     /**

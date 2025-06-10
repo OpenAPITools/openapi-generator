@@ -22,7 +22,7 @@ public class File {
 
   private @Nullable String sourceURI;
 
-  public File sourceURI(String sourceURI) {
+  public File sourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
     return this;
   }
@@ -33,11 +33,11 @@ public class File {
    */
   
   @JsonProperty("sourceURI")
-  public String getSourceURI() {
+  public @Nullable String getSourceURI() {
     return sourceURI;
   }
 
-  public void setSourceURI(String sourceURI) {
+  public void setSourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
 

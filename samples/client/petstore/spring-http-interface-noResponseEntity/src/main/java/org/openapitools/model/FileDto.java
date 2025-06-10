@@ -24,7 +24,7 @@ public class FileDto {
 
   private @Nullable String sourceURI;
 
-  public FileDto sourceURI(String sourceURI) {
+  public FileDto sourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
     return this;
   }
@@ -35,11 +35,11 @@ public class FileDto {
    */
   
   @JsonProperty("sourceURI")
-  public String getSourceURI() {
+  public @Nullable String getSourceURI() {
     return sourceURI;
   }
 
-  public void setSourceURI(String sourceURI) {
+  public void setSourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
 
