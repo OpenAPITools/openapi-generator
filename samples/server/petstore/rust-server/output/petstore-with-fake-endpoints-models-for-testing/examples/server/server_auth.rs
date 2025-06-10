@@ -88,7 +88,7 @@ impl<C> AuthenticationApi for Server<C> where C: Has<XSpanIdString> + Send + Syn
 
     /// Implementation of the method to map a Bearer-token to an Authorization
     fn bearer_authorization(&self, bearer: &Bearer) -> Result<Authorization, ApiError> {
-        debug!("\tAuthorizationApi: Received Bearer-token, {bearer:#?}");
+        debug!("\tAuthorizationApi: Received Bearer-token, {token:#?}");
 
         match extract_token_data(&bearer.token, b"secret") {
             Ok(auth_data) => {
@@ -127,4 +127,3 @@ impl<C> AuthenticationApi for Server<C> where C: Has<XSpanIdString> + Send + Syn
     }
 
 }
-

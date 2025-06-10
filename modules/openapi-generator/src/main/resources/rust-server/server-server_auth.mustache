@@ -3,6 +3,7 @@ use crate::{Api, AuthenticationApi};
 use swagger::{
     ApiError,
     Authorization,
+    auth::{Basic, Bearer},
     Has,
     XSpanIdString
 };
@@ -12,17 +13,17 @@ T: Api<C> + Clone + Send + 'static + AuthenticationApi,
 C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static {
 
     /// Passthrough of the task to the api-implementation
-    fn bearer_authorization(&self, token: &str) -> Result<Authorization, ApiError> {
+    fn bearer_authorization(&self, token: &Bearer) -> Result<Authorization, ApiError> {
         self.api_impl.bearer_authorization(token)
     }
 
     /// Passthrough of the task to the api-implementation
-    fn apikey_authorization(&self, token: &str) -> Result<Authorization, ApiError> {
+    fn apikey_authorization(&self, token: &Bearer) -> Result<Authorization, ApiError> {
         self.api_impl.apikey_authorization(token)
     }
 
     /// Passthrough of the task to the api-implementation
-    fn basic_authorization(&self, username: &str, password: &str) -> Result<Authorization, ApiError> {
+    fn basic_authorization(&self, basic: &Basic) -> Result<Authorization, ApiError> {
         self.api_impl.basic_authorization(username, password)
     }
 }

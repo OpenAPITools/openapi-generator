@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 use crate::server::Authorization;
 use serde::{Deserialize, Serialize};
-use swagger::{ApiError, auth::AuthData};
+use swagger::{ApiError, auth::{Basic, Bearer}};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
@@ -17,13 +17,13 @@ pub struct Claims {
 pub trait AuthenticationApi {
 
     /// Method should be implemented (see example-code) to map Bearer-token to an Authorization
-    fn bearer_authorization(&self, token: &str) -> Result<Authorization, ApiError>;
+    fn bearer_authorization(&self, token: &Bearer) -> Result<Authorization, ApiError>;
 
     /// Method should be implemented (see example-code) to map ApiKey to an Authorization
     fn apikey_authorization(&self, token: &str) -> Result<Authorization, ApiError>;
 
     /// Method should be implemented (see example-code) to map Basic (Username:password) to an Authorization
-    fn basic_authorization(&self, username: &str, password: &str) -> Result<Authorization, ApiError>;
+    fn basic_authorization(&self, basic: &Basic) -> Result<Authorization, ApiError>;
 }
 
 // Implement it for AllowAllAuthenticator (dummy is needed, but should not used as we have Bearer authorization)
@@ -46,7 +46,7 @@ where
     RC::Result: Send + 'static {
 
     /// Get method to map Bearer-token to an Authorization
-    fn bearer_authorization(&self, _token: &str) -> Result<Authorization, ApiError> {
+    fn bearer_authorization(&self, _token: &Bearer) -> Result<Authorization, ApiError> {
         Ok(dummy_authorization())
     }
 
@@ -56,7 +56,7 @@ where
     }
 
     /// Get method to map basic token to an Authorization
-    fn basic_authorization(&self, _username: &str, _password: &str) -> Result<Authorization, ApiError> {
+    fn basic_authorization(&self, _basic: &Basic) -> Result<Authorization, ApiError> {
         Ok(dummy_authorization())
     }
 }

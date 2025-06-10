@@ -24,7 +24,7 @@ pub trait AuthenticationApi {
 
     /// Method should be implemented (see example-code) to map Basic (Username:password) to an Authorization
     fn basic_authorization(&self, basic: &Basic) -> Result<Authorization, ApiError>;
-} 
+}
 
 // Implement it for AllowAllAuthenticator (dummy is needed, but should not used as we have Bearer authorization)
 use swagger::auth::{AllowAllAuthenticator, RcBound, Scopes};
