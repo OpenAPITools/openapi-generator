@@ -74,7 +74,6 @@ class FakeApi {
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<FakeBigDecimalMap200Response, FakeBigDecimalMap200Response>(rawData, 'FakeBigDecimalMap200Response', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -144,7 +143,6 @@ _responseData = rawData == null ? null : deserialize<FakeBigDecimalMap200Respons
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<HealthCheckResult, HealthCheckResult>(rawData, 'HealthCheckResult', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -316,7 +314,6 @@ _bodyData=jsonEncode(body);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -406,7 +403,6 @@ _bodyData=jsonEncode(outerComposite);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<OuterComposite, OuterComposite>(rawData, 'OuterComposite', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -496,7 +492,6 @@ _bodyData=jsonEncode(body);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<num, num>(rawData, 'num', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -586,7 +581,6 @@ _bodyData=jsonEncode(body);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'String', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -676,7 +670,6 @@ _bodyData=jsonEncode(outerObjectWithEnumProperty);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty, OuterObjectWithEnumProperty>(rawData, 'OuterObjectWithEnumProperty', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1034,7 +1027,6 @@ _bodyData=jsonEncode(modelClient);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(rawData, 'ModelClient', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,

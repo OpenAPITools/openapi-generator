@@ -202,7 +202,6 @@ _bodyData=jsonEncode(pet);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<List<Pet>, Pet>(rawData, 'List<Pet>', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -285,7 +284,6 @@ _responseData = rawData == null ? null : deserialize<List<Pet>, Pet>(rawData, 'L
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<Set<Pet>, Pet>(rawData, 'Set<Pet>', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -364,7 +362,6 @@ _responseData = rawData == null ? null : deserialize<Set<Pet>, Pet>(rawData, 'Se
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -607,7 +604,6 @@ _bodyData=jsonEncode(pet);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(rawData, 'ApiResponse', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -706,7 +702,6 @@ _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(r
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(rawData, 'ApiResponse', growable: true);
-
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
