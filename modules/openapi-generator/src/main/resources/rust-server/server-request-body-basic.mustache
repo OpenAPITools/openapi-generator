@@ -15,7 +15,7 @@
             {{#required}}
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter {{{baseName}}} - doesn't match schema: {}", e)))
+                                                        .body(body_from_string(format!("Couldn't parse body parameter {{{baseName}}} - doesn't match schema: {}", e)))
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{{baseName}}} due to schema")),
             {{/required}}
             {{^required}}
@@ -32,7 +32,7 @@
                                         Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter {{{baseName}}} - not valid UTF-8: {}", e)))
+                                                        .body(body_from_string(format!("Couldn't parse body parameter {{{baseName}}} - not valid UTF-8: {}", e)))
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{{baseName}}} due to UTF-8")),
                                     }
             {{/isString}}
@@ -46,7 +46,7 @@
                                     Some(param_{{{paramName}}}) => param_{{{paramName}}},
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Missing required body parameter {{{baseName}}}"))
+                                                        .body(body_from_str("Missing required body parameter {{{baseName}}}"))
                                                         .expect("Unable to create Bad Request response for missing body parameter {{{baseName}}}")),
                                 };
         {{/required}}

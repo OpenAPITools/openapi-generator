@@ -24,7 +24,7 @@
                             let missing_scopes = required_scopes.difference(scopes);
                             return Ok(Response::builder()
                                 .status(StatusCode::FORBIDDEN)
-                                .body(Body::from(missing_scopes.fold(
+                                .body(body_from_string(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
                                     |s, scope| format!("{} {}", s, scope))
                                 ))

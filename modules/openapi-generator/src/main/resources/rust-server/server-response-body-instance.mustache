@@ -46,5 +46,5 @@
       {{/formParams}}
     {{/x-produces-multipart-related}}
   {{/vendorExtensions}}
-                                                    *response.body_mut() = body_from_string(body);
+                                                    *response.body_mut() = BoxBody::new(Full::new(Bytes::from(body)));
 {{/dataType}}

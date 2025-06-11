@@ -19,8 +19,8 @@ use crate::{{{operationId}}}Response;
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
     C: Clone + Send + Sync + 'static
@@ -34,8 +34,8 @@ pub struct Client<S, C> where
 
 impl<S, C> fmt::Debug for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
     C: Clone + Send + Sync + 'static
@@ -47,8 +47,8 @@ impl<S, C> fmt::Debug for Client<S, C> where
 
 impl<S, C> Clone for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
     C: Clone + Send + Sync + 'static
@@ -169,8 +169,8 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
 
 impl<S, C> Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
     C: Clone + Send + Sync + 'static
@@ -191,8 +191,8 @@ impl<S, C> Client<S, C> where
 #[async_trait]
 impl<S, C> CallbackApi<C> for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
