@@ -119,7 +119,7 @@ public class NullableClass extends HashMap<String, Object> {
         return integerProp.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_INTEGER_PROP)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<Integer> getIntegerProp_JsonNullable() {
@@ -151,7 +151,7 @@ public class NullableClass extends HashMap<String, Object> {
         return numberProp.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_NUMBER_PROP)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<BigDecimal> getNumberProp_JsonNullable() {
@@ -183,7 +183,7 @@ public class NullableClass extends HashMap<String, Object> {
         return booleanProp.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_BOOLEAN_PROP)
+  @JsonProperty(value = JSON_PROPERTY_BOOLEAN_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<Boolean> getBooleanProp_JsonNullable() {
@@ -215,7 +215,7 @@ public class NullableClass extends HashMap<String, Object> {
         return stringProp.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_STRING_PROP)
+  @JsonProperty(value = JSON_PROPERTY_STRING_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<String> getStringProp_JsonNullable() {
@@ -247,7 +247,7 @@ public class NullableClass extends HashMap<String, Object> {
         return dateProp.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_DATE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_DATE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<LocalDate> getDateProp_JsonNullable() {
@@ -279,7 +279,7 @@ public class NullableClass extends HashMap<String, Object> {
         return datetimeProp.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_DATETIME_PROP)
+  @JsonProperty(value = JSON_PROPERTY_DATETIME_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<OffsetDateTime> getDatetimeProp_JsonNullable() {
@@ -323,7 +323,7 @@ public class NullableClass extends HashMap<String, Object> {
         return arrayNullableProp.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<List<Object>> getArrayNullableProp_JsonNullable() {
@@ -367,7 +367,7 @@ public class NullableClass extends HashMap<String, Object> {
         return arrayAndItemsNullableProp.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<List<Object>> getArrayAndItemsNullableProp_JsonNullable() {
@@ -402,14 +402,14 @@ public class NullableClass extends HashMap<String, Object> {
    * @return arrayItemsNullable
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEMS_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEMS_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayItemsNullable(@javax.annotation.Nullable List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
@@ -443,7 +443,7 @@ public class NullableClass extends HashMap<String, Object> {
         return objectNullableProp.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<Map<String, Object>> getObjectNullableProp_JsonNullable() {
@@ -487,7 +487,7 @@ public class NullableClass extends HashMap<String, Object> {
         return objectAndItemsNullableProp.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<Map<String, Object>> getObjectAndItemsNullableProp_JsonNullable() {
@@ -522,14 +522,14 @@ public class NullableClass extends HashMap<String, Object> {
    * @return objectItemsNullable
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_ITEMS_NULLABLE, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_ITEMS_NULLABLE, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public void setObjectItemsNullable(@javax.annotation.Nullable Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
