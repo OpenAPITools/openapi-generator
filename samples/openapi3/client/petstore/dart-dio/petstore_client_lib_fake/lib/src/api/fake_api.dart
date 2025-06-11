@@ -1222,6 +1222,8 @@ class FakeApi {
   /// * [enumQueryModelArray] 
   /// * [enumFormStringArray] - Form parameter enum test (string array)
   /// * [enumFormString] - Form parameter enum test (string)
+  /// * [enumFormInteger] - Form parameter enum test (integer)
+  /// * [enumFormDouble] - Form parameter enum test (double)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1241,6 +1243,8 @@ class FakeApi {
     BuiltList<ModelEnumClass>? enumQueryModelArray,
     BuiltList<String>? enumFormStringArray,
     String? enumFormString,
+    int? enumFormInteger,
+    num? enumFormDouble,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1278,6 +1282,8 @@ class FakeApi {
       _bodyData = <String, dynamic>{
         if (enumFormStringArray != null) r'enum_form_string_array': encodeCollectionQueryParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
         if (enumFormString != null) r'enum_form_string': encodeQueryParameter(_serializers, enumFormString, const FullType(String)),
+        if (enumFormInteger != null) r'enum_form_integer': encodeQueryParameter(_serializers, enumFormInteger, const FullType(int)),
+        if (enumFormDouble != null) r'enum_form_double': encodeQueryParameter(_serializers, enumFormDouble, const FullType(num)),
       };
 
     } catch(error, stackTrace) {

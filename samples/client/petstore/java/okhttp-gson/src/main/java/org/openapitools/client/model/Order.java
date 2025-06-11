@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 
@@ -76,11 +77,11 @@ public class Order {
    */
   @JsonAdapter(StatusEnum.Adapter.class)
   public enum StatusEnum {
-    PLACED("placed"),
+    PLACED(String.valueOf("placed")),
     
-    APPROVED("approved"),
+    APPROVED(String.valueOf("approved")),
     
-    DELIVERED("delivered");
+    DELIVERED(String.valueOf("delivered"));
 
     private String value;
 
@@ -134,6 +135,63 @@ public class Order {
   @SerializedName(SERIALIZED_NAME_COMPLETE)
   @javax.annotation.Nullable
   private Boolean complete = false;
+
+  /**
+   * Various payment methods
+   */
+  @JsonAdapter(PaymentMethodEnum.Adapter.class)
+  public enum PaymentMethodEnum {
+    NUMBER_1(new BigDecimal("1")),
+    
+    NUMBER_2(new BigDecimal("2"));
+
+    private BigDecimal value;
+
+    PaymentMethodEnum(BigDecimal value) {
+      this.value = value;
+    }
+
+    public BigDecimal getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static PaymentMethodEnum fromValue(BigDecimal value) {
+      for (PaymentMethodEnum b : PaymentMethodEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<PaymentMethodEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final PaymentMethodEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public PaymentMethodEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return PaymentMethodEnum.fromValue(new BigDecimal(value));
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      PaymentMethodEnum.fromValue(new BigDecimal(value));
+    }
+  }
+
+  public static final String SERIALIZED_NAME_PAYMENT_METHOD = "paymentMethod";
+  @SerializedName(SERIALIZED_NAME_PAYMENT_METHOD)
+  @javax.annotation.Nullable
+  private PaymentMethodEnum paymentMethod = PaymentMethodEnum.NUMBER_1;
 
   public Order() {
   }
@@ -251,6 +309,25 @@ public class Order {
     this.complete = complete;
   }
 
+
+  public Order paymentMethod(@javax.annotation.Nullable PaymentMethodEnum paymentMethod) {
+    this.paymentMethod = paymentMethod;
+    return this;
+  }
+
+  /**
+   * Various payment methods
+   * @return paymentMethod
+   */
+  @javax.annotation.Nullable
+  public PaymentMethodEnum getPaymentMethod() {
+    return paymentMethod;
+  }
+
+  public void setPaymentMethod(@javax.annotation.Nullable PaymentMethodEnum paymentMethod) {
+    this.paymentMethod = paymentMethod;
+  }
+
   /**
    * A container for additional, undeclared properties.
    * This is a holder for any undeclared properties as specified with
@@ -311,13 +388,14 @@ public class Order {
         Objects.equals(this.quantity, order.quantity) &&
         Objects.equals(this.shipDate, order.shipDate) &&
         Objects.equals(this.status, order.status) &&
-        Objects.equals(this.complete, order.complete)&&
+        Objects.equals(this.complete, order.complete) &&
+        Objects.equals(this.paymentMethod, order.paymentMethod)&&
         Objects.equals(this.additionalProperties, order.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, petId, quantity, shipDate, status, complete, additionalProperties);
+    return Objects.hash(id, petId, quantity, shipDate, status, complete, paymentMethod, additionalProperties);
   }
 
   @Override
@@ -330,6 +408,7 @@ public class Order {
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+    sb.append("    paymentMethod: ").append(toIndentedString(paymentMethod)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -352,7 +431,7 @@ public class Order {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "petId", "quantity", "shipDate", "status", "complete"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "petId", "quantity", "shipDate", "status", "complete", "paymentMethod"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -377,6 +456,10 @@ public class Order {
       // validate the optional field `status`
       if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
         StatusEnum.validateJsonElement(jsonObj.get("status"));
+      }
+      // validate the optional field `paymentMethod`
+      if (jsonObj.get("paymentMethod") != null && !jsonObj.get("paymentMethod").isJsonNull()) {
+        PaymentMethodEnum.validateJsonElement(jsonObj.get("paymentMethod"));
       }
   }
 

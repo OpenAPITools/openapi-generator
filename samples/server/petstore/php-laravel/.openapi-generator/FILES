@@ -60,6 +60,8 @@ Model/NullableClass.php
 Model/NumberOnly.php
 Model/ObjectWithDeprecatedFields.php
 Model/Order.php
+Model/OrderOrderStatus.php
+Model/OrderPaymentMethod.php
 Model/OrderStatus.php
 Model/OuterComposite.php
 Model/OuterEnum.php
@@ -78,6 +80,8 @@ Model/Tag.php
 Model/TestEnumParametersEnumHeaderStringParameter.php
 Model/TestEnumParametersEnumQueryDoubleParameter.php
 Model/TestEnumParametersEnumQueryIntegerParameter.php
+Model/TestEnumParametersRequestEnumFormDouble.php
+Model/TestEnumParametersRequestEnumFormInteger.php
 Model/TestEnumParametersRequestEnumFormString.php
 Model/TestEnumParametersRequestEnumFormStringArrayInner.php
 Model/TestInlineFreeformAdditionalPropertiesRequest.php

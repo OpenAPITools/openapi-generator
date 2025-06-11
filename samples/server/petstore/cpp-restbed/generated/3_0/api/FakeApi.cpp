@@ -1668,6 +1668,8 @@ void FakeResource::handler_GET_internal(const std::shared_ptr<restbed::Session> 
     std::vector<std::string> enumFormStringArray;
     boost::split(enumFormStringArray, enumFormStringArray_raw, boost::is_any_of(","));
     auto enumFormString = boost::lexical_cast<std::string>(extractFormParamsFromBody("enumFormString", extractBodyContent(session)));
+    auto enumFormInteger = boost::lexical_cast<int32_t>(extractFormParamsFromBody("enumFormInteger", extractBodyContent(session)));
+    auto enumFormDouble = boost::lexical_cast<double>(extractFormParamsFromBody("enumFormDouble", extractBodyContent(session)));
     // Getting the query params
     std::string enumQueryStringArray_raw = request->get_query_parameter("enumQueryStringArray");
     std::vector<std::string> enumQueryStringArray;
@@ -1693,7 +1695,7 @@ void FakeResource::handler_GET_internal(const std::shared_ptr<restbed::Session> 
     
     try {
         status_code =
-            handler_GET(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+            handler_GET(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
     }
     catch(const FakeApiException& e) {
         std::tie(status_code, result) = handleFakeApiException(e);
@@ -1791,9 +1793,9 @@ int FakeResource::handler_POST(
     return handler_POST_func(number, r_double, patternWithoutDelimiter, byte, integer, int32, int64, r_float, string, binary, date, dateTime, password, callback);
 }
 int FakeResource::handler_GET(
-    std::vector<std::string> & enumHeaderStringArray, std::string & enumHeaderString, std::vector<std::string> & enumQueryStringArray, std::string & enumQueryString, int32_t & enumQueryInteger, double & enumQueryDouble, std::vector<EnumClass> & enumQueryModelArray, std::vector<std::string> & enumFormStringArray, std::string & enumFormString)
+    std::vector<std::string> & enumHeaderStringArray, std::string & enumHeaderString, std::vector<std::string> & enumQueryStringArray, std::string & enumQueryString, int32_t & enumQueryInteger, double & enumQueryDouble, std::vector<EnumClass> & enumQueryModelArray, std::vector<std::string> & enumFormStringArray, std::string & enumFormString, int32_t & enumFormInteger, double & enumFormDouble)
 {
-    return handler_GET_func(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+    return handler_GET_func(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
 }
 int FakeResource::handler_DELETE(
     int32_t & requiredStringGroup, bool & requiredBooleanGroup, int64_t & requiredInt64Group, int32_t & stringGroup, bool & booleanGroup, int64_t & int64Group)
