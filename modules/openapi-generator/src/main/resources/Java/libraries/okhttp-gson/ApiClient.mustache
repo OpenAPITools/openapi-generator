@@ -1732,13 +1732,16 @@ public class ApiClient {
         RequestBody requestBody;
         if (obj instanceof String) {
             requestBody = RequestBody.create((String) obj, MediaType.parse("text/plain"));
-        } else if (obj == null){
-            requestBody = RequestBody.create(obj, MediaType.parse("application/json"));
-        } else if (obj.getClass().getEnumConstants() != null) {
-            requestBody = RequestBody.create(obj.toString(), MediaType.parse("text/plain"));
         } else {
-            requestBody = RequestBody.create(JSON.serialize(obj), MediaType.parse("application/json"));
+            String content;
+            if (obj != null) {
+                content = JSON.serialize(obj);
+            } else {
+                content = null;
+            }
+            requestBody = RequestBody.create(content, MediaType.parse("application/json"));
         }
+
         Headers partHeaders = Headers.of("Content-Disposition", "form-data; name=\"" + key + "\"");
         mpBuilder.addPart(partHeaders, requestBody);
     }

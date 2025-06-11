@@ -643,7 +643,7 @@ public class ApiClient extends JavaTimeFormatter {
                     (k, v) -> {
                         if (v instanceof java.util.ArrayList) {
                             Object o = v.get(0);
-                            if (o.getClass().getEnumConstants() != null) {
+                            if (o != null && o.getClass().getEnumConstants() != null) {
                                 v.set(0, o.toString());
                             }
                         }

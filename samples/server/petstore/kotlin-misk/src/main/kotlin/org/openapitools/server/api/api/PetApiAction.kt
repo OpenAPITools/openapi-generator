@@ -64,8 +64,8 @@ class PetApiAction @Inject constructor(
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
     fun findPetsByStatus(
-         @QueryParam(value = "status") status: kotlin.collections.List<kotlin.String>
-    ): kotlin.collections.List<Pet> {
+         @QueryParam(value = "status") status: kotlin.Array<kotlin.String>
+    ): kotlin.Array<Pet> {
         TODO()
     }
 
@@ -74,8 +74,8 @@ class PetApiAction @Inject constructor(
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
     fun findPetsByTags(
-         @QueryParam(value = "tags") tags: kotlin.collections.List<kotlin.String>
-    ): kotlin.collections.List<Pet> {
+         @QueryParam(value = "tags") tags: kotlin.Array<kotlin.String>
+    ): kotlin.Array<Pet> {
         TODO()
     }
 

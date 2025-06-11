@@ -26,15 +26,15 @@ interface DefaultApiInterface {
 
     /**
      * Operation getDummy
-     * @param null | string $paramCamelCase
-     * @param null | string $ParamPascalCase
-     * @param null | string $param_withRandomCase
+     * @param null | string $param_camel_case
+     * @param null | string $param_pascal_case
+     * @param null | string $param_with_random_case
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function getDummy(
-            ?string $paramCamelCase,
-            ?string $ParamPascalCase,
-            ?string $param_withRandomCase,
+            ?string $param_camel_case,
+            ?string $param_pascal_case,
+            ?string $param_with_random_case,
     ):
         \OpenAPI\Server\Model\NoContent200
     ;

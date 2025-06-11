@@ -57,13 +57,13 @@ class DefaultController extends Controller
                 $request->all(),
             ),
             [
-                'paramCamelCase' => [
+                'param_camel_case' => [
                     'string',
                 ],
-                'ParamPascalCase' => [
+                'param_pascal_case' => [
                     'string',
                 ],
-                'param_withRandomCase' => [
+                'param_with_random_case' => [
                     'string',
                 ],
             ],
@@ -73,14 +73,14 @@ class DefaultController extends Controller
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $paramCamelCase = $request->string('paramCamelCase')->value();
+        $param_camel_case = $request->string('param_camel_case')->value();
 
-        $ParamPascalCase = $request->string('ParamPascalCase')->value();
+        $param_pascal_case = $request->string('param_pascal_case')->value();
 
-        $param_withRandomCase = $request->string('param_withRandomCase')->value();
+        $param_with_random_case = $request->string('param_with_random_case')->value();
 
         try {
-            $apiResult = $this->api->getDummy($paramCamelCase, $ParamPascalCase, $param_withRandomCase);
+            $apiResult = $this->api->getDummy($param_camel_case, $param_pascal_case, $param_with_random_case);
         } catch (\Exception $exception) {
             // This shouldn't happen
             report($exception);
