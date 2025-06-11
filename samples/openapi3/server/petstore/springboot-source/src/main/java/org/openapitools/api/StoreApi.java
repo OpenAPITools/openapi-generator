@@ -39,8 +39,7 @@ public interface StoreApi {
      * @return Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @RequestMapping(
-        method = RequestMethod.DELETE,
+    @DeleteMapping(
         value = "/store/order/{orderId}"
     )
     
@@ -58,8 +57,7 @@ public interface StoreApi {
      *
      * @return successful operation (status code 200)
      */
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/store/inventory",
         produces = { "application/json" }
     )
@@ -81,8 +79,7 @@ public interface StoreApi {
      *         or Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/store/order/{orderId}",
         produces = { "application/xml", "application/json" }
     )
@@ -117,8 +114,7 @@ public interface StoreApi {
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/store/order",
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
