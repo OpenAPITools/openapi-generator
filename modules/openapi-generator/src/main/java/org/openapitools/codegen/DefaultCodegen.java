@@ -4629,6 +4629,7 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
+                                          Integer contentTypeIndex,
                                           Operation operation,
                                           List<Server> servers) {
         LOGGER.debug("fromOperation => operation: {}", operation);
@@ -4796,7 +4797,7 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter bodyParam = null;
         RequestBody requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, operation.getRequestBody());
         if (requestBody != null) {
-            String contentType = getContentType(requestBody);
+            String contentType = getContentType(requestBody, contentTypeIndex);
             if (contentType != null) {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
@@ -5205,7 +5206,7 @@ public class DefaultCodegen implements CodegenConfig {
                             // distinguish between normal operations and callback requests
                             op.getExtensions().put("x-callback-request", true);
 
-                            CodegenOperation co = fromOperation(expression, method, op, servers);
+                            CodegenOperation co = fromOperation(expression, method, 0, op, servers);
                             if (genId) {
                                 co.operationIdOriginal = null;
                                 // legacy (see `fromOperation()`)
@@ -7094,12 +7095,12 @@ public class DefaultCodegen implements CodegenConfig {
         additionalProperties.put(propertyKey, value);
     }
 
-    protected String getContentType(RequestBody requestBody) {
-        if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
+    protected String getContentType(RequestBody requestBody, int contentTypeIndex) {
+        if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().size() < contentTypeIndex + 1) {
             LOGGER.debug("Cannot determine the content type. Returning null.");
             return null;
         }
-        return new ArrayList<>(requestBody.getContent().keySet()).get(0);
+        return new ArrayList<>(requestBody.getContent().keySet()).get(contentTypeIndex);
     }
 
     private void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
