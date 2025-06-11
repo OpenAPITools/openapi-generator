@@ -1,7 +1,9 @@
 use async_trait::async_trait;
+use bytes::Bytes;
 use futures::{Stream, future, future::BoxFuture, stream, future::TryFutureExt, future::FutureExt, stream::StreamExt};
+use http_body_util::{combinators::BoxBody, Full};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
-use hyper::{Body, Request, Response, service::Service, Uri};
+use hyper::{body::{Body, Incoming}, Request, Response, service::Service, Uri};
 use percent_encoding::{utf8_percent_encode, AsciiSet};
 use std::borrow::Cow;
 use std::convert::TryInto;
@@ -18,6 +20,7 @@ use std::string::ToString;
 use std::task::{Context, Poll};
 use swagger::{ApiError, AuthData, BodyExt, Connector, DropContextService, Has, XSpanIdString};
 use url::form_urlencoded;
+use tower_service::Service as _;
 
 
 use crate::models;
@@ -42,11 +45,11 @@ use crate::CallbackCallbackPostResponse;
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
-    C: Clone + Send + Sync + 'static
+    C: Clone+ Has<Option<Authorization>> + Send + Sync + 'static
 {
     /// Inner service
     client_service: S,
@@ -57,11 +60,11 @@ pub struct Client<S, C> where
 
 impl<S, C> fmt::Debug for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
-    C: Clone + Send + Sync + 'static
+    C: Clone+ Has<Option<Authorization>> + Send + Sync + 'static
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Client")
@@ -70,11 +73,11 @@ impl<S, C> fmt::Debug for Client<S, C> where
 
 impl<S, C> Clone for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
-    C: Clone + Send + Sync + 'static
+    C: Clone+ Has<Option<Authorization>> + Send + Sync + 'static
 {
     fn clone(&self) -> Self {
         Self {
@@ -84,9 +87,9 @@ impl<S, C> Clone for Client<S, C> where
     }
 }
 
-impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Body>, C>, C> where
+impl<Connector, C> Client<DropContextService<hyper_util::client::legacy::Client<Connector, BoxBody<Bytes, Infallible>>, C>, C> where
     Connector: hyper::client::connect::Connect + Clone + Send + Sync + 'static,
-    C: Clone + Send + Sync + 'static
+    C: Clone+ Has<Option<Authorization>> + Send + Sync + 'static
 {
     /// Create a client with a custom implementation of hyper::client::Connect.
     ///
@@ -102,7 +105,7 @@ impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Bo
     /// * `connector` - Implementation of `hyper::client::Connect` to use for the client
     pub fn new_with_connector(connector: Connector) -> Self
     {
-        let client_service = hyper::client::Client::builder().build(connector);
+        let client_service = hyper_util::client::legacy::Client::builder().build(connector);
         let client_service = DropContextService::new(client_service);
 
         Self {
@@ -112,8 +115,8 @@ impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Bo
     }
 }
 
-impl<C> Client<DropContextService<hyper::client::Client<hyper::client::HttpConnector, Body>, C>, C> where
-    C: Clone + Send + Sync + 'static
+impl<C> Client<DropContextService<hyper_util::client::legacy::Client<hyper::client::HttpConnector, BoxBody<Bytes, Infallible>>, C>, C> where
+    C: Clone+ Has<Option<Authorization>> + Send + Sync + 'static
 {
     /// Create an HTTP client.
     pub fn new_http() -> Self {
@@ -128,8 +131,8 @@ type HttpsConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;
 
-impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C>, C> where
-    C: Clone + Send + Sync + 'static
+impl<C> Client<DropContextService<hyper_util::client::legacy::Client<HttpsConnector, BoxBody<Bytes, Infallible>>, C>, C> where
+    C: Clone+ Has<Option<Authorization>> + Send + Sync + 'static
 {
     /// Create a client with a TLS connection to the server.
     #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
@@ -192,11 +195,11 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
 
 impl<S, C> Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
-    C: Clone + Send + Sync + 'static
+    C: Clone+ Has<Option<Authorization>> + Send + Sync + 'static
 {
     /// Constructor for creating a `Client` by passing in a pre-made `swagger::Service`
     ///
@@ -214,8 +217,8 @@ impl<S, C> Client<S, C> where
 #[async_trait]
 impl<S, C> CallbackApi<C> for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
@@ -259,7 +262,7 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -299,9 +302,9 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -346,7 +349,7 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -368,9 +371,9 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
