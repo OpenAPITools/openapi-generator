@@ -42,7 +42,7 @@ where
 impl<T, C, Target> Clone for MakeService<T, C, Target>
 where
     T: Api<C> + Clone + Send + 'static,
-    C: Has<XSpanIdString>  + Send + Sync + 'static
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     fn clone(&self) -> Self {
         Self {
