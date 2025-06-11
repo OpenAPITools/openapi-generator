@@ -61,7 +61,7 @@ impl<S, C> Clone for Client<S, C> where
     }
 }
 
-impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Body>, C>, C> where
+impl<Connector, C> Client<DropContextService<hyper_util::client::legacy::Client<Connector, BoxBody<Bytes, Infallible>>, C>, C> where
     Connector: hyper::client::connect::Connect + Clone + Send + Sync + 'static,
     C: Clone{{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
@@ -79,7 +79,7 @@ impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Bo
     /// * `connector` - Implementation of `hyper::client::Connect` to use for the client
     pub fn new_with_connector(connector: Connector) -> Self
     {
-        let client_service = hyper::client::Client::builder().build(connector);
+        let client_service = hyper_util::client::legacy::Client::builder().build(connector);
         let client_service = DropContextService::new(client_service);
 
         Self {
@@ -89,7 +89,7 @@ impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Bo
     }
 }
 
-impl<C> Client<DropContextService<hyper::client::Client<hyper::client::HttpConnector, Body>, C>, C> where
+impl<C> Client<DropContextService<hyper_util::client::legacy::Client<hyper::client::HttpConnector, BoxBody<Bytes, Infallible>>, C>, C> where
     C: Clone{{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     /// Create an HTTP client.
@@ -105,7 +105,7 @@ type HttpsConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;
 
-impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C>, C> where
+impl<C> Client<DropContextService<hyper_util::client::legacy::Client<HttpsConnector, BoxBody<Bytes, Infallible>>, C>, C> where
     C: Clone{{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     /// Create a client with a TLS connection to the server.
