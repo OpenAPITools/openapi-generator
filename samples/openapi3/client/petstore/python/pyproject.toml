@@ -8,7 +8,7 @@ authors = [
 license = "Apache-2.0"
 readme = "README.md"
 keywords = ["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"]
-requires-python = ">3.8"
+requires-python = ">=3.9"
 
 dependencies = [
   "urllib3 (>=2.1.0,<3.0.0)",
