@@ -1,11 +1,21 @@
 package org.openapitools.codegen.typescript;
 
+import lombok.Getter;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.Generator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.antlr4.TypeScriptLexer;
+import org.openapitools.codegen.antlr4.TypeScriptParser;
+import org.openapitools.codegen.antlr4.TypeScriptParserBaseListener;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
+import org.openapitools.codegen.typescript.assertions.TypescriptFileAssert;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -19,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.typescript.TypeScriptGroups.TYPESCRIPT;
 
 @Test(groups = {TYPESCRIPT})
@@ -108,5 +119,35 @@ public class SharedTypeScriptTest {
             Arrays.sort(mapped);
             Assert.assertEquals(mapped, entry.getValue());
         }
+    }
+
+    @Test(description = "Issue #21317")
+    public void givenTypeMappingContainsGenericAndMappedTypeIsUtilityTypeThenTypeIsNotImportedAndTypeAppearsCorrectly() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+
+        Generator generator = new DefaultGenerator();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_1/issue_21317.yaml")
+                .setGeneratorName("typescript-fetch")
+                .addTypeMapping("object", "Record<string,unknown>")
+                .setOutputDir(output.getAbsolutePath());
+        ClientOptInput clientOptInput = configurator.toClientOptInput();
+        generator.opts(clientOptInput)
+                .generate();
+        //TODO Delete
+        System.out.println("Generator Settings: " + clientOptInput.getGeneratorSettings());
+        String outputPath = output.getAbsolutePath();
+        File testModel = new File(outputPath, "/models/User.ts");
+        String fileContent = Files.readString(testModel.toPath());
+        //TODO Delete
+        System.out.println(fileContent);
+
+        TypescriptFileAssert.assertThat(fileContent)
+                .isValid()
+                .importsNotContain("Record")
+                .assertInterface("User")
+                .propertyAssert("metadata").isGeneric();
     }
 }
