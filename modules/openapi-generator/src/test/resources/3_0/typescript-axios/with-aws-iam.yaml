@@ -1,0 +1,85 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore with AWS IAM
+  version: 1.0.0
+  description: Test API for AWS IAM authentication detection
+servers:
+  - url: https://abc123.execute-api.us-east-1.amazonaws.com/prod
+security:
+  - iam: []
+paths:
+  /pet:
+    get:
+      summary: Find pet by ID
+      operationId: getPetById
+      security:
+        - iam: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '404':
+          description: Pet not found
+    post:
+      summary: Create a new pet
+      operationId: createPet
+      security:
+        - iam: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '201':
+          description: Pet created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid input
+  /store/inventory:
+    get:
+      summary: Returns pet inventories by status
+      operationId: getInventory
+      security:
+        - iam: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+components:
+  securitySchemes:
+    iam:
+      type: apiKey
+      name: Authorization
+      in: header
+      x-amazon-apigateway-authtype: awsSigv4
+  schemas:
+    Pet:
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: doggie
+        photoUrls:
+          type: array
+          items:
+            type: string
