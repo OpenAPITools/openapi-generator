@@ -7794,8 +7794,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    protected void updateRequestBodyForString(CodegenParameter codegenParameter, Schema schema, Set<String> imports, String bodyParameterName) {
-        updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+    protected void updateRequestBodyForString(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
+        if (convertPropertyToBoolean(CodegenConstants.USE_STRING_ENUM_SCHEMA_REF_FOR_REQUEST_BODY) && !StringUtils.isEmpty(name)) {
+            addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+        } else {
+            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+        }
+
         if (ModelUtils.isByteArraySchema(schema)) {
             codegenParameter.setIsString(false);
             codegenParameter.isByteArray = true;
@@ -7996,7 +8001,7 @@ public class DefaultCodegen implements CodegenConfig {
             // swagger v2 only, type file
             codegenParameter.isFile = true;
         } else if (ModelUtils.isStringSchema(schema)) {
-            updateRequestBodyForString(codegenParameter, schema, imports, bodyParameterName);
+            updateRequestBodyForString(codegenParameter, schema, name, imports, bodyParameterName);
         } else if (ModelUtils.isNumberSchema(schema)) {
             updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
             codegenParameter.isNumeric = Boolean.TRUE;
