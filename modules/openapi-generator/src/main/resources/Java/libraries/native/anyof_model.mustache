@@ -103,6 +103,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
 {{> libraries/native/additional_properties }}
+
     {{#additionalPropertiesType}}
     /**
      * Return true if this {{name}} object is equal to o.

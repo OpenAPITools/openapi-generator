@@ -97,12 +97,14 @@
         {{#items}}
         {{^complexType}}
 {{>modelInnerEnum}}
+
         {{/complexType}}
         {{/items}}
         {{/items.isEnum}}
         {{#isEnum}}
         {{^complexType}}
 {{>modelInnerEnum}}
+
         {{/complexType}}
         {{/isEnum}}
         {{^isDiscriminator}}
@@ -388,6 +390,7 @@
 {{^parentModel}}
 
 {{>validatable}}
+
 {{/parentModel}}
 {{/validatable}}
     }

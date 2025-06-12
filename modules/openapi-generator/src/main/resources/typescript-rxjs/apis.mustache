@@ -1,5 +1,6 @@
 // tslint:disable
 {{>licenseInfo}}
+
 import type { Observable } from 'rxjs';
 import type { AjaxResponse } from 'rxjs/ajax';
 import { BaseAPI{{#hasRequiredParams}}, throwIfNullOrUndefined{{/hasRequiredParams}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
