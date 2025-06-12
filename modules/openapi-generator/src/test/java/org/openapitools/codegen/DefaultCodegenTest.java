@@ -30,7 +30,16 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.Encoding;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -43,7 +52,11 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.templating.mustache.CamelCaseAndSanitizeLambda;
+import org.openapitools.codegen.templating.mustache.IndentedLambda;
+import org.openapitools.codegen.templating.mustache.LowercaseLambda;
+import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
+import org.openapitools.codegen.templating.mustache.UppercaseLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.LoggerFactory;
@@ -52,13 +65,35 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class DefaultCodegenTest {
 
@@ -5057,4 +5092,72 @@ public class DefaultCodegenTest {
         if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
+
+    @Test
+    public void testRequestBodyWith$RefToEnumSchema() {
+        // Given
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/issue_21407.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String path = "/v1/resource-class/send-with-$ref-to-enum-schema";
+
+        // When
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        // Then
+        assertThat(codegenOperation.bodyParam).satisfies(bodyParam -> {
+            assertThat(bodyParam).isNotNull();
+            assertThat(bodyParam.getDataType()).isEqualTo("Letter");
+        });
+    }
+
+    @Test
+    public void testRequestBodyWithInlineEnumSchema() throws IOException {
+        // Given
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/issue_21407.yaml");
+        File outputDir = Files.createTempDirectory("test").toFile();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_1/issue_21407.yaml")
+                .addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
+                .setOutputDir(outputDir.getAbsolutePath());
+
+        ClientOptInput clientOptInput = configurator.toClientOptInput();
+        clientOptInput.openAPI(openAPI);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        String path = "/v1/resource-class/send-with-inline-enum-schema";
+
+        // When
+        CodegenOperation codegenOperation = generator.config.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        // Then
+        assertThat(codegenOperation.bodyParam).satisfies(bodyParam -> {
+            assertThat(bodyParam).isNotNull();
+            // expecting a type that is different from String
+            assertThat(bodyParam.getDataType()).isEqualTo("SendWithInlineEnumSchemaRequest");
+        });
+    }
+
+    @Test
+    public void testRequestBodyWithStringType() {
+        // Given
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/issue_21407.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String path = "/v1/resource-class/send-with-string";
+
+        // When
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        // Then
+        assertThat(codegenOperation.bodyParam).satisfies(bodyParam -> {
+            assertThat(bodyParam).isNotNull();
+            assertThat(bodyParam.getDataType()).isEqualTo("String");
+        });
+    }
+
 }
