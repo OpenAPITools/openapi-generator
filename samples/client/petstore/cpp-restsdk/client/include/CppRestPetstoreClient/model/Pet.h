@@ -64,10 +64,9 @@ public:
 
     enum class StatusEnum
     {
-        available,
-        pending,
-        sold,
-        
+        AVAILABLE,
+        PENDING,
+        SOLD,
     };
     /// <summary>
     /// pet status in the store
