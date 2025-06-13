@@ -37,7 +37,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Descendant1" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Descendant1() { }
+        protected Descendant1()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Descendant1" /> class.
         /// </summary>
@@ -52,6 +55,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("descendantName is a required property for Descendant1 and cannot be null");
             }
             this.DescendantName = descendantName;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -59,6 +63,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "descendantName", IsRequired = true, EmitDefaultValue = true)]
         public string DescendantName { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -70,6 +80,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Descendant1 {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  DescendantName: ").Append(DescendantName).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -115,6 +126,10 @@ namespace Org.OpenAPITools.Model
                 if (this.DescendantName != null)
                 {
                     hashCode = (hashCode * 59) + this.DescendantName.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

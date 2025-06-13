@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         public ReadOnlyFirst(string baz = default)
         {
             this.Baz = baz;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -62,6 +63,12 @@ namespace Org.OpenAPITools.Model
         public string Baz { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -71,6 +78,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class ReadOnlyFirst {\n");
             sb.Append("  Bar: ").Append(Bar).Append("\n");
             sb.Append("  Baz: ").Append(Baz).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -120,6 +128,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Baz != null)
                 {
                     hashCode = (hashCode * 59) + this.Baz.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

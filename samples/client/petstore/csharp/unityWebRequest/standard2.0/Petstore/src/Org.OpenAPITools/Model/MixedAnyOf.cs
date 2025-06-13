@@ -37,6 +37,7 @@ namespace Org.OpenAPITools.Model
         public MixedAnyOf(MixedAnyOfContent content = default)
         {
             this.Content = content;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -44,6 +45,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "content", EmitDefaultValue = false)]
         public MixedAnyOfContent Content { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -54,6 +61,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class MixedAnyOf {\n");
             sb.Append("  Content: ").Append(Content).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -93,7 +101,8 @@ namespace Org.OpenAPITools.Model
                     this.Content == input.Content ||
                     (this.Content != null &&
                     this.Content.Equals(input.Content))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -108,6 +117,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Content != null)
                 {
                     hashCode = (hashCode * 59) + this.Content.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

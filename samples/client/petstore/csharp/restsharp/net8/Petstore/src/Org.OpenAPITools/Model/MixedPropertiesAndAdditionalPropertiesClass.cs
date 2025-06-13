@@ -45,6 +45,7 @@ namespace Org.OpenAPITools.Model
             this.Uuid = uuid;
             this.DateTime = dateTime;
             this.Map = map;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -72,6 +73,12 @@ namespace Org.OpenAPITools.Model
         public Dictionary<string, Animal> Map { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -83,6 +90,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Map: ").Append(Map).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -140,6 +148,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Map != null)
                 {
                     hashCode = (hashCode * 59) + this.Map.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

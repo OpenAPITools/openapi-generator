@@ -43,6 +43,7 @@ namespace Org.OpenAPITools.Model
             this.Id = id;
             this.DeprecatedRef = deprecatedRef;
             this.Bars = bars;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -73,6 +74,12 @@ namespace Org.OpenAPITools.Model
         public List<string> Bars { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -84,6 +91,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  DeprecatedRef: ").Append(DeprecatedRef).Append("\n");
             sb.Append("  Bars: ").Append(Bars).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -138,7 +146,8 @@ namespace Org.OpenAPITools.Model
                     this.Bars != null &&
                     input.Bars != null &&
                     this.Bars.SequenceEqual(input.Bars)
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -162,6 +171,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Bars != null)
                 {
                     hashCode = (hashCode * 59) + this.Bars.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

@@ -64,7 +64,14 @@ namespace Org.OpenAPITools.Model
         public ZeroBasedEnumClass(ZeroBasedEnumEnum? zeroBasedEnum = default)
         {
             this.ZeroBasedEnum = zeroBasedEnum;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -75,6 +82,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ZeroBasedEnumClass {\n");
             sb.Append("  ZeroBasedEnum: ").Append(ZeroBasedEnum).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -118,6 +126,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.ZeroBasedEnum.GetHashCode();
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

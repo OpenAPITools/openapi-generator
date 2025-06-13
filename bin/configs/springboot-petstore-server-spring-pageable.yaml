@@ -8,3 +8,4 @@ additionalProperties:
   artifactId: springboot-spring-pageable
   hideGenerationTimestamp: 'true'
   implicitHeadersRegex: ^Version.*
+  disallowAdditionalPropertiesIfNotPresent: true

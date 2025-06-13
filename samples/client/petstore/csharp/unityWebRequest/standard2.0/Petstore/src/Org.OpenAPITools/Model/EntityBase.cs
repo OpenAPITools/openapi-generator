@@ -34,7 +34,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="EntityBase" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected EntityBase() { }
+        protected EntityBase()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="EntityBase" /> class.
         /// </summary>
@@ -47,6 +50,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("schema is a required property for EntityBase and cannot be null");
             }
             this.Schema = schema;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -54,6 +58,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "$schema", IsRequired = true, EmitDefaultValue = true)]
         public string Schema { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -64,6 +74,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class EntityBase {\n");
             sb.Append("  Schema: ").Append(Schema).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -103,7 +114,8 @@ namespace Org.OpenAPITools.Model
                     this.Schema == input.Schema ||
                     (this.Schema != null &&
                     this.Schema.Equals(input.Schema))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -118,6 +130,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Schema != null)
                 {
                     hashCode = (hashCode * 59) + this.Schema.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

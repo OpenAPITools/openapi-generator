@@ -34,7 +34,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Cat() { }
+        protected Cat()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
@@ -44,6 +47,7 @@ namespace Org.OpenAPITools.Model
         public Cat(bool declawed = default, string className = @"Cat", string color = @"red") : base(className, color)
         {
             this.Declawed = declawed;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -51,6 +55,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "declawed", EmitDefaultValue = true)]
         public bool Declawed { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -62,6 +72,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Cat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Declawed: ").Append(Declawed).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -100,7 +111,8 @@ namespace Org.OpenAPITools.Model
                 (
                     this.Declawed == input.Declawed ||
                     this.Declawed.Equals(input.Declawed)
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -113,6 +125,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = base.GetHashCode();
                 hashCode = (hashCode * 59) + this.Declawed.GetHashCode();
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

@@ -53,7 +53,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="CopyActivity" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected CopyActivity() { }
+        protected CopyActivity()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="CopyActivity" /> class.
         /// </summary>
@@ -68,6 +71,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("copyActivitytt is a required property for CopyActivity and cannot be null");
             }
             this.CopyActivitytt = copyActivitytt;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -75,6 +79,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "copyActivitytt", IsRequired = true, EmitDefaultValue = true)]
         public string CopyActivitytt { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -87,6 +97,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Schema: ").Append(Schema).Append("\n");
             sb.Append("  CopyActivitytt: ").Append(CopyActivitytt).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -130,7 +141,8 @@ namespace Org.OpenAPITools.Model
                     this.CopyActivitytt == input.CopyActivitytt ||
                     (this.CopyActivitytt != null &&
                     this.CopyActivitytt.Equals(input.CopyActivitytt))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -146,6 +158,10 @@ namespace Org.OpenAPITools.Model
                 if (this.CopyActivitytt != null)
                 {
                     hashCode = (hashCode * 59) + this.CopyActivitytt.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

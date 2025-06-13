@@ -78,6 +78,7 @@ namespace Org.OpenAPITools.Model
             this.ArrayStringNullable = arrayStringNullable;
             this.ArrayStringExtensionNullable = arrayStringExtensionNullable;
             this.StringNullable = stringNullable;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -129,6 +130,12 @@ namespace Org.OpenAPITools.Model
         public string StringNullable { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -144,6 +151,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  ArrayStringNullable: ").Append(ArrayStringNullable).Append("\n");
             sb.Append("  ArrayStringExtensionNullable: ").Append(ArrayStringExtensionNullable).Append("\n");
             sb.Append("  StringNullable: ").Append(StringNullable).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -225,7 +233,8 @@ namespace Org.OpenAPITools.Model
                     this.StringNullable == input.StringNullable ||
                     (this.StringNullable != null &&
                     this.StringNullable.Equals(input.StringNullable))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -268,6 +277,10 @@ namespace Org.OpenAPITools.Model
                 if (this.StringNullable != null)
                 {
                     hashCode = (hashCode * 59) + this.StringNullable.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

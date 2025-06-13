@@ -37,6 +37,7 @@ namespace Org.OpenAPITools.Model
         public List(string var123List = default)
         {
             this.Var123List = var123List;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -44,6 +45,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "123-list", EmitDefaultValue = false)]
         public string Var123List { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -54,6 +61,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class List {\n");
             sb.Append("  Var123List: ").Append(Var123List).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -93,7 +101,8 @@ namespace Org.OpenAPITools.Model
                     this.Var123List == input.Var123List ||
                     (this.Var123List != null &&
                     this.Var123List.Equals(input.Var123List))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -108,6 +117,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Var123List != null)
                 {
                     hashCode = (hashCode * 59) + this.Var123List.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

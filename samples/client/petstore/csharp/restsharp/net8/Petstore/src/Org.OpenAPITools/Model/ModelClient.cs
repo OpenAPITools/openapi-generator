@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         public ModelClient(string varClient = default)
         {
             this.VarClient = varClient;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -46,6 +47,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
         public string VarClient { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,6 +63,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
             sb.Append("  VarClient: ").Append(VarClient).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -101,6 +109,10 @@ namespace Org.OpenAPITools.Model
                 if (this.VarClient != null)
                 {
                     hashCode = (hashCode * 59) + this.VarClient.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

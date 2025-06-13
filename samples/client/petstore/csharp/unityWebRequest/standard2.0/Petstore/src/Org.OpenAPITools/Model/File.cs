@@ -37,6 +37,7 @@ namespace Org.OpenAPITools.Model
         public File(string sourceURI = default)
         {
             this.SourceURI = sourceURI;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -47,6 +48,12 @@ namespace Org.OpenAPITools.Model
         public string SourceURI { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -55,6 +62,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class File {\n");
             sb.Append("  SourceURI: ").Append(SourceURI).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -94,7 +102,8 @@ namespace Org.OpenAPITools.Model
                     this.SourceURI == input.SourceURI ||
                     (this.SourceURI != null &&
                     this.SourceURI.Equals(input.SourceURI))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -109,6 +118,10 @@ namespace Org.OpenAPITools.Model
                 if (this.SourceURI != null)
                 {
                     hashCode = (hashCode * 59) + this.SourceURI.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

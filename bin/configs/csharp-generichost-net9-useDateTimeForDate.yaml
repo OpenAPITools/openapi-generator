@@ -9,3 +9,4 @@ additionalProperties:
   targetFramework: net9.0
   modelPropertySorting: alphabetical
   operationParameterSorting: alphabetical
+  disallowAdditionalPropertiesIfNotPresent: true

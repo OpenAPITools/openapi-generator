@@ -43,6 +43,7 @@ namespace Org.OpenAPITools.Model
             this.Cultivar = cultivar;
             this.Origin = origin;
             this.ColorCode = colorCode;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -64,6 +65,12 @@ namespace Org.OpenAPITools.Model
         public string ColorCode { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -74,6 +81,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
             sb.Append("  Origin: ").Append(Origin).Append("\n");
             sb.Append("  ColorCode: ").Append(ColorCode).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -127,6 +135,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ColorCode != null)
                 {
                     hashCode = (hashCode * 59) + this.ColorCode.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

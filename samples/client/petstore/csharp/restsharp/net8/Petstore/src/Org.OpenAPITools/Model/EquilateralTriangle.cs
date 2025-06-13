@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="EquilateralTriangle" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected EquilateralTriangle() { }
+        protected EquilateralTriangle()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="EquilateralTriangle" /> class.
         /// </summary>
@@ -56,6 +59,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("triangleType is a required property for EquilateralTriangle and cannot be null");
             }
             this.TriangleType = triangleType;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -71,6 +75,12 @@ namespace Org.OpenAPITools.Model
         public string TriangleType { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -80,6 +90,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class EquilateralTriangle {\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -129,6 +140,10 @@ namespace Org.OpenAPITools.Model
                 if (this.TriangleType != null)
                 {
                     hashCode = (hashCode * 59) + this.TriangleType.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

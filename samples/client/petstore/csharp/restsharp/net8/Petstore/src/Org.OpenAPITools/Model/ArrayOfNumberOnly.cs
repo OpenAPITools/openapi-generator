@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         public ArrayOfNumberOnly(List<decimal> arrayNumber = default)
         {
             this.ArrayNumber = arrayNumber;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -46,6 +47,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "ArrayNumber", EmitDefaultValue = false)]
         public List<decimal> ArrayNumber { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,6 +63,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ArrayOfNumberOnly {\n");
             sb.Append("  ArrayNumber: ").Append(ArrayNumber).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -101,6 +109,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ArrayNumber != null)
                 {
                     hashCode = (hashCode * 59) + this.ArrayNumber.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

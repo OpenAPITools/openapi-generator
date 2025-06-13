@@ -66,6 +66,7 @@ namespace Org.OpenAPITools.Model
         {
             this.Id = id;
             this.Outcomes = outcomes;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -82,6 +83,12 @@ namespace Org.OpenAPITools.Model
         public List<Query.OutcomesEnum> Outcomes { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -91,6 +98,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Query {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Outcomes: ").Append(Outcomes).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -135,7 +143,8 @@ namespace Org.OpenAPITools.Model
                     this.Outcomes != null &&
                     input.Outcomes != null &&
                     this.Outcomes.SequenceEqual(input.Outcomes)
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -151,6 +160,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Outcomes != null)
                 {
                     hashCode = (hashCode * 59) + this.Outcomes.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

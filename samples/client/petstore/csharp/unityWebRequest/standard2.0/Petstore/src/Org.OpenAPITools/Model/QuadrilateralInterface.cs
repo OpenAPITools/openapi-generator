@@ -34,7 +34,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="QuadrilateralInterface" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected QuadrilateralInterface() { }
+        protected QuadrilateralInterface()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="QuadrilateralInterface" /> class.
         /// </summary>
@@ -47,6 +50,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("quadrilateralType is a required property for QuadrilateralInterface and cannot be null");
             }
             this.QuadrilateralType = quadrilateralType;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -54,6 +58,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = true)]
         public string QuadrilateralType { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -64,6 +74,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class QuadrilateralInterface {\n");
             sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -103,7 +114,8 @@ namespace Org.OpenAPITools.Model
                     this.QuadrilateralType == input.QuadrilateralType ||
                     (this.QuadrilateralType != null &&
                     this.QuadrilateralType.Equals(input.QuadrilateralType))
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -118,6 +130,10 @@ namespace Org.OpenAPITools.Model
                 if (this.QuadrilateralType != null)
                 {
                     hashCode = (hashCode * 59) + this.QuadrilateralType.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
