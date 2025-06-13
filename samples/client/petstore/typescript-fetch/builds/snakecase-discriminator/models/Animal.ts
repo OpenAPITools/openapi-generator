@@ -13,8 +13,8 @@
  */
 
 import { mapValues } from '../runtime';
-import { Cat, CatFromJSONTyped, CatToJSON, CatToJSONTyped } from './Cat';
-import { Dog, DogFromJSONTyped, DogToJSON, DogToJSONTyped } from './Dog';
+import { type Cat, CatFromJSONTyped, CatToJSON, CatToJSONTyped } from './Cat';
+import { type Dog, DogFromJSONTyped, DogToJSON, DogToJSONTyped } from './Dog';
 /**
  * 
  * @export
