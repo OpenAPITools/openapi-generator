@@ -1,0 +1,7 @@
+generatorName: java
+outputDir: samples/client/others/java/restclient-enum-in-multipart
+library: restclient
+inputSpec: modules/openapi-generator/src/test/resources/3_1/enum-in-multipart.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  hideGenerationTimestamp: "true"

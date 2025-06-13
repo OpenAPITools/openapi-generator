@@ -29,10 +29,10 @@ class Type(int, Enum):
     """
     allowed enum values
     """
-    NUMBER_2_DOT_0 = 2.0
-    NUMBER_1_DOT_0 = 1.0
-    NUMBER_0_DOT_5 = 0.5
-    NUMBER_0_DOT_25 = 0.25
+    NUMBER_2.0 = 2.0
+    NUMBER_1.0 = 1.0
+    NUMBER_0.5 = 0.5
+    NUMBER_0.25 = 0.25
 
     @classmethod
     def from_json(cls, json_str: str) -> Type:
