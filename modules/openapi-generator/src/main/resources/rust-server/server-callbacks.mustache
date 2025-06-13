@@ -19,11 +19,11 @@ use crate::{{{operationId}}}Response;
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
-    C: Clone + Send + Sync + 'static
+    C: Clone{{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     /// Inner service
     client_service: S,
@@ -34,11 +34,11 @@ pub struct Client<S, C> where
 
 impl<S, C> fmt::Debug for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
-    C: Clone + Send + Sync + 'static
+    C: Clone{{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Client")
@@ -47,11 +47,11 @@ impl<S, C> fmt::Debug for Client<S, C> where
 
 impl<S, C> Clone for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
-    C: Clone + Send + Sync + 'static
+    C: Clone{{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     fn clone(&self) -> Self {
         Self {
@@ -61,9 +61,9 @@ impl<S, C> Clone for Client<S, C> where
     }
 }
 
-impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Body>, C>, C> where
+impl<Connector, C> Client<DropContextService<hyper_util::client::legacy::Client<Connector, BoxBody<Bytes, Infallible>>, C>, C> where
     Connector: hyper::client::connect::Connect + Clone + Send + Sync + 'static,
-    C: Clone + Send + Sync + 'static
+    C: Clone{{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     /// Create a client with a custom implementation of hyper::client::Connect.
     ///
@@ -79,7 +79,7 @@ impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Bo
     /// * `connector` - Implementation of `hyper::client::Connect` to use for the client
     pub fn new_with_connector(connector: Connector) -> Self
     {
-        let client_service = hyper::client::Client::builder().build(connector);
+        let client_service = hyper_util::client::legacy::Client::builder().build(connector);
         let client_service = DropContextService::new(client_service);
 
         Self {
@@ -89,8 +89,8 @@ impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Bo
     }
 }
 
-impl<C> Client<DropContextService<hyper::client::Client<hyper::client::HttpConnector, Body>, C>, C> where
-    C: Clone + Send + Sync + 'static
+impl<C> Client<DropContextService<hyper_util::client::legacy::Client<hyper::client::HttpConnector, BoxBody<Bytes, Infallible>>, C>, C> where
+    C: Clone{{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     /// Create an HTTP client.
     pub fn new_http() -> Self {
@@ -105,8 +105,8 @@ type HttpsConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;
 
-impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C>, C> where
-    C: Clone + Send + Sync + 'static
+impl<C> Client<DropContextService<hyper_util::client::legacy::Client<HttpsConnector, BoxBody<Bytes, Infallible>>, C>, C> where
+    C: Clone{{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     /// Create a client with a TLS connection to the server.
     #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
@@ -169,11 +169,11 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
 
 impl<S, C> Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
-    C: Clone + Send + Sync + 'static
+    C: Clone{{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
 {
     /// Constructor for creating a `Client` by passing in a pre-made `swagger::Service`
     ///
@@ -191,8 +191,8 @@ impl<S, C> Client<S, C> where
 #[async_trait]
 impl<S, C> CallbackApi<C> for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
+           (Request<Incoming>, C),
+           Response=Response<BoxBody<Bytes, Infallible>>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,

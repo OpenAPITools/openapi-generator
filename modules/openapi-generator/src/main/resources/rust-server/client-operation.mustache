@@ -81,7 +81,7 @@
         let mut request = match Request::builder()
             .method("{{{vendorExtensions.x-http-method}}}")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -208,9 +208,10 @@
 {{/headers}}
 {{#dataType}}
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
 {{>client-response-body-instance}}
 
@@ -248,9 +249,9 @@
 {{/responses}}
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
