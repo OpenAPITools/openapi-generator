@@ -48,6 +48,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
@@ -5014,5 +5015,50 @@ public class DefaultCodegenTest {
 
         // When & Then
         assertThat(codegenOperation.getHasSingleParam()).isTrue();
+    }
+
+    @DataProvider(name = "testRequestBodyWithStringEnumSchemaData")
+    private Object[][] testRequestBodyWithStringEnumSchemaData() {
+        return new Object[][]{
+                {false, "String"},
+                {true, "Letter"}
+        };
+    }
+
+    @Test(dataProvider = "testRequestBodyWithStringEnumSchemaData")
+    public void testRequestBodyWithStringEnumSchema(boolean useStringEnumSchemaRefForRequestBody, String expectedDataType) {
+        // Given
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_21407.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.additionalProperties().put(CodegenConstants.USE_STRING_ENUM_SCHEMA_REF_FOR_REQUEST_BODY, useStringEnumSchemaRefForRequestBody);
+        String path = "/v1/resource-class/send-using-schema";
+
+        // When
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        // Then
+        assertThat(codegenOperation.bodyParam).satisfies(bodyParam -> {
+            assertThat(bodyParam).isNotNull();
+            assertThat(bodyParam.getDataType()).isEqualTo(expectedDataType);
+        });
+    }
+
+    @Test
+    public void testRequestBodyWithStringSchema() {
+        // Given
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_21407.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String path = "/v1/resource-class/send-using-string";
+
+        // When
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        // Then
+        assertThat(codegenOperation.bodyParam).satisfies(bodyParam -> {
+            assertThat(bodyParam).isNotNull();
+            assertThat(bodyParam.getDataType()).isEqualTo("String");
+        });
     }
 }
