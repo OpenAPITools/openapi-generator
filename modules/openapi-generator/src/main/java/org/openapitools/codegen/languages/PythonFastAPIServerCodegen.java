@@ -141,6 +141,11 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     }
 
     @Override
+    protected void addParentFromContainer(CodegenModel model, Schema schema) {
+        // we do not want to inherit simply because additionalProperties is set
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
 
