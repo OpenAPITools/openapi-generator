@@ -163,9 +163,6 @@ public class SharedTypeScriptTest {
         File apiFile = new File(noRuntimePath, "/apis/DefaultApi.ts");
         String apiFileContent = Files.readString(apiFile.toPath());
 
-        //TODO Delete
-        System.out.println("User File: " + userModelContent);
-        System.out.println("Api File: " + apiFileContent);
         TypescriptFileAssert.assertThat(apiFileContent)
                 .importsNotContain("UserSummary")
                 .assertClass("DefaultApi")
@@ -183,8 +180,6 @@ public class SharedTypeScriptTest {
         File axiosApiFile = new File(axiosOutputPath, "/api.ts");
         String axiosApiFileContent = Files.readString(axiosApiFile.toPath());
 
-        //TODO Delete
-        System.out.println("Axios Api File: " + axiosApiFileContent);
         //Parser check fails for some reason, resorting to regular check
         TestUtils.assertFileContains(axiosApiFile.toPath(), "AxiosPromise<Pick<User, \"email\">>");
         TestUtils.assertFileNotContains(axiosApiFile.toPath(), "AxiosPromise<UserSummary>");
