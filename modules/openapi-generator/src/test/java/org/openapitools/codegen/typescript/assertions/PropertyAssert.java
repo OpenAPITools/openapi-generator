@@ -14,26 +14,11 @@ public class PropertyAssert extends AbstractAssert<PropertyAssert, TypeScriptPar
         this.typescriptFileAssert = typescriptFileAssert;
     }
 
-    public PropertyAssert isGeneric() {
-        Condition<TypeScriptParser.PropertySignaturContext> hasType = new Condition<>() {
-            @Override
-            public boolean matches(TypeScriptParser.PropertySignaturContext value) {
-                return value.typeAnnotation() != null;
-            }
-        };
-        Condition<TypeScriptParser.TypeAnnotationContext> typeGeneric = new Condition<>() {
-            @Override
-            public boolean matches(TypeScriptParser.TypeAnnotationContext value) {
-                return value.type_().typeGeneric() != null;
-            }
-        };
-        Assertions.assertThat(actual)
-                .withFailMessage("Type is not specified")
-                .satisfies(hasType);
+    public TypeAssert propertyTypeAssert() {
         Assertions.assertThat(actual.typeAnnotation())
-                .withFailMessage("Type is not generic")
-                .satisfies(typeGeneric);
-        return this;
+                .withFailMessage("%s does not have type", actual.propertyName().getText())
+                .isNotNull();
+        return new TypeAssert(typescriptFileAssert, actual.typeAnnotation().type_());
     }
 
     public TypescriptFileAssert toFileAssert() {

@@ -24,4 +24,8 @@ public class InterfaceAssert extends AbstractAssert<InterfaceAssert, TypeScriptP
                 .isPresent();
         return new PropertyAssert(typescriptFileAssert, propertySignaturContext.get());
     }
+
+    public TypescriptFileAssert toFileAssert() {
+        return typescriptFileAssert;
+    }
 }

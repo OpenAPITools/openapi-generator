@@ -16,13 +16,13 @@ public class TypescriptFileAssert extends AbstractAssert<TypescriptFileAssert, T
 
     private CustomErrorListener customErrorListener;
 
-//    public TypescriptFileAssert(TypeScriptParser.ProgramContext programContext) {
-//        super(programContext, TypescriptFileAssert.class);
-//    }
-
     private TypescriptFileAssert(TypeScriptParser.ProgramContext programContext, CustomErrorListener customErrorListener) {
         super(programContext, TypescriptFileAssert.class);
         this.customErrorListener = customErrorListener;
+        int syntaxErrorCount = customErrorListener.syntaxErrorCount;
+        Assertions.assertThat(syntaxErrorCount)
+                .isEqualTo(0)
+                .withFailMessage("%d syntax errors", syntaxErrorCount);
     }
     public static TypescriptFileAssert assertThat(String source) {
         CustomErrorListener customErrorListener = new CustomErrorListener();
@@ -33,14 +33,6 @@ public class TypescriptFileAssert extends AbstractAssert<TypescriptFileAssert, T
         typeScriptParser.addErrorListener(customErrorListener);
         TypeScriptParser.ProgramContext programContext = typeScriptParser.program();
         return new TypescriptFileAssert(programContext, customErrorListener);
-    }
-
-    public TypescriptFileAssert isValid() {
-        int syntaxErrorCount = customErrorListener.syntaxErrorCount;
-        Assertions.assertThat(syntaxErrorCount)
-                .isEqualTo(0)
-                .withFailMessage("%d syntax errors", syntaxErrorCount);
-        return this;
     }
 
     public InterfaceAssert assertInterface(String interfaceName) {
@@ -54,6 +46,18 @@ public class TypescriptFileAssert extends AbstractAssert<TypescriptFileAssert, T
                 .isPresent();
         return new InterfaceAssert(this, interfaceDeclarationContext.get());
     }
+    public ClassAssert assertClass(String className) {
+        Optional<TypeScriptParser.ClassDeclarationContext> classDeclarationContext = actual
+                .sourceElements().sourceElement().stream().filter((se) -> {
+                    return se.statement().classDeclaration() != null &&
+                            se.statement().classDeclaration().identifier().getText().equals(className);
+                }).map((se) -> se.statement().classDeclaration()).findFirst();
+        Assertions.assertThat(classDeclarationContext)
+                .withFailMessage("%s is not present or is not a class", className)
+                .isPresent();
+        return new ClassAssert(this, classDeclarationContext.get());
+    }
+
 
     /**
      * Placeholder for more detailed import-related assertions
