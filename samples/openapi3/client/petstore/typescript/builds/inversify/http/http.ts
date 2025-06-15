@@ -3,6 +3,7 @@ import  FormData from "form-data";
 import { URL, URLSearchParams } from 'url';
 import * as http from 'http';
 import * as https from 'https';
+import { AbortSignal } from "node-fetch/externals";
 import { Observable, from } from '../rxjsStub';
 
 export * from './isomorphic-fetch';
@@ -57,6 +58,7 @@ export class RequestContext {
     private headers: Headers = {};
     private body: RequestBody = undefined;
     private url: URL;
+    private signal: AbortSignal | undefined = undefined;
     private agent: http.Agent | https.Agent | undefined = undefined;
 
     /**
@@ -134,6 +136,15 @@ export class RequestContext {
     public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
     }
+
+    public setSignal(signal: AbortSignal): void {
+        this.signal = signal;
+    }
+
+    public getSignal(): AbortSignal | undefined {
+        return this.signal;
+    }
+
 
     public setAgent(agent: http.Agent | https.Agent) {
         this.agent = agent;
