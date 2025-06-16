@@ -1,6 +1,5 @@
 use swagger::{
     ApiError,
-    auth::{Basic, Bearer},
     Has,
     XSpanIdString};
 use no_example_v3::{AuthenticationApi, Claims};
@@ -84,10 +83,10 @@ fn get_jwt_error_string(error: JwtError::Error) -> String {
 impl<C> AuthenticationApi for Server<C> where C: Has<XSpanIdString> + Send + Sync {
 
     /// Implementation of the method to map a Bearer-token to an Authorization
-    fn bearer_authorization(&self, bearer: &Bearer) -> Result<Authorization, ApiError> {
-        debug!("\tAuthorizationApi: Received Bearer-token, {bearer:#?}");
+    fn bearer_authorization(&self, token: &str) -> Result<Authorization, ApiError> {
+        debug!("\tAuthorizationApi: Received Bearer-token, {token:#?}");
 
-        match extract_token_data(&bearer.token, b"secret") {
+        match extract_token_data(token, b"secret") {
             Ok(auth_data) => {
                 debug!("\tUnpack auth_data as: {auth_data:#?}");
                 let authorization = build_authorization(auth_data.claims);
@@ -113,8 +112,8 @@ impl<C> AuthenticationApi for Server<C> where C: Has<XSpanIdString> + Send + Syn
     }
 
     /// Implementation of the method to map a basic authentication (username and password) to an Authorization
-    fn basic_authorization(&self, basic: &Basic) -> Result<Authorization, ApiError> {
-        debug!("\tAuthorizationApi: Received Basic-token, {basic:#?}");
+    fn basic_authorization(&self, username: &str, _password: &str) -> Result<Authorization, ApiError> {
+        debug!("\tAuthorizationApi: Received Basic-token, {username}");
 
         // TODO: insert the logic to map received apikey to the set of claims
         let claims = full_permission_claim();
@@ -124,4 +123,3 @@ impl<C> AuthenticationApi for Server<C> where C: Has<XSpanIdString> + Send + Syn
     }
 
 }
-
