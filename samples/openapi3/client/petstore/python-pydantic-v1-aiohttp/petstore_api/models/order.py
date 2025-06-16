@@ -78,11 +78,6 @@ class Order(BaseModel):
         if not isinstance(obj, dict):
             return Order.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Order) in the input: " + obj)
-
         _obj = Order.parse_obj({
             "id": obj.get("id"),
             "pet_id": obj.get("petId"),

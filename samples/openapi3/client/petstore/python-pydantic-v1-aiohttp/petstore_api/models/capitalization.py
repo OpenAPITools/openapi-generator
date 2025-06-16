@@ -68,11 +68,6 @@ class Capitalization(BaseModel):
         if not isinstance(obj, dict):
             return Capitalization.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Capitalization) in the input: " + obj)
-
         _obj = Capitalization.parse_obj({
             "small_camel": obj.get("smallCamel"),
             "capital_camel": obj.get("CapitalCamel"),

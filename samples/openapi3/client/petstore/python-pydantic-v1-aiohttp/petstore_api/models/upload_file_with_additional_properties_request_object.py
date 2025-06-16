@@ -63,11 +63,6 @@ class UploadFileWithAdditionalPropertiesRequestObject(BaseModel):
         if not isinstance(obj, dict):
             return UploadFileWithAdditionalPropertiesRequestObject.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in UploadFileWithAdditionalPropertiesRequestObject) in the input: " + obj)
-
         _obj = UploadFileWithAdditionalPropertiesRequestObject.parse_obj({
             "name": obj.get("name")
         })

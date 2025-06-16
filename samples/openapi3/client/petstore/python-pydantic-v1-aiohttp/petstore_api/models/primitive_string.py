@@ -64,11 +64,6 @@ class PrimitiveString(BaseDiscriminator):
         if not isinstance(obj, dict):
             return PrimitiveString.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in PrimitiveString) in the input: " + obj)
-
         _obj = PrimitiveString.parse_obj({
             "type_name": obj.get("_typeName"),
             "value": obj.get("_value")

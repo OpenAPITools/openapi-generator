@@ -70,11 +70,6 @@ class WithNestedOneOf(BaseModel):
         if not isinstance(obj, dict):
             return WithNestedOneOf.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in WithNestedOneOf) in the input: " + obj)
-
         _obj = WithNestedOneOf.parse_obj({
             "size": obj.get("size"),
             "nested_pig": Pig.from_dict(obj.get("nested_pig")) if obj.get("nested_pig") is not None else None,

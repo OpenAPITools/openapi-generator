@@ -67,11 +67,6 @@ class SelfReferenceModel(BaseModel):
         if not isinstance(obj, dict):
             return SelfReferenceModel.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in SelfReferenceModel) in the input: " + obj)
-
         _obj = SelfReferenceModel.parse_obj({
             "size": obj.get("size"),
             "nested": DummyModel.from_dict(obj.get("nested")) if obj.get("nested") is not None else None
