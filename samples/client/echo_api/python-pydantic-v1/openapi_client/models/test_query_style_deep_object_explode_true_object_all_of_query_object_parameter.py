@@ -67,11 +67,6 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
         if not isinstance(obj, dict):
             return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter) in the input: " + obj)
-
         _obj = TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.parse_obj({
             "size": obj.get("size"),
             "color": obj.get("color"),
