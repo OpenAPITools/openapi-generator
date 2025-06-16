@@ -91,11 +91,6 @@ class FileSchemaTestClass(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in FileSchemaTestClass) in the input: " + _key)
-
         _obj = cls.model_validate({
             "file": File.from_dict(obj["file"]) if obj.get("file") is not None else None,
             "files": [File.from_dict(_item) for _item in obj["files"]] if obj.get("files") is not None else None

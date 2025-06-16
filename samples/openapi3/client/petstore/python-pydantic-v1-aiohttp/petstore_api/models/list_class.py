@@ -63,11 +63,6 @@ class ListClass(BaseModel):
         if not isinstance(obj, dict):
             return ListClass.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in ListClass) in the input: " + obj)
-
         _obj = ListClass.parse_obj({
             "var_123_list": obj.get("123-list")
         })

@@ -66,11 +66,6 @@ class HasOnlyReadOnly(BaseModel):
         if not isinstance(obj, dict):
             return HasOnlyReadOnly.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in HasOnlyReadOnly) in the input: " + obj)
-
         _obj = HasOnlyReadOnly.parse_obj({
             "bar": obj.get("bar"),
             "foo": obj.get("foo")

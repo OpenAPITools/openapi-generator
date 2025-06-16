@@ -63,11 +63,6 @@ class ClassModel(BaseModel):
         if not isinstance(obj, dict):
             return ClassModel.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in ClassModel) in the input: " + obj)
-
         _obj = ClassModel.parse_obj({
             "var_class": obj.get("_class")
         })
