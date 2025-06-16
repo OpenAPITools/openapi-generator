@@ -466,7 +466,8 @@ pub async fn pets_post(configuration: &configuration::Configuration, params: Pet
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref param_value) = params.page {
-        req_builder = req_builder.query(&[("page", &serde_json::to_string(param_value)?)]);
+        let params = crate::apis::parse_flat_object(&serde_json::to_value(param_value)?);
+        req_builder = req_builder.query(&params);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
