@@ -123,7 +123,7 @@ public:
         /// {{.}}
         /// </summary>
         {{/enumDescription}}
-        {{classname}}_{{{name}}}{{^last}},{{/last}}
+        {{{name}}}{{^last}},{{/last}}
         {{/enumVars}}
         {{/allowableValues}}
     };
@@ -136,14 +136,14 @@ public:
         std::map<e{{classname}},utility::string_t> enumToStrMap = {
         {{#allowableValues}}
         {{#enumVars}}
-        { e{{classname}}::{{classname}}_{{{name}}}, "{{{name}}}" }{{^-last}},{{/-last}}
+        { e{{classname}}::{{{name}}}, _XPLATSTR("{{{name}}}") }{{^-last}},{{/-last}}
         {{/enumVars}}
         {{/allowableValues}}
 };
         std::map<utility::string_t,e{{classname}}> strToEnumMap = {
         {{#allowableValues}}
         {{#enumVars}}
-        { "{{{name}}}", e{{classname}}::{{classname}}_{{{name}}} }{{^-last}},{{/-last}}
+        { _XPLATSTR("{{{name}}}"), e{{classname}}::{{{name}}} }{{^-last}},{{/-last}}
         {{/enumVars}}
         {{/allowableValues}}
 };
@@ -185,8 +185,11 @@ public:
     {{#isEnum}}
     enum class {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}
     {
-        {{#allowableValues}}{{#enumVars}}{{value}},
-        {{/enumVars}}{{/allowableValues}}
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{{name}}}{{^last}},{{/last}}
+        {{/enumVars}}
+        {{/allowableValues}}
     };
     {{#description}}
     /// <summary>
