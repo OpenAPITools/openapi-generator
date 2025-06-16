@@ -5,3 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/python-pydantic-v1
 additionalProperties:
   hideGenerationTimestamp: "true"
   disallowAdditionalPropertiesIfNotPresent: true
+  legacyDisallowAdditionalPropertiesDefaultBehavior: true
