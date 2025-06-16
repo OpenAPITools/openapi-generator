@@ -6,3 +6,4 @@ sourceFolder: "src"
 additionalProperties:
   hideGenerationTimestamp: "true"
   disallowAdditionalPropertiesIfNotPresent: true
+  legacyDisallowAdditionalPropertiesDefaultBehavior: true

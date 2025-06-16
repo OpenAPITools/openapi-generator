@@ -7,3 +7,4 @@ additionalProperties:
   packageName: petstore_api
   mapNumberTo: float
   disallowAdditionalPropertiesIfNotPresent: true
+  legacyDisallowAdditionalPropertiesDefaultBehavior: true
