@@ -153,11 +153,6 @@ class EnumTest(BaseModel):
         if not isinstance(obj, dict):
             return EnumTest.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in EnumTest) in the input: " + obj)
-
         _obj = EnumTest.parse_obj({
             "enum_string": obj.get("enum_string"),
             "enum_string_required": obj.get("enum_string_required"),

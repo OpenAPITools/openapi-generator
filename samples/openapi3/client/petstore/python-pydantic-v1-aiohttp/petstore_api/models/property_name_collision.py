@@ -65,11 +65,6 @@ class PropertyNameCollision(BaseModel):
         if not isinstance(obj, dict):
             return PropertyNameCollision.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in PropertyNameCollision) in the input: " + obj)
-
         _obj = PropertyNameCollision.parse_obj({
             "type": obj.get("_type"),
             "type": obj.get("type"),

@@ -63,11 +63,6 @@ class File(BaseModel):
         if not isinstance(obj, dict):
             return File.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in File) in the input: " + obj)
-
         _obj = File.parse_obj({
             "source_uri": obj.get("sourceURI")
         })

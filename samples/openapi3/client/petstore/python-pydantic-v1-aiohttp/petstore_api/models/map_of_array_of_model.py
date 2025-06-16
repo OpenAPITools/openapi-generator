@@ -73,11 +73,6 @@ class MapOfArrayOfModel(BaseModel):
         if not isinstance(obj, dict):
             return MapOfArrayOfModel.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in MapOfArrayOfModel) in the input: " + obj)
-
         _obj = MapOfArrayOfModel.parse_obj({
             "shop_id_to_org_online_lip_map": dict(
                 (_k,
