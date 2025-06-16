@@ -73,11 +73,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         if not isinstance(obj, dict):
             return MixedPropertiesAndAdditionalPropertiesClass.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in MixedPropertiesAndAdditionalPropertiesClass) in the input: " + obj)
-
         _obj = MixedPropertiesAndAdditionalPropertiesClass.parse_obj({
             "uuid": obj.get("uuid"),
             "date_time": obj.get("dateTime"),

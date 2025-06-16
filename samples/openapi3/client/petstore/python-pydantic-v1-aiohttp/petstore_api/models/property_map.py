@@ -71,11 +71,6 @@ class PropertyMap(BaseModel):
         if not isinstance(obj, dict):
             return PropertyMap.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in PropertyMap) in the input: " + obj)
-
         _obj = PropertyMap.parse_obj({
             "some_data": dict(
                 (_k, Tag.from_dict(_v))

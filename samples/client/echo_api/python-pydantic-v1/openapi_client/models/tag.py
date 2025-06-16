@@ -65,11 +65,6 @@ class Tag(BaseModel):
         if not isinstance(obj, dict):
             return Tag.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Tag) in the input: " + obj)
-
         _obj = Tag.parse_obj({
             "id": obj.get("id"),
             "name": obj.get("name")

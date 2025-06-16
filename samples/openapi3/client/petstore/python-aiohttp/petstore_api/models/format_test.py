@@ -139,11 +139,6 @@ class FormatTest(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in FormatTest) in the input: " + _key)
-
         _obj = cls.model_validate({
             "integer": obj.get("integer"),
             "int32": obj.get("int32"),

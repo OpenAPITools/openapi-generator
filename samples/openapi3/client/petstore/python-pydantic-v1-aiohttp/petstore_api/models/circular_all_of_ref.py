@@ -71,11 +71,6 @@ class CircularAllOfRef(BaseModel):
         if not isinstance(obj, dict):
             return CircularAllOfRef.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in CircularAllOfRef) in the input: " + obj)
-
         _obj = CircularAllOfRef.parse_obj({
             "name": obj.get("_name"),
             "second_circular_all_of_ref": [SecondCircularAllOfRef.from_dict(_item) for _item in obj.get("secondCircularAllOfRef")] if obj.get("secondCircularAllOfRef") is not None else None

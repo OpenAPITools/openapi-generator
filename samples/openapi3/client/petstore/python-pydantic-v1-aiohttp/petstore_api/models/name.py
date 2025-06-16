@@ -68,11 +68,6 @@ class Name(BaseModel):
         if not isinstance(obj, dict):
             return Name.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Name) in the input: " + obj)
-
         _obj = Name.parse_obj({
             "name": obj.get("name"),
             "snake_case": obj.get("snake_case"),

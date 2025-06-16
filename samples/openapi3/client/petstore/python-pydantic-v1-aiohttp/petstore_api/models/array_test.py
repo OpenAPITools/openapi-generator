@@ -76,11 +76,6 @@ class ArrayTest(BaseModel):
         if not isinstance(obj, dict):
             return ArrayTest.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in ArrayTest) in the input: " + obj)
-
         _obj = ArrayTest.parse_obj({
             "array_of_string": obj.get("array_of_string"),
             "array_of_nullable_float": obj.get("array_of_nullable_float"),

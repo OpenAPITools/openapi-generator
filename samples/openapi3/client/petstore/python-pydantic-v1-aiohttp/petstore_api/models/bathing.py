@@ -79,11 +79,6 @@ class Bathing(BaseModel):
         if not isinstance(obj, dict):
             return Bathing.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Bathing) in the input: " + obj)
-
         _obj = Bathing.parse_obj({
             "task_name": obj.get("task_name"),
             "function_name": obj.get("function_name"),

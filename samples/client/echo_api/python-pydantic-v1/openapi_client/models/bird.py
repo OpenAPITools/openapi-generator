@@ -65,11 +65,6 @@ class Bird(BaseModel):
         if not isinstance(obj, dict):
             return Bird.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Bird) in the input: " + obj)
-
         _obj = Bird.parse_obj({
             "size": obj.get("size"),
             "color": obj.get("color")

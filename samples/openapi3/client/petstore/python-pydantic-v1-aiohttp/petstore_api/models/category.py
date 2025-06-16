@@ -64,11 +64,6 @@ class Category(BaseModel):
         if not isinstance(obj, dict):
             return Category.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Category) in the input: " + obj)
-
         _obj = Category.parse_obj({
             "id": obj.get("id"),
             "name": obj.get("name") if obj.get("name") is not None else 'default-name'

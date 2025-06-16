@@ -71,11 +71,6 @@ class InputAllOf(BaseModel):
         if not isinstance(obj, dict):
             return InputAllOf.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in InputAllOf) in the input: " + obj)
-
         _obj = InputAllOf.parse_obj({
             "some_data": dict(
                 (_k, Tag.from_dict(_v))

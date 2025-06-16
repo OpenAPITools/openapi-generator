@@ -63,11 +63,6 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
         if not isinstance(obj, dict):
             return DiscriminatorAllOfSub.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in DiscriminatorAllOfSub) in the input: " + obj)
-
         _obj = DiscriminatorAllOfSub.parse_obj({
             "element_type": obj.get("elementType")
         })

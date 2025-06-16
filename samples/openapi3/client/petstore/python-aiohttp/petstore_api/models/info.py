@@ -83,11 +83,6 @@ class Info(BaseDiscriminator):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Info) in the input: " + _key)
-
         _obj = cls.model_validate({
             "_typeName": obj.get("_typeName"),
             "val": BaseDiscriminator.from_dict(obj["val"]) if obj.get("val") is not None else None

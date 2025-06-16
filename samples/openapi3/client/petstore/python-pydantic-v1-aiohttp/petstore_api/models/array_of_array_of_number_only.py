@@ -63,11 +63,6 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
         if not isinstance(obj, dict):
             return ArrayOfArrayOfNumberOnly.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in ArrayOfArrayOfNumberOnly) in the input: " + obj)
-
         _obj = ArrayOfArrayOfNumberOnly.parse_obj({
             "array_array_number": obj.get("ArrayArrayNumber")
         })

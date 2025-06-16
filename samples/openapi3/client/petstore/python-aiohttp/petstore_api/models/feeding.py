@@ -95,11 +95,6 @@ class Feeding(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Feeding) in the input: " + _key)
-
         _obj = cls.model_validate({
             "task_name": obj.get("task_name"),
             "function_name": obj.get("function_name"),

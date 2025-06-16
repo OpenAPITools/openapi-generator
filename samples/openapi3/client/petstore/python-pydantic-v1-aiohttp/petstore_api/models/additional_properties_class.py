@@ -64,11 +64,6 @@ class AdditionalPropertiesClass(BaseModel):
         if not isinstance(obj, dict):
             return AdditionalPropertiesClass.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in AdditionalPropertiesClass) in the input: " + obj)
-
         _obj = AdditionalPropertiesClass.parse_obj({
             "map_property": obj.get("map_property"),
             "map_of_map_property": obj.get("map_of_map_property")

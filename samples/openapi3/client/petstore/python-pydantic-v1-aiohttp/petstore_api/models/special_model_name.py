@@ -63,11 +63,6 @@ class SpecialModelName(BaseModel):
         if not isinstance(obj, dict):
             return SpecialModelName.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in SpecialModelName) in the input: " + obj)
-
         _obj = SpecialModelName.parse_obj({
             "special_property_name": obj.get("$special[property.name]")
         })

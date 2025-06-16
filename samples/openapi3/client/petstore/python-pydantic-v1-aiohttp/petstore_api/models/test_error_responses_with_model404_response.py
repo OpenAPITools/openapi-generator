@@ -63,11 +63,6 @@ class TestErrorResponsesWithModel404Response(BaseModel):
         if not isinstance(obj, dict):
             return TestErrorResponsesWithModel404Response.parse_obj(obj)
 
-        # raise errors for additional fields in the input
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in TestErrorResponsesWithModel404Response) in the input: " + obj)
-
         _obj = TestErrorResponsesWithModel404Response.parse_obj({
             "reason404": obj.get("reason404")
         })
