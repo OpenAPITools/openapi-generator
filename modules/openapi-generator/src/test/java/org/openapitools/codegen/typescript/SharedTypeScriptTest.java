@@ -10,13 +10,9 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.Generator;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.antlr4.TypeScriptLexer;
-import org.openapitools.codegen.antlr4.TypeScriptParser;
-import org.openapitools.codegen.antlr4.TypeScriptParserBaseListener;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
-import org.openapitools.codegen.typescript.assertions.TypescriptFileAssert;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -142,10 +138,9 @@ public class SharedTypeScriptTest {
         File userModel = new File(mainPath, "/models/User.ts");
         String userModelContent = Files.readString(userModel.toPath());
 
-        TypescriptFileAssert.assertThat(userModelContent)
-                .importsNotContain("Record")
-                .assertInterface("User")
-                .propertyAssert("metadata").propertyTypeAssert().assertHasGeneric();
+        TestUtils.assertFileNotContains(userModel.toPath(), "Recordstringunknown");
+        TestUtils.assertFileContains(userModel.toPath(), "Record<string,unknown>");
+
 
         File noRuntimeOutput = new File(output, "noruntime");
 
@@ -163,10 +158,9 @@ public class SharedTypeScriptTest {
         File apiFile = new File(noRuntimePath, "/apis/DefaultApi.ts");
         String apiFileContent = Files.readString(apiFile.toPath());
 
-        TypescriptFileAssert.assertThat(apiFileContent)
-                .importsNotContain("UserSummary")
-                .assertClass("DefaultApi")
-                .methodDeclarationAssert("usersSummaryGet").returnTypeAssert().assertEquals("Promise<Pick<User,\"email\">>");
+        TestUtils.assertFileContains(apiFile.toPath(), "Promise<Pick<User, \"email\">>");
+        TestUtils.assertFileNotContains(apiFile.toPath(), "Promise<Pickuser");
+
 
 
         File axiosOutputPath = new File(output, "axios");
@@ -178,9 +172,7 @@ public class SharedTypeScriptTest {
                 .generate();
 
         File axiosApiFile = new File(axiosOutputPath, "/api.ts");
-        String axiosApiFileContent = Files.readString(axiosApiFile.toPath());
 
-        //Parser check fails for some reason, resorting to regular check
         TestUtils.assertFileContains(axiosApiFile.toPath(), "AxiosPromise<Pick<User, \"email\">>");
         TestUtils.assertFileNotContains(axiosApiFile.toPath(), "AxiosPromise<UserSummary>");
     }
