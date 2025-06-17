@@ -58,10 +58,9 @@ public:
 
     enum class StatusEnum
     {
-        placed,
-        approved,
-        delivered,
-        
+        PLACED,
+        APPROVED,
+        DELIVERED,
     };
     /// <summary>
     /// Order Status

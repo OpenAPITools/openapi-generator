@@ -798,6 +798,8 @@ components:
             - available
             - pending
             - sold
+        metadata:
+          type: object
       xml:
         name: Pet
     Color:
