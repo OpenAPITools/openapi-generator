@@ -35,19 +35,19 @@ class SampleModelToTestNamingConvention
     /**
     *
     * 
-    * @param string $prop_camel_case
+    * @param string $propCamelCase
     *
     * 
-    * @param string $prop_pascal_case
+    * @param string $PropPascalCase
     *
     * 
-    * @param string $prop_with_random_case
+    * @param string $Prop_withRandomCase
     */
 
     public function __construct(
-        public string $prop_camel_case = 'defaultName',
-        public string $prop_pascal_case = 'DefaultName',
-        public string $prop_with_random_case = 'defaultName',
+        public string $propCamelCase = 'defaultName',
+        public string $PropPascalCase = 'DefaultName',
+        public string $Prop_withRandomCase = 'defaultName',
     ) {}
 }
 
