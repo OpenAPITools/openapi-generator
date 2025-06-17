@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 analysis_options.yaml
 build.yaml
@@ -14,4 +13,3 @@ lib/src/auth/bearer_auth.dart
 lib/src/auth/oauth.dart
 lib/src/deserialize.dart
 pubspec.yaml
-test/default_api_test.dart
