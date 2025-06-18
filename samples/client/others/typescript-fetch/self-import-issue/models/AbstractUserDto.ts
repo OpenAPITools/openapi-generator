@@ -21,8 +21,8 @@ import {
     BranchDtoToJSONTyped,
 } from './BranchDto';
 
-import { InternalAuthenticatedUserDto, InternalAuthenticatedUserDtoFromJSONTyped, InternalAuthenticatedUserDtoToJSON, InternalAuthenticatedUserDtoToJSONTyped } from './InternalAuthenticatedUserDto';
-import { RemoteAuthenticatedUserDto, RemoteAuthenticatedUserDtoFromJSONTyped, RemoteAuthenticatedUserDtoToJSON, RemoteAuthenticatedUserDtoToJSONTyped } from './RemoteAuthenticatedUserDto';
+import { type InternalAuthenticatedUserDto, InternalAuthenticatedUserDtoFromJSONTyped, InternalAuthenticatedUserDtoToJSON, InternalAuthenticatedUserDtoToJSONTyped } from './InternalAuthenticatedUserDto';
+import { type RemoteAuthenticatedUserDto, RemoteAuthenticatedUserDtoFromJSONTyped, RemoteAuthenticatedUserDtoToJSON, RemoteAuthenticatedUserDtoToJSONTyped } from './RemoteAuthenticatedUserDto';
 /**
  * 
  * @export
