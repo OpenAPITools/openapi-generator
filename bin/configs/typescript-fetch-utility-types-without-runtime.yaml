@@ -1,7 +1,10 @@
 generatorName: typescript-fetch
-outputDir: samples/client/petstore/typescript-fetch/builds/utility-types
+outputDir: samples/client/petstore/typescript-fetch/builds/utility-types-without-runtime
 inputSpec: modules/openapi-generator/src/test/resources/3_1/issue_21317.yaml
 templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
 typeMappings:
   object: Record<string, unknown>
+  UserSummary: Pick<User, "email">
+additionalProperties:
+  withoutRuntimeChecks: true
 
