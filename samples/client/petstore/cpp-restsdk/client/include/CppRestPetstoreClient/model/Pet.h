@@ -109,10 +109,10 @@ public:
     void unsetStatus();
     void setStatus(const StatusEnum value);
 
-    std::shared_ptr<Object> getMetadata() const;
+    Object getMetadata() const;
     bool metadataIsSet() const;
     void unsetMetadata();
-    void setMetadata(const std::shared_ptr<Object>& value);
+    void setMetadata(const Object& value);
 
 
 protected:
@@ -134,7 +134,7 @@ protected:
     StatusEnum m_Status;
     bool m_StatusIsSet;
 
-    std::shared_ptr<Object> m_Metadata;
+    Object m_Metadata;
     bool m_MetadataIsSet;
 
 };
