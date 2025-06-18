@@ -159,7 +159,7 @@ bool Pet::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("metadata")));
         if(!fieldValue.is_null())
         {
-            Object refVal_setMetadata;
+            std::shared_ptr<Object> refVal_setMetadata;
             ok &= ModelBase::fromJson(fieldValue, refVal_setMetadata);
             setMetadata(refVal_setMetadata);
             
@@ -252,7 +252,7 @@ bool Pet::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const util
     }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("metadata"))))
     {
-        Object refVal_setMetadata;
+        std::shared_ptr<Object> refVal_setMetadata;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("metadata"))), refVal_setMetadata );
         setMetadata(refVal_setMetadata);
     }
@@ -418,13 +418,13 @@ void Pet::unsetStatus()
 {
     m_StatusIsSet = false;
 }
-Object Pet::getMetadata() const
+std::shared_ptr<Object> Pet::getMetadata() const
 {
     return m_Metadata;
 }
 
 
-void Pet::setMetadata(const Object& value)
+void Pet::setMetadata(const std::shared_ptr<Object>& value)
 {
     m_Metadata = value;
     m_MetadataIsSet = true;
