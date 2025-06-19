@@ -6,7 +6,7 @@ use std::default::Default;
 use std::io;
 use std::marker::PhantomData;
 use std::task::{Poll, Context};
-use swagger::auth::{AuthData, Authorization, Bearer, Scopes};
+use swagger::auth::{AuthData, Authorization, Scopes};
 use swagger::{EmptyContext, Has, Pop, Push, XSpanIdString};
 use crate::{Api, AuthenticationApi};
 use log::error;
@@ -30,6 +30,18 @@ where
     }
 }
 
+impl<T, A> Clone for MakeAddContext<T, A>
+where
+    T: Clone,
+{
+    fn clone(&self) -> Self {
+        Self {
+            inner: self.inner.clone(),
+            marker: PhantomData,
+        }
+    }
+}
+
 // Make a service that adds context.
 impl<Target, T, A, B, C, D> Service<Target> for
     MakeAddContext<T, A>
@@ -46,11 +58,7 @@ where
     type Response = AddContext<T::Response, A, B, C, D>;
     type Future = BoxFuture<'static, Result<Self::Response, Self::Error>>;
 
-    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
-        self.inner.poll_ready(cx)
-    }
-
-    fn call(&mut self, target: Target) -> Self::Future {
+    fn call(&self, target: Target) -> Self::Future {
         let service = self.inner.call(target);
 
         Box::pin(async move {
@@ -96,12 +104,7 @@ impl<T, A, B, C, D, ReqBody> Service<Request<ReqBody>> for AddContext<T, A, B, C
     type Future = T::Future;
     type Response = T::Response;
 
-    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
-        self.inner.poll_ready(cx)
-    }
-
-
-    fn call(&mut self, request: Request<ReqBody>) -> Self::Future {
+    fn call(&self, request: Request<ReqBody>) -> Self::Future {
         let context = A::default().push(XSpanIdString::get_or_generate(&request));
         let headers = request.headers();
 

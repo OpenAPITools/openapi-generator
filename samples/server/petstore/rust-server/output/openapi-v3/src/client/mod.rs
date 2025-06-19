@@ -1,7 +1,9 @@
 use async_trait::async_trait;
+use bytes::Bytes;
 use futures::{Stream, future, future::BoxFuture, stream, future::TryFutureExt, future::FutureExt, stream::StreamExt};
+use http_body_util::{combinators::BoxBody, Full};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
-use hyper::{Body, Request, Response, service::Service, Uri};
+use hyper::{body::{Body, Incoming}, Request, Response, service::Service, Uri};
 use percent_encoding::{utf8_percent_encode, AsciiSet};
 use std::borrow::Cow;
 use std::convert::TryInto;
@@ -18,6 +20,7 @@ use std::string::ToString;
 use std::task::{Context, Poll};
 use swagger::{ApiError, AuthData, BodyExt, Connector, DropContextService, Has, XSpanIdString};
 use url::form_urlencoded;
+use tower_service::Service as _;
 
 
 use crate::models;
@@ -92,8 +95,8 @@ fn into_base_path(input: impl TryInto<Uri, Error=hyper::http::uri::InvalidUri>, 
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C),
+           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -110,8 +113,8 @@ pub struct Client<S, C> where
 
 impl<S, C> fmt::Debug for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C),
+           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -123,8 +126,8 @@ impl<S, C> fmt::Debug for Client<S, C> where
 
 impl<S, C> Clone for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C),
+           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -138,8 +141,19 @@ impl<S, C> Clone for Client<S, C> where
     }
 }
 
-impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Body>, C>, C> where
-    Connector: hyper::client::connect::Connect + Clone + Send + Sync + 'static,
+impl<Connector, C> Client<
+    DropContextService<
+        hyper_util::service::TowerToHyperService<
+            hyper_util::client::legacy::Client<
+                Connector,
+                BoxBody<Bytes, Infallible>
+            >
+        >,
+        C
+    >,
+    C
+> where
+    Connector: hyper_util::client::legacy::connect::Connect + Clone + Send + Sync + 'static,
     C: Clone + Send + Sync + 'static,
 {
     /// Create a client with a custom implementation of hyper::client::Connect.
@@ -162,8 +176,8 @@ impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Bo
         connector: Connector,
     ) -> Result<Self, ClientInitError>
     {
-        let client_service = hyper::client::Client::builder().build(connector);
-        let client_service = DropContextService::new(client_service);
+        let client_service = hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector);
+        let client_service = DropContextService::new(hyper_util::service::TowerToHyperService::new(client_service));
 
         Ok(Self {
             client_service,
@@ -175,26 +189,19 @@ impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Bo
 
 #[derive(Debug, Clone)]
 pub enum HyperClient {
-    Http(hyper::client::Client<hyper::client::HttpConnector, Body>),
-    Https(hyper::client::Client<HttpsConnector, Body>),
+    Http(hyper_util::client::legacy::Client<hyper_util::client::legacy::connect::HttpConnector, BoxBody<Bytes, Infallible>>),
+    Https(hyper_util::client::legacy::Client<HttpsConnector, BoxBody<Bytes, Infallible>>),
 }
 
-impl Service<Request<Body>> for HyperClient {
-    type Response = Response<Body>;
-    type Error = hyper::Error;
-    type Future = hyper::client::ResponseFuture;
+impl Service<Request<BoxBody<Bytes, Infallible>>> for HyperClient {
+    type Response = Response<Incoming>;
+    type Error = hyper_util::client::legacy::Error;
+    type Future = hyper_util::client::legacy::ResponseFuture;
 
-    fn poll_ready(&mut self, cx: &mut Context) -> Poll<Result<(), Self::Error>> {
+    fn call(&self, req: Request<BoxBody<Bytes, Infallible>>) -> Self::Future {
        match self {
-          HyperClient::Http(client) => client.poll_ready(cx),
-          HyperClient::Https(client) => client.poll_ready(cx),
-       }
-    }
-
-    fn call(&mut self, req: Request<Body>) -> Self::Future {
-       match self {
-          HyperClient::Http(client) => client.call(req),
-          HyperClient::Https(client) => client.call(req)
+          HyperClient::Http(client) => client.request(req),
+          HyperClient::Https(client) => client.request(req)
        }
     }
 }
@@ -218,13 +225,13 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
 
         let client_service = match scheme.as_str() {
             "http" => {
-                HyperClient::Http(hyper::client::Client::builder().build(connector.build()))
+                HyperClient::Http(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector.build()))
             },
             "https" => {
                 let connector = connector.https()
                    .build()
                    .map_err(ClientInitError::SslError)?;
-                HyperClient::Https(hyper::client::Client::builder().build(connector))
+                HyperClient::Https(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector))
             },
             _ => {
                 return Err(ClientInitError::InvalidScheme);
@@ -241,7 +248,18 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
     }
 }
 
-impl<C> Client<DropContextService<hyper::client::Client<hyper::client::HttpConnector, Body>, C>, C> where
+impl<C> Client<
+    DropContextService<
+        hyper_util::service::TowerToHyperService<
+            hyper_util::client::legacy::Client<
+                HttpsConnector,
+                BoxBody<Bytes, Infallible>
+            >
+        >,
+        C
+    >,
+    C
+> where
     C: Clone + Send + Sync + 'static
 {
     /// Create an HTTP client.
@@ -263,7 +281,18 @@ type HttpsConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;
 
-impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C>, C> where
+impl<C> Client<
+    DropContextService<
+        hyper_util::service::TowerToHyperService<
+            hyper_util::client::legacy::Client<
+                HttpsConnector,
+                BoxBody<Bytes, Infallible>
+            >
+        >,
+        C
+    >,
+    C
+> where
     C: Clone + Send + Sync + 'static
 {
     /// Create a client with a TLS connection to the server
@@ -331,8 +360,8 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
 
 impl<S, C> Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>> + Clone + Sync + Send + 'static,
+           (Request<BoxBody<Bytes, Infallible>>, C),
+           Response=Response<Incoming>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Clone + Send + Sync + 'static
@@ -394,22 +423,19 @@ impl Error for ClientInitError {
     }
 }
 
+fn body_from_string(s: String) -> BoxBody<Bytes, Infallible> {
+    BoxBody::new(Full::new(Bytes::from(s)))
+}
+
 #[async_trait]
 impl<S, C> Api<C> for Client<S, C> where
     S: Service<
-       (Request<Body>, C),
-       Response=Response<Body>> + Clone + Sync + Send + 'static,
+       (Request<BoxBody<Bytes, Infallible>>, C),
+       Response=Response<Incoming>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Has<XSpanIdString> + Has<Option<AuthData>> + Clone + Send + Sync + 'static,
 {
-    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), crate::ServiceError>> {
-        match self.client_service.clone().poll_ready(cx) {
-            Poll::Ready(Err(e)) => Poll::Ready(Err(e.into())),
-            Poll::Ready(Ok(o)) => Poll::Ready(Ok(o)),
-            Poll::Pending => Poll::Pending,
-        }
-    }
 
     async fn any_of_get(
         &self,
@@ -444,7 +470,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -461,9 +487,10 @@ impl<S, C> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -477,9 +504,10 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             201 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -493,9 +521,10 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             202 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -509,9 +538,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -558,7 +587,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -580,9 +609,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -631,7 +660,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -653,9 +682,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -700,7 +729,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -743,9 +772,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -792,7 +821,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -814,9 +843,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -868,7 +897,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -890,9 +919,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -937,7 +966,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -971,9 +1000,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1017,7 +1046,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -1034,9 +1063,10 @@ impl<S, C> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -1050,9 +1080,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1096,7 +1126,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -1113,9 +1143,10 @@ impl<S, C> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -1129,9 +1160,10 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             201 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -1147,9 +1179,10 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             202 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = swagger::ByteArray(body.to_vec());
 
@@ -1160,9 +1193,10 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             203 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -1175,9 +1209,10 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             204 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -1191,9 +1226,10 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             205 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -1207,9 +1243,10 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             206 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -1223,9 +1260,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1269,7 +1306,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -1309,9 +1346,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1355,7 +1392,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -1372,9 +1409,10 @@ impl<S, C> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -1388,9 +1426,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1434,7 +1472,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -1456,9 +1494,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1517,7 +1555,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -1534,9 +1572,10 @@ impl<S, C> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -1550,9 +1589,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1596,7 +1635,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -1636,9 +1675,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1685,7 +1724,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -1707,9 +1746,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1754,7 +1793,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("PUT")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -1762,7 +1801,7 @@ impl<S, C> Api<C> for Client<S, C> where
         // Consumes basic body
         // Body parameter
         let body = param_body.0;
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = body_from_string(body);
 
         let header = "application/octet-stream";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
@@ -1787,9 +1826,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1833,7 +1872,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -1892,9 +1931,10 @@ impl<S, C> Api<C> for Client<S, C> where
                 };
 
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -1950,9 +1990,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1996,7 +2036,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2013,9 +2053,10 @@ impl<S, C> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             204 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2029,9 +2070,10 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             404 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2045,9 +2087,10 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             406 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2063,9 +2106,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2111,7 +2154,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2168,9 +2211,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2215,7 +2258,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2224,7 +2267,7 @@ impl<S, C> Api<C> for Client<S, C> where
         // Body parameter
         if let Some(param_object_untyped_props) = param_object_untyped_props {
         let body = serde_json::to_string(&param_object_untyped_props).expect("impossible to fail to serialize");
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = body_from_string(body);
         }
 
         let header = "application/json";
@@ -2250,9 +2293,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2296,7 +2339,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2313,9 +2356,10 @@ impl<S, C> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2329,9 +2373,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2376,7 +2420,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2385,7 +2429,7 @@ impl<S, C> Api<C> for Client<S, C> where
         // Body parameter
         if let Some(param_duplicate_xml_object) = param_duplicate_xml_object {
         let body = param_duplicate_xml_object.as_xml();
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = body_from_string(body);
         }
 
         let header = "application/xml";
@@ -2416,9 +2460,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2463,7 +2507,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2472,7 +2516,7 @@ impl<S, C> Api<C> for Client<S, C> where
         // Body parameter
         if let Some(param_another_xml_object) = param_another_xml_object {
         let body = param_another_xml_object.as_xml();
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = body_from_string(body);
         }
 
         let header = "text/xml";
@@ -2493,9 +2537,10 @@ impl<S, C> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             201 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2516,9 +2561,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2563,7 +2608,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("PUT")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2572,7 +2617,7 @@ impl<S, C> Api<C> for Client<S, C> where
         // Body parameter
         if let Some(param_another_xml_array) = param_another_xml_array {
         let body = param_another_xml_array.as_xml();
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = body_from_string(body);
         }
 
         let header = "application/xml";
@@ -2603,9 +2648,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2650,7 +2695,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2659,7 +2704,7 @@ impl<S, C> Api<C> for Client<S, C> where
         // Body parameter
         if let Some(param_xml_array) = param_xml_array {
         let body = param_xml_array.as_xml();
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = body_from_string(body);
         }
 
         let header = "application/xml";
@@ -2690,9 +2735,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2737,7 +2782,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("PUT")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2746,7 +2791,7 @@ impl<S, C> Api<C> for Client<S, C> where
         // Body parameter
         if let Some(param_xml_object) = param_xml_object {
         let body = param_xml_object.as_xml();
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = body_from_string(body);
         }
 
         let header = "application/xml";
@@ -2777,9 +2822,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2825,7 +2870,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2847,9 +2892,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2897,7 +2942,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2919,9 +2964,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2966,7 +3011,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -2974,7 +3019,7 @@ impl<S, C> Api<C> for Client<S, C> where
         // Consumes basic body
         // Body parameter
         let body = serde_json::to_string(&param_object_param).expect("impossible to fail to serialize");
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = body_from_string(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
@@ -2999,9 +3044,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3047,7 +3092,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let mut request = match Request::builder()
             .method("GET")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
@@ -3064,9 +3109,10 @@ impl<S, C> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
-                let body = body
-                        .into_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = http_body_util::BodyExt::collect(body)
+                        .await
+                        .map(|f| f.to_bytes().to_vec())
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))?;
 
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -3080,9 +3126,9 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,

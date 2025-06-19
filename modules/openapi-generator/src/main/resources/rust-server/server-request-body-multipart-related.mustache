@@ -6,7 +6,7 @@
                                     Err(e) => {
                                         return Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(e))
+                                                .body(body_from_string(e.to_string()))
                                                 .expect("Unable to create Bad Request response due to unable to read content-type header for {{operationId}}"));
                                     }
                                 };
@@ -18,7 +18,7 @@
                                     Err(e) => {
                                         return Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Could not read multipart body for {{operationId}}: {}", e)))
+                                                .body(body_from_string(format!("Could not read multipart body for {{operationId}}: {}", e)))
                                                 .expect("Unable to create Bad Request response due to unable to read multipart body for {{operationId}}"));
                                     }
                                 };
@@ -43,7 +43,7 @@
                                                     Ok(json_data) => json_data,
                                                     Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter {{dataType}} - doesn't match schema: {}", e)))
+                                                        .body(body_from_string(format!("Couldn't parse body parameter {{dataType}} - doesn't match schema: {}", e)))
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{dataType}} due to schema"))
                                                 };
                                                 // Push JSON part to return object.
@@ -79,7 +79,7 @@
                                     Some(x) => x,
                                     None =>  return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from("Missing required multipart/related parameter {{{paramName}}}".to_string()))
+                                        .body(body_from_str("Missing required multipart/related parameter {{{paramName}}}".to_string()))
                                         .expect("Unable to create Bad Request response for missing multipart/related parameter {{{paramName}}} due to schema"))
                                 };
   {{/required}}
