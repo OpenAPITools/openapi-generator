@@ -31,7 +31,8 @@ import java.util.*;
 public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, isContainer,
-            isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, isDeepObject, isMatrix, isAllowEmptyValue;
+            isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, isDeepObject, isMatrix, isAllowEmptyValue,
+            isFormStyle, isSpaceDelimited, isPipeDelimited;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat, contentType,
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumDefaultValue, enumName, style;
 
@@ -268,6 +269,9 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isExplode = this.isExplode;
         output.style = this.style;
         output.isDeepObject = this.isDeepObject;
+        output.isFormStyle = this.isFormStyle;
+        output.isSpaceDelimited = this.isSpaceDelimited;
+        output.isPipeDelimited = this.isPipeDelimited;
         output.isMatrix = this.isMatrix;
         output.isAllowEmptyValue = this.isAllowEmptyValue;
         output.contentType = this.contentType;
@@ -282,6 +286,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description,
                 unescapedDescription, baseType, containerType, containerTypeMapped, defaultValue,
                 enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, examples,
+                isFormStyle, isSpaceDelimited, isPipeDelimited,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
                 isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
                 isFreeFormObject, isAnyType, isArray, isMap, isOptional, isFile, isEnum, isEnumRef, _enum, allowableValues,
@@ -375,6 +380,9 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 Objects.equals(enumName, that.enumName) &&
                 Objects.equals(style, that.style) &&
                 Objects.equals(isDeepObject, that.isDeepObject) &&
+                Objects.equals(isFormStyle, that.isFormStyle) &&
+                Objects.equals(isSpaceDelimited, that.isSpaceDelimited) &&
+                Objects.equals(isPipeDelimited, that.isPipeDelimited) &&
                 Objects.equals(isMatrix, that.isMatrix) &&
                 Objects.equals(isAllowEmptyValue, that.isAllowEmptyValue) &&
                 Objects.equals(example, that.example) &&
@@ -440,6 +448,9 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", enumName='").append(enumName).append('\'');
         sb.append(", style='").append(style).append('\'');
         sb.append(", deepObject='").append(isDeepObject).append('\'');
+        sb.append(", isFormStyle='").append(isFormStyle).append('\'');
+        sb.append(", isSpaceDelimited='").append(isSpaceDelimited).append('\'');
+        sb.append(", isPipeDelimited='").append(isPipeDelimited).append('\'');
         sb.append(", isMatrix='").append(isMatrix).append('\'');
         sb.append(", allowEmptyValue='").append(isAllowEmptyValue).append('\'');
         sb.append(", example='").append(example).append('\'');
