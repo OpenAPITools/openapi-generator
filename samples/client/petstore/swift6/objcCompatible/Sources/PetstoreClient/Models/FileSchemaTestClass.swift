@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class FileSchemaTestClass: NSObject, Codable, ParameterConvertible {
+@objcMembers public class FileSchemaTestClass: NSObject, Codable {
 
     public var file: File?
     public var files: [File]?
