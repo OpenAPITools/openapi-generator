@@ -5,16 +5,7 @@ defmodule OpenapiPetstore.Model.Order do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :id,
-    :petId,
-    :quantity,
-    :shipDate,
-    :status,
-    :complete
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :id => integer() | nil,
@@ -25,8 +16,30 @@ defmodule OpenapiPetstore.Model.Order do
     :complete => boolean() | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:id, :petId, :quantity, :shipDate, :status, :complete]}
+  @primary_key false
+  embedded_schema do
+    field :id, :integer
+    field :petId, :integer
+    field :quantity, :integer
+    field :shipDate, :utc_datetime
+    field :status, :string
+    field :complete, :boolean
+  end
+
+  @spec from_params(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
+  def from_params(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> Ecto.Changeset.apply_action(:insert)
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:id, :petId, :quantity, :shipDate, :status, :complete])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.validate_inclusion(:status, ["placed", "approved", "delivered"])
   end
 end
 

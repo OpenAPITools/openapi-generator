@@ -5,18 +5,30 @@ defmodule OpenapiPetstore.Model.HealthCheckResult do
   @moduledoc """
   Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :NullableMessage
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :NullableMessage => String.t | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:NullableMessage]}
+  @primary_key false
+  embedded_schema do
+    field :NullableMessage, :string
+  end
+
+  @spec from_params(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
+  def from_params(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> Ecto.Changeset.apply_action(:insert)
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:NullableMessage])
+    |> Ecto.Changeset.validate_required([])
   end
 end
 

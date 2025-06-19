@@ -5,21 +5,31 @@ defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :value
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
-    :value => OpenapiPetstore.Model.OuterEnumInteger.t
+    :value => integer()
   }
 
-  alias OpenapiPetstore.Deserializer
+  @derive {JSON.Encoder, only: [:value]}
+  @primary_key false
+  embedded_schema do
+    field :value, :integer
+  end
 
-  def decode(value) do
-    value
-     |> Deserializer.deserialize(:value, :struct, OpenapiPetstore.Model.OuterEnumInteger)
+  @spec from_params(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
+  def from_params(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> Ecto.Changeset.apply_action(:insert)
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:value])
+    |> Ecto.Changeset.validate_required([:value])
+    |> Ecto.Changeset.validate_inclusion(:value, [0, 1, 2])
   end
 end
 

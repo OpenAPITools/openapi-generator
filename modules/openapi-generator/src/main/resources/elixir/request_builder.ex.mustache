@@ -187,10 +187,24 @@ defmodule {{moduleName}}.RequestBuilder do
   defp decode(%Tesla.Env{} = env, false), do: {:ok, env}
 
   defp decode(%Tesla.Env{body: body}, %{}) do
-    {{moduleName}}.Deserializer.json_decode(body)
+    {:ok, body}
   end
 
-  defp decode(%Tesla.Env{body: body}, module) do
-    {{moduleName}}.Deserializer.json_decode(body, module)
+  defp decode(%Tesla.Env{body: response}, module) when is_list(response) do
+    models = Enum.map(response, fn params ->
+      {:ok, model} = to_model(module, params)
+      model
+    end)
+    {:ok, models}
+  end
+  defp decode(%Tesla.Env{body: params}, module) do
+    to_model(module, params)
+  end
+
+  defp to_model(module, params) do
+    module
+    |> struct
+    |> module.changeset(params)
+    |> Ecto.Changeset.apply_action(:insert)
   end
 end

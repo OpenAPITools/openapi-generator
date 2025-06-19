@@ -5,38 +5,52 @@ defmodule OpenapiPetstore.Model.EnumTest do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :enum_string,
-    :enum_string_required,
-    :enum_integer,
-    :enum_number,
-    :outerEnum,
-    :outerEnumInteger,
-    :outerEnumDefaultValue,
-    :outerEnumIntegerDefaultValue
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :enum_string => String.t | nil,
     :enum_string_required => String.t,
     :enum_integer => integer() | nil,
     :enum_number => float() | nil,
-    :outerEnum => OpenapiPetstore.Model.OuterEnum.t | nil,
-    :outerEnumInteger => OpenapiPetstore.Model.OuterEnumInteger.t | nil,
-    :outerEnumDefaultValue => OpenapiPetstore.Model.OuterEnumDefaultValue.t | nil,
-    :outerEnumIntegerDefaultValue => OpenapiPetstore.Model.OuterEnumIntegerDefaultValue.t | nil
+    :outerEnum => String.t | nil,
+    :outerEnumInteger => integer() | nil,
+    :outerEnumDefaultValue => String.t | nil,
+    :outerEnumIntegerDefaultValue => integer() | nil
   }
 
-  alias OpenapiPetstore.Deserializer
+  @derive {JSON.Encoder, only: [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue]}
+  @primary_key false
+  embedded_schema do
+    field :enum_string, :string
+    field :enum_string_required, :string
+    field :enum_integer, :integer
+    field :enum_number, :float
+    field :outerEnum, :string
+    field :outerEnumInteger, :integer
+    field :outerEnumDefaultValue, :string
+    field :outerEnumIntegerDefaultValue, :integer
+  end
 
-  def decode(value) do
-    value
-     |> Deserializer.deserialize(:outerEnum, :struct, OpenapiPetstore.Model.OuterEnum)
-     |> Deserializer.deserialize(:outerEnumInteger, :struct, OpenapiPetstore.Model.OuterEnumInteger)
-     |> Deserializer.deserialize(:outerEnumDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumDefaultValue)
-     |> Deserializer.deserialize(:outerEnumIntegerDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue)
+  @spec from_params(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
+  def from_params(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> Ecto.Changeset.apply_action(:insert)
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue])
+    |> Ecto.Changeset.validate_required([:enum_string_required])
+    |> Ecto.Changeset.validate_inclusion(:enum_string, ["UPPER", "lower", ""])
+    |> Ecto.Changeset.validate_inclusion(:enum_string_required, ["UPPER", "lower", ""])
+    |> Ecto.Changeset.validate_inclusion(:enum_integer, [1, -1])
+    |> Ecto.Changeset.validate_inclusion(:enum_number, [1.1, -1.2])
+    |> Ecto.Changeset.validate_inclusion(:outerEnum, ["placed", "approved", "delivered"])
+    |> Ecto.Changeset.validate_inclusion(:outerEnumInteger, [0, 1, 2])
+    |> Ecto.Changeset.validate_inclusion(:outerEnumDefaultValue, ["placed", "approved", "delivered"])
+    |> Ecto.Changeset.validate_inclusion(:outerEnumIntegerDefaultValue, [0, 1, 2])
   end
 end
 

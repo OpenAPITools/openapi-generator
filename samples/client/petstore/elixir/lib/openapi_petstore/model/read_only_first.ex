@@ -5,20 +5,32 @@ defmodule OpenapiPetstore.Model.ReadOnlyFirst do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :bar,
-    :baz
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :bar => String.t | nil,
     :baz => String.t | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:bar, :baz]}
+  @primary_key false
+  embedded_schema do
+    field :bar, :string
+    field :baz, :string
+  end
+
+  @spec from_params(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
+  def from_params(params) do
+    %__MODULE__{}
+    |> changeset(params)
+    |> Ecto.Changeset.apply_action(:insert)
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:bar, :baz])
+    |> Ecto.Changeset.validate_required([])
   end
 end
 
