@@ -13,7 +13,6 @@ parameterNameMappings:
 additionalProperties:
   enumClassPrefix: "true"
   packageName: petstore
-  disallowAdditionalPropertiesIfNotPresent: false
   generateInterfaces: true
   useDefaultValuesForRequiredVars: "true"
 enumNameMappings:
