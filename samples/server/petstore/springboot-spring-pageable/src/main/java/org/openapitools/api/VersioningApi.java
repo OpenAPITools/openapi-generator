@@ -52,8 +52,7 @@ public interface VersioningApi {
         @ApiImplicitParam(name = "VersionWithDefaultValue", value = "", required = true, dataType = "String", paramType = "header"),
         @ApiImplicitParam(name = "VersionNoDefaultValue", value = "", required = true, dataType = "String", paramType = "header")
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/versioning/headers",
         produces = { "*/*" },
         headers = { "VersionWithDefaultValue=V1", "VersionNoDefaultValue" } 
@@ -98,8 +97,7 @@ public interface VersioningApi {
         @ApiImplicitParam(name = "VersionWithDefaultValueHeader", value = "", required = true, dataType = "String", paramType = "header"),
         @ApiImplicitParam(name = "VersionNoDefaultValueHeader", value = "", required = true, dataType = "String", paramType = "header")
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/versioning/mix",
         produces = { "*/*" },
         headers = { "VersionWithDefaultValueHeader=V1", "VersionNoDefaultValueHeader" } ,
@@ -143,8 +141,7 @@ public interface VersioningApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/versioning/query-params",
         produces = { "*/*" },
         params = { "VersionWithDefaultValue=V1", "VersionNoDefaultValue" } 

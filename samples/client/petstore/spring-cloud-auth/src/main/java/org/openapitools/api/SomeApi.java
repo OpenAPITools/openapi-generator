@@ -30,8 +30,7 @@ public interface SomeApi {
      *
      * @return OK (status code 200)
      */
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/some/endpoint"
     )
     
