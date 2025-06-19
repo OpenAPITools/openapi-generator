@@ -81,7 +81,7 @@ private:
     /// <remarks>
     /// 
     /// </remarks>
-    virtual void get_nested_object(Pistache::Http::ResponseWriter &response) = 0;
+    virtual void get_nested_object( Pistache::Http::ResponseWriter &response) = 0;
 
 };
 
