@@ -4,6 +4,7 @@ info:
   version: 1.0.0
   description: Test API for AWS IAM authentication detection
 servers:
+   # Pattern 3 Check for AWS API Gateway URL patterns in servers
   - url: https://abc123.execute-api.us-east-1.amazonaws.com/prod
 security:
   - iam: []
@@ -61,10 +62,12 @@ paths:
                   format: int32
 components:
   securitySchemes:
+    # Pattern 2: Check for common AWS V4 signature scheme names
     iam:
       type: apiKey
       name: Authorization
       in: header
+      # Pattern 1: Check for AWS-specific extension
       x-amazon-apigateway-authtype: awsSigv4
   schemas:
     Pet:
