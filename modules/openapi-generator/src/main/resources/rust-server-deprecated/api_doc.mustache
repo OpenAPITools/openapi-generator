@@ -1,0 +1,50 @@
+# {{{invokerPackage}}}{{{classname}}}_api{{#description}}
+{{{.}}}{{/description}}
+
+All URIs are relative to *{{{basePath}}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}**{{{operationIdOriginal}}}**]({{classname}}_api.md#{{{operationIdOriginal}}}) | **{{{httpMethod}}}** {{{path}}} | {{{summary}}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+# **{{{operationIdOriginal}}}**
+> {{#returnType}}{{{.}}} {{/returnType}}{{{operationIdOriginal}}}({{#authMethods}}ctx, {{/authMethods}}{{#allParams}}{{#required}}{{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}optional{{/hasOptionalParams}})
+{{{summary}}}{{#notes}}
+
+{{{.}}}{{/notes}}
+
+### Required Parameters
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{#authMethods}}
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication{{/authMethods}}{{/-last}}{{/allParams}}{{#allParams}}{{#required}}
+  **{{{paramName}}}** | {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{baseType}}}**]({{{baseType}}}.md){{/isPrimitiveType}}| {{{description}}} | {{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}{{/required}}{{/allParams}}{{#hasOptionalParams}}
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}{{#allParams}}
+ **{{{paramName}}}** | {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{baseType}}}**]({{{baseType}}}.md){{/isPrimitiveType}}| {{{description}}} | {{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}{{/allParams}}{{/hasOptionalParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{{returnBaseType}}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}} (empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{{name}}}](../README.md#{{{name}}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+ - **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+{{/operation}}
+{{/operations}}

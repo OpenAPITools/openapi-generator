@@ -1,0 +1,22 @@
+{{#vendorExtensions}}
+  {{#x-produces-bytes}}
+                let body = swagger::ByteArray(body.to_vec());
+  {{/x-produces-bytes}}
+  {{^x-produces-bytes}}
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+    {{#x-produces-xml}}
+                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                let body = serde_xml_rs::from_str::<{{{dataType}}}>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+    {{/x-produces-xml}}
+    {{#x-produces-json}}
+                let body = serde_json::from_str::<{{{dataType}}}>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+    {{/x-produces-json}}
+    {{#x-produces-plain-text}}
+                let body = body.to_string();
+    {{/x-produces-plain-text}}
+  {{/x-produces-bytes}}
+{{/vendorExtensions}}

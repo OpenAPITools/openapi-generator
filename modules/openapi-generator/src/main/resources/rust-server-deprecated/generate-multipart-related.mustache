@@ -1,0 +1,39 @@
+{{#-first}}
+        let boundary = swagger::multipart::related::generate_boundary();
+        let mut body_parts = vec![];
+
+{{/-first}}
+{{#required}}
+        {
+{{/required}}
+{{^required}}
+        if let Some({{{paramName}}}) = param_{{{paramName}}} {
+{{/required}}
+            let part = Node::Part(Part {
+                headers: {
+                    let mut h = Headers::new();
+                    h.set(ContentType("{{{contentType}}}".parse().unwrap()));
+                    h.set_raw("Content-ID", vec![b"{{{baseName}}}".to_vec()]);
+                    h
+                },
+                {{#isBinary}}
+                body: {{#required}}param_{{/required}}{{{paramName}}}.0,
+                {{/isBinary}}
+                {{^isBinary}}
+                body: serde_json::to_string(&{{{paramName}}})
+                    .expect("Impossible to fail to serialize")
+                    .into_bytes(),
+                {{/isBinary}}
+            });
+            body_parts.push(part);
+        }
+{{#-last}}
+
+        // Write the body into a vec.
+        // RFC 13341 Section 7.2.1 suggests that the body should begin with a
+        // CRLF prior to the first boundary. The mime_multipart library doesn't
+        // do this, so we do it instead.
+        let mut body: Vec<u8> = vec![b'\r', b'\n'];
+        write_multipart(&mut body, &boundary, &body_parts)
+            .expect("Failed to write multipart body");
+{{/-last}}

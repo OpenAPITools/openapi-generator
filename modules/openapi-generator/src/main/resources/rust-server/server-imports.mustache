@@ -1,10 +1,12 @@
+use bytes::Bytes;
 use futures::{future, future::BoxFuture, Stream, stream, future::FutureExt, stream::TryStreamExt};
-use hyper::{Request, Response, StatusCode, Body, HeaderMap};
+use http_body_util::{combinators::BoxBody, Full};
+use hyper::{body::{Body, Incoming}, HeaderMap, Request, Response, StatusCode};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use log::warn;
 #[allow(unused_imports)]
 use std::convert::{TryFrom, TryInto};
-use std::error::Error;
+use std::{convert::Infallible, error::Error};
 use std::future::Future;
 use std::marker::PhantomData;
 use std::task::{Context, Poll};
@@ -13,8 +15,6 @@ pub use swagger::auth::Authorization;
 use swagger::auth::Scopes;
 use url::form_urlencoded;
 {{#apiUsesMultipartRelated}}
-use hyper_0_10::header::{Headers, ContentType};
-use mime_0_2::{TopLevel, SubLevel, Mime as Mime2};
 use mime_multipart::{read_multipart_body, Node, Part};
 {{/apiUsesMultipartRelated}}
 {{#apiUsesMultipartFormData}}
@@ -27,4 +27,4 @@ use crate::{models, header, AuthenticationApi};
 
 pub use crate::context;
 
-type ServiceFuture = BoxFuture<'static, Result<Response<Body>, crate::ServiceError>>;
+type ServiceFuture = BoxFuture<'static, Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>>;
