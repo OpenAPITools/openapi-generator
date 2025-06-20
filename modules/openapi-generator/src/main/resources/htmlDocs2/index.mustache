@@ -6,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8" />
-  {{>js_jquery}}
-  {{>js_prettify}}
-  {{>js_bootstrap}}
-  {{>marked}}
+  {{>js_jquery}}{{! prevent indent}}
+  {{>js_prettify}}{{! prevent indent}}
+  {{>js_bootstrap}}{{! prevent indent}}
+  {{>marked}}{{! prevent indent}}
   <script>
     $( document ).ready(function() {
       marked.setOptions({
@@ -133,12 +133,12 @@
     }
   </script>
   <style type="text/css">
-    {{>fonts}}
+    {{>fonts}}{{! prevent indent}}
 
-    {{>css_bootstrap}}
-    {{>css_prettify}}
+    {{>css_bootstrap}}{{! prevent indent}}
+    {{>css_prettify}}{{! prevent indent}}
 
-    {{>styles}}
+    {{>styles}}{{! prevent indent}}
   </style>
 </head>
 <body>
@@ -324,7 +324,7 @@
                                   <th>Description</th>
                                 </tr>
                                 {{#pathParams}}
-                                  {{>param}}
+                                  {{>param}}{{! prevent indent}}
                                 {{/pathParams}}
                             </table>
                           {{/hasPathParams}}
@@ -337,7 +337,7 @@
                                 <th>Description</th>
                               </tr>
                               {{#headerParams}}
-                                  {{>param}}
+                                  {{>param}}{{! prevent indent}}
                               {{/headerParams}}
                             </table>
                           {{/hasHeaderParams}}
@@ -350,7 +350,7 @@
                                 <th>Description</th>
                               </tr>
                               {{#bodyParams}}
-                                {{>paramB}}
+                                {{>paramB}}{{! prevent indent}}
                               {{/bodyParams}}
                             </table>
                           {{/hasBodyParam}}
@@ -363,7 +363,7 @@
                                 <th>Description</th>
                               </tr>
                               {{#formParams}}
-                                  {{>param}}
+                                  {{>param}}{{! prevent indent}}
                               {{/formParams}}
                             </table>
                           {{/hasFormParams}}
@@ -376,7 +376,7 @@
                                 <th>Description</th>
                               </tr>
                               {{#queryParams}}
-                                {{>param}}
+                                {{>param}}{{! prevent indent}}
                               {{/queryParams}}
                             </table>
                           {{/hasQueryParams}}
@@ -553,11 +553,11 @@
 {{/hideGenerationTimestamp}}      </div>
     </div>
   </div>
-  {{>js_jsonformatter}}
-  {{>js_jsonschemaview}}
-  {{>js_json_schema_ref_parser}}
-  {{>js_json_stringify_safe}}
-  {{>js_webfontloader}}
+  {{>js_jsonformatter}}{{! prevent indent}}
+  {{>js_jsonschemaview}}{{! prevent indent}}
+  {{>js_json_schema_ref_parser}}{{! prevent indent}}
+  {{>js_json_stringify_safe}}{{! prevent indent}}
+  {{>js_webfontloader}}{{! prevent indent}}
   <script>
     var schemaWrapper = { "components": { "schemas" : defs}};
     defsParser = new $RefParser();
