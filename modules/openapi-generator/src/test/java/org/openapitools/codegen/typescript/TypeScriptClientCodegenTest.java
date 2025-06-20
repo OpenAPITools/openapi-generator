@@ -210,4 +210,31 @@ public class TypeScriptClientCodegenTest {
                 "}"
         );
     }
+
+    @Test
+    public void testOrderParameters() throws Exception {
+        final File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript")
+                .setInputSpec("src/test/resources/3_0/typescript/deprecated-operation.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        // deprecated operation
+        TestUtils.assertFileContains(
+                Paths.get(output + "/apis/DefaultApi.ts"),
+                "* @deprecated"
+        );
+        // deprecated parameter
+        TestUtils.assertFileContains(
+                Paths.get(output + "/apis/DefaultApi.ts"),
+                "* @param name name of pet  (@deprecated)"
+        );
+    }
 }

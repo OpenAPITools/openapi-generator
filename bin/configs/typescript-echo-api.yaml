@@ -1,6 +1,6 @@
 generatorName: typescript
 outputDir: samples/client/echo_api/typescript/build
-inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript/echo_api.yaml
 templateDir: modules/openapi-generator/src/main/resources/typescript
 additionalProperties:
   artifactId: echo-api-typescript

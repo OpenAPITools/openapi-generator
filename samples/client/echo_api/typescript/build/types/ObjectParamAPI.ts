@@ -624,6 +624,16 @@ export class ObjectPathApi {
 import { ObservableQueryApi } from "./ObservableAPI";
 import { QueryApiRequestFactory, QueryApiResponseProcessor} from "../apis/QueryApi";
 
+export interface QueryApiDeprecatedTestRequest {
+    /**
+     * name of pet
+     * Defaults to: undefined
+     * @type string
+     * @memberof QueryApideprecatedTest
+     */
+    name?: string
+}
+
 export interface QueryApiTestEnumRefStringRequest {
     /**
      * 
@@ -764,6 +774,22 @@ export class ObjectQueryApi {
 
     public constructor(configuration: Configuration, requestFactory?: QueryApiRequestFactory, responseProcessor?: QueryApiResponseProcessor) {
         this.api = new ObservableQueryApi(configuration, requestFactory, responseProcessor);
+    }
+
+    /**
+     * Test deprecation
+     * @param param the request object
+     */
+    public deprecatedTestWithHttpInfo(param: QueryApiDeprecatedTestRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
+        return this.api.deprecatedTestWithHttpInfo(param.name,  options).toPromise();
+    }
+
+    /**
+     * Test deprecation
+     * @param param the request object
+     */
+    public deprecatedTest(param: QueryApiDeprecatedTestRequest = {}, options?: ConfigurationOptions): Promise<string> {
+        return this.api.deprecatedTest(param.name,  options).toPromise();
     }
 
     /**

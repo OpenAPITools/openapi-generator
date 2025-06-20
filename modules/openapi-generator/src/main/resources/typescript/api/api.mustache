@@ -32,6 +32,10 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 
     {{#operation}}
     /**
+    {{#isDeprecated}}
+     * @deprecated
+     *
+    {{/isDeprecated}}
      {{#notes}}
      * {{&notes}}
      {{/notes}}
@@ -39,7 +43,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
      * {{&summary}}
      {{/summary}}
      {{#allParams}}
-     * @param {{paramName}} {{description}}
+     * @param {{paramName}} {{description}}{{#isDeprecated}} (@deprecated){{/isDeprecated}}
      {{/allParams}}
      */
     public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<RequestContext> {
