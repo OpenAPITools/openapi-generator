@@ -429,6 +429,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         String underscoredOperationId = underscore(op.operationId);
+        ArrayList<MethodOperation> pathMethods = pathMethodOpMap.get(path);
+
+        // Prevent multiple declarations of the same operation
+        if (pathMethods != null && pathMethods.stream().anyMatch(pathMethod ->
+                pathMethod.operationID.equals(underscoredOperationId))) {
+            return op;
+        }
+
         op.vendorExtensions.put("x-operation-id", underscoredOperationId);
         op.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId.toUpperCase(Locale.ROOT));
 
