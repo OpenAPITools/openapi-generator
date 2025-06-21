@@ -304,6 +304,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 // Typescript reserved words
                 "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
+        Set<String> utilityTypes = new HashSet<>(Arrays.asList(
+                "Awaited","Partial","Required","Readonly","Record","Pick","Omit","Exclude","Extract","NonNullable",
+                "Parameters","ConstructorParameters","ReturnType","InstanceType","NoInfer","ThisParameterType",
+                "OmitThisParameter","ThisType","Uppercase","Lowercase","Capitalize","Uncapitalize")
+        );
+        defaultIncludes = new HashSet<>();
+        defaultIncludes.addAll(utilityTypes);
+
         languageSpecificPrimitives = new HashSet<>(Arrays.asList(
                 "string",
                 "String",
@@ -325,6 +333,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "object",
                 "Set"
         ));
+        languageSpecificPrimitives.addAll(utilityTypes);
 
         languageGenericTypes = new HashSet<>(Collections.singletonList(
                 "Array"
@@ -805,7 +814,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return openAPIType;
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
+            String typeWithoutGeneric = typeWithoutGeneric(type);
+            if (languageSpecificPrimitives.contains(typeWithoutGeneric)) {
                 return type;
             }
         } else {
@@ -1155,6 +1165,16 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             }
             return schemaType;
         }).distinct().collect(Collectors.toList());
+    }
+
+    @Override
+    protected boolean needToImport(String type) {
+        return super.needToImport(typeWithoutGeneric(type));
+    }
+
+    private String typeWithoutGeneric(String type) {
+        int genericIndex = type.indexOf("<");
+        return genericIndex == -1 ? type : type.substring(0, genericIndex);
     }
 
     @Override
