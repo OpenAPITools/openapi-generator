@@ -304,12 +304,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 // Typescript reserved words
                 "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
-        defaultIncludes = new HashSet<>(Arrays.asList(
-                //Utility types
+        Set<String> utilityTypes = new HashSet<>(Arrays.asList(
                 "Awaited","Partial","Required","Readonly","Record","Pick","Omit","Exclude","Extract","NonNullable",
                 "Parameters","ConstructorParameters","ReturnType","InstanceType","NoInfer","ThisParameterType",
-                "OmitThisParameter","ThisType","Uppercase","Lowercase","Capitalize","Uncapitalize"
-        ));
+                "OmitThisParameter","ThisType","Uppercase","Lowercase","Capitalize","Uncapitalize")
+        );
+        defaultIncludes = new HashSet<>();
+        defaultIncludes.addAll(utilityTypes);
 
         languageSpecificPrimitives = new HashSet<>(Arrays.asList(
                 "string",
@@ -330,12 +331,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "Error",
                 "Map",
                 "object",
-                "Set",
-                //Utility types
-                "Awaited","Partial","Required","Readonly","Record","Pick","Omit","Exclude","Extract","NonNullable",
-                "Parameters","ConstructorParameters","ReturnType","InstanceType","NoInfer","ThisParameterType",
-                "OmitThisParameter","ThisType","Uppercase","Lowercase","Capitalize","Uncapitalize"
+                "Set"
         ));
+        languageSpecificPrimitives.addAll(utilityTypes);
 
         languageGenericTypes = new HashSet<>(Collections.singletonList(
                 "Array"
@@ -816,14 +814,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return openAPIType;
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            String typeWithoutGeneric = null;
-            int genericIndex = type.indexOf("<");
-            if(genericIndex != -1) {
-                typeWithoutGeneric = type.substring(0, genericIndex);
-            }
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
-            } else if(typeWithoutGeneric != null && languageSpecificPrimitives.contains(typeWithoutGeneric)) {
+            String typeWithoutGeneric = typeWithoutGeneric(type);
+            if (languageSpecificPrimitives.contains(typeWithoutGeneric)) {
                 return type;
             }
         } else {
@@ -1177,9 +1169,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     protected boolean needToImport(String type) {
+        return super.needToImport(typeWithoutGeneric(type));
+    }
+
+    private String typeWithoutGeneric(String type) {
         int genericIndex = type.indexOf("<");
-        String typeWithoutGeneric = genericIndex != -1 ? type.substring(0, genericIndex) : type;
-        return super.needToImport(typeWithoutGeneric);
+        return genericIndex == -1 ? type : type.substring(0, genericIndex);
     }
 
     @Override

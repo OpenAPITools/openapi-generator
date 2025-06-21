@@ -1,7 +1,0 @@
-apis/DefaultApi.ts
-apis/index.ts
-index.ts
-models/User.ts
-models/UserSummary.ts
-models/index.ts
-runtime.ts
