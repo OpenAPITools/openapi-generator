@@ -130,6 +130,7 @@ docs/models/TestResult.md
 docs/models/TestResultCode.md
 docs/models/Triangle.md
 docs/models/TriangleInterface.md
+docs/models/UploadFiles200Response.md
 docs/models/User.md
 docs/models/Whale.md
 docs/models/Zebra.md
@@ -140,6 +141,7 @@ docs/models/ZeroBasedEnumClassZeroBasedEnum.md
 docs/scripts/git_push.ps1
 docs/scripts/git_push.sh
 src/Org.OpenAPITools.Test/Api/DependencyInjectionTests.cs
+src/Org.OpenAPITools.Test/Model/UploadFiles200ResponseTests.cs
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools.Test/README.md
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
@@ -295,6 +297,7 @@ src/Org.OpenAPITools/Model/TestResult.cs
 src/Org.OpenAPITools/Model/TestResultCode.cs
 src/Org.OpenAPITools/Model/Triangle.cs
 src/Org.OpenAPITools/Model/TriangleInterface.cs
+src/Org.OpenAPITools/Model/UploadFiles200Response.cs
 src/Org.OpenAPITools/Model/User.cs
 src/Org.OpenAPITools/Model/Whale.cs
 src/Org.OpenAPITools/Model/Zebra.cs
