@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * Dog
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
 public class Dog {
 
   private @Nullable String name;
