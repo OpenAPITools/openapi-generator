@@ -138,6 +138,29 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestApiResponse"/>&gt;</returns>
         Task<ITestApiResponse> TestOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Upload multiple files
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="files"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IUploadFilesApiResponse"/>&gt;</returns>
+        Task<IUploadFilesApiResponse> UploadFilesAsync(List<System.IO.Stream> files, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Upload multiple files
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="files"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IUploadFilesApiResponse"/>&gt;</returns>
+        Task<IUploadFilesApiResponse> UploadFilesOrDefaultAsync(List<System.IO.Stream> files, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -192,6 +215,18 @@ namespace Org.OpenAPITools.Api
     /// The <see cref="ITestApiResponse"/>
     /// </summary>
     public interface ITestApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IUploadFilesApiResponse"/>
+    /// </summary>
+    public interface IUploadFilesApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<Org.OpenAPITools.Model.UploadFiles200Response>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
@@ -303,6 +338,26 @@ namespace Org.OpenAPITools.Api
         internal void ExecuteOnErrorTest(Exception exception)
         {
             OnErrorTest?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs> OnUploadFiles;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs> OnErrorUploadFiles;
+
+        internal void ExecuteOnUploadFiles(DefaultApi.UploadFilesApiResponse apiResponse)
+        {
+            OnUploadFiles?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorUploadFiles(Exception exception)
+        {
+            OnErrorUploadFiles?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -1333,6 +1388,252 @@ namespace Org.OpenAPITools.Api
             /// <param name="result"></param>
             /// <returns></returns>
             public bool TryOk(out Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatUploadFiles(List<System.IO.Stream> files);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="files"></param>
+        /// <returns></returns>
+        private void ValidateUploadFiles(List<System.IO.Stream> files)
+        {
+            if (files == null)
+                throw new ArgumentNullException(nameof(files));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="files"></param>
+        private void AfterUploadFilesDefaultImplementation(IUploadFilesApiResponse apiResponseLocalVar, List<System.IO.Stream> files)
+        {
+            bool suppressDefaultLog = false;
+            AfterUploadFiles(ref suppressDefaultLog, apiResponseLocalVar, files);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="files"></param>
+        partial void AfterUploadFiles(ref bool suppressDefaultLog, IUploadFilesApiResponse apiResponseLocalVar, List<System.IO.Stream> files);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="files"></param>
+        private void OnErrorUploadFilesDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<System.IO.Stream> files)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorUploadFiles(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, files);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="files"></param>
+        partial void OnErrorUploadFiles(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, List<System.IO.Stream> files);
+
+        /// <summary>
+        /// Upload multiple files 
+        /// </summary>
+        /// <param name="files"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IUploadFilesApiResponse"/>&gt;</returns>
+        public async Task<IUploadFilesApiResponse> UploadFilesOrDefaultAsync(List<System.IO.Stream> files, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await UploadFilesAsync(files, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Upload multiple files 
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="files"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IUploadFilesApiResponse"/>&gt;</returns>
+        public async Task<IUploadFilesApiResponse> UploadFilesAsync(List<System.IO.Stream> files, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateUploadFiles(files);
+
+                FormatUploadFiles(files);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/upload"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/upload");
+
+                    MultipartContent multipartContentLocalVar = new MultipartContent();
+
+                    httpRequestMessageLocalVar.Content = multipartContentLocalVar;
+
+                    List<KeyValuePair<string, string>> formParameterLocalVars = new List<KeyValuePair<string, string>>();
+
+                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
+
+                    foreach (global::System.IO.Stream streamLocalVar in files)
+                    {
+                        global::System.Net.Http.StreamContent streamContentLocalVar = new global::System.Net.Http.StreamContent(streamLocalVar);
+                        streamContentLocalVar.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                        {
+                            Name = "\"files\"",
+                            FileName = "\"file\""
+                        };
+                        multipartContentLocalVar.Add(streamContentLocalVar);
+                    }
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "multipart/form-data"
+                    };
+
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    httpRequestMessageLocalVar.Method = new HttpMethod("POST");
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                        ILogger<UploadFilesApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<UploadFilesApiResponse>();
+
+                        UploadFilesApiResponse apiResponseLocalVar = new UploadFilesApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/upload", requestedAtLocalVar, _jsonSerializerOptions);
+
+                        AfterUploadFilesDefaultImplementation(apiResponseLocalVar, files);
+
+                        Events.ExecuteOnUploadFiles(apiResponseLocalVar);
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorUploadFilesDefaultImplementation(e, "/upload", uriBuilderLocalVar.Path, files);
+                Events.ExecuteOnErrorUploadFiles(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="UploadFilesApiResponse"/>
+        /// </summary>
+        public partial class UploadFilesApiResponse : Org.OpenAPITools.Client.ApiResponse, IUploadFilesApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<UploadFilesApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="UploadFilesApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public UploadFilesApiResponse(ILogger<UploadFilesApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public Org.OpenAPITools.Model.UploadFiles200Response Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.UploadFiles200Response>(RawContent, _jsonSerializerOptions)
+                    : default;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk(out Org.OpenAPITools.Model.UploadFiles200Response result)
             {
                 result = null;
 

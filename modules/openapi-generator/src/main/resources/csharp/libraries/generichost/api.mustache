@@ -473,8 +473,11 @@ namespace {{packageName}}.{{apiPackage}}
 
                     List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>> formParameterLocalVars = new List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));{{/-first}}{{^isFile}}{{#required}}
+                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
 
+                    {{/-first}}
+                    {{^isFile}}
+                    {{#required}}
                     formParameterLocalVars.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));
 
                     {{/required}}
@@ -486,13 +489,41 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/isFile}}
                     {{#isFile}}
                     {{#required}}
+                    {{#isContainer}}
+                    foreach (global::System.IO.Stream streamLocalVar in {{paramName}})
+                    {
+                        global::System.Net.Http.StreamContent streamContentLocalVar = new global::System.Net.Http.StreamContent(streamLocalVar);
+                        streamContentLocalVar.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                        {
+                            Name = "\"files\"",
+                            FileName = "\"file\""
+                        };
+                        multipartContentLocalVar.Add(streamContentLocalVar);
+                    }
+
+                    {{/isContainer}}
+                    {{^isContainer}}
                     multipartContentLocalVar.Add(new StreamContent({{paramName}}));
 
+                    {{/isContainer}}
                     {{/required}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
+                    {{#isContainer}}
+                        foreach (global::System.IO.Stream streamLocalVar in {{paramName}}.Value)
+                        {
+                            var streamContentLocalVar = new global::System.Net.Http.StreamContent(file);
+                            streamContentLocalVar.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                            {
+                                Name = "\"files\"",
+                                FileName = "\"file\""
+                            };
+                            multipartContentLocalVar.Add(streamContentLocalVar);
+                        }
+                    {{/isContainer}}
+                    {{^isContainer}}
                         multipartContentLocalVar.Add(new StreamContent({{paramName}}.Value));
-
+                    {{/isContainer}}
                     {{/required}}
                     {{/isFile}}
                     {{/formParams}}

@@ -9,6 +9,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**Hello**](DefaultApi.md#hello) | **GET** /hello | Hello |
 | [**RolesReportGet**](DefaultApi.md#rolesreportget) | **GET** /roles/report |  |
 | [**Test**](DefaultApi.md#test) | **GET** /test | Retrieve an existing Notificationtest&#39;s Elements |
+| [**UploadFiles**](DefaultApi.md#uploadfiles) | **POST** /upload | Upload multiple files |
 
 <a id="fooget"></a>
 # **FooGet**
@@ -444,6 +445,99 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Successful response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="uploadfiles"></a>
+# **UploadFiles**
+> UploadFiles200Response UploadFiles (List<FileParameter> files)
+
+Upload multiple files
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class UploadFilesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new DefaultApi(httpClient, config, httpClientHandler);
+            var files = new List<FileParameter>(); // List<FileParameter> | 
+
+            try
+            {
+                // Upload multiple files
+                UploadFiles200Response result = apiInstance.UploadFiles(files);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling DefaultApi.UploadFiles: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UploadFilesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Upload multiple files
+    ApiResponse<UploadFiles200Response> response = apiInstance.UploadFilesWithHttpInfo(files);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling DefaultApi.UploadFilesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **files** | **List&lt;FileParameter&gt;** |  |  |
+
+### Return type
+
+[**UploadFiles200Response**](UploadFiles200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Files uploaded successfully |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

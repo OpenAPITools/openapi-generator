@@ -4024,7 +4024,6 @@ namespace Org.OpenAPITools.Api
 
                     if (binary.IsSet)
                         multipartContentLocalVar.Add(new StreamContent(binary.Value));
-
                     if (callback.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("callback", ClientUtils.ParameterToString(callback.Value)));
 
@@ -4346,7 +4345,9 @@ namespace Org.OpenAPITools.Api
 
                     List<KeyValuePair<string, string>> formParameterLocalVars = new List<KeyValuePair<string, string>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    if (enumFormString.IsSet)
+                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
+
+                    if (enumFormString.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("enum_form_string", ClientUtils.ParameterToString(enumFormString.Value)));
 
                     if (enumFormStringArray.IsSet)
