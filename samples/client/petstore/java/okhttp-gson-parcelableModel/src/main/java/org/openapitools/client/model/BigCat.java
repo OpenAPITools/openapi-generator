@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0")
 public class BigCat extends Cat implements Parcelable {
   /**
    * Gets or Sets kind

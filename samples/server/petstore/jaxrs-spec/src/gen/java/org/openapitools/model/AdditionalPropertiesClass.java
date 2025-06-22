@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("AdditionalPropertiesClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.14.0")
 public class AdditionalPropertiesClass  implements Serializable {
   private @Valid Map<String, String> mapProperty = new HashMap<>();
   private @Valid Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
