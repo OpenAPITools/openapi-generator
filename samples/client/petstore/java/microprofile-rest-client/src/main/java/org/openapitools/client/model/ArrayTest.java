@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +43,7 @@ public class ArrayTest  {
 
   @JsonbProperty("array_array_of_model")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+
 
   /**
    * Get arrayOfString

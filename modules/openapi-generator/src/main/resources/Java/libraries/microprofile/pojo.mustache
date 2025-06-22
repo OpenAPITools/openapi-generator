@@ -57,6 +57,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 {{/isContainer}}
   {{/vars}}
+{{>additional_properties}}
 {{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
   public {{classname}}() {
   }
