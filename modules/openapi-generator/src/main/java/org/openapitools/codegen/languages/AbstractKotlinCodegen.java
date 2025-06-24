@@ -572,7 +572,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (value.isEmpty()) {
             modified = "EMPTY";
         } else {
-            modified = value;
+            modified = value.replaceAll("-", "_");
             modified = sanitizeKotlinSpecificNames(modified);
         }
 
