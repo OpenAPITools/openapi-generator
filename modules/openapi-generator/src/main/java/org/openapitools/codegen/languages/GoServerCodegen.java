@@ -35,24 +35,27 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class GoServerCodegen extends AbstractGoCodegen {
-
+    public static final String STRICT_RESPONSE_DECODING = "strictResponseDecoding";
+    protected boolean strictResponseDecoding = true;
     /**
      * Name of additional property for switching routers
      */
     private static final String ROUTER_SWITCH = "router";
+    
+    
 
     /**
      * Description of additional property for switching routers
      */
     private static final String ROUTER_SWITCH_DESC = "Specify the router which should be used.";
-
+    
     /**
      * List of available routers
      */
     private static final String[] ROUTERS = {"mux", "chi"};
-
+    
     private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
-
+    
     @Setter protected String packageVersion = "1.0.0";
     @Setter protected int serverPort = 8080;
     protected String projectName = "openapi-server";
@@ -92,6 +95,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         // set the output folder here
         outputFolder = "generated-code/go";
 
+        cliOptions.add(new CliOption(STRICT_RESPONSE_DECODING, "If true, server JSON decoders call DisallowUnknownFields").defaultValue("true"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
                 .defaultValue(sourceFolder));
 
@@ -132,6 +136,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optOutputAsLibrary.setType("bool");
         optOutputAsLibrary.defaultValue(outputAsLibrary.toString());
         cliOptions.add(optOutputAsLibrary);
+
+        cliOptions.add(new CliOption(STRICT_RESPONSE_DECODING, "If true, responses are decoded with DisallowUnknownFields (strict); " + "if false, unknown JSON fields are ignored (permissive)").defaultValue("true"));
+
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
          * if you want to create one template for file, you can do so here.
@@ -192,6 +199,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
+        if (additionalProperties.containsKey(STRICT_RESPONSE_DECODING)){
+            strictResponseDecoding = Boolean.parseBoolean(additionalProperties.get(STRICT_RESPONSE_DECODING).toString());
+        }
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
@@ -268,6 +278,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
             routers.put(router, router.equals(propRouter));
         }
         additionalProperties.put("routers", routers);
+        additionalProperties.put("strictResponseDecoding", strictResponseDecoding);
 
         modelPackage = packageName;
         apiPackage = packageName;
