@@ -95,7 +95,6 @@ public class GoServerCodegen extends AbstractGoCodegen {
         // set the output folder here
         outputFolder = "generated-code/go";
 
-        cliOptions.add(new CliOption(STRICT_RESPONSE_DECODING, "If true, server JSON decoders call DisallowUnknownFields").defaultValue("true"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
                 .defaultValue(sourceFolder));
 
