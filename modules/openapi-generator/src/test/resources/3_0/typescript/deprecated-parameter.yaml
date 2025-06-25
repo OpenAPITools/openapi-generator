@@ -12,7 +12,6 @@ paths:
       tags:
         - default
       summary: Finds Pets
-      deprecated: true
       description: Find all pets
       operationId: findPets
       parameters:
@@ -26,6 +25,7 @@ paths:
             default: available
         - name: name
           in: query
+          deprecated: true
           description: name of pet
           required: true
           schema:

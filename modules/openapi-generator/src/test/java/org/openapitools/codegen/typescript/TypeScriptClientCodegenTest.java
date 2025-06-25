@@ -212,7 +212,7 @@ public class TypeScriptClientCodegenTest {
     }
 
     @Test
-    public void testOrderParameters() throws Exception {
+    public void testDeprecatedOperation() throws Exception {
         final File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
         output.deleteOnExit();
 
@@ -226,12 +226,29 @@ public class TypeScriptClientCodegenTest {
         final List<File> files = generator.opts(clientOptInput).generate();
         files.forEach(File::deleteOnExit);
 
-        // deprecated operation
+        // verify operation is deprecated
         TestUtils.assertFileContains(
                 Paths.get(output + "/apis/DefaultApi.ts"),
                 "* @deprecated"
         );
-        // deprecated parameter
+    }
+
+    @Test
+    public void testDeprecatedParameter() throws Exception {
+        final File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript")
+                .setInputSpec("src/test/resources/3_0/typescript/deprecated-parameter.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        // verify parameter is deprecated parameter
         TestUtils.assertFileContains(
                 Paths.get(output + "/apis/DefaultApi.ts"),
                 "* @param name name of pet  (@deprecated)"
