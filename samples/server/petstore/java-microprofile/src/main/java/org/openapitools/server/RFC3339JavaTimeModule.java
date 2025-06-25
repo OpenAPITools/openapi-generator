@@ -18,7 +18,7 @@ import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMicroprofileServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMicroprofileServerCodegen", comments = "Generator version: 7.14.0")
 public class RFC3339JavaTimeModule extends SimpleModule {
     private static final long serialVersionUID = 1L;
 

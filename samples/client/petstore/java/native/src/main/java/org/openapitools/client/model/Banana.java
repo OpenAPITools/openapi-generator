@@ -38,7 +38,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   Banana.JSON_PROPERTY_LENGTH_CM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0")
 public class Banana {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   @javax.annotation.Nullable
