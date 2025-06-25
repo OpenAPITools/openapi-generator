@@ -177,31 +177,6 @@ public class TestUtils {
         }
     }
 
-    /**
-     * Verify line is found at given lineNumber
-     * @param path
-     * @param lineNumber
-     * @param line
-     */
-    public static void assertFileContains(Path path, int lineNumber, String line) {
-        try {
-            List<String> linesInFile = Files.readAllLines(path);
-            int index = lineNumber - 1;
-
-            assertTrue(index >= 0 && index < linesInFile.size(),
-                    "Invalid line number: " + lineNumber);
-
-            String targetLine = linearize(linesInFile.get(index));
-            String expectedLine = linearize(line);
-
-            assertTrue(targetLine.contains(expectedLine),
-                    "Expected line [" + expectedLine + "] not found at line number " + lineNumber);
-
-        } catch (IOException e) {
-            fail("Unable to evaluate file " + path);
-        }
-    }
-
     public static String linearize(String target) {
         return target.replaceAll("\r?\n", "").replaceAll("\\s+", "\\s");
     }

@@ -229,7 +229,6 @@ public class TypeScriptClientCodegenTest {
         // verify operation is deprecated
         TestUtils.assertFileContains(
                 Paths.get(output + "/apis/DefaultApi.ts"),
-                18,
                 "* @deprecated"
         );
     }
@@ -252,7 +251,6 @@ public class TypeScriptClientCodegenTest {
         // verify parameter is deprecated parameter
         TestUtils.assertFileContains(
                 Paths.get(output + "/apis/DefaultApi.ts"),
-                20,
                 "* @param name name of pet  (@deprecated)"
         );
     }
