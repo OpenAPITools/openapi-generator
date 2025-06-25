@@ -7,7 +7,6 @@ additionalProperties:
   artifactId: petstore-okhttp-gson
   hideGenerationTimestamp: "true"
   useOneOfDiscriminatorLookup: "true"
-  disallowAdditionalPropertiesIfNotPresent: false
   annotationLibrary: "swagger1"
 openapiNormalizer:
   SET_TAGS_FOR_ALL_OPERATIONS: common
