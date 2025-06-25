@@ -18,7 +18,7 @@ import javax.annotation.Generated;
  * A tag for a pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Tag {
 
   private @Nullable Long id;

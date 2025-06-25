@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * Order
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Order {
 
   private @Nullable Long id;

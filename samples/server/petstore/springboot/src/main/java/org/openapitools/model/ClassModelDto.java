@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing model with \"_class\" property")
 @JsonTypeName("ClassModel")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ClassModelDto {
 
   private @Nullable String propertyClass;

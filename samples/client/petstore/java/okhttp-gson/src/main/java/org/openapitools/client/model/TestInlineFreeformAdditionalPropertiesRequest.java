@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * TestInlineFreeformAdditionalPropertiesRequest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String SERIALIZED_NAME_SOME_PROPERTY = "someProperty";
   @SerializedName(SERIALIZED_NAME_SOME_PROPERTY)

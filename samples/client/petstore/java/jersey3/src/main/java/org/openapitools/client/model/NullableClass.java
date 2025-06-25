@@ -62,7 +62,7 @@ import org.openapitools.client.JSON;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class NullableClass {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();

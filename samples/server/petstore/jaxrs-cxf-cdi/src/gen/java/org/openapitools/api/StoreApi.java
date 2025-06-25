@@ -28,7 +28,7 @@ import javax.validation.Valid;
 @Api(description = "the store API")
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.14.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 
 public class StoreApi  {
 

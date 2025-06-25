@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  * NumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class NumberOnly {
 
   private Optional<BigDecimal> justNumber = Optional.empty();

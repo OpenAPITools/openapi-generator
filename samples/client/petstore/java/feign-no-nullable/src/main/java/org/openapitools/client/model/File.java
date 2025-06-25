@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   File.JSON_PROPERTY_SOURCE_U_R_I
 })
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class File {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   @javax.annotation.Nullable

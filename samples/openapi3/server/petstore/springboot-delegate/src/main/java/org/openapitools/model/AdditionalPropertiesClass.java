@@ -26,7 +26,7 @@ import javax.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   @Valid

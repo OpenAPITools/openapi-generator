@@ -26,7 +26,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("XmlItem")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class XmlItemDto {
 
   private @Nullable String attributeString;
