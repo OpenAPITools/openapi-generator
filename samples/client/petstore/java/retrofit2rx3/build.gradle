@@ -110,7 +110,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation 'com.squareup.retrofit2:adapter-rxjava3:$$retrofit_version'
+    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit_version"
     implementation "io.reactivex.rxjava3:rxjava:$rx_java_version"
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
