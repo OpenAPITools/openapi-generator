@@ -15,10 +15,13 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT})
 public class TypeScriptClientCodegenTest {
@@ -227,10 +230,15 @@ public class TypeScriptClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         // verify operation is deprecated
+        Path file = Paths.get(output + "/apis/DefaultApi.ts");
         TestUtils.assertFileContains(
-                Paths.get(output + "/apis/DefaultApi.ts"),
+                file,
                 "* @deprecated"
         );
+
+        String content = Files.readString(file);
+        assertEquals(1, TestUtils.countOccurrences(content, "@deprecated"));
+
     }
 
     @Test
@@ -249,9 +257,14 @@ public class TypeScriptClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         // verify parameter is deprecated parameter
+        Path file = Paths.get(output + "/apis/DefaultApi.ts");
         TestUtils.assertFileContains(
-                Paths.get(output + "/apis/DefaultApi.ts"),
+                file,
                 "* @param name name of pet  (@deprecated)"
         );
+
+        String content = Files.readString(file);
+        assertEquals(1, TestUtils.countOccurrences(content, "@deprecated"));
+
     }
 }
