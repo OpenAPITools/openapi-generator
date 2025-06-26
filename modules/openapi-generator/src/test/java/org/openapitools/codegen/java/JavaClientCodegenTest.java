@@ -3699,4 +3699,29 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileNotContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public record DeletePetRequest(Long petId, String apiKey){}");
     }
+
+    @Test(dataProvider = "librariesNotSupportingJackson")
+    public void givenOneOfUsesInterfacesAndLibraryNotJacksonWhenGenerateThenOneOfInterfaceDoesNotHaveJacksonImports(Library library) throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(USE_ONE_OF_INTERFACES, true);
+
+        Generator generator = new DefaultGenerator();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_0/oneOf.yaml")
+                .setGeneratorName("java")
+                .setLibrary(library.value)
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath());
+        ClientOptInput clientOptInput = configurator.toClientOptInput();
+        generator.opts(clientOptInput)
+                .generate();
+        String outputPath = output.getAbsolutePath() + "/src/main/java/org/openapitools";
+        File testModel = new File(outputPath, "/client/model/Fruit.java");
+        String fileContent = Files.readString(testModel.toPath());
+        TestUtils.assertValidJavaSourceCode(fileContent);
+        TestUtils.assertFileNotContains(testModel.toPath(), "com.fasterxml.jackson");
+    }
 }
