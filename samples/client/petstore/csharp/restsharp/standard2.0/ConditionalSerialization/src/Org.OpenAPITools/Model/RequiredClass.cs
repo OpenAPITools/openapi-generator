@@ -331,6 +331,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Defines NotrequiredNotnullableEnumIntegerOnly
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum NotrequiredNotnullableEnumIntegerOnlyEnum
         {
             /// <summary>
@@ -1111,7 +1112,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotRequiredNotnullableintegerProp
         /// </summary>
         [DataMember(Name = "not_required_notnullableinteger_prop", EmitDefaultValue = false)]
-        public int NotRequiredNotnullableintegerProp
+        public int? NotRequiredNotnullableintegerProp
         {
             get{ return _NotRequiredNotnullableintegerProp;}
             set
@@ -1120,7 +1121,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotRequiredNotnullableintegerProp = true;
             }
         }
-        private int _NotRequiredNotnullableintegerProp;
+        private int? _NotRequiredNotnullableintegerProp;
         private bool _flagNotRequiredNotnullableintegerProp;
 
         /// <summary>
@@ -1303,7 +1304,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableBooleanProp
         /// </summary>
         [DataMember(Name = "notrequired_notnullable_boolean_prop", EmitDefaultValue = true)]
-        public bool NotrequiredNotnullableBooleanProp
+        public bool? NotrequiredNotnullableBooleanProp
         {
             get{ return _NotrequiredNotnullableBooleanProp;}
             set
@@ -1312,7 +1313,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableBooleanProp = true;
             }
         }
-        private bool _NotrequiredNotnullableBooleanProp;
+        private bool? _NotrequiredNotnullableBooleanProp;
         private bool _flagNotrequiredNotnullableBooleanProp;
 
         /// <summary>
@@ -1833,7 +1834,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.NotRequiredNullableIntegerProp.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.NotRequiredNotnullableintegerProp.GetHashCode();
+                if (this.NotRequiredNotnullableintegerProp != null)
+                {
+                    hashCode = (hashCode * 59) + this.NotRequiredNotnullableintegerProp.GetHashCode();
+                }
                 if (this.RequiredNullableStringProp != null)
                 {
                     hashCode = (hashCode * 59) + this.RequiredNullableStringProp.GetHashCode();
@@ -1859,7 +1863,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.NotrequiredNullableBooleanProp.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.NotrequiredNotnullableBooleanProp.GetHashCode();
+                if (this.NotrequiredNotnullableBooleanProp != null)
+                {
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableBooleanProp.GetHashCode();
+                }
                 if (this.RequiredNullableDateProp != null)
                 {
                     hashCode = (hashCode * 59) + this.RequiredNullableDateProp.GetHashCode();
