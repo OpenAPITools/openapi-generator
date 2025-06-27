@@ -64,6 +64,7 @@ class DefaultApi {
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<FooGetDefaultResponse, FooGetDefaultResponse>(rawData, 'FooGetDefaultResponse', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,

@@ -670,6 +670,17 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 op.imports.remove("Uint8List");
             }
 
+            if (SERIALIZATION_LIBRARY_JSON_SERIALIZABLE.equals(library)) {
+                // built_value serialization uses Uint8List for all MultipartFile types
+                // in json_serialization, MultipartFile is used as the file parameter type, but
+                // MultipartFile isn't readable, instead we convert this to a Uin8List
+                if (op.isResponseFile) {
+                    op.imports.add("Uint8List");
+                    op.returnType = "Uint8List";
+                    op.returnBaseType = "Uint8List";
+                }
+            }
+
             resultImports.addAll(rewriteImports(op.imports, false));
 
             if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
