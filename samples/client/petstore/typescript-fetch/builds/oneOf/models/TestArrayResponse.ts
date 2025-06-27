@@ -12,20 +12,20 @@
  * Do not edit the class manually.
  */
 
-    import type { TestA } from './TestA';
-    import {
+import type { TestA } from './TestA';
+import {
     instanceOfTestA,
     TestAFromJSON,
     TestAFromJSONTyped,
     TestAToJSON,
-    } from './TestA';
-    import type { TestB } from './TestB';
-    import {
+} from './TestA';
+import type { TestB } from './TestB';
+import {
     instanceOfTestB,
     TestBFromJSON,
     TestBFromJSONTyped,
     TestBToJSON,
-    } from './TestB';
+} from './TestB';
 
 /**
  * @type TestArrayResponse

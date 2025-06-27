@@ -1,12 +1,12 @@
 {{#hasImports}}
 {{#oneOfArrays}}
-    import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
-    import {
+import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
+import {
     instanceOf{{{.}}},
     {{{.}}}FromJSON,
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
-    } from './{{.}}{{importFileExtension}}';
+} from './{{.}}{{importFileExtension}}';
 {{/oneOfArrays}}
 {{#oneOfModels}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
