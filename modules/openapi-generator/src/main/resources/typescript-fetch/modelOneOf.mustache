@@ -1,4 +1,13 @@
 {{#hasImports}}
+{{#oneOfArrays}}
+    import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
+    import {
+    instanceOf{{{.}}},
+    {{{.}}}FromJSON,
+    {{{.}}}FromJSONTyped,
+    {{{.}}}ToJSON,
+    } from './{{.}}{{importFileExtension}}';
+{{/oneOfArrays}}
 {{#oneOfModels}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
