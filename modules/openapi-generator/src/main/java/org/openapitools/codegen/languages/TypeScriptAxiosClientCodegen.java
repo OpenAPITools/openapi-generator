@@ -17,10 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-import lombok.Getter;
-import lombok.Setter;
+import java.io.File;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeSet;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -30,12 +32,15 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeSet;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
+import lombok.Setter;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -52,6 +57,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
     public static final String AXIOS_VERSION = "axiosVersion";
     public static final String DEFAULT_AXIOS_VERSION = "^1.6.1";
+
+    private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAxiosClientCodegen.class);
 
     @Getter @Setter
     protected String npmRepository = null;
@@ -122,6 +129,76 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+
+        boolean hasAwsV4Signature = detectAwsV4Signature(openAPI);
+        additionalProperties.put("withAWSV4Signature", hasAwsV4Signature);
+    }
+
+    /**
+     * Detects if the OpenAPI specification uses AWS V4 signature authentication
+     * by checking for common patterns used in AWS API Gateway specifications.
+     */
+    private boolean detectAwsV4Signature(OpenAPI openAPI) {
+        // Check security schemes for AWS V4 signature patterns
+        if (openAPI.getComponents() != null && openAPI.getComponents().getSecuritySchemes() != null) {
+            return openAPI.getComponents().getSecuritySchemes().entrySet().stream()
+                    .anyMatch(entry -> isAwsV4SecurityScheme(entry.getKey(), entry.getValue(), openAPI));
+        }
+
+        return false;
+    }
+
+    /**
+     * Determines if a security scheme represents AWS V4 signature authentication
+     */
+    private boolean isAwsV4SecurityScheme(String schemeName, SecurityScheme scheme, OpenAPI openAPI) {
+        if (scheme == null) {
+            return false;
+        }
+
+        // Pattern 1: Check for AWS-specific extension
+        if (scheme.getExtensions() != null) {
+            Object authType = scheme.getExtensions().get("x-amazon-apigateway-authtype");
+            if ("awsSigv4".equals(authType)) {
+                return true;
+            }
+        }
+
+        // Pattern 2: Check for common AWS V4 signature scheme names
+        String lowerSchemeName = schemeName.toLowerCase(Locale.ROOT);
+        if (lowerSchemeName.contains("sigv4") ||
+                lowerSchemeName.contains("aws") ||
+                lowerSchemeName.contains("iam")) {
+
+            // Additional validation: should be apiKey type with Authorization header
+            if (SecurityScheme.Type.APIKEY.equals(scheme.getType()) &&
+                    "Authorization".equalsIgnoreCase(scheme.getName()) &&
+                    SecurityScheme.In.HEADER.equals(scheme.getIn())) {
+                return true;
+            }
+        }
+
+        // Pattern 3: Check for AWS API Gateway URL patterns in servers
+        if (openAPI.getServers() != null) {
+            boolean hasAwsApiGatewayUrl = openAPI.getServers().stream()
+                    .anyMatch(server -> server.getUrl() != null &&
+                            (server.getUrl().contains("execute-api") && server.getUrl().contains("amazonaws.com")));
+
+            // If we have AWS API Gateway URL and an Authorization header scheme, likely AWS V4
+            if (hasAwsApiGatewayUrl &&
+                    SecurityScheme.Type.APIKEY.equals(scheme.getType()) &&
+                    "Authorization".equalsIgnoreCase(scheme.getName()) &&
+                    SecurityScheme.In.HEADER.equals(scheme.getIn())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
         tsModelPackage = modelPackage.replaceAll("\\.", "/");
@@ -182,7 +259,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             setAxiosVersion(additionalProperties.get(AXIOS_VERSION).toString());
         }
         additionalProperties.put("axiosVersion", getAxiosVersion());
-
     }
 
     @Override
@@ -362,5 +438,23 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName) {
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
+    }
+
+    @Override
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
+        List<CodegenSecurity> securities = super.fromSecurity(securitySchemeMap);
+
+        // Post-process security schemes to detect AWS V4 signature
+        for (CodegenSecurity security : securities) {
+            if (securitySchemeMap.containsKey(security.name)) {
+                SecurityScheme scheme = securitySchemeMap.get(security.name);
+                if (isAwsV4SecurityScheme(security.name, scheme, this.openAPI)) {
+                    security.isAWSV4Signature = true;
+                    LOGGER.info("Detected AWS V4 signature security scheme: {}", security.name);
+                }
+            }
+        }
+
+        return securities;
     }
 }
