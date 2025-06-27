@@ -1,5 +1,5 @@
 {{#hasImports}}
-{{#imports}}
+{{#oneOfModels}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
     instanceOf{{{.}}},
@@ -7,7 +7,7 @@ import {
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
 } from './{{.}}{{importFileExtension}}';
-{{/imports}}
+{{/oneOfModels}}
 
 {{/hasImports}}
 {{>modelOneOfInterfaces}}
