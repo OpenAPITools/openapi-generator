@@ -35,22 +35,22 @@ impl MultipartRelatedRequest {
 }
 
 /// Converts the MultipartRelatedRequest value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MultipartRelatedRequest {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for MultipartRelatedRequest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping non-primitive type object_field in query parameter serialization
             // Skipping binary data optional_binary_field in query parameter serialization
             // Skipping binary data required_binary_field in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a MultipartRelatedRequest value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for MultipartRelatedRequest {
     type Err = String;
@@ -209,10 +209,10 @@ impl MultipartRequestObjectField {
 }
 
 /// Converts the MultipartRequestObjectField value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MultipartRequestObjectField {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for MultipartRequestObjectField {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("field_a".to_string()),
             Some(self.field_a.to_string()),
@@ -224,12 +224,12 @@ impl std::string::ToString for MultipartRequestObjectField {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a MultipartRequestObjectField value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for MultipartRequestObjectField {
     type Err = String;
@@ -386,21 +386,21 @@ impl MultipleIdenticalMimeTypesPostRequest {
 }
 
 /// Converts the MultipleIdenticalMimeTypesPostRequest value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MultipleIdenticalMimeTypesPostRequest {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for MultipleIdenticalMimeTypesPostRequest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping binary data binary1 in query parameter serialization
             // Skipping binary data binary2 in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a MultipleIdenticalMimeTypesPostRequest value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for MultipleIdenticalMimeTypesPostRequest {
     type Err = String;

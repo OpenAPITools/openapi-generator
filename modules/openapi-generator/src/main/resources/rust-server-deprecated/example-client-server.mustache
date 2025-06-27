@@ -1,0 +1,40 @@
+{{>example-server-common}}
+use {{{externCrateName}}}::CallbackApi;
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+use {{{externCrateName}}}::{{{operationId}}}Response;
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+use {{{externCrateName}}}::client::callbacks::MakeService;
+use std::error::Error;
+use swagger::ApiError;
+
+#[async_trait]
+impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
+{
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+{{>example-server-operation}}
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+}

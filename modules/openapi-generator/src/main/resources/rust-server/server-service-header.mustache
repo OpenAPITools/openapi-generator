@@ -1,7 +1,7 @@
-fn method_not_allowed() -> Result<Response<Body>, crate::ServiceError> {
+fn method_not_allowed() -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError> {
     Ok(
         Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
-            .body(Body::empty())
+            .body(BoxBody::new(http_body_util::Empty::new()))
             .expect("Unable to create Method Not Allowed response")
     )
 }
@@ -59,28 +59,40 @@ impl<T, C> Clone for Service<T, C> where
     }
 }
 
-impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
+#[allow(dead_code)]
+fn body_from_string(s: String) -> BoxBody<Bytes, Infallible> {
+    BoxBody::new(Full::new(Bytes::from(s)))
+}
+
+fn body_from_str(s: &str) -> BoxBody<Bytes, Infallible> {
+    BoxBody::new(Full::new(Bytes::copy_from_slice(s.as_bytes())))
+}
+
+impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T, C> where
     T: Api<C> + Clone + Send + Sync + 'static,
-    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
 {
-    type Response = Response<Body>;
+    type Response = Response<BoxBody<Bytes, Infallible>>;
     type Error = crate::ServiceError;
     type Future = ServiceFuture;
 
-    fn poll_ready(&mut self, cx: &mut Context) -> Poll<Result<(), Self::Error>> {
-        self.api_impl.poll_ready(cx)
-    }
-
-    fn call(&mut self, req: (Request<Body>, C)) -> Self::Future {
-        async fn run<T, C>(
+    fn call(&self, req: (Request<ReqBody>, C)) -> Self::Future {
+        async fn run<T, C, ReqBody>(
             mut api_impl: T,
-            req: (Request<Body>, C),
+            req: (Request<ReqBody>, C),
 {{#apiUsesMultipartFormData}}
             multipart_form_size_limit: Option<u64>,
 {{/apiUsesMultipartFormData}}
-        ) -> Result<Response<Body>, crate::ServiceError> where
+        ) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+        where
             T: Api<C> + Clone + Send + 'static,
-            C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
+            C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static,
+            ReqBody: Body + Send + 'static,
+            ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+            ReqBody::Data: Send,
         {
             let (request, context) = req;
             let (parts, body) = request.into_parts();

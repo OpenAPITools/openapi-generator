@@ -46,6 +46,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -222,7 +223,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
          */
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
-        supportingFiles.add(new SupportingFile("cargo-config", ".cargo", "config"));
+        supportingFiles.add(new SupportingFile("cargo-config", ".cargo", "config.toml"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("context.mustache", "src", "context.rs"));
@@ -1531,7 +1532,16 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         } else if (param.isArray) {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            example = (param.example != null) ? param.example : "&Vec::new()";
+            if (param.items.isString) {
+                // We iterate through the list of string and ensure they end up in the format vec!["example".to_string()]
+                example = (param.example != null)
+                    ? "&vec![" + Arrays.stream(param.example.replace("[", "").replace("]", "").split(","))
+                        .map(item -> item + ".to_string()")
+                        .collect(Collectors.joining(", ")) + "]"
+                    : "&Vec::new()";
+            } else {
+                example = (param.example != null) ? param.example : "&Vec::new()";
+            }
         } else {
             param.vendorExtensions.put("x-format-string", "{:?}");
             if (param.example != null) {

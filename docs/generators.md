@@ -142,6 +142,7 @@ The following generators are available:
 * [ruby-sinatra](generators/ruby-sinatra.md)  
 * [rust-axum (beta)](generators/rust-axum.md)  
 * [rust-server](generators/rust-server.md)  
+* [rust-server-deprecated](generators/rust-server-deprecated.md)  
 * [scala-akka-http-server (beta)](generators/scala-akka-http-server.md)  
 * [scala-cask](generators/scala-cask.md)  
 * [scala-finch](generators/scala-finch.md)  
