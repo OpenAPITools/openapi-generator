@@ -29,7 +29,7 @@ import javax.annotation.Generated;
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
 @JsonTypeName("ReadOnlyFirst")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.14.0")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 @Introspected
 public class ReadOnlyFirst {
     public static final String JSON_PROPERTY_BAR = "bar";

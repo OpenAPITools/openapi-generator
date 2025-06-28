@@ -18,7 +18,7 @@ import javax.annotation.Generated;
  * A User who is purchasing from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class User {
 
   private @Nullable Long id;
