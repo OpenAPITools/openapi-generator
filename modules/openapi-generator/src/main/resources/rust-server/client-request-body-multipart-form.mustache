@@ -57,7 +57,7 @@
             (body_string, multipart_header)
         };
 
-        *request.body_mut() = Body::from(body_string);
+        *request.body_mut() = body_from_string(body_string);
 
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(&multipart_header) {
             Ok(h) => h,
