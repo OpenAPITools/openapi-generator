@@ -1,0 +1,26 @@
+import { Controller{{#operations}}{{#operation}}, {{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}{{/operation}}{{/operations}} } from '@nestjs/common';
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isBodyParam}}
+import { {{dataType}} } from '../{{modelPackage}}/{{modelFilename}}';
+{{/isBodyParam}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+import { {{classname}}Service } from './{{classFilename}}.service';
+
+@Controller('{{baseName}}')
+export class {{classname}} {
+  constructor(private readonly {{classVarName}}Service: {{classname}}Service) {}
+
+{{#operations}}
+{{#operation}}
+  @{{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}('{{path}}')
+  async {{operationId}}({{#allParams}}{{#isBodyParam}}{{paramName}}: {{dataType}}{{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+    return this.{{classVarName}}Service.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  }
+
+{{/operation}}
+{{/operations}}
+} 

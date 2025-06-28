@@ -1,0 +1,23 @@
+import { Injectable } from '@nestjs/common';
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isBodyParam}}
+import { {{dataType}} } from '../{{modelPackage}}/{{modelFilename}}';
+{{/isBodyParam}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+
+@Injectable()
+export class {{classname}}Service {
+{{#operations}}
+{{#operation}}
+  async {{operationId}}({{#allParams}}{{#isBodyParam}}{{paramName}}: {{dataType}}{{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+    // TODO: Implement {{operationId}}
+    throw new Error('Method not implemented.');
+  }
+
+{{/operation}}
+{{/operations}}
+} 

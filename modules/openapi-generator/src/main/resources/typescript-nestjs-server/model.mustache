@@ -1,0 +1,29 @@
+{{#description}}
+/**
+ * {{description}}
+ */
+{{/description}}
+export interface {{classname}} {
+{{#vars}}
+  {{#description}}
+  /**
+   * {{description}}
+   */
+  {{/description}}
+  {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{classname}}Enum{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}};
+{{/vars}}
+}
+
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+export enum {{classname}}Enum {
+{{#allowableValues}}
+{{#enumVars}}
+  {{name}} = {{{value}}},
+{{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}} 
