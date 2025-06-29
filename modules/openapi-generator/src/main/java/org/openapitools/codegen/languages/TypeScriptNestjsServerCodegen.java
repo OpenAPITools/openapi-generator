@@ -318,23 +318,35 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             // Collect imports from parameters
             if (operation.allParams != null) {
                 for (CodegenParameter param : operation.allParams) {
-                    if (param.isBodyParam && param.dataType != null
-                            && !isLanguagePrimitive(param.dataType)
-                            && !isLanguageGenericType(param.dataType)
-                            && !isRecordType(param.dataType)
-                    ) {
-                        allImports.add(param.dataType);
+                    if(param.dataType != null) {
+                        if(isLanguageGenericType(param.dataType)) {
+                            // Extract generic type and add to imports if its not a primitive
+                            String genericType = extractGenericType(param.dataType);
+                            if (genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
+                                allImports.add(genericType);
+                            }
+                        } else if (!isLanguagePrimitive(param.dataType) && !isRecordType(param.dataType)) {
+                            allImports.add(param.dataType);
+                        }
                     }
+
                 }
             }
 
             // Collect imports from return type
             if (operation.returnType != null
                     && !isLanguagePrimitive(operation.returnType)
-                    && !isLanguageGenericType(operation.returnType)
                     && !isRecordType(operation.returnType)
             ) {
-                allImports.add(operation.returnType);
+                if (isLanguageGenericType(operation.returnType)) {
+                    // Extract generic type and add to imports if it's not a primitive
+                    String genericType = extractGenericType(operation.returnType);
+                    if (genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
+                        allImports.add(genericType);
+                    }
+                } else {
+                    allImports.add(operation.returnType);
+                }
             }
         }
 
@@ -351,6 +363,22 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         operations.put("httpMethods", httpMethods);
 
         return operations;
+    }
+
+    private String extractGenericType(String type) {
+        int startAngleBracketIndex = type.indexOf('<');
+        int endAngleBracketIndex = type.lastIndexOf('>');
+        if (startAngleBracketIndex < 0 || endAngleBracketIndex < 0) {
+            return null;
+        }
+        String genericType = type.substring(startAngleBracketIndex + 1, endAngleBracketIndex);
+        if(isLanguageGenericType(genericType)) {
+            return extractGenericType(type);
+        }
+        if(genericType.contains("|")) {
+            return null;
+        }
+        return genericType;
     }
 
     @Override
