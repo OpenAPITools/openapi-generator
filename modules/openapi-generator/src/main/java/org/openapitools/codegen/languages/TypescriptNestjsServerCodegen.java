@@ -46,10 +46,8 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NEST_VERSION = "nestVersion";
-    public static final String CONTROLLER_SUFFIX = "controllerSuffix";
-    public static final String CONTROLLER_FILE_SUFFIX = "controllerFileSuffix";
-    public static final String SERVICE_SUFFIX = "serviceSuffix";
-    public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
+    public static final String API_SUFFIX = "apiSuffix";
+    public static final String API_FILE_SUFFIX = "apiFileSuffix";
     public static final String MODEL_SUFFIX = "modelSuffix";
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
     public static final String FILE_NAMING = "fileNaming";
@@ -58,16 +56,16 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
 
     protected String nestVersion = "10.0.0";
-    @Getter @Setter
+    @Getter
+    @Setter
     protected String npmRepository = null;
-    protected String controllerSuffix = "Controller";
-    protected String controllerFileSuffix = ".controller";
-    protected String serviceSuffix = "Service";
-    protected String serviceFileSuffix = ".service";
+    protected String apiSuffix = "Api";
+    protected String apiFileSuffix = ".api";
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
-    protected String fileNaming = "camelCase";
-    @Getter protected Boolean stringEnums = false;
+    protected String fileNaming = "kebab-case";
+    @Getter
+    protected Boolean stringEnums = false;
 
     private boolean taggedUnions = false;
 
@@ -80,11 +78,11 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
 
         embeddedTemplateDir = templateDir = "typescript-nestjs-server";
         modelTemplateFiles.put("model.mustache", ".ts");
-        apiTemplateFiles.put("api.controller.mustache", ".ts");
-        apiTemplateFiles.put("api.service.mustache", ".ts");
+        apiTemplateFiles.put("controller.mustache", ".ts");
+        apiTemplateFiles.put("api.mustache", ".ts");
         languageSpecificPrimitives.add("Blob");
         typeMapping.put("file", "Blob");
-        apiPackage = "controllers";
+        apiPackage = "api";
         modelPackage = "models";
 
         reservedWords.addAll(Arrays.asList("from", "headers"));
@@ -98,10 +96,8 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
         this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("10.0.0", "Use latest NestJS with decorators and dependency injection.").addEnum("9.0.0", "Use NestJS 9.x with decorators and dependency injection.").defaultValue(this.nestVersion));
-        this.cliOptions.add(new CliOption(CONTROLLER_SUFFIX, "The suffix of the generated controller.").defaultValue(this.controllerSuffix));
-        this.cliOptions.add(new CliOption(CONTROLLER_FILE_SUFFIX, "The suffix of the file of the generated controller (controller<suffix>.ts).").defaultValue(this.controllerFileSuffix));
-        this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
-        this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
+        this.cliOptions.add(new CliOption(API_SUFFIX, "The suffix of the generated API class").defaultValue(this.apiSuffix));
+        this.cliOptions.add(new CliOption(API_FILE_SUFFIX, "The suffix of the file of the generated API class (api<suffix>.ts).").defaultValue(this.apiFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
@@ -134,15 +130,11 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     public void processOpts() {
         super.processOpts();
         supportingFiles.add(
-                new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
+                new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles
-                .add(new SupportingFile("controllers.mustache", apiPackage().replace('.', File.separatorChar), "controllers.ts"));
-        supportingFiles.add(new SupportingFile("services.mustache", "services", "services.ts"));
-        supportingFiles.add(new SupportingFile("app.module.mustache", "", "app.module.ts"));
+                .add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
+        supportingFiles.add(new SupportingFile("api.module.mustache", "", "api.module.ts"));
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.ts"));
-        supportingFiles.add(new SupportingFile("app.controller.mustache", "", "app.controller.ts"));
-        supportingFiles.add(new SupportingFile("app.service.mustache", "", "app.service.ts"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", "", "variables.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -190,22 +182,14 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         additionalProperties.put("injectionTokenTyped", nestVersion.atLeast("4.0.0"));
         additionalProperties.put("useHttpClient", nestVersion.atLeast("4.3.0"));
         additionalProperties.put("useAxiosHttpModule", nestVersion.atLeast("8.0.0"));
-        
-        if (additionalProperties.containsKey(CONTROLLER_SUFFIX)) {
-            controllerSuffix = additionalProperties.get(CONTROLLER_SUFFIX).toString();
-            validateClassSuffixArgument("Controller", controllerSuffix);
+
+        if (additionalProperties.containsKey(API_SUFFIX)) {
+            apiSuffix = additionalProperties.get(API_SUFFIX).toString();
+            validateClassSuffixArgument("Service", apiSuffix);
         }
-        if (additionalProperties.containsKey(CONTROLLER_FILE_SUFFIX)) {
-            controllerFileSuffix = additionalProperties.get(CONTROLLER_FILE_SUFFIX).toString();
-            validateFileSuffixArgument("Controller", controllerFileSuffix);
-        }
-        if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
-            serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();
-            validateClassSuffixArgument("Service", serviceSuffix);
-        }
-        if (additionalProperties.containsKey(SERVICE_FILE_SUFFIX)) {
-            serviceFileSuffix = additionalProperties.get(SERVICE_FILE_SUFFIX).toString();
-            validateFileSuffixArgument("Service", serviceFileSuffix);
+        if (additionalProperties.containsKey(API_FILE_SUFFIX)) {
+            apiFileSuffix = additionalProperties.get(API_FILE_SUFFIX).toString();
+            validateFileSuffixArgument("Service", apiFileSuffix);
         }
         if (additionalProperties.containsKey(MODEL_SUFFIX)) {
             modelSuffix = additionalProperties.get(MODEL_SUFFIX).toString();
@@ -373,19 +357,39 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
-            return "Default";
+            return "default";
         }
         return camelize(name);
     }
 
     @Override
-    public String toApiFilename(String name) {
-        return toApiName(name) + controllerSuffix;
+    public String apiFilename(String templateName, String tag) {
+        String result = super.apiFilename(templateName, tag);
+
+        int fileTypeSeparator = result.lastIndexOf(".");
+
+        StringBuilder sb = new StringBuilder(result);
+
+        if (templateName.endsWith("controller.mustache")) {
+            sb.insert(fileTypeSeparator, ".controller");
+            String packageName = apiPackage();
+            int packageNameIndex = result.lastIndexOf(packageName);
+            sb.replace(packageNameIndex, packageNameIndex + packageName.length(), "controllers");
+        } else if (templateName.endsWith("api.mustache")) {
+            sb.insert(fileTypeSeparator, apiFileSuffix);
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public String apiFileFolder() {
+        return super.apiFileFolder();
     }
 
     @Override
     public String toApiImport(String name) {
-        return toModelFilename(name);
+        return toApiFilename(name) + apiNameSuffix;
     }
 
     @Override
@@ -395,12 +399,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
 
     @Override
     public String toModelImport(String name) {
-        return toModelFilename(name);
-    }
-
-    private String getApiFilenameFromClassname(String classname) {
-        String name = classname.substring(0, classname.length() - controllerSuffix.length());
-        return toApiFilename(name);
+        return toModelFilename(name) + modelFileSuffix;
     }
 
     @Override

@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 {{#apiInfo}}
 {{#apis}}
 import { {{classname}} } from './{{apiPackage}}/{{classFilename}}';
@@ -10,7 +8,6 @@ import { {{classname}} } from './{{apiPackage}}/{{classFilename}}';
 @Module({
   imports: [],
   controllers: [
-    AppController,
 {{#apiInfo}}
 {{#apis}}
     {{classname}},
@@ -18,7 +15,6 @@ import { {{classname}} } from './{{apiPackage}}/{{classFilename}}';
 {{/apiInfo}}
   ],
   providers: [
-    AppService,
 {{#apiInfo}}
 {{#apis}}
     {{classname}}Service,
@@ -26,4 +22,4 @@ import { {{classname}} } from './{{apiPackage}}/{{classFilename}}';
 {{/apiInfo}}
   ],
 })
-export class AppModule {} 
+export class ApiModule {}

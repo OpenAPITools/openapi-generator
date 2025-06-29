@@ -1,0 +1,20 @@
+import { Injectable } from '@nestjs/common';
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isBodyParam}}
+import { {{dataType}} } from '../{{modelPackage}}/{{modelFilename}}';
+{{/isBodyParam}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+
+@Injectable()
+export abstract class {{classname}}Api {
+{{#operations}}
+{{#operation}}
+  abstract {{operationId}}({{#allParams}}{{#isBodyParam}}{{paramName}}: {{dataType}}{{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
+
+{{/operation}}
+{{/operations}}
+} 

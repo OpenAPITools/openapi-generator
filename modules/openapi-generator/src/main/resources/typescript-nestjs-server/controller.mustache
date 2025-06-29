@@ -2,23 +2,21 @@ import { Controller{{#operations}}{{#operation}}, {{#vendorExtensions.x-http-met
 {{#operations}}
 {{#operation}}
 {{#allParams}}
-{{#isBodyParam}}
 import { {{dataType}} } from '../{{modelPackage}}/{{modelFilename}}';
-{{/isBodyParam}}
 {{/allParams}}
 {{/operation}}
 {{/operations}}
-import { {{classname}}Service } from './{{classFilename}}.service';
+import { {{classname}}Api } from './{{classFilename}}.api';
 
 @Controller('{{baseName}}')
-export class {{classname}} {
-  constructor(private readonly {{classVarName}}Service: {{classname}}Service) {}
+export class {{classname}}Controller {
+  constructor(private readonly {{classVarName}}Api: {{classname}}Api) {}
 
 {{#operations}}
 {{#operation}}
   @{{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}('{{path}}')
   async {{operationId}}({{#allParams}}{{#isBodyParam}}{{paramName}}: {{dataType}}{{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
-    return this.{{classVarName}}Service.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    return this.{{classVarName}}Api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   }
 
 {{/operation}}
