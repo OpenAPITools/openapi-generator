@@ -133,8 +133,9 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
                 new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles
                 .add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
+        supportingFiles.add(new SupportingFile("api-implementations.mustache", "", "api-implementations.ts"));
         supportingFiles.add(new SupportingFile("api.module.mustache", "", "api.module.ts"));
-        supportingFiles.add(new SupportingFile("main.mustache", "", "main.ts"));
+        supportingFiles.add(new SupportingFile("controllers.mustache", "controllers", "index.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", "", "variables.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));

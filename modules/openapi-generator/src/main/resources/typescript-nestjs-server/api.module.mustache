@@ -1,25 +1,38 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module, Provider } from '@nestjs/common';
+import { ApiImplementations } from './api-implementations'
 {{#apiInfo}}
 {{#apis}}
-import { {{classname}} } from './{{apiPackage}}/{{classFilename}}';
+import { {{classname}} } from './{{apiPackage}}';
+import { {{classname}}Controller } from './controllers';
 {{/apis}}
 {{/apiInfo}}
 
-@Module({
-  imports: [],
-  controllers: [
+@Module({})
+export class ApiModule {
+  static forRoot(apiImplementations: ApiImplementations): DynamicModule {
+      const providers: Provider[] = [
 {{#apiInfo}}
 {{#apis}}
-    {{classname}},
+        {
+          provide: {{classname}},
+          useClass: apiImplementations.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}
+        },
+
 {{/apis}}
 {{/apiInfo}}
-  ],
-  providers: [
+      ];
+
+      return {
+        module: ApiModule,
+        controllers: [
 {{#apiInfo}}
 {{#apis}}
-    {{classname}}Service,
+          {{classname}}Controller,
 {{/apis}}
 {{/apiInfo}}
-  ],
-})
-export class ApiModule {}
+        ],
+        providers: [...providers],
+        exports: [...providers]
+      }
+    }
+}
