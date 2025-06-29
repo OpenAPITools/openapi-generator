@@ -273,8 +273,10 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         List<CodegenOperation> operationList = objectMap.getOperation();
 
         for (CodegenOperation operation : operationList) {
-            // TODO maybe
-            operation.baseName = operation.baseName.toLowerCase(Locale.ROOT);
+//            operation.baseName = operation.baseName.toLowerCase(Locale.ROOT);
+//            if(operation.path.startsWith("/" + operation.baseName)) {
+//                operation.path = operation.path.substring(operation.baseName.length() + 1);
+//            }
 
             operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
 
@@ -349,6 +351,52 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         operations.put("httpMethods", httpMethods);
 
         return operations;
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        for (ModelsMap entry : result.values()) {
+            for (ModelMap mo : entry.getModels()) {
+                CodegenModel cm = mo.getModel();
+                // Add additional filename information for imports
+                Set<String> parsedImports = parseImports(cm);
+                mo.put("tsImports", toTsImports(cm, parsedImports));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Parse imports
+     */
+    private Set<String> parseImports(CodegenModel cm) {
+        Set<String> newImports = new HashSet<>();
+        if (cm.imports.size() > 0) {
+            for (String name : cm.imports) {
+                if (name.indexOf(" | ") >= 0) {
+                    String[] parts = name.split(" \\| ");
+                    Collections.addAll(newImports, parts);
+                } else {
+                    newImports.add(name);
+                }
+            }
+        }
+        return newImports;
+    }
+
+    private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
+        List<Map<String, String>> tsImports = new ArrayList<>();
+        for (String im : imports) {
+            if (!im.equals(cm.classname)) {
+                HashMap<String, String> tsImport = new HashMap<>();
+                // TVG: This is used as class name in the import statements of the model file
+                tsImport.put("classname", im);
+                tsImport.put("filename", toModelFilename(removeModelPrefixSuffix(im)));
+                tsImports.add(tsImport);
+            }
+        }
+        return tsImports;
     }
 
     @Override

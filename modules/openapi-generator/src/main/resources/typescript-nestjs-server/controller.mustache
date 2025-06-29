@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { {{classname}} } from '../{{apiPackage}}';
 import { {{#tsImports}}{{classname}}, {{/tsImports}} } from '../{{modelPackage}}';
 
-@Controller('{{#lambda.camelcase}}{{baseName}}{{/lambda.camelcase}}')
+@Controller()
 export class {{classname}}Controller {
   constructor(private readonly {{classVarName}}: {{classname}}) {}
 
