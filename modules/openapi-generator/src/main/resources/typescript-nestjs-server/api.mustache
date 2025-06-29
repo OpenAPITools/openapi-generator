@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { {{#tsImports}}{{classname}}, {{/tsImports}} } from '../{{modelPackage}}';
 
 @Injectable()
 export abstract class {{classname}} {
 {{#operations}}
 {{#operation}}
-  abstract {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
+  abstract {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}} request: Request): {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} | Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> | Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
 
 {{/operation}}
 {{/operations}}

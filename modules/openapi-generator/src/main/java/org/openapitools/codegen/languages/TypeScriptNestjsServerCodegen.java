@@ -272,7 +272,10 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         List<CodegenOperation> operationList = objectMap.getOperation();
 
         for (CodegenOperation operation : operationList) {
-            operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
+            // TODO maybe
+            operation.baseName = operation.baseName.toLowerCase(Locale.ROOT);
+
+            operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
 
             List<CodegenParameter> params = operation.allParams;
             if (params != null && params.size() == 0) {
@@ -306,7 +309,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             // Collect HTTP methods for controller imports
             String httpMethod = operation.httpMethod;
             if (httpMethod != null) {
-                httpMethods.add(httpMethod.substring(0, 1).toUpperCase(Locale.ROOT) + httpMethod.substring(1));
+                httpMethods.add(httpMethod);
             }
 
             // Collect imports from parameters
@@ -337,7 +340,6 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         for (String importName : allImports) {
             HashMap<String, String> tsImport = new HashMap<>();
             tsImport.put("classname", importName);
-            tsImport.put("filename", toModelFilename(removeModelPrefixSuffix(importName)));
             tsImports.add(tsImport);
         }
 

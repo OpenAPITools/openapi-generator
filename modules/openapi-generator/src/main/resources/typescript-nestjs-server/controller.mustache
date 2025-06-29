@@ -1,16 +1,17 @@
-import { Controller{{#httpMethods}}, {{.}}{{/httpMethods}} } from '@nestjs/common';
+import { Controller{{#httpMethods}}, {{.}}{{/httpMethods}}, Req } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { {{classname}} } from '../{{apiPackage}}';
 import { {{#tsImports}}{{classname}}, {{/tsImports}} } from '../{{modelPackage}}';
 
-@Controller('{{baseName}}')
+@Controller('{{#lambda.camelcase}}{{baseName}}{{/lambda.camelcase}}')
 export class {{classname}}Controller {
   constructor(private readonly {{classVarName}}: {{classname}}) {}
 
 {{#operations}}
 {{#operation}}
-  @{{#lambda.pascalcase}}{{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}{{/lambda.pascalcase}}('{{path}}')
-  async {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
-    return this.{{classVarName}}.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}});
+  @{{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}('{{path}}')
+  {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}}@Req() request: Request): {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} | Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> | Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    return this.{{classVarName}}.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}} request);
   }
 
 {{/operation}}
