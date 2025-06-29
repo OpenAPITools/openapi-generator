@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +47,7 @@ public class ObjectWithDeprecatedFields  {
 
   @JsonbProperty("bars")
   private List<String> bars = null;
+
 
   /**
    * Get uuid

@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +37,7 @@ public class ArrayOfNumberOnly  {
   
   @JsonbProperty("ArrayNumber")
   private List<BigDecimal> arrayNumber = null;
+
 
   /**
    * Get arrayNumber

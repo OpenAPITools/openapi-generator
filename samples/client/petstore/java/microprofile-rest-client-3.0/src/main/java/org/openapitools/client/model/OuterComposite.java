@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.math.BigDecimal;
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
@@ -41,6 +43,7 @@ public class OuterComposite  {
 
   @JsonbProperty("my_boolean")
   private Boolean myBoolean;
+
 
   /**
    * Get myNumber
