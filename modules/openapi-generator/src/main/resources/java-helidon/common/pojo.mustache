@@ -25,10 +25,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
         {{^isContainer}}
 {{>enumClass}}
+
         {{/isContainer}}
         {{#isContainer}}
             {{#mostInnerItems}}
 {{>enumClass}}
+
             {{/mostInnerItems}}
         {{/isContainer}}
 
