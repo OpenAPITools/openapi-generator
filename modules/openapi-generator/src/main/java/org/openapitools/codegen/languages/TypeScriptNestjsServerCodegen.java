@@ -256,6 +256,10 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         return false;
     }
 
+    private boolean isRecordType(String type) {
+        return type.contains("[key:") || type.startsWith("Record<");
+    }
+
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
@@ -294,6 +298,53 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             }
         }
 
+        // Collect and deduplicate imports for the entire API (all operations)
+        Set<String> allImports = new TreeSet<>();
+        Set<String> httpMethods = new TreeSet<>();
+
+        for (CodegenOperation operation : operationList) {
+            // Collect HTTP methods for controller imports
+            String httpMethod = operation.httpMethod;
+            if (httpMethod != null) {
+                httpMethods.add(httpMethod.substring(0, 1).toUpperCase(Locale.ROOT) + httpMethod.substring(1));
+            }
+
+            // Collect imports from parameters
+            if (operation.allParams != null) {
+                for (CodegenParameter param : operation.allParams) {
+                    if (param.isBodyParam && param.dataType != null
+                            && !isLanguagePrimitive(param.dataType)
+                            && !isLanguageGenericType(param.dataType)
+                            && !isRecordType(param.dataType)
+                    ) {
+                        allImports.add(param.dataType);
+                    }
+                }
+            }
+
+            // Collect imports from return type
+            if (operation.returnType != null
+                    && !isLanguagePrimitive(operation.returnType)
+                    && !isLanguageGenericType(operation.returnType)
+                    && !isRecordType(operation.returnType)
+            ) {
+                allImports.add(operation.returnType);
+            }
+        }
+
+        // Convert imports to the format expected by templates
+        List<Map<String, String>> tsImports = new ArrayList<>();
+        for (String importName : allImports) {
+            HashMap<String, String> tsImport = new HashMap<>();
+            tsImport.put("classname", importName);
+            tsImport.put("filename", toModelFilename(removeModelPrefixSuffix(importName)));
+            tsImports.add(tsImport);
+        }
+
+        // Store the deduplicated imports and HTTP methods in the operations map for use by templates
+        operations.put("tsImports", tsImports);
+        operations.put("httpMethods", httpMethods);
+
         return operations;
     }
 
@@ -301,57 +352,6 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     public ModelsMap postProcessModels(ModelsMap objs) {
         ModelsMap result = super.postProcessModels(objs);
         return postProcessModelsEnum(result);
-    }
-
-    @Override
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
-        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
-        for (ModelsMap entry : result.values()) {
-            for (ModelMap mo : entry.getModels()) {
-                CodegenModel cm = mo.getModel();
-                if (taggedUnions) {
-                    mo.put(TAGGED_UNIONS, true);
-                    if (cm.discriminator != null && cm.children != null) {
-                        for (CodegenModel child : cm.children) {
-                            cm.imports.add(child.classname);
-                        }
-                    }
-                    if (cm.parent != null) {
-                        cm.imports.remove(cm.parent);
-                    }
-                }
-                // Add additional filename information for imports
-                Set<String> parsedImports = parseImports(cm);
-                mo.put("tsImports", toTsImports(cm, parsedImports));
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Parse imports
-     */
-    private Set<String> parseImports(CodegenModel cm) {
-        Set<String> imports = new LinkedHashSet<>();
-        if (cm.imports != null) {
-            for (String name : cm.imports) {
-                if (needToImport(name)) {
-                    imports.add(name);
-                }
-            }
-        }
-        return imports;
-    }
-
-    private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
-        List<Map<String, String>> tsImports = new ArrayList<>();
-        for (String imp : imports) {
-            HashMap<String, String> tsImport = new HashMap<>();
-            tsImport.put("import", imp);
-            tsImport.put("classname", toModelFilename(imp));
-            tsImports.add(tsImport);
-        }
-        return tsImports;
     }
 
     @Override

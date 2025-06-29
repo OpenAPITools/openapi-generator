@@ -1,13 +1,5 @@
 import { Injectable } from '@nestjs/common';
-{{#operations}}
-{{#operation}}
-{{#allParams}}
-{{#isBodyParam}}
-import { {{dataType}} } from '../{{modelPackage}}/{{modelFilename}}';
-{{/isBodyParam}}
-{{/allParams}}
-{{/operation}}
-{{/operations}}
+import { {{#tsImports}}{{classname}}, {{/tsImports}} } from '../{{modelPackage}}';
 
 @Injectable()
 export abstract class {{classname}} {

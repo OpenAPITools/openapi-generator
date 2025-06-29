@@ -1,12 +1,6 @@
-import { Controller{{#operations}}{{#operation}}, {{#lambda.pascalcase}}{{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}{{/lambda.pascalcase}}{{/operation}}{{/operations}} } from '@nestjs/common';
-{{#operations}}
-{{#operation}}
-{{#allParams}}
-import { {{dataType}} } from '../{{modelPackage}}/{{modelFilename}}';
-{{/allParams}}
-{{/operation}}
-{{/operations}}
+import { Controller{{#httpMethods}}, {{.}}{{/httpMethods}} } from '@nestjs/common';
 import { {{classname}} } from '../{{apiPackage}}';
+import { {{#tsImports}}{{classname}}, {{/tsImports}} } from '../{{modelPackage}}';
 
 @Controller('{{baseName}}')
 export class {{classname}}Controller {
