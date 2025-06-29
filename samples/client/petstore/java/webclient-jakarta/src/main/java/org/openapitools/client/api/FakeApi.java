@@ -60,7 +60,6 @@ public class FakeApi {
         this.apiClient = apiClient;
     }
 
-    
     /**
      * 
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys

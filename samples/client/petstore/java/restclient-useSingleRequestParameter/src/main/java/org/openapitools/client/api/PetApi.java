@@ -124,40 +124,40 @@ public class PetApi {
     public record DeletePetRequest(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey){}
 
     /**
-    * Deletes a pet
-    * 
+     * Deletes a pet
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param requestParameters The deletePet request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public void deletePet(DeletePetRequest requestParameters) throws RestClientResponseException {
-      this.deletePet(requestParameters.petId(), requestParameters.apiKey());
+        this.deletePet(requestParameters.petId(), requestParameters.apiKey());
     }
 
-  /**
-  * Deletes a pet
-  * 
+    /**
+     * Deletes a pet
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param requestParameters The deletePet request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<Void> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws RestClientResponseException {
-      return this.deletePetWithHttpInfo(requestParameters.petId(), requestParameters.apiKey());
+        return this.deletePetWithHttpInfo(requestParameters.petId(), requestParameters.apiKey());
     }
 
-  /**
-  * Deletes a pet
-  * 
+    /**
+     * Deletes a pet
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param requestParameters The deletePet request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws RestClientResponseException {
-      return this.deletePetWithResponseSpec(requestParameters.petId(), requestParameters.apiKey());
+        return this.deletePetWithResponseSpec(requestParameters.petId(), requestParameters.apiKey());
     }
 
     /**
@@ -240,6 +240,7 @@ public class PetApi {
     public ResponseSpec deletePetWithResponseSpec(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {
         return deletePetRequestCreation(petId, apiKey);
     }
+
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -318,6 +319,7 @@ public class PetApi {
     public ResponseSpec findPetsByStatusWithResponseSpec(@jakarta.annotation.Nonnull List<String> status) throws RestClientResponseException {
         return findPetsByStatusRequestCreation(status);
     }
+
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -398,6 +400,7 @@ public class PetApi {
     public ResponseSpec findPetsByTagsWithResponseSpec(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
         return findPetsByTagsRequestCreation(tags);
     }
+
     /**
      * Find pet by ID
      * Returns a single pet
@@ -480,6 +483,7 @@ public class PetApi {
     public ResponseSpec getPetByIdWithResponseSpec(@jakarta.annotation.Nonnull Long petId) throws RestClientResponseException {
         return getPetByIdRequestCreation(petId);
     }
+
     /**
      * Update an existing pet
      * 
@@ -565,40 +569,40 @@ public class PetApi {
     public record UpdatePetWithFormRequest(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status){}
 
     /**
-    * Updates a pet in the store with form data
-    * 
+     * Updates a pet in the store with form data
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param requestParameters The updatePetWithForm request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public void updatePetWithForm(UpdatePetWithFormRequest requestParameters) throws RestClientResponseException {
-      this.updatePetWithForm(requestParameters.petId(), requestParameters.name(), requestParameters.status());
+        this.updatePetWithForm(requestParameters.petId(), requestParameters.name(), requestParameters.status());
     }
 
-  /**
-  * Updates a pet in the store with form data
-  * 
+    /**
+     * Updates a pet in the store with form data
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param requestParameters The updatePetWithForm request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<Void> updatePetWithFormWithHttpInfo(UpdatePetWithFormRequest requestParameters) throws RestClientResponseException {
-      return this.updatePetWithFormWithHttpInfo(requestParameters.petId(), requestParameters.name(), requestParameters.status());
+        return this.updatePetWithFormWithHttpInfo(requestParameters.petId(), requestParameters.name(), requestParameters.status());
     }
 
-  /**
-  * Updates a pet in the store with form data
-  * 
+    /**
+     * Updates a pet in the store with form data
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param requestParameters The updatePetWithForm request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec updatePetWithFormWithResponseSpec(UpdatePetWithFormRequest requestParameters) throws RestClientResponseException {
-      return this.updatePetWithFormWithResponseSpec(requestParameters.petId(), requestParameters.name(), requestParameters.status());
+        return this.updatePetWithFormWithResponseSpec(requestParameters.petId(), requestParameters.name(), requestParameters.status());
     }
 
     /**
@@ -693,39 +697,39 @@ public class PetApi {
     public record UploadFileRequest(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file){}
 
     /**
-    * uploads an image
-    * 
+     * uploads an image
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFile request parameters as object
      * @return ModelApiResponse
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ModelApiResponse uploadFile(UploadFileRequest requestParameters) throws RestClientResponseException {
-      return this.uploadFile(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
+        return this.uploadFile(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
     }
 
-  /**
-  * uploads an image
-  * 
+    /**
+     * uploads an image
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFile request parameters as object
      * @return ResponseEntity&lt;ModelApiResponse&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<ModelApiResponse> uploadFileWithHttpInfo(UploadFileRequest requestParameters) throws RestClientResponseException {
-      return this.uploadFileWithHttpInfo(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
+        return this.uploadFileWithHttpInfo(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
     }
 
-  /**
-  * uploads an image
-  * 
+    /**
+     * uploads an image
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFile request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec uploadFileWithResponseSpec(UploadFileRequest requestParameters) throws RestClientResponseException {
-      return this.uploadFileWithResponseSpec(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
+        return this.uploadFileWithResponseSpec(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
     }
 
     /**
@@ -821,39 +825,39 @@ public class PetApi {
     public record UploadFileWithRequiredFileRequest(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata){}
 
     /**
-    * uploads an image (required)
-    * 
+     * uploads an image (required)
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFileWithRequiredFile request parameters as object
      * @return ModelApiResponse
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ModelApiResponse uploadFileWithRequiredFile(UploadFileWithRequiredFileRequest requestParameters) throws RestClientResponseException {
-      return this.uploadFileWithRequiredFile(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
+        return this.uploadFileWithRequiredFile(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
     }
 
-  /**
-  * uploads an image (required)
-  * 
+    /**
+     * uploads an image (required)
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFileWithRequiredFile request parameters as object
      * @return ResponseEntity&lt;ModelApiResponse&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(UploadFileWithRequiredFileRequest requestParameters) throws RestClientResponseException {
-      return this.uploadFileWithRequiredFileWithHttpInfo(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
+        return this.uploadFileWithRequiredFileWithHttpInfo(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
     }
 
-  /**
-  * uploads an image (required)
-  * 
+    /**
+     * uploads an image (required)
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFileWithRequiredFile request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec uploadFileWithRequiredFileWithResponseSpec(UploadFileWithRequiredFileRequest requestParameters) throws RestClientResponseException {
-      return this.uploadFileWithRequiredFileWithResponseSpec(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
+        return this.uploadFileWithRequiredFileWithResponseSpec(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
     }
 
     /**

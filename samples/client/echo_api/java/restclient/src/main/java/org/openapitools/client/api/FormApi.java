@@ -129,6 +129,7 @@ public class FormApi {
     public ResponseSpec testFormIntegerBooleanStringWithResponseSpec(@jakarta.annotation.Nullable Integer integerForm, @jakarta.annotation.Nullable Boolean booleanForm, @jakarta.annotation.Nullable String stringForm) throws RestClientResponseException {
         return testFormIntegerBooleanStringRequestCreation(integerForm, booleanForm, stringForm);
     }
+
     /**
      * Test form parameter(s) for multipart schema
      * Test form parameter(s) for multipart schema
@@ -206,6 +207,7 @@ public class FormApi {
     public ResponseSpec testFormObjectMultipartWithResponseSpec(@jakarta.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
         return testFormObjectMultipartRequestCreation(marker);
     }
+
     /**
      * Test form parameter(s) for oneOf schema
      * Test form parameter(s) for oneOf schema
