@@ -5,7 +5,10 @@ import importlib
 import pkgutil
 
 from openapi_server.apis.store_api_base import BaseStoreApi
+
 import openapi_server.impl
+
+
 
 from fastapi import (  # noqa: F401
     APIRouter,
@@ -34,7 +37,6 @@ router = APIRouter()
 ns_pkg = openapi_server.impl
 for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     importlib.import_module(name)
-
 
 @router.delete(
     "/store/order/{orderId}",
