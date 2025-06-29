@@ -1,4 +1,4 @@
-import { Controller{{#operations}}{{#operation}}, {{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}{{/operation}}{{/operations}} } from '@nestjs/common';
+import { Controller{{#operations}}{{#operation}}, {{#lambda.pascalcase}}{{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}{{/lambda.pascalcase}}{{/operation}}{{/operations}} } from '@nestjs/common';
 {{#operations}}
 {{#operation}}
 {{#allParams}}
@@ -6,17 +6,17 @@ import { {{dataType}} } from '../{{modelPackage}}/{{modelFilename}}';
 {{/allParams}}
 {{/operation}}
 {{/operations}}
-import { {{classname}}Api } from './{{classFilename}}.api';
+import { {{classname}} } from '../{{apiPackage}}';
 
 @Controller('{{baseName}}')
 export class {{classname}}Controller {
-  constructor(private readonly {{classVarName}}Api: {{classname}}Api) {}
+  constructor(private readonly {{classVarName}}: {{classname}}) {}
 
 {{#operations}}
 {{#operation}}
-  @{{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}('{{path}}')
-  async {{operationId}}({{#allParams}}{{#isBodyParam}}{{paramName}}: {{dataType}}{{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
-    return this.{{classVarName}}Api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  @{{#lambda.pascalcase}}{{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}{{/lambda.pascalcase}}('{{path}}')
+  async {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+    return this.{{classVarName}}.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}});
   }
 
 {{/operation}}

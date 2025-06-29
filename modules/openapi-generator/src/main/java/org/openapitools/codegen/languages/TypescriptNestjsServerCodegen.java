@@ -359,32 +359,29 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         if (name.length() == 0) {
             return "default";
         }
-        return camelize(name);
+        return camelize(name) + apiSuffix;
     }
 
     @Override
     public String apiFilename(String templateName, String tag) {
         String result = super.apiFilename(templateName, tag);
 
-        int fileTypeSeparator = result.lastIndexOf(".");
-
-        StringBuilder sb = new StringBuilder(result);
-
         if (templateName.endsWith("controller.mustache")) {
+            StringBuilder sb = new StringBuilder(result);
+            int fileTypeSeparator = result.lastIndexOf(".");
             sb.insert(fileTypeSeparator, ".controller");
             String packageName = apiPackage();
             int packageNameIndex = result.lastIndexOf(packageName);
             sb.replace(packageNameIndex, packageNameIndex + packageName.length(), "controllers");
-        } else if (templateName.endsWith("api.mustache")) {
-            sb.insert(fileTypeSeparator, apiFileSuffix);
+            return sb.toString();
         }
 
-        return sb.toString();
+        return result;
     }
 
     @Override
-    public String apiFileFolder() {
-        return super.apiFileFolder();
+    public String toApiVarName(String name) {
+        return super.toApiVarName(name) + apiSuffix;
     }
 
     @Override

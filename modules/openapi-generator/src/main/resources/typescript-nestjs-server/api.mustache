@@ -10,10 +10,10 @@ import { {{dataType}} } from '../{{modelPackage}}/{{modelFilename}}';
 {{/operations}}
 
 @Injectable()
-export abstract class {{classname}}Api {
+export abstract class {{classname}} {
 {{#operations}}
 {{#operation}}
-  abstract {{operationId}}({{#allParams}}{{#isBodyParam}}{{paramName}}: {{dataType}}{{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
+  abstract {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
 
 {{/operation}}
 {{/operations}}
