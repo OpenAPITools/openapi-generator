@@ -47,7 +47,6 @@ public class UserApi {
         this.apiClient = apiClient;
     }
 
-    
     /**
      * Create user
      * This can only be done by the logged in user.
@@ -497,10 +496,10 @@ public class UserApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec loginUserWithResponseSpec(LoginUserRequest requestParameters) throws WebClientResponseException {
-       return this.loginUserWithResponseSpec(requestParameters.username(), requestParameters.password());
+        return this.loginUserWithResponseSpec(requestParameters.username(), requestParameters.password());
     }
 
-          
+
     /**
      * Logs user into the system
      * 
@@ -729,10 +728,10 @@ public class UserApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec updateUserWithResponseSpec(UpdateUserRequest requestParameters) throws WebClientResponseException {
-       return this.updateUserWithResponseSpec(requestParameters.username(), requestParameters.user());
+        return this.updateUserWithResponseSpec(requestParameters.username(), requestParameters.user());
     }
 
-          
+
     /**
      * Updated user
      * This can only be done by the logged in user.
