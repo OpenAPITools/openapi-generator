@@ -198,7 +198,7 @@ Method | HTTP request | Description
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [Dog](docs/Dog.md)
- - [DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket](docs/DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket.md)
+ - [DollarSpecialLeftSquareBracketModelNameRightSquareBracket](docs/DollarSpecialLeftSquareBracketModelNameRightSquareBracket.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumArraysArrayArrayEnumInnerInner](docs/EnumArraysArrayArrayEnumInnerInner.md)
  - [EnumArraysArrayEnumInner](docs/EnumArraysArrayEnumInner.md)
