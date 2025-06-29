@@ -49,7 +49,6 @@ public class PetApi {
         this.apiClient = apiClient;
     }
 
-    
     /**
      * Add a new pet to the store
      * 

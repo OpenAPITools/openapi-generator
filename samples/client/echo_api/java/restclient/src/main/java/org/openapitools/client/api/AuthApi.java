@@ -107,6 +107,7 @@ public class AuthApi {
     public ResponseSpec testAuthHttpBasicWithResponseSpec() throws RestClientResponseException {
         return testAuthHttpBasicRequestCreation();
     }
+
     /**
      * To test HTTP bearer authentication
      * To test HTTP bearer authentication

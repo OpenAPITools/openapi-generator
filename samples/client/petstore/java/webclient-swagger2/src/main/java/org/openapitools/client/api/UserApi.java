@@ -47,7 +47,6 @@ public class UserApi {
         this.apiClient = apiClient;
     }
 
-    
     /**
      * Create user
      * This can only be done by the logged in user.
