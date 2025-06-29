@@ -1,0 +1,21 @@
+// Environment variables
+export const PORT = process.env.PORT || 3000;
+export const NODE_ENV = process.env.NODE_ENV || 'development';
+
+// API Configuration
+export const API_PREFIX = process.env.API_PREFIX || 'api';
+export const API_VERSION = process.env.API_VERSION || 'v1';
+
+// Database Configuration (if needed)
+export const DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost:27017/nestjs-app';
+
+// JWT Configuration (if needed)
+export const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+export const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1d';
+
+// CORS Configuration
+export const CORS_ORIGIN = process.env.CORS_ORIGIN || '*';
+export const CORS_CREDENTIALS = process.env.CORS_CREDENTIALS === 'true';
+
+// Logging Configuration
+export const LOG_LEVEL = process.env.LOG_LEVEL || 'info'; 
