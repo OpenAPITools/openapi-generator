@@ -146,9 +146,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("api-implementations.mustache", "", "api-implementations.ts"));
         supportingFiles.add(new SupportingFile("api.module.mustache", "", "api.module.ts"));
         supportingFiles.add(new SupportingFile("controllers.mustache", "controllers", "index.ts"));
-        supportingFiles.add(new SupportingFile("variables.mustache", "", "variables.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("nest-cli.mustache", "", "nest-cli.json"));
@@ -235,6 +233,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
 
     private void addNpmPackageGeneration() {
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
     }
 
     public void setStringEnums(boolean value) {
