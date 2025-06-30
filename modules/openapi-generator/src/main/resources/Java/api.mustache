@@ -8,19 +8,6 @@ import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.Configuration;
 import {{modelPackage}}.*;
 import {{invokerPackage}}.Pair;
-import {{invokerPackage}}.auth.Authentication;
-{{#hasHttpBearerMethods}}
-import {{invokerPackage}}.auth.HttpBearerAuth;
-{{/hasHttpBearerMethods}}
-{{#hasHttpBasicMethods}}
-import {{invokerPackage}}.auth.HttpBasicAuth;
-{{/hasHttpBasicMethods}}
-{{#hasApiKeyMethods}}
-import {{invokerPackage}}.auth.ApiKeyAuth;
-{{/hasApiKeyMethods}}
-{{#hasOAuthMethods}}
-import {{invokerPackage}}.auth.OAuth;
-{{/hasOAuthMethods}}
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -30,6 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+{{#hasHttpBasicMethods}}
+import java.util.Base64;
+{{/hasHttpBasicMethods}}
 
 {{>generatedAnnotation}}
 {{#operations}}
@@ -135,93 +125,49 @@ public class {{classname}} {
   {{/hasOAuthMethods}}
 
   /**
-   * Apply authentication settings to the API client for this request only.
-   * This does not modify the shared ApiClient's authentication state.
+   * Apply authentication settings directly to request headers.
+   * This avoids modifying the shared ApiClient's authentication state.
    */
-  private void applyAuthToApiClient() {
+  private void applyAuthToHeaders(Map<String, String> headerParams) {
     {{#hasHttpBearerMethods}}
     if (bearerToken != null) {
-      for (Authentication auth : apiClient.getAuthentications().values()) {
-        if (auth instanceof HttpBearerAuth) {
-          ((HttpBearerAuth) auth).setBearerToken(bearerToken);
-          break;
-        }
-      }
+      headerParams.put("Authorization", "Bearer " + bearerToken);
     }
     {{/hasHttpBearerMethods}}
     {{#hasHttpBasicMethods}}
-    if (username != null || password != null) {
-      for (Authentication auth : apiClient.getAuthentications().values()) {
-        if (auth instanceof HttpBasicAuth) {
-          if (username != null) ((HttpBasicAuth) auth).setUsername(username);
-          if (password != null) ((HttpBasicAuth) auth).setPassword(password);
-          break;
-        }
-      }
+    if (username != null && password != null) {
+      String credentials = java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+      headerParams.put("Authorization", "Basic " + credentials);
     }
     {{/hasHttpBasicMethods}}
     {{#hasApiKeyMethods}}
-    if (apiKey != null || apiKeyPrefix != null) {
-      for (Authentication auth : apiClient.getAuthentications().values()) {
-        if (auth instanceof ApiKeyAuth) {
-          if (apiKey != null) ((ApiKeyAuth) auth).setApiKey(apiKey);
-          if (apiKeyPrefix != null) ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
-          break;
-        }
-      }
+    if (apiKey != null) {
+      {{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
+      headerParams.put("{{keyParamName}}", keyValue);
+      {{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}
     }
     {{/hasApiKeyMethods}}
     {{#hasOAuthMethods}}
     if (accessToken != null) {
-      for (Authentication auth : apiClient.getAuthentications().values()) {
-        if (auth instanceof OAuth) {
-          ((OAuth) auth).setAccessToken(accessToken);
-          break;
-        }
-      }
+      headerParams.put("Authorization", "Bearer " + accessToken);
     }
     {{/hasOAuthMethods}}
   }
 
   /**
-   * Clear authentication settings from the API client after the request.
-   * This ensures no authentication state persists in the shared ApiClient.
+   * Apply authentication settings directly to query parameters.
+   * This avoids modifying the shared ApiClient's authentication state.
    */
-  private void clearAuthFromApiClient() {
-    {{#hasHttpBearerMethods}}
-    for (Authentication auth : apiClient.getAuthentications().values()) {
-      if (auth instanceof HttpBearerAuth) {
-        ((HttpBearerAuth) auth).setBearerToken((String) null);
-        break;
-      }
-    }
-    {{/hasHttpBearerMethods}}
-    {{#hasHttpBasicMethods}}
-    for (Authentication auth : apiClient.getAuthentications().values()) {
-      if (auth instanceof HttpBasicAuth) {
-        ((HttpBasicAuth) auth).setUsername(null);
-        ((HttpBasicAuth) auth).setPassword(null);
-        break;
-      }
-    }
-    {{/hasHttpBasicMethods}}
+  private void applyAuthToQueryParams(List<Pair> queryParams) {
     {{#hasApiKeyMethods}}
-    for (Authentication auth : apiClient.getAuthentications().values()) {
-      if (auth instanceof ApiKeyAuth) {
-        ((ApiKeyAuth) auth).setApiKey(null);
-        ((ApiKeyAuth) auth).setApiKeyPrefix(null);
-        break;
-      }
+    if (apiKey != null) {
+      {{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
+      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
+      queryParams.add(new Pair("{{keyParamName}}", keyValue));
+      {{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}
     }
     {{/hasApiKeyMethods}}
-    {{#hasOAuthMethods}}
-    for (Authentication auth : apiClient.getAuthentications().values()) {
-      if (auth instanceof OAuth) {
-        ((OAuth) auth).setAccessToken(null);
-        break;
-      }
-    }
-    {{/hasOAuthMethods}}
   }
 
   {{#operation}}
@@ -281,6 +227,10 @@ public class {{classname}} {
       localVarFormParams.put("{{baseName}}", {{paramName}});
     {{/formParams}}
 
+    // Apply authentication directly to request parameters (no shared state modification)
+    applyAuthToHeaders(localVarHeaderParams);
+    applyAuthToQueryParams(localVarQueryParams);
+
     final String[] localVarAccepts = {
       {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}
     };
@@ -291,22 +241,15 @@ public class {{classname}} {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
-
-    // Apply authentication for this request only
-    applyAuthToApiClient();
+    // No authentication names needed - auth is applied directly above
+    String[] localVarAuthNames = new String[] {};
     
-    try {
-      {{#returnType}}
-      GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};
-      return apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      {{/returnType}}{{^returnType}}
-      apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
-      {{/returnType}}
-    } finally {
-      // Clear authentication to prevent it from persisting in the shared ApiClient
-      clearAuthFromApiClient();
-    }
+    {{#returnType}}
+    GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};
+    return apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    {{/returnType}}{{^returnType}}
+    apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    {{/returnType}}
   }
   {{/operation}}
 }
