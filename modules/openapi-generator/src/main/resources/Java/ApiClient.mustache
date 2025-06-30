@@ -847,6 +847,15 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   }
 
   /**
+   * Get authentications (key: authentication name, value: authentication).
+   *
+   * @return Map of authentication objects
+   */
+  public Map<String, Authentication> getAuthentications() {
+    return authentications;
+  }
+
+  /**
    * Update query and header parameters based on authentication settings.
    *
    * @param authNames The authentications to apply
