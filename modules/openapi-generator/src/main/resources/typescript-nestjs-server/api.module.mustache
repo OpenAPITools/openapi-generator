@@ -17,7 +17,6 @@ export class ApiModule {
           provide: {{classname}},
           useClass: apiImplementations.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}
         },
-
 {{/apis}}
 {{/apiInfo}}
       ];
