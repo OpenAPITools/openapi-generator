@@ -129,6 +129,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     @Override
     public void processOpts() {
         super.processOpts();
+        supportingFiles.add(new SupportingFile("module.mustache", "", "index.ts"));
         supportingFiles.add(
                 new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles
