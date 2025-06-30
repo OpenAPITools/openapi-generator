@@ -54,6 +54,9 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
+    public static final String NODE_VERSION = "nodeVersion";
+    public static final String TS_VERSION = "tsVersion";
+    public static final String RXJS_VERSION = "rxjsVersion";
 
     protected String nestVersion = "10.0.0";
     @Getter
@@ -68,6 +71,10 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     protected Boolean stringEnums = false;
 
     private boolean taggedUnions = false;
+
+    private String nodeVersion = "22.17.0";
+    private String rxJsVersion = "7.8.1";
+    private String tsVersion = "5.7.3";
 
     public TypeScriptNestjsServerCodegen() {
         super();
@@ -95,7 +102,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
-        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("10.0.0", "Use latest NestJS with decorators and dependency injection.").addEnum("9.0.0", "Use NestJS 9.x with decorators and dependency injection.").defaultValue(this.nestVersion));
+        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs. (At least 10.0.0)").defaultValue(this.nestVersion));
         this.cliOptions.add(new CliOption(API_SUFFIX, "The suffix of the generated API class").defaultValue(this.apiSuffix));
         this.cliOptions.add(new CliOption(API_FILE_SUFFIX, "The suffix of the file of the generated API class (api<suffix>.ts).").defaultValue(this.apiFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
@@ -103,6 +110,8 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.").defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(TS_VERSION, "The version of typescript compatible with Angular (see ngVersion option)."));
+        this.cliOptions.add(new CliOption(RXJS_VERSION, "The version of RxJS compatible with Angular (see ngVersion option)."));
     }
 
     @Override
@@ -123,7 +132,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript NestJS 10.x or 9.x server stub.";
+        return "Generates a TypeScript NestJS server stub.";
     }
 
     @Override
@@ -141,7 +150,6 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
-        supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("nest-cli.mustache", "", "nest-cli.json"));
 
@@ -155,8 +163,32 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             LOGGER.info("  (you can select the nestjs version by setting the additionalProperty nestVersion)");
         }
 
+        additionalProperties.put(NEST_VERSION, nestVersion);
+
         if (additionalProperties.containsKey(NPM_NAME)) {
-            addNpmPackageGeneration(nestVersion);
+            if(!additionalProperties.containsKey(NPM_VERSION)) {
+                additionalProperties.put(NPM_VERSION, "0.0.0");
+            }
+
+            if (additionalProperties.containsKey(TS_VERSION)) {
+                tsVersion = additionalProperties.get(TS_VERSION).toString();
+            } else {
+                additionalProperties.put(TS_VERSION, tsVersion);
+            }
+
+            if (additionalProperties.containsKey(RXJS_VERSION)) {
+                rxJsVersion = additionalProperties.get(RXJS_VERSION).toString();
+            } else {
+                additionalProperties.put(RXJS_VERSION, rxJsVersion);
+            }
+
+            if (additionalProperties.containsKey(NODE_VERSION)) {
+                nodeVersion = additionalProperties.get(NODE_VERSION).toString();
+            } else {
+                additionalProperties.put(NODE_VERSION, nodeVersion);
+            }
+
+            addNpmPackageGeneration();
         }
 
         if (additionalProperties.containsKey(STRING_ENUMS)) {
@@ -179,11 +211,6 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
         }
 
-        additionalProperties.put(NEST_VERSION, nestVersion);
-        additionalProperties.put("injectionToken", nestVersion.atLeast("4.0.0") ? "InjectionToken" : "OpaqueToken");
-        additionalProperties.put("injectionTokenTyped", nestVersion.atLeast("4.0.0"));
-        additionalProperties.put("useHttpClient", nestVersion.atLeast("4.3.0"));
-        additionalProperties.put("useAxiosHttpModule", nestVersion.atLeast("8.0.0"));
 
         if (additionalProperties.containsKey(API_SUFFIX)) {
             apiSuffix = additionalProperties.get(API_SUFFIX).toString();
@@ -206,7 +233,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         }
     }
 
-    private void addNpmPackageGeneration(SemVer nestVersion) {
+    private void addNpmPackageGeneration() {
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
     }
 
