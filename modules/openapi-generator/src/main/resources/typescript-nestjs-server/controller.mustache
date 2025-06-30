@@ -11,7 +11,7 @@ export class {{classname}}Controller {
 {{#operation}}
   @{{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}('{{path}}')
   {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}}@Req() request: Request): {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} | Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> | Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
-    return this.{{classVarName}}.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}} request);
+    return this.{{classVarName}}.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}request);
   }
 
 {{/operation}}

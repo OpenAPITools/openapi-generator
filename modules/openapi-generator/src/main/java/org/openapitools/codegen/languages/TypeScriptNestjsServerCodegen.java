@@ -149,7 +149,6 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        supportingFiles.add(new SupportingFile("nest-cli.mustache", "", "nest-cli.json"));
 
         // determine Nestjs version
         SemVer nestVersion;
