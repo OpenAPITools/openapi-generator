@@ -308,6 +308,7 @@ _bodyData=jsonEncode(user);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -387,6 +388,7 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'String', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
