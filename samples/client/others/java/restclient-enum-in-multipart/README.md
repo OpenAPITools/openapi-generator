@@ -4,7 +4,7 @@ API
 
 - API version: 1.0.0
 
-- Generator version: 7.14.0
+- Generator version: 7.15.0-SNAPSHOT
 
 API
 

@@ -15,7 +15,9 @@ authors = [
   {name = "{{infoName}}{{^infoName}}OpenAPI Generator Community{{/infoName}}",email = "{{infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}"},
 ]
 {{/poetry1}}
-license = "{{{licenseInfo}}}{{^licenseInfo}}NoLicense{{/licenseInfo}}"
+{{#licenseInfo}}
+license = "{{{licenseInfo}}}"
+{{/licenseInfo}}
 readme = "README.md"
 {{#poetry1}}
 repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"

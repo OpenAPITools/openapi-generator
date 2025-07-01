@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  * Capitalization
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class Capitalization {
 
   private Optional<String> smallCamel = Optional.empty();

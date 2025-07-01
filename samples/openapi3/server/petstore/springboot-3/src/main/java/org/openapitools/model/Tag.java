@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Tag")
 @XmlRootElement(name = "Tag")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class Tag {
 
   private @Nullable Long id;

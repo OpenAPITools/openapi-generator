@@ -40,7 +40,7 @@ import jakarta.validation.Valid;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE,
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class EnumTest   {
   /**
    * Gets or Sets enumString

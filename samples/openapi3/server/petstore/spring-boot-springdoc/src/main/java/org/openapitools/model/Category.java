@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Category", description = "A category for a pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class Category {
 
   private @Nullable Long id;

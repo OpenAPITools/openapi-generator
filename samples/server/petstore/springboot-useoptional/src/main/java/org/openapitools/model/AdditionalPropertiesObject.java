@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesObject
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class AdditionalPropertiesObject {
 
   private Optional<String> name = Optional.empty();

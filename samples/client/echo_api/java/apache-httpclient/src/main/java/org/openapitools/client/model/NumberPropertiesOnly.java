@@ -35,7 +35,7 @@ import java.util.StringJoiner;
   NumberPropertiesOnly.JSON_PROPERTY_FLOAT,
   NumberPropertiesOnly.JSON_PROPERTY_DOUBLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String JSON_PROPERTY_NUMBER = "number";
   @javax.annotation.Nullable

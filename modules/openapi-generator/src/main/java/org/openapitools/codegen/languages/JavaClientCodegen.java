@@ -615,6 +615,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
+
+            // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+            // In principle, this should be enabled by default for all code generators. However due to limitations
+            // in other code generators, support needs to be enabled on a case-by-case basis.
+            // The flag below should be set for all Java libraries, but the templates need to be ported
+            // one by one for each library.
+            supportsAdditionalPropertiesWithComposedSchema = true;
         } else if (libRestEasy) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
@@ -1230,11 +1237,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
-            Map<String, String> oneImport = new HashMap<>();
-            oneImport.put("import", importMapping.get(i));
-            if (!imports.contains(oneImport)) {
-                imports.add(oneImport);
+        if(additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
+                Map<String, String> oneImport = new HashMap<>();
+                oneImport.put("import", importMapping.get(i));
+                if (!imports.contains(oneImport)) {
+                    imports.add(oneImport);
+                }
             }
         }
     }
