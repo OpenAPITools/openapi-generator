@@ -9,19 +9,18 @@ import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
-import 'package:openapi/src/model/model_client.dart';
+import 'dart:typed_data';
 
-class AnotherFakeApi {
+class DefaultApi {
 
   final Dio _dio;
 
-  const AnotherFakeApi(this._dio);
+  const DefaultApi(this._dio);
 
-  /// To test special tags
-  /// To test special tags and operation ID starting with number
+  /// binaryResponse
+  /// 
   ///
   /// Parameters:
-  /// * [modelClient] - client model
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -29,10 +28,9 @@ class AnotherFakeApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [ModelClient] as data
+  /// Returns a [Future] containing a [Response] with a [Uint8List] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ModelClient>> call123testSpecialTags({ 
-    required ModelClient modelClient,
+  Future<Response<Uint8List>> binaryResponse({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -40,9 +38,10 @@ class AnotherFakeApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/another-fake/dummy';
+    final _path = r'/limits';
     final _options = Options(
-      method: r'PATCH',
+      method: r'GET',
+      responseType: ResponseType.bytes,
       headers: <String, dynamic>{
         ...?headers,
       },
@@ -50,40 +49,22 @@ class AnotherFakeApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
-      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
-    dynamic _bodyData;
-
-    try {
-_bodyData=jsonEncode(modelClient);
-    } catch(error, stackTrace) {
-      throw DioException(
-         requestOptions: _options.compose(
-          _dio.options,
-          _path,
-        ),
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
     final _response = await _dio.request<Object>(
       _path,
-      data: _bodyData,
       options: _options,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
 
-    ModelClient? _responseData;
+    Uint8List? _responseData;
 
     try {
 final rawData = _response.data;
-_responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(rawData, 'ModelClient', growable: true);
+_responseData = rawData == null ? null : rawData as Uint8List;
 
     } catch (error, stackTrace) {
       throw DioException(
@@ -95,7 +76,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
       );
     }
 
-    return Response<ModelClient>(
+    return Response<Uint8List>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
