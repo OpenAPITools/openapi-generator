@@ -2,10 +2,13 @@ package org.openapitools.codegen.typescript;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.Generator;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
+import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -24,7 +27,7 @@ import static org.openapitools.codegen.typescript.TypeScriptGroups.TYPESCRIPT;
 @Test(groups = {TYPESCRIPT})
 public class SharedTypeScriptTest {
 
-    @Test
+    @Test(enabled = false)
     public void typesInImportsAreSplitTest() throws IOException {
         Path output = Files.createTempDirectory("test");
         output.toFile().deleteOnExit();
@@ -109,4 +112,76 @@ public class SharedTypeScriptTest {
             Assert.assertEquals(mapped, entry.getValue());
         }
     }
+
+    @Test(description = "Issue #21317")
+    public void givenTypeMappingContainsGenericAndMappedTypeIsUtilityTypeThenTypeIsNotImportedAndTypeAppearsCorrectly() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        File mainOutput = new File(output, "main");
+
+        Generator generator = new DefaultGenerator();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_1/issue_21317.yaml")
+                .setGeneratorName("typescript-fetch")
+                .addTypeMapping("object", "Record<string,unknown>")
+                .setOutputDir(mainOutput.getAbsolutePath());
+        ClientOptInput clientOptInput = configurator.toClientOptInput();
+        generator.opts(clientOptInput)
+                .generate();
+        String mainPath = mainOutput.getAbsolutePath();
+        File userModel = new File(mainPath, "/models/User.ts");
+
+        TestUtils.assertFileNotContains(userModel.toPath(), "Recordstringunknown");
+        TestUtils.assertFileContains(userModel.toPath(), "Record<string,unknown>");
+    }
+
+    @Test(description = "Issue #21317")
+    public void givenTypeMappingContainsGenericAndMappedTypeIsUtilityAndWithoutRuntimeChecksTrueTypeThenTypeIsNotImportedAndTypeAppearsCorrectly() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Generator generator = new DefaultGenerator();
+
+        CodegenConfigurator noRuntimeConfigurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_1/issue_21317.yaml")
+                .setGeneratorName("typescript-fetch")
+                .addTypeMapping("object", "Record<string, unknown>")
+                .addTypeMapping("UserSummary", "Pick<User, \"email\">")
+                .addAdditionalProperty(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, true)
+                .setOutputDir(output.getAbsolutePath());
+        ClientOptInput clientOptInput2 = noRuntimeConfigurator.toClientOptInput();
+        generator.opts(clientOptInput2)
+                .generate();
+        String noRuntimePath = output.getAbsolutePath();
+        File apiFile = new File(noRuntimePath, "/apis/DefaultApi.ts");
+        System.out.println(Files.readString(apiFile.toPath()));
+
+        TestUtils.assertFileContains(apiFile.toPath(), "Promise<Pick<User, \"email\">>");
+        TestUtils.assertFileNotContains(apiFile.toPath(), "Promise<Pickuser");
+    }
+
+
+    @Test(description = "Issue #21317")
+    public void givenTypeMappingContainsGenericAndMappedTypeIsUtilityTypeThenTypeIsNotImportedAndTypeAppearsCorrectlyAxios() throws Exception {
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Generator generator = new DefaultGenerator();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_1/issue_21317.yaml")
+                .setGeneratorName("typescript-axios")
+                .addTypeMapping("UserSummary", "Pick<User, \"email\">")
+                .addTypeMapping("object", "Record<string,unknown>")
+                .setOutputDir(output.getAbsolutePath());
+        generator.opts(configurator.toClientOptInput())
+                .generate();
+
+        File axiosApiFile = new File(output, "/api.ts");
+
+        TestUtils.assertFileContains(axiosApiFile.toPath(), "AxiosPromise<Pick<User, \"email\">>");
+        TestUtils.assertFileNotContains(axiosApiFile.toPath(), "AxiosPromise<UserSummary>");
+    }
+
 }

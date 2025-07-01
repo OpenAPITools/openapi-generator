@@ -1,22 +1,26 @@
 package org.openapitools.server.api.api
 
+import misk.testing.MiskTestModule
 import jakarta.inject.Inject
 import misk.testing.MiskTest
+import misk.testing.MiskTestModule
 import org.junit.jupiter.api.Test
-
 import misk.web.HttpCall
 import misk.web.PathParam
 import misk.web.QueryParam
 import misk.web.RequestBody
 import misk.web.RequestHeader
-
 import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
 @MiskTest(startService = true)
 internal class PetApiTest {
 
-    @Inject private lateinit var petApi: PetApi
+    @Suppress("unused")
+    @MiskTestModule
+    private val module = MiskTestModule()
+
+    @Inject private lateinit var petApi: PetApiAction
 
     /**
      * To test PetApiAction.addPet
@@ -43,7 +47,7 @@ internal class PetApiTest {
     @Test
     fun `should handle findPetsByStatus`() {
         val status = TODO()
-        val response: kotlin.Array<Pet> = petApi.findPetsByStatus(status)
+        val response: kotlin.collections.List<Pet> = petApi.findPetsByStatus(status)
     }
 
     /**
@@ -52,7 +56,7 @@ internal class PetApiTest {
     @Test
     fun `should handle findPetsByTags`() {
         val tags = TODO()
-        val response: kotlin.Array<Pet> = petApi.findPetsByTags(tags)
+        val response: kotlin.collections.List<Pet> = petApi.findPetsByTags(tags)
     }
 
     /**
@@ -94,5 +98,4 @@ internal class PetApiTest {
         val file = TODO()
         val response: ModelApiResponse = petApi.uploadFile(petId, additionalMetadata, file)
     }
-
 }

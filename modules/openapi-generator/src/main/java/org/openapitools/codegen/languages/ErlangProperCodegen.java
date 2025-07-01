@@ -516,12 +516,6 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.isMultipart = o.isMultipart;
             this.isResponseBinary = o.isResponseBinary;
             this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
             this.path = o.path;
             this.operationId = o.operationId;
             this.returnType = o.returnType;

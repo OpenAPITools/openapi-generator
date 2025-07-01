@@ -11,7 +11,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/__post_request'
+              $ref: "#/components/schemas/__post_request"
       responses:
         "200":
           description: OK
@@ -27,7 +27,7 @@ components:
       type: object
     __post_request:
       oneOf:
-      - $ref: '#/components/schemas/schemaA'
+      - $ref: "#/components/schemas/schemaA"
       - additionalProperties: true
         properties: {}
         type: object

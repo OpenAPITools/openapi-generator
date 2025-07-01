@@ -25,10 +25,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Pet'
+              $ref: "#/components/schemas/Pet"
           application/xml:
             schema:
-              $ref: '#/components/schemas/Pet'
+              $ref: "#/components/schemas/Pet"
         description: Pet object that needs to be added to the store
         required: true
       responses:
@@ -49,10 +49,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Pet'
+              $ref: "#/components/schemas/Pet"
           application/xml:
             schema:
-              $ref: '#/components/schemas/Pet'
+              $ref: "#/components/schemas/Pet"
         description: Pet object that needs to be added to the store
         required: true
       responses:
@@ -85,7 +85,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/components/schemas/findPetsByStatus_status_parameter_inner'
+            $ref: "#/components/schemas/findPetsByStatus_status_parameter_inner"
           type: array
         style: form
       responses:
@@ -94,12 +94,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -135,12 +135,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -195,10 +195,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           content: {}
@@ -225,7 +225,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/updatePetWithForm_request'
+              $ref: "#/components/schemas/updatePetWithForm_request"
       responses:
         "405":
           content: {}
@@ -252,13 +252,13 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFile_request'
+              $ref: "#/components/schemas/uploadFile_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       security:
       - petstore_auth:
@@ -293,7 +293,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: "#/components/schemas/Order"
         description: order placed for purchasing the pet
         required: true
       responses:
@@ -301,10 +301,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           content: {}
@@ -354,10 +354,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           content: {}
@@ -376,7 +376,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Created user object
         required: true
       responses:
@@ -395,7 +395,7 @@ paths:
           '*/*':
             schema:
               items:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
               type: array
         description: List of user object
         required: true
@@ -415,7 +415,7 @@ paths:
           '*/*':
             schema:
               items:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
               type: array
         description: List of user object
         required: true
@@ -515,10 +515,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
           description: successful operation
         "400":
           content: {}
@@ -543,7 +543,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Updated user object
         required: true
       responses:
@@ -565,7 +565,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Client'
+              $ref: "#/components/schemas/Client"
         description: client model
         required: true
       responses:
@@ -573,7 +573,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
           description: successful operation
       security:
       - api_key_query: []
@@ -592,43 +592,43 @@ paths:
         name: enum_header_string_array
         schema:
           items:
-            $ref: '#/components/schemas/testEnumParameters_enum_header_string_array_parameter_inner'
+            $ref: "#/components/schemas/testEnumParameters_enum_header_string_array_parameter_inner"
           type: array
         style: simple
       - description: Header parameter enum test (string)
         in: header
         name: enum_header_string
         schema:
-          $ref: '#/components/schemas/testEnumParameters_enum_header_string_parameter'
+          $ref: "#/components/schemas/testEnumParameters_enum_header_string_parameter"
       - description: Query parameter enum test (string array)
         explode: false
         in: query
         name: enum_query_string_array
         schema:
           items:
-            $ref: '#/components/schemas/testEnumParameters_enum_header_string_array_parameter_inner'
+            $ref: "#/components/schemas/testEnumParameters_enum_header_string_array_parameter_inner"
           type: array
         style: form
       - description: Query parameter enum test (string)
         in: query
         name: enum_query_string
         schema:
-          $ref: '#/components/schemas/testEnumParameters_enum_header_string_parameter'
+          $ref: "#/components/schemas/testEnumParameters_enum_header_string_parameter"
       - description: Query parameter enum test (double)
         in: query
         name: enum_query_integer
         schema:
-          $ref: '#/components/schemas/testEnumParameters_enum_query_integer_parameter'
+          $ref: "#/components/schemas/testEnumParameters_enum_query_integer_parameter"
       - description: Query parameter enum test (double)
         in: query
         name: enum_query_double
         schema:
-          $ref: '#/components/schemas/testEnumParameters_enum_query_double_parameter'
+          $ref: "#/components/schemas/testEnumParameters_enum_query_double_parameter"
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testEnumParameters_request'
+              $ref: "#/components/schemas/testEnumParameters_request"
       responses:
         "400":
           content: {}
@@ -646,7 +646,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Client'
+              $ref: "#/components/schemas/Client"
         description: client model
         required: true
       responses:
@@ -654,7 +654,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
           description: successful operation
       summary: To test "client" model
       tags:
@@ -671,7 +671,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testEndpointParameters_request'
+              $ref: "#/components/schemas/testEndpointParameters_request"
         required: true
       responses:
         "400":
@@ -697,7 +697,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/OuterNumber'
+              $ref: "#/components/schemas/OuterNumber"
         description: Input number as post body
         required: false
       responses:
@@ -705,7 +705,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterNumber'
+                $ref: "#/components/schemas/OuterNumber"
           description: Output number
       tags:
       - fake
@@ -718,7 +718,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/OuterString'
+              $ref: "#/components/schemas/OuterString"
         description: Input string as post body
         required: false
       responses:
@@ -726,7 +726,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterString'
+                $ref: "#/components/schemas/OuterString"
           description: Output string
       tags:
       - fake
@@ -739,7 +739,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/OuterBoolean'
+              $ref: "#/components/schemas/OuterBoolean"
         description: Input boolean as post body
         required: false
       responses:
@@ -747,7 +747,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterBoolean'
+                $ref: "#/components/schemas/OuterBoolean"
           description: Output boolean
       tags:
       - fake
@@ -760,7 +760,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/OuterComposite'
+              $ref: "#/components/schemas/OuterComposite"
         description: Input composite as post body
         required: false
       responses:
@@ -768,7 +768,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterComposite'
+                $ref: "#/components/schemas/OuterComposite"
           description: Output composite
       tags:
       - fake
@@ -780,7 +780,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testJsonFormData_request'
+              $ref: "#/components/schemas/testJsonFormData_request"
         required: true
       responses:
         "200":
@@ -822,7 +822,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         required: true
       responses:
         "200":
@@ -839,7 +839,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Client'
+              $ref: "#/components/schemas/Client"
         description: client model
         required: true
       responses:
@@ -847,7 +847,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
           description: successful operation
       summary: To test special tags
       tags:
@@ -912,7 +912,7 @@ components:
           format: date-time
           type: string
         status:
-          $ref: '#/components/schemas/Order_status'
+          $ref: "#/components/schemas/Order_status"
         complete:
           default: false
           type: boolean
@@ -1001,7 +1001,7 @@ components:
           type: integer
           x-is-unique: true
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         name:
           example: doggie
           type: string
@@ -1014,13 +1014,13 @@ components:
             wrapped: true
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
           xml:
             name: tag
             wrapped: true
         status:
-          $ref: '#/components/schemas/Pet_status'
+          $ref: "#/components/schemas/Pet_status"
       required:
       - name
       - photoUrls
@@ -1097,14 +1097,14 @@ components:
       type: object
     Dog:
       allOf:
-      - $ref: '#/components/schemas/Animal'
+      - $ref: "#/components/schemas/Animal"
       - properties:
           breed:
             type: string
         type: object
     Cat:
       allOf:
-      - $ref: '#/components/schemas/Animal'
+      - $ref: "#/components/schemas/Animal"
       - properties:
           declawed:
             type: boolean
@@ -1123,7 +1123,7 @@ components:
       type: object
     AnimalFarm:
       items:
-        $ref: '#/components/schemas/Animal'
+        $ref: "#/components/schemas/Animal"
       type: array
     format_test:
       properties:
@@ -1193,15 +1193,15 @@ components:
     Enum_Test:
       properties:
         enum_string:
-          $ref: '#/components/schemas/Enum_Test_enum_string'
+          $ref: "#/components/schemas/Enum_Test_enum_string"
         enum_string_required:
-          $ref: '#/components/schemas/Enum_Test_enum_string'
+          $ref: "#/components/schemas/Enum_Test_enum_string"
         enum_integer:
-          $ref: '#/components/schemas/Enum_Test_enum_integer'
+          $ref: "#/components/schemas/Enum_Test_enum_integer"
         enum_number:
-          $ref: '#/components/schemas/testEnumParameters_enum_query_double_parameter'
+          $ref: "#/components/schemas/testEnumParameters_enum_query_double_parameter"
         outerEnum:
-          $ref: '#/components/schemas/OuterEnum'
+          $ref: "#/components/schemas/OuterEnum"
       required:
       - enum_string_required
       type: object
@@ -1228,13 +1228,13 @@ components:
           type: string
         map:
           additionalProperties:
-            $ref: '#/components/schemas/Animal'
+            $ref: "#/components/schemas/Animal"
           type: object
       type: object
     ObjectContainingObjectWithOnlyAdditionalProperties:
       properties:
         inner:
-          $ref: '#/components/schemas/ObjectWithOnlyAdditionalProperties'
+          $ref: "#/components/schemas/ObjectWithOnlyAdditionalProperties"
       type: object
     ObjectWithOnlyAdditionalProperties:
       additionalProperties:
@@ -1297,12 +1297,12 @@ components:
         map_map_of_enum:
           additionalProperties:
             additionalProperties:
-              $ref: '#/components/schemas/MapTest_map_map_of_enum_value_value'
+              $ref: "#/components/schemas/MapTest_map_map_of_enum_value_value"
             type: object
           type: object
         map_of_enum_string:
           additionalProperties:
-            $ref: '#/components/schemas/MapTest_map_map_of_enum_value_value'
+            $ref: "#/components/schemas/MapTest_map_map_of_enum_value_value"
           type: object
       type: object
     ArrayTest:
@@ -1321,12 +1321,12 @@ components:
         array_array_of_model:
           items:
             items:
-              $ref: '#/components/schemas/ReadOnlyFirst'
+              $ref: "#/components/schemas/ReadOnlyFirst"
             type: array
           type: array
         array_of_enum:
           items:
-            $ref: '#/components/schemas/MapTest_map_map_of_enum_value_value'
+            $ref: "#/components/schemas/MapTest_map_map_of_enum_value_value"
           type: array
       type: object
     NumberOnly:
@@ -1353,15 +1353,15 @@ components:
     EnumArrays:
       properties:
         just_symbol:
-          $ref: '#/components/schemas/EnumArrays_just_symbol'
+          $ref: "#/components/schemas/EnumArrays_just_symbol"
         array_enum:
           items:
-            $ref: '#/components/schemas/EnumArrays_array_enum_inner'
+            $ref: "#/components/schemas/EnumArrays_array_enum_inner"
           type: array
         array_array_enum:
           items:
             items:
-              $ref: '#/components/schemas/EnumArrays_array_array_enum_inner_inner'
+              $ref: "#/components/schemas/EnumArrays_array_array_enum_inner_inner"
             type: array
           type: array
       type: object
@@ -1429,7 +1429,7 @@ components:
     testEnumParameters_request:
       properties:
         enum_form_string:
-          $ref: '#/components/schemas/testEnumParameters_request_enum_form_string'
+          $ref: "#/components/schemas/testEnumParameters_request_enum_form_string"
       type: object
     testEnumParameters_enum_header_string_array_parameter_inner:
       default: $

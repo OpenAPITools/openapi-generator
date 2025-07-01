@@ -71,38 +71,38 @@ import java.time.OffsetDateTime;
 
 import org.openapitools.client.auth.Authentication;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 
-        private final String separator;
+        protected final String separator;
 
-        private CollectionFormat(String separator) {
+        CollectionFormat(String separator) {
             this.separator = separator;
         }
 
-        private String collectionToString(Collection<?> collection) {
+        protected String collectionToString(Collection<?> collection) {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
 
-    private boolean debugging = false;
+    protected boolean debugging = false;
 
-    private HttpHeaders defaultHeaders = new HttpHeaders();
-    private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
+    protected HttpHeaders defaultHeaders = new HttpHeaders();
+    protected MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
-    private int maxAttemptsForRetry = 1;
+    protected int maxAttemptsForRetry = 1;
 
-    private long waitTimeMillis = 10;
+    protected long waitTimeMillis = 10;
 
-    private String basePath = "http://api.example.xyz/v1";
+    protected String basePath = "http://api.example.xyz/v1";
 
-    private RestTemplate restTemplate;
+    protected RestTemplate restTemplate;
 
-    private Map<String, Authentication> authentications;
+    protected Map<String, Authentication> authentications;
 
-    private DateFormat dateFormat;
+    protected DateFormat dateFormat;
 
     public ApiClient() {
         this.restTemplate = buildRestTemplate();
@@ -713,7 +713,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @param cookies map all cookies
      * @return header string for cookies.
      */
-    private String buildCookieHeader(MultiValueMap<String, String> cookies) {
+    protected String buildCookieHeader(MultiValueMap<String, String> cookies) {
         final StringBuilder cookieValue = new StringBuilder();
         String delimiter = "";
         for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
@@ -757,8 +757,8 @@ public class ApiClient extends JavaTimeFormatter {
         }
     }
 
-    private class ApiClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
-        private final Log log = LogFactory.getLog(ApiClientHttpRequestInterceptor.class);
+    protected class ApiClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
+        protected final Log log = LogFactory.getLog(ApiClientHttpRequestInterceptor.class);
 
         @Override
         public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
@@ -768,21 +768,21 @@ public class ApiClient extends JavaTimeFormatter {
             return response;
         }
 
-        private void logRequest(HttpRequest request, byte[] body) throws UnsupportedEncodingException {
+        protected void logRequest(HttpRequest request, byte[] body) throws UnsupportedEncodingException {
             log.info("URI: " + request.getURI());
             log.info("HTTP Method: " + request.getMethod());
             log.info("HTTP Headers: " + headersToString(request.getHeaders()));
             log.info("Request Body: " + new String(body, StandardCharsets.UTF_8));
         }
 
-        private void logResponse(ClientHttpResponse response) throws IOException {
+        protected void logResponse(ClientHttpResponse response) throws IOException {
             log.info("HTTP Status Code: " + response.getStatusCode().value());
             log.info("Status Text: " + response.getStatusText());
             log.info("HTTP Headers: " + headersToString(response.getHeaders()));
             log.info("Response Body: " + bodyToString(response.getBody()));
         }
 
-        private String headersToString(HttpHeaders headers) {
+        protected String headersToString(HttpHeaders headers) {
             if(headers == null || headers.isEmpty()) {
                 return "";
             }
@@ -799,7 +799,7 @@ public class ApiClient extends JavaTimeFormatter {
             return builder.toString();
         }
 
-        private String bodyToString(InputStream body) throws IOException {
+        protected String bodyToString(InputStream body) throws IOException {
             StringBuilder builder = new StringBuilder();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(body, StandardCharsets.UTF_8));
             String line = bufferedReader.readLine();

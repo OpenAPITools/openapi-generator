@@ -428,12 +428,6 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isResponseFile = o.isResponseFile;
             this.isResponseOptional = o.isResponseOptional;
             this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
             this.path = o.path;
             this.operationId = o.operationId;
             this.returnType = o.returnType;

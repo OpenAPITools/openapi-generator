@@ -53,7 +53,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class PetApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -794,7 +794,9 @@ public class PetApi {
 
     MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
     boolean hasFiles = false;
-    multiPartBuilder.addTextBody("additionalMetadata", additionalMetadata.toString());
+    if (additionalMetadata != null) {
+        multiPartBuilder.addTextBody("additionalMetadata", additionalMetadata.toString());
+    }
     multiPartBuilder.addBinaryBody("file", _file);
     hasFiles = true;
     HttpEntity entity = multiPartBuilder.build();
@@ -920,7 +922,9 @@ public class PetApi {
 
     MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
     boolean hasFiles = false;
-    multiPartBuilder.addTextBody("additionalMetadata", additionalMetadata.toString());
+    if (additionalMetadata != null) {
+        multiPartBuilder.addTextBody("additionalMetadata", additionalMetadata.toString());
+    }
     multiPartBuilder.addBinaryBody("requiredFile", requiredFile);
     hasFiles = true;
     HttpEntity entity = multiPartBuilder.build();

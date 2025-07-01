@@ -18,6 +18,30 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /pets:
+    post:
+      tags:
+        - pet
+      summary: List all pets
+      description: Returns a list of pets
+      parameters:
+        - name: page
+          in: query
+          description: The page number
+          required: false
+          schema:
+            $ref: '#/components/schemas/Page'
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid page number
   /pet:
     post:
       tags:
@@ -774,6 +798,8 @@ components:
             - available
             - pending
             - sold
+        metadata:
+          type: object
       xml:
         name: Pet
     Color:
@@ -832,3 +858,22 @@ components:
                   boosterRequired:
                     type: boolean
                     description: true if a booster is still needed to complete the vaccination
+    Page:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        perPage:
+          type: integer
+          format: int32
+        reference_test:
+          type: array
+          readOnly: true
+          items: 
+            $ref: "#/components/schemas/UUID"
+    UUID:
+      format: "uuid"
+      pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+      type: "string"
+        

@@ -1,5 +1,6 @@
 # Dog
 
+Dog information
 
 ## Properties
 

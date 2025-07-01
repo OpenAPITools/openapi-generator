@@ -18,6 +18,49 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /pets:
+    post:
+      tags:
+        - pet
+      summary: List all pets
+      description: Returns a list of pets
+      parameters:
+        - name: page
+          in: query
+          description: The page number
+          required: false
+          schema:
+            $ref: '#/components/schemas/Page'
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid page number
+  /pets/explode:
+    post:
+      tags:
+        - pet
+      summary: List all pets
+      description: Returns a list of pets
+      parameters:
+        - $ref: '#/components/parameters/PageExplode'
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid page number
   /pet:
     post:
       tags:
@@ -656,26 +699,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TypeTesting'
-  '/tests/discriminatorDuplicateEnums':
-    get:
-      tags:
-        - testing
-      summary: 'Test for duplicate enums when using discriminator. (One of the issues in #20500)'
-      responses:
-        '200':
-          description: test
-          content:
-            application/json:
-              schema:
-                anyOf:
-                  - $ref: '#/components/schemas/Person'
-                  - $ref: '#/components/schemas/Vehicle'
-                discriminator:
-                  propertyName: objectType
-                  mapping:
-                    student: '#/components/schemas/Person'
-                    teacher: '#/components/schemas/Person'
-                    car: '#/components/schemas/Vehicle'
   '/tests/allOfWithOneModel':
     get:
       tags:
@@ -1078,16 +1101,6 @@ components:
       required:
        - type
        - speed
-    DuplicateTest:
-      type: object
-      properties:
-        name:
-          type: string
-    Duplicatetest: # explicitly testing the same name with different casing
-      type: object
-      properties:
-        name:
-          type: string
     existing_tags_array:
       type: array
       items:
@@ -1107,11 +1120,6 @@ components:
           allOf:
             - $ref: '#/components/schemas/existing_tags_array'
             - description: This is a test for allOf with metadata only fields
-    DuplicateOneOf:
-      type: object
-      oneOf:
-        - $ref: '#/components/schemas/Order'
-        - $ref: '#/components/schemas/Order'
     WithInnerOneOf:
       type: object
       properties:
@@ -1120,3 +1128,22 @@ components:
           oneOf:
             - $ref: '#/components/schemas/Order'
             - $ref: '#/components/schemas/Order'
+    Page:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        perPage:
+          type: integer
+          format: int32
+  parameters:
+    PageExplode:
+      name: pageExplode
+      in: query
+      description: Object containing page `size` and page `number`.
+      required: false
+      style: deepObject
+      explode: true
+      schema:
+        $ref: '#/components/schemas/Page'

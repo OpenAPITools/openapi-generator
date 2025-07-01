@@ -57,7 +57,7 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_JSON
+ - **Content-Type**: APPLICATION_JSON
  - **Accept**: Not defined
 
 <a name="createUsersWithArrayInput"></a>
@@ -75,7 +75,7 @@ Creates list of users with given input array
 //import org.openapitools.server.api.model.*
 
 val apiInstance = UserApi()
-val user : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
+val user : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
 try {
     apiInstance.createUsersWithArrayInput(user)
 } catch (e: ClientException) {
@@ -91,7 +91,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
+ **user** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -103,7 +103,7 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_JSON
+ - **Content-Type**: APPLICATION_JSON
  - **Accept**: Not defined
 
 <a name="createUsersWithListInput"></a>
@@ -121,7 +121,7 @@ Creates list of users with given input array
 //import org.openapitools.server.api.model.*
 
 val apiInstance = UserApi()
-val user : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
+val user : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
 try {
     apiInstance.createUsersWithListInput(user)
 } catch (e: ClientException) {
@@ -137,7 +137,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
+ **user** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -149,7 +149,7 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_JSON
+ - **Content-Type**: APPLICATION_JSON
  - **Accept**: Not defined
 
 <a name="deleteUser"></a>
@@ -243,7 +243,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON
+ - **Accept**: APPLICATION_XML, APPLICATION_JSON
 
 <a name="loginUser"></a>
 # **loginUser**
@@ -292,7 +292,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON
+ - **Accept**: APPLICATION_XML, APPLICATION_JSON
 
 <a name="logoutUser"></a>
 # **logoutUser**
@@ -381,6 +381,6 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_JSON
+ - **Content-Type**: APPLICATION_JSON
  - **Accept**: Not defined
 

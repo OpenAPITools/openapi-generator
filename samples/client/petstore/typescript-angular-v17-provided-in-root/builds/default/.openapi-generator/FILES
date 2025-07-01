@@ -18,4 +18,5 @@ model/pet.ts
 model/tag.ts
 model/user.ts
 param.ts
+provide-api.ts
 variables.ts

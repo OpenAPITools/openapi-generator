@@ -317,7 +317,7 @@ public class FakeApiTest {
         Boolean booleanGroup = null;
         Long int64Group = null;
         
-        FakeApi.APItestGroupParametersRequest request = FakeApi.APItestGroupParametersRequest.newBuilder()
+        FakeApi.APITestGroupParametersRequest request = FakeApi.APITestGroupParametersRequest.newBuilder()
           .requiredStringGroup(requiredStringGroup)
           .requiredBooleanGroup(requiredBooleanGroup)
           .requiredInt64Group(requiredInt64Group)

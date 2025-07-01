@@ -64,7 +64,7 @@ import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -1501,11 +1501,11 @@ public class FakeApi {
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
-   * @param apiRequest {@link APItestGroupParametersRequest}
+   * @param apiRequest {@link APITestGroupParametersRequest}
    * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> testGroupParameters(APItestGroupParametersRequest apiRequest) throws ApiException {
+  public CompletableFuture<Void> testGroupParameters(APITestGroupParametersRequest apiRequest) throws ApiException {
     @javax.annotation.Nonnull
     Integer requiredStringGroup = apiRequest.requiredStringGroup();
     @javax.annotation.Nonnull
@@ -1524,11 +1524,11 @@ public class FakeApi {
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
-   * @param apiRequest {@link APItestGroupParametersRequest}
+   * @param apiRequest {@link APITestGroupParametersRequest}
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> testGroupParametersWithHttpInfo(APItestGroupParametersRequest apiRequest) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> testGroupParametersWithHttpInfo(APITestGroupParametersRequest apiRequest) throws ApiException {
     Integer requiredStringGroup = apiRequest.requiredStringGroup();
     Boolean requiredBooleanGroup = apiRequest.requiredBooleanGroup();
     Long requiredInt64Group = apiRequest.requiredInt64Group();
@@ -1662,7 +1662,7 @@ public class FakeApi {
   }
 
 
-  public static final class APItestGroupParametersRequest {
+  public static final class APITestGroupParametersRequest {
     @javax.annotation.Nonnull
     private Integer requiredStringGroup; // Required String in group parameters (required)
     @javax.annotation.Nonnull
@@ -1676,7 +1676,7 @@ public class FakeApi {
     @javax.annotation.Nullable
     private Long int64Group; // Integer in group parameters (optional)
 
-    private APItestGroupParametersRequest(Builder builder) {
+    private APITestGroupParametersRequest(Builder builder) {
       this.requiredStringGroup = builder.requiredStringGroup;
       this.requiredBooleanGroup = builder.requiredBooleanGroup;
       this.requiredInt64Group = builder.requiredInt64Group;
@@ -1744,8 +1744,8 @@ public class FakeApi {
         this.int64Group = int64Group;
         return this;
       }
-      public APItestGroupParametersRequest build() {
-        return new APItestGroupParametersRequest(this);
+      public APITestGroupParametersRequest build() {
+        return new APITestGroupParametersRequest(this);
       }
     }
   }

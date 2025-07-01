@@ -51,24 +51,24 @@ import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toMap;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
 
-    private static final Pattern CONTENT_DISPOSITION_PATTERN = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
-    private static final OpenOptions FILE_DOWNLOAD_OPTIONS = new OpenOptions().setCreate(true).setTruncateExisting(true);
+    protected static final Pattern CONTENT_DISPOSITION_PATTERN = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+    protected static final OpenOptions FILE_DOWNLOAD_OPTIONS = new OpenOptions().setCreate(true).setTruncateExisting(true);
 
-    private final Vertx vertx;
-    private final JsonObject config;
-    private final String identifier;
+    protected final Vertx vertx;
+    protected final JsonObject config;
+    protected final String identifier;
 
-    private MultiMap defaultHeaders = MultiMap.caseInsensitiveMultiMap();
-    private MultiMap defaultCookies = MultiMap.caseInsensitiveMultiMap();
-    private Map<String, Authentication> authentications;
-    private String basePath = "http://petstore.swagger.io:80/v2";
-    private DateFormat dateFormat;
-    private ObjectMapper objectMapper;
-    private String downloadsDir = "";
-    private int timeout = -1;
+    protected MultiMap defaultHeaders = MultiMap.caseInsensitiveMultiMap();
+    protected MultiMap defaultCookies = MultiMap.caseInsensitiveMultiMap();
+    protected Map<String, Authentication> authentications;
+    protected String basePath = "http://petstore.swagger.io:80/v2";
+    protected DateFormat dateFormat;
+    protected ObjectMapper objectMapper;
+    protected String downloadsDir = "";
+    protected int timeout = -1;
 
     public ApiClient(Vertx vertx, JsonObject config) {
         Objects.requireNonNull(vertx, "Vertx must not be null");
@@ -387,7 +387,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @param mime MIME
      * @return True if the MIME type is JSON
      */
-    private boolean isJsonMime(String mime) {
+    protected boolean isJsonMime(String mime) {
         String jsonMime = "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$";
         return mime != null && (mime.matches(jsonMime) || mime.equalsIgnoreCase("application/json-patch+json"));
     }
@@ -525,7 +525,7 @@ public class ApiClient extends JavaTimeFormatter {
         }
     }
 
-    private String buildCookieHeader(MultiMap cookies) {
+    protected String buildCookieHeader(MultiMap cookies) {
       final StringBuilder cookieValue = new StringBuilder();
       String delimiter = "";
       for (final Map.Entry<String, String> entry : cookies.entries()) {
@@ -545,7 +545,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return The sanitized filename
      */
     protected String sanitizeFilename(String filename) {
-        return filename.replaceAll(".*[/\\\\]", "");
+        return filename.replaceFirst("^.*[/\\\\]", "");
     }
 
     /**
@@ -682,7 +682,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     public static class AuthInfo {
 
-        private final Map<String, Authentication> authentications = new LinkedHashMap<>();
+        protected final Map<String, Authentication> authentications = new LinkedHashMap<>();
 
         public void addPetstoreAuthAuthentication(String accessToken) {
            OAuth auth = new OAuth();
