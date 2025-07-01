@@ -17,28 +17,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{#hasHttpBasicMethods}}
-import java.util.Base64;
-{{/hasHttpBasicMethods}}
 
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
   private ApiClient apiClient;
-  {{#hasHttpBearerMethods}}
-  private String bearerToken;
-  {{/hasHttpBearerMethods}}
-  {{#hasHttpBasicMethods}}
-  private String username;
-  private String password;
-  {{/hasHttpBasicMethods}}
-  {{#hasApiKeyMethods}}
-  private String apiKey;
-  private String apiKeyPrefix;
-  {{/hasApiKeyMethods}}
-  {{#hasOAuthMethods}}
-  private String accessToken;
-  {{/hasOAuthMethods}}
 
   public {{classname}}() {
     this(Configuration.getDefaultApiClient());
@@ -54,120 +37,6 @@ public class {{classname}} {
 
   public void setApiClient(ApiClient apiClient) {
     this.apiClient = apiClient;
-  }
-
-  {{#hasHttpBearerMethods}}
-  /**
-   * Helper method to set access token for Bearer authentication.
-   * @param bearerToken Bearer token
-   * @return {{classname}}
-   */
-  public {{classname}} setBearerToken(String bearerToken) {
-    this.bearerToken = bearerToken;
-    return this;
-  }
-  {{/hasHttpBearerMethods}}
-
-  {{#hasHttpBasicMethods}}
-  /**
-   * Helper method to set username for HTTP basic authentication.
-   * @param username Username
-   * @return {{classname}}
-   */
-  public {{classname}} setUsername(String username) {
-    this.username = username;
-    return this;
-  }
-
-  /**
-   * Helper method to set password for HTTP basic authentication.
-   * @param password Password
-   * @return {{classname}}
-   */
-  public {{classname}} setPassword(String password) {
-    this.password = password;
-    return this;
-  }
-  {{/hasHttpBasicMethods}}
-
-  {{#hasApiKeyMethods}}
-  /**
-   * Helper method to set API key value for API key authentication.
-   * @param apiKey API key
-   * @return {{classname}}
-   */
-  public {{classname}} setApiKey(String apiKey) {
-    this.apiKey = apiKey;
-    return this;
-  }
-
-  /**
-   * Helper method to set API key prefix for API key authentication.
-   * @param apiKeyPrefix API key prefix
-   * @return {{classname}}
-   */
-  public {{classname}} setApiKeyPrefix(String apiKeyPrefix) {
-    this.apiKeyPrefix = apiKeyPrefix;
-    return this;
-  }
-  {{/hasApiKeyMethods}}
-
-  {{#hasOAuthMethods}}
-  /**
-   * Helper method to set access token for OAuth2 authentication.
-   * @param accessToken Access token
-   * @return {{classname}}
-   */
-  public {{classname}} setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-    return this;
-  }
-  {{/hasOAuthMethods}}
-
-  /**
-   * Apply authentication settings directly to request headers.
-   * This avoids modifying the shared ApiClient's authentication state.
-   */
-  private void applyAuthToHeaders(Map<String, String> headerParams) {
-    {{#hasHttpBearerMethods}}
-    if (bearerToken != null) {
-      headerParams.put("Authorization", "Bearer " + bearerToken);
-    }
-    {{/hasHttpBearerMethods}}
-    {{#hasHttpBasicMethods}}
-    if (username != null && password != null) {
-      String credentials = java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-      headerParams.put("Authorization", "Basic " + credentials);
-    }
-    {{/hasHttpBasicMethods}}
-    {{#hasApiKeyMethods}}
-    if (apiKey != null) {
-      {{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
-      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
-      headerParams.put("{{keyParamName}}", keyValue);
-      {{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}
-    }
-    {{/hasApiKeyMethods}}
-    {{#hasOAuthMethods}}
-    if (accessToken != null) {
-      headerParams.put("Authorization", "Bearer " + accessToken);
-    }
-    {{/hasOAuthMethods}}
-  }
-
-  /**
-   * Apply authentication settings directly to query parameters.
-   * This avoids modifying the shared ApiClient's authentication state.
-   */
-  private void applyAuthToQueryParams(List<Pair> queryParams) {
-    {{#hasApiKeyMethods}}
-    if (apiKey != null) {
-      {{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
-      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
-      queryParams.add(new Pair("{{keyParamName}}", keyValue));
-      {{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}
-    }
-    {{/hasApiKeyMethods}}
   }
 
   {{#operation}}
@@ -227,10 +96,6 @@ public class {{classname}} {
       localVarFormParams.put("{{baseName}}", {{paramName}});
     {{/formParams}}
 
-    // Apply authentication directly to request parameters (no shared state modification)
-    applyAuthToHeaders(localVarHeaderParams);
-    applyAuthToQueryParams(localVarQueryParams);
-
     final String[] localVarAccepts = {
       {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}
     };
@@ -241,9 +106,8 @@ public class {{classname}} {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    // No authentication names needed - auth is applied directly above
-    String[] localVarAuthNames = new String[] {};
-    
+    String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
+
     {{#returnType}}
     GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};
     return apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
