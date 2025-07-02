@@ -113,7 +113,11 @@ class FormDataProcessor
                     $currentName .= $currentSuffix;
                 }
 
-                $result[$currentName] = ObjectSerializer::toString($val);
+                if (is_resource($val)) {
+                    $result[$currentName] = $val;
+                } else {
+                    $result[$currentName] = ObjectSerializer::toString($val);
+                }
             }
 
             $currentName = $start;
