@@ -184,7 +184,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Invalid header Information - {}", err)))
+                                        .body(Body::from(format!("Invalid header Information - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header Information"));
 
                         },

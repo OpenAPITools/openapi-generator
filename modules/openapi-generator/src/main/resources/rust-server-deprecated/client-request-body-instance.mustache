@@ -17,7 +17,7 @@
             &[header.as_bytes(), "; boundary=".as_bytes(), &boundary, "; type=\"application/json\"".as_bytes()].concat()
         ) {
             Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
+            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
 
         // Add the message body to the request object.
@@ -37,6 +37,7 @@
         // style=form,explode=true
         for param_{{{paramName}}} in param_{{{paramName}}} {
       {{/isArray}}
+        #[allow(clippy::uninlined_format_args)]
         params.push(("{{{baseName}}}",
       {{^isString}}
             format!("{{{vendorExtensions.x-format-string}}}", param_{{{paramName}}})
@@ -65,7 +66,7 @@
         let header = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
+            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
       {{/-last}}
     {{/formParams}}
@@ -102,7 +103,7 @@
         let header = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
+            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
     {{/bodyParam}}
   {{/x-consumes-basic}}

@@ -183,13 +183,13 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 let param_op_get_request: Option<models::OpGetRequest> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_op_get_request) => param_op_get_request,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(BoxBody::new(format!("Couldn't parse body parameter OpGetRequest - doesn't match schema: {}", e)))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter OpGetRequest - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter OpGetRequest due to schema")),
                                     }
 
@@ -218,7 +218,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {

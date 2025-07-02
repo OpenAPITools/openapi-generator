@@ -305,13 +305,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::Client> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
                                 } else {
@@ -339,7 +339,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -370,7 +370,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -417,7 +417,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::OuterBoolean> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
@@ -441,7 +441,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -472,7 +472,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -489,7 +489,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::OuterComposite> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
@@ -513,7 +513,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -544,7 +544,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -561,7 +561,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::OuterNumber> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
@@ -585,7 +585,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -616,7 +616,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -633,7 +633,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::OuterString> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
@@ -657,7 +657,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -688,7 +688,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -738,7 +738,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             Ok(param_query) => Some(param_query),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
-                                .body(Body::from(format!("Couldn't parse query parameter query - doesn't match schema: {}", e)))
+                                .body(Body::from(format!("Couldn't parse query parameter query - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter query")),
                         }
                     },
@@ -762,13 +762,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::User> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
                                 } else {
@@ -797,7 +797,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -820,7 +820,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -837,13 +837,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::Client> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
                                 } else {
@@ -871,7 +871,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -902,7 +902,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -1004,7 +1004,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -1021,7 +1021,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Invalid header enum_header_string_array - {}", err)))
+                                        .body(Body::from(format!("Invalid header enum_header_string_array - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header enum_header_string_array"));
 
                         },
@@ -1039,7 +1039,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Invalid header enum_header_string - {}", err)))
+                                        .body(Body::from(format!("Invalid header enum_header_string - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header enum_header_string"));
 
                         },
@@ -1070,7 +1070,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             Ok(param_enum_query_string) => Some(param_enum_query_string),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
-                                .body(Body::from(format!("Couldn't parse query parameter enum_query_string - doesn't match schema: {}", e)))
+                                .body(Body::from(format!("Couldn't parse query parameter enum_query_string - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter enum_query_string")),
                         }
                     },
@@ -1087,7 +1087,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             Ok(param_enum_query_integer) => Some(param_enum_query_integer),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
-                                .body(Body::from(format!("Couldn't parse query parameter enum_query_integer - doesn't match schema: {}", e)))
+                                .body(Body::from(format!("Couldn't parse query parameter enum_query_integer - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter enum_query_integer")),
                         }
                     },
@@ -1104,7 +1104,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             Ok(param_enum_query_double) => Some(param_enum_query_double),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
-                                .body(Body::from(format!("Couldn't parse query parameter enum_query_double - doesn't match schema: {}", e)))
+                                .body(Body::from(format!("Couldn't parse query parameter enum_query_double - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter enum_query_double")),
                         }
                     },
@@ -1163,7 +1163,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -1180,13 +1180,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_param: Option<std::collections::HashMap<String, String>> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_param) => param_param,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter param - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter param - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter param due to schema")),
                                     }
                                 } else {
@@ -1214,7 +1214,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -1237,7 +1237,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -1288,7 +1288,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -1309,7 +1309,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Ok(param_hyphen_param) => param_hyphen_param,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter hyphen-param: {}", e)))
+                                        .body(Body::from(format!("Couldn't parse path parameter hyphen-param: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
@@ -1369,13 +1369,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::Client> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
                                 } else {
@@ -1403,7 +1403,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -1434,7 +1434,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -1463,7 +1463,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 .status(StatusCode::FORBIDDEN)
                                 .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope))
+                                    |s, scope| format!("{s} {scope}"))
                                 ))
                                 .expect("Unable to create Authentication Insufficient response")
                             );
@@ -1481,13 +1481,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::Pet> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
                                 } else {
@@ -1515,7 +1515,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -1538,7 +1538,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -1567,7 +1567,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 .status(StatusCode::FORBIDDEN)
                                 .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope))
+                                    |s, scope| format!("{s} {scope}"))
                                 ))
                                 .expect("Unable to create Authentication Insufficient response")
                             );
@@ -1647,7 +1647,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 .status(StatusCode::FORBIDDEN)
                                 .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope))
+                                    |s, scope| format!("{s} {scope}"))
                                 ))
                                 .expect("Unable to create Authentication Insufficient response")
                             );
@@ -1727,7 +1727,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 .status(StatusCode::FORBIDDEN)
                                 .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope))
+                                    |s, scope| format!("{s} {scope}"))
                                 ))
                                 .expect("Unable to create Authentication Insufficient response")
                             );
@@ -1745,13 +1745,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::Pet> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
                                 } else {
@@ -1779,7 +1779,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -1812,7 +1812,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -1841,7 +1841,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 .status(StatusCode::FORBIDDEN)
                                 .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope))
+                                    |s, scope| format!("{s} {scope}"))
                                 ))
                                 .expect("Unable to create Authentication Insufficient response")
                             );
@@ -1863,7 +1863,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
+                                        .body(Body::from(format!("Couldn't parse path parameter petId: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
@@ -1882,7 +1882,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Invalid header api_key - {}", err)))
+                                        .body(Body::from(format!("Invalid header api_key - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header api_key"));
 
                         },
@@ -1948,7 +1948,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
+                                        .body(Body::from(format!("Couldn't parse path parameter petId: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
@@ -2028,7 +2028,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 .status(StatusCode::FORBIDDEN)
                                 .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope))
+                                    |s, scope| format!("{s} {scope}"))
                                 ))
                                 .expect("Unable to create Authentication Insufficient response")
                             );
@@ -2050,7 +2050,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
+                                        .body(Body::from(format!("Couldn't parse path parameter petId: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
@@ -2104,7 +2104,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -2133,7 +2133,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 .status(StatusCode::FORBIDDEN)
                                 .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope))
+                                    |s, scope| format!("{s} {scope}"))
                                 ))
                                 .expect("Unable to create Authentication Insufficient response")
                             );
@@ -2155,7 +2155,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
+                                        .body(Body::from(format!("Couldn't parse path parameter petId: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
@@ -2233,7 +2233,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 return Ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
-                                                    .body(Body::from(format!("additional_metadata data does not match API definition : {}", e)))
+                                                    .body(Body::from(format!("additional_metadata data does not match API definition : {e}")))
                                                     .expect("Unable to create Bad Request due to missing required form parameter additional_metadata"))
                                             }
                                         };
@@ -2257,7 +2257,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 return Ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
-                                                    .body(Body::from(format!("file data does not match API definition : {}", e)))
+                                                    .body(Body::from(format!("file data does not match API definition : {e}")))
                                                     .expect("Unable to create Bad Request due to missing required form parameter file"))
                                             }
                                         };
@@ -2310,7 +2310,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -2375,13 +2375,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::Order> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
                                 } else {
@@ -2409,7 +2409,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -2445,7 +2445,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -2466,7 +2466,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Ok(param_order_id) => param_order_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter order_id: {}", e)))
+                                        .body(Body::from(format!("Couldn't parse path parameter order_id: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
@@ -2525,7 +2525,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Ok(param_order_id) => param_order_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter order_id: {}", e)))
+                                        .body(Body::from(format!("Couldn't parse path parameter order_id: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
@@ -2593,13 +2593,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::User> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
                                 } else {
@@ -2627,7 +2627,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -2650,7 +2650,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -2667,13 +2667,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<Vec<models::User>> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
                                 } else {
@@ -2701,7 +2701,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -2724,7 +2724,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -2741,13 +2741,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<Vec<models::User>> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
                                 } else {
@@ -2775,7 +2775,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -2798,7 +2798,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
@@ -2818,7 +2818,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             Ok(param_username) => Some(param_username),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
-                                .body(Body::from(format!("Couldn't parse query parameter username - doesn't match schema: {}", e)))
+                                .body(Body::from(format!("Couldn't parse query parameter username - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter username")),
                         }
                     },
@@ -2842,7 +2842,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             Ok(param_password) => Some(param_password),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
-                                .body(Body::from(format!("Couldn't parse query parameter password - doesn't match schema: {}", e)))
+                                .body(Body::from(format!("Couldn't parse query parameter password - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter password")),
                         }
                     },
@@ -2884,7 +2884,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         Err(e) => {
                                                             return Ok(Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling x_rate_limit header - {}", e)))
+                                                                    .body(Body::from(format!("An internal server error occurred handling x_rate_limit header - {e}")))
                                                                     .expect("Unable to create Internal Server Error for invalid response header"))
                                                         }
                                                     };
@@ -2901,7 +2901,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         Err(e) => {
                                                             return Ok(Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling x_expires_after header - {}", e)))
+                                                                    .body(Body::from(format!("An internal server error occurred handling x_expires_after header - {e}")))
                                                                     .expect("Unable to create Internal Server Error for invalid response header"))
                                                         }
                                                     };
@@ -2983,7 +2983,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Ok(param_username) => param_username,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter username: {}", e)))
+                                        .body(Body::from(format!("Couldn't parse path parameter username: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
@@ -3042,7 +3042,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Ok(param_username) => param_username,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter username: {}", e)))
+                                        .body(Body::from(format!("Couldn't parse path parameter username: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
@@ -3114,7 +3114,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Ok(param_username) => param_username,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter username: {}", e)))
+                                        .body(Body::from(format!("Couldn't parse path parameter username: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
@@ -3133,13 +3133,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let param_body: Option<models::User> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter body due to schema")),
                                     }
                                 } else {
@@ -3168,7 +3168,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -3196,7 +3196,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(Body::from(format!("Unable to read body: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },

@@ -104,7 +104,7 @@ pub async fn create(addr: &str, https: bool) {
                     .await;
                 if let Err(err) = result
                 {
-                    println!("Error serving connection: {:?}", err);
+                    println!("Error serving connection: {err:?}");
                 }
             });
         }

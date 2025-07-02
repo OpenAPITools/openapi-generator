@@ -9,19 +9,19 @@
           {{^x-consumes-plain-text}}
             {{#required}}
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_{{{paramName}}}) => param_{{{paramName}}},
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(BoxBody::new(format!("Couldn't parse body parameter {{{baseName}}} - doesn't match schema: {}", e)))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter {{{baseName}}} - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{{baseName}}} due to schema")),
                                     }
             {{/required}}
             {{^required}}
                                     serde_ignored::deserialize(deserializer, |path| {
-                                        warn!("Ignoring unknown field in body: {}", path);
+                                        warn!("Ignoring unknown field in body: {path}");
                                         unused_elements.push(path.to_string());
                                     }).unwrap_or_default()
             {{/required}}
@@ -36,7 +36,7 @@
                                         Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(BoxBody::new(format!("Couldn't parse body parameter {{{baseName}}} - not valid UTF-8: {}", e)))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter {{{baseName}}} - not valid UTF-8: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{{baseName}}} due to UTF-8")),
                                     }
             {{/isString}}

@@ -26,7 +26,7 @@
                                 .status(StatusCode::FORBIDDEN)
                                 .body(BoxBody::new(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope))
+                                    |s, scope| format!("{s} {scope}"))
                                 ))
                                 .expect("Unable to create Authentication Insufficient response")
                             );
@@ -56,7 +56,7 @@
                         Ok(param_{{{paramName}}}) => param_{{{paramName}}},
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(body_from_string(format!("Couldn't parse path parameter {{{baseName}}}: {}", e)))
+                                        .body(body_from_string(format!("Couldn't parse path parameter {{{baseName}}}: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
@@ -89,7 +89,7 @@
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(body_from_string(format!("Invalid header {{{baseName}}} - {}", err)))
+                                        .body(body_from_string(format!("Invalid header {{{baseName}}} - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header {{{baseName}}}"));
 
                         },
@@ -139,7 +139,7 @@
                             Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
-                                .body(body_from_string(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {}", e)))
+                                .body(body_from_string(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter {{{baseName}}}")),
                         }
                     },
@@ -172,7 +172,7 @@
                             Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
-                                .body(body_from_string(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {}", e)))
+                                .body(body_from_string(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter {{{baseName}}}")),
                         }
                     },
@@ -232,7 +232,7 @@
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
       {{/bodyParam.vendorExtensions.x-consumes-plain-text}}
@@ -281,7 +281,7 @@
                                                         Err(e) => {
                                                             return Ok(Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(body_from_string(format!("An internal server error occurred handling {{name}} header - {}", e)))
+                                                                    .body(body_from_string(format!("An internal server error occurred handling {{name}} header - {e}")))
                                                                     .expect("Unable to create Internal Server Error for invalid response header"))
                                                         }
                                                     };

@@ -11,7 +11,7 @@ let multipart_headers = match swagger::multipart::related::create_multipart_head
 let nodes = match read_multipart_body(&mut&*body, &multipart_headers, false) {
     Ok(nodes) => nodes,
     Err(e) => {
-        return Err(ApiError(format!("Could not read multipart body for {{operationId}}: {}", e)));
+        return Err(ApiError(format!("Could not read multipart body for {{operationId}}: {e}")));
     }
 };
 
@@ -21,7 +21,7 @@ let mut param_{{{paramName}}} = None;
 
 for node in nodes {
     if let Node::Part(part) = node {
-        let content_type = part.content_type().map(|x| format!("{}",x));
+        let content_type = part.content_type().map(|x| format!("{x}"));
         match content_type.as_ref().map(|x| x.as_str()) {
 {{#formParams}}
   {{^isBinary}}
@@ -29,10 +29,10 @@ for node in nodes {
                 // Extract JSON part.
                 let deserializer = &mut serde_json::Deserializer::from_slice(part.body.as_slice());
                 let json_data: {{{dataType}}} = match serde_ignored::deserialize(deserializer, |path| {
-                    warn!("Ignoring unknown field in JSON part: {}", path);
+                    warn!("Ignoring unknown field in JSON part: {path}");
                 }) {
                     Ok(json_data) => json_data,
-                    Err(e) => return Err(ApiError(format!("Couldn't parse body parameter {{dataType}} - doesn't match schema: {}", e)))
+                    Err(e) => return Err(ApiError(format!("Couldn't parse body parameter {{dataType}} - doesn't match schema: {e}")))
                 };
                 // Push JSON part to return object.
                 param_{{{paramName}}}.get_or_insert(json_data);
@@ -45,14 +45,14 @@ for node in nodes {
   {{/isBinary}}
 {{/formParams}}
             Some(content_type) => {
-                warn!("Ignoring unexpected content type: {}", content_type);
+                warn!("Ignoring unexpected content type: {content_type}");
             },
             None => {
                 warn!("Missing content type");
             },
         }
     } else {
-        return Err(ApiError(format!("Unexpected part in multipart body for {{operationId}}: {:?}", node)));
+        return Err(ApiError(format!("Unexpected part in multipart body for {{operationId}}: {node:?}")));
     }
 }
 {{#formParams}}

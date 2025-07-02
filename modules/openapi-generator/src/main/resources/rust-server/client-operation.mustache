@@ -12,6 +12,7 @@
         context: &C) -> Result<{{{operationId}}}Response, ApiError>
     {
         let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
 {{#isCallbackRequest}}
             "{{vendorExtensions.x-path-format-string}}"
@@ -42,7 +43,7 @@
     {{#x-consumes-json}}
                     &match serde_json::to_string(&param_{{{paramName}}}) {
                         Ok(str) => str,
-                        Err(e) => return Err(ApiError(format!("Unable to serialize {{{paramName}}} to string: {}", e))),
+                        Err(e) => return Err(ApiError(format!("Unable to serialize {{{paramName}}} to string: {e}"))),
                     });
     {{/x-consumes-json}}
     {{^x-consumes-json}}
@@ -76,7 +77,7 @@
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
         };
 
         let mut request = match Request::builder()
@@ -84,13 +85,13 @@
             .uri(uri)
             .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
 {{>client-request-body-instance}}
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
         });
 
 {{#hasAuthMethods}}
@@ -113,7 +114,7 @@
                 AuthData::Bearer(ref bearer_header) => {
                     let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
+                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {e}")))
                     };
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
@@ -125,7 +126,7 @@
                 AuthData::Bearer(ref bearer_header) => {
                     let header = match headers::Authorization::bearer(&bearer_header.to_string()) {
                         Ok(h) => h,
-                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {}", e)))
+                        Err(e) => return Err(ApiError(format!("Unable to create Authorization header: {e}")))
                     };
                     request.headers_mut().insert(
                         hyper::header::AUTHORIZATION,
@@ -156,7 +157,7 @@
                 Ok(header) => header,
                 Err(e) => {
                     return Err(ApiError(format!(
-                        "Invalid header {{{paramName}}} - {}", e)));
+                        "Invalid header {{{paramName}}} - {e}")));
                 },
             });
 {{^required}}
@@ -171,7 +172,7 @@
 
 {{/headerParams}}
         let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
 
         match response.status().as_u16() {
 {{#responses}}
@@ -183,7 +184,7 @@
                         let response_{{{name}}} = match TryInto::<header::IntoHeaderValue<{{{dataType}}}>>::try_into(response_{{{name}}}) {
                             Ok(value) => value,
                             Err(e) => {
-                                return Err(ApiError(format!("Invalid response header {{baseName}} for response {{code}} - {}", e)));
+                                return Err(ApiError(format!("Invalid response header {{baseName}} for response {{code}} - {e}")));
                             },
                         };
   {{#required}}
@@ -248,13 +249,11 @@
                 let body = http_body_util::BodyExt::collect(response.into_body())
                         .await
                         .map(|f| f.to_bytes().to_vec());
-                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
-                    code,
-                    headers,
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
                         Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }

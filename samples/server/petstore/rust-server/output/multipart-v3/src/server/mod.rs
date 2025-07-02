@@ -237,7 +237,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                     Err(e) => {
                                         return Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(BoxBody::new(format!("Could not read multipart body for MultipartRelatedRequestPost: {}", e)))
+                                                .body(BoxBody::new(format!("Could not read multipart body for MultipartRelatedRequestPost: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read multipart body for MultipartRelatedRequestPost"));
                                     }
                                 };
@@ -248,19 +248,19 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
 
                                 for node in nodes {
                                     if let Node::Part(part) = node {
-                                        let content_type = part.content_type().map(|x| format!("{}",x));
+                                        let content_type = part.content_type().map(|x| format!("{x}"));
                                         match content_type.as_deref() {
                                             Some("application/json") if param_object_field.is_none() => {
                                                 // Extract JSON part.
                                                 let deserializer = &mut serde_json::Deserializer::from_slice(part.body.as_slice());
                                                 let json_data: models::MultipartRequestObjectField = match serde_ignored::deserialize(deserializer, |path| {
-                                                    warn!("Ignoring unknown field in JSON part: {}", path);
+                                                    warn!("Ignoring unknown field in JSON part: {path}");
                                                     unused_elements.push(path.to_string());
                                                 }) {
                                                     Ok(json_data) => json_data,
                                                     Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(BoxBody::new(format!("Couldn't parse body parameter models::MultipartRequestObjectField - doesn't match schema: {}", e)))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter models::MultipartRequestObjectField - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter models::MultipartRequestObjectField due to schema"))
                                                 };
                                                 // Push JSON part to return object.
@@ -273,7 +273,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 param_required_binary_field.get_or_insert(swagger::ByteArray(part.body));
                                             },
                                             Some(content_type) => {
-                                                warn!("Ignoring unexpected content type: {}", content_type);
+                                                warn!("Ignoring unexpected content type: {content_type}");
                                                 unused_elements.push(content_type.to_string());
                                             },
                                             None => {
@@ -311,7 +311,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {
@@ -409,7 +409,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 return Ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
-                                                    .body(BoxBody::new(format!("string_field data does not match API definition : {}", e)))
+                                                    .body(BoxBody::new(format!("string_field data does not match API definition : {e}")))
                                                     .expect("Unable to create Bad Request due to missing required form parameter string_field"))
                                             }
                                         };
@@ -436,7 +436,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 return Ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
-                                                    .body(BoxBody::new(format!("optional_string_field data does not match API definition : {}", e)))
+                                                    .body(BoxBody::new(format!("optional_string_field data does not match API definition : {e}")))
                                                     .expect("Unable to create Bad Request due to missing required form parameter optional_string_field"))
                                             }
                                         };
@@ -460,7 +460,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 return Ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
-                                                    .body(BoxBody::new(format!("object_field data does not match API definition : {}", e)))
+                                                    .body(BoxBody::new(format!("object_field data does not match API definition : {e}")))
                                                     .expect("Unable to create Bad Request due to missing required form parameter object_field"))
                                             }
                                         };
@@ -556,7 +556,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                     Err(e) => {
                                         return Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(BoxBody::new(format!("Could not read multipart body for MultipleIdenticalMimeTypesPost: {}", e)))
+                                                .body(BoxBody::new(format!("Could not read multipart body for MultipleIdenticalMimeTypesPost: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read multipart body for MultipleIdenticalMimeTypesPost"));
                                     }
                                 };
@@ -566,7 +566,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
 
                                 for node in nodes {
                                     if let Node::Part(part) = node {
-                                        let content_type = part.content_type().map(|x| format!("{}",x));
+                                        let content_type = part.content_type().map(|x| format!("{x}"));
                                         match content_type.as_deref() {
                                             Some("application/octet-stream") if param_binary1.is_none() => {
                                                 param_binary1.get_or_insert(swagger::ByteArray(part.body));
@@ -575,7 +575,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 param_binary2.get_or_insert(swagger::ByteArray(part.body));
                                             },
                                             Some(content_type) => {
-                                                warn!("Ignoring unexpected content type: {}", content_type);
+                                                warn!("Ignoring unexpected content type: {content_type}");
                                                 unused_elements.push(content_type.to_string());
                                             },
                                             None => {
@@ -605,7 +605,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
                                         match result {

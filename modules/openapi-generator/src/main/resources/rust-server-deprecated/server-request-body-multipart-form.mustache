@@ -71,7 +71,7 @@
                                                 return Ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
-                                                    .body(Body::from(format!("{{{paramName}}} data does not match API definition : {}", e)))
+                                                    .body(Body::from(format!("{{{paramName}}} data does not match API definition : {e}")))
                                                     .expect("Unable to create Bad Request due to missing required form parameter {{{paramName}}}"))
                                             }
                                         };

@@ -112,8 +112,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRelatedRequest>> for
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for MultipartRelatedRequest - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for MultipartRelatedRequest - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -128,13 +127,11 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <MultipartRelatedRequest as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into MultipartRelatedRequest - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into MultipartRelatedRequest - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
@@ -150,8 +147,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipartRelatedRequest>>
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
@@ -171,16 +167,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <MultipartRelatedRequest as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into MultipartRelatedRequest - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into MultipartRelatedRequest - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -288,8 +282,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRequestObjectField>>
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for MultipartRequestObjectField - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for MultipartRequestObjectField - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -304,13 +297,11 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <MultipartRequestObjectField as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into MultipartRequestObjectField - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into MultipartRequestObjectField - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
@@ -326,8 +317,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipartRequestObjectFie
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
@@ -347,16 +337,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <MultipartRequestObjectField as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into MultipartRequestObjectField - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into MultipartRequestObjectField - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -458,8 +446,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MultipleIdenticalMimeTypesPos
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for MultipleIdenticalMimeTypesPostRequest - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for MultipleIdenticalMimeTypesPostRequest - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -474,13 +461,11 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <MultipleIdenticalMimeTypesPostRequest as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into MultipleIdenticalMimeTypesPostRequest - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into MultipleIdenticalMimeTypesPostRequest - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
@@ -496,8 +481,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipleIdenticalMimeType
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
@@ -517,16 +501,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <MultipleIdenticalMimeTypesPostRequest as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into MultipleIdenticalMimeTypesPostRequest - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into MultipleIdenticalMimeTypesPostRequest - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }

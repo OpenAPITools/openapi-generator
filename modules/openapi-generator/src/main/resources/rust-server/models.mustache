@@ -52,7 +52,7 @@ impl std::str::FromStr for {{{classname}}} {
             {{{value}}} => std::result::Result::Ok({{{classname}}}::{{{name}}}),
   {{/enumVars}}
 {{/allowableValues}}
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -125,7 +125,7 @@ impl ::std::str::FromStr for {{{classname}}} {
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match std::str::FromStr::from_str(s) {
              std::result::Result::Ok(r) => std::result::Result::Ok({{{classname}}}(r)),
-             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to {{{classname}}}: {:?}", s, e)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {s} to {{{classname}}}: {e:?}")),
         }
     }
 }
@@ -548,8 +548,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<{{{classname}}}>> for hyper::
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for {{classname}} - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for {{classname}} - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -564,13 +563,11 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <{{{classname}}} as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into {{classname}} - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into {{classname}} - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
@@ -586,8 +583,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<{{{classname}}}>>> for hy
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
@@ -607,16 +603,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <{{{classname}}} as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into {{classname}} - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into {{classname}} - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }

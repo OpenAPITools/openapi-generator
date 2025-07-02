@@ -96,8 +96,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<OpGetRequest>> for hyper::hea
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for OpGetRequest - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for OpGetRequest - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -112,13 +111,11 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <OpGetRequest as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into OpGetRequest - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into OpGetRequest - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
@@ -134,8 +131,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OpGetRequest>>> for hyper
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}"))
         }
     }
 }
@@ -155,16 +151,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <OpGetRequest as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into OpGetRequest - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into OpGetRequest - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
