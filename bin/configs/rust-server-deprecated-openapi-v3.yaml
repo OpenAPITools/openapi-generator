@@ -1,0 +1,8 @@
+generatorName: rust-server-deprecated
+outputDir: samples/server/petstore/rust-server-deprecated/output/openapi-v3
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust-server/openapi-v3.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-server-deprecated
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: openapi-v3

@@ -4,24 +4,28 @@
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
           {{/x-consumes-xml}}
           {{#x-consumes-json}}
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
           {{/x-consumes-json}}
           {{^x-consumes-plain-text}}
+            {{#required}}
                                     match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
+                                            warn!("Ignoring unknown field in body: {path}");
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_{{{paramName}}}) => param_{{{paramName}}},
-            {{#required}}
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter {{{baseName}}} - doesn't match schema: {}", e)))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter {{{baseName}}} - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{{baseName}}} due to schema")),
+                                    }
             {{/required}}
             {{^required}}
-                                        Err(_) => None,
+                                    serde_ignored::deserialize(deserializer, |path| {
+                                        warn!("Ignoring unknown field in body: {path}");
+                                        unused_elements.push(path.to_string());
+                                    }).unwrap_or_default()
             {{/required}}
-                                    }
+
           {{/x-consumes-plain-text}}
           {{#x-consumes-plain-text}}
             {{#isByteArray}}
@@ -32,7 +36,7 @@
                                         Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter {{{baseName}}} - not valid UTF-8: {}", e)))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter {{{baseName}}} - not valid UTF-8: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{{baseName}}} due to UTF-8")),
                                     }
             {{/isString}}
@@ -46,7 +50,7 @@
                                     Some(param_{{{paramName}}}) => param_{{{paramName}}},
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Missing required body parameter {{{baseName}}}"))
+                                                        .body(BoxBody::new("Missing required body parameter {{{baseName}}}".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter {{{baseName}}}")),
                                 };
         {{/required}}

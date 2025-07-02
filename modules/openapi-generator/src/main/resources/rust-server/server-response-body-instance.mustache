@@ -25,11 +25,10 @@
     {{/x-produces-json}}
     {{#x-produces-bytes}}
                                                     // Binary Body
-                                                    let body = body.0;
+                                                    let body = String::from_utf8(body.0).expect("Error converting octet stream to string");
     {{/x-produces-bytes}}
     {{#x-produces-plain-text}}
                                                     // Plain text Body
-                                                    let body = body;
     {{/x-produces-plain-text}}
     {{#x-produces-multipart-related}}
                                                     // multipart/related Body
@@ -46,5 +45,5 @@
       {{/formParams}}
     {{/x-produces-multipart-related}}
   {{/vendorExtensions}}
-                                                    *response.body_mut() = Body::from(body);
+                                                    *response.body_mut() = body_from_string(body);
 {{/dataType}}
