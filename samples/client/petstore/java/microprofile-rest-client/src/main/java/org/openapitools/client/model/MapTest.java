@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.reflect.Type;
@@ -84,6 +86,7 @@ public class MapTest  {
 
   @JsonbProperty("indirect_map")
   private Map<String, Boolean> indirectMap = null;
+
 
   /**
    * Get mapMapOfString

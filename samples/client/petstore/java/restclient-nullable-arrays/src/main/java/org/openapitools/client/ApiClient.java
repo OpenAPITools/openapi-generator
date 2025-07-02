@@ -57,7 +57,7 @@ import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -636,6 +636,18 @@ public class ApiClient extends JavaTimeFormatter {
         addHeadersToRequest(defaultHeaders, requestBuilder);
         addCookiesToRequest(cookieParams, requestBuilder);
         addCookiesToRequest(defaultCookies, requestBuilder);
+
+        if (MediaType.MULTIPART_FORM_DATA.isCompatibleWith(contentType)) {
+            formParams.forEach(
+                    (k, v) -> {
+                        if (v instanceof java.util.ArrayList) {
+                            Object o = v.get(0);
+                            if (o != null && o.getClass().getEnumConstants() != null) {
+                                v.set(0, o.toString());
+                            }
+                        }
+                    });
+        }
 
         var selectedBody = selectBody(body, formParams, contentType);
         if (selectedBody != null) {

@@ -43,56 +43,31 @@ import kotlinx.serialization.*
 {{#allowableValues}}{{#enumVars}}
     {{^multiplatform}}
     {{#moshi}}
-    {{#isString}}
     @Json(name = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
-    {{/isString}}
-    {{^isString}}
-    @Json(name = {{{value}}})
-    {{/isString}}
     {{/moshi}}
     {{#gson}}
-    {{#isString}}
     @SerializedName(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
-    {{/isString}}
-    {{^isString}}
-    @SerializedName(value = {{{value}}})
-    {{/isString}}
     {{/gson}}
     {{#jackson}}
-    {{#isString}}
     @JsonProperty(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}}){{#enumUnknownDefaultCase}}{{#-last}} @JsonEnumDefaultValue{{/-last}}{{/enumUnknownDefaultCase}}
-    {{/isString}}
-    {{^isString}}
-    @JsonProperty(value = {{{value}}}){{#enumUnknownDefaultCase}}{{#-last}} @JsonEnumDefaultValue{{/-last}}{{/enumUnknownDefaultCase}}
-    {{/isString}}
     {{/jackson}}
     {{#kotlinx_serialization}}
-    {{#isString}}
     @SerialName(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
-    {{/isString}}
-    {{^isString}}
-    @SerialName(value = {{{value}}})
-    {{/isString}}
     {{/kotlinx_serialization}}
     {{/multiplatform}}
     {{#multiplatform}}
-    {{#isString}}
     @SerialName(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
-    {{/isString}}
-    {{^isString}}
-    @SerialName(value = {{{value}}})
-    {{/isString}}
     {{/multiplatform}}
     {{#isArray}}
     {{#isList}}
-    {{&name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{#name}}{{^isEmpty}}{{&name}}{{/isEmpty}}{{#isEmpty}}_{{/isEmpty}}{{/name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
     {{^isList}}
-    {{&name}}(arrayOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{#name}}{{^isEmpty}}{{&name}}{{/isEmpty}}{{#isEmpty}}_{{/isEmpty}}{{/name}}(arrayOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
     {{/isArray}}
     {{^isArray}}
-    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{#name}}{{^isEmpty}}{{&name}}{{/isEmpty}}{{#isEmpty}}_{{/isEmpty}}{{/name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isArray}}
 {{/enumVars}}{{/allowableValues}}
     /**

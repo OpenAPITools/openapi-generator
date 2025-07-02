@@ -2510,33 +2510,33 @@ impl Dog {
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "$special[model.name]")]
-pub struct DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+pub struct DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     #[serde(rename = "$special[property.name]")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub dollar_special_left_square_bracket_property_period_name_right_square_bracket: Option<i64>,
+    pub dollar_special_left_square_bracket_property_name_right_square_bracket: Option<i64>,
 
 }
 
 
-impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+impl DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     #[allow(clippy::new_without_default)]
-    pub fn new() -> DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
-        DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
-            dollar_special_left_square_bracket_property_period_name_right_square_bracket: None,
+    pub fn new() -> DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
+        DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
+            dollar_special_left_square_bracket_property_name_right_square_bracket: None,
         }
     }
 }
 
-/// Converts the DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket value to the Query Parameters representation (style=form, explode=false)
+/// Converts the DollarSpecialLeftSquareBracketModelNameRightSquareBracket value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+impl std::string::ToString for DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            self.dollar_special_left_square_bracket_property_period_name_right_square_bracket.as_ref().map(|dollar_special_left_square_bracket_property_period_name_right_square_bracket| {
+            self.dollar_special_left_square_bracket_property_name_right_square_bracket.as_ref().map(|dollar_special_left_square_bracket_property_name_right_square_bracket| {
                 [
                     "$special[property.name]".to_string(),
-                    dollar_special_left_square_bracket_property_period_name_right_square_bracket.to_string(),
+                    dollar_special_left_square_bracket_property_name_right_square_bracket.to_string(),
                 ].join(",")
             }),
         ];
@@ -2545,10 +2545,10 @@ impl std::string::ToString for DollarSpecialLeftSquareBracketModelPeriodNameRigh
     }
 }
 
-/// Converts Query Parameters representation (style=form, explode=false) to a DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket value
+/// Converts Query Parameters representation (style=form, explode=false) to a DollarSpecialLeftSquareBracketModelNameRightSquareBracket value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl std::str::FromStr for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+impl std::str::FromStr for DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
@@ -2556,7 +2556,7 @@ impl std::str::FromStr for DollarSpecialLeftSquareBracketModelPeriodNameRightSqu
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub dollar_special_left_square_bracket_property_period_name_right_square_bracket: Vec<i64>,
+            pub dollar_special_left_square_bracket_property_name_right_square_bracket: Vec<i64>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -2568,15 +2568,15 @@ impl std::str::FromStr for DollarSpecialLeftSquareBracketModelPeriodNameRightSqu
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket".to_string())
+                None => return std::result::Result::Err("Missing value while parsing DollarSpecialLeftSquareBracketModelNameRightSquareBracket".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "$special[property.name]" => intermediate_rep.dollar_special_left_square_bracket_property_period_name_right_square_bracket.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket".to_string())
+                    "$special[property.name]" => intermediate_rep.dollar_special_left_square_bracket_property_name_right_square_bracket.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing DollarSpecialLeftSquareBracketModelNameRightSquareBracket".to_string())
                 }
             }
 
@@ -2585,40 +2585,40 @@ impl std::str::FromStr for DollarSpecialLeftSquareBracketModelPeriodNameRightSqu
         }
 
         // Use the intermediate representation to return the struct
-        std::result::Result::Ok(DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
-            dollar_special_left_square_bracket_property_period_name_right_square_bracket: intermediate_rep.dollar_special_left_square_bracket_property_period_name_right_square_bracket.into_iter().next(),
+        std::result::Result::Ok(DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
+            dollar_special_left_square_bracket_property_name_right_square_bracket: intermediate_rep.dollar_special_left_square_bracket_property_name_right_square_bracket.into_iter().next(),
         })
     }
 }
 
-// Methods for converting between header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket - value: {} is invalid {}",
+                 format!("Invalid header value for DollarSpecialLeftSquareBracketModelNameRightSquareBracket - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket as std::str::FromStr>::from_str(value) {
+                    match <DollarSpecialLeftSquareBracketModelNameRightSquareBracket as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket - {}",
+                            format!("Unable to convert header value '{}' into DollarSpecialLeftSquareBracketModelNameRightSquareBracket - {}",
                                 value, err))
                     }
              },
@@ -2630,10 +2630,10 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 #[cfg(feature = "server")]
-impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_values: header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>>) -> std::result::Result<Self, Self::Error> {
         let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
             hdr_value.to_string()
         }).collect();
@@ -2647,21 +2647,21 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBr
 }
 
 #[cfg(feature = "server")]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>> {
     type Error = String;
 
     fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
-                let hdr_values : std::vec::Vec<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket> = hdr_values
+                let hdr_values : std::vec::Vec<DollarSpecialLeftSquareBracketModelNameRightSquareBracket> = hdr_values
                 .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
-                        match <DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket as std::str::FromStr>::from_str(hdr_value) {
+                        match <DollarSpecialLeftSquareBracketModelNameRightSquareBracket as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket - {}",
+                                format!("Unable to convert header value '{}' into DollarSpecialLeftSquareBracketModelNameRightSquareBracket - {}",
                                     hdr_value, err))
                         }
                     })
@@ -2675,7 +2675,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+impl DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -8446,16 +8446,16 @@ impl TestEnumParametersEnumHeaderStringParameter {
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryDoubleParameter {
     #[serde(rename = "1.1")]
-    Variant1Period1,
+    Variant11,
     #[serde(rename = "-1.2")]
-    Variant1Period2,
+    Variant12,
 }
 
 impl std::fmt::Display for TestEnumParametersEnumQueryDoubleParameter {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            TestEnumParametersEnumQueryDoubleParameter::Variant1Period1 => write!(f, "1.1"),
-            TestEnumParametersEnumQueryDoubleParameter::Variant1Period2 => write!(f, "-1.2"),
+            TestEnumParametersEnumQueryDoubleParameter::Variant11 => write!(f, "1.1"),
+            TestEnumParametersEnumQueryDoubleParameter::Variant12 => write!(f, "-1.2"),
         }
     }
 }
@@ -8465,8 +8465,8 @@ impl std::str::FromStr for TestEnumParametersEnumQueryDoubleParameter {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "1.1" => std::result::Result::Ok(TestEnumParametersEnumQueryDoubleParameter::Variant1Period1),
-            "-1.2" => std::result::Result::Ok(TestEnumParametersEnumQueryDoubleParameter::Variant1Period2),
+            "1.1" => std::result::Result::Ok(TestEnumParametersEnumQueryDoubleParameter::Variant11),
+            "-1.2" => std::result::Result::Ok(TestEnumParametersEnumQueryDoubleParameter::Variant12),
             _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }

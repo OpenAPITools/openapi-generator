@@ -520,6 +520,26 @@ export class PromiseQueryApi {
     }
 
     /**
+     * Test deprecation
+     * @param [name] name of pet
+     */
+    public deprecatedTestWithHttpInfo(name?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<string>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.deprecatedTestWithHttpInfo(name, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Test deprecation
+     * @param [name] name of pet
+     */
+    public deprecatedTest(name?: string, _options?: PromiseConfigurationOptions): Promise<string> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.deprecatedTest(name, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
      * Test query parameter(s)
      * Test query parameter(s)
      * @param [enumNonrefStringQuery]

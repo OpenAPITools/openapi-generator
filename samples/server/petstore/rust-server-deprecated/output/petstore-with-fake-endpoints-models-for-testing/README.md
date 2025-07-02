@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.0
-- Generator version: 7.14.0-SNAPSHOT
+- Generator version: 7.15.0-SNAPSHOT
 
 
 
@@ -198,7 +198,7 @@ Method | HTTP request | Description
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [Dog](docs/Dog.md)
- - [DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket](docs/DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket.md)
+ - [DollarSpecialLeftSquareBracketModelNameRightSquareBracket](docs/DollarSpecialLeftSquareBracketModelNameRightSquareBracket.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumArraysArrayArrayEnumInnerInner](docs/EnumArraysArrayArrayEnumInnerInner.md)
  - [EnumArraysArrayEnumInner](docs/EnumArraysArrayEnumInner.md)

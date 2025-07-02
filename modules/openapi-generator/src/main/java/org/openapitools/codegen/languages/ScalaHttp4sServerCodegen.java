@@ -350,7 +350,16 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
                 // model oneOf as sealed trait
 
                 CodegenModel cModel = model.getModel();
-                cModel.getVendorExtensions().put("x-isSealedTrait", !cModel.oneOf.isEmpty());
+
+                if (!cModel.oneOf.isEmpty()) {
+                    cModel.getVendorExtensions().put("x-isSealedTrait", true);
+                }
+                else if (cModel.isEnum) {
+                    cModel.getVendorExtensions().put("x-isEnum", true);
+
+                } else {
+                    cModel.getVendorExtensions().put("x-another", true);
+                }
 
                 if (cModel.discriminator != null) {
                     cModel.getVendorExtensions().put("x-use-discr", true);
@@ -798,12 +807,12 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
 
         if (_vendorExtensions.size() == 1) { // only `x-type`
             if ("String".equals(cp.getDataType())) {
-                return cp.baseName;
+                return cp.paramName;
             } else {
-                return cp.dataType + "Varr(" + cp.baseName + ")";
+                return cp.dataType + "Varr(" + cp.paramName + ")";
             }
         } else {
-            return cp.baseName + "Varr(" + cp.baseName + ")";
+            return cp.baseName + "Varr(" + cp.paramName + ")";
         }
     }
 
@@ -835,7 +844,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
         }
 
         vendorExtensions.putAll(refineProp(cp, imports));
-        return cp.baseName + "QueryParam(" + cp.baseName + ")";
+        return cp.baseName + "QueryParam(" + cp.paramName + ")";
     }
 
     @Override

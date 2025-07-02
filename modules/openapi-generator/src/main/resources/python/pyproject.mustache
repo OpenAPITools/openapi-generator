@@ -15,7 +15,9 @@ authors = [
   {name = "{{infoName}}{{^infoName}}OpenAPI Generator Community{{/infoName}}",email = "{{infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}"},
 ]
 {{/poetry1}}
-license = "{{{licenseInfo}}}{{^licenseInfo}}NoLicense{{/licenseInfo}}"
+{{#licenseInfo}}
+license = "{{{licenseInfo}}}"
+{{/licenseInfo}}
 readme = "README.md"
 {{#poetry1}}
 repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
@@ -43,7 +45,7 @@ pydantic = ">= 2"
 typing-extensions = ">= 4.7.1"
 {{/poetry1}}
 {{^poetry1}}
-requires-python = "^3.9"
+requires-python = ">=3.9"
 
 dependencies = [
   "urllib3 (>=2.1.0,<3.0.0)",

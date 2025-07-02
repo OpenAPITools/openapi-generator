@@ -26,7 +26,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FakeClassnameTags123Api {
     private ApiClient apiClient;
 
@@ -46,7 +46,6 @@ public class FakeClassnameTags123Api {
         this.apiClient = apiClient;
     }
 
-    
     /**
      * To test class name in snake case
      * To test class name in snake case

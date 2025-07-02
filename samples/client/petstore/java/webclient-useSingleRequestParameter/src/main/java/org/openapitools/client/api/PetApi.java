@@ -29,7 +29,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -49,7 +49,6 @@ public class PetApi {
         this.apiClient = apiClient;
     }
 
-    
     /**
      * Add a new pet to the store
      * 
@@ -204,10 +203,10 @@ public class PetApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {
-       return this.deletePetWithResponseSpec(requestParameters.petId(), requestParameters.apiKey());
+        return this.deletePetWithResponseSpec(requestParameters.petId(), requestParameters.apiKey());
     }
 
-          
+
     /**
      * Deletes a pet
      * 
@@ -705,10 +704,10 @@ public class PetApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec updatePetWithFormWithResponseSpec(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
-       return this.updatePetWithFormWithResponseSpec(requestParameters.petId(), requestParameters.name(), requestParameters.status());
+        return this.updatePetWithFormWithResponseSpec(requestParameters.petId(), requestParameters.name(), requestParameters.status());
     }
 
-          
+
     /**
      * Updates a pet in the store with form data
      * 
@@ -888,10 +887,10 @@ public class PetApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec uploadFileWithResponseSpec(UploadFileRequest requestParameters) throws WebClientResponseException {
-       return this.uploadFileWithResponseSpec(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
+        return this.uploadFileWithResponseSpec(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
     }
 
-          
+
     /**
      * uploads an image
      * 
@@ -1072,10 +1071,10 @@ public class PetApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec uploadFileWithRequiredFileWithResponseSpec(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
-       return this.uploadFileWithRequiredFileWithResponseSpec(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
+        return this.uploadFileWithRequiredFileWithResponseSpec(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
     }
 
-          
+
     /**
      * uploads an image (required)
      * 

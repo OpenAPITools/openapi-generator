@@ -4,6 +4,7 @@ All URIs are relative to *http://localhost:3000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**deprecatedTest**](QueryApi.md#deprecatedTest) | **GET** /test/deprecated | Test deprecation
 [**testEnumRefString**](QueryApi.md#testEnumRefString) | **GET** /query/enum_ref_string | Test query parameter(s)
 [**testQueryDatetimeDateString**](QueryApi.md#testQueryDatetimeDateString) | **GET** /query/datetime/date/string | Test query parameter(s)
 [**testQueryIntegerBooleanString**](QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
@@ -15,6 +16,58 @@ Method | HTTP request | Description
 [**testQueryStyleFormExplodeTrueObject**](QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 [**testQueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
 
+
+# **deprecatedTest**
+> string deprecatedTest()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, QueryApi } from '';
+import type { QueryApiDeprecatedTestRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new QueryApi(configuration);
+
+const request: QueryApiDeprecatedTestRequest = {
+    // name of pet (optional)
+  name: "name_example",
+};
+
+const data = await apiInstance.deprecatedTest(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | [**string**] | name of pet | (optional) defaults to undefined
+
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **testEnumRefString**
 > string testEnumRefString()

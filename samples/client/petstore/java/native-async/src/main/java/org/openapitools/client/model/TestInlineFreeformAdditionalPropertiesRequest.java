@@ -29,8 +29,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -41,8 +39,8 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
-public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   @javax.annotation.Nullable
   private String someProperty;
@@ -130,20 +128,18 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
     }
     TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = (TestInlineFreeformAdditionalPropertiesRequest) o;
     return Objects.equals(this.someProperty, testInlineFreeformAdditionalPropertiesRequest.someProperty)&&
-        Objects.equals(this.additionalProperties, testInlineFreeformAdditionalPropertiesRequest.additionalProperties) &&
-        super.equals(o);
+        Objects.equals(this.additionalProperties, testInlineFreeformAdditionalPropertiesRequest.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(someProperty, super.hashCode(), additionalProperties);
+    return Objects.hash(someProperty, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    someProperty: ").append(toIndentedString(someProperty)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
