@@ -25,12 +25,14 @@
         {{#items}}
         {{^complexType}}
 {{>modelInnerEnum}}
+
         {{/complexType}}
         {{/items}}
         {{/items.isEnum}}
         {{#isEnum}}
         {{^complexType}}
 {{>modelInnerEnum}}
+
         {{/complexType}}
         {{/isEnum}}
         {{#isEnum}}
@@ -428,5 +430,6 @@
 
 {{#validatable}}
 {{>validatable}}
+
 {{/validatable}}
     }

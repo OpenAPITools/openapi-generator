@@ -54,6 +54,7 @@ import java.util.concurrent.CompletableFuture;
 {{/asyncNative}}
 
 {{>generatedAnnotation}}
+
 {{#operations}}
 public class {{classname}} {
   private final HttpClient memberVarHttpClient;
@@ -177,7 +178,7 @@ public class {{classname}} {
   {{/isDeprecated}}
   public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest) throws ApiException {
     {{#allParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     {{{dataType}}} {{paramName}} = apiRequest.{{paramName}}();
     {{/allParams}}
     {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
@@ -638,11 +639,11 @@ public class {{classname}} {
 
   public static final class API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
     {{#requiredParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     private {{{dataType}}} {{paramName}}; // {{description}} (required)
     {{/requiredParams}}
     {{#optionalParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}})
     {{/optionalParams}}
 
@@ -655,7 +656,7 @@ public class {{classname}} {
       {{/optionalParams}}
     }
     {{#allParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     public {{{dataType}}} {{paramName}}() {
       return {{paramName}};
     }
