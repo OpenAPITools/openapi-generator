@@ -44,6 +44,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     tags=["fake"],
     summary="test query parameter default value",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def fake_query_param_default(
     has_default: Annotated[Optional[StrictStr], Field(description="has default value")] = Query('Hello World', description="has default value", alias="hasDefault"),
