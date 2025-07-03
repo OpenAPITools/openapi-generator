@@ -61,6 +61,15 @@ public class FormApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
+  // Per-API Bearer authentication
+  private String bearerToken;
+
+  // Per-API Basic authentication
+  private String username;
+  private String password;
+
+
+
   public FormApi() {
     this(Configuration.getDefaultApiClient());
   }
@@ -74,6 +83,61 @@ public class FormApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
+  /**
+   * Helper method to set access token for Bearer authentication.
+   * @param bearerToken Bearer token
+   * @return FormApi
+   */
+  public FormApi setBearerToken(String bearerToken) {
+    this.bearerToken = bearerToken;
+    return this;
+  }
+
+  /**
+   * Helper method to set username for HTTP basic authentication.
+   * @param username Username
+   * @return FormApi
+   */
+  public FormApi setUsername(String username) {
+    this.username = username;
+    return this;
+  }
+
+  /**
+   * Helper method to set password for HTTP basic authentication.
+   * @param password Password
+   * @return FormApi
+   */
+  public FormApi setPassword(String password) {
+    this.password = password;
+    return this;
+  }
+
+
+
+  /**
+   * Apply authentication settings directly to request headers.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private void applyAuthToHeaders(HttpRequest.Builder localVarRequestBuilder) {
+    if (bearerToken != null) {
+      localVarRequestBuilder.header("Authorization", "Bearer " + bearerToken);
+    }
+    if (username != null && password != null) {
+      String credentials = java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+      localVarRequestBuilder.header("Authorization", "Basic " + credentials);
+    }
+  }
+
+  /**
+   * Apply authentication settings directly to query parameters.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private String applyAuthToQueryParams(String queryString) {
+    return queryString;
+  }
+
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
     String body = response.body() == null ? null : new String(response.body().readAllBytes());
@@ -202,7 +266,12 @@ public class FormApi {
 
     String localVarPath = "/form/integer/boolean/string";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "text/plain");
 
@@ -230,6 +299,8 @@ public class FormApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -302,7 +373,12 @@ public class FormApi {
 
     String localVarPath = "/form/object/multipart";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "text/plain");
 
@@ -344,6 +420,8 @@ public class FormApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -422,7 +500,12 @@ public class FormApi {
 
     String localVarPath = "/form/oneof";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "text/plain");
 
@@ -459,6 +542,8 @@ public class FormApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

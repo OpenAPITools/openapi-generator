@@ -63,6 +63,15 @@ public class PetApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
+
+
+  // Per-API API key authentication
+  private String apiKey;
+  private String apiKeyPrefix;
+
+  // Per-API OAuth authentication
+  private String accessToken;
+
   public PetApi() {
     this(Configuration.getDefaultApiClient());
   }
@@ -76,6 +85,66 @@ public class PetApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
+
+
+  /**
+   * Helper method to set API key value for API key authentication.
+   * @param apiKey API key
+   * @return PetApi
+   */
+  public PetApi setApiKey(String apiKey) {
+    this.apiKey = apiKey;
+    return this;
+  }
+
+  /**
+   * Helper method to set API key prefix for API key authentication.
+   * @param apiKeyPrefix API key prefix
+   * @return PetApi
+   */
+  public PetApi setApiKeyPrefix(String apiKeyPrefix) {
+    this.apiKeyPrefix = apiKeyPrefix;
+    return this;
+  }
+
+  /**
+   * Helper method to set access token for OAuth2 authentication.
+   * @param accessToken Access token
+   * @return PetApi
+   */
+  public PetApi setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+    return this;
+  }
+
+  /**
+   * Apply authentication settings directly to request headers.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private void applyAuthToHeaders(HttpRequest.Builder localVarRequestBuilder) {
+    if (apiKey != null) {
+      
+      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
+      localVarRequestBuilder.header("api_key", keyValue);
+      
+    }
+    if (accessToken != null) {
+      localVarRequestBuilder.header("Authorization", "Bearer " + accessToken);
+    }
+  }
+
+  /**
+   * Apply authentication settings directly to query parameters.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private String applyAuthToQueryParams(String queryString) {
+    if (apiKey != null) {
+      
+    }
+    return queryString;
+  }
+
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
     String body = response.body() == null ? null : new String(response.body().readAllBytes());
@@ -211,7 +280,12 @@ public class PetApi {
 
     String localVarPath = "/pet";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
@@ -225,6 +299,8 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -295,7 +371,12 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     if (apiKey != null) {
       localVarRequestBuilder.header("api_key", apiKey.toString());
@@ -306,6 +387,8 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -397,9 +480,15 @@ public class PetApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      String authQuery = applyAuthToQueryParams(null);
+      if (authQuery != null && !authQuery.isEmpty()) {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+      } else {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      }
     }
 
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
@@ -408,6 +497,8 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -503,9 +594,15 @@ public class PetApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      String authQuery = applyAuthToQueryParams(null);
+      if (authQuery != null && !authQuery.isEmpty()) {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+      } else {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      }
     }
 
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
@@ -514,6 +611,8 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -594,7 +693,12 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
 
@@ -602,6 +706,8 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -685,7 +791,12 @@ public class PetApi {
 
     String localVarPath = "/pet";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
@@ -699,6 +810,8 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -771,7 +884,12 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -796,6 +914,8 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -880,7 +1000,12 @@ public class PetApi {
     String localVarPath = "/pet/{petId}/uploadImage"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -924,6 +1049,8 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
