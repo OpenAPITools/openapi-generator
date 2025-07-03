@@ -2278,36 +2278,39 @@ public class SpringCodegenTest {
                 {"oneOf_nonPrimitive.yaml", Map.of(
                         "Example.java", "public interface Example  {")},
                 {"oneOf_primitive.yaml", Map.of(
-                        "Child.java", "public final class Child extends RepresentationModel<Child>  implements Example  {",
+                        "Child.java", "public final class Child extends RepresentationModel<Child>  implements Example {",
                         "Example.java", "public sealed interface Example permits Child {")},
                 {"oneOf_primitiveAndArray.yaml", Map.of(
                         "Example.java", "public interface Example  {")},
                 {"oneOf_reuseRef.yaml", Map.of(
                         "Fruit.java", "public sealed interface Fruit permits Apple, Banana {",
-                        "Banana.java", "public final class Banana extends RepresentationModel<Banana>  implements Fruit  {",
-                        "Apple.java", "public final class Apple extends RepresentationModel<Apple>  implements Fruit  {")},
+                        "Banana.java", "public final class Banana extends RepresentationModel<Banana>  implements Fruit {",
+                        "Apple.java", "public final class Apple extends RepresentationModel<Apple>  implements Fruit {")},
                 {"oneOf_twoPrimitives.yaml", Map.of(
-                        "MyExamplePostRequest.java", "public interface MyExamplePostRequest  {")},
+                        "MyExamplePostRequest.java", "public interface MyExamplePostRequest {")},
                 {"oneOfArrayMapImport.yaml", Map.of(
                         "Fruit.java", "public interface Fruit  {",
-                        "Grape.java", "public final class Grape extends RepresentationModel<Grape>   {",
-                        "Apple.java", "public final class Apple extends RepresentationModel<Apple>   {")},
+                        "Grape.java", "public class Grape extends RepresentationModel<Grape>  {",
+                        "Apple.java", "public class Apple extends RepresentationModel<Apple>  {")},
                 {"oneOfDiscriminator.yaml", Map.of(
                         "FruitAllOfDisc.java", "public sealed interface FruitAllOfDisc permits AppleAllOfDisc, BananaAllOfDisc {",
-                        "FruitReqDisc.java", "public sealed interface FruitReqDisc permits AppleReqDisc, BananaReqDisc {\n")}
+                        "AppleAllOfDisc.java", "public final class AppleAllOfDisc extends RepresentationModel<AppleAllOfDisc>  implements FruitAllOfDisc {",
+                        "BananaAllOfDisc.java", "public final class BananaAllOfDisc extends RepresentationModel<BananaAllOfDisc>  implements FruitAllOfDisc {",
+                        "FruitReqDisc.java", "public sealed interface FruitReqDisc permits AppleReqDisc, BananaReqDisc {",
+                        "AppleReqDisc.java", "public final class AppleReqDisc extends RepresentationModel<AppleReqDisc>  implements FruitReqDisc {",
+                        "BananaReqDisc.java", "public final class BananaReqDisc extends RepresentationModel<BananaReqDisc>  implements FruitReqDisc {")}
         };
     }
 
     @Test(dataProvider = "sealedScenarios", description = "sealed scenarios")
-    public void sealedScenarios(String apiFile, Map<String, String> definitions) throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+    public void sealedScenarios(String apiFile, Map<String, String> definitions) {
+        Path output = newTempFolder();
+        String outputPath = output.toString().replace('\\', '/');
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_0/" + apiFile, null, new ParseOptions()).getOpenAPI();
 
         SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOutputDir(outputPath);
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
         codegen.setUseOneOfInterfaces(true);
         codegen.setUseSealed(true);
