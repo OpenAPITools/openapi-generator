@@ -72,6 +72,20 @@ public class FakeApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
+  // Per-API Bearer authentication
+  private String bearerToken;
+
+  // Per-API Basic authentication
+  private String username;
+  private String password;
+
+  // Per-API API key authentication
+  private String apiKey;
+  private String apiKeyPrefix;
+
+  // Per-API OAuth authentication
+  private String accessToken;
+
   public FakeApi() {
     this(Configuration.getDefaultApiClient());
   }
@@ -85,6 +99,109 @@ public class FakeApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
+  /**
+   * Helper method to set access token for Bearer authentication.
+   * @param bearerToken Bearer token
+   * @return FakeApi
+   */
+  public FakeApi setBearerToken(String bearerToken) {
+    this.bearerToken = bearerToken;
+    return this;
+  }
+
+  /**
+   * Helper method to set username for HTTP basic authentication.
+   * @param username Username
+   * @return FakeApi
+   */
+  public FakeApi setUsername(String username) {
+    this.username = username;
+    return this;
+  }
+
+  /**
+   * Helper method to set password for HTTP basic authentication.
+   * @param password Password
+   * @return FakeApi
+   */
+  public FakeApi setPassword(String password) {
+    this.password = password;
+    return this;
+  }
+
+  /**
+   * Helper method to set API key value for API key authentication.
+   * @param apiKey API key
+   * @return FakeApi
+   */
+  public FakeApi setApiKey(String apiKey) {
+    this.apiKey = apiKey;
+    return this;
+  }
+
+  /**
+   * Helper method to set API key prefix for API key authentication.
+   * @param apiKeyPrefix API key prefix
+   * @return FakeApi
+   */
+  public FakeApi setApiKeyPrefix(String apiKeyPrefix) {
+    this.apiKeyPrefix = apiKeyPrefix;
+    return this;
+  }
+
+  /**
+   * Helper method to set access token for OAuth2 authentication.
+   * @param accessToken Access token
+   * @return FakeApi
+   */
+  public FakeApi setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+    return this;
+  }
+
+  /**
+   * Apply authentication settings directly to request headers.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private void applyAuthToHeaders(HttpRequest.Builder localVarRequestBuilder) {
+    if (bearerToken != null) {
+      localVarRequestBuilder.header("Authorization", "Bearer " + bearerToken);
+    }
+    if (username != null && password != null) {
+      String credentials = java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+      localVarRequestBuilder.header("Authorization", "Basic " + credentials);
+    }
+    if (apiKey != null) {
+      
+      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
+      localVarRequestBuilder.header("api_key", keyValue);
+      
+    }
+    if (accessToken != null) {
+      localVarRequestBuilder.header("Authorization", "Bearer " + accessToken);
+    }
+  }
+
+  /**
+   * Apply authentication settings directly to query parameters.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private String applyAuthToQueryParams(String queryString) {
+    if (apiKey != null) {
+      
+      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
+      String authParam = "api_key_query=" + keyValue;
+      if (queryString != null && !queryString.isEmpty()) {
+        return queryString + "&" + authParam;
+      } else {
+        return authParam;
+      }
+      
+    }
+    return queryString;
+  }
+
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
     String body = response.body() == null ? null : new String(response.body().readAllBytes());
@@ -162,7 +279,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/BigDecimalMap";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "*/*");
 
@@ -170,6 +292,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -239,7 +363,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/health";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -247,6 +376,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -318,7 +449,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/outer/boolean";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "*/*");
@@ -332,6 +468,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -403,7 +541,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/outer/composite";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "*/*");
@@ -417,6 +560,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -488,7 +633,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/outer/number";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "*/*");
@@ -502,6 +652,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -573,7 +725,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/outer/string";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "*/*");
@@ -582,6 +739,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -651,7 +810,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/application_json_utf8";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json;charset=utf-8");
 
@@ -659,6 +823,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -728,7 +894,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/array-of-enums";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -736,6 +907,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -803,7 +976,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/additionalProperties-reference";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");
@@ -817,6 +995,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -884,7 +1064,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/body-with-file-schema";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");
@@ -898,6 +1083,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -983,9 +1170,15 @@ public class FakeApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      String authQuery = applyAuthToQueryParams(null);
+      if (authQuery != null && !authQuery.isEmpty()) {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+      } else {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      }
     }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
@@ -1000,6 +1193,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1075,7 +1270,12 @@ public class FakeApi {
 
     String localVarPath = "/fake";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");
@@ -1089,6 +1289,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1194,7 +1396,12 @@ public class FakeApi {
 
     String localVarPath = "/fake";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -1255,6 +1462,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1350,9 +1559,15 @@ public class FakeApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      String authQuery = applyAuthToQueryParams(null);
+      if (authQuery != null && !authQuery.isEmpty()) {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+      } else {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      }
     }
 
     if (enumHeaderStringArray != null) {
@@ -1386,6 +1601,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1528,9 +1745,15 @@ public class FakeApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      String authQuery = applyAuthToQueryParams(null);
+      if (authQuery != null && !authQuery.isEmpty()) {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+      } else {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      }
     }
 
     if (requiredBooleanGroup != null) {
@@ -1545,6 +1768,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1701,7 +1926,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/inline-additionalProperties";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");
@@ -1715,6 +1945,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1782,7 +2014,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/inline-freeform-additionalProperties";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");
@@ -1796,6 +2033,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1869,7 +2108,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/jsonFormData";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -1894,6 +2138,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -2005,9 +2251,15 @@ public class FakeApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      String authQuery = applyAuthToQueryParams(null);
+      if (authQuery != null && !authQuery.isEmpty()) {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+      } else {
+        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+      }
     }
 
     localVarRequestBuilder.header("Accept", "application/json");
@@ -2016,6 +2268,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -2083,7 +2337,12 @@ public class FakeApi {
 
     String localVarPath = "/fake/stringMap-reference";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");
@@ -2097,6 +2356,8 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

@@ -63,6 +63,20 @@ public class StoreApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
+  // Per-API Bearer authentication
+  private String bearerToken;
+
+  // Per-API Basic authentication
+  private String username;
+  private String password;
+
+  // Per-API API key authentication
+  private String apiKey;
+  private String apiKeyPrefix;
+
+  // Per-API OAuth authentication
+  private String accessToken;
+
   public StoreApi() {
     this(Configuration.getDefaultApiClient());
   }
@@ -76,6 +90,109 @@ public class StoreApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
+  /**
+   * Helper method to set access token for Bearer authentication.
+   * @param bearerToken Bearer token
+   * @return StoreApi
+   */
+  public StoreApi setBearerToken(String bearerToken) {
+    this.bearerToken = bearerToken;
+    return this;
+  }
+
+  /**
+   * Helper method to set username for HTTP basic authentication.
+   * @param username Username
+   * @return StoreApi
+   */
+  public StoreApi setUsername(String username) {
+    this.username = username;
+    return this;
+  }
+
+  /**
+   * Helper method to set password for HTTP basic authentication.
+   * @param password Password
+   * @return StoreApi
+   */
+  public StoreApi setPassword(String password) {
+    this.password = password;
+    return this;
+  }
+
+  /**
+   * Helper method to set API key value for API key authentication.
+   * @param apiKey API key
+   * @return StoreApi
+   */
+  public StoreApi setApiKey(String apiKey) {
+    this.apiKey = apiKey;
+    return this;
+  }
+
+  /**
+   * Helper method to set API key prefix for API key authentication.
+   * @param apiKeyPrefix API key prefix
+   * @return StoreApi
+   */
+  public StoreApi setApiKeyPrefix(String apiKeyPrefix) {
+    this.apiKeyPrefix = apiKeyPrefix;
+    return this;
+  }
+
+  /**
+   * Helper method to set access token for OAuth2 authentication.
+   * @param accessToken Access token
+   * @return StoreApi
+   */
+  public StoreApi setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+    return this;
+  }
+
+  /**
+   * Apply authentication settings directly to request headers.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private void applyAuthToHeaders(HttpRequest.Builder localVarRequestBuilder) {
+    if (bearerToken != null) {
+      localVarRequestBuilder.header("Authorization", "Bearer " + bearerToken);
+    }
+    if (username != null && password != null) {
+      String credentials = java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+      localVarRequestBuilder.header("Authorization", "Basic " + credentials);
+    }
+    if (apiKey != null) {
+      
+      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
+      localVarRequestBuilder.header("api_key", keyValue);
+      
+    }
+    if (accessToken != null) {
+      localVarRequestBuilder.header("Authorization", "Bearer " + accessToken);
+    }
+  }
+
+  /**
+   * Apply authentication settings directly to query parameters.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private String applyAuthToQueryParams(String queryString) {
+    if (apiKey != null) {
+      
+      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
+      String authParam = "api_key_query=" + keyValue;
+      if (queryString != null && !queryString.isEmpty()) {
+        return queryString + "&" + authParam;
+      } else {
+        return authParam;
+      }
+      
+    }
+    return queryString;
+  }
+
 
   private ApiException getApiException(String operationId, HttpResponse<String> response) {
     String message = formatExceptionMessage(operationId, response.statusCode(), response.body());
@@ -154,7 +271,12 @@ public class StoreApi {
     String localVarPath = "/store/order/{order_id}"
         .replace("{order_id}", ApiClient.urlEncode(orderId.toString()));
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -162,6 +284,8 @@ public class StoreApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -241,7 +365,12 @@ public class StoreApi {
 
     String localVarPath = "/store/inventory";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -249,6 +378,8 @@ public class StoreApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -335,7 +466,12 @@ public class StoreApi {
     String localVarPath = "/store/order/{order_id}"
         .replace("{order_id}", ApiClient.urlEncode(orderId.toString()));
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
 
@@ -343,6 +479,8 @@ public class StoreApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -428,7 +566,12 @@ public class StoreApi {
 
     String localVarPath = "/store/order";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
@@ -442,6 +585,8 @@ public class StoreApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

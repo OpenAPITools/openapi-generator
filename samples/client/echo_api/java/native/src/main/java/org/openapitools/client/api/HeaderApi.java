@@ -61,6 +61,15 @@ public class HeaderApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
+  // Per-API Bearer authentication
+  private String bearerToken;
+
+  // Per-API Basic authentication
+  private String username;
+  private String password;
+
+
+
   public HeaderApi() {
     this(Configuration.getDefaultApiClient());
   }
@@ -74,6 +83,61 @@ public class HeaderApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
+  /**
+   * Helper method to set access token for Bearer authentication.
+   * @param bearerToken Bearer token
+   * @return HeaderApi
+   */
+  public HeaderApi setBearerToken(String bearerToken) {
+    this.bearerToken = bearerToken;
+    return this;
+  }
+
+  /**
+   * Helper method to set username for HTTP basic authentication.
+   * @param username Username
+   * @return HeaderApi
+   */
+  public HeaderApi setUsername(String username) {
+    this.username = username;
+    return this;
+  }
+
+  /**
+   * Helper method to set password for HTTP basic authentication.
+   * @param password Password
+   * @return HeaderApi
+   */
+  public HeaderApi setPassword(String password) {
+    this.password = password;
+    return this;
+  }
+
+
+
+  /**
+   * Apply authentication settings directly to request headers.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private void applyAuthToHeaders(HttpRequest.Builder localVarRequestBuilder) {
+    if (bearerToken != null) {
+      localVarRequestBuilder.header("Authorization", "Bearer " + bearerToken);
+    }
+    if (username != null && password != null) {
+      String credentials = java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+      localVarRequestBuilder.header("Authorization", "Basic " + credentials);
+    }
+  }
+
+  /**
+   * Apply authentication settings directly to query parameters.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private String applyAuthToQueryParams(String queryString) {
+    return queryString;
+  }
+
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
     String body = response.body() == null ? null : new String(response.body().readAllBytes());
@@ -158,7 +222,12 @@ public class HeaderApi {
 
     String localVarPath = "/header/integer/boolean/string/enums";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     if (integerHeader != null) {
       localVarRequestBuilder.header("integer_header", integerHeader.toString());
@@ -181,6 +250,8 @@ public class HeaderApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

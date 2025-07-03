@@ -63,6 +63,20 @@ public class FakeClassnameTags123Api {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
+  // Per-API Bearer authentication
+  private String bearerToken;
+
+  // Per-API Basic authentication
+  private String username;
+  private String password;
+
+  // Per-API API key authentication
+  private String apiKey;
+  private String apiKeyPrefix;
+
+  // Per-API OAuth authentication
+  private String accessToken;
+
   public FakeClassnameTags123Api() {
     this(Configuration.getDefaultApiClient());
   }
@@ -76,6 +90,109 @@ public class FakeClassnameTags123Api {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
+  /**
+   * Helper method to set access token for Bearer authentication.
+   * @param bearerToken Bearer token
+   * @return FakeClassnameTags123Api
+   */
+  public FakeClassnameTags123Api setBearerToken(String bearerToken) {
+    this.bearerToken = bearerToken;
+    return this;
+  }
+
+  /**
+   * Helper method to set username for HTTP basic authentication.
+   * @param username Username
+   * @return FakeClassnameTags123Api
+   */
+  public FakeClassnameTags123Api setUsername(String username) {
+    this.username = username;
+    return this;
+  }
+
+  /**
+   * Helper method to set password for HTTP basic authentication.
+   * @param password Password
+   * @return FakeClassnameTags123Api
+   */
+  public FakeClassnameTags123Api setPassword(String password) {
+    this.password = password;
+    return this;
+  }
+
+  /**
+   * Helper method to set API key value for API key authentication.
+   * @param apiKey API key
+   * @return FakeClassnameTags123Api
+   */
+  public FakeClassnameTags123Api setApiKey(String apiKey) {
+    this.apiKey = apiKey;
+    return this;
+  }
+
+  /**
+   * Helper method to set API key prefix for API key authentication.
+   * @param apiKeyPrefix API key prefix
+   * @return FakeClassnameTags123Api
+   */
+  public FakeClassnameTags123Api setApiKeyPrefix(String apiKeyPrefix) {
+    this.apiKeyPrefix = apiKeyPrefix;
+    return this;
+  }
+
+  /**
+   * Helper method to set access token for OAuth2 authentication.
+   * @param accessToken Access token
+   * @return FakeClassnameTags123Api
+   */
+  public FakeClassnameTags123Api setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+    return this;
+  }
+
+  /**
+   * Apply authentication settings directly to request headers.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private void applyAuthToHeaders(HttpRequest.Builder localVarRequestBuilder) {
+    if (bearerToken != null) {
+      localVarRequestBuilder.header("Authorization", "Bearer " + bearerToken);
+    }
+    if (username != null && password != null) {
+      String credentials = java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+      localVarRequestBuilder.header("Authorization", "Basic " + credentials);
+    }
+    if (apiKey != null) {
+      
+      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
+      localVarRequestBuilder.header("api_key", keyValue);
+      
+    }
+    if (accessToken != null) {
+      localVarRequestBuilder.header("Authorization", "Bearer " + accessToken);
+    }
+  }
+
+  /**
+   * Apply authentication settings directly to query parameters.
+   * This avoids modifying the shared ApiClient's authentication state.
+   */
+  private String applyAuthToQueryParams(String queryString) {
+    if (apiKey != null) {
+      
+      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
+      String authParam = "api_key_query=" + keyValue;
+      if (queryString != null && !queryString.isEmpty()) {
+        return queryString + "&" + authParam;
+      } else {
+        return authParam;
+      }
+      
+    }
+    return queryString;
+  }
+
 
   private ApiException getApiException(String operationId, HttpResponse<String> response) {
     String message = formatExceptionMessage(operationId, response.statusCode(), response.body());
@@ -168,7 +285,12 @@ public class FakeClassnameTags123Api {
 
     String localVarPath = "/fake_classname_test";
 
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    String authQuery = applyAuthToQueryParams(null);
+    if (authQuery != null && !authQuery.isEmpty()) {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");
@@ -182,6 +304,8 @@ public class FakeClassnameTags123Api {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Apply per-API authentication directly to the request
+    applyAuthToHeaders(localVarRequestBuilder);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
