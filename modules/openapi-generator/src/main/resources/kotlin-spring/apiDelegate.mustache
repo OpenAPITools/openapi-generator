@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
 {{>generatedAnnotation}}
+
 interface {{classname}}Delegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
@@ -34,7 +35,7 @@ interface {{classname}}Delegate {
      */
     {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}{{#isBodyParam}}Flow<{{{baseType}}}>{{/isBodyParam}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{/isArray}}{{/reactive}}{{^-last}},
         {{/-last}}{{/allParams}}): {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}}{{^skipDefaultDelegateInterface}} {
-        {{>methodBody}}
+        {{>methodBody}}{{! prevent indent}}
     }{{/skipDefaultDelegateInterface}}
 
 {{/operation}}

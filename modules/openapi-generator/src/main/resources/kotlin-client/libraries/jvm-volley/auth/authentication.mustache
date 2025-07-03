@@ -4,9 +4,11 @@ companion object Authentication {
     {{#authMethods}}
 {{#isApiKey}}
 {{>auth/apikeyauth}}
+
 {{/isApiKey}}
 {{#isBasicBasic}}
 {{>auth/httpbasicauth}}
+
 {{/isBasicBasic}}
 {{#isOAuth}}
     // TODO: Oauth not implemented yet - comment out below as OAuth does not exist

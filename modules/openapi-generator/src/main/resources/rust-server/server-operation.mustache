@@ -207,6 +207,7 @@
     {{/vendorExtensions.x-consumes-form}}
   {{/vendorExtensions.x-consumes-multipart-form}}
 {{>server-request-body-instance}}
+
 {{/vendorExtensions.x-has-request-body}}
                                 let result = api_impl.{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
                                         {{#vendorExtensions}}
@@ -295,6 +296,7 @@
   {{/required}}
 {{/headers}}
 {{>server-response-body-instance}}
+
                                                 },
 {{/responses}}
                                             },

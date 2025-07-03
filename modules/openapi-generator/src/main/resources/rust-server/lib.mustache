@@ -27,6 +27,7 @@ pub use auth::{AuthenticationApi, Claims};
     {{#operations}}
       {{#operation}}
 {{>response}}
+
       {{/operation}}
     {{/operations}}
   {{/apis}}
@@ -135,6 +136,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
             {{#urls}}
               {{#requests}}
 {{>response}}
+
             {{/requests}}
           {{/urls}}
         {{/callbacks}}

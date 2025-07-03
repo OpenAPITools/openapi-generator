@@ -3,6 +3,7 @@
  * @deprecated{{/isDeprecated}}
  */
 {{>additionalModelTypeAnnotations}}
+
 {{#description}}
 {{#isDeprecated}}
 @Deprecated
@@ -16,6 +17,7 @@
 {{/description}}
 {{#discriminator}}
 {{>typeInfoAnnotation}}
+
 {{/discriminator}}
 {{#jackson}}
 {{#isClassnameSanitized}}
@@ -26,8 +28,10 @@
 {{/jackson}}
 {{#withXml}}
 {{>xmlAnnotation}}
+
 {{/withXml}}
 {{>generatedAnnotation}}
+
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
@@ -41,10 +45,12 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     {{#isEnum}}
     {{^isContainer}}
 {{>enumClass}}
+
     {{/isContainer}}
     {{#isContainer}}
     {{#mostInnerItems}}
 {{>enumClass}}
+
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
@@ -220,7 +226,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
   {{#useBeanValidation}}
-  {{>beanValidation}}
+  {{>beanValidation}}{{! prevent indent}}
   {{/useBeanValidation}}
   {{^useBeanValidation}}
   {{#required}}@NotNull{{/required}}
@@ -268,6 +274,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{! end feature: getter and setter }}
   {{/vars}}
 {{>additionalProperties}}
+
   {{^lombok.Data}}
   {{#parentVars}}
 
@@ -355,7 +362,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   }
   {{/lombok.ToString}}
   {{#generateBuilders}}
-  {{>javaBuilder}}
+  {{>javaBuilder}}{{! prevent indent}}
   {{/generateBuilders}}
   {{/lombok.Data}}
 }
