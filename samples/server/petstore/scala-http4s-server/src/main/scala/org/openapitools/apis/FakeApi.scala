@@ -24,8 +24,8 @@ final case class FakeApiRoutes[
     object varQueryParam extends OptionalQueryParamDecoderMatcher[String]("var")
 
     val route = HttpRoutes.of[F] {
-      case req @ GET -> Root / "fake" / "user" / _type :? varQueryParam(_var) =>
-        delegate.reservedWords.handle(req, _type, _var, responses)
+      case req @ GET -> Root / "fake" / "user" / `type` :? varQueryParam(`var`) =>
+        delegate.reservedWords.handle(req, `type`, `var`, responses)
 
     }
 
@@ -57,8 +57,8 @@ trait FakeApiDelegate[F[_]] {
 
     def handle(
       req: Request[F],
-      _type: String,
-      _var: Option[String],
+      `type`: String,
+      `var`: Option[String],
       responses: reservedWordsResponses[F]
     ): F[Response[F]]
 

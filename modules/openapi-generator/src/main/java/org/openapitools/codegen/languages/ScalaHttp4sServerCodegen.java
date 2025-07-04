@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Escapers;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -557,7 +559,34 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String escapeReservedWord(String name) {
-        return "_" + name;
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        // Reserved words will be further escaped at the mustache compiler level.
+        // Scala escaping done here (via `, without compiler escaping) would otherwise be HTML encoded.
+        return "`" + name + "`";
+    }
+
+    @Override
+    public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
+        Mustache.Escaper SCALA = new Mustache.Escaper() {
+            @Override
+            public String escape(String text) {
+                // Fix included as suggested by akkie in #6393
+                // The given text is a reserved word which is escaped by enclosing it with grave accents. If we would
+                // escape that with the default Mustache `HTML` escaper, then the escaper would also escape our grave
+                // accents. So we remove the grave accents before the escaping and add it back after the escaping.
+                if (text.startsWith("`") && text.endsWith("`")) {
+                    String unescaped = text.substring(1, text.length() - 1);
+                    return "`" + Escapers.HTML.escape(unescaped) + "`";
+                }
+
+                // All none reserved words will be escaped with the default Mustache `HTML` escaper
+                return Escapers.HTML.escape(text);
+            }
+        };
+
+        return compiler.withEscaper(SCALA);
     }
 
     @Override
