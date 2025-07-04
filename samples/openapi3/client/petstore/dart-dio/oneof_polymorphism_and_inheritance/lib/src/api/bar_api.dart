@@ -20,20 +20,20 @@ class BarApi {
   const BarApi(this._dio, this._serializers);
 
   /// Create a Bar
-  /// 
+  ///
   ///
   /// Parameters:
-  /// * [barCreate] 
+  /// * [barCreate]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Bar] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Bar>> createBar({ 
+  Future<Response<Bar>> createBar({
     required BarCreate barCreate,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
