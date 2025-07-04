@@ -1,0 +1,264 @@
+openapi: 3.0.1
+info:
+  description: |
+    This tests for a oneOf interface representation
+  title: ByRefOrValue
+  version: 0.0.1
+servers:
+- url: http://localhost:8080
+tags:
+- name: Foo
+- name: Bar
+paths:
+  /foo:
+    get:
+      operationId: getAllFoos
+      responses:
+        "200":
+          $ref: "#/components/responses/200FooArray"
+      summary: GET all Foos
+      tags:
+      - Foo
+      x-accepts:
+      - application/json;charset=utf-8
+      x-tags:
+      - tag: Foo
+    post:
+      operationId: createFoo
+      requestBody:
+        $ref: "#/components/requestBodies/Foo"
+      responses:
+        "201":
+          $ref: "#/components/responses/201Foo"
+      summary: Create a Foo
+      tags:
+      - Foo
+      x-content-type: application/json;charset=utf-8
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Foo
+  /bar:
+    post:
+      operationId: createBar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Bar_Create"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bar"
+          description: Bar created
+      summary: Create a Bar
+      tags:
+      - Bar
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Bar
+components:
+  requestBodies:
+    Foo:
+      content:
+        application/json;charset=utf-8:
+          schema:
+            $ref: "#/components/schemas/Foo"
+      description: The Foo to be created
+  responses:
+    "204":
+      content: {}
+      description: Deleted
+    "201Foo":
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/FooRefOrValue"
+      description: Error
+    "200FooArray":
+      content:
+        application/json;charset=utf-8:
+          schema:
+            items:
+              $ref: "#/components/schemas/FooRefOrValue"
+            type: array
+      description: Success
+  schemas:
+    Addressable:
+      description: Base schema for addressable entities
+      properties:
+        href:
+          description: Hyperlink reference
+          type: string
+        id:
+          description: unique identifier
+          type: string
+      type: object
+    Extensible:
+      properties:
+        '@schemaLocation':
+          description: A URI to a JSON-Schema file that defines additional attributes
+            and relationships
+          type: string
+        '@baseType':
+          description: "When sub-classing, this defines the super-class"
+          type: string
+        '@type':
+          description: "When sub-classing, this defines the sub-class Extensible name"
+          type: string
+      required:
+      - '@type'
+      type: object
+    Entity:
+      allOf:
+      - $ref: "#/components/schemas/Addressable"
+      - $ref: "#/components/schemas/Extensible"
+      discriminator:
+        propertyName: '@type'
+      type: object
+    EntityRef:
+      allOf:
+      - $ref: "#/components/schemas/Addressable"
+      - $ref: "#/components/schemas/Extensible"
+      description: Entity reference schema to be use for all entityRef class.
+      discriminator:
+        propertyName: '@type'
+      properties:
+        name:
+          description: Name of the related entity.
+          type: string
+        '@referredType':
+          description: The actual type of the target instance when needed for disambiguation.
+          type: string
+      type: object
+    FooRefOrValue:
+      discriminator:
+        propertyName: '@type'
+      oneOf:
+      - $ref: "#/components/schemas/Foo"
+      - $ref: "#/components/schemas/FooRef"
+      type: object
+      x-one-of-name: FooRefOrValue
+    Foo:
+      allOf:
+      - $ref: "#/components/schemas/Entity"
+      example:
+        fooPropA: fooPropA
+        fooPropB: fooPropB
+      properties:
+        fooPropA:
+          type: string
+        fooPropB:
+          type: string
+      type: object
+    FooRef:
+      allOf:
+      - $ref: "#/components/schemas/EntityRef"
+      properties:
+        foorefPropA:
+          type: string
+      type: object
+    BarRef:
+      allOf:
+      - $ref: "#/components/schemas/EntityRef"
+      type: object
+    Bar_Create:
+      allOf:
+      - $ref: "#/components/schemas/Entity"
+      properties:
+        barPropA:
+          type: string
+        fooPropB:
+          type: string
+        foo:
+          $ref: "#/components/schemas/FooRefOrValue"
+      type: object
+    Bar:
+      allOf:
+      - $ref: "#/components/schemas/Entity"
+      example:
+        foo:
+          fooPropA: fooPropA
+          fooPropB: fooPropB
+        id: id
+        fooPropB: fooPropB
+        barPropA: barPropA
+      properties:
+        id:
+          type: string
+        barPropA:
+          type: string
+        fooPropB:
+          type: string
+        foo:
+          $ref: "#/components/schemas/FooRefOrValue"
+      required:
+      - id
+      type: object
+    BarRefOrValue:
+      oneOf:
+      - $ref: "#/components/schemas/Bar"
+      - $ref: "#/components/schemas/BarRef"
+      type: object
+      x-one-of-name: BarRefOrValue
+    Pizza:
+      allOf:
+      - $ref: "#/components/schemas/Entity"
+      properties:
+        pizzaSize:
+          type: number
+      type: object
+    Pasta:
+      allOf:
+      - $ref: "#/components/schemas/Entity"
+      properties:
+        vendor:
+          type: string
+      type: object
+    PizzaSpeziale:
+      allOf:
+      - $ref: "#/components/schemas/Pizza"
+      properties:
+        toppings:
+          type: string
+      type: object
+    FruitType:
+      enum:
+      - APPLE
+      - BANANA
+      type: string
+    Fruit:
+      discriminator:
+        mapping:
+          APPLE: "#/components/schemas/Apple"
+          BANANA: "#/components/schemas/Banana"
+        propertyName: fruitType
+      oneOf:
+      - $ref: "#/components/schemas/Apple"
+      - $ref: "#/components/schemas/Banana"
+      properties:
+        fruitType:
+          $ref: "#/components/schemas/FruitType"
+      required:
+      - fruitType
+      type: object
+      x-one-of-name: Fruit
+    Apple:
+      properties:
+        seeds:
+          type: integer
+      required:
+      - seeds
+      type: object
+    Banana:
+      properties:
+        length:
+          type: integer
+      required:
+      - length
+      type: object
