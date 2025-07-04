@@ -1,0 +1,19 @@
+import { Controller{{#httpMethods}}, {{.}}{{/httpMethods}}, Req } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { {{classname}} } from '../{{apiPackage}}';
+import { {{#tsImports}}{{classname}}, {{/tsImports}} } from '../{{modelPackage}}';
+
+@Controller()
+export class {{classname}}Controller {
+  constructor(private readonly {{classVarName}}: {{classname}}) {}
+
+{{#operations}}
+{{#operation}}
+  @{{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}('{{path}}')
+  {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}}@Req() request: Request): {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} | Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> | Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    return this.{{classVarName}}.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}request);
+  }
+
+{{/operation}}
+{{/operations}}
+} 
