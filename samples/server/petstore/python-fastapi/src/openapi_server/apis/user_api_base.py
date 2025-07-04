@@ -14,6 +14,8 @@ class BaseUserApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseUserApi.subclasses = BaseUserApi.subclasses + (cls,)
+
+
     async def create_user(
         self,
         user: Annotated[User, Field(description="Created user object")],
@@ -77,3 +79,4 @@ class BaseUserApi:
     ) -> None:
         """This can only be done by the logged in user."""
         ...
+
