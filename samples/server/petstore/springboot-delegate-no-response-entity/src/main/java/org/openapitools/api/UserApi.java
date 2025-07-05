@@ -48,8 +48,7 @@ public interface UserApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/user",
         consumes = { "application/json" }
     )
@@ -81,8 +80,7 @@ public interface UserApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/user/createWithArray",
         consumes = { "application/json" }
     )
@@ -114,8 +112,7 @@ public interface UserApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/user/createWithList",
         consumes = { "application/json" }
     )
@@ -149,8 +146,7 @@ public interface UserApi {
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found")
     })
-    @RequestMapping(
-        method = RequestMethod.DELETE,
+    @DeleteMapping(
         value = "/user/{username}"
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -183,8 +179,7 @@ public interface UserApi {
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found")
     })
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/user/{username}",
         produces = { "application/xml", "application/json" }
     )
@@ -217,8 +212,7 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied")
     })
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/user/login",
         produces = { "application/xml", "application/json" }
     )
@@ -250,8 +244,7 @@ public interface UserApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
     })
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/user/logout"
     )
     @ResponseStatus(HttpStatus.OK)
@@ -285,8 +278,7 @@ public interface UserApi {
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found")
     })
-    @RequestMapping(
-        method = RequestMethod.PUT,
+    @PutMapping(
         value = "/user/{username}",
         consumes = { "application/json" }
     )

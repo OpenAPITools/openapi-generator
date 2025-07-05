@@ -91,6 +91,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
+|useApiComposedAnnotation|Use @&lt;method&gt;Mapping instead of @RequestMapping(method = RequestMethod.&lt;method&gt;) when generating the API interfaces. Defaults to true| |true|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
 |useFeignClientContextId|Whether to generate Feign client with contextId parameter.| |true|

@@ -54,8 +54,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/fake/create_xml_item",
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" }
     )
@@ -84,8 +83,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class)
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/fake/outer/boolean",
         produces = { "*/*" }
     )
@@ -114,8 +112,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/fake/outer/composite",
         produces = { "*/*" }
     )
@@ -144,8 +141,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class)
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/fake/outer/number",
         produces = { "*/*" }
     )
@@ -174,8 +170,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Output string", response = String.class)
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/fake/outer/string",
         produces = { "*/*" }
     )
@@ -203,8 +198,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success")
     })
-    @RequestMapping(
-        method = RequestMethod.PUT,
+    @PutMapping(
         value = "/fake/body-with-file-schema",
         consumes = { "application/json" }
     )
@@ -232,8 +226,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success")
     })
-    @RequestMapping(
-        method = RequestMethod.PUT,
+    @PutMapping(
         value = "/fake/body-with-query-params",
         consumes = { "application/json" }
     )
@@ -263,8 +256,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    @RequestMapping(
-        method = RequestMethod.PATCH,
+    @PatchMapping(
         value = "/fake",
         produces = { "application/json" },
         consumes = { "application/json" }
@@ -311,8 +303,7 @@ public interface FakeApi {
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found")
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/fake",
         consumes = { "application/x-www-form-urlencoded" }
     )
@@ -362,8 +353,7 @@ public interface FakeApi {
         @ApiResponse(code = 400, message = "Invalid request"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/fake",
         consumes = { "application/x-www-form-urlencoded" }
     )
@@ -403,8 +393,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 400, message = "Something wrong")
     })
-    @RequestMapping(
-        method = RequestMethod.DELETE,
+    @DeleteMapping(
         value = "/fake"
     )
     
@@ -435,8 +424,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/fake/inline-additionalProperties",
         consumes = { "application/json" }
     )
@@ -464,8 +452,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation")
     })
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/fake/jsonFormData",
         consumes = { "application/x-www-form-urlencoded" }
     )
@@ -498,8 +485,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success")
     })
-    @RequestMapping(
-        method = RequestMethod.PUT,
+    @PutMapping(
         value = "/fake/test-query-parameters"
     )
     
@@ -538,8 +524,7 @@ public interface FakeApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/fake/{petId}/uploadImageWithRequiredFile",
         produces = { "application/json" },
         consumes = { "multipart/form-data" }

@@ -52,8 +52,7 @@ public interface StoreApi {
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found")
     })
-    @RequestMapping(
-        method = RequestMethod.DELETE,
+    @DeleteMapping(
         value = "/store/order/{order_id}"
     )
     
@@ -85,8 +84,7 @@ public interface StoreApi {
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map")
     })
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/store/inventory",
         produces = { "application/json" }
     )
@@ -119,8 +117,7 @@ public interface StoreApi {
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found")
     })
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/store/order/{order_id}",
         produces = { "application/xml", "application/json" }
     )
@@ -152,8 +149,7 @@ public interface StoreApi {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order")
     })
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/store/order",
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
