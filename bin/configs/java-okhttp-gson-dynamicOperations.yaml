@@ -7,3 +7,4 @@ additionalProperties:
   artifactId: petstore-okhttp-gson-dynamicoperations
   hideGenerationTimestamp: "true"
   dynamicOperations: "true"
+  disallowAdditionalPropertiesIfNotPresent: true
