@@ -374,7 +374,7 @@ public class JavaClientCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/composed-allof.yaml");
         Operation operation = openAPI.getPaths().get("/ping").getPost();
 
-        CodegenOperation co = new JavaClientCodegen().fromOperation("/ping", "POST", operation, null);
+        CodegenOperation co = new JavaClientCodegen().fromOperation("/ping", "POST",0, operation, null);
 
         assertThat(co.allParams).hasSize(1)
                 .first().hasFieldOrPropertyWithValue("baseType", "MessageEventCoreWithTimeListEntries");

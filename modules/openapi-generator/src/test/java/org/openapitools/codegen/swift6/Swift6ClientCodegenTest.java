@@ -118,7 +118,7 @@ public class Swift6ClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+        final CodegenOperation op = codegen.fromOperation(path, "post",0, p, null);
 
         Assert.assertEquals(op.returnType, "URL");
         Assert.assertEquals(op.bodyParam.dataType, "URL");
@@ -133,7 +133,7 @@ public class Swift6ClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+        final CodegenOperation op = codegen.fromOperation(path, "post",0, p, null);
 
         Assert.assertEquals(op.returnType, "Date");
         Assert.assertEquals(op.bodyParam.dataType, "Date");
@@ -148,7 +148,7 @@ public class Swift6ClientCodegenTest {
         codegen.processOpts();
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+        final CodegenOperation op = codegen.fromOperation(path, "post",0, p, null);
 
         Assert.assertEquals(op.returnType, "Date");
         Assert.assertEquals(op.bodyParam.dataType, "Date");
@@ -164,7 +164,7 @@ public class Swift6ClientCodegenTest {
 
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+        final CodegenOperation op = codegen.fromOperation(path, "post",0, p, null);
 
         Assert.assertEquals(op.returnType, "OpenAPIDateWithoutTime");
         Assert.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
@@ -306,7 +306,7 @@ public class Swift6ClientCodegenTest {
         codegen.processOpts();
         final String path = "/as/token.oauth2";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+        final CodegenOperation op = codegen.fromOperation(path, "post",0, p, null);
 
         Assert.assertEquals(op.formParams.size(), 6);
 

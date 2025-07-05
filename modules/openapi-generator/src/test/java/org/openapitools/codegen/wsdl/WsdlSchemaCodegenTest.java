@@ -53,12 +53,12 @@ public class WsdlSchemaCodegenTest {
 
         String requestPathWithId = "/store/order/{orderId}";
         Operation textOperationGet = openAPI.getPaths().get(requestPathWithId).getGet();
-        CodegenOperation opGet = codegen.fromOperation(requestPathWithId, "get", textOperationGet, null);
+        CodegenOperation opGet = codegen.fromOperation(requestPathWithId, "get",0, textOperationGet, null);
         String newOperationIdWithId = codegen.generateOperationId(opGet);
 
         String requestPathWithoutId = "/store/order";
         Operation textOperationPost = openAPI.getPaths().get(requestPathWithoutId).getPost();
-        CodegenOperation opPost = codegen.fromOperation(requestPathWithoutId, "post", textOperationPost, null);
+        CodegenOperation opPost = codegen.fromOperation(requestPathWithoutId, "post",0, textOperationPost, null);
         String newOperationIdWithoutId = codegen.generateOperationId(opPost);
 
         Assert.assertEquals(newOperationIdWithId, "GetStoreOrderByOrderid");

@@ -949,9 +949,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
+                                          Integer contentTypeIndex,
                                           Operation operation,
                                           List<Server> servers) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        CodegenOperation op = super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
 
         if (this.operationParameterSorting == SortingMethod.ALPHABETICAL) {
             Collections.sort(op.allParams, parameterComparatorByName);

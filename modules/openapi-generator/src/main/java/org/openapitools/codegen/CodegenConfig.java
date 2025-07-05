@@ -128,7 +128,12 @@ public interface CodegenConfig {
 
     CodegenModel fromModel(String name, Schema schema);
 
-    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers);
+    CodegenOperation fromOperation(String resourcePath, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers);
+
+    // Overloaded version without contentTypeIndex
+      default CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers) {
+        return fromOperation(resourcePath, httpMethod, null, operation, servers);
+    }
 
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 

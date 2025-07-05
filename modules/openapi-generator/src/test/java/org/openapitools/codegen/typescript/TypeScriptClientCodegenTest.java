@@ -62,7 +62,7 @@ public class TypeScriptClientCodegenTest {
         final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-schemas.yaml");
         codegen.setOpenAPI(openApi);
         PathItem path = openApi.getPaths().get("/pets");
-        CodegenOperation operation = codegen.fromOperation("/pets", "patch", path.getPatch(), path.getServers());
+        CodegenOperation operation = codegen.fromOperation("/pets", "patch",0, path.getPatch(), path.getServers());
         // TODO revise the commented test below as oneOf is no longer defined inline
         //but instead defined using $ref with the new inline model resolver in 6.x
         //Assert.assertEquals(operation.imports, Sets.newHashSet("Cat", "Dog"));

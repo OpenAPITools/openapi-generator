@@ -1011,7 +1011,7 @@ public class SpringCodegen extends AbstractJavaCodegen
      * #8315 Also handles removing 'size', 'page' and 'sort' query parameters if using 'x-spring-paginated'.
      */
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(String path, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers) {
 
         // add Pageable import only if x-spring-paginated explicitly used
         // this allows to use a custom Pageable schema without importing Spring Pageable.
@@ -1021,7 +1021,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         Set<String> provideArgsClassSet = reformatProvideArgsParams(operation);
 
-        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()

@@ -565,8 +565,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public ExtendedCodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation superOp = super.fromOperation(path, httpMethod, operation, servers);
+    public ExtendedCodegenOperation fromOperation(String path, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers) {
+        CodegenOperation superOp = super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
         ExtendedCodegenOperation op = new ExtendedCodegenOperation(superOp);
 
         if (this.getSagasAndRecords()) {

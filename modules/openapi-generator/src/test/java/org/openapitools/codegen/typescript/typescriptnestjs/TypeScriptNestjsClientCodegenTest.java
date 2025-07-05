@@ -35,7 +35,7 @@ public class TypeScriptNestjsClientCodegenTest {
         final TypeScriptNestjsClientCodegen codegen = new TypeScriptNestjsClientCodegen();
         codegen.setOpenAPI(openAPI);
 
-        CodegenOperation co1 = codegen.fromOperation("/another-fake/dummy/", "get", operation1, null);
+        CodegenOperation co1 = codegen.fromOperation("/another-fake/dummy/", "get",0, operation1, null);
         org.testng.Assert.assertEquals(co1.operationId, "_123testSpecialTags");
 
     }

@@ -425,8 +425,8 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+    public CodegenOperation fromOperation(String path, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
 
         String underscoredOperationId = underscore(op.operationId);
         ArrayList<MethodOperation> pathMethods = pathMethodOpMap.get(path);
