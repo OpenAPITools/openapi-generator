@@ -548,7 +548,9 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 	var{{{classname}}} := _{{{classname}}}{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))
+{{#isAdditionalPropertiesTrue}}
 	decoder.DisallowUnknownFields()
+{{/isAdditionalPropertiesTrue}}
 	err = decoder.Decode(&var{{{classname}}})
 
 	if err != nil {
