@@ -1973,6 +1973,20 @@ public class DefaultCodegenTest {
         final Map testProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("ModelWithTitledProperties").getProperties());
 
         Assertions.assertEquals("Simple-Property-Title", codegen.fromProperty("simpleProperty", (Schema) testProperties.get("simpleProperty")).title);
+        Assertions.assertEquals("All-Of-Ref-Property-Title", codegen.fromProperty("refProperty", (Schema) testProperties.get("allOfRefProperty")).title);
+    }
+
+    @Test
+    public void testTitlePropertyOAS31refSibling() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/property-title.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map testProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("ModelWithTitledProperties").getProperties());
+
+        Assertions.assertEquals("Simple-Property-Title", codegen.fromProperty("simpleProperty", (Schema) testProperties.get("simpleProperty")).title);
+        Assertions.assertEquals("All-Of-Ref-Property-Title", codegen.fromProperty("refProperty", (Schema) testProperties.get("allOfRefProperty")).title);
         Assertions.assertEquals("Ref-Property-Title", codegen.fromProperty("refProperty", (Schema) testProperties.get("refProperty")).title);
     }
 
@@ -5014,5 +5028,26 @@ public class DefaultCodegenTest {
 
         // When & Then
         assertThat(codegenOperation.getHasSingleParam()).isTrue();
+    }
+
+    /**
+     * Starting with OpenAPI 3.1, it is legal to have a $ref be a sibling to other properties.
+     * This test ensures that any sibling properties, "title" in this case, do not get lost while resolving the ref.
+     */
+    @Test
+    public void testSiblingPropertyWithRefInOAS31() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/property-title.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        Map<String, Schema> properties = openAPI.getComponents().getSchemas().get("ModelWithTitledProperties").getProperties();
+
+        // These always worked
+        Assert.assertEquals("Simple-Property-Title",
+                codegen.fromModel("dummy", properties.get("simpleProperty")).getTitle());
+        Assert.assertEquals("All-Of-Ref-Property-Title",
+                codegen.fromModel("dummy", properties.get("allOfRefProperty")).getTitle());
+        // This is new in OpenAPI 3.1, and should work now: "title" is a sibling to the "$ref" and should not be lost
+        Assert.assertEquals("Ref-Property-Title",
+                codegen.fromModel("dummy", properties.get("refProperty")).getTitle());
     }
 }
