@@ -198,9 +198,9 @@ class _$$ParentWithNullableSerializer implements PrimitiveSerializer<$ParentWith
 class ParentWithNullableTypeEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'ChildWithNullable')
-  static const ParentWithNullableTypeEnum childWithNullable = _$parentWithNullableTypeEnum_childWithNullable;
+  static const ParentWithNullableTypeEnum childWithNullableAttr = _$parentWithNullableTypeEnum_childWithNullable;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const ParentWithNullableTypeEnum unknownDefaultOpenApi = _$parentWithNullableTypeEnum_unknownDefaultOpenApi;
+  static const ParentWithNullableTypeEnum unknownDefaultOpenApiAttr = _$parentWithNullableTypeEnum_unknownDefaultOpenApi;
 
   static Serializer<ParentWithNullableTypeEnum> get serializer => _$parentWithNullableTypeEnumSerializer;
 
