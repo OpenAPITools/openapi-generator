@@ -25,7 +25,6 @@ pub enum PingGetResponse {
     /// OK
     OK
 }
-
 /// API
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]

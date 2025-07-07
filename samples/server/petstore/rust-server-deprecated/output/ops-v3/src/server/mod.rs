@@ -149,7 +149,6 @@ mod paths {
     pub(crate) static ID_OP9: usize = 36;
 }
 
-
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString>  + Send + Sync + 'static
@@ -188,7 +187,6 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
         future::ok(service)
     }
 }
-
 fn method_not_allowed() -> Result<Response<Body>, crate::ServiceError> {
     Ok(
         Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
@@ -255,7 +253,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
             match method {
-
             // Op10Get - GET /op10
             hyper::Method::GET if path.matched(paths::ID_OP10) => {
                                 let result = api_impl.op10_get(
@@ -272,7 +269,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op10GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -285,7 +281,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op11Get - GET /op11
             hyper::Method::GET if path.matched(paths::ID_OP11) => {
                                 let result = api_impl.op11_get(
@@ -302,7 +297,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op11GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -315,7 +309,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op12Get - GET /op12
             hyper::Method::GET if path.matched(paths::ID_OP12) => {
                                 let result = api_impl.op12_get(
@@ -332,7 +325,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op12GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -345,7 +337,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op13Get - GET /op13
             hyper::Method::GET if path.matched(paths::ID_OP13) => {
                                 let result = api_impl.op13_get(
@@ -362,7 +353,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op13GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -375,7 +365,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op14Get - GET /op14
             hyper::Method::GET if path.matched(paths::ID_OP14) => {
                                 let result = api_impl.op14_get(
@@ -392,7 +381,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op14GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -405,7 +393,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op15Get - GET /op15
             hyper::Method::GET if path.matched(paths::ID_OP15) => {
                                 let result = api_impl.op15_get(
@@ -422,7 +409,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op15GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -435,7 +421,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op16Get - GET /op16
             hyper::Method::GET if path.matched(paths::ID_OP16) => {
                                 let result = api_impl.op16_get(
@@ -452,7 +437,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op16GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -465,7 +449,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op17Get - GET /op17
             hyper::Method::GET if path.matched(paths::ID_OP17) => {
                                 let result = api_impl.op17_get(
@@ -482,7 +465,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op17GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -495,7 +477,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op18Get - GET /op18
             hyper::Method::GET if path.matched(paths::ID_OP18) => {
                                 let result = api_impl.op18_get(
@@ -512,7 +493,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op18GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -525,7 +505,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op19Get - GET /op19
             hyper::Method::GET if path.matched(paths::ID_OP19) => {
                                 let result = api_impl.op19_get(
@@ -542,7 +521,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op19GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -555,7 +533,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op1Get - GET /op1
             hyper::Method::GET if path.matched(paths::ID_OP1) => {
                                 let result = api_impl.op1_get(
@@ -572,7 +549,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op1GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -585,7 +561,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op20Get - GET /op20
             hyper::Method::GET if path.matched(paths::ID_OP20) => {
                                 let result = api_impl.op20_get(
@@ -602,7 +577,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op20GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -615,7 +589,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op21Get - GET /op21
             hyper::Method::GET if path.matched(paths::ID_OP21) => {
                                 let result = api_impl.op21_get(
@@ -632,7 +605,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op21GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -645,7 +617,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op22Get - GET /op22
             hyper::Method::GET if path.matched(paths::ID_OP22) => {
                                 let result = api_impl.op22_get(
@@ -662,7 +633,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op22GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -675,7 +645,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op23Get - GET /op23
             hyper::Method::GET if path.matched(paths::ID_OP23) => {
                                 let result = api_impl.op23_get(
@@ -692,7 +661,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op23GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -705,7 +673,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op24Get - GET /op24
             hyper::Method::GET if path.matched(paths::ID_OP24) => {
                                 let result = api_impl.op24_get(
@@ -722,7 +689,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op24GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -735,7 +701,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op25Get - GET /op25
             hyper::Method::GET if path.matched(paths::ID_OP25) => {
                                 let result = api_impl.op25_get(
@@ -752,7 +717,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op25GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -765,7 +729,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op26Get - GET /op26
             hyper::Method::GET if path.matched(paths::ID_OP26) => {
                                 let result = api_impl.op26_get(
@@ -782,7 +745,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op26GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -795,7 +757,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op27Get - GET /op27
             hyper::Method::GET if path.matched(paths::ID_OP27) => {
                                 let result = api_impl.op27_get(
@@ -812,7 +773,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op27GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -825,7 +785,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op28Get - GET /op28
             hyper::Method::GET if path.matched(paths::ID_OP28) => {
                                 let result = api_impl.op28_get(
@@ -842,7 +801,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op28GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -855,7 +813,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op29Get - GET /op29
             hyper::Method::GET if path.matched(paths::ID_OP29) => {
                                 let result = api_impl.op29_get(
@@ -872,7 +829,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op29GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -885,7 +841,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op2Get - GET /op2
             hyper::Method::GET if path.matched(paths::ID_OP2) => {
                                 let result = api_impl.op2_get(
@@ -902,7 +857,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op2GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -915,7 +869,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op30Get - GET /op30
             hyper::Method::GET if path.matched(paths::ID_OP30) => {
                                 let result = api_impl.op30_get(
@@ -932,7 +885,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op30GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -945,7 +897,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op31Get - GET /op31
             hyper::Method::GET if path.matched(paths::ID_OP31) => {
                                 let result = api_impl.op31_get(
@@ -962,7 +913,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op31GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -975,7 +925,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op32Get - GET /op32
             hyper::Method::GET if path.matched(paths::ID_OP32) => {
                                 let result = api_impl.op32_get(
@@ -992,7 +941,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op32GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1005,7 +953,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op33Get - GET /op33
             hyper::Method::GET if path.matched(paths::ID_OP33) => {
                                 let result = api_impl.op33_get(
@@ -1022,7 +969,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op33GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1035,7 +981,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op34Get - GET /op34
             hyper::Method::GET if path.matched(paths::ID_OP34) => {
                                 let result = api_impl.op34_get(
@@ -1052,7 +997,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op34GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1065,7 +1009,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op35Get - GET /op35
             hyper::Method::GET if path.matched(paths::ID_OP35) => {
                                 let result = api_impl.op35_get(
@@ -1082,7 +1025,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op35GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1095,7 +1037,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op36Get - GET /op36
             hyper::Method::GET if path.matched(paths::ID_OP36) => {
                                 let result = api_impl.op36_get(
@@ -1112,7 +1053,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op36GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1125,7 +1065,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op37Get - GET /op37
             hyper::Method::GET if path.matched(paths::ID_OP37) => {
                                 let result = api_impl.op37_get(
@@ -1142,7 +1081,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op37GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1155,7 +1093,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op3Get - GET /op3
             hyper::Method::GET if path.matched(paths::ID_OP3) => {
                                 let result = api_impl.op3_get(
@@ -1172,7 +1109,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op3GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1185,7 +1121,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op4Get - GET /op4
             hyper::Method::GET if path.matched(paths::ID_OP4) => {
                                 let result = api_impl.op4_get(
@@ -1202,7 +1137,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op4GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1215,7 +1149,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op5Get - GET /op5
             hyper::Method::GET if path.matched(paths::ID_OP5) => {
                                 let result = api_impl.op5_get(
@@ -1232,7 +1165,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op5GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1245,7 +1177,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op6Get - GET /op6
             hyper::Method::GET if path.matched(paths::ID_OP6) => {
                                 let result = api_impl.op6_get(
@@ -1262,7 +1193,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op6GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1275,7 +1205,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op7Get - GET /op7
             hyper::Method::GET if path.matched(paths::ID_OP7) => {
                                 let result = api_impl.op7_get(
@@ -1292,7 +1221,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op7GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1305,7 +1233,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op8Get - GET /op8
             hyper::Method::GET if path.matched(paths::ID_OP8) => {
                                 let result = api_impl.op8_get(
@@ -1322,7 +1249,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op8GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1335,7 +1261,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             // Op9Get - GET /op9
             hyper::Method::GET if path.matched(paths::ID_OP9) => {
                                 let result = api_impl.op9_get(
@@ -1352,7 +1277,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 Op9GetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1365,7 +1289,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         Ok(response)
             },
-
             _ if path.matched(paths::ID_OP1) => method_not_allowed(),
             _ if path.matched(paths::ID_OP10) => method_not_allowed(),
             _ if path.matched(paths::ID_OP11) => method_not_allowed(),
@@ -1414,7 +1337,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         ))
     }
 }
-
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {

@@ -119,5 +119,4 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         info!("op_get({:?}) - X-Span-ID: {:?}", op_get_request, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
-
 }

@@ -444,7 +444,6 @@ impl<S, C> Api<C> for Client<S, C> where
             });
             body_parts.push(part);
         }
-
         if let Some(optional_binary_field) = param_optional_binary_field {
             let part = Node::Part(Part {
                 headers: {
@@ -457,7 +456,6 @@ impl<S, C> Api<C> for Client<S, C> where
             });
             body_parts.push(part);
         }
-
         {
             let part = Node::Part(Part {
                 headers: {
@@ -479,7 +477,6 @@ impl<S, C> Api<C> for Client<S, C> where
         write_multipart(&mut body, &boundary, &body_parts)
             .expect("Failed to write multipart body");
 
-
         let header = "multipart/related";
         request.headers_mut().insert(CONTENT_TYPE,
         match HeaderValue::from_bytes(
@@ -491,7 +488,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         // Add the message body to the request object.
         *request.body_mut() = Body::from(body);
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -524,7 +520,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn multipart_request_post(
         &self,
         param_string_field: String,
@@ -643,8 +638,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {multipart_header} - {e}")))
         });
-
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -677,7 +670,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn multiple_identical_mime_types_post(
         &self,
         param_binary1: Option<swagger::ByteArray>,
@@ -730,7 +722,6 @@ impl<S, C> Api<C> for Client<S, C> where
             });
             body_parts.push(part);
         }
-
         if let Some(binary2) = param_binary2 {
             let part = Node::Part(Part {
                 headers: {
@@ -752,7 +743,6 @@ impl<S, C> Api<C> for Client<S, C> where
         write_multipart(&mut body, &boundary, &body_parts)
             .expect("Failed to write multipart body");
 
-
         let header = "multipart/related";
         request.headers_mut().insert(CONTENT_TYPE,
         match HeaderValue::from_bytes(
@@ -764,7 +754,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         // Add the message body to the request object.
         *request.body_mut() = Body::from(body);
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -797,5 +786,4 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
 }
