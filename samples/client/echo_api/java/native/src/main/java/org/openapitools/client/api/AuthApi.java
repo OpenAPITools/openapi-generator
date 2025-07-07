@@ -54,14 +54,8 @@ public class AuthApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
-  // Per-API Bearer authentication
-  private String bearerToken;
-
-  // Per-API Basic authentication
-  private String username;
-  private String password;
-
-
+  // Custom headers to be sent with every request from this API client
+  private final Map<String, String> extraHeaders = new java.util.HashMap<>();
 
   public AuthApi() {
     this(Configuration.getDefaultApiClient());
@@ -78,57 +72,24 @@ public class AuthApi {
   }
 
   /**
-   * Helper method to set access token for Bearer authentication.
-   * @param bearerToken Bearer token
-   * @return AuthApi
+   * Add a custom header to be sent with every request from this API client.
+   * @param name Header name
+   * @param value Header value
+   * @return this
    */
-  public AuthApi setBearerToken(String bearerToken) {
-    this.bearerToken = bearerToken;
+  public AuthApi addHeader(String name, String value) {
+    this.extraHeaders.put(name, value);
     return this;
   }
 
   /**
-   * Helper method to set username for HTTP basic authentication.
-   * @param username Username
-   * @return AuthApi
+   * Remove a custom header.
+   * @param name Header name
+   * @return this
    */
-  public AuthApi setUsername(String username) {
-    this.username = username;
+  public AuthApi removeHeader(String name) {
+    this.extraHeaders.remove(name);
     return this;
-  }
-
-  /**
-   * Helper method to set password for HTTP basic authentication.
-   * @param password Password
-   * @return AuthApi
-   */
-  public AuthApi setPassword(String password) {
-    this.password = password;
-    return this;
-  }
-
-
-
-  /**
-   * Apply authentication settings directly to request headers.
-   * This avoids modifying the shared ApiClient's authentication state.
-   */
-  private void applyAuthToHeaders(HttpRequest.Builder localVarRequestBuilder) {
-    if (bearerToken != null) {
-      localVarRequestBuilder.header("Authorization", "Bearer " + bearerToken);
-    }
-    if (username != null && password != null) {
-      String credentials = java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-      localVarRequestBuilder.header("Authorization", "Basic " + credentials);
-    }
-  }
-
-  /**
-   * Apply authentication settings directly to query parameters.
-   * This avoids modifying the shared ApiClient's authentication state.
-   */
-  private String applyAuthToQueryParams(String queryString) {
-    return queryString;
   }
 
 
@@ -205,7 +166,7 @@ public class AuthApi {
 
     String localVarPath = "/auth/http/basic";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -218,8 +179,10 @@ public class AuthApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -286,7 +249,7 @@ public class AuthApi {
 
     String localVarPath = "/auth/http/bearer";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -299,8 +262,10 @@ public class AuthApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

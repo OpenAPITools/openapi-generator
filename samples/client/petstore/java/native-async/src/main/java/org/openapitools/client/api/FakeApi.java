@@ -74,19 +74,8 @@ public class FakeApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
-  // Per-API Bearer authentication
-  private String bearerToken;
-
-  // Per-API Basic authentication
-  private String username;
-  private String password;
-
-  // Per-API API key authentication
-  private String apiKey;
-  private String apiKeyPrefix;
-
-  // Per-API OAuth authentication
-  private String accessToken;
+  // Custom headers to be sent with every request from this API client
+  private final Map<String, String> extraHeaders = new java.util.HashMap<>();
 
   public FakeApi() {
     this(Configuration.getDefaultApiClient());
@@ -103,105 +92,24 @@ public class FakeApi {
   }
 
   /**
-   * Helper method to set access token for Bearer authentication.
-   * @param bearerToken Bearer token
-   * @return FakeApi
+   * Add a custom header to be sent with every request from this API client.
+   * @param name Header name
+   * @param value Header value
+   * @return this
    */
-  public FakeApi setBearerToken(String bearerToken) {
-    this.bearerToken = bearerToken;
+  public FakeApi addHeader(String name, String value) {
+    this.extraHeaders.put(name, value);
     return this;
   }
 
   /**
-   * Helper method to set username for HTTP basic authentication.
-   * @param username Username
-   * @return FakeApi
+   * Remove a custom header.
+   * @param name Header name
+   * @return this
    */
-  public FakeApi setUsername(String username) {
-    this.username = username;
+  public FakeApi removeHeader(String name) {
+    this.extraHeaders.remove(name);
     return this;
-  }
-
-  /**
-   * Helper method to set password for HTTP basic authentication.
-   * @param password Password
-   * @return FakeApi
-   */
-  public FakeApi setPassword(String password) {
-    this.password = password;
-    return this;
-  }
-
-  /**
-   * Helper method to set API key value for API key authentication.
-   * @param apiKey API key
-   * @return FakeApi
-   */
-  public FakeApi setApiKey(String apiKey) {
-    this.apiKey = apiKey;
-    return this;
-  }
-
-  /**
-   * Helper method to set API key prefix for API key authentication.
-   * @param apiKeyPrefix API key prefix
-   * @return FakeApi
-   */
-  public FakeApi setApiKeyPrefix(String apiKeyPrefix) {
-    this.apiKeyPrefix = apiKeyPrefix;
-    return this;
-  }
-
-  /**
-   * Helper method to set access token for OAuth2 authentication.
-   * @param accessToken Access token
-   * @return FakeApi
-   */
-  public FakeApi setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-    return this;
-  }
-
-  /**
-   * Apply authentication settings directly to request headers.
-   * This avoids modifying the shared ApiClient's authentication state.
-   */
-  private void applyAuthToHeaders(HttpRequest.Builder localVarRequestBuilder) {
-    if (bearerToken != null) {
-      localVarRequestBuilder.header("Authorization", "Bearer " + bearerToken);
-    }
-    if (username != null && password != null) {
-      String credentials = java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-      localVarRequestBuilder.header("Authorization", "Basic " + credentials);
-    }
-    if (apiKey != null) {
-      
-      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
-      localVarRequestBuilder.header("api_key", keyValue);
-      
-    }
-    if (accessToken != null) {
-      localVarRequestBuilder.header("Authorization", "Bearer " + accessToken);
-    }
-  }
-
-  /**
-   * Apply authentication settings directly to query parameters.
-   * This avoids modifying the shared ApiClient's authentication state.
-   */
-  private String applyAuthToQueryParams(String queryString) {
-    if (apiKey != null) {
-      
-      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
-      String authParam = "api_key_query=" + keyValue;
-      if (queryString != null && !queryString.isEmpty()) {
-        return queryString + "&" + authParam;
-      } else {
-        return authParam;
-      }
-      
-    }
-    return queryString;
   }
 
 
@@ -290,7 +198,7 @@ public class FakeApi {
 
     String localVarPath = "/fake/BigDecimalMap";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -303,8 +211,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -384,7 +294,7 @@ public class FakeApi {
 
     String localVarPath = "/fake/health";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -397,8 +307,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -480,7 +392,7 @@ public class FakeApi {
 
     String localVarPath = "/fake/outer/boolean";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -499,8 +411,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -582,7 +496,7 @@ public class FakeApi {
 
     String localVarPath = "/fake/outer/composite";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -601,8 +515,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -684,7 +600,7 @@ public class FakeApi {
 
     String localVarPath = "/fake/outer/number";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -703,8 +619,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -786,7 +704,7 @@ public class FakeApi {
 
     String localVarPath = "/fake/outer/string";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -800,8 +718,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -881,7 +801,7 @@ public class FakeApi {
 
     String localVarPath = "/fake/application_json_utf8";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -894,8 +814,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -975,7 +897,7 @@ public class FakeApi {
 
     String localVarPath = "/fake/array-of-enums";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -988,8 +910,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1053,14 +977,15 @@ public class FakeApi {
   private HttpRequest.Builder testAdditionalPropertiesReferenceRequestBuilder(@javax.annotation.Nonnull Map<String, Object> requestBody) throws ApiException {
     // verify the required parameter 'requestBody' is set
     if (requestBody == null) {
-      throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference");
+      throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake/additionalProperties-reference";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -1079,8 +1004,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1144,14 +1071,15 @@ public class FakeApi {
   private HttpRequest.Builder testBodyWithFileSchemaRequestBuilder(@javax.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws ApiException {
     // verify the required parameter 'fileSchemaTestClass' is set
     if (fileSchemaTestClass == null) {
-      throw new ApiException(400, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+      throw new ApiException(400, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake/body-with-file-schema";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -1170,8 +1098,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1237,11 +1167,13 @@ public class FakeApi {
   private HttpRequest.Builder testBodyWithQueryParamsRequestBuilder(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User user) throws ApiException {
     // verify the required parameter 'query' is set
     if (query == null) {
-      throw new ApiException(400, "Missing the required parameter 'query' when calling testBodyWithQueryParams");
+      throw new ApiException(400, "Missing the required parameter 'query' when calling testBodyWithQueryParams"
+      );
     }
     // verify the required parameter 'user' is set
     if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling testBodyWithQueryParams");
+      throw new ApiException(400, "Missing the required parameter 'user' when calling testBodyWithQueryParams"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -1260,10 +1192,10 @@ public class FakeApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      String finalQuery = null; // No longer need to apply auth to query params
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      String authQuery = applyAuthToQueryParams(null);
+      String authQuery = null; // No longer need to apply auth to query params
       if (authQuery != null && !authQuery.isEmpty()) {
         localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
       } else {
@@ -1283,8 +1215,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1363,14 +1297,15 @@ public class FakeApi {
   private HttpRequest.Builder testClientModelRequestBuilder(@javax.annotation.Nonnull Client client) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
-      throw new ApiException(400, "Missing the required parameter 'client' when calling testClientModel");
+      throw new ApiException(400, "Missing the required parameter 'client' when calling testClientModel"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -1389,8 +1324,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1480,26 +1417,30 @@ public class FakeApi {
   private HttpRequest.Builder testEndpointParametersRequestBuilder(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) throws ApiException {
     // verify the required parameter 'number' is set
     if (number == null) {
-      throw new ApiException(400, "Missing the required parameter 'number' when calling testEndpointParameters");
+      throw new ApiException(400, "Missing the required parameter 'number' when calling testEndpointParameters"
+      );
     }
     // verify the required parameter '_double' is set
     if (_double == null) {
-      throw new ApiException(400, "Missing the required parameter '_double' when calling testEndpointParameters");
+      throw new ApiException(400, "Missing the required parameter '_double' when calling testEndpointParameters"
+      );
     }
     // verify the required parameter 'patternWithoutDelimiter' is set
     if (patternWithoutDelimiter == null) {
-      throw new ApiException(400, "Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters");
+      throw new ApiException(400, "Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters"
+      );
     }
     // verify the required parameter '_byte' is set
     if (_byte == null) {
-      throw new ApiException(400, "Missing the required parameter '_byte' when calling testEndpointParameters");
+      throw new ApiException(400, "Missing the required parameter '_byte' when calling testEndpointParameters"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -1565,8 +1506,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1665,10 +1608,10 @@ public class FakeApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      String finalQuery = null; // No longer need to apply auth to query params
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      String authQuery = applyAuthToQueryParams(null);
+      String authQuery = null; // No longer need to apply auth to query params
       if (authQuery != null && !authQuery.isEmpty()) {
         localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
       } else {
@@ -1707,8 +1650,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -1822,15 +1767,18 @@ public class FakeApi {
   private HttpRequest.Builder testGroupParametersRequestBuilder(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group) throws ApiException {
     // verify the required parameter 'requiredStringGroup' is set
     if (requiredStringGroup == null) {
-      throw new ApiException(400, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+      throw new ApiException(400, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters"
+      );
     }
     // verify the required parameter 'requiredBooleanGroup' is set
     if (requiredBooleanGroup == null) {
-      throw new ApiException(400, "Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+      throw new ApiException(400, "Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters"
+      );
     }
     // verify the required parameter 'requiredInt64Group' is set
     if (requiredInt64Group == null) {
-      throw new ApiException(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+      throw new ApiException(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -1855,10 +1803,10 @@ public class FakeApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      String finalQuery = null; // No longer need to apply auth to query params
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      String authQuery = applyAuthToQueryParams(null);
+      String authQuery = null; // No longer need to apply auth to query params
       if (authQuery != null && !authQuery.isEmpty()) {
         localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
       } else {
@@ -1878,8 +1826,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -2032,14 +1982,15 @@ public class FakeApi {
   private HttpRequest.Builder testInlineAdditionalPropertiesRequestBuilder(@javax.annotation.Nonnull Map<String, String> requestBody) throws ApiException {
     // verify the required parameter 'requestBody' is set
     if (requestBody == null) {
-      throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
+      throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake/inline-additionalProperties";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -2058,8 +2009,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -2123,14 +2076,15 @@ public class FakeApi {
   private HttpRequest.Builder testInlineFreeformAdditionalPropertiesRequestBuilder(@javax.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
     // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
     if (testInlineFreeformAdditionalPropertiesRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties");
+      throw new ApiException(400, "Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake/inline-freeform-additionalProperties";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -2149,8 +2103,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -2216,18 +2172,20 @@ public class FakeApi {
   private HttpRequest.Builder testJsonFormDataRequestBuilder(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) throws ApiException {
     // verify the required parameter 'param' is set
     if (param == null) {
-      throw new ApiException(400, "Missing the required parameter 'param' when calling testJsonFormData");
+      throw new ApiException(400, "Missing the required parameter 'param' when calling testJsonFormData"
+      );
     }
     // verify the required parameter 'param2' is set
     if (param2 == null) {
-      throw new ApiException(400, "Missing the required parameter 'param2' when calling testJsonFormData");
+      throw new ApiException(400, "Missing the required parameter 'param2' when calling testJsonFormData"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake/jsonFormData";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -2257,8 +2215,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -2330,23 +2290,28 @@ public class FakeApi {
   private HttpRequest.Builder testQueryParameterCollectionFormatRequestBuilder(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context) throws ApiException {
     // verify the required parameter 'pipe' is set
     if (pipe == null) {
-      throw new ApiException(400, "Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
+      throw new ApiException(400, "Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat"
+      );
     }
     // verify the required parameter 'ioutil' is set
     if (ioutil == null) {
-      throw new ApiException(400, "Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat");
+      throw new ApiException(400, "Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat"
+      );
     }
     // verify the required parameter 'http' is set
     if (http == null) {
-      throw new ApiException(400, "Missing the required parameter 'http' when calling testQueryParameterCollectionFormat");
+      throw new ApiException(400, "Missing the required parameter 'http' when calling testQueryParameterCollectionFormat"
+      );
     }
     // verify the required parameter 'url' is set
     if (url == null) {
-      throw new ApiException(400, "Missing the required parameter 'url' when calling testQueryParameterCollectionFormat");
+      throw new ApiException(400, "Missing the required parameter 'url' when calling testQueryParameterCollectionFormat"
+      );
     }
     // verify the required parameter 'context' is set
     if (context == null) {
-      throw new ApiException(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
+      throw new ApiException(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -2373,10 +2338,10 @@ public class FakeApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      String finalQuery = null; // No longer need to apply auth to query params
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      String authQuery = applyAuthToQueryParams(null);
+      String authQuery = null; // No longer need to apply auth to query params
       if (authQuery != null && !authQuery.isEmpty()) {
         localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
       } else {
@@ -2390,8 +2355,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -2455,14 +2422,15 @@ public class FakeApi {
   private HttpRequest.Builder testStringMapReferenceRequestBuilder(@javax.annotation.Nonnull Map<String, String> requestBody) throws ApiException {
     // verify the required parameter 'requestBody' is set
     if (requestBody == null) {
-      throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testStringMapReference");
+      throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testStringMapReference"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake/stringMap-reference";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -2481,8 +2449,10 @@ public class FakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

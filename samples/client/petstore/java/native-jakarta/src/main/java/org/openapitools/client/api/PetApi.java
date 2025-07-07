@@ -63,14 +63,8 @@ public class PetApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
-
-
-  // Per-API API key authentication
-  private String apiKey;
-  private String apiKeyPrefix;
-
-  // Per-API OAuth authentication
-  private String accessToken;
+  // Custom headers to be sent with every request from this API client
+  private final Map<String, String> extraHeaders = new java.util.HashMap<>();
 
   public PetApi() {
     this(Configuration.getDefaultApiClient());
@@ -86,63 +80,25 @@ public class PetApi {
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
 
-
-
   /**
-   * Helper method to set API key value for API key authentication.
-   * @param apiKey API key
-   * @return PetApi
+   * Add a custom header to be sent with every request from this API client.
+   * @param name Header name
+   * @param value Header value
+   * @return this
    */
-  public PetApi setApiKey(String apiKey) {
-    this.apiKey = apiKey;
+  public PetApi addHeader(String name, String value) {
+    this.extraHeaders.put(name, value);
     return this;
   }
 
   /**
-   * Helper method to set API key prefix for API key authentication.
-   * @param apiKeyPrefix API key prefix
-   * @return PetApi
+   * Remove a custom header.
+   * @param name Header name
+   * @return this
    */
-  public PetApi setApiKeyPrefix(String apiKeyPrefix) {
-    this.apiKeyPrefix = apiKeyPrefix;
+  public PetApi removeHeader(String name) {
+    this.extraHeaders.remove(name);
     return this;
-  }
-
-  /**
-   * Helper method to set access token for OAuth2 authentication.
-   * @param accessToken Access token
-   * @return PetApi
-   */
-  public PetApi setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-    return this;
-  }
-
-  /**
-   * Apply authentication settings directly to request headers.
-   * This avoids modifying the shared ApiClient's authentication state.
-   */
-  private void applyAuthToHeaders(HttpRequest.Builder localVarRequestBuilder) {
-    if (apiKey != null) {
-      
-      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
-      localVarRequestBuilder.header("api_key", keyValue);
-      
-    }
-    if (accessToken != null) {
-      localVarRequestBuilder.header("Authorization", "Bearer " + accessToken);
-    }
-  }
-
-  /**
-   * Apply authentication settings directly to query parameters.
-   * This avoids modifying the shared ApiClient's authentication state.
-   */
-  private String applyAuthToQueryParams(String queryString) {
-    if (apiKey != null) {
-      
-    }
-    return queryString;
   }
 
 
@@ -221,14 +177,15 @@ public class PetApi {
   private HttpRequest.Builder addPetRequestBuilder(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
     // verify the required parameter 'pet' is set
     if (pet == null) {
-      throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/pet";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -247,8 +204,10 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -311,7 +270,8 @@ public class PetApi {
   private HttpRequest.Builder deletePetRequestBuilder(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
-      throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet");
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -319,7 +279,7 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -335,8 +295,10 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -405,7 +367,8 @@ public class PetApi {
   private HttpRequest.Builder findPetsByStatusRequestBuilder(@jakarta.annotation.Nonnull List<String> status) throws ApiException {
     // verify the required parameter 'status' is set
     if (status == null) {
-      throw new ApiException(400, "Missing the required parameter 'status' when calling findPetsByStatus");
+      throw new ApiException(400, "Missing the required parameter 'status' when calling findPetsByStatus"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -424,10 +387,10 @@ public class PetApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      String finalQuery = null; // No longer need to apply auth to query params
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      String authQuery = applyAuthToQueryParams(null);
+      String authQuery = null; // No longer need to apply auth to query params
       if (authQuery != null && !authQuery.isEmpty()) {
         localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
       } else {
@@ -441,8 +404,10 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -515,7 +480,8 @@ public class PetApi {
   private HttpRequest.Builder findPetsByTagsRequestBuilder(@jakarta.annotation.Nonnull List<String> tags) throws ApiException {
     // verify the required parameter 'tags' is set
     if (tags == null) {
-      throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags");
+      throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -534,10 +500,10 @@ public class PetApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      String finalQuery = null; // No longer need to apply auth to query params
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      String authQuery = applyAuthToQueryParams(null);
+      String authQuery = null; // No longer need to apply auth to query params
       if (authQuery != null && !authQuery.isEmpty()) {
         localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
       } else {
@@ -551,8 +517,10 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -621,7 +589,8 @@ public class PetApi {
   private HttpRequest.Builder getPetByIdRequestBuilder(@jakarta.annotation.Nonnull Long petId) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
-      throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById");
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -629,7 +598,7 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -642,8 +611,10 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -716,14 +687,15 @@ public class PetApi {
   private HttpRequest.Builder updatePetRequestBuilder(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
     // verify the required parameter 'pet' is set
     if (pet == null) {
-      throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/pet";
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -742,8 +714,10 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -808,7 +782,8 @@ public class PetApi {
   private HttpRequest.Builder updatePetWithFormRequestBuilder(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
-      throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm");
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -816,7 +791,7 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -846,8 +821,10 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -920,7 +897,8 @@ public class PetApi {
   private HttpRequest.Builder uploadFileRequestBuilder(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
-      throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile"
+      );
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -928,7 +906,7 @@ public class PetApi {
     String localVarPath = "/pet/{petId}/uploadImage"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -977,8 +955,10 @@ public class PetApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
