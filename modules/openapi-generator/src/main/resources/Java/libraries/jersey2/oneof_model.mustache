@@ -181,6 +181,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
 {{> libraries/jersey2/additional_properties }}
+
     {{#additionalPropertiesType}}
     /**
      * Return true if this {{name}} object is equal to o.
