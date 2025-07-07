@@ -394,8 +394,7 @@ public class {{classname}} {
     {{#required}}
     // verify the required parameter '{{paramName}}' is set
     if ({{paramName}} == null) {
-      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}"
-      );
+      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
     }
     {{/required}}
     {{/allParams}}
@@ -465,8 +464,7 @@ public class {{classname}} {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String queryString = queryJoiner.toString();
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryString));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
