@@ -451,7 +451,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -484,7 +483,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op11_get(
         &self,
         context: &C) -> Result<Op11GetResponse, ApiError>
@@ -518,7 +516,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -551,7 +548,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op12_get(
         &self,
         context: &C) -> Result<Op12GetResponse, ApiError>
@@ -585,7 +581,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -618,7 +613,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op13_get(
         &self,
         context: &C) -> Result<Op13GetResponse, ApiError>
@@ -652,7 +646,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -685,7 +678,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op14_get(
         &self,
         context: &C) -> Result<Op14GetResponse, ApiError>
@@ -719,7 +711,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -752,7 +743,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op15_get(
         &self,
         context: &C) -> Result<Op15GetResponse, ApiError>
@@ -786,7 +776,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -819,7 +808,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op16_get(
         &self,
         context: &C) -> Result<Op16GetResponse, ApiError>
@@ -853,7 +841,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -886,7 +873,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op17_get(
         &self,
         context: &C) -> Result<Op17GetResponse, ApiError>
@@ -920,7 +906,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -953,7 +938,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op18_get(
         &self,
         context: &C) -> Result<Op18GetResponse, ApiError>
@@ -987,7 +971,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1020,7 +1003,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op19_get(
         &self,
         context: &C) -> Result<Op19GetResponse, ApiError>
@@ -1054,7 +1036,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1087,7 +1068,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op1_get(
         &self,
         context: &C) -> Result<Op1GetResponse, ApiError>
@@ -1121,7 +1101,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1154,7 +1133,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op20_get(
         &self,
         context: &C) -> Result<Op20GetResponse, ApiError>
@@ -1188,7 +1166,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1221,7 +1198,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op21_get(
         &self,
         context: &C) -> Result<Op21GetResponse, ApiError>
@@ -1255,7 +1231,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1288,7 +1263,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op22_get(
         &self,
         context: &C) -> Result<Op22GetResponse, ApiError>
@@ -1322,7 +1296,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1355,7 +1328,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op23_get(
         &self,
         context: &C) -> Result<Op23GetResponse, ApiError>
@@ -1389,7 +1361,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1422,7 +1393,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op24_get(
         &self,
         context: &C) -> Result<Op24GetResponse, ApiError>
@@ -1456,7 +1426,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1489,7 +1458,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op25_get(
         &self,
         context: &C) -> Result<Op25GetResponse, ApiError>
@@ -1523,7 +1491,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1556,7 +1523,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op26_get(
         &self,
         context: &C) -> Result<Op26GetResponse, ApiError>
@@ -1590,7 +1556,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1623,7 +1588,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op27_get(
         &self,
         context: &C) -> Result<Op27GetResponse, ApiError>
@@ -1657,7 +1621,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1690,7 +1653,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op28_get(
         &self,
         context: &C) -> Result<Op28GetResponse, ApiError>
@@ -1724,7 +1686,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1757,7 +1718,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op29_get(
         &self,
         context: &C) -> Result<Op29GetResponse, ApiError>
@@ -1791,7 +1751,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1824,7 +1783,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op2_get(
         &self,
         context: &C) -> Result<Op2GetResponse, ApiError>
@@ -1858,7 +1816,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1891,7 +1848,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op30_get(
         &self,
         context: &C) -> Result<Op30GetResponse, ApiError>
@@ -1925,7 +1881,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1958,7 +1913,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op31_get(
         &self,
         context: &C) -> Result<Op31GetResponse, ApiError>
@@ -1992,7 +1946,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2025,7 +1978,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op32_get(
         &self,
         context: &C) -> Result<Op32GetResponse, ApiError>
@@ -2059,7 +2011,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2092,7 +2043,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op33_get(
         &self,
         context: &C) -> Result<Op33GetResponse, ApiError>
@@ -2126,7 +2076,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2159,7 +2108,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op34_get(
         &self,
         context: &C) -> Result<Op34GetResponse, ApiError>
@@ -2193,7 +2141,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2226,7 +2173,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op35_get(
         &self,
         context: &C) -> Result<Op35GetResponse, ApiError>
@@ -2260,7 +2206,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2293,7 +2238,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op36_get(
         &self,
         context: &C) -> Result<Op36GetResponse, ApiError>
@@ -2327,7 +2271,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2360,7 +2303,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op37_get(
         &self,
         context: &C) -> Result<Op37GetResponse, ApiError>
@@ -2394,7 +2336,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2427,7 +2368,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op3_get(
         &self,
         context: &C) -> Result<Op3GetResponse, ApiError>
@@ -2461,7 +2401,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2494,7 +2433,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op4_get(
         &self,
         context: &C) -> Result<Op4GetResponse, ApiError>
@@ -2528,7 +2466,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2561,7 +2498,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op5_get(
         &self,
         context: &C) -> Result<Op5GetResponse, ApiError>
@@ -2595,7 +2531,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2628,7 +2563,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op6_get(
         &self,
         context: &C) -> Result<Op6GetResponse, ApiError>
@@ -2662,7 +2596,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2695,7 +2628,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op7_get(
         &self,
         context: &C) -> Result<Op7GetResponse, ApiError>
@@ -2729,7 +2661,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2762,7 +2693,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op8_get(
         &self,
         context: &C) -> Result<Op8GetResponse, ApiError>
@@ -2796,7 +2726,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2829,7 +2758,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn op9_get(
         &self,
         context: &C) -> Result<Op9GetResponse, ApiError>
@@ -2863,7 +2791,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2896,5 +2823,4 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
 }

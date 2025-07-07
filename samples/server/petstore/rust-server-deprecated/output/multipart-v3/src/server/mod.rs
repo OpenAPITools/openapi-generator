@@ -52,7 +52,6 @@ mod paths {
     pub(crate) static ID_MULTIPLE_IDENTICAL_MIME_TYPES: usize = 2;
 }
 
-
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString>  + Send + Sync + 'static
@@ -104,7 +103,6 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
         future::ok(service)
     }
 }
-
 fn method_not_allowed() -> Result<Response<Body>, crate::ServiceError> {
     Ok(
         Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
@@ -185,7 +183,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
             match method {
-
             // MultipartRelatedRequestPost - POST /multipart_related_request
             hyper::Method::POST if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -272,8 +269,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         .body(Body::from("Missing required multipart/related parameter required_binary_field".to_string()))
                                         .expect("Unable to create Bad Request response for missing multipart/related parameter required_binary_field due to schema"))
                                 };
-
-
                                 let result = api_impl.multipart_related_request_post(
                                             param_required_binary_field,
                                             param_object_field,
@@ -297,7 +292,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 MultipartRelatedRequestPostResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -316,7 +310,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // MultipartRequestPost - POST /multipart_request
             hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -465,8 +458,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                             .expect("Unable to create Bad Request due to missing required form parameter binary_field"))
                                     }
                                 };
-
-
                                 let result = api_impl.multipart_request_post(
                                             param_string_field,
                                             param_binary_field,
@@ -485,7 +476,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 MultipartRequestPostResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -504,7 +494,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             // MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
             hyper::Method::POST if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -567,8 +556,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 }
 
                                 // Check that the required multipart chunks are present.
-
-
                                 let result = api_impl.multiple_identical_mime_types_post(
                                             param_binary1,
                                             param_binary2,
@@ -591,7 +578,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 MultipleIdenticalMimeTypesPostResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -610,7 +596,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             _ if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIPART_REQUEST) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => method_not_allowed(),
@@ -626,7 +611,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         ))
     }
 }
-
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
