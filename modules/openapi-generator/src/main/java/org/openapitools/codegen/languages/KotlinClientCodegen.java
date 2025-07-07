@@ -963,6 +963,38 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         return objects;
     }
 
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.kotlinx_serialization) {
+            for (Map.Entry<String, ModelsMap> modelsMap : objs.entrySet()) {
+                for (ModelMap mo : modelsMap.getValue().getModels()) {
+                    CodegenModel cm = mo.getModel();
+                    CodegenDiscriminator discriminator = cm.getDiscriminator();
+                    if (discriminator == null) {
+                        continue;
+                    }
+                    getAllVarProperties(cm).forEach(list -> list.removeIf(var -> var.name == discriminator.getPropertyName()));
+
+                    for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
+                        CodegenProperty additionalProperties = mappedModel.getModel().getAdditionalProperties();
+                        if (additionalProperties == null) {
+                            additionalProperties = new CodegenProperty();
+                            mappedModel.getModel().setAdditionalProperties(additionalProperties);
+                        }
+                        additionalProperties.discriminatorValue = mappedModel.getMappingName();
+                        getAllVarProperties(mappedModel.getModel()).forEach(list -> list.removeIf(prop -> prop.name == discriminator.getPropertyName()));
+                    }
+
+                }
+            }
+        }
+        return objs;
+    }
+    private Stream<List<CodegenProperty>> getAllVarProperties(CodegenModel model) {
+        return Stream.of(model.vars, model.allVars, model.optionalVars, model.requiredVars, model.readOnlyVars, model.readWriteVars);
+    }
+
     private boolean usesRetrofit2Library() {
         return getLibrary() != null && getLibrary().contains(JVM_RETROFIT2);
     }
