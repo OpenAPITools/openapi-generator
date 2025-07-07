@@ -415,7 +415,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -466,5 +465,4 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
 }

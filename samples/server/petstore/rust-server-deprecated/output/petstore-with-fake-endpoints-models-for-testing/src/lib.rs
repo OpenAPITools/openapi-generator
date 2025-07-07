@@ -26,60 +26,51 @@ pub enum TestSpecialTagsResponse {
     SuccessfulOperation
     (models::Client)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum Call123exampleResponse {
     /// success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum FakeOuterBooleanSerializeResponse {
     /// Output boolean
     OutputBoolean
     (bool)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum FakeOuterCompositeSerializeResponse {
     /// Output composite
     OutputComposite
     (models::OuterComposite)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum FakeOuterNumberSerializeResponse {
     /// Output number
     OutputNumber
     (f64)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum FakeOuterStringSerializeResponse {
     /// Output string
     OutputString
     (String)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum FakeResponseWithNumericalDescriptionResponse {
     /// 1234
     Status200
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum TestBodyWithQueryParamsResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum TestClientModelResponse {
     /// successful operation
     SuccessfulOperation
     (models::Client)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum TestEndpointParametersResponse {
@@ -89,7 +80,6 @@ pub enum TestEndpointParametersResponse {
     /// User not found
     UserNotFound
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum TestEnumParametersResponse {
@@ -99,38 +89,32 @@ pub enum TestEnumParametersResponse {
     /// Not found
     NotFound
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum TestInlineAdditionalPropertiesResponse {
     /// successful operation
     SuccessfulOperation
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum TestJsonFormDataResponse {
     /// successful operation
     SuccessfulOperation
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum HyphenParamResponse {
     /// Success
     Success
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum TestClassnameResponse {
     /// successful operation
     SuccessfulOperation
     (models::Client)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum AddPetResponse {
     /// Invalid input
     InvalidInput
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum FindPetsByStatusResponse {
@@ -141,7 +125,6 @@ pub enum FindPetsByStatusResponse {
     /// Invalid status value
     InvalidStatusValue
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum FindPetsByTagsResponse {
@@ -152,7 +135,6 @@ pub enum FindPetsByTagsResponse {
     /// Invalid tag value
     InvalidTagValue
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum UpdatePetResponse {
@@ -165,13 +147,11 @@ pub enum UpdatePetResponse {
     /// Validation exception
     ValidationException
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum DeletePetResponse {
     /// Invalid pet value
     InvalidPetValue
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum GetPetByIdResponse {
@@ -185,27 +165,23 @@ pub enum GetPetByIdResponse {
     /// Pet not found
     PetNotFound
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UpdatePetWithFormResponse {
     /// Invalid input
     InvalidInput
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UploadFileResponse {
     /// successful operation
     SuccessfulOperation
     (models::ApiResponse)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum GetInventoryResponse {
     /// successful operation
     SuccessfulOperation
     (std::collections::HashMap<String, i32>)
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum PlaceOrderResponse {
@@ -216,7 +192,6 @@ pub enum PlaceOrderResponse {
     /// Invalid Order
     InvalidOrder
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum DeleteOrderResponse {
@@ -226,7 +201,6 @@ pub enum DeleteOrderResponse {
     /// Order not found
     OrderNotFound
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum GetOrderByIdResponse {
@@ -240,25 +214,21 @@ pub enum GetOrderByIdResponse {
     /// Order not found
     OrderNotFound
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CreateUserResponse {
     /// successful operation
     SuccessfulOperation
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CreateUsersWithArrayInputResponse {
     /// successful operation
     SuccessfulOperation
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CreateUsersWithListInputResponse {
     /// successful operation
     SuccessfulOperation
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum LoginUserResponse {
@@ -280,13 +250,11 @@ pub enum LoginUserResponse {
     /// Invalid username/password supplied
     InvalidUsername
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum LogoutUserResponse {
     /// successful operation
     SuccessfulOperation
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum DeleteUserResponse {
@@ -296,7 +264,6 @@ pub enum DeleteUserResponse {
     /// User not found
     UserNotFound
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum GetUserByNameResponse {
@@ -310,7 +277,6 @@ pub enum GetUserByNameResponse {
     /// User not found
     UserNotFound
 }
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum UpdateUserResponse {
@@ -320,7 +286,6 @@ pub enum UpdateUserResponse {
     /// User not found
     UserNotFound
 }
-
 /// API
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]

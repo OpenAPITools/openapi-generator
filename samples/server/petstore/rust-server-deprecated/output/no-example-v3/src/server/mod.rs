@@ -41,7 +41,6 @@ mod paths {
     pub(crate) static ID_OP: usize = 0;
 }
 
-
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString>  + Send + Sync + 'static
@@ -80,7 +79,6 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
         future::ok(service)
     }
 }
-
 fn method_not_allowed() -> Result<Response<Body>, crate::ServiceError> {
     Ok(
         Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
@@ -147,7 +145,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
             match method {
-
             // OpGet - GET /op
             hyper::Method::GET if path.matched(paths::ID_OP) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -179,8 +176,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .body(Body::from("Missing required body parameter OpGetRequest"))
                                                         .expect("Unable to create Bad Request response for missing body parameter OpGetRequest")),
                                 };
-
-
                                 let result = api_impl.op_get(
                                             param_op_get_request,
                                         &context
@@ -202,7 +197,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 OpGetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -221,7 +215,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
-
             _ if path.matched(paths::ID_OP) => method_not_allowed(),
                 _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
                         .body(Body::empty())
@@ -234,7 +227,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         ))
     }
 }
-
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {

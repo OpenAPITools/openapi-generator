@@ -423,7 +423,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -444,7 +443,6 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::AllOfObject>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(AllOfGetResponse::OK
                     (body)
@@ -467,7 +465,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn dummy_get(
         &self,
         context: &C) -> Result<DummyGetResponse, ApiError>
@@ -501,7 +498,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -534,7 +530,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn dummy_put(
         &self,
         param_nested_response: models::DummyPutRequest,
@@ -580,7 +575,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -613,7 +607,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn file_response_get(
         &self,
         context: &C) -> Result<FileResponseGetResponse, ApiError>
@@ -647,7 +640,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -668,7 +660,6 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<swagger::ByteArray>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(FileResponseGetResponse::Success
                     (body)
@@ -691,7 +682,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn get_structured_yaml(
         &self,
         context: &C) -> Result<GetStructuredYamlResponse, ApiError>
@@ -725,7 +715,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -745,7 +734,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = body.to_string();
-
 
                 Ok(GetStructuredYamlResponse::OK
                     (body)
@@ -768,7 +756,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn html_post(
         &self,
         param_body: String,
@@ -814,7 +801,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -834,7 +820,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = body.to_string();
-
 
                 Ok(HtmlPostResponse::Success
                     (body)
@@ -857,7 +842,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn post_yaml(
         &self,
         param_value: String,
@@ -903,7 +887,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -936,7 +919,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn raw_json_get(
         &self,
         context: &C) -> Result<RawJsonGetResponse, ApiError>
@@ -970,7 +952,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -991,7 +972,6 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<serde_json::Value>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(RawJsonGetResponse::Success
                     (body)
@@ -1014,7 +994,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn solo_object_post(
         &self,
         param_value: serde_json::Value,
@@ -1060,7 +1039,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1093,5 +1071,4 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
 }

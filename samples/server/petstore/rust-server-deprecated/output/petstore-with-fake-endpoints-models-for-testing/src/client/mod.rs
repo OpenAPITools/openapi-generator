@@ -464,7 +464,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -485,7 +484,6 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::Client>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(TestSpecialTagsResponse::SuccessfulOperation
                     (body)
@@ -508,7 +506,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn call123example(
         &self,
         context: &C) -> Result<Call123exampleResponse, ApiError>
@@ -542,7 +539,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -575,7 +571,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn fake_outer_boolean_serialize(
         &self,
         param_body: Option<models::OuterBoolean>,
@@ -623,7 +618,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -644,7 +638,6 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<bool>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(FakeOuterBooleanSerializeResponse::OutputBoolean
                     (body)
@@ -667,7 +660,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn fake_outer_composite_serialize(
         &self,
         param_body: Option<models::OuterComposite>,
@@ -715,7 +707,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -736,7 +727,6 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::OuterComposite>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(FakeOuterCompositeSerializeResponse::OutputComposite
                     (body)
@@ -759,7 +749,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn fake_outer_number_serialize(
         &self,
         param_body: Option<models::OuterNumber>,
@@ -807,7 +796,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -828,7 +816,6 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<f64>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(FakeOuterNumberSerializeResponse::OutputNumber
                     (body)
@@ -851,7 +838,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn fake_outer_string_serialize(
         &self,
         param_body: Option<models::OuterString>,
@@ -899,7 +885,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -920,7 +905,6 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<String>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(FakeOuterStringSerializeResponse::OutputString
                     (body)
@@ -943,7 +927,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn fake_response_with_numerical_description(
         &self,
         context: &C) -> Result<FakeResponseWithNumericalDescriptionResponse, ApiError>
@@ -977,7 +960,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1010,7 +992,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn test_body_with_query_params(
         &self,
         param_query: String,
@@ -1059,7 +1040,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1092,7 +1072,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn test_client_model(
         &self,
         param_body: models::Client,
@@ -1138,7 +1117,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1159,7 +1137,6 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {e}")))?;
                 let body = serde_json::from_str::<models::Client>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(TestClientModelResponse::SuccessfulOperation
                     (body)
@@ -1182,7 +1159,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn test_endpoint_parameters(
         &self,
         param_number: f64,
@@ -1319,7 +1295,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1375,7 +1350,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn test_enum_parameters(
         &self,
         param_enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
@@ -1451,7 +1425,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1524,7 +1497,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn test_inline_additional_properties(
         &self,
         param_param: std::collections::HashMap<String, String>,
@@ -1570,7 +1542,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1603,7 +1574,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn test_json_form_data(
         &self,
         param_param: String,
@@ -1660,7 +1630,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1693,7 +1662,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn hyphen_param(
         &self,
         param_hyphen_param: String,
@@ -1729,7 +1697,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1762,7 +1729,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn test_classname(
         &self,
         param_body: models::Client,
@@ -1811,7 +1777,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1841,7 +1806,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = serde_json::from_str::<models::Client>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
                 Ok(TestClassnameResponse::SuccessfulOperation
                     (body)
                 )
@@ -1863,7 +1827,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn add_pet(
         &self,
         param_body: models::Pet,
@@ -1909,7 +1872,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1960,7 +1922,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn find_pets_by_status(
         &self,
         param_status: &Vec<models::FindPetsByStatusStatusParameterInner>,
@@ -1997,7 +1958,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2039,7 +1999,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
                 Ok(FindPetsByStatusResponse::SuccessfulOperation
                     (body)
                 )
@@ -2066,7 +2025,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn find_pets_by_tags(
         &self,
         param_tags: &Vec<String>,
@@ -2103,7 +2061,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2145,7 +2102,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
                 Ok(FindPetsByTagsResponse::SuccessfulOperation
                     (body)
                 )
@@ -2172,7 +2128,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn update_pet(
         &self,
         param_body: models::Pet,
@@ -2218,7 +2173,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2279,7 +2233,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn delete_pet(
         &self,
         param_pet_id: i64,
@@ -2316,7 +2269,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2385,7 +2337,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn get_pet_by_id(
         &self,
         param_pet_id: i64,
@@ -2421,7 +2372,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2452,7 +2402,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<models::Pet>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(GetPetByIdResponse::SuccessfulOperation
                     (body)
@@ -2485,7 +2434,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn update_pet_with_form(
         &self,
         param_pet_id: i64,
@@ -2548,7 +2496,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2599,7 +2546,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn upload_file(
         &self,
         param_pet_id: i64,
@@ -2693,8 +2639,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {multipart_header} - {e}")))
         });
-
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2734,7 +2678,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = serde_json::from_str::<models::ApiResponse>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
                 Ok(UploadFileResponse::SuccessfulOperation
                     (body)
                 )
@@ -2756,7 +2699,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn get_inventory(
         &self,
         context: &C) -> Result<GetInventoryResponse, ApiError>
@@ -2790,7 +2732,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2820,7 +2761,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = serde_json::from_str::<std::collections::HashMap<String, i32>>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
                 Ok(GetInventoryResponse::SuccessfulOperation
                     (body)
                 )
@@ -2842,7 +2782,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn place_order(
         &self,
         param_body: models::Order,
@@ -2888,7 +2827,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2911,7 +2849,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<models::Order>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(PlaceOrderResponse::SuccessfulOperation
                     (body)
@@ -2939,7 +2876,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn delete_order(
         &self,
         param_order_id: String,
@@ -2975,7 +2911,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3013,7 +2948,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn get_order_by_id(
         &self,
         param_order_id: i64,
@@ -3049,7 +2983,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3072,7 +3005,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<models::Order>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(GetOrderByIdResponse::SuccessfulOperation
                     (body)
@@ -3105,7 +3037,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn create_user(
         &self,
         param_body: models::User,
@@ -3151,7 +3082,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3184,7 +3114,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn create_users_with_array_input(
         &self,
         param_body: &Vec<models::User>,
@@ -3230,7 +3159,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3263,7 +3191,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn create_users_with_list_input(
         &self,
         param_body: &Vec<models::User>,
@@ -3309,7 +3236,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3342,7 +3268,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn login_user(
         &self,
         param_username: String,
@@ -3382,7 +3307,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3434,7 +3358,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = serde_xml_rs::from_str::<String>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
 
-
                 Ok(LoginUserResponse::SuccessfulOperation
                     {
                         body,
@@ -3465,7 +3388,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn logout_user(
         &self,
         context: &C) -> Result<LogoutUserResponse, ApiError>
@@ -3499,7 +3421,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3532,7 +3453,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn delete_user(
         &self,
         param_username: String,
@@ -3568,7 +3488,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3606,7 +3525,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn get_user_by_name(
         &self,
         param_username: String,
@@ -3642,7 +3560,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3665,7 +3582,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<models::User>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {e}")))?;
-
 
                 Ok(GetUserByNameResponse::SuccessfulOperation
                     (body)
@@ -3698,7 +3614,6 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
     async fn update_user(
         &self,
         param_username: String,
@@ -3746,7 +3661,6 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
-
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3784,5 +3698,4 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
     }
-
 }
