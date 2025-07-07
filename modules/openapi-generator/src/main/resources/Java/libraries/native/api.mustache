@@ -64,27 +64,8 @@ public class {{classname}} {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
-  {{#hasHttpBearerMethods}}
-  // Per-API Bearer authentication
-  private String bearerToken;
-  {{/hasHttpBearerMethods}}
-
-  {{#hasHttpBasicMethods}}
-  // Per-API Basic authentication
-  private String username;
-  private String password;
-  {{/hasHttpBasicMethods}}
-
-  {{#hasApiKeyMethods}}
-  // Per-API API key authentication
-  private String apiKey;
-  private String apiKeyPrefix;
-  {{/hasApiKeyMethods}}
-
-  {{#hasOAuthMethods}}
-  // Per-API OAuth authentication
-  private String accessToken;
-  {{/hasOAuthMethods}}
+  // Custom headers to be sent with every request from this API client
+  private final Map<String, String> extraHeaders = new java.util.HashMap<>();
 
   public {{classname}}() {
     this(Configuration.getDefaultApiClient());
@@ -100,124 +81,25 @@ public class {{classname}} {
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
 
-  {{#hasHttpBearerMethods}}
   /**
-   * Helper method to set access token for Bearer authentication.
-   * @param bearerToken Bearer token
-   * @return {{classname}}
+   * Add a custom header to be sent with every request from this API client.
+   * @param name Header name
+   * @param value Header value
+   * @return this
    */
-  public {{classname}} setBearerToken(String bearerToken) {
-    this.bearerToken = bearerToken;
-    return this;
-  }
-  {{/hasHttpBearerMethods}}
-
-  {{#hasHttpBasicMethods}}
-  /**
-   * Helper method to set username for HTTP basic authentication.
-   * @param username Username
-   * @return {{classname}}
-   */
-  public {{classname}} setUsername(String username) {
-    this.username = username;
+  public {{classname}} addHeader(String name, String value) {
+    this.extraHeaders.put(name, value);
     return this;
   }
 
   /**
-   * Helper method to set password for HTTP basic authentication.
-   * @param password Password
-   * @return {{classname}}
+   * Remove a custom header.
+   * @param name Header name
+   * @return this
    */
-  public {{classname}} setPassword(String password) {
-    this.password = password;
+  public {{classname}} removeHeader(String name) {
+    this.extraHeaders.remove(name);
     return this;
-  }
-  {{/hasHttpBasicMethods}}
-
-  {{#hasApiKeyMethods}}
-  /**
-   * Helper method to set API key value for API key authentication.
-   * @param apiKey API key
-   * @return {{classname}}
-   */
-  public {{classname}} setApiKey(String apiKey) {
-    this.apiKey = apiKey;
-    return this;
-  }
-
-  /**
-   * Helper method to set API key prefix for API key authentication.
-   * @param apiKeyPrefix API key prefix
-   * @return {{classname}}
-   */
-  public {{classname}} setApiKeyPrefix(String apiKeyPrefix) {
-    this.apiKeyPrefix = apiKeyPrefix;
-    return this;
-  }
-  {{/hasApiKeyMethods}}
-
-  {{#hasOAuthMethods}}
-  /**
-   * Helper method to set access token for OAuth2 authentication.
-   * @param accessToken Access token
-   * @return {{classname}}
-   */
-  public {{classname}} setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-    return this;
-  }
-  {{/hasOAuthMethods}}
-
-  /**
-   * Apply authentication settings directly to request headers.
-   * This avoids modifying the shared ApiClient's authentication state.
-   */
-  private void applyAuthToHeaders(HttpRequest.Builder localVarRequestBuilder) {
-    {{#hasHttpBearerMethods}}
-    if (bearerToken != null) {
-      localVarRequestBuilder.header("Authorization", "Bearer " + bearerToken);
-    }
-    {{/hasHttpBearerMethods}}
-    {{#hasHttpBasicMethods}}
-    if (username != null && password != null) {
-      String credentials = java.util.Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-      localVarRequestBuilder.header("Authorization", "Basic " + credentials);
-    }
-    {{/hasHttpBasicMethods}}
-    {{#hasApiKeyMethods}}
-    if (apiKey != null) {
-      {{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
-      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
-      localVarRequestBuilder.header("{{keyParamName}}", keyValue);
-      {{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}
-    }
-    {{/hasApiKeyMethods}}
-    {{#hasOAuthMethods}}
-    if (accessToken != null) {
-      localVarRequestBuilder.header("Authorization", "Bearer " + accessToken);
-    }
-    {{/hasOAuthMethods}}
-  }
-
-  /**
-   * Apply authentication settings directly to query parameters.
-   * This avoids modifying the shared ApiClient's authentication state.
-   */
-  private String applyAuthToQueryParams(String queryString) {
-    {{#hasApiKeyMethods}}
-    if (apiKey != null) {
-      {{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
-      String keyValue = apiKeyPrefix != null ? apiKeyPrefix + " " + apiKey : apiKey;
-      String authParam = "{{keyParamName}}=" + keyValue;
-      if (queryString != null && !queryString.isEmpty()) {
-        return queryString + "&" + authParam;
-      } else {
-        return authParam;
-      }
-      {{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}
-    }
-    {{/hasApiKeyMethods}}
-    return queryString;
   }
 
   {{#asyncNative}}
@@ -512,7 +394,8 @@ public class {{classname}} {
     {{#required}}
     // verify the required parameter '{{paramName}}' is set
     if ({{paramName}} == null) {
-      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
+      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}"
+      );
     }
     {{/required}}
     {{/allParams}}
@@ -582,10 +465,10 @@ public class {{classname}} {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = applyAuthToQueryParams(queryJoiner.toString());
+      String finalQuery = null; // No longer need to apply auth to query params
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
     } else {
-      String authQuery = applyAuthToQueryParams(null);
+      String authQuery = null; // No longer need to apply auth to query params
       if (authQuery != null && !authQuery.isEmpty()) {
         localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
       } else {
@@ -594,7 +477,7 @@ public class {{classname}} {
     }
     {{/hasQueryParams}}
     {{^hasQueryParams}}
-    String authQuery = applyAuthToQueryParams(null);
+    String authQuery = null; // No longer need to apply auth to query params
     if (authQuery != null && !authQuery.isEmpty()) {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
     } else {
@@ -723,8 +606,10 @@ public class {{classname}} {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Apply per-API authentication directly to the request
-    applyAuthToHeaders(localVarRequestBuilder);
+    // Add custom headers
+    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
+      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
