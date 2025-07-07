@@ -170,12 +170,7 @@ public class DefaultApi {
 
     String localVarPath = "/foo";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 

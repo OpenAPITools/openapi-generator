@@ -171,8 +171,7 @@ public class StoreApi {
   private HttpRequest.Builder deleteOrderRequestBuilder(@javax.annotation.Nonnull String orderId) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
-      throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder"
-      );
+      throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -180,12 +179,7 @@ public class StoreApi {
     String localVarPath = "/store/order/{order_id}"
         .replace("{order_id}", ApiClient.urlEncode(orderId.toString()));
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -276,12 +270,7 @@ public class StoreApi {
 
     String localVarPath = "/store/inventory";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -371,8 +360,7 @@ public class StoreApi {
   private HttpRequest.Builder getOrderByIdRequestBuilder(@javax.annotation.Nonnull Long orderId) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
-      throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById"
-      );
+      throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -380,12 +368,7 @@ public class StoreApi {
     String localVarPath = "/store/order/{order_id}"
         .replace("{order_id}", ApiClient.urlEncode(orderId.toString()));
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
 
@@ -475,20 +458,14 @@ public class StoreApi {
   private HttpRequest.Builder placeOrderRequestBuilder(@javax.annotation.Nonnull Order order) throws ApiException {
     // verify the required parameter 'order' is set
     if (order == null) {
-      throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder"
-      );
+      throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/store/order";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/xml, application/json");

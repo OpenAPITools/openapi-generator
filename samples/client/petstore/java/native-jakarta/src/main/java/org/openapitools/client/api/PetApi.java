@@ -177,20 +177,14 @@ public class PetApi {
   private HttpRequest.Builder addPetRequestBuilder(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
     // verify the required parameter 'pet' is set
     if (pet == null) {
-      throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet"
-      );
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/pet";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
@@ -270,8 +264,7 @@ public class PetApi {
   private HttpRequest.Builder deletePetRequestBuilder(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
-      throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet"
-      );
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -279,12 +272,7 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     if (apiKey != null) {
       localVarRequestBuilder.header("api_key", apiKey.toString());
@@ -367,8 +355,7 @@ public class PetApi {
   private HttpRequest.Builder findPetsByStatusRequestBuilder(@jakarta.annotation.Nonnull List<String> status) throws ApiException {
     // verify the required parameter 'status' is set
     if (status == null) {
-      throw new ApiException(400, "Missing the required parameter 'status' when calling findPetsByStatus"
-      );
+      throw new ApiException(400, "Missing the required parameter 'status' when calling findPetsByStatus");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -387,15 +374,9 @@ public class PetApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
@@ -480,8 +461,7 @@ public class PetApi {
   private HttpRequest.Builder findPetsByTagsRequestBuilder(@jakarta.annotation.Nonnull List<String> tags) throws ApiException {
     // verify the required parameter 'tags' is set
     if (tags == null) {
-      throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags"
-      );
+      throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -500,15 +480,9 @@ public class PetApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
@@ -589,8 +563,7 @@ public class PetApi {
   private HttpRequest.Builder getPetByIdRequestBuilder(@jakarta.annotation.Nonnull Long petId) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
-      throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById"
-      );
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -598,12 +571,7 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
 
@@ -687,20 +655,14 @@ public class PetApi {
   private HttpRequest.Builder updatePetRequestBuilder(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
     // verify the required parameter 'pet' is set
     if (pet == null) {
-      throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet"
-      );
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/pet";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
@@ -782,8 +744,7 @@ public class PetApi {
   private HttpRequest.Builder updatePetWithFormRequestBuilder(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
-      throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm"
-      );
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -791,12 +752,7 @@ public class PetApi {
     String localVarPath = "/pet/{petId}"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -897,8 +853,7 @@ public class PetApi {
   private HttpRequest.Builder uploadFileRequestBuilder(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
-      throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile"
-      );
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -906,12 +861,7 @@ public class PetApi {
     String localVarPath = "/pet/{petId}/uploadImage"
         .replace("{petId}", ApiClient.urlEncode(petId.toString()));
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 

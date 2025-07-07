@@ -197,15 +197,9 @@ public class QueryApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "text/plain");
@@ -306,15 +300,9 @@ public class QueryApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "text/plain");
@@ -415,15 +403,9 @@ public class QueryApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "text/plain");
@@ -521,15 +503,9 @@ public class QueryApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "text/plain");
@@ -627,15 +603,9 @@ public class QueryApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "text/plain");
@@ -728,15 +698,9 @@ public class QueryApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "text/plain");
@@ -829,15 +793,9 @@ public class QueryApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "text/plain");
@@ -930,15 +888,9 @@ public class QueryApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "text/plain");
@@ -1036,15 +988,9 @@ public class QueryApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "text/plain");
@@ -1137,15 +1083,9 @@ public class QueryApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "text/plain");

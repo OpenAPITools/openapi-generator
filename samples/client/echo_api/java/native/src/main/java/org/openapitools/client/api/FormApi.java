@@ -179,12 +179,7 @@ public class FormApi {
 
     String localVarPath = "/form/integer/boolean/string";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "text/plain");
 
@@ -281,20 +276,14 @@ public class FormApi {
   private HttpRequest.Builder testFormObjectMultipartRequestBuilder(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws ApiException {
     // verify the required parameter 'marker' is set
     if (marker == null) {
-      throw new ApiException(400, "Missing the required parameter 'marker' when calling testFormObjectMultipart"
-      );
+      throw new ApiException(400, "Missing the required parameter 'marker' when calling testFormObjectMultipart");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/form/object/multipart";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "text/plain");
 
@@ -418,12 +407,7 @@ public class FormApi {
 
     String localVarPath = "/form/oneof";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "text/plain");
 

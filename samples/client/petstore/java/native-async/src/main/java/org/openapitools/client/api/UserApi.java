@@ -172,20 +172,14 @@ public class UserApi {
   private HttpRequest.Builder createUserRequestBuilder(@javax.annotation.Nonnull User user) throws ApiException {
     // verify the required parameter 'user' is set
     if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling createUser"
-      );
+      throw new ApiException(400, "Missing the required parameter 'user' when calling createUser");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/user";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");
@@ -266,20 +260,14 @@ public class UserApi {
   private HttpRequest.Builder createUsersWithArrayInputRequestBuilder(@javax.annotation.Nonnull List<User> user) throws ApiException {
     // verify the required parameter 'user' is set
     if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput"
-      );
+      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/user/createWithArray";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");
@@ -360,20 +348,14 @@ public class UserApi {
   private HttpRequest.Builder createUsersWithListInputRequestBuilder(@javax.annotation.Nonnull List<User> user) throws ApiException {
     // verify the required parameter 'user' is set
     if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput"
-      );
+      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/user/createWithList";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");
@@ -454,8 +436,7 @@ public class UserApi {
   private HttpRequest.Builder deleteUserRequestBuilder(@javax.annotation.Nonnull String username) throws ApiException {
     // verify the required parameter 'username' is set
     if (username == null) {
-      throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser"
-      );
+      throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -463,12 +444,7 @@ public class UserApi {
     String localVarPath = "/user/{username}"
         .replace("{username}", ApiClient.urlEncode(username.toString()));
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -558,8 +534,7 @@ public class UserApi {
   private HttpRequest.Builder getUserByNameRequestBuilder(@javax.annotation.Nonnull String username) throws ApiException {
     // verify the required parameter 'username' is set
     if (username == null) {
-      throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName"
-      );
+      throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -567,12 +542,7 @@ public class UserApi {
     String localVarPath = "/user/{username}"
         .replace("{username}", ApiClient.urlEncode(username.toString()));
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
 
@@ -664,13 +634,11 @@ public class UserApi {
   private HttpRequest.Builder loginUserRequestBuilder(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws ApiException {
     // verify the required parameter 'username' is set
     if (username == null) {
-      throw new ApiException(400, "Missing the required parameter 'username' when calling loginUser"
-      );
+      throw new ApiException(400, "Missing the required parameter 'username' when calling loginUser");
     }
     // verify the required parameter 'password' is set
     if (password == null) {
-      throw new ApiException(400, "Missing the required parameter 'password' when calling loginUser"
-      );
+      throw new ApiException(400, "Missing the required parameter 'password' when calling loginUser");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -691,15 +659,9 @@ public class UserApi {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
 
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
@@ -776,12 +738,7 @@ public class UserApi {
 
     String localVarPath = "/user/logout";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "application/json");
 
@@ -858,13 +815,11 @@ public class UserApi {
   private HttpRequest.Builder updateUserRequestBuilder(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws ApiException {
     // verify the required parameter 'username' is set
     if (username == null) {
-      throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser"
-      );
+      throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
     }
     // verify the required parameter 'user' is set
     if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling updateUser"
-      );
+      throw new ApiException(400, "Missing the required parameter 'user' when calling updateUser");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -872,12 +827,7 @@ public class UserApi {
     String localVarPath = "/user/{username}"
         .replace("{username}", ApiClient.urlEncode(username.toString()));
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");

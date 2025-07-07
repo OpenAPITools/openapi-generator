@@ -186,20 +186,14 @@ public class FakeClassnameTags123Api {
   private HttpRequest.Builder testClassnameRequestBuilder(@javax.annotation.Nonnull Client client) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
-      throw new ApiException(400, "Missing the required parameter 'client' when calling testClassname"
-      );
+      throw new ApiException(400, "Missing the required parameter 'client' when calling testClassname");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake_classname_test";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/json");

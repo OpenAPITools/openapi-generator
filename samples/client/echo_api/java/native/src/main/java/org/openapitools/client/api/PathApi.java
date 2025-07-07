@@ -178,23 +178,19 @@ public class PathApi {
   private HttpRequest.Builder testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath) throws ApiException {
     // verify the required parameter 'pathString' is set
     if (pathString == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath"
-      );
+      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     // verify the required parameter 'pathInteger' is set
     if (pathInteger == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath"
-      );
+      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     // verify the required parameter 'enumNonrefStringPath' is set
     if (enumNonrefStringPath == null) {
-      throw new ApiException(400, "Missing the required parameter 'enumNonrefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath"
-      );
+      throw new ApiException(400, "Missing the required parameter 'enumNonrefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     // verify the required parameter 'enumRefStringPath' is set
     if (enumRefStringPath == null) {
-      throw new ApiException(400, "Missing the required parameter 'enumRefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath"
-      );
+      throw new ApiException(400, "Missing the required parameter 'enumRefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -205,12 +201,7 @@ public class PathApi {
         .replace("{enum_nonref_string_path}", ApiClient.urlEncode(enumNonrefStringPath.toString()))
         .replace("{enum_ref_string_path}", ApiClient.urlEncode(enumRefStringPath.toString()));
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     localVarRequestBuilder.header("Accept", "text/plain");
 

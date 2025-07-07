@@ -183,12 +183,7 @@ public class HeaderApi {
 
     String localVarPath = "/header/integer/boolean/string/enums";
 
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
     if (integerHeader != null) {
       localVarRequestBuilder.header("integer_header", integerHeader.toString());
