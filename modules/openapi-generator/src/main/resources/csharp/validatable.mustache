@@ -105,7 +105,7 @@
             if (this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} != null){
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#lambda.indent4}}
-                {{>ValidateRegex}}
+                {{>ValidateRegex}}{{! prevent indent}}
                 {{/lambda.indent4}}
 
                 {{/lambda.trimTrailingWithNewLine}}
@@ -115,7 +115,7 @@
             {{^isNullable}}
             {{#lambda.trimTrailingWithNewLine}}
             {{#lambda.indent3}}
-            {{>ValidateRegex}}
+            {{>ValidateRegex}}{{! prevent indent}}
             {{/lambda.indent3}}
 
             {{/lambda.trimTrailingWithNewLine}}
@@ -125,7 +125,7 @@
             if (this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} != null) {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#lambda.indent4}}
-                {{>ValidateRegex}}
+                {{>ValidateRegex}}{{! prevent indent}}
                 {{/lambda.indent4}}
 
                 {{/lambda.trimTrailingWithNewLine}}

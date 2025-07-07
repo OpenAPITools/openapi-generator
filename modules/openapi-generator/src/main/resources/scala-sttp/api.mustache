@@ -18,6 +18,7 @@ class {{classname}}(baseUrl: String) {
 {{#operation}}
 {{#javadocRenderer}}
 {{>javadoc}}
+
 {{/javadocRenderer}}
   def {{operationId}}({{>methodParameters}}): Request[{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}, Any] =
     basicRequest
