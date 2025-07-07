@@ -245,6 +245,7 @@ impl {{classname}} for {{classname}}Client {
                 _ => local_var_req_builder.query(&[("{{{baseName}}}", &param_value.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
             };
             {{/isArray}}
+            {{^isArray}}
             {{#isDeepObject}}
             {{^isExplode}}
             let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
@@ -276,6 +277,7 @@ impl {{classname}} for {{classname}}Client {
             {{/isModel}}
             {{/isObject}}
             {{/isDeepObject}}
+            {{/isArray}}
         }
         {{/required}}
         {{/queryParams}}
