@@ -465,24 +465,14 @@ public class {{classname}} {
       if (localVarQueryStringJoiner.length() != 0) {
         queryJoiner.add(localVarQueryStringJoiner.toString());
       }
-      String finalQuery = null; // No longer need to apply auth to query params
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + finalQuery));
-    } else {
-      String authQuery = null; // No longer need to apply auth to query params
-      if (authQuery != null && !authQuery.isEmpty()) {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
-      } else {
-        localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-      }
-    }
-    {{/hasQueryParams}}
-    {{^hasQueryParams}}
-    String authQuery = null; // No longer need to apply auth to query params
-    if (authQuery != null && !authQuery.isEmpty()) {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + authQuery));
+      String queryString = queryJoiner.toString();
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryString));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     }
+    {{/hasQueryParams}}
+    {{^hasQueryParams}}
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
     {{/hasQueryParams}}
 
     {{#headerParams}}
