@@ -56,8 +56,7 @@ public interface DefaultApi {
             @ApiResponse(responseCode = "200", description = "OK")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/thingy/{date}"
     )
     
@@ -84,8 +83,7 @@ public interface DefaultApi {
             @ApiResponse(responseCode = "405", description = "Invalid input")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/thingy/{date}",
         consumes = "application/x-www-form-urlencoded"
     )

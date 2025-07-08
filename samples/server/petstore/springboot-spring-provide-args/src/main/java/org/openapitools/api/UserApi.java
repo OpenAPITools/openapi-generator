@@ -67,8 +67,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/user/login",
         produces = { "application/json" }
     )
@@ -100,8 +99,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "default", description = "successful operation")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/user/logout"
     )
     

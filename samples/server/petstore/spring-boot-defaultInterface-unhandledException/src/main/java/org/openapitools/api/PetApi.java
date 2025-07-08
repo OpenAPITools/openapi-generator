@@ -62,8 +62,7 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
@@ -95,8 +94,7 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @RequestMapping(
-        method = RequestMethod.DELETE,
+    @DeleteMapping(
         value = "/pet/{petId}"
     )
     
@@ -130,8 +128,7 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }
     )
@@ -168,8 +165,7 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }
     )
@@ -205,8 +201,7 @@ public interface PetApi {
             @SecurityRequirement(name = "api_key")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }
     )
@@ -241,8 +236,7 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @RequestMapping(
-        method = RequestMethod.PUT,
+    @PutMapping(
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
@@ -273,8 +267,7 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" }
     )
@@ -309,8 +302,7 @@ public interface PetApi {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/pet/{petId}/uploadImage",
         produces = { "application/json" },
         consumes = { "multipart/form-data" }

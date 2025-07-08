@@ -244,8 +244,13 @@ public interface {{classname}} {
     })
     {{/swagger1AnnotationLibrary}}
     {{/implicitHeadersParams.0}}
+    {{#useApiComposedAnnotation}}
+    {{#lambda.composedannotation}}{{httpMethod}}{{/lambda.composedannotation}}
+    {{/useApiComposedAnnotation}}
+    {{^useApiComposedAnnotation}}
     @RequestMapping(
         method = RequestMethod.{{httpMethod}},
+        {{/useApiComposedAnnotation}}
         value = "{{{path}}}"{{#singleContentTypes}}{{#hasProduces}},
         produces = { {{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},

@@ -64,8 +64,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "default", description = "successful operation")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/user",
         consumes = { "application/json" }
     )
@@ -95,8 +94,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "default", description = "successful operation")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/user/createWithArray",
         consumes = { "application/json" }
     )
@@ -126,8 +124,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "default", description = "successful operation")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/user/createWithList",
         consumes = { "application/json" }
     )
@@ -159,8 +156,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "404", description = "User not found")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.DELETE,
+    @DeleteMapping(
         value = "/user/{username}"
     )
     
@@ -196,8 +192,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "404", description = "User not found")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/user/{username}",
         produces = { "application/xml", "application/json" }
     )
@@ -247,8 +242,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/user/login",
         produces = { "application/xml", "application/json" }
     )
@@ -278,8 +272,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "default", description = "successful operation")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.GET,
+    @GetMapping(
         value = "/user/logout"
     )
     
@@ -311,8 +304,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "404", description = "User not found")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.PUT,
+    @PutMapping(
         value = "/user/{username}",
         consumes = { "application/json" }
     )

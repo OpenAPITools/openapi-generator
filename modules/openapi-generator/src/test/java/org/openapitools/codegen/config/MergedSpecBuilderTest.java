@@ -73,7 +73,7 @@ public class MergedSpecBuilderTest {
                 .assertMethod("spec1OperationComplex")
                 .hasReturnType("ResponseEntity<Spec1Model>")
                 .assertMethodAnnotations()
-                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of("value", "\"/spec1/complex/{param1}/path\""))
+                .containsWithNameAndAttributes("GetMapping", ImmutableMap.of("value", "\"/spec1/complex/{param1}/path\""))
                 .toMethod()
                 .assertParameter("param1")
                 .hasType("String")

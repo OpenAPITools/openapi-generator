@@ -63,8 +63,7 @@ public interface PetApi {
             @SecurityRequirement(name = "http_basic")
         }
     )
-    @RequestMapping(
-        method = RequestMethod.POST,
+    @PostMapping(
         value = "/pet",
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
