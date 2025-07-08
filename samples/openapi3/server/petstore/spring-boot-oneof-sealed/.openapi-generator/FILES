@@ -9,12 +9,15 @@ src/main/java/org/openapitools/configuration/EnumConverterConfiguration.java
 src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
 src/main/java/org/openapitools/model/Addressable.java
+src/main/java/org/openapitools/model/Animal.java
 src/main/java/org/openapitools/model/Apple.java
 src/main/java/org/openapitools/model/Banana.java
 src/main/java/org/openapitools/model/Bar.java
 src/main/java/org/openapitools/model/BarCreate.java
 src/main/java/org/openapitools/model/BarRef.java
 src/main/java/org/openapitools/model/BarRefOrValue.java
+src/main/java/org/openapitools/model/Cat.java
+src/main/java/org/openapitools/model/Dog.java
 src/main/java/org/openapitools/model/Entity.java
 src/main/java/org/openapitools/model/EntityRef.java
 src/main/java/org/openapitools/model/Extensible.java
