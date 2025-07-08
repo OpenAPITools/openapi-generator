@@ -809,11 +809,11 @@ public class DefaultGeneratorTest {
     public void testGenerateRecursiveDependentModelsBackwardCompatibilityIssue18444() throws IOException {
         Path target = Files.createTempDirectory("test");
         File output = target.toFile();
-        String oldModelsProp = GlobalSettings.getProperty("models");
+        String oldModelsProp = GlobalSettings.getProperty(CodegenConstants.MODELS);
 
         try {
             DefaultGenerator generator = generatorGenerateRecursiveDependentModelsBackwardCompatibility("false");
-            GlobalSettings.setProperty("models", "RQ1,RS1");
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "RQ1,RS1");
             ClientOptInput clientOptInput = createOptInputIssue18444(target);
             List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertEquals(files.size(), 17);
@@ -853,9 +853,9 @@ public class DefaultGeneratorTest {
         } finally {
             output.deleteOnExit();
             if (oldModelsProp != null) {
-                GlobalSettings.setProperty("models", oldModelsProp);
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModelsProp);
             } else {
-                GlobalSettings.clearProperty("models");
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
             }
         }
     }
@@ -864,11 +864,11 @@ public class DefaultGeneratorTest {
     public void testGenerateRecursiveDependentModelsIssue18444() throws IOException {
         Path target = Files.createTempDirectory("test");
         File output = target.toFile();
-        String oldModelsProp = GlobalSettings.getProperty("models");
+        String oldModelsProp = GlobalSettings.getProperty(CodegenConstants.MODELS);
 
         try {
             DefaultGenerator generator = generatorGenerateRecursiveDependentModelsBackwardCompatibility("true");
-            GlobalSettings.setProperty("models", "RQ1,RS1");
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "RQ1,RS1");
             ClientOptInput clientOptInput = createOptInputIssue18444(target);
             List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertEquals(files.size(), 21);
@@ -908,9 +908,9 @@ public class DefaultGeneratorTest {
         } finally {
             output.deleteOnExit();
             if (oldModelsProp != null) {
-                GlobalSettings.setProperty("models", oldModelsProp);
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModelsProp);
             } else {
-                GlobalSettings.clearProperty("models");
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
             }
         }
     }
@@ -919,11 +919,11 @@ public class DefaultGeneratorTest {
     public void testGenerateRecursiveDependentModelsIssue19220() throws IOException {
         Path target = Files.createTempDirectory("test");
         File output = target.toFile();
-        String oldModelsProp = GlobalSettings.getProperty("models");
+        String oldModelsProp = GlobalSettings.getProperty(CodegenConstants.MODELS);
 
         try {
             DefaultGenerator generator = generatorGenerateRecursiveDependentModelsBackwardCompatibility("true");
-            GlobalSettings.setProperty("models", "RQ1,RS1");
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "RQ1,RS1");
             ClientOptInput clientOptInput = createOptInputIssue19220(target);
             List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertEquals(files.size(), 21);
@@ -963,11 +963,81 @@ public class DefaultGeneratorTest {
         } finally {
             output.deleteOnExit();
             if (oldModelsProp != null) {
-                GlobalSettings.setProperty("models", oldModelsProp);
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModelsProp);
             } else {
-                GlobalSettings.clearProperty("models");
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
             }
         }
     }
 
+    @Test
+    public void testGenerateMultiLinePropertiesIssue19628() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        String multiLineSeparator = ",\n    ";
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(true);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+
+            List<String> filesToGenerate = Arrays.asList(
+                "pom.xml",
+                ".travis.yml",
+                ".gitignore",
+                "git_push.sh"
+            );
+            GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, String.join(multiLineSeparator, filesToGenerate));
+
+            List<String> apisToGenerate = Arrays.asList(
+                "Pet",
+                "User"
+            );
+            GlobalSettings.setProperty(CodegenConstants.APIS, String.join(multiLineSeparator, apisToGenerate));
+
+            List<String> modelsToGenerate = Arrays.asList(
+                "Category",
+                "Pet",
+                "Tag",
+                "User"
+            );
+            GlobalSettings.setProperty(CodegenConstants.MODELS, String.join(multiLineSeparator, modelsToGenerate));
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            Assert.assertEquals(files.size(), 5 + modelsToGenerate.size() + apisToGenerate.size());
+
+            TestUtils.ensureContainsFile(files, output, "pom.xml");
+            TestUtils.ensureContainsFile(files, output, ".travis.yml");
+            TestUtils.ensureContainsFile(files, output, ".gitignore");
+            TestUtils.ensureContainsFile(files, output, "git_push.sh");
+            TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
+
+            for(String apiFile : apisToGenerate) {
+                String filename = "src/main/java/org/openapitools/client/api/" + apiFile + "Api.java";
+                TestUtils.ensureContainsFile(files, output, filename);
+            }
+
+            for(String apiFile : modelsToGenerate) {
+                String filename = "src/main/java/org/openapitools/client/model/" + apiFile + ".java";
+                TestUtils.ensureContainsFile(files, output, filename);
+            }
+        } finally {
+            GlobalSettings.reset();
+            output.deleteOnExit();
+        }
+
+    }
 }
