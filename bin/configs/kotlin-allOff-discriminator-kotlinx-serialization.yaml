@@ -1,6 +1,6 @@
 generatorName: kotlin
 outputDir: samples/client/petstore/kotlin-allOff-discriminator-kotlinx-serialization
-inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_xxxx.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/polymorphism.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-client
 additionalProperties:
   artifactId: kotlin-allOff-discriminator

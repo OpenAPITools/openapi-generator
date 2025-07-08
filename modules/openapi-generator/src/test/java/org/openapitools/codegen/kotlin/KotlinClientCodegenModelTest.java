@@ -545,7 +545,7 @@ public class KotlinClientCodegenModelTest {
                     put(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization");
                     put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
                 }})
-                .setInputSpec("src/test/resources/3_0/issue_xxxx.yaml")
+                .setInputSpec("src/test/resources/3_0/kotlin/polymorphism.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
