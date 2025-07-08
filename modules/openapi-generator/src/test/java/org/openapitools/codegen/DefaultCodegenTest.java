@@ -281,7 +281,7 @@ public class DefaultCodegenTest {
         CodegenParameter codegenParameter = codegen.fromFormProperty("visitDate", (Schema) requestBodySchema.getProperties().get("visitDate"),
                 new HashSet<>());
 
-        assertEquals(codegenParameter.defaultValue, "1971-12-19T03:39:57-08:00");
+        assertEquals("1971-12-19T03:39:57-08:00", codegenParameter.defaultValue);
         Assertions.assertNull(codegenParameter.getSchema());
     }
 
@@ -358,7 +358,7 @@ public class DefaultCodegenTest {
         // UPDATE fixed in swagger parser 2.1.14
         assertTrue((Boolean) map_with_additional_properties_sc.getAdditionalProperties());
         addProps = ModelUtils.getAdditionalProperties(map_with_additional_properties_sc);
-        assertEquals(addProps, new Schema());
+        assertEquals(new Schema(), addProps);
         Assertions.assertNotNull(map_with_additional_properties_cp.getAdditionalProperties());
 
         // map_without_additional_properties
@@ -2418,16 +2418,16 @@ public class DefaultCodegenTest {
     @Test
     public void convertApiNameWithEmptySuffix() {
         DefaultCodegen codegen = new DefaultCodegen();
-        assertEquals(codegen.toApiName("Fake"), "FakeApi");
-        assertEquals(codegen.toApiName(""), "DefaultApi");
+        assertEquals("FakeApi", codegen.toApiName("Fake"));
+        assertEquals("DefaultApi", codegen.toApiName(""));
     }
 
     @Test
     public void convertApiNameWithSuffix() {
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setApiNameSuffix("Test");
-        assertEquals(codegen.toApiName("Fake"), "FakeTest");
-        assertEquals(codegen.toApiName(""), "DefaultApi");
+        assertEquals("FakeTest", codegen.toApiName("Fake"));
+        assertEquals("DefaultApi", codegen.toApiName(""));
     }
 
     @Test
@@ -2613,7 +2613,7 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         final Set<String> expectedAllOf = new HashSet<>(Arrays.asList("UserTimeBase"));
         assertEquals(cm.allOf, expectedAllOf);
-        assertEquals(openAPI.getComponents().getSchemas().size(), 2);
+        assertEquals(2, openAPI.getComponents().getSchemas().size());
         assertNull(cm.getDiscriminator());
     }
 
@@ -2626,7 +2626,7 @@ public class DefaultCodegenTest {
         String modelName = "ArrayWithValidations";
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
-        assertEquals((int) cm.getMinItems(), 1);
+        assertEquals(1, (int) cm.getMinItems());
     }
 
     @Test
@@ -2657,7 +2657,7 @@ public class DefaultCodegenTest {
         final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
         final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
 
-        assertEquals(securities.size(), 2);
+        assertEquals(2, securities.size());
         final List<String> flows = securities.stream().map(c -> c.flow).collect(Collectors.toList());
         assertTrue(flows.containsAll(Arrays.asList("password", "application")));
     }
@@ -2671,9 +2671,9 @@ public class DefaultCodegenTest {
         final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
         final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
 
-        assertEquals(securities.size(), 2);
-        assertEquals(securities.get(0).name, "petstore_auth");
-        assertEquals(securities.get(1).name, "api_key");
+        assertEquals(2, securities.size());
+        assertEquals("petstore_auth", securities.get(0).name);
+        assertEquals("api_key", securities.get(1).name);
     }
 
     @Test
@@ -2685,8 +2685,8 @@ public class DefaultCodegenTest {
         final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
         final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
 
-        assertEquals(securities.size(), 1);
-        assertEquals(securities.get(0).name, "Our Identity service");
+        assertEquals(1, securities.size());
+        assertEquals("Our Identity service", securities.get(0).name);
     }
 
     @Test
@@ -2702,12 +2702,12 @@ public class DefaultCodegenTest {
         modelName = "ArrayWithValidationsInItems";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
-        assertEquals(cm.getItems().getMaximum(), "7");
+        assertEquals("7", cm.getItems().getMaximum());
 
         modelName = "ObjectWithValidationsInArrayPropItems";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
-        assertEquals(cm.getVars().get(0).getItems().getMaximum(), "7");
+        assertEquals("7", cm.getVars().get(0).getItems().getMaximum());
 
         String path;
         Operation operation;
@@ -2716,16 +2716,16 @@ public class DefaultCodegenTest {
         path = "/ref_array_with_validations_in_items/{items}";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
-        assertEquals(co.pathParams.get(0).getItems().getMaximum(), "7");
-        assertEquals(co.bodyParams.get(0).getItems().getMaximum(), "7");
-        assertEquals(co.responses.get(0).getItems().getMaximum(), "7");
+        assertEquals("7", co.pathParams.get(0).getItems().getMaximum());
+        assertEquals("7", co.bodyParams.get(0).getItems().getMaximum());
+        assertEquals("7", co.responses.get(0).getItems().getMaximum());
 
         path = "/array_with_validations_in_items/{items}";
         operation = openAPI.getPaths().get(path).getPost();
         co = codegen.fromOperation(path, "POST", operation, null);
-        assertEquals(co.pathParams.get(0).getItems().getMaximum(), "7");
-        assertEquals(co.bodyParams.get(0).getItems().getMaximum(), "7");
-        assertEquals(co.responses.get(0).getItems().getMaximum(), "7");
+        assertEquals("7", co.pathParams.get(0).getItems().getMaximum());
+        assertEquals("7", co.bodyParams.get(0).getItems().getMaximum());
+        assertEquals("7", co.responses.get(0).getItems().getMaximum());
     }
 
     @Test
