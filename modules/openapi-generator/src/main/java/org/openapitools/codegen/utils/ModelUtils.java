@@ -2244,6 +2244,23 @@ public class ModelUtils {
     }
 
     /**
+     * Removes duplicate `oneOf` from a given schema if it does not also have a discriminator.
+     *
+     * @param schema Schema
+     */
+    public static void deduplicateOneOfSchema(Schema<?> schema) {
+        if (schema.getOneOf() == null) {
+            return;
+        }
+        if (schema.getDiscriminator() != null) {
+            return; // Duplicate oneOf are allowed if there is a discriminator that can be used to separate them.
+        }
+
+        Set<Schema> deduplicated = new LinkedHashSet<>(schema.getOneOf());
+        schema.setOneOf(new ArrayList<>(deduplicated));
+    }
+
+    /**
      * Check if the schema is of type 'null' or schema itself is pointing to null
      * <p>
      * Return true if the schema's type is 'null' or not specified
@@ -2337,6 +2354,63 @@ public class ModelUtils {
     }
 
     /**
+     * Copy meta data (e.g. description, default, examples, etc) from one schema to another.
+     *
+     * @param from  From schema
+     * @param to    To schema
+     */
+    public static void copyMetadata(Schema from, Schema to) {
+        if (from.getDescription() != null) {
+            to.setDescription(from.getDescription());
+        }
+        if (from.getDefault() != null) {
+            to.setDefault(from.getDefault());
+        }
+        if (from.getDeprecated() != null) {
+            to.setDeprecated(from.getDeprecated());
+        }
+        if (from.getNullable() != null) {
+            to.setNullable(from.getNullable());
+        }
+        if (from.getExample() != null) {
+            to.setExample(from.getExample());
+        }
+        if (from.getExamples() != null) {
+            to.setExample(from.getExamples());
+        }
+        if (from.getReadOnly() != null) {
+            to.setReadOnly(from.getReadOnly());
+        }
+        if (from.getWriteOnly() != null) {
+            to.setWriteOnly(from.getWriteOnly());
+        }
+        if (from.getExtensions() != null) {
+            to.setExtensions(from.getExtensions());
+        }
+        if (from.getMaxLength() != null) {
+            to.setMaxLength(from.getMaxLength());
+        }
+        if (from.getMinLength() != null) {
+            to.setMinLength(from.getMinLength());
+        }
+        if (from.getMaxItems() != null) {
+            to.setMaxItems(from.getMaxItems());
+        }
+        if (from.getMinItems() != null) {
+            to.setMinItems(from.getMinItems());
+        }
+        if (from.getMaximum() != null) {
+            to.setMaximum(from.getMaximum());
+        }
+        if (from.getMinimum() != null) {
+            to.setMinimum(from.getMinimum());
+        }
+        if (from.getTitle() != null) {
+            to.setTitle(from.getTitle());
+        }
+    }
+
+    /**
      * Returns true if a schema is only metadata and not an actual type.
      * For example, a schema that only has a `description` without any `properties` or `$ref` defined.
      *
@@ -2344,7 +2418,7 @@ public class ModelUtils {
      * @return       if the schema is only metadata and not an actual type
      */
     public static boolean isMetadataOnlySchema(Schema schema) {
-        return schema.get$ref() != null ||
+        return !(schema.get$ref() != null ||
                 schema.getProperties() != null ||
                 schema.getType() != null ||
                 schema.getAdditionalProperties() != null ||
@@ -2358,7 +2432,7 @@ public class ModelUtils {
                 schema.getContains() != null ||
                 schema.get$dynamicAnchor() != null ||
                 schema.get$anchor() != null ||
-                schema.getContentSchema() != null;
+                schema.getContentSchema() != null);
     }
 
 

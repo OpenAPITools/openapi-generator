@@ -88,7 +88,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/maxLength}}
         {{#minLength}}
         if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -lt {{{minLength}}}) {
-            throw "invalid value for '{{{name}}}', the character length must be great than or equal to {{{minLength}}}."
+            throw "invalid value for '{{{name}}}', the character length must be greater than or equal to {{{minLength}}}."
         }
 
         {{/minLength}}
@@ -148,7 +148,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/maxLength}}
         {{#minLength}}
         if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -lt {{{minLength}}}) {
-            throw "invalid value for '{{{name}}}', the character length must be great than or equal to {{{minLength}}}."
+            throw "invalid value for '{{{name}}}', the character length must be greater than or equal to {{{minLength}}}."
         }
 
         {{/minLength}}

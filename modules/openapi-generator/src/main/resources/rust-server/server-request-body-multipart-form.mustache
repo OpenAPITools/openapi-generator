@@ -2,7 +2,7 @@
                                     Some(boundary) => boundary.to_string(),
                                     None => return Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from("Couldn't find valid multipart body".to_string()))
+                                                .body(BoxBody::new("Couldn't find valid multipart body".to_string()))
                                                 .expect("Unable to create Bad Request response for incorrect boundary")),
                                 };
 
@@ -20,31 +20,31 @@
                                     SaveResult::Partial(_, PartialReason::CountLimit) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Unable to process message part due to excessive parts".to_string()))
+                                                        .body(BoxBody::new("Unable to process message part due to excessive parts".to_string()))
                                                         .expect("Unable to create Bad Request response due to excessive parts"))
                                     },
                                     SaveResult::Partial(_, PartialReason::SizeLimit) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Unable to process message part due to excessive data".to_string()))
+                                                        .body(BoxBody::new("Unable to process message part due to excessive data".to_string()))
                                                         .expect("Unable to create Bad Request response due to excessive data"))
                                     },
                                     SaveResult::Partial(_, PartialReason::Utf8Error(_)) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Unable to process message part due to invalid data".to_string()))
+                                                        .body(BoxBody::new("Unable to process message part due to invalid data".to_string()))
                                                         .expect("Unable to create Bad Request response due to invalid data"))
                                     },
                                     SaveResult::Partial(_, PartialReason::IoError(_)) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                        .body(Body::from("Failed to process message part due an internal error".to_string()))
+                                                        .body(BoxBody::new("Failed to process message part due an internal error".to_string()))
                                                         .expect("Unable to create Internal Server Error response due to an internal error"))
                                     },
                                     SaveResult::Error(e) => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                        .body(Body::from("Failed to process all message parts due to an internal error".to_string()))
+                                                        .body(BoxBody::new("Failed to process all message parts due to an internal error".to_string()))
                                                         .expect("Unable to create Internal Server Error response due to an internal error"))
                                     },
                                 };
@@ -71,7 +71,7 @@
                                                 return Ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
-                                                    .body(Body::from(format!("{{{paramName}}} data does not match API definition : {}", e)))
+                                                    .body(BoxBody::new(format!("{{{paramName}}} data does not match API definition : {e}")))
                                                     .expect("Unable to create Bad Request due to missing required form parameter {{{paramName}}}"))
                                             }
                                         };
@@ -87,7 +87,7 @@
                                         return Ok(
                                             Response::builder()
                                             .status(StatusCode::BAD_REQUEST)
-                                            .body(Body::from("Missing required form parameter {{{paramName}}}".to_string()))
+                                            .body(BoxBody::new("Missing required form parameter {{{paramName}}}".to_string()))
                                             .expect("Unable to create Bad Request due to missing required form parameter {{{paramName}}}"))
                 {{/required}}
                 {{^required}}

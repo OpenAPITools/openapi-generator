@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfInlineAllOfArrayAllofDogPropertyInner
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
@@ -193,12 +193,10 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("breed");
-    openapiFields.add("color");
+    openapiFields = new HashSet<String>(Arrays.asList("breed", "color"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

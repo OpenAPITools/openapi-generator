@@ -39,10 +39,12 @@ Declare the class with extends and implements
         {{#isEnum}}
             {{^isContainer}}
 {{>common/model/modelInnerEnum}}
+
             {{/isContainer}}
             {{#isContainer}}
                 {{#mostInnerItems}}
 {{>common/model/modelInnerEnum}}
+
                 {{/mostInnerItems}}
             {{/isContainer}}
         {{/isEnum}}
@@ -211,6 +213,7 @@ Declare the class with extends and implements
 
         {{#vendorExtensions.x-is-jackson-optional-nullable}}
 {{>common/model/jackson_annotations}}
+
     public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}_JsonNullable() {
         return {{name}};
     }

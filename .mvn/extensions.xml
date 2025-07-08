@@ -3,11 +3,11 @@
     <extension>
         <groupId>com.gradle</groupId>
         <artifactId>develocity-maven-extension</artifactId>
-        <version>1.21.6</version>
+        <version>1.23.2</version>
     </extension>
     <extension>
         <groupId>com.gradle</groupId>
         <artifactId>common-custom-user-data-maven-extension</artifactId>
-        <version>1.12.5</version>
+        <version>2.0.2</version>
     </extension>
 </extensions>

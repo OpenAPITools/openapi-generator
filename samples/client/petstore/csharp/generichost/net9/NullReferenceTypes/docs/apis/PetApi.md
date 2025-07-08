@@ -20,60 +20,6 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Add a new pet to the store
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class AddPetExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure OAuth2 access token for authorization: petstore_auth
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-
-            var apiInstance = new PetApi(config);
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
-
-            try
-            {
-                // Add a new pet to the store
-                apiInstance.AddPet(pet);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling PetApi.AddPet: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the AddPetWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Add a new pet to the store
-    apiInstance.AddPetWithHttpInfo(pet);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling PetApi.AddPetWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -108,61 +54,6 @@ void (empty response body)
 
 Deletes a pet
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class DeletePetExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure OAuth2 access token for authorization: petstore_auth
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-
-            var apiInstance = new PetApi(config);
-            var petId = 789L;  // long | Pet id to delete
-            var apiKey = "apiKey_example";  // string |  (optional) 
-
-            try
-            {
-                // Deletes a pet
-                apiInstance.DeletePet(petId, apiKey);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling PetApi.DeletePet: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the DeletePetWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Deletes a pet
-    apiInstance.DeletePetWithHttpInfo(petId, apiKey);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling PetApi.DeletePetWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -200,64 +91,6 @@ Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class FindPetsByStatusExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure OAuth2 access token for authorization: petstore_auth
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-
-            var apiInstance = new PetApi(config);
-            var status = new List<string>(); // List<string> | Status values that need to be considered for filter
-
-            try
-            {
-                // Finds Pets by status
-                List<Pet> result = apiInstance.FindPetsByStatus(status);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling PetApi.FindPetsByStatus: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the FindPetsByStatusWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Finds Pets by status
-    ApiResponse<List<Pet>> response = apiInstance.FindPetsByStatusWithHttpInfo(status);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling PetApi.FindPetsByStatusWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -297,64 +130,6 @@ Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class FindPetsByTagsExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure OAuth2 access token for authorization: petstore_auth
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-
-            var apiInstance = new PetApi(config);
-            var tags = new List<string>(); // List<string> | Tags to filter by
-
-            try
-            {
-                // Finds Pets by tags
-                List<Pet> result = apiInstance.FindPetsByTags(tags);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling PetApi.FindPetsByTags: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the FindPetsByTagsWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Finds Pets by tags
-    ApiResponse<List<Pet>> response = apiInstance.FindPetsByTagsWithHttpInfo(tags);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling PetApi.FindPetsByTagsWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -392,70 +167,6 @@ Find pet by ID
 
 Returns a single pet
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class GetPetByIdExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure API key authorization: api_key
-            config.AddApiKey("api-key", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api-key", "Bearer");
-            // Configure API key authorization: api_key_query
-            config.AddApiKey("api_key_query", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key_query", "Bearer");
-
-            var apiInstance = new PetApi(config);
-            var petId = 789L;  // long | ID of pet to return
-
-            try
-            {
-                // Find pet by ID
-                Pet result = apiInstance.GetPetById(petId);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling PetApi.GetPetById: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the GetPetByIdWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Find pet by ID
-    ApiResponse<Pet> response = apiInstance.GetPetByIdWithHttpInfo(petId);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling PetApi.GetPetByIdWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -492,60 +203,6 @@ catch (ApiException e)
 
 Update an existing pet
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class UpdatePetExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure OAuth2 access token for authorization: petstore_auth
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-
-            var apiInstance = new PetApi(config);
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
-
-            try
-            {
-                // Update an existing pet
-                apiInstance.UpdatePet(pet);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling PetApi.UpdatePet: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the UpdatePetWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Update an existing pet
-    apiInstance.UpdatePetWithHttpInfo(pet);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling PetApi.UpdatePetWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -582,62 +239,6 @@ void (empty response body)
 
 Updates a pet in the store with form data
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class UpdatePetWithFormExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure OAuth2 access token for authorization: petstore_auth
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-
-            var apiInstance = new PetApi(config);
-            var petId = 789L;  // long | ID of pet that needs to be updated
-            var name = "name_example";  // string | Updated name of the pet (optional) 
-            var status = "status_example";  // string | Updated status of the pet (optional) 
-
-            try
-            {
-                // Updates a pet in the store with form data
-                apiInstance.UpdatePetWithForm(petId, name, status);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling PetApi.UpdatePetWithForm: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the UpdatePetWithFormWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Updates a pet in the store with form data
-    apiInstance.UpdatePetWithFormWithHttpInfo(petId, name, status);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling PetApi.UpdatePetWithFormWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -674,66 +275,6 @@ void (empty response body)
 
 uploads an image
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class UploadFileExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure OAuth2 access token for authorization: petstore_auth
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-
-            var apiInstance = new PetApi(config);
-            var petId = 789L;  // long | ID of pet to update
-            var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
-            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload (optional) 
-
-            try
-            {
-                // uploads an image
-                ApiResponse result = apiInstance.UploadFile(petId, additionalMetadata, file);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling PetApi.UploadFile: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the UploadFileWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // uploads an image
-    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithHttpInfo(petId, additionalMetadata, file);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling PetApi.UploadFileWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -770,66 +311,6 @@ catch (ApiException e)
 
 uploads an image (required)
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class UploadFileWithRequiredFileExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure OAuth2 access token for authorization: petstore_auth
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-
-            var apiInstance = new PetApi(config);
-            var petId = 789L;  // long | ID of pet to update
-            var requiredFile = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload
-            var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
-
-            try
-            {
-                // uploads an image (required)
-                ApiResponse result = apiInstance.UploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling PetApi.UploadFileWithRequiredFile: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the UploadFileWithRequiredFileWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // uploads an image (required)
-    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling PetApi.UploadFileWithRequiredFileWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 

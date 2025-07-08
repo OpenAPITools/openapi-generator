@@ -1,0 +1,106 @@
+{{#hasParams}}
+{{^hasSingleParam}}
+
+    public {{#staticRequest}}static {{/staticRequest}}class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
+    {{#allParams}}
+        private {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullable_var_annotations}} {{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullable_var_annotations}} {{{dataType}}}{{/isFile}} {{paramName}};
+    {{/allParams}}
+
+        public {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request() {}
+
+        public {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullable_var_annotations}} {{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullable_var_annotations}} {{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+        {{#allParams}}
+            this.{{paramName}} = {{paramName}};
+        {{/allParams}}
+        }
+
+        {{#allParams}}
+        public {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullable_var_annotations}} {{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullable_var_annotations}} {{{dataType}}}{{/isFile}} {{paramName}}() {
+            return this.{{paramName}};
+        }
+        public {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {{paramName}}({{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullable_var_annotations}} {{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullable_var_annotations}} {{{dataType}}}{{/isFile}} {{paramName}}) {
+            this.{{paramName}} = {{paramName}};
+            return this;
+        }
+
+        {{/allParams}}
+        @Override
+        public boolean equals(Object o) {
+        {{#useReflectionEqualsHashCode}}
+            return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+        {{/useReflectionEqualsHashCode}}
+        {{^useReflectionEqualsHashCode}}
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }{{#hasParams}}
+            {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request request = ({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request) o;
+            return {{#allParams}}{{#vendorExtensions.x-is-jackson-optional-nullable}}equalsNullable(this.{{paramName}}, request.{{paramName}}()){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{paramName}}, request.{{paramName}}()){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}} &&
+                {{/-last}}{{/allParams}};{{/hasParams}}{{^hasParams}}
+            return true;{{/hasParams}}
+        {{/useReflectionEqualsHashCode}}
+        }
+
+        @Override
+        public int hashCode() {
+        {{#useReflectionEqualsHashCode}}
+            return HashCodeBuilder.reflectionHashCode(this);
+        {{/useReflectionEqualsHashCode}}
+        {{^useReflectionEqualsHashCode}}
+            return Objects.hash({{#allParams}}{{#vendorExtensions.x-is-jackson-optional-nullable}}hashCodeNullable({{paramName}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{^isByteArray}}{{paramName}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{paramName}}){{/isByteArray}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{/useReflectionEqualsHashCode}}
+        }
+    }
+
+    /**
+     * {{summary}}
+     * {{notes}}
+    {{#responses}} * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
+    {{/responses}} * @param requestParameters The {{operationId}} request parameters as object
+    {{#returnType}} * @return {{.}}
+    {{/returnType}} * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+    {{#externalDocs}}
+       * {{description}}
+       * @see <a href="{{url}}">{{summary}} Documentation</a>
+    {{/externalDocs}}
+     */
+    public {{#returnType}}{{#vendorExtensions.x-webclient-blocking}}{{#vendorExtensions.x-webclient-return-except-list-of-string}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnBaseType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnBaseType}}}{{/isResponseFile}}>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{/vendorExtensions.x-webclient-blocking}}{{^vendorExtensions.x-webclient-blocking}}{{#vendorExtensions.x-webclient-return-except-list-of-string}}Flux<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnBaseType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnBaseType}}}{{/isResponseFile}}>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}Mono<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{/vendorExtensions.x-webclient-blocking}} {{/returnType}}{{^returnType}}{{#vendorExtensions.x-webclient-blocking}}void{{/vendorExtensions.x-webclient-blocking}}{{^vendorExtensions.x-webclient-blocking}}Mono<Void>{{/vendorExtensions.x-webclient-blocking}} {{/returnType}}{{operationId}}({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws WebClientResponseException {
+        {{^returnType}}{{^vendorExtensions.x-webclient-blocking}}return {{/vendorExtensions.x-webclient-blocking}}{{/returnType}}{{#returnType}}return {{/returnType}}this.{{operationId}}({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
+    }
+
+    /**
+     * {{summary}}
+     * {{notes}}
+    {{#responses}} * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
+    {{/responses}} * @param requestParameters The {{operationId}} request parameters as object
+    {{#returnType}} * @return ResponseEntity&lt;{{.}}&gt;
+    {{/returnType}} * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+    {{#externalDocs}}
+     * {{description}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
+    {{/externalDocs}}
+     */
+    public {{#vendorExtensions.x-webclient-blocking}}{{#returnType}}{{#vendorExtensions.x-webclient-return-except-list-of-string}}ResponseEntity<List<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnBaseType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnBaseType}}}{{/isResponseFile}}>>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{/returnType}}{{^returnType}}ResponseEntity<Void>{{/returnType}} {{/vendorExtensions.x-webclient-blocking}}{{^vendorExtensions.x-webclient-blocking}}{{#returnType}}{{#vendorExtensions.x-webclient-return-except-list-of-string}}Mono<ResponseEntity<List<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnBaseType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnBaseType}}}{{/isResponseFile}}>>>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}Mono<ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>>{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{/returnType}}{{^returnType}}Mono<ResponseEntity<Void>>{{/returnType}} {{/vendorExtensions.x-webclient-blocking}}{{operationId}}WithHttpInfo({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws WebClientResponseException {
+        return this.{{operationId}}WithHttpInfo({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
+    }
+
+    /**
+     * {{summary}}
+     * {{notes}}
+    {{#responses}} * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
+    {{/responses}} * @param requestParameters The {{operationId}} request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+    {{#externalDocs}}
+     * {{description}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
+    {{/externalDocs}}
+     */
+    public ResponseSpec {{operationId}}WithResponseSpec({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws WebClientResponseException {
+        return this.{{operationId}}WithResponseSpec({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
+    }
+
+{{/hasSingleParam}}
+{{/hasParams}}

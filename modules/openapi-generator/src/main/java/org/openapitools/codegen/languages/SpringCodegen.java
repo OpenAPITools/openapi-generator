@@ -90,6 +90,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
     public static final String USE_RESPONSE_ENTITY = "useResponseEntity";
+    public static final String GENERATE_GENERIC_RESPONSE_ENTITY = "generateGenericResponseEntity";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
@@ -147,6 +148,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean useSpringController = false;
     protected boolean useSwaggerUI = true;
     @Setter protected boolean useResponseEntity = true;
+    @Setter protected boolean generateGenericResponseEntity = false;
     @Setter protected boolean useEnumCaseInsensitive = false;
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
@@ -256,6 +258,10 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use the `ResponseEntity` type to wrap return values of generated API methods. "
                         + "If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition",
                 useResponseEntity));
+        cliOptions.add(CliOption.newBoolean(GENERATE_GENERIC_RESPONSE_ENTITY,
+                "Use a generic type for the `ResponseEntity` wrapping return values of generated API methods. "
+                        + "If enabled, method are generated with return type ResponseEntity<?>",
+                generateGenericResponseEntity));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE,
                 "Use `equalsIgnoreCase` when String for enum comparison",
                 useEnumCaseInsensitive));
@@ -433,6 +439,11 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(UNHANDLED_EXCEPTION_HANDLING, this::setUnhandledException);
         convertPropertyToBooleanAndWriteBack(USE_RESPONSE_ENTITY, this::setUseResponseEntity);
+        convertPropertyToBooleanAndWriteBack(GENERATE_GENERIC_RESPONSE_ENTITY, this::setGenerateGenericResponseEntity);
+        if (!useResponseEntity) {
+            this.setGenerateGenericResponseEntity(false);
+            this.additionalProperties.put(GENERATE_GENERIC_RESPONSE_ENTITY, false);
+        }
         convertPropertyToBooleanAndWriteBack(OPTIONAL_ACCEPT_NULLABLE, this::setOptionalAcceptNullable);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
 

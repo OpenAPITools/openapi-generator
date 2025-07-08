@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class HealthCheckResult {
   public static final String SERIALIZED_NAME_NULLABLE_MESSAGE = "NullableMessage";
   @SerializedName(SERIALIZED_NAME_NULLABLE_MESSAGE)
@@ -179,11 +179,10 @@ public class HealthCheckResult {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("NullableMessage");
+    openapiFields = new HashSet<String>(Arrays.asList("NullableMessage"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

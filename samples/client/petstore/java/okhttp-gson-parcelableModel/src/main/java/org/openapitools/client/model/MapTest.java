@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class MapTest implements Parcelable {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
@@ -314,14 +314,10 @@ public class MapTest implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("map_map_of_string");
-    openapiFields.add("map_of_enum_string");
-    openapiFields.add("direct_map");
-    openapiFields.add("indirect_map");
+    openapiFields = new HashSet<String>(Arrays.asList("map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

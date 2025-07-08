@@ -5000,7 +5000,7 @@ public class DefaultCodegenTest {
         CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
 
         // When & Then
-        assertThat(codegenOperation.hasSingleParam).isFalse();
+        assertThat(codegenOperation.getHasSingleParam()).isFalse();
     }
 
     @Test
@@ -5013,6 +5013,6 @@ public class DefaultCodegenTest {
         CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
 
         // When & Then
-        assertThat(codegenOperation.hasSingleParam).isTrue();
+        assertThat(codegenOperation.getHasSingleParam()).isTrue();
     }
 }

@@ -60,9 +60,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
     String supportedElixirVersion = "1.18";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 1.7\"}",
-            "{:ex_doc, \"~> 0.30\", only: :dev, runtime: false}",
-            "{:dialyxir, \"~> 1.3\", only: [:dev, :test], runtime: false}");
+            "{:tesla, \"~> 1.14\"}",
+            "{:ex_doc, \"~> 0.37.3\", only: :dev, runtime: false}",
+            "{:dialyxir, \"~> 1.4\", only: [:dev, :test], runtime: false}");
 
     public ElixirClientCodegen() {
         super();
@@ -712,7 +712,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.hasAuthMethods = o.hasAuthMethods;
             this.hasConsumes = o.hasConsumes;
             this.hasProduces = o.hasProduces;
-            this.hasParams = o.hasParams;
             this.hasOptionalParams = o.hasOptionalParams;
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
@@ -722,12 +721,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.isMultipart = o.isMultipart;
             this.isResponseBinary = o.isResponseBinary;
             this.hasReference = o.hasReference;
-            this.isRestfulIndex = o.isRestfulIndex;
-            this.isRestfulShow = o.isRestfulShow;
-            this.isRestfulCreate = o.isRestfulCreate;
-            this.isRestfulUpdate = o.isRestfulUpdate;
-            this.isRestfulDestroy = o.isRestfulDestroy;
-            this.isRestful = o.isRestful;
             this.path = o.path;
             this.operationId = o.operationId;
             this.returnType = o.returnType;

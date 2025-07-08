@@ -851,6 +851,52 @@ public class OpenAPINormalizer {
         }
     }
 
+    protected void refactorAllOfWithMetadataOnlySchemas(Schema schema) {
+        if (schema.getAllOf() == null) {
+            return;
+        }
+
+        // Check if there are metadata schemas.
+        // For example, there may be an `description` only schema that is used to override the descrption.
+        List<Schema> nonMetadataOnlySchemas = new ArrayList<>();
+        List<Schema> metadataOnlySchemas = new ArrayList<>();
+
+        for (Object s: schema.getAllOf()) {
+            if (s instanceof Schema) {
+                if (ModelUtils.isMetadataOnlySchema((Schema) s)) {
+                    metadataOnlySchemas.add((Schema) s);
+                } else {
+                    nonMetadataOnlySchemas.add((Schema) s);
+                }
+            }
+        }
+
+        //      ReferenceNumber:
+        //       allOf:
+        //       - $ref: '#/components/schemas/IEAN8'
+        //       - description: Product Ref
+        //       - example: IEAN1234
+        //
+        // becomes the following after the following code block
+        //
+        //     ReferenceNumber:
+        //      allOf:
+        //      - $ref: '#/components/schemas/IEAN8'
+        //      description: Product Ref
+        //      example: IEAN1234
+        //
+        // which can be further processed by the generator
+        if (nonMetadataOnlySchemas.size() > 0) {
+            // keep the non metadata schema(s)
+            schema.setAllOf(nonMetadataOnlySchemas);
+
+            // copy metadata to the allOf schema
+            for (Schema metadataOnlySchema: metadataOnlySchemas) {
+                ModelUtils.copyMetadata(metadataOnlySchema, schema);
+            }
+        }
+    }
+
     /*
      * Remove unsupported schemas (e.g. if, then) from allOf.
      *
@@ -881,6 +927,8 @@ public class OpenAPINormalizer {
 
     protected Schema normalizeAllOf(Schema schema, Set<Schema> visitedSchemas) {
         removeUnsupportedSchemasFromAllOf(schema);
+
+        refactorAllOfWithMetadataOnlySchemas(schema);
 
         if (schema.getAllOf() == null) {
             return schema;
@@ -922,6 +970,9 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
+        // Remove duplicate oneOf entries
+        ModelUtils.deduplicateOneOfSchema(schema);
+
         // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
 

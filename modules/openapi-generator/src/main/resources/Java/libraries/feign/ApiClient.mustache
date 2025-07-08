@@ -53,17 +53,18 @@ import feign.Retryer;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
+
 public class ApiClient {
-  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+  protected static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   public interface Api {}
 
   {{#jackson}}
   protected ObjectMapper objectMapper;
   {{/jackson}}
-  private String basePath = "{{{basePath}}}";
-  private Map<String, RequestInterceptor> apiAuthorizations;
-  private Feign.Builder feignBuilder;
+  protected String basePath = "{{{basePath}}}";
+  protected Map<String, RequestInterceptor> apiAuthorizations;
+  protected Feign.Builder feignBuilder;
 
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
@@ -167,7 +168,7 @@ public class ApiClient {
   }
 
   {{#jackson}}
-  private ObjectMapper createObjectMapper() {
+  protected ObjectMapper createObjectMapper() {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
@@ -194,7 +195,7 @@ public class ApiClient {
   {{/jackson}}
 
   {{#hasOAuthMethods}}
-  private RequestInterceptor buildOauthRequestInterceptor(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
+  protected RequestInterceptor buildOauthRequestInterceptor(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
     switch (flow) {
       case PASSWORD:
         return new OauthPasswordGrant(tokenUrl, scopes);
@@ -375,7 +376,7 @@ public class ApiClient {
     feignBuilder.requestInterceptor(authorization);
   }
 
-  private <T extends RequestInterceptor> T getAuthorization(Class<T> type) {
+  protected <T extends RequestInterceptor> T getAuthorization(Class<T> type) {
     return (T) apiAuthorizations.values()
                                 .stream()
                                 .filter(requestInterceptor -> type.isAssignableFrom(requestInterceptor.getClass()))

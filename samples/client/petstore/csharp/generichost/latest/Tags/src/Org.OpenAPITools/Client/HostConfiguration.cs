@@ -47,11 +47,8 @@ namespace Org.OpenAPITools.Client
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<APIKEYSApiEvents>();
-            _services.AddTransient<IAPIKEYSApi, APIKEYSApi>();
             _services.AddSingleton<APIKeysApiEvents>();
-            _services.AddTransient<IAPIKeysApi, APIKeysApi>();
             _services.AddSingleton<ApiKeysApiEvents>();
-            _services.AddTransient<IApiKeysApi, ApiKeysApi>();
         }
 
         /// <summary>

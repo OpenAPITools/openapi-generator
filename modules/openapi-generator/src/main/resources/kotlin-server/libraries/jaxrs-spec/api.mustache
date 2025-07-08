@@ -20,6 +20,7 @@ import {{javaxPackage}}.validation.Valid{{/useBeanValidation}}
 @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
 @Path("/")
 {{>generatedAnnotation}}
+
 {{#interfaceOnly}}interface{{/interfaceOnly}}{{^interfaceOnly}}class{{/interfaceOnly}} {{classname}} {
 {{#operations}}
 {{#operation}}

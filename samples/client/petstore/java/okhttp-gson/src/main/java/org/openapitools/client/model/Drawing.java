@@ -55,7 +55,7 @@ import org.openapitools.client.JSON;
 /**
  * Drawing
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class Drawing {
   public static final String SERIALIZED_NAME_MAIN_SHAPE = "mainShape";
   @SerializedName(SERIALIZED_NAME_MAIN_SHAPE)
@@ -271,14 +271,10 @@ public class Drawing {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("mainShape");
-    openapiFields.add("shapeOrNull");
-    openapiFields.add("nullableShape");
-    openapiFields.add("shapes");
+    openapiFields = new HashSet<String>(Arrays.asList("mainShape", "shapeOrNull", "nullableShape", "shapes"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

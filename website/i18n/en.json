@@ -450,6 +450,10 @@
         "title": "Config Options for rust-server",
         "sidebar_label": "rust-server"
       },
+      "generators/rust-server-deprecated": {
+        "title": "Config Options for rust-server-deprecated",
+        "sidebar_label": "rust-server-deprecated"
+      },
       "generators/rust": {
         "title": "Config Options for rust",
         "sidebar_label": "rust"

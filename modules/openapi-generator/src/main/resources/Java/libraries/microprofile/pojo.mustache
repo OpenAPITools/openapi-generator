@@ -4,6 +4,7 @@
 ){{/hasVars}}
 {{^hasVars}}@XmlType(name = "{{classname}}"){{/hasVars}}
 {{> xmlAnnotation }}
+
 {{/withXml}}
 {{#jackson}}
 @JsonPropertyOrder({
@@ -57,6 +58,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 {{/isContainer}}
   {{/vars}}
+{{>additional_properties}}
+
 {{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
   public {{classname}}() {
   }
@@ -149,4 +152,5 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 
   {{/vars}}
 {{>pojoOverrides}}
+
 }

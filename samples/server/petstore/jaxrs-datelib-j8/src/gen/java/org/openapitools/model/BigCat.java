@@ -31,7 +31,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   BigCat.JSON_PROPERTY_KIND
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class BigCat extends Cat implements Serializable {
   /**
    * Gets or Sets kind
@@ -51,8 +51,12 @@ public class BigCat extends Cat implements Serializable {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }

@@ -26,7 +26,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +38,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -47,7 +46,6 @@ public class FakeApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public FakeApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -124,6 +122,7 @@ public class FakeApi {
     public ResponseSpec fakeBigDecimalMapWithResponseSpec() throws RestClientResponseException {
         return fakeBigDecimalMapRequestCreation();
     }
+
     /**
      * Health check endpoint
      * 
@@ -247,37 +246,37 @@ public class FakeApi {
     }
 
     /**
-    * test http signature authentication
-    * 
+     * test http signature authentication
+     * 
      * <p><b>200</b> - The instance started successfully
      * @param requestParameters The fakeHttpSignatureTest request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public void fakeHttpSignatureTest(FakeHttpSignatureTestRequest requestParameters) throws RestClientResponseException {
-      this.fakeHttpSignatureTest(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
+        this.fakeHttpSignatureTest(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
     }
 
-  /**
-  * test http signature authentication
-  * 
+    /**
+     * test http signature authentication
+     * 
      * <p><b>200</b> - The instance started successfully
      * @param requestParameters The fakeHttpSignatureTest request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<Void> fakeHttpSignatureTestWithHttpInfo(FakeHttpSignatureTestRequest requestParameters) throws RestClientResponseException {
-      return this.fakeHttpSignatureTestWithHttpInfo(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
+        return this.fakeHttpSignatureTestWithHttpInfo(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
     }
 
-  /**
-  * test http signature authentication
-  * 
+    /**
+     * test http signature authentication
+     * 
      * <p><b>200</b> - The instance started successfully
      * @param requestParameters The fakeHttpSignatureTest request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec fakeHttpSignatureTestWithResponseSpec(FakeHttpSignatureTestRequest requestParameters) throws RestClientResponseException {
-      return this.fakeHttpSignatureTestWithResponseSpec(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
+        return this.fakeHttpSignatureTestWithResponseSpec(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
     }
 
     /**
@@ -362,6 +361,7 @@ public class FakeApi {
     public ResponseSpec fakeHttpSignatureTestWithResponseSpec(@jakarta.annotation.Nonnull Pet pet, @jakarta.annotation.Nullable String query1, @jakarta.annotation.Nullable String header1) throws RestClientResponseException {
         return fakeHttpSignatureTestRequestCreation(pet, query1, header1);
     }
+
     /**
      * 
      * Test serialization of outer boolean types
@@ -432,6 +432,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterBooleanSerializeWithResponseSpec(@jakarta.annotation.Nullable Boolean body) throws RestClientResponseException {
         return fakeOuterBooleanSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of object with outer number type
@@ -502,6 +503,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterCompositeSerializeWithResponseSpec(@jakarta.annotation.Nullable OuterComposite outerComposite) throws RestClientResponseException {
         return fakeOuterCompositeSerializeRequestCreation(outerComposite);
     }
+
     /**
      * 
      * Test serialization of outer number types
@@ -572,6 +574,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterNumberSerializeWithResponseSpec(@jakarta.annotation.Nullable BigDecimal body) throws RestClientResponseException {
         return fakeOuterNumberSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of outer string types
@@ -642,6 +645,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterStringSerializeWithResponseSpec(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
         return fakeOuterStringSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of enum (int) properties with examples
@@ -716,6 +720,7 @@ public class FakeApi {
     public ResponseSpec fakePropertyEnumIntegerSerializeWithResponseSpec(@jakarta.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientResponseException {
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty);
     }
+
     /**
      * test referenced additionalProperties
      * 
@@ -785,6 +790,7 @@ public class FakeApi {
     public ResponseSpec testAdditionalPropertiesReferenceWithResponseSpec(@jakarta.annotation.Nonnull Map<String, Object> requestBody) throws RestClientResponseException {
         return testAdditionalPropertiesReferenceRequestCreation(requestBody);
     }
+
     /**
      * 
      * For this test, the body has to be a binary file.
@@ -854,6 +860,7 @@ public class FakeApi {
     public ResponseSpec testBodyWithBinaryWithResponseSpec(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
         return testBodyWithBinaryRequestCreation(body);
     }
+
     /**
      * 
      * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
@@ -971,37 +978,37 @@ public class FakeApi {
     }
 
     /**
-    * 
-    * 
+     * 
+     * 
      * <p><b>200</b> - Success
      * @param requestParameters The testBodyWithQueryParams request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public void testBodyWithQueryParams(TestBodyWithQueryParamsRequest requestParameters) throws RestClientResponseException {
-      this.testBodyWithQueryParams(requestParameters.query(), requestParameters.user());
+        this.testBodyWithQueryParams(requestParameters.query(), requestParameters.user());
     }
 
-  /**
-  * 
-  * 
+    /**
+     * 
+     * 
      * <p><b>200</b> - Success
      * @param requestParameters The testBodyWithQueryParams request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<Void> testBodyWithQueryParamsWithHttpInfo(TestBodyWithQueryParamsRequest requestParameters) throws RestClientResponseException {
-      return this.testBodyWithQueryParamsWithHttpInfo(requestParameters.query(), requestParameters.user());
+        return this.testBodyWithQueryParamsWithHttpInfo(requestParameters.query(), requestParameters.user());
     }
 
-  /**
-  * 
-  * 
+    /**
+     * 
+     * 
      * <p><b>200</b> - Success
      * @param requestParameters The testBodyWithQueryParams request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec testBodyWithQueryParamsWithResponseSpec(TestBodyWithQueryParamsRequest requestParameters) throws RestClientResponseException {
-      return this.testBodyWithQueryParamsWithResponseSpec(requestParameters.query(), requestParameters.user());
+        return this.testBodyWithQueryParamsWithResponseSpec(requestParameters.query(), requestParameters.user());
     }
 
     /**
@@ -1083,6 +1090,7 @@ public class FakeApi {
     public ResponseSpec testBodyWithQueryParamsWithResponseSpec(@jakarta.annotation.Nonnull String query, @jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         return testBodyWithQueryParamsRequestCreation(query, user);
     }
+
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -1337,40 +1345,40 @@ public class FakeApi {
     }
 
     /**
-    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The testEndpointParameters request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public void testEndpointParameters(TestEndpointParametersRequest requestParameters) throws RestClientResponseException {
-      this.testEndpointParameters(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
+        this.testEndpointParameters(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
     }
 
-  /**
-  * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-  * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    /**
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The testEndpointParameters request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<Void> testEndpointParametersWithHttpInfo(TestEndpointParametersRequest requestParameters) throws RestClientResponseException {
-      return this.testEndpointParametersWithHttpInfo(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
+        return this.testEndpointParametersWithHttpInfo(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
     }
 
-  /**
-  * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-  * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    /**
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The testEndpointParameters request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec testEndpointParametersWithResponseSpec(TestEndpointParametersRequest requestParameters) throws RestClientResponseException {
-      return this.testEndpointParametersWithResponseSpec(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
+        return this.testEndpointParametersWithResponseSpec(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
     }
 
     /**
@@ -1664,40 +1672,40 @@ public class FakeApi {
     }
 
     /**
-    * To test enum parameters
-    * To test enum parameters
+     * To test enum parameters
+     * To test enum parameters
      * <p><b>400</b> - Invalid request
      * <p><b>404</b> - Not found
      * @param requestParameters The testEnumParameters request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public void testEnumParameters(TestEnumParametersRequest requestParameters) throws RestClientResponseException {
-      this.testEnumParameters(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
+        this.testEnumParameters(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
     }
 
-  /**
-  * To test enum parameters
-  * To test enum parameters
+    /**
+     * To test enum parameters
+     * To test enum parameters
      * <p><b>400</b> - Invalid request
      * <p><b>404</b> - Not found
      * @param requestParameters The testEnumParameters request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<Void> testEnumParametersWithHttpInfo(TestEnumParametersRequest requestParameters) throws RestClientResponseException {
-      return this.testEnumParametersWithHttpInfo(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
+        return this.testEnumParametersWithHttpInfo(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
     }
 
-  /**
-  * To test enum parameters
-  * To test enum parameters
+    /**
+     * To test enum parameters
+     * To test enum parameters
      * <p><b>400</b> - Invalid request
      * <p><b>404</b> - Not found
      * @param requestParameters The testEnumParameters request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec testEnumParametersWithResponseSpec(TestEnumParametersRequest requestParameters) throws RestClientResponseException {
-      return this.testEnumParametersWithResponseSpec(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
+        return this.testEnumParametersWithResponseSpec(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
     }
 
     /**
@@ -1909,37 +1917,37 @@ public class FakeApi {
     }
 
     /**
-    * Fake endpoint to test group parameters (optional)
-    * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
      * <p><b>400</b> - Something wrong
      * @param requestParameters The testGroupParameters request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public void testGroupParameters(TestGroupParametersRequest requestParameters) throws RestClientResponseException {
-      this.testGroupParameters(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
+        this.testGroupParameters(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
     }
 
-  /**
-  * Fake endpoint to test group parameters (optional)
-  * Fake endpoint to test group parameters (optional)
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
      * <p><b>400</b> - Something wrong
      * @param requestParameters The testGroupParameters request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<Void> testGroupParametersWithHttpInfo(TestGroupParametersRequest requestParameters) throws RestClientResponseException {
-      return this.testGroupParametersWithHttpInfo(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
+        return this.testGroupParametersWithHttpInfo(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
     }
 
-  /**
-  * Fake endpoint to test group parameters (optional)
-  * Fake endpoint to test group parameters (optional)
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
      * <p><b>400</b> - Something wrong
      * @param requestParameters The testGroupParameters request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec testGroupParametersWithResponseSpec(TestGroupParametersRequest requestParameters) throws RestClientResponseException {
-      return this.testGroupParametersWithResponseSpec(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
+        return this.testGroupParametersWithResponseSpec(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
     }
 
     /**
@@ -2047,6 +2055,7 @@ public class FakeApi {
     public ResponseSpec testGroupParametersWithResponseSpec(@jakarta.annotation.Nonnull Integer requiredStringGroup, @jakarta.annotation.Nonnull Boolean requiredBooleanGroup, @jakarta.annotation.Nonnull Long requiredInt64Group, @jakarta.annotation.Nullable Integer stringGroup, @jakarta.annotation.Nullable Boolean booleanGroup, @jakarta.annotation.Nullable Long int64Group) throws RestClientResponseException {
         return testGroupParametersRequestCreation(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
+
     /**
      * test inline additionalProperties
      * 
@@ -2116,6 +2125,7 @@ public class FakeApi {
     public ResponseSpec testInlineAdditionalPropertiesWithResponseSpec(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws RestClientResponseException {
         return testInlineAdditionalPropertiesRequestCreation(requestBody);
     }
+
     /**
      * test inline free-form additionalProperties
      * 
@@ -2233,37 +2243,37 @@ public class FakeApi {
     }
 
     /**
-    * test json serialization of form data
-    * 
+     * test json serialization of form data
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The testJsonFormData request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public void testJsonFormData(TestJsonFormDataRequest requestParameters) throws RestClientResponseException {
-      this.testJsonFormData(requestParameters.param(), requestParameters.param2());
+        this.testJsonFormData(requestParameters.param(), requestParameters.param2());
     }
 
-  /**
-  * test json serialization of form data
-  * 
+    /**
+     * test json serialization of form data
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The testJsonFormData request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<Void> testJsonFormDataWithHttpInfo(TestJsonFormDataRequest requestParameters) throws RestClientResponseException {
-      return this.testJsonFormDataWithHttpInfo(requestParameters.param(), requestParameters.param2());
+        return this.testJsonFormDataWithHttpInfo(requestParameters.param(), requestParameters.param2());
     }
 
-  /**
-  * test json serialization of form data
-  * 
+    /**
+     * test json serialization of form data
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The testJsonFormData request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec testJsonFormDataWithResponseSpec(TestJsonFormDataRequest requestParameters) throws RestClientResponseException {
-      return this.testJsonFormDataWithResponseSpec(requestParameters.param(), requestParameters.param2());
+        return this.testJsonFormDataWithResponseSpec(requestParameters.param(), requestParameters.param2());
     }
 
     /**
@@ -2348,6 +2358,7 @@ public class FakeApi {
     public ResponseSpec testJsonFormDataWithResponseSpec(@jakarta.annotation.Nonnull String param, @jakarta.annotation.Nonnull String param2) throws RestClientResponseException {
         return testJsonFormDataRequestCreation(param, param2);
     }
+
     /**
      * test nullable parent property
      * 
@@ -2520,37 +2531,37 @@ public class FakeApi {
     }
 
     /**
-    * 
-    * To test the collection format in query parameters
+     * 
+     * To test the collection format in query parameters
      * <p><b>200</b> - Success
      * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public void testQueryParameterCollectionFormat(TestQueryParameterCollectionFormatRequest requestParameters) throws RestClientResponseException {
-      this.testQueryParameterCollectionFormat(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
+        this.testQueryParameterCollectionFormat(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
     }
 
-  /**
-  * 
-  * To test the collection format in query parameters
+    /**
+     * 
+     * To test the collection format in query parameters
      * <p><b>200</b> - Success
      * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<Void> testQueryParameterCollectionFormatWithHttpInfo(TestQueryParameterCollectionFormatRequest requestParameters) throws RestClientResponseException {
-      return this.testQueryParameterCollectionFormatWithHttpInfo(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
+        return this.testQueryParameterCollectionFormatWithHttpInfo(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
     }
 
-  /**
-  * 
-  * To test the collection format in query parameters
+    /**
+     * 
+     * To test the collection format in query parameters
      * <p><b>200</b> - Success
      * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(TestQueryParameterCollectionFormatRequest requestParameters) throws RestClientResponseException {
-      return this.testQueryParameterCollectionFormatWithResponseSpec(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
+        return this.testQueryParameterCollectionFormatWithResponseSpec(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
     }
 
     /**
@@ -2672,6 +2683,7 @@ public class FakeApi {
     public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(@jakarta.annotation.Nonnull List<String> pipe, @jakarta.annotation.Nonnull List<String> ioutil, @jakarta.annotation.Nonnull List<String> http, @jakarta.annotation.Nonnull List<String> url, @jakarta.annotation.Nonnull List<String> context, @jakarta.annotation.Nonnull String allowEmpty, @jakarta.annotation.Nullable Map<String, String> language) throws RestClientResponseException {
         return testQueryParameterCollectionFormatRequestCreation(pipe, ioutil, http, url, context, allowEmpty, language);
     }
+
     /**
      * test referenced string map
      * 

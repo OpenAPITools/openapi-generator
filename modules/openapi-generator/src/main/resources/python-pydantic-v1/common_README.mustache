@@ -7,6 +7,7 @@ from pprint import pprint
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 {{> python_doc_auth_partial}}
 
+
 # Enter a context with an instance of the API client
 {{#asyncio}}async {{/asyncio}}with {{{packageName}}}.ApiClient(configuration) as api_client:
     # Create an instance of the API class

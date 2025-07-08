@@ -182,6 +182,6 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::UploadFilePathParams,
-        body: &Multipart,
+        body: Multipart,
     ) -> Result<UploadFileResponse, E>;
 }

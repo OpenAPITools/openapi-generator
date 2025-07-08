@@ -26,7 +26,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -41,7 +40,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -49,7 +48,6 @@ public class FakeApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public FakeApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -62,7 +60,6 @@ public class FakeApi {
         this.apiClient = apiClient;
     }
 
-    
     /**
      * 
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
@@ -281,10 +278,10 @@ public class FakeApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec fakeHttpSignatureTestWithResponseSpec(FakeHttpSignatureTestRequest requestParameters) throws WebClientResponseException {
-       return this.fakeHttpSignatureTestWithResponseSpec(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
+        return this.fakeHttpSignatureTestWithResponseSpec(requestParameters.pet(), requestParameters.query1(), requestParameters.header1());
     }
 
-          
+
     /**
      * test http signature authentication
      * 
@@ -1014,10 +1011,10 @@ public class FakeApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec testBodyWithQueryParamsWithResponseSpec(TestBodyWithQueryParamsRequest requestParameters) throws WebClientResponseException {
-       return this.testBodyWithQueryParamsWithResponseSpec(requestParameters.query(), requestParameters.user());
+        return this.testBodyWithQueryParamsWithResponseSpec(requestParameters.query(), requestParameters.user());
     }
 
-          
+
     /**
      * 
      * 
@@ -1385,10 +1382,10 @@ public class FakeApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec testEndpointParametersWithResponseSpec(TestEndpointParametersRequest requestParameters) throws WebClientResponseException {
-       return this.testEndpointParametersWithResponseSpec(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
+        return this.testEndpointParametersWithResponseSpec(requestParameters.number(), requestParameters._double(), requestParameters.patternWithoutDelimiter(), requestParameters._byte(), requestParameters.integer(), requestParameters.int32(), requestParameters.int64(), requestParameters._float(), requestParameters.string(), requestParameters.binary(), requestParameters.date(), requestParameters.dateTime(), requestParameters.password(), requestParameters.paramCallback());
     }
 
-          
+
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -1713,10 +1710,10 @@ public class FakeApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec testEnumParametersWithResponseSpec(TestEnumParametersRequest requestParameters) throws WebClientResponseException {
-       return this.testEnumParametersWithResponseSpec(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
+        return this.testEnumParametersWithResponseSpec(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
     }
 
-          
+
     /**
      * To test enum parameters
      * To test enum parameters
@@ -1956,10 +1953,10 @@ public class FakeApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec testGroupParametersWithResponseSpec(TestGroupParametersRequest requestParameters) throws WebClientResponseException {
-       return this.testGroupParametersWithResponseSpec(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
+        return this.testGroupParametersWithResponseSpec(requestParameters.requiredStringGroup(), requestParameters.requiredBooleanGroup(), requestParameters.requiredInt64Group(), requestParameters.stringGroup(), requestParameters.booleanGroup(), requestParameters.int64Group());
     }
 
-          
+
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -2283,10 +2280,10 @@ public class FakeApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec testJsonFormDataWithResponseSpec(TestJsonFormDataRequest requestParameters) throws WebClientResponseException {
-       return this.testJsonFormDataWithResponseSpec(requestParameters.param(), requestParameters.param2());
+        return this.testJsonFormDataWithResponseSpec(requestParameters.param(), requestParameters.param2());
     }
 
-          
+
     /**
      * test json serialization of form data
      * 
@@ -2572,10 +2569,10 @@ public class FakeApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(TestQueryParameterCollectionFormatRequest requestParameters) throws WebClientResponseException {
-       return this.testQueryParameterCollectionFormatWithResponseSpec(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
+        return this.testQueryParameterCollectionFormatWithResponseSpec(requestParameters.pipe(), requestParameters.ioutil(), requestParameters.http(), requestParameters.url(), requestParameters.context(), requestParameters.allowEmpty(), requestParameters.language());
     }
 
-          
+
     /**
      * 
      * To test the collection format in query parameters

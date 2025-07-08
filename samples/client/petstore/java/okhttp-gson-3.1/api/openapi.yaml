@@ -25,16 +25,16 @@ paths:
       description: ""
       operationId: addPet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "405":
           description: Invalid input
@@ -56,16 +56,16 @@ paths:
         url: http://petstore.swagger.io/v2/doc/updatePet
       operationId: updatePet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -111,12 +111,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -153,12 +153,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -223,10 +223,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -257,7 +257,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/updatePetWithForm_request'
+              $ref: "#/components/schemas/updatePetWithForm_request"
       responses:
         "405":
           description: Invalid input
@@ -289,13 +289,13 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFile_request'
+              $ref: "#/components/schemas/uploadFile_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       security:
       - petstore_auth:
@@ -335,7 +335,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: "#/components/schemas/Order"
         description: order placed for purchasing the pet
         required: true
       responses:
@@ -343,10 +343,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           description: Invalid Order
@@ -402,10 +402,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -425,7 +425,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Created user object
         required: true
       responses:
@@ -444,7 +444,7 @@ paths:
       description: ""
       operationId: createUsersWithArrayInput
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
           description: successful operation
@@ -461,7 +461,7 @@ paths:
       description: ""
       operationId: createUsersWithListInput
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
           description: successful operation
@@ -592,10 +592,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
           description: successful operation
         "400":
           description: Invalid username supplied
@@ -623,7 +623,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Updated user object
         required: true
       responses:
@@ -658,7 +658,7 @@ paths:
       operationId: response_ref_to_no_ref
       responses:
         "200":
-          $ref: '#/components/responses/no_ref'
+          $ref: "#/components/responses/no_ref"
       tags:
       - fake
       x-accepts:
@@ -668,7 +668,7 @@ paths:
       operationId: response_ref_to_ref
       responses:
         "200":
-          $ref: '#/components/responses/ref'
+          $ref: "#/components/responses/ref"
       tags:
       - fake
       x-accepts:
@@ -677,22 +677,22 @@ paths:
     get:
       operationId: ref_to_ref_parameter
       parameters:
-      - $ref: '#/components/parameters/ref_to_uuid'
+      - $ref: "#/components/parameters/ref_to_uuid"
       responses:
         "200":
-          $ref: '#/components/responses/ref'
+          $ref: "#/components/responses/ref"
       tags:
       - fake
       x-accepts:
       - text/plain
     parameters:
-    - $ref: '#/components/parameters/ref_to_uuid'
+    - $ref: "#/components/parameters/ref_to_uuid"
   /ref/ref_to_path_level_parameter_oneof:
     get:
       description: to test $ref to path level parameters
       operationId: ref_to_ref_parameter_oneof
       parameters:
-      - $ref: '#/components/parameters/ref_to_oneof'
+      - $ref: "#/components/parameters/ref_to_oneof"
       responses:
         "200":
           description: Successful Response
@@ -701,13 +701,13 @@ paths:
       x-accepts:
       - application/json
     parameters:
-    - $ref: '#/components/parameters/ref_to_oneof'
+    - $ref: "#/components/parameters/ref_to_oneof"
   /ref/ref_to_operation_level_parameter_oneof:
     get:
       description: to test $ref to operation level parameters
       operationId: ref_to_ref_parameter_anyof
       parameters:
-      - $ref: '#/components/parameters/ref_to_anyof'
+      - $ref: "#/components/parameters/ref_to_anyof"
       responses:
         "200":
           description: Successful Response
@@ -729,7 +729,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: op1
       tags:
@@ -750,7 +750,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: op2
       tags:
@@ -768,7 +768,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/components/schemas/CodesEnum'
+            $ref: "#/components/schemas/CodesEnum"
           type: array
         style: form
       responses:
@@ -786,7 +786,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/myObject'
+                $ref: "#/components/schemas/myObject"
           description: ""
       tags:
       - fake
@@ -799,7 +799,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/myObject'
+                $ref: "#/components/schemas/myObject"
           description: ""
       tags:
       - fake
@@ -813,7 +813,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/myObject'
+                  $ref: "#/components/schemas/myObject"
                 nullable: true
                 type: array
           description: ""
@@ -841,7 +841,7 @@ components:
       name: ref_to_oneof
       required: true
       schema:
-        $ref: '#/components/schemas/_ref_ref_to_path_level_parameter_oneof_ref_to_oneof_parameter'
+        $ref: "#/components/schemas/_ref_ref_to_path_level_parameter_oneof_ref_to_oneof_parameter"
       style: simple
     ref_to_anyof:
       description: to test ref to parameter (anyof)
@@ -850,7 +850,7 @@ components:
       name: ref_to_anyof
       required: true
       schema:
-        $ref: '#/components/schemas/ref_to_ref_parameter_anyof_ref_to_anyof_parameter'
+        $ref: "#/components/schemas/ref_to_ref_parameter_anyof_ref_to_anyof_parameter"
       style: simple
   requestBodies:
     UserArray:
@@ -858,7 +858,7 @@ components:
         application/json:
           schema:
             items:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
             type: array
       description: List of user object
       required: true
@@ -866,10 +866,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
         application/xml:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
       description: Pet object that needs to be added to the store
       required: true
   responses:
@@ -883,7 +883,7 @@ components:
       content:
         text/plain:
           schema:
-            $ref: '#/components/schemas/simple_text'
+            $ref: "#/components/schemas/simple_text"
       description: required to pass validation
   schemas:
     Order:
@@ -1006,7 +1006,7 @@ components:
           format: int64
           type: integer
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         name:
           example: doggie
           type: string
@@ -1019,7 +1019,7 @@ components:
             wrapped: true
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
           xml:
             name: tag
@@ -1066,13 +1066,13 @@ components:
       - type: integer
     Dog:
       allOf:
-      - $ref: '#/components/schemas/Animal'
+      - $ref: "#/components/schemas/Animal"
       - properties:
           breed:
             type: string
     Cat:
       allOf:
-      - $ref: '#/components/schemas/Animal'
+      - $ref: "#/components/schemas/Animal"
       - properties:
           declawed:
             type: boolean
@@ -1118,28 +1118,28 @@ components:
     circular_reference_1:
       properties:
         prop1:
-          $ref: '#/components/schemas/circular_reference_2'
+          $ref: "#/components/schemas/circular_reference_2"
     circular_reference_2:
       properties:
         prop1:
-          $ref: '#/components/schemas/circular_reference_3'
+          $ref: "#/components/schemas/circular_reference_3"
     circular_reference_3:
       properties:
         prop1:
-          $ref: '#/components/schemas/circular_reference_1'
+          $ref: "#/components/schemas/circular_reference_1"
     array_of_same_ref:
       properties:
         arrayFooOne:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
         arrayFooTwo:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
         arrayFooThree:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
     CodesEnum:
       enum:
@@ -1157,7 +1157,7 @@ components:
       - arrayOfStrings
     AllOfSimpleModel:
       allOf:
-      - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
+      - $ref: "#/components/schemas/SimpleModelWithArrayProperty"
     myObject:
       type: object
     SelfReference:
@@ -1218,7 +1218,7 @@ components:
         event_type:
           type: string
         event:
-          $ref: '#/components/schemas/_fake_webhooks_sources_deleted_post_request_event'
+          $ref: "#/components/schemas/_fake_webhooks_sources_deleted_post_request_event"
       required:
       - event
       - event_timestamp

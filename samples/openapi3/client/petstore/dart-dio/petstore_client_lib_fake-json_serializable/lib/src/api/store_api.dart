@@ -118,6 +118,7 @@ class StoreApi {
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<Map<String, int>, int>(rawData, 'Map<String, int>', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -189,6 +190,7 @@ _responseData = rawData == null ? null : deserialize<Map<String, int>, int>(rawD
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<Order, Order>(rawData, 'Order', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -278,6 +280,7 @@ _bodyData=jsonEncode(order);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<Order, Order>(rawData, 'Order', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,

@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import org.openapitools.client.model.ParentWithNullable;
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
@@ -35,6 +37,7 @@ public class ChildWithNullable extends ParentWithNullable {
   
   @JsonbProperty("otherProperty")
   private String otherProperty;
+
 
   /**
    * Get otherProperty

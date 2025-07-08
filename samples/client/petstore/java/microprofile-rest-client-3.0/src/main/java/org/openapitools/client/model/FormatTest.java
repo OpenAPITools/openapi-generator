@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -89,6 +91,7 @@ public class FormatTest  {
   */
   @JsonbProperty("pattern_with_digits_and_delimiter")
   private String patternWithDigitsAndDelimiter;
+
 
   /**
    * Get integer

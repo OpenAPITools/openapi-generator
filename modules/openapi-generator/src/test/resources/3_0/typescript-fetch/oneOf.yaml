@@ -25,6 +25,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TestArrayResponse'
+  /test-discriminator:
+    get:
+      operationId: testDiscriminator
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestDiscriminatorResponse'
 components:
   schemas:
     TestArrayResponse:
@@ -38,6 +48,15 @@ components:
         - type: array
           items:
             type: string
+    TestDiscriminatorResponse:
+      discriminator:
+        propertyName: discriminatorField
+        mapping:
+          optionOne: "#/components/schemas/OptionOne"
+          optionTwo: "#/components/schemas/OptionTwo"
+      oneOf:
+        - $ref: "#/components/schemas/OptionOne"
+        - $ref: "#/components/schemas/OptionTwo"
     TestResponse:
       oneOf:
         - $ref: "#/components/schemas/TestA"
@@ -57,3 +76,21 @@ components:
           type: string
       required:
         - bar
+    OptionOne:
+      type: object
+      properties:
+        discriminatorField:
+          enum:
+            - "optionOne"
+          type: string
+      required:
+        - discriminatorField
+    OptionTwo:
+      type: object
+      properties:
+        discriminatorField:
+          enum:
+            - "optionTwo"
+          type: string
+      required:
+        - discriminatorField

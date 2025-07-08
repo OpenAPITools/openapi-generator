@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * BananaReq
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class BananaReq {
   public static final String SERIALIZED_NAME_LENGTH_CM = "lengthCm";
   @SerializedName(SERIALIZED_NAME_LENGTH_CM)
@@ -148,13 +148,10 @@ public class BananaReq {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("lengthCm");
-    openapiFields.add("sweet");
+    openapiFields = new HashSet<String>(Arrays.asList("lengthCm", "sweet"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("lengthCm");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("lengthCm"));
   }
 
   /**

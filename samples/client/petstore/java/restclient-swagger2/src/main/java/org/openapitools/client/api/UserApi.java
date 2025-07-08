@@ -13,7 +13,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +25,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -34,7 +33,6 @@ public class UserApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public UserApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -116,6 +114,7 @@ public class UserApi {
     public ResponseSpec createUserWithResponseSpec(@jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         return createUserRequestCreation(user);
     }
+
     /**
      * Creates list of users with given input array
      * 
@@ -185,6 +184,7 @@ public class UserApi {
     public ResponseSpec createUsersWithArrayInputWithResponseSpec(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         return createUsersWithArrayInputRequestCreation(user);
     }
+
     /**
      * Creates list of users with given input array
      * 
@@ -254,6 +254,7 @@ public class UserApi {
     public ResponseSpec createUsersWithListInputWithResponseSpec(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         return createUsersWithListInputRequestCreation(user);
     }
+
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -327,6 +328,7 @@ public class UserApi {
     public ResponseSpec deleteUserWithResponseSpec(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
         return deleteUserRequestCreation(username);
     }
+
     /**
      * Get user by user name
      * 
@@ -409,6 +411,7 @@ public class UserApi {
     public ResponseSpec getUserByNameWithResponseSpec(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
         return getUserByNameRequestCreation(username);
     }
+
     /**
      * Logs user into the system
      * 
@@ -496,6 +499,7 @@ public class UserApi {
     public ResponseSpec loginUserWithResponseSpec(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws RestClientResponseException {
         return loginUserRequestCreation(username, password);
     }
+
     /**
      * Logs out current logged in user session
      * 
@@ -555,6 +559,7 @@ public class UserApi {
     public ResponseSpec logoutUserWithResponseSpec() throws RestClientResponseException {
         return logoutUserRequestCreation();
     }
+
     /**
      * Updated user
      * This can only be done by the logged in user.

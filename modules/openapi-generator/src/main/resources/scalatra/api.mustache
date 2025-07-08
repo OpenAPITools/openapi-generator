@@ -47,16 +47,16 @@ class {{classname}}(implicit val swagger: Swagger) extends ScalatraServlet
     val {{paramName}} = params.getOrElse("{{paramName}}", halt(400))
     {{/isPathParam}}
     {{#isQueryParam}}
-    {{>queryParamOperation}}
+    {{>queryParamOperation}}{{! prevent indent}}
     {{/isQueryParam}}
     {{#isHeaderParam}}
-    {{>headerParamOperation}}
+    {{>headerParamOperation}}{{! prevent indent}}
     {{/isHeaderParam}}
     {{#isFormParams}}
-    {{>formParamOperation}}
+    {{>formParamOperation}}{{! prevent indent}}
     {{/isFormParams}}
     {{#isBodyParams}}
-    {{>bodyParamOperation}}
+    {{>bodyParamOperation}}{{! prevent indent}}
     {{/isBodyParams}}
     {{/isFile}}
     //println("{{paramName}}: " + {{paramName}})

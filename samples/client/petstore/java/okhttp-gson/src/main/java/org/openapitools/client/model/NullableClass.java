@@ -56,7 +56,7 @@ import org.openapitools.client.JSON;
 /**
  * NullableClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class NullableClass {
   public static final String SERIALIZED_NAME_INTEGER_PROP = "integer_prop";
   @SerializedName(SERIALIZED_NAME_INTEGER_PROP)
@@ -520,22 +520,10 @@ public class NullableClass {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("integer_prop");
-    openapiFields.add("number_prop");
-    openapiFields.add("boolean_prop");
-    openapiFields.add("string_prop");
-    openapiFields.add("date_prop");
-    openapiFields.add("datetime_prop");
-    openapiFields.add("array_nullable_prop");
-    openapiFields.add("array_and_items_nullable_prop");
-    openapiFields.add("array_items_nullable");
-    openapiFields.add("object_nullable_prop");
-    openapiFields.add("object_and_items_nullable_prop");
-    openapiFields.add("object_items_nullable");
+    openapiFields = new HashSet<String>(Arrays.asList("integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

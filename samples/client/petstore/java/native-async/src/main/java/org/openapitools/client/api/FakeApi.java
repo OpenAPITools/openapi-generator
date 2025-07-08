@@ -64,7 +64,7 @@ import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -98,6 +98,54 @@ public class FakeApi {
       body = "[no body]";
     }
     return operationId + " call failed with: " + statusCode + " - " + body;
+  }
+
+  /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
   }
 
   /**
@@ -1501,11 +1549,11 @@ public class FakeApi {
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
-   * @param apiRequest {@link APItestGroupParametersRequest}
+   * @param apiRequest {@link APITestGroupParametersRequest}
    * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> testGroupParameters(APItestGroupParametersRequest apiRequest) throws ApiException {
+  public CompletableFuture<Void> testGroupParameters(APITestGroupParametersRequest apiRequest) throws ApiException {
     @javax.annotation.Nonnull
     Integer requiredStringGroup = apiRequest.requiredStringGroup();
     @javax.annotation.Nonnull
@@ -1524,11 +1572,11 @@ public class FakeApi {
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
-   * @param apiRequest {@link APItestGroupParametersRequest}
+   * @param apiRequest {@link APITestGroupParametersRequest}
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> testGroupParametersWithHttpInfo(APItestGroupParametersRequest apiRequest) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> testGroupParametersWithHttpInfo(APITestGroupParametersRequest apiRequest) throws ApiException {
     Integer requiredStringGroup = apiRequest.requiredStringGroup();
     Boolean requiredBooleanGroup = apiRequest.requiredBooleanGroup();
     Long requiredInt64Group = apiRequest.requiredInt64Group();
@@ -1662,7 +1710,7 @@ public class FakeApi {
   }
 
 
-  public static final class APItestGroupParametersRequest {
+  public static final class APITestGroupParametersRequest {
     @javax.annotation.Nonnull
     private Integer requiredStringGroup; // Required String in group parameters (required)
     @javax.annotation.Nonnull
@@ -1676,7 +1724,7 @@ public class FakeApi {
     @javax.annotation.Nullable
     private Long int64Group; // Integer in group parameters (optional)
 
-    private APItestGroupParametersRequest(Builder builder) {
+    private APITestGroupParametersRequest(Builder builder) {
       this.requiredStringGroup = builder.requiredStringGroup;
       this.requiredBooleanGroup = builder.requiredBooleanGroup;
       this.requiredInt64Group = builder.requiredInt64Group;
@@ -1744,8 +1792,8 @@ public class FakeApi {
         this.int64Group = int64Group;
         return this;
       }
-      public APItestGroupParametersRequest build() {
-        return new APItestGroupParametersRequest(this);
+      public APITestGroupParametersRequest build() {
+        return new APITestGroupParametersRequest(this);
       }
     }
   }

@@ -13,7 +13,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +25,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -34,7 +33,6 @@ public class UserApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public UserApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -116,6 +114,7 @@ public class UserApi {
     public ResponseSpec createUserWithResponseSpec(@jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         return createUserRequestCreation(user);
     }
+
     /**
      * Creates list of users with given input array
      * 
@@ -185,6 +184,7 @@ public class UserApi {
     public ResponseSpec createUsersWithArrayInputWithResponseSpec(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         return createUsersWithArrayInputRequestCreation(user);
     }
+
     /**
      * Creates list of users with given input array
      * 
@@ -254,6 +254,7 @@ public class UserApi {
     public ResponseSpec createUsersWithListInputWithResponseSpec(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         return createUsersWithListInputRequestCreation(user);
     }
+
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -327,6 +328,7 @@ public class UserApi {
     public ResponseSpec deleteUserWithResponseSpec(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
         return deleteUserRequestCreation(username);
     }
+
     /**
      * Get user by user name
      * 
@@ -413,42 +415,42 @@ public class UserApi {
     public record LoginUserRequest(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password){}
 
     /**
-    * Logs user into the system
-    * 
+     * Logs user into the system
+     * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public String loginUser(LoginUserRequest requestParameters) throws RestClientResponseException {
-      return this.loginUser(requestParameters.username(), requestParameters.password());
+        return this.loginUser(requestParameters.username(), requestParameters.password());
     }
 
-  /**
-  * Logs user into the system
-  * 
+    /**
+     * Logs user into the system
+     * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<String> loginUserWithHttpInfo(LoginUserRequest requestParameters) throws RestClientResponseException {
-      return this.loginUserWithHttpInfo(requestParameters.username(), requestParameters.password());
+        return this.loginUserWithHttpInfo(requestParameters.username(), requestParameters.password());
     }
 
-  /**
-  * Logs user into the system
-  * 
+    /**
+     * Logs user into the system
+     * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec loginUserWithResponseSpec(LoginUserRequest requestParameters) throws RestClientResponseException {
-      return this.loginUserWithResponseSpec(requestParameters.username(), requestParameters.password());
+        return this.loginUserWithResponseSpec(requestParameters.username(), requestParameters.password());
     }
 
     /**
@@ -538,6 +540,7 @@ public class UserApi {
     public ResponseSpec loginUserWithResponseSpec(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws RestClientResponseException {
         return loginUserRequestCreation(username, password);
     }
+
     /**
      * Logs out current logged in user session
      * 
@@ -601,40 +604,40 @@ public class UserApi {
     public record UpdateUserRequest(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user){}
 
     /**
-    * Updated user
-    * This can only be done by the logged in user.
+     * Updated user
+     * This can only be done by the logged in user.
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The updateUser request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public void updateUser(UpdateUserRequest requestParameters) throws RestClientResponseException {
-      this.updateUser(requestParameters.username(), requestParameters.user());
+        this.updateUser(requestParameters.username(), requestParameters.user());
     }
 
-  /**
-  * Updated user
-  * This can only be done by the logged in user.
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The updateUser request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<Void> updateUserWithHttpInfo(UpdateUserRequest requestParameters) throws RestClientResponseException {
-      return this.updateUserWithHttpInfo(requestParameters.username(), requestParameters.user());
+        return this.updateUserWithHttpInfo(requestParameters.username(), requestParameters.user());
     }
 
-  /**
-  * Updated user
-  * This can only be done by the logged in user.
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The updateUser request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec updateUserWithResponseSpec(UpdateUserRequest requestParameters) throws RestClientResponseException {
-      return this.updateUserWithResponseSpec(requestParameters.username(), requestParameters.user());
+        return this.updateUserWithResponseSpec(requestParameters.username(), requestParameters.user());
     }
 
     /**

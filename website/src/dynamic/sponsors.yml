@@ -148,3 +148,13 @@
   image: "img/companies/unified_to.jpg"
   infoLink: "https://unified.to/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
   bronze: true
+-
+  caption: "SaveTWT"
+  image: "img/companies/savetwt.jpg"
+  infoLink: "https://savetwt.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true
+-
+  caption: "SerpApi"
+  image: "img/companies/serpapi.png"
+  infoLink: "https://serpapi.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true

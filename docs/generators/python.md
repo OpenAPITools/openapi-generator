@@ -29,6 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|python package name (convention: snake_case).| |openapi_client|
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
+|poetry1|Fallback to formatting pyproject.toml to Poetry 1.x format.| |null|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
 |setEnsureAsciiToFalse|When set to true, add `ensure_ascii=False` in json.dumps when creating the HTTP request body.| |false|

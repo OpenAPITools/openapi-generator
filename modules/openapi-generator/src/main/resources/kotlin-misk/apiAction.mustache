@@ -13,6 +13,9 @@ import {{javaxPackage}}.validation.constraints.NotNull
 import {{javaxPackage}}.validation.constraints.Pattern
 import {{javaxPackage}}.validation.constraints.Size
 {{/useBeanValidation}}
+{{#actionImports}}
+import {{{.}}}
+{{/actionImports}}
 import misk.web.Delete
 import misk.web.Description
 import misk.web.Get
@@ -25,29 +28,34 @@ import misk.web.QueryParam
 import misk.web.RequestBody
 import misk.web.RequestContentType
 import misk.web.RequestHeader
+import misk.web.Response
 import misk.web.ResponseContentType
-import misk.web.actions.WebAction
-import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
-{{#imports}}import {{import}}
+{{#imports}}
+import {{import}}
 {{/imports}}
 
-{{#operations}}
 /**
- * Generated file, please change {{classname}}Impl.
- */
+* @TODO("Fill out implementation")
+*/
+{{#operations}}
 @Singleton
 class {{classname}}Action @Inject constructor(
-    private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
-) : WebAction, {{classname}} {
+) : {{actionParentClass}} {
 {{#operation}}
 
-    @{{httpMethod}}("{{path}}")
+    @{{httpMethod}}("{{{actionPathPrefix}}}{{path}}")
     @Description("{{{summary}}}"){{#hasConsumes}}
-    @RequestContentType({{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
-    @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
-    @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
+    {{{actionRequestContentType}}}({{#consumes}}{{{actionRequestContentTypePrefix}}}.{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
+    @ResponseContentType({{#produces}}MediaTypes.{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
+{{#actionAnnotations}}
+    {{{.}}}
+{{/actionAnnotations}}
+    fun {{operationId}}(
+{{#allParams}}
+        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}
+{{/allParams}}
+    ): {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response<Unit>{{/returnType}} {
         TODO()
     }
 {{/operation}}

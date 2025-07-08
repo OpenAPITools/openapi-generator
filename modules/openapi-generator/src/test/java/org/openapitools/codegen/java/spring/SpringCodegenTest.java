@@ -2278,36 +2278,39 @@ public class SpringCodegenTest {
                 {"oneOf_nonPrimitive.yaml", Map.of(
                         "Example.java", "public interface Example  {")},
                 {"oneOf_primitive.yaml", Map.of(
-                        "Child.java", "public final class Child extends RepresentationModel<Child>  implements Example  {",
+                        "Child.java", "public final class Child extends RepresentationModel<Child>  implements Example {",
                         "Example.java", "public sealed interface Example permits Child {")},
                 {"oneOf_primitiveAndArray.yaml", Map.of(
                         "Example.java", "public interface Example  {")},
                 {"oneOf_reuseRef.yaml", Map.of(
                         "Fruit.java", "public sealed interface Fruit permits Apple, Banana {",
-                        "Banana.java", "public final class Banana extends RepresentationModel<Banana>  implements Fruit  {",
-                        "Apple.java", "public final class Apple extends RepresentationModel<Apple>  implements Fruit  {")},
+                        "Banana.java", "public final class Banana extends RepresentationModel<Banana>  implements Fruit {",
+                        "Apple.java", "public final class Apple extends RepresentationModel<Apple>  implements Fruit {")},
                 {"oneOf_twoPrimitives.yaml", Map.of(
-                        "MyExamplePostRequest.java", "public interface MyExamplePostRequest  {")},
+                        "MyExamplePostRequest.java", "public interface MyExamplePostRequest {")},
                 {"oneOfArrayMapImport.yaml", Map.of(
                         "Fruit.java", "public interface Fruit  {",
-                        "Grape.java", "public final class Grape extends RepresentationModel<Grape>   {",
-                        "Apple.java", "public final class Apple extends RepresentationModel<Apple>   {")},
+                        "Grape.java", "public final class Grape extends RepresentationModel<Grape>  {",
+                        "Apple.java", "public final class Apple extends RepresentationModel<Apple>  {")},
                 {"oneOfDiscriminator.yaml", Map.of(
                         "FruitAllOfDisc.java", "public sealed interface FruitAllOfDisc permits AppleAllOfDisc, BananaAllOfDisc {",
-                        "FruitReqDisc.java", "public sealed interface FruitReqDisc permits AppleReqDisc, BananaReqDisc {\n")}
+                        "AppleAllOfDisc.java", "public final class AppleAllOfDisc extends RepresentationModel<AppleAllOfDisc>  implements FruitAllOfDisc {",
+                        "BananaAllOfDisc.java", "public final class BananaAllOfDisc extends RepresentationModel<BananaAllOfDisc>  implements FruitAllOfDisc {",
+                        "FruitReqDisc.java", "public sealed interface FruitReqDisc permits AppleReqDisc, BananaReqDisc {",
+                        "AppleReqDisc.java", "public final class AppleReqDisc extends RepresentationModel<AppleReqDisc>  implements FruitReqDisc {",
+                        "BananaReqDisc.java", "public final class BananaReqDisc extends RepresentationModel<BananaReqDisc>  implements FruitReqDisc {")}
         };
     }
 
     @Test(dataProvider = "sealedScenarios", description = "sealed scenarios")
-    public void sealedScenarios(String apiFile, Map<String, String> definitions) throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+    public void sealedScenarios(String apiFile, Map<String, String> definitions) {
+        Path output = newTempFolder();
+        String outputPath = output.toString().replace('\\', '/');
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_0/" + apiFile, null, new ParseOptions()).getOpenAPI();
 
         SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOutputDir(outputPath);
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
         codegen.setUseOneOfInterfaces(true);
         codegen.setUseSealed(true);
@@ -5385,6 +5388,37 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void givenMultipartForm_whenGenerateUsingOptional_thenParameterAreCreatedAsOptional() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_9530.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_OPTIONAL, "true");
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
+                "@Valid @RequestParam(value = \"additionalMetadata\", required = false) Optional<String> additionalMetadata",
+                "@Valid @RequestParam(value = \"length\", required = true) Integer length");
+    }
+
+    @Test
     public void shouldEnableBuiltInValidationOptionWhenSetToTrue() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setUseSpringBoot3(true);
@@ -5469,5 +5503,74 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("SomeObject.java"))
                 .fileContains("private final String value");
+    }
+
+    @Test
+    public void testCollectionTypesWithDefaults_issue_collection() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/java/issue_collection.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_NAME_SUFFIX, "Controller");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+        codegen.additionalProperties().put("defaultToEmptyContainer", "array");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetDto.java"))
+                .fileContains("private @Nullable List<@Valid TagDto> tags;")
+                .fileContains("private List<@Valid TagDto> tagsRequiredList = new ArrayList<>();")
+                .fileContains("private @Nullable List<String> stringList;")
+                .fileContains("private List<String> stringRequiredList = new ArrayList<>();");
+    }
+
+    @Test
+    public void testGenericReturnTypeWhenUsingResponseEntity_issue1096() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_RESPONSE_ENTITY, "true");
+        additionalProperties.put(SpringCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, "true");
+        additionalProperties.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        additionalProperties.put(CodegenConstants.MODEL_TESTS, "false");
+        additionalProperties.put(CodegenConstants.MODEL_DOCS, "false");
+        additionalProperties.put(CodegenConstants.APIS, "true");
+        additionalProperties.put(CodegenConstants.SUPPORTING_FILES, "false");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("getPetById").hasReturnType("ResponseEntity<?>")
+                .toFileAssert()
+                .assertMethod("findPetsByStatus").hasReturnType("ResponseEntity<?>");
+    }
+
+    @Test
+    public void testGenericReturnTypeWhenNotUsingResponseEntity_issue1096() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_RESPONSE_ENTITY, "false");
+        additionalProperties.put(SpringCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, "true");
+        additionalProperties.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        additionalProperties.put(CodegenConstants.MODEL_TESTS, "false");
+        additionalProperties.put(CodegenConstants.MODEL_DOCS, "false");
+        additionalProperties.put(CodegenConstants.APIS, "true");
+        additionalProperties.put(CodegenConstants.SUPPORTING_FILES, "false");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("getPetById").hasReturnType("Pet")
+                .toFileAssert()
+                .assertMethod("findPetsByStatus").hasReturnType("List<Pet>");
     }
 }

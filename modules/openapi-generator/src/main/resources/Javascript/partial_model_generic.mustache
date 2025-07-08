@@ -171,8 +171,10 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}e
 
 {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>partial_model_inner_enum}}
+
 {{/isContainer}}{{/isEnum}}{{#items.isEnum}}{{#items}}{{^isContainer}}
 {{>partial_model_inner_enum}}
+
 {{/isContainer}}{{/items}}{{/items.isEnum}}{{/vars}}
 
 export default {{classname}};
