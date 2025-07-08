@@ -70,30 +70,6 @@ func (dst *Object) UnmarshalJSON(data []byte) error {
 		}
 	}
 
-	// check if the discriminator value is 'NestedObject1'
-	if jsonDict["type"] == "NestedObject1" {
-		// try to unmarshal JSON data into NestedObject1
-		err = json.Unmarshal(data, &dst.NestedObject1)
-		if err == nil {
-			return nil // data stored in dst.NestedObject1, return on the first match
-		} else {
-			dst.NestedObject1 = nil
-			return fmt.Errorf("failed to unmarshal Object as NestedObject1: %s", err.Error())
-		}
-	}
-
-	// check if the discriminator value is 'NestedObject2'
-	if jsonDict["type"] == "NestedObject2" {
-		// try to unmarshal JSON data into NestedObject2
-		err = json.Unmarshal(data, &dst.NestedObject2)
-		if err == nil {
-			return nil // data stored in dst.NestedObject2, return on the first match
-		} else {
-			dst.NestedObject2 = nil
-			return fmt.Errorf("failed to unmarshal Object as NestedObject2: %s", err.Error())
-		}
-	}
-
 	return nil
 }
 

@@ -3682,7 +3682,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
             List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, schema);
             for (MappedModel otherDescendant : otherDescendants) {
-                if (!uniqueDescendants.contains(otherDescendant)) {
+                // add only if the model names are not the same
+                if (uniqueDescendants.stream().map(MappedModel::getModelName).noneMatch(it -> it.equals(otherDescendant.getModelName()))) {
                     uniqueDescendants.add(otherDescendant);
                 }
             }
