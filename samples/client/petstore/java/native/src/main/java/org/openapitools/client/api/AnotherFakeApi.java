@@ -55,9 +55,6 @@ public class AnotherFakeApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
-  // Custom headers to be sent with every request from this API client
-  private final Map<String, String> extraHeaders = new java.util.HashMap<>();
-
   public AnotherFakeApi() {
     this(Configuration.getDefaultApiClient());
   }
@@ -70,27 +67,6 @@ public class AnotherFakeApi {
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
-  }
-
-  /**
-   * Add a custom header to be sent with every request from this API client.
-   * @param name Header name
-   * @param value Header value
-   * @return this
-   */
-  public AnotherFakeApi addHeader(String name, String value) {
-    this.extraHeaders.put(name, value);
-    return this;
-  }
-
-  /**
-   * Remove a custom header.
-   * @param name Header name
-   * @return this
-   */
-  public AnotherFakeApi removeHeader(String name) {
-    this.extraHeaders.remove(name);
-    return this;
   }
 
 
@@ -115,7 +91,19 @@ public class AnotherFakeApi {
    * @throws ApiException if fails to make API call
    */
   public Client call123testSpecialTags(@javax.annotation.Nonnull Client client) throws ApiException {
-    ApiResponse<Client> localVarResponse = call123testSpecialTagsWithHttpInfo(client);
+    return call123testSpecialTags(client, null);
+  }
+
+  /**
+   * To test special tags
+   * To test special tags and operation ID starting with number
+   * @param client client model (required)
+   * @param headers Optional headers to include in the request
+   * @return Client
+   * @throws ApiException if fails to make API call
+   */
+  public Client call123testSpecialTags(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
+          ApiResponse<Client> localVarResponse = call123testSpecialTagsWithHttpInfo(client, headers);
     return localVarResponse.getData();
   }
 
@@ -127,7 +115,19 @@ public class AnotherFakeApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client);
+    return call123testSpecialTagsWithHttpInfo(client, null);
+  }
+
+  /**
+   * To test special tags
+   * To test special tags and operation ID starting with number
+   * @param client client model (required)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;Client&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -166,7 +166,7 @@ public class AnotherFakeApi {
     }
   }
 
-  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(@javax.annotation.Nonnull Client client) throws ApiException {
+  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");
@@ -190,9 +190,11 @@ public class AnotherFakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Add custom headers
-    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
-      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    // Add custom headers if provided
+    if (headers != null) {
+      for (Map.Entry<String, String> entry : headers.entrySet()) {
+        localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+      }
     }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);

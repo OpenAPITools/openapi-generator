@@ -54,9 +54,6 @@ public class AuthApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
-  // Custom headers to be sent with every request from this API client
-  private final Map<String, String> extraHeaders = new java.util.HashMap<>();
-
   public AuthApi() {
     this(Configuration.getDefaultApiClient());
   }
@@ -69,27 +66,6 @@ public class AuthApi {
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
-  }
-
-  /**
-   * Add a custom header to be sent with every request from this API client.
-   * @param name Header name
-   * @param value Header value
-   * @return this
-   */
-  public AuthApi addHeader(String name, String value) {
-    this.extraHeaders.put(name, value);
-    return this;
-  }
-
-  /**
-   * Remove a custom header.
-   * @param name Header name
-   * @return this
-   */
-  public AuthApi removeHeader(String name) {
-    this.extraHeaders.remove(name);
-    return this;
   }
 
 
@@ -113,7 +89,18 @@ public class AuthApi {
    * @throws ApiException if fails to make API call
    */
   public String testAuthHttpBasic() throws ApiException {
-    ApiResponse<String> localVarResponse = testAuthHttpBasicWithHttpInfo();
+    return testAuthHttpBasic(null);
+  }
+
+  /**
+   * To test HTTP basic authentication
+   * To test HTTP basic authentication
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testAuthHttpBasic(Map<String, String> headers) throws ApiException {
+          ApiResponse<String> localVarResponse = testAuthHttpBasicWithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -124,7 +111,18 @@ public class AuthApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<String> testAuthHttpBasicWithHttpInfo() throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testAuthHttpBasicRequestBuilder();
+    return testAuthHttpBasicWithHttpInfo(null);
+  }
+
+  /**
+   * To test HTTP basic authentication
+   * To test HTTP basic authentication
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testAuthHttpBasicWithHttpInfo(Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testAuthHttpBasicRequestBuilder(headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -160,7 +158,7 @@ public class AuthApi {
     }
   }
 
-  private HttpRequest.Builder testAuthHttpBasicRequestBuilder() throws ApiException {
+  private HttpRequest.Builder testAuthHttpBasicRequestBuilder(Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -174,9 +172,11 @@ public class AuthApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Add custom headers
-    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
-      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    // Add custom headers if provided
+    if (headers != null) {
+      for (Map.Entry<String, String> entry : headers.entrySet()) {
+        localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+      }
     }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
@@ -191,7 +191,18 @@ public class AuthApi {
    * @throws ApiException if fails to make API call
    */
   public String testAuthHttpBearer() throws ApiException {
-    ApiResponse<String> localVarResponse = testAuthHttpBearerWithHttpInfo();
+    return testAuthHttpBearer(null);
+  }
+
+  /**
+   * To test HTTP bearer authentication
+   * To test HTTP bearer authentication
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testAuthHttpBearer(Map<String, String> headers) throws ApiException {
+          ApiResponse<String> localVarResponse = testAuthHttpBearerWithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -202,7 +213,18 @@ public class AuthApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<String> testAuthHttpBearerWithHttpInfo() throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testAuthHttpBearerRequestBuilder();
+    return testAuthHttpBearerWithHttpInfo(null);
+  }
+
+  /**
+   * To test HTTP bearer authentication
+   * To test HTTP bearer authentication
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testAuthHttpBearerWithHttpInfo(Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testAuthHttpBearerRequestBuilder(headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -238,7 +260,7 @@ public class AuthApi {
     }
   }
 
-  private HttpRequest.Builder testAuthHttpBearerRequestBuilder() throws ApiException {
+  private HttpRequest.Builder testAuthHttpBearerRequestBuilder(Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -252,9 +274,11 @@ public class AuthApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Add custom headers
-    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
-      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    // Add custom headers if provided
+    if (headers != null) {
+      for (Map.Entry<String, String> entry : headers.entrySet()) {
+        localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+      }
     }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);

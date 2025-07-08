@@ -61,9 +61,6 @@ public class PathApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
-  // Custom headers to be sent with every request from this API client
-  private final Map<String, String> extraHeaders = new java.util.HashMap<>();
-
   public PathApi() {
     this(Configuration.getDefaultApiClient());
   }
@@ -76,27 +73,6 @@ public class PathApi {
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
-  }
-
-  /**
-   * Add a custom header to be sent with every request from this API client.
-   * @param name Header name
-   * @param value Header value
-   * @return this
-   */
-  public PathApi addHeader(String name, String value) {
-    this.extraHeaders.put(name, value);
-    return this;
-  }
-
-  /**
-   * Remove a custom header.
-   * @param name Header name
-   * @return this
-   */
-  public PathApi removeHeader(String name) {
-    this.extraHeaders.remove(name);
-    return this;
   }
 
 
@@ -124,7 +100,22 @@ public class PathApi {
    * @throws ApiException if fails to make API call
    */
   public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath) throws ApiException {
-    ApiResponse<String> localVarResponse = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+    return testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, null);
+  }
+
+  /**
+   * Test path parameter(s)
+   * Test path parameter(s)
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param enumNonrefStringPath  (required)
+   * @param enumRefStringPath  (required)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath, Map<String, String> headers) throws ApiException {
+          ApiResponse<String> localVarResponse = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, headers);
     return localVarResponse.getData();
   }
 
@@ -139,7 +130,22 @@ public class PathApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+    return testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, null);
+  }
+
+  /**
+   * Test path parameter(s)
+   * Test path parameter(s)
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param enumNonrefStringPath  (required)
+   * @param enumRefStringPath  (required)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -175,7 +181,7 @@ public class PathApi {
     }
   }
 
-  private HttpRequest.Builder testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath) throws ApiException {
+  private HttpRequest.Builder testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'pathString' is set
     if (pathString == null) {
       throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
@@ -209,9 +215,11 @@ public class PathApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Add custom headers
-    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
-      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    // Add custom headers if provided
+    if (headers != null) {
+      for (Map.Entry<String, String> entry : headers.entrySet()) {
+        localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+      }
     }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);

@@ -63,9 +63,6 @@ public class FakeClassnameTags123Api {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
-  // Custom headers to be sent with every request from this API client
-  private final Map<String, String> extraHeaders = new java.util.HashMap<>();
-
   public FakeClassnameTags123Api() {
     this(Configuration.getDefaultApiClient());
   }
@@ -78,27 +75,6 @@ public class FakeClassnameTags123Api {
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
-  }
-
-  /**
-   * Add a custom header to be sent with every request from this API client.
-   * @param name Header name
-   * @param value Header value
-   * @return this
-   */
-  public FakeClassnameTags123Api addHeader(String name, String value) {
-    this.extraHeaders.put(name, value);
-    return this;
-  }
-
-  /**
-   * Remove a custom header.
-   * @param name Header name
-   * @return this
-   */
-  public FakeClassnameTags123Api removeHeader(String name) {
-    this.extraHeaders.remove(name);
-    return this;
   }
 
 
@@ -122,8 +98,20 @@ public class FakeClassnameTags123Api {
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Client> testClassname(@javax.annotation.Nonnull Client client) throws ApiException {
+    return testClassname(client, null);
+  }
+
+  /**
+   * To test class name in snake case
+   * To test class name in snake case
+   * @param client client model (required)
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;Client&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<Client> testClassname(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(client);
+      HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(client, headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -153,8 +141,20 @@ public class FakeClassnameTags123Api {
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<ApiResponse<Client>> testClassnameWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
+    return testClassnameWithHttpInfo(client, null);
+  }
+
+  /**
+   * To test class name in snake case
+   * To test class name in snake case
+   * @param client client model (required)
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;ApiResponse&lt;Client&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Client>> testClassnameWithHttpInfo(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(client);
+      HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(client, headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -183,7 +183,7 @@ public class FakeClassnameTags123Api {
     }
   }
 
-  private HttpRequest.Builder testClassnameRequestBuilder(@javax.annotation.Nonnull Client client) throws ApiException {
+  private HttpRequest.Builder testClassnameRequestBuilder(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling testClassname");
@@ -207,9 +207,11 @@ public class FakeClassnameTags123Api {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Add custom headers
-    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
-      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    // Add custom headers if provided
+    if (headers != null) {
+      for (Map.Entry<String, String> entry : headers.entrySet()) {
+        localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+      }
     }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);

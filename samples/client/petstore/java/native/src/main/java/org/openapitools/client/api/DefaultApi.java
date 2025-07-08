@@ -55,9 +55,6 @@ public class DefaultApi {
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
-  // Custom headers to be sent with every request from this API client
-  private final Map<String, String> extraHeaders = new java.util.HashMap<>();
-
   public DefaultApi() {
     this(Configuration.getDefaultApiClient());
   }
@@ -70,27 +67,6 @@ public class DefaultApi {
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
-  }
-
-  /**
-   * Add a custom header to be sent with every request from this API client.
-   * @param name Header name
-   * @param value Header value
-   * @return this
-   */
-  public DefaultApi addHeader(String name, String value) {
-    this.extraHeaders.put(name, value);
-    return this;
-  }
-
-  /**
-   * Remove a custom header.
-   * @param name Header name
-   * @return this
-   */
-  public DefaultApi removeHeader(String name) {
-    this.extraHeaders.remove(name);
-    return this;
   }
 
 
@@ -114,7 +90,18 @@ public class DefaultApi {
    * @throws ApiException if fails to make API call
    */
   public FooGetDefaultResponse fooGet() throws ApiException {
-    ApiResponse<FooGetDefaultResponse> localVarResponse = fooGetWithHttpInfo();
+    return fooGet(null);
+  }
+
+  /**
+   * 
+   * 
+   * @param headers Optional headers to include in the request
+   * @return FooGetDefaultResponse
+   * @throws ApiException if fails to make API call
+   */
+  public FooGetDefaultResponse fooGet(Map<String, String> headers) throws ApiException {
+          ApiResponse<FooGetDefaultResponse> localVarResponse = fooGetWithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -125,7 +112,18 @@ public class DefaultApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<FooGetDefaultResponse> fooGetWithHttpInfo() throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = fooGetRequestBuilder();
+    return fooGetWithHttpInfo(null);
+  }
+
+  /**
+   * 
+   * 
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;FooGetDefaultResponse&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<FooGetDefaultResponse> fooGetWithHttpInfo(Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = fooGetRequestBuilder(headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -164,7 +162,7 @@ public class DefaultApi {
     }
   }
 
-  private HttpRequest.Builder fooGetRequestBuilder() throws ApiException {
+  private HttpRequest.Builder fooGetRequestBuilder(Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -178,9 +176,11 @@ public class DefaultApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    // Add custom headers
-    for (Map.Entry<String, String> entry : extraHeaders.entrySet()) {
-      localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+    // Add custom headers if provided
+    if (headers != null) {
+      for (Map.Entry<String, String> entry : headers.entrySet()) {
+        localVarRequestBuilder.header(entry.getKey(), entry.getValue());
+      }
     }
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
