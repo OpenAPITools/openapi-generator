@@ -1,0 +1,8 @@
+generatorName: rust-server-deprecated
+outputDir: samples/server/petstore/rust-server-deprecated/output/ping-bearer-auth
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust-server/ping-bearer-auth.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-server-deprecated
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: ping-bearer-auth

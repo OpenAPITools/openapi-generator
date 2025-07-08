@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host};
+use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
 use bytes::Bytes;
 use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
@@ -69,7 +69,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .multipart_related_request_post(&method, &host, &cookies, &body)
+        .multipart_related_request_post(&method, &host, &cookies, body)
         .await;
 
     let mut response = Response::builder();
@@ -129,7 +129,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .multipart_request_post(&method, &host, &cookies, &body)
+        .multipart_request_post(&method, &host, &cookies, body)
         .await;
 
     let mut response = Response::builder();
@@ -190,7 +190,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .multiple_identical_mime_types_post(&method, &host, &cookies, &body)
+        .multiple_identical_mime_types_post(&method, &host, &cookies, body)
         .await;
 
     let mut response = Response::builder();

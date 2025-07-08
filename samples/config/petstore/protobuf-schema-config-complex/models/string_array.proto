@@ -18,3 +18,4 @@ message StringArray {
   repeated string string_array = 1;
 
 }
+

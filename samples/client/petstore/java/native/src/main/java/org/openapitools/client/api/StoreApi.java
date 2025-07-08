@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class StoreApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -89,12 +89,60 @@ public class StoreApi {
   }
 
   /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
+  }
+
+  /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
    * @param orderId ID of the order that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteOrder(String orderId) throws ApiException {
+  public void deleteOrder(@javax.annotation.Nonnull String orderId) throws ApiException {
     deleteOrderWithHttpInfo(orderId);
   }
 
@@ -105,7 +153,7 @@ public class StoreApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
+  public ApiResponse<Void> deleteOrderWithHttpInfo(@javax.annotation.Nonnull String orderId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = deleteOrderRequestBuilder(orderId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -139,7 +187,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder deleteOrderRequestBuilder(String orderId) throws ApiException {
+  private HttpRequest.Builder deleteOrderRequestBuilder(@javax.annotation.Nonnull String orderId) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
@@ -202,13 +250,17 @@ public class StoreApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        Map<String, Integer> responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Map<String, Integer>>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<Map<String, Integer>>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Map<String, Integer>>() {})
+            responseValue
         );
       } finally {
       }
@@ -248,7 +300,7 @@ public class StoreApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order getOrderById(Long orderId) throws ApiException {
+  public Order getOrderById(@javax.annotation.Nonnull Long orderId) throws ApiException {
     ApiResponse<Order> localVarResponse = getOrderByIdWithHttpInfo(orderId);
     return localVarResponse.getData();
   }
@@ -260,7 +312,7 @@ public class StoreApi {
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
+  public ApiResponse<Order> getOrderByIdWithHttpInfo(@javax.annotation.Nonnull Long orderId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = getOrderByIdRequestBuilder(orderId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -281,13 +333,17 @@ public class StoreApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        Order responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<Order>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {})
+            responseValue
         );
       } finally {
       }
@@ -300,7 +356,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder getOrderByIdRequestBuilder(Long orderId) throws ApiException {
+  private HttpRequest.Builder getOrderByIdRequestBuilder(@javax.annotation.Nonnull Long orderId) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
@@ -332,7 +388,7 @@ public class StoreApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order placeOrder(Order order) throws ApiException {
+  public Order placeOrder(@javax.annotation.Nonnull Order order) throws ApiException {
     ApiResponse<Order> localVarResponse = placeOrderWithHttpInfo(order);
     return localVarResponse.getData();
   }
@@ -344,7 +400,7 @@ public class StoreApi {
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Order> placeOrderWithHttpInfo(Order order) throws ApiException {
+  public ApiResponse<Order> placeOrderWithHttpInfo(@javax.annotation.Nonnull Order order) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(order);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -365,13 +421,17 @@ public class StoreApi {
           );
         }
 
+        
+        
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        Order responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {});
+        
         localVarResponse.body().close();
 
         return new ApiResponse<Order>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Order>() {})
+            responseValue
         );
       } finally {
       }
@@ -384,7 +444,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder placeOrderRequestBuilder(Order order) throws ApiException {
+  private HttpRequest.Builder placeOrderRequestBuilder(@javax.annotation.Nonnull Order order) throws ApiException {
     // verify the required parameter 'order' is set
     if (order == null) {
       throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder");

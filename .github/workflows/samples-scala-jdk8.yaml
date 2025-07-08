@@ -1,0 +1,38 @@
+name: Samples Scala/sbt (JDK8)
+
+on:
+  push:
+    paths:
+      - 'samples/server/petstore/scala-finch/**'
+  pull_request:
+    paths:
+      - 'samples/server/petstore/scala-finch/**'
+jobs:
+  build:
+    name: Build scala-finch servers
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # servers
+          - samples/server/petstore/scala-finch # cannot be tested with jdk11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 8
+      - name: Setup sbt launcher
+        uses: sbt/setup-sbt@v1
+      - name: Cache maven dependencies
+        uses: actions/cache@v4
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.ivy2
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/build.sbt') }}
+      - name: Build and test
+        working-directory: ${{ matrix.sample }}
+        run: sbt -v +test

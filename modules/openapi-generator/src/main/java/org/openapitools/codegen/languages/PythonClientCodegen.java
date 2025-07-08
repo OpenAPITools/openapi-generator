@@ -47,6 +47,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String DATETIME_FORMAT = "datetimeFormat";
     public static final String DATE_FORMAT = "dateFormat";
     public static final String SET_ENSURE_ASCII_TO_FALSE = "setEnsureAsciiToFalse";
+    public static final String POETRY1_FALLBACK = "poetry1";
 
     @Setter protected String packageUrl;
     protected String apiDocPath = "docs/";
@@ -149,6 +150,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
                 .defaultValue("%Y-%m-%d"));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(POETRY1_FALLBACK, "Fallback to formatting pyproject.toml to Poetry 1.x format."));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -428,7 +430,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.8+";
+        return "3.9+";
     }
 
     @Override

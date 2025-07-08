@@ -17,8 +17,9 @@ import (
 
 // A Route defines the parameters for an api endpoint
 type Route struct {
-	Method	  string
-	Pattern	 string
+	Name        string
+	Method	    string
+	Pattern	    string
 	HandlerFunc http.HandlerFunc
 }
 
@@ -28,6 +29,7 @@ type Routes map[string]Route
 // Router defines the required methods for retrieving api routes
 type Router interface {
 	Routes() Routes
+	OrderedRoutes() []Route
 }
 
 // NewRouter creates a new router for any number of api routers
@@ -35,7 +37,7 @@ func NewRouter(routers ...Router) chi.Router {
 	router := chi.NewRouter()
 	router.Use(Logger)
 	for _, api := range routers {
-		for _, route := range api.Routes() {
+		for _, route := range api.OrderedRoutes() {
 			var handler http.Handler = route.HandlerFunc
 			router.Method(route.Method, route.Pattern, handler)
 		}

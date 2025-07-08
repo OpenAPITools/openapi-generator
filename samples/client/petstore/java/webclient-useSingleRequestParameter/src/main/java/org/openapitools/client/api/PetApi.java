@@ -11,9 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +29,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -36,7 +37,6 @@ public class PetApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public PetApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -49,7 +49,6 @@ public class PetApi {
         this.apiClient = apiClient;
     }
 
-    
     /**
      * Add a new pet to the store
      * 
@@ -58,7 +57,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec addPetRequestCreation(Pet pet) throws WebClientResponseException {
+    private ResponseSpec addPetRequestCreation(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         Object postBody = pet;
         // verify the required parameter 'pet' is set
         if (pet == null) {
@@ -93,7 +92,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> addPet(Pet pet) throws WebClientResponseException {
+    public Mono<Void> addPet(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return addPetRequestCreation(pet).bodyToMono(localVarReturnType);
     }
@@ -106,7 +105,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> addPetWithHttpInfo(Pet pet) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> addPetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return addPetRequestCreation(pet).toEntity(localVarReturnType);
     }
@@ -120,77 +119,94 @@ public class PetApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec addPetWithResponseSpec(Pet pet) throws WebClientResponseException {
+    public ResponseSpec addPetWithResponseSpec(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         return addPetRequestCreation(pet);
     }
 
     public class DeletePetRequest {
-        private Long petId;
-        private String apiKey;
+        private @javax.annotation.Nonnull Long petId;
+        private @javax.annotation.Nullable String apiKey;
 
         public DeletePetRequest() {}
 
-        public DeletePetRequest(Long petId, String apiKey) {
+        public DeletePetRequest(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) {
             this.petId = petId;
             this.apiKey = apiKey;
         }
 
-        public Long petId() {
+        public @javax.annotation.Nonnull Long petId() {
             return this.petId;
         }
-        public DeletePetRequest petId(Long petId) {
+        public DeletePetRequest petId(@javax.annotation.Nonnull Long petId) {
             this.petId = petId;
             return this;
         }
 
-        public String apiKey() {
+        public @javax.annotation.Nullable String apiKey() {
             return this.apiKey;
         }
-        public DeletePetRequest apiKey(String apiKey) {
+        public DeletePetRequest apiKey(@javax.annotation.Nullable String apiKey) {
             this.apiKey = apiKey;
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            DeletePetRequest request = (DeletePetRequest) o;
+            return Objects.equals(this.petId, request.petId()) &&
+                Objects.equals(this.apiKey, request.apiKey());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(petId, apiKey);
+        }
     }
 
-      /**
-      * Deletes a pet
-      * 
-         * <p><b>200</b> - Successful operation
-         * <p><b>400</b> - Invalid pet value
-         * @param requestParameters The deletePet request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {
-          return this.deletePet(requestParameters.petId(), requestParameters.apiKey());
-      }
+    /**
+     * Deletes a pet
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>400</b> - Invalid pet value
+     * @param requestParameters The deletePet request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {
+        return this.deletePet(requestParameters.petId(), requestParameters.apiKey());
+    }
 
-      /**
-      * Deletes a pet
-      * 
-         * <p><b>200</b> - Successful operation
-         * <p><b>400</b> - Invalid pet value
-         * @param requestParameters The deletePet request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws WebClientResponseException {
-          return this.deletePetWithHttpInfo(requestParameters.petId(), requestParameters.apiKey());
-      }
+    /**
+     * Deletes a pet
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>400</b> - Invalid pet value
+     * @param requestParameters The deletePet request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws WebClientResponseException {
+        return this.deletePetWithHttpInfo(requestParameters.petId(), requestParameters.apiKey());
+    }
 
-      /**
-      * Deletes a pet
-      * 
-         * <p><b>200</b> - Successful operation
-         * <p><b>400</b> - Invalid pet value
-         * @param requestParameters The deletePet request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {
-         return this.deletePetWithResponseSpec(requestParameters.petId(), requestParameters.apiKey());
-      }
+    /**
+     * Deletes a pet
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>400</b> - Invalid pet value
+     * @param requestParameters The deletePet request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {
+        return this.deletePetWithResponseSpec(requestParameters.petId(), requestParameters.apiKey());
+    }
 
-          
+
     /**
      * Deletes a pet
      * 
@@ -200,7 +216,7 @@ public class PetApi {
      * @param apiKey The apiKey parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec deletePetRequestCreation(Long petId, String apiKey) throws WebClientResponseException {
+    private ResponseSpec deletePetRequestCreation(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -239,7 +255,7 @@ public class PetApi {
      * @param apiKey The apiKey parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> deletePet(Long petId, String apiKey) throws WebClientResponseException {
+    public Mono<Void> deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return deletePetRequestCreation(petId, apiKey).bodyToMono(localVarReturnType);
     }
@@ -253,7 +269,7 @@ public class PetApi {
      * @param apiKey The apiKey parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(Long petId, String apiKey) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return deletePetRequestCreation(petId, apiKey).toEntity(localVarReturnType);
     }
@@ -268,7 +284,7 @@ public class PetApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws WebClientResponseException {
+    public ResponseSpec deletePetWithResponseSpec(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {
         return deletePetRequestCreation(petId, apiKey);
     }
 
@@ -281,7 +297,7 @@ public class PetApi {
      * @return List&lt;Pet&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec findPetsByStatusRequestCreation(List<String> status) throws WebClientResponseException {
+    private ResponseSpec findPetsByStatusRequestCreation(@javax.annotation.Nonnull List<String> status) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'status' is set
         if (status == null) {
@@ -319,7 +335,7 @@ public class PetApi {
      * @return List&lt;Pet&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public List<Pet> findPetsByStatus(List<String> status) throws WebClientResponseException {
+    public List<Pet> findPetsByStatus(@javax.annotation.Nonnull List<String> status) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
         return findPetsByStatusRequestCreation(status).bodyToFlux(localVarReturnType).collectList().block();
     }
@@ -333,7 +349,7 @@ public class PetApi {
      * @return ResponseEntity&lt;List&lt;Pet&gt;&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws WebClientResponseException {
+    public ResponseEntity<List<Pet>> findPetsByStatusWithHttpInfo(@javax.annotation.Nonnull List<String> status) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
         return findPetsByStatusRequestCreation(status).toEntityList(localVarReturnType).block();
     }
@@ -347,7 +363,7 @@ public class PetApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec findPetsByStatusWithResponseSpec(List<String> status) throws WebClientResponseException {
+    public ResponseSpec findPetsByStatusWithResponseSpec(@javax.annotation.Nonnull List<String> status) throws WebClientResponseException {
         return findPetsByStatusRequestCreation(status);
     }
 
@@ -362,7 +378,7 @@ public class PetApi {
      * @deprecated
      */
     @Deprecated
-    private ResponseSpec findPetsByTagsRequestCreation(Set<String> tags) throws WebClientResponseException {
+    private ResponseSpec findPetsByTagsRequestCreation(@javax.annotation.Nonnull Set<String> tags) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'tags' is set
         if (tags == null) {
@@ -400,7 +416,7 @@ public class PetApi {
      * @return Set&lt;Pet&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Set<Pet> findPetsByTags(Set<String> tags) throws WebClientResponseException {
+    public Set<Pet> findPetsByTags(@javax.annotation.Nonnull Set<String> tags) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
         return findPetsByTagsRequestCreation(tags).bodyToFlux(localVarReturnType).collect(Collectors.toSet()).block();
     }
@@ -414,7 +430,7 @@ public class PetApi {
      * @return ResponseEntity&lt;Set&lt;Pet&gt;&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<List<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws WebClientResponseException {
+    public ResponseEntity<List<Pet>> findPetsByTagsWithHttpInfo(@javax.annotation.Nonnull Set<String> tags) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
         return findPetsByTagsRequestCreation(tags).toEntityList(localVarReturnType).block();
     }
@@ -428,7 +444,7 @@ public class PetApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec findPetsByTagsWithResponseSpec(Set<String> tags) throws WebClientResponseException {
+    public ResponseSpec findPetsByTagsWithResponseSpec(@javax.annotation.Nonnull Set<String> tags) throws WebClientResponseException {
         return findPetsByTagsRequestCreation(tags);
     }
 
@@ -442,7 +458,7 @@ public class PetApi {
      * @return Pet
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec getPetByIdRequestCreation(Long petId) throws WebClientResponseException {
+    private ResponseSpec getPetByIdRequestCreation(@javax.annotation.Nonnull Long petId) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -481,7 +497,7 @@ public class PetApi {
      * @return Pet
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Pet getPetById(Long petId) throws WebClientResponseException {
+    public Pet getPetById(@javax.annotation.Nonnull Long petId) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
         return getPetByIdRequestCreation(petId).bodyToMono(localVarReturnType).block();
     }
@@ -496,7 +512,7 @@ public class PetApi {
      * @return ResponseEntity&lt;Pet&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Pet> getPetByIdWithHttpInfo(Long petId) throws WebClientResponseException {
+    public ResponseEntity<Pet> getPetByIdWithHttpInfo(@javax.annotation.Nonnull Long petId) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
         return getPetByIdRequestCreation(petId).toEntity(localVarReturnType).block();
     }
@@ -511,7 +527,7 @@ public class PetApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec getPetByIdWithResponseSpec(Long petId) throws WebClientResponseException {
+    public ResponseSpec getPetByIdWithResponseSpec(@javax.annotation.Nonnull Long petId) throws WebClientResponseException {
         return getPetByIdRequestCreation(petId);
     }
 
@@ -525,7 +541,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updatePetRequestCreation(Pet pet) throws WebClientResponseException {
+    private ResponseSpec updatePetRequestCreation(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         Object postBody = pet;
         // verify the required parameter 'pet' is set
         if (pet == null) {
@@ -562,7 +578,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void updatePet(Pet pet) throws WebClientResponseException {
+    public void updatePet(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         updatePetRequestCreation(pet).bodyToMono(localVarReturnType).block();
     }
@@ -577,7 +593,7 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updatePetWithHttpInfo(Pet pet) throws WebClientResponseException {
+    public ResponseEntity<Void> updatePetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return updatePetRequestCreation(pet).toEntity(localVarReturnType).block();
     }
@@ -593,87 +609,105 @@ public class PetApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec updatePetWithResponseSpec(Pet pet) throws WebClientResponseException {
+    public ResponseSpec updatePetWithResponseSpec(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         return updatePetRequestCreation(pet);
     }
 
     public class UpdatePetWithFormRequest {
-        private Long petId;
-        private String name;
-        private String status;
+        private @javax.annotation.Nonnull Long petId;
+        private @javax.annotation.Nullable String name;
+        private @javax.annotation.Nullable String status;
 
         public UpdatePetWithFormRequest() {}
 
-        public UpdatePetWithFormRequest(Long petId, String name, String status) {
+        public UpdatePetWithFormRequest(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) {
             this.petId = petId;
             this.name = name;
             this.status = status;
         }
 
-        public Long petId() {
+        public @javax.annotation.Nonnull Long petId() {
             return this.petId;
         }
-        public UpdatePetWithFormRequest petId(Long petId) {
+        public UpdatePetWithFormRequest petId(@javax.annotation.Nonnull Long petId) {
             this.petId = petId;
             return this;
         }
 
-        public String name() {
+        public @javax.annotation.Nullable String name() {
             return this.name;
         }
-        public UpdatePetWithFormRequest name(String name) {
+        public UpdatePetWithFormRequest name(@javax.annotation.Nullable String name) {
             this.name = name;
             return this;
         }
 
-        public String status() {
+        public @javax.annotation.Nullable String status() {
             return this.status;
         }
-        public UpdatePetWithFormRequest status(String status) {
+        public UpdatePetWithFormRequest status(@javax.annotation.Nullable String status) {
             this.status = status;
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            UpdatePetWithFormRequest request = (UpdatePetWithFormRequest) o;
+            return Objects.equals(this.petId, request.petId()) &&
+                Objects.equals(this.name, request.name()) &&
+                Objects.equals(this.status, request.status());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(petId, name, status);
+        }
     }
 
-      /**
-      * Updates a pet in the store with form data
-      * 
-         * <p><b>200</b> - Successful operation
-         * <p><b>405</b> - Invalid input
-         * @param requestParameters The updatePetWithForm request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<Void> updatePetWithForm(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
-          return this.updatePetWithForm(requestParameters.petId(), requestParameters.name(), requestParameters.status());
-      }
+    /**
+     * Updates a pet in the store with form data
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>405</b> - Invalid input
+     * @param requestParameters The updatePetWithForm request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> updatePetWithForm(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
+        return this.updatePetWithForm(requestParameters.petId(), requestParameters.name(), requestParameters.status());
+    }
 
-      /**
-      * Updates a pet in the store with form data
-      * 
-         * <p><b>200</b> - Successful operation
-         * <p><b>405</b> - Invalid input
-         * @param requestParameters The updatePetWithForm request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<Void>> updatePetWithFormWithHttpInfo(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
-          return this.updatePetWithFormWithHttpInfo(requestParameters.petId(), requestParameters.name(), requestParameters.status());
-      }
+    /**
+     * Updates a pet in the store with form data
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>405</b> - Invalid input
+     * @param requestParameters The updatePetWithForm request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> updatePetWithFormWithHttpInfo(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
+        return this.updatePetWithFormWithHttpInfo(requestParameters.petId(), requestParameters.name(), requestParameters.status());
+    }
 
-      /**
-      * Updates a pet in the store with form data
-      * 
-         * <p><b>200</b> - Successful operation
-         * <p><b>405</b> - Invalid input
-         * @param requestParameters The updatePetWithForm request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec updatePetWithFormWithResponseSpec(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
-         return this.updatePetWithFormWithResponseSpec(requestParameters.petId(), requestParameters.name(), requestParameters.status());
-      }
+    /**
+     * Updates a pet in the store with form data
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>405</b> - Invalid input
+     * @param requestParameters The updatePetWithForm request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec updatePetWithFormWithResponseSpec(UpdatePetWithFormRequest requestParameters) throws WebClientResponseException {
+        return this.updatePetWithFormWithResponseSpec(requestParameters.petId(), requestParameters.name(), requestParameters.status());
+    }
 
-          
+
     /**
      * Updates a pet in the store with form data
      * 
@@ -684,7 +718,7 @@ public class PetApi {
      * @param status Updated status of the pet
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updatePetWithFormRequestCreation(Long petId, String name, String status) throws WebClientResponseException {
+    private ResponseSpec updatePetWithFormRequestCreation(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -728,7 +762,7 @@ public class PetApi {
      * @param status Updated status of the pet
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> updatePetWithForm(Long petId, String name, String status) throws WebClientResponseException {
+    public Mono<Void> updatePetWithForm(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return updatePetWithFormRequestCreation(petId, name, status).bodyToMono(localVarReturnType);
     }
@@ -743,7 +777,7 @@ public class PetApi {
      * @param status Updated status of the pet
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> updatePetWithFormWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return updatePetWithFormRequestCreation(petId, name, status).toEntity(localVarReturnType);
     }
@@ -759,86 +793,104 @@ public class PetApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec updatePetWithFormWithResponseSpec(Long petId, String name, String status) throws WebClientResponseException {
+    public ResponseSpec updatePetWithFormWithResponseSpec(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws WebClientResponseException {
         return updatePetWithFormRequestCreation(petId, name, status);
     }
 
     public class UploadFileRequest {
-        private Long petId;
-        private String additionalMetadata;
-        private File _file;
+        private @javax.annotation.Nonnull Long petId;
+        private @javax.annotation.Nullable String additionalMetadata;
+        private @javax.annotation.Nullable File _file;
 
         public UploadFileRequest() {}
 
-        public UploadFileRequest(Long petId, String additionalMetadata, File _file) {
+        public UploadFileRequest(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) {
             this.petId = petId;
             this.additionalMetadata = additionalMetadata;
             this._file = _file;
         }
 
-        public Long petId() {
+        public @javax.annotation.Nonnull Long petId() {
             return this.petId;
         }
-        public UploadFileRequest petId(Long petId) {
+        public UploadFileRequest petId(@javax.annotation.Nonnull Long petId) {
             this.petId = petId;
             return this;
         }
 
-        public String additionalMetadata() {
+        public @javax.annotation.Nullable String additionalMetadata() {
             return this.additionalMetadata;
         }
-        public UploadFileRequest additionalMetadata(String additionalMetadata) {
+        public UploadFileRequest additionalMetadata(@javax.annotation.Nullable String additionalMetadata) {
             this.additionalMetadata = additionalMetadata;
             return this;
         }
 
-        public File _file() {
+        public @javax.annotation.Nullable File _file() {
             return this._file;
         }
-        public UploadFileRequest _file(File _file) {
+        public UploadFileRequest _file(@javax.annotation.Nullable File _file) {
             this._file = _file;
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            UploadFileRequest request = (UploadFileRequest) o;
+            return Objects.equals(this.petId, request.petId()) &&
+                Objects.equals(this.additionalMetadata, request.additionalMetadata()) &&
+                Objects.equals(this._file, request._file());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(petId, additionalMetadata, _file);
+        }
     }
 
-      /**
-      * uploads an image
-      * 
-         * <p><b>200</b> - successful operation
-         * @param requestParameters The uploadFile request parameters as object
-         * @return ModelApiResponse
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ModelApiResponse> uploadFile(UploadFileRequest requestParameters) throws WebClientResponseException {
-          return this.uploadFile(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
-      }
+    /**
+     * uploads an image
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestParameters The uploadFile request parameters as object
+     * @return ModelApiResponse
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ModelApiResponse> uploadFile(UploadFileRequest requestParameters) throws WebClientResponseException {
+        return this.uploadFile(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
+    }
 
-      /**
-      * uploads an image
-      * 
-         * <p><b>200</b> - successful operation
-         * @param requestParameters The uploadFile request parameters as object
-         * @return ResponseEntity&lt;ModelApiResponse&gt;
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithHttpInfo(UploadFileRequest requestParameters) throws WebClientResponseException {
-          return this.uploadFileWithHttpInfo(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
-      }
+    /**
+     * uploads an image
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestParameters The uploadFile request parameters as object
+     * @return ResponseEntity&lt;ModelApiResponse&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithHttpInfo(UploadFileRequest requestParameters) throws WebClientResponseException {
+        return this.uploadFileWithHttpInfo(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
+    }
 
-      /**
-      * uploads an image
-      * 
-         * <p><b>200</b> - successful operation
-         * @param requestParameters The uploadFile request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec uploadFileWithResponseSpec(UploadFileRequest requestParameters) throws WebClientResponseException {
-         return this.uploadFileWithResponseSpec(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
-      }
+    /**
+     * uploads an image
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestParameters The uploadFile request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec uploadFileWithResponseSpec(UploadFileRequest requestParameters) throws WebClientResponseException {
+        return this.uploadFileWithResponseSpec(requestParameters.petId(), requestParameters.additionalMetadata(), requestParameters._file());
+    }
 
-          
+
     /**
      * uploads an image
      * 
@@ -849,7 +901,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadFileRequestCreation(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
+    private ResponseSpec uploadFileRequestCreation(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -895,7 +947,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
+    public Mono<ModelApiResponse> uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws WebClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
         return uploadFileRequestCreation(petId, additionalMetadata, _file).bodyToMono(localVarReturnType);
     }
@@ -910,7 +962,7 @@ public class PetApi {
      * @return ResponseEntity&lt;ModelApiResponse&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
+    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws WebClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
         return uploadFileRequestCreation(petId, additionalMetadata, _file).toEntity(localVarReturnType);
     }
@@ -925,86 +977,104 @@ public class PetApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec uploadFileWithResponseSpec(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
+    public ResponseSpec uploadFileWithResponseSpec(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws WebClientResponseException {
         return uploadFileRequestCreation(petId, additionalMetadata, _file);
     }
 
     public class UploadFileWithRequiredFileRequest {
-        private Long petId;
-        private File requiredFile;
-        private String additionalMetadata;
+        private @javax.annotation.Nonnull Long petId;
+        private @javax.annotation.Nonnull File requiredFile;
+        private @javax.annotation.Nullable String additionalMetadata;
 
         public UploadFileWithRequiredFileRequest() {}
 
-        public UploadFileWithRequiredFileRequest(Long petId, File requiredFile, String additionalMetadata) {
+        public UploadFileWithRequiredFileRequest(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) {
             this.petId = petId;
             this.requiredFile = requiredFile;
             this.additionalMetadata = additionalMetadata;
         }
 
-        public Long petId() {
+        public @javax.annotation.Nonnull Long petId() {
             return this.petId;
         }
-        public UploadFileWithRequiredFileRequest petId(Long petId) {
+        public UploadFileWithRequiredFileRequest petId(@javax.annotation.Nonnull Long petId) {
             this.petId = petId;
             return this;
         }
 
-        public File requiredFile() {
+        public @javax.annotation.Nonnull File requiredFile() {
             return this.requiredFile;
         }
-        public UploadFileWithRequiredFileRequest requiredFile(File requiredFile) {
+        public UploadFileWithRequiredFileRequest requiredFile(@javax.annotation.Nonnull File requiredFile) {
             this.requiredFile = requiredFile;
             return this;
         }
 
-        public String additionalMetadata() {
+        public @javax.annotation.Nullable String additionalMetadata() {
             return this.additionalMetadata;
         }
-        public UploadFileWithRequiredFileRequest additionalMetadata(String additionalMetadata) {
+        public UploadFileWithRequiredFileRequest additionalMetadata(@javax.annotation.Nullable String additionalMetadata) {
             this.additionalMetadata = additionalMetadata;
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            UploadFileWithRequiredFileRequest request = (UploadFileWithRequiredFileRequest) o;
+            return Objects.equals(this.petId, request.petId()) &&
+                Objects.equals(this.requiredFile, request.requiredFile()) &&
+                Objects.equals(this.additionalMetadata, request.additionalMetadata());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(petId, requiredFile, additionalMetadata);
+        }
     }
 
-      /**
-      * uploads an image (required)
-      * 
-         * <p><b>200</b> - successful operation
-         * @param requestParameters The uploadFileWithRequiredFile request parameters as object
-         * @return ModelApiResponse
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ModelApiResponse> uploadFileWithRequiredFile(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
-          return this.uploadFileWithRequiredFile(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
-      }
+    /**
+     * uploads an image (required)
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestParameters The uploadFileWithRequiredFile request parameters as object
+     * @return ModelApiResponse
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ModelApiResponse> uploadFileWithRequiredFile(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
+        return this.uploadFileWithRequiredFile(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
+    }
 
-      /**
-      * uploads an image (required)
-      * 
-         * <p><b>200</b> - successful operation
-         * @param requestParameters The uploadFileWithRequiredFile request parameters as object
-         * @return ResponseEntity&lt;ModelApiResponse&gt;
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFileWithHttpInfo(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
-          return this.uploadFileWithRequiredFileWithHttpInfo(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
-      }
+    /**
+     * uploads an image (required)
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestParameters The uploadFileWithRequiredFile request parameters as object
+     * @return ResponseEntity&lt;ModelApiResponse&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFileWithHttpInfo(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
+        return this.uploadFileWithRequiredFileWithHttpInfo(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
+    }
 
-      /**
-      * uploads an image (required)
-      * 
-         * <p><b>200</b> - successful operation
-         * @param requestParameters The uploadFileWithRequiredFile request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec uploadFileWithRequiredFileWithResponseSpec(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
-         return this.uploadFileWithRequiredFileWithResponseSpec(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
-      }
+    /**
+     * uploads an image (required)
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestParameters The uploadFileWithRequiredFile request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec uploadFileWithRequiredFileWithResponseSpec(UploadFileWithRequiredFileRequest requestParameters) throws WebClientResponseException {
+        return this.uploadFileWithRequiredFileWithResponseSpec(requestParameters.petId(), requestParameters.requiredFile(), requestParameters.additionalMetadata());
+    }
 
-          
+
     /**
      * uploads an image (required)
      * 
@@ -1015,7 +1085,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadFileWithRequiredFileRequestCreation(Long petId, File requiredFile, String additionalMetadata) throws WebClientResponseException {
+    private ResponseSpec uploadFileWithRequiredFileRequestCreation(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -1065,7 +1135,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ModelApiResponse> uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws WebClientResponseException {
+    public Mono<ModelApiResponse> uploadFileWithRequiredFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws WebClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
         return uploadFileWithRequiredFileRequestCreation(petId, requiredFile, additionalMetadata).bodyToMono(localVarReturnType);
     }
@@ -1080,7 +1150,7 @@ public class PetApi {
      * @return ResponseEntity&lt;ModelApiResponse&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws WebClientResponseException {
+    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws WebClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
         return uploadFileWithRequiredFileRequestCreation(petId, requiredFile, additionalMetadata).toEntity(localVarReturnType);
     }
@@ -1095,7 +1165,7 @@ public class PetApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec uploadFileWithRequiredFileWithResponseSpec(Long petId, File requiredFile, String additionalMetadata) throws WebClientResponseException {
+    public ResponseSpec uploadFileWithRequiredFileWithResponseSpec(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws WebClientResponseException {
         return uploadFileWithRequiredFileRequestCreation(petId, requiredFile, additionalMetadata);
     }
 }

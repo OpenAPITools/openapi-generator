@@ -54,6 +54,7 @@ import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.languages.PhpNextgenClientCodegen;
 import org.openapitools.codegen.languages.RustAxumServerCodegen;
 import org.openapitools.codegen.languages.RustServerCodegen;
+import org.openapitools.codegen.languages.RustServerCodegenDeprecated;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -65,6 +66,7 @@ import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.utils.ExamplesUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
@@ -333,6 +335,12 @@ public class DefaultCodegen implements CodegenConfig {
     // Whether to automatically hardcode params that are considered Constants by OpenAPI Spec
     @Setter protected boolean autosetConstants = false;
 
+    @Setter @Getter boolean arrayDefaultToEmpty, arrayNullableDefaultToEmpty, arrayOptionalNullableDefaultToEmpty, arrayOptionalDefaultToEmpty;
+    @Setter @Getter boolean mapDefaultToEmpty, mapNullableDefaultToEmpty, mapOptionalNullableDefaultToEmpty, mapOptionalDefaultToEmpty;
+    @Setter @Getter protected boolean defaultToEmptyContainer;
+    final String DEFAULT_TO_EMPTY_CONTAINER = "defaultToEmptyContainer";
+    final List EMPTY_LIST = new ArrayList();
+
     @Override
     public boolean getAddSuffixToDuplicateOperationNicknames() {
         return addSuffixToDuplicateOperationNicknames;
@@ -391,8 +399,12 @@ public class DefaultCodegen implements CodegenConfig {
         convertPropertyToBooleanAndWriteBack(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, this::setDisallowAdditionalPropertiesIfNotPresent);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, this::setEnumUnknownDefaultCase);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.AUTOSET_CONSTANTS, this::setAutosetConstants);
-    }
 
+        if (additionalProperties.containsKey(DEFAULT_TO_EMPTY_CONTAINER) && additionalProperties.get(DEFAULT_TO_EMPTY_CONTAINER) instanceof String) {
+            parseDefaultToEmptyContainer((String) additionalProperties.get(DEFAULT_TO_EMPTY_CONTAINER));
+            defaultToEmptyContainer = true;
+        }
+    }
 
     /***
      * Preset map builder with commonly used Mustache lambdas.
@@ -402,6 +414,8 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * If common lambdas are not desired, override addMustacheLambdas() method
      * and return empty builder.
+     *
+     * Corresponding user documentation: docs/templating.md, section "Mustache Lambdas"
      *
      * @return preinitialized map with common lambdas
      */
@@ -958,11 +972,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("static-method")
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("################################################################################");
+        System.out.println("############################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                                      #");
+        System.out.println("# We appreciate your support! Please consider donation to help us maintain this project.   #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                                      #");
+        System.out.println("############################################################################################");
     }
 
     // override with any special post-processing
@@ -2338,6 +2352,10 @@ public class DefaultCodegen implements CodegenConfig {
         return ModelUtils.unaliasSchema(this.openAPI, schema, schemaMapping);
     }
 
+    private List<Map<String, Object>> unaliasExamples(Map<String, Example> examples){
+        return ExamplesUtils.unaliasExamples(this.openAPI, examples);
+    }
+
     /**
      * Return a string representation of the schema type, resolving aliasing and references if necessary.
      *
@@ -3664,7 +3682,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
             List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, schema);
             for (MappedModel otherDescendant : otherDescendants) {
-                if (!uniqueDescendants.contains(otherDescendant)) {
+                // add only if the model names are not the same
+                if (uniqueDescendants.stream().map(MappedModel::getModelName).noneMatch(it -> it.equals(otherDescendant.getModelName()))) {
                     uniqueDescendants.add(otherDescendant);
                 }
             }
@@ -4219,6 +4238,11 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        // override defaultValue if it's not set and defaultToEmptyContainer is set
+        if (p.getDefault() == null && defaultToEmptyContainer) {
+            updateDefaultToEmptyContainer(property, p);
+        }
+
         // set the default value
         property.defaultValue = toDefaultValue(property, p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
@@ -4226,6 +4250,99 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);
         return property;
+    }
+
+    /**
+     * update container's default to empty container according rules provided by the user.
+     *
+     * @param cp codegen property
+     * @param p schema
+     */
+    void updateDefaultToEmptyContainer(CodegenProperty cp, Schema p) {
+        if (cp.isArray) {
+            if (!cp.required) { // optional
+                if (cp.isNullable && arrayOptionalNullableDefaultToEmpty) { // nullable
+                    p.setDefault(EMPTY_LIST);
+                } else if (!cp.isNullable && arrayOptionalDefaultToEmpty) { // non-nullable
+                    p.setDefault(EMPTY_LIST);
+                }
+            } else { // required
+                if (cp.isNullable && arrayNullableDefaultToEmpty) { // nullable
+                    p.setDefault(EMPTY_LIST);
+                } else if (!cp.isNullable && arrayDefaultToEmpty) { // non-nullable
+                    p.setDefault(EMPTY_LIST);
+                }
+            }
+        } else if (cp.isMap) {
+            if (!cp.required) { // optional
+                if (cp.isNullable && mapOptionalNullableDefaultToEmpty) { // nullable
+                    p.setDefault(EMPTY_LIST);
+                } else if (!cp.isNullable && mapOptionalDefaultToEmpty) { // non-nullable
+                    p.setDefault(EMPTY_LIST);
+                }
+            } else { // required
+                if (cp.isNullable && mapNullableDefaultToEmpty) { // nullable
+                    p.setDefault(EMPTY_LIST);
+                } else if (!cp.isNullable && mapOptionalDefaultToEmpty) { // non-nullable
+                    p.setDefault(EMPTY_LIST);
+                }
+            }
+        }
+    }
+
+    /**
+     * Parse the rules for defaulting to the empty container.
+     *
+     * @param input a set of rules separated by `|`
+     */
+    void parseDefaultToEmptyContainer(String input) {
+        String[] inputs = ((String) input).split("[|]");
+        String containerType;
+        for (String rule: inputs) {
+            if (StringUtils.isEmpty(rule)) {
+                LOGGER.error("updateDefaultToEmptyContainer: Skipped empty input in `{}`.", input);
+                continue;
+            }
+
+            if (rule.startsWith("?") && rule.endsWith("?")) { // nullable optional
+                containerType = rule.substring(1, rule.length() - 1);
+                if ("array".equalsIgnoreCase(containerType)) {
+                    arrayOptionalNullableDefaultToEmpty = true;
+                } else if ("map".equalsIgnoreCase(containerType)) {
+                    mapOptionalNullableDefaultToEmpty = true;
+                } else {
+                    LOGGER.error("Skipped invalid container type `{}` in `{}`.", containerType, input);
+                }
+            } else if (rule.startsWith("?")) { // nullable (required)
+                containerType = rule.substring(1, rule.length());
+                if ("array".equalsIgnoreCase(containerType)) {
+                    arrayNullableDefaultToEmpty = true;
+                } else if ("map".equalsIgnoreCase(containerType)) {
+                    mapNullableDefaultToEmpty = true;
+                } else {
+                    LOGGER.error("Skipped invalid container type `{}` in `{}`.", containerType, input);
+                }
+            } else if (rule.endsWith("?")) { // optional
+                containerType = rule.substring(0, rule.length()-1);
+                if ("array".equalsIgnoreCase(containerType)) {
+                    arrayOptionalDefaultToEmpty = true;
+                } else if ("map".equalsIgnoreCase(containerType)) {
+                    mapOptionalDefaultToEmpty = true;
+                } else {
+                    LOGGER.error("Skipped invalid container type `{}` in the rule `{}`.", containerType, input);
+                }
+            } else { // required
+                containerType = rule;
+                if ("array".equalsIgnoreCase(containerType)) {
+                    arrayDefaultToEmpty = true;
+                } else if ("map".equalsIgnoreCase(containerType)) {
+                    mapDefaultToEmpty = true;
+                } else {
+                    LOGGER.error("Skipped invalid container type `{}` in the rule `{}`.", containerType, input);
+                }
+            }
+
+        }
     }
 
     /**
@@ -4829,22 +4946,6 @@ public class DefaultCodegen implements CodegenConfig {
         // legacy support
         op.nickname = op.operationId;
 
-        if (op.allParams.size() > 0) {
-            op.hasParams = true;
-        }
-        op.hasRequiredParams = op.requiredParams.size() > 0;
-
-        // check if the operation has only a single parameter
-        op.hasSingleParam = op.allParams.size() == 1;
-
-        // set Restful Flag
-        op.isRestfulShow = op.isRestfulShow();
-        op.isRestfulIndex = op.isRestfulIndex();
-        op.isRestfulCreate = op.isRestfulCreate();
-        op.isRestfulUpdate = op.isRestfulUpdate();
-        op.isRestfulDestroy = op.isRestfulDestroy();
-        op.isRestful = op.isRestful();
-
         return op;
     }
 
@@ -4921,9 +5022,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
         r.schema = responseSchema;
         r.message = escapeText(response.getDescription());
-        // TODO need to revise and test examples in responses
-        // ApiResponse does not support examples at the moment
-        //r.examples = toExamples(response.getExamples());
+
+        // adding examples to API responses
+        Map<String, Example> examples = ExamplesUtils.getExamplesFromResponse(openAPI, response);
+
+        if (examples != null && !examples.isEmpty())
+            r.examples = unaliasExamples(examples);
+
         r.jsonSchema = Json.pretty(response);
         if (response.getExtensions() != null && !response.getExtensions().isEmpty()) {
             r.vendorExtensions.putAll(response.getExtensions());
@@ -5225,7 +5330,7 @@ public class DefaultCodegen implements CodegenConfig {
             parameterSchema = unaliasSchema(parameter.getSchema());
             parameterModelName = getParameterDataType(parameter, parameterSchema);
             CodegenProperty prop;
-            if (this instanceof RustServerCodegen) {
+            if (this instanceof RustServerCodegen || this instanceof RustServerCodegenDeprecated) {
                 // for rust server, we need to do something special as it uses
                 // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
                 prop = fromProperty(parameter.getName(), parameterSchema, false);
@@ -8669,6 +8774,5 @@ public class DefaultCodegen implements CodegenConfig {
                 operation.allParams.add(p);
             }
         }
-        operation.hasParams = !operation.allParams.isEmpty();
     }
 }

@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   @jakarta.annotation.Nullable
@@ -107,6 +107,7 @@ public class FakeBigDecimalMap200Response {
   public void setSomeMap(@jakarta.annotation.Nullable Map<String, BigDecimal> someMap) {
     this.someMap = someMap;
   }
+
 
   @Override
   public boolean equals(Object o) {

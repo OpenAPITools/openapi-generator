@@ -8,9 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class AnotherFakeApi {
     private ApiClient apiClient;
 
@@ -31,7 +32,6 @@ public class AnotherFakeApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public AnotherFakeApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -52,7 +52,7 @@ public class AnotherFakeApi {
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec call123testSpecialTagsRequestCreation(Client client) throws RestClientResponseException {
+    private ResponseSpec call123testSpecialTagsRequestCreation(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         Object postBody = client;
         // verify the required parameter 'client' is set
         if (client == null) {
@@ -89,7 +89,7 @@ public class AnotherFakeApi {
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Client call123testSpecialTags(Client client) throws RestClientResponseException {
+    public Client call123testSpecialTags(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return call123testSpecialTagsRequestCreation(client).body(localVarReturnType);
     }
@@ -102,7 +102,7 @@ public class AnotherFakeApi {
      * @return ResponseEntity&lt;Client&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(Client client) throws RestClientResponseException {
+    public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return call123testSpecialTagsRequestCreation(client).toEntity(localVarReturnType);
     }
@@ -115,7 +115,7 @@ public class AnotherFakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec call123testSpecialTagsWithResponseSpec(Client client) throws RestClientResponseException {
+    public ResponseSpec call123testSpecialTagsWithResponseSpec(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         return call123testSpecialTagsRequestCreation(client);
     }
 }

@@ -19,8 +19,10 @@ include/CppRestPetstoreClient/api/UserApi.h
 include/CppRestPetstoreClient/api/UserOrPetApi.h
 include/CppRestPetstoreClient/model/ApiResponse.h
 include/CppRestPetstoreClient/model/Category.h
+include/CppRestPetstoreClient/model/Color.h
 include/CppRestPetstoreClient/model/CreateUserOrPet_request.h
 include/CppRestPetstoreClient/model/Order.h
+include/CppRestPetstoreClient/model/Page.h
 include/CppRestPetstoreClient/model/Pet.h
 include/CppRestPetstoreClient/model/SchemaWithSet.h
 include/CppRestPetstoreClient/model/SchemaWithSet_vaccinationBook.h
@@ -42,8 +44,10 @@ src/api/UserApi.cpp
 src/api/UserOrPetApi.cpp
 src/model/ApiResponse.cpp
 src/model/Category.cpp
+src/model/Color.cpp
 src/model/CreateUserOrPet_request.cpp
 src/model/Order.cpp
+src/model/Page.cpp
 src/model/Pet.cpp
 src/model/SchemaWithSet.cpp
 src/model/SchemaWithSet_vaccinationBook.cpp

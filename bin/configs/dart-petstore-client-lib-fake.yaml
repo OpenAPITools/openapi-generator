@@ -1,6 +1,6 @@
 generatorName: dart
 outputDir: samples/openapi3/client/petstore/dart2/petstore_client_lib_fake
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/dart/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/dart2
 typeMappings:
   Client: "ModelClient"

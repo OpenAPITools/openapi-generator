@@ -36,7 +36,7 @@ class {{controllerName}} extends Controller
      */
     public function {{operationId}}(Request $request{{#pathParams}}, {{dataType}} ${{paramName}}{{/pathParams}}): JsonResponse
     {
-        {{>api_validation}}
+        {{>api_validation}}{{! prevent indent}}
 
         {{#allParams}}
         {{^isPathParam}}
@@ -44,7 +44,7 @@ class {{controllerName}} extends Controller
         ${{paramName}} = $request->file('{{paramName}}');
         {{/isFile}}
         {{#isBoolean}}
-        ${{paramName}} = $request->bool('{{paramName}}');
+        ${{paramName}} = $request->boolean('{{paramName}}');
         {{/isBoolean}}
         {{#isInteger}}
         ${{paramName}} = $request->integer('{{paramName}}');
@@ -91,6 +91,7 @@ class {{controllerName}} extends Controller
             $apiResult = $this->api->{{operationId}}({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 

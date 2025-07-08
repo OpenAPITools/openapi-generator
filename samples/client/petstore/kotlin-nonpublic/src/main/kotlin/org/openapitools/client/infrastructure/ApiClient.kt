@@ -360,8 +360,11 @@ internal open class ApiClient(val baseUrl: String, val client: Call.Factory = de
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime ->
-            parseDateToQueryString(value)
+        is OffsetDateTime -> parseDateToQueryString(value)
+        is OffsetTime -> parseDateToQueryString(value)
+        is LocalDateTime -> parseDateToQueryString(value)
+        is LocalDate -> parseDateToQueryString(value)
+        is LocalTime -> parseDateToQueryString(value)
         else -> value.toString()
     }
 

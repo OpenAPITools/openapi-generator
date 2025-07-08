@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedSubId" /> class.
         /// </summary>
         /// <param name="id">id.</param>
-        public MixedSubId(string id = default(string))
+        public MixedSubId(string id = default)
         {
             this.Id = id;
             this.AdditionalProperties = new Dictionary<string, object>();

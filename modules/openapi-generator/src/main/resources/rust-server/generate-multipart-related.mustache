@@ -11,9 +11,9 @@
 {{/required}}
             let part = Node::Part(Part {
                 headers: {
-                    let mut h = Headers::new();
-                    h.set(ContentType("{{{contentType}}}".parse().unwrap()));
-                    h.set_raw("Content-ID", vec![b"{{{baseName}}}".to_vec()]);
+                    let mut h = HeaderMap::new();
+                    h.insert(CONTENT_TYPE, HeaderValue::from_static("{{{contentType}}}"));
+                    h.insert("Content-ID", HeaderValue::from_static("{{{baseName}}}"));
                     h
                 },
                 {{#isBinary}}

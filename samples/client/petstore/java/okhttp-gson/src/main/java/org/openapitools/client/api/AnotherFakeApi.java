@@ -86,7 +86,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call call123testSpecialTagsCall(Client client, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call call123testSpecialTagsCall(@javax.annotation.Nonnull Client client, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -132,7 +132,7 @@ public class AnotherFakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call call123testSpecialTagsValidateBeforeCall(Client client, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call call123testSpecialTagsValidateBeforeCall(@javax.annotation.Nonnull Client client, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'client' is set
         if (client == null) {
             throw new ApiException("Missing the required parameter 'client' when calling call123testSpecialTags(Async)");
@@ -155,7 +155,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public Client call123testSpecialTags(Client client) throws ApiException {
+    public Client call123testSpecialTags(@javax.annotation.Nonnull Client client) throws ApiException {
         ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(client);
         return localVarResp.getData();
     }
@@ -173,7 +173,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
+    public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
         okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(client, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -193,7 +193,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call call123testSpecialTagsAsync(Client client, final ApiCallback<Client> _callback) throws ApiException {
+    public okhttp3.Call call123testSpecialTagsAsync(@javax.annotation.Nonnull Client client, final ApiCallback<Client> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(client, _callback);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
@@ -213,7 +213,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getParameterArrayNumberCall(List<Integer> array, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getParameterArrayNumberCall(@javax.annotation.Nonnull List<Integer> array, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -262,7 +262,7 @@ public class AnotherFakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getParameterArrayNumberValidateBeforeCall(List<Integer> array, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getParameterArrayNumberValidateBeforeCall(@javax.annotation.Nonnull List<Integer> array, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'array' is set
         if (array == null) {
             throw new ApiException("Missing the required parameter 'array' when calling getParameterArrayNumber(Async)");
@@ -284,7 +284,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public void getParameterArrayNumber(List<Integer> array) throws ApiException {
+    public void getParameterArrayNumber(@javax.annotation.Nonnull List<Integer> array) throws ApiException {
         getParameterArrayNumberWithHttpInfo(array);
     }
 
@@ -301,7 +301,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getParameterArrayNumberWithHttpInfo(List<Integer> array) throws ApiException {
+    public ApiResponse<Void> getParameterArrayNumberWithHttpInfo(@javax.annotation.Nonnull List<Integer> array) throws ApiException {
         okhttp3.Call localVarCall = getParameterArrayNumberValidateBeforeCall(array, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -320,7 +320,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getParameterArrayNumberAsync(List<Integer> array, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getParameterArrayNumberAsync(@javax.annotation.Nonnull List<Integer> array, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getParameterArrayNumberValidateBeforeCall(array, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -339,7 +339,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getParameterStringNumberCall(BigDecimal stringNumber, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getParameterStringNumberCall(@javax.annotation.Nonnull BigDecimal stringNumber, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -388,7 +388,7 @@ public class AnotherFakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getParameterStringNumberValidateBeforeCall(BigDecimal stringNumber, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getParameterStringNumberValidateBeforeCall(@javax.annotation.Nonnull BigDecimal stringNumber, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'stringNumber' is set
         if (stringNumber == null) {
             throw new ApiException("Missing the required parameter 'stringNumber' when calling getParameterStringNumber(Async)");
@@ -410,7 +410,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public void getParameterStringNumber(BigDecimal stringNumber) throws ApiException {
+    public void getParameterStringNumber(@javax.annotation.Nonnull BigDecimal stringNumber) throws ApiException {
         getParameterStringNumberWithHttpInfo(stringNumber);
     }
 
@@ -427,7 +427,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getParameterStringNumberWithHttpInfo(BigDecimal stringNumber) throws ApiException {
+    public ApiResponse<Void> getParameterStringNumberWithHttpInfo(@javax.annotation.Nonnull BigDecimal stringNumber) throws ApiException {
         okhttp3.Call localVarCall = getParameterStringNumberValidateBeforeCall(stringNumber, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -446,7 +446,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getParameterStringNumberAsync(BigDecimal stringNumber, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getParameterStringNumberAsync(@javax.annotation.Nonnull BigDecimal stringNumber, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getParameterStringNumberValidateBeforeCall(stringNumber, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -465,7 +465,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call nullRequestBodyCall(String acceptLanguage, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call nullRequestBodyCall(@javax.annotation.Nullable String acceptLanguage, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -515,7 +515,7 @@ public class AnotherFakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call nullRequestBodyValidateBeforeCall(String acceptLanguage, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call nullRequestBodyValidateBeforeCall(@javax.annotation.Nullable String acceptLanguage, final ApiCallback _callback) throws ApiException {
         return nullRequestBodyCall(acceptLanguage, _callback);
 
     }
@@ -532,7 +532,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
      </table>
      */
-    public void nullRequestBody(String acceptLanguage) throws ApiException {
+    public void nullRequestBody(@javax.annotation.Nullable String acceptLanguage) throws ApiException {
         nullRequestBodyWithHttpInfo(acceptLanguage);
     }
 
@@ -549,7 +549,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> nullRequestBodyWithHttpInfo(String acceptLanguage) throws ApiException {
+    public ApiResponse<Void> nullRequestBodyWithHttpInfo(@javax.annotation.Nullable String acceptLanguage) throws ApiException {
         okhttp3.Call localVarCall = nullRequestBodyValidateBeforeCall(acceptLanguage, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -568,7 +568,7 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td>  </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call nullRequestBodyAsync(String acceptLanguage, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call nullRequestBodyAsync(@javax.annotation.Nullable String acceptLanguage, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = nullRequestBodyValidateBeforeCall(acceptLanguage, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);

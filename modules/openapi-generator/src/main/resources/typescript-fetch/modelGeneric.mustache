@@ -13,10 +13,11 @@ import {
 {{/hasImports}}
 {{#discriminator}}
 {{#discriminator.mappedModels}}
-import { {{modelName}}, {{modelName}}FromJSONTyped, {{modelName}}ToJSON, {{modelName}}ToJSONTyped } from './{{modelName}}{{importFileExtension}}';
+import { type {{modelName}}, {{modelName}}FromJSONTyped, {{modelName}}ToJSON, {{modelName}}ToJSONTyped } from './{{modelName}}{{importFileExtension}}';
 {{/discriminator.mappedModels}}
 {{/discriminator}}
 {{>modelGenericInterfaces}}
+
 
 /**
  * Check if a given object implements the {{classname}} interface.
@@ -126,7 +127,7 @@ export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classnam
                 return {{modelName}}ToJSONTyped(value as {{modelName}}, ignoreDiscriminator);
         {{/discriminator.mappedModels}}
             default:
-                throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${value['{{discriminator.propertyName}}']}'`);
+                return value;
         }
     }
     {{/discriminator}}
@@ -140,10 +141,10 @@ export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classnam
         {{^isReadOnly}}
         {{#isPrimitiveType}}
         {{#isDateType}}
-        '{{baseName}}': {{^required}}value['{{name}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}(value['{{name}}']{{#isNullable}} as any{{/isNullable}}).toISOString().substring(0,10)),
+        '{{baseName}}': {{^required}}{{#isNullable}}value['{{name}}'] === null ? null : {{/isNullable}}{{^isNullable}}value['{{name}}'] == null ? undefined : {{/isNullable}}{{/required}}((value['{{name}}']{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString().substring(0,10)),
         {{/isDateType}}
         {{#isDateTimeType}}
-        '{{baseName}}': {{^required}}value['{{name}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}(value['{{name}}']{{#isNullable}} as any{{/isNullable}}).toISOString()),
+        '{{baseName}}': {{^required}}{{#isNullable}}value['{{name}}'] === null ? null : {{/isNullable}}{{^isNullable}}value['{{name}}'] == null ? undefined : {{/isNullable}}{{/required}}((value['{{name}}']{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString()),
         {{/isDateTimeType}}
         {{#isArray}}
         '{{baseName}}': {{#uniqueItems}}{{^required}}value['{{name}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}Array.from(value['{{name}}'] as Set<any>){{/uniqueItems}}{{^uniqueItems}}value['{{name}}']{{/uniqueItems}},

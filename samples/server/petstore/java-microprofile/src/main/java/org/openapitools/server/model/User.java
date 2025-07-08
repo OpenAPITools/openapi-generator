@@ -14,6 +14,8 @@ package org.openapitools.server.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -72,6 +74,7 @@ public class User  {
   */
   
   private Integer userStatus;
+
 
   /**
    * Get id

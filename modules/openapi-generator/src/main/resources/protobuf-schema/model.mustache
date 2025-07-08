@@ -3,6 +3,9 @@ syntax = "proto3";
 
 package {{#lambda.lowercase}}{{{packageName}}};{{/lambda.lowercase}}
 
+{{#customOptionsModel}}
+{{{.}}}
+{{/customOptionsModel}}
 {{#imports}}
 {{#import}}
 import public "{{{.}}}.proto";
@@ -50,4 +53,5 @@ import public "{{{.}}}.proto";
 }
 {{/isEnum}}
 {{/model}}
+
 {{/models}}

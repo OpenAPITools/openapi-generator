@@ -54,7 +54,7 @@ import org.openapitools.client.JSON;
 /**
  * AdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class AdditionalPropertiesClass implements Parcelable {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
@@ -492,21 +492,10 @@ public class AdditionalPropertiesClass implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("map_string");
-    openapiFields.add("map_number");
-    openapiFields.add("map_integer");
-    openapiFields.add("map_boolean");
-    openapiFields.add("map_array_integer");
-    openapiFields.add("map_array_anytype");
-    openapiFields.add("map_map_string");
-    openapiFields.add("map_map_anytype");
-    openapiFields.add("anytype_1");
-    openapiFields.add("anytype_2");
-    openapiFields.add("anytype_3");
+    openapiFields = new HashSet<String>(Arrays.asList("map_string", "map_number", "map_integer", "map_boolean", "map_array_integer", "map_array_anytype", "map_map_string", "map_map_anytype", "anytype_1", "anytype_2", "anytype_3"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**

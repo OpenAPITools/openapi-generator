@@ -92,6 +92,15 @@ class {{declspec}} {{classname}}
 {
 public:
     {{classname}}();
+    {{classname}}(utility::string_t str);
+    operator utility::string_t() const {
+        return enumToStrMap.at(getValue());
+    }
+
+    {{! operator std::string() const {
+        return enumToStrMap.at(getValue());
+    } }}
+
     virtual ~{{classname}}();
 
     /////////////////////////////////////////////
@@ -114,7 +123,7 @@ public:
         /// {{.}}
         /// </summary>
         {{/enumDescription}}
-        {{classname}}_{{{name}}}{{^last}},{{/last}}
+        {{{name}}}{{^last}},{{/last}}
         {{/enumVars}}
         {{/allowableValues}}
     };
@@ -124,6 +133,21 @@ public:
 
     protected:
         e{{classname}} m_value;
+        std::map<e{{classname}},utility::string_t> enumToStrMap = {
+        {{#allowableValues}}
+        {{#enumVars}}
+        { e{{classname}}::{{{name}}}, _XPLATSTR("{{{name}}}") }{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+};
+        std::map<utility::string_t,e{{classname}}> strToEnumMap = {
+        {{#allowableValues}}
+        {{#enumVars}}
+        { _XPLATSTR("{{{name}}}"), e{{classname}}::{{{name}}} }{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+};
+
 };
 {{/isEnum}}
 {{^isEnum}}
@@ -161,8 +185,11 @@ public:
     {{#isEnum}}
     enum class {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}
     {
-        {{#allowableValues}}{{#enumVars}}{{value}},
-        {{/enumVars}}{{/allowableValues}}
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{{name}}}{{^last}},{{/last}}
+        {{/enumVars}}
+        {{/allowableValues}}
     };
     {{#description}}
     /// <summary>

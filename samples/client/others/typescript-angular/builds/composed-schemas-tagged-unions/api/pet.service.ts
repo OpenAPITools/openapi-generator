@@ -70,11 +70,12 @@ export class PetService extends BaseService {
         }
 
         let localVarPath = `/pet/mapped`;
-        return this.httpClient.request<Array<PetWithMappedDiscriminatorModel>>('get', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<Array<PetWithMappedDiscriminatorModel>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
                 transferCache: localVarTransferCache,

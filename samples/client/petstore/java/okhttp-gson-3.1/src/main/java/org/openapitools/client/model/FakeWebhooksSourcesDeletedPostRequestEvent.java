@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * FakeWebhooksSourcesDeletedPostRequestEvent
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FakeWebhooksSourcesDeletedPostRequestEvent {
   public static final String SERIALIZED_NAME_EVENT_ID = "event_id";
   @SerializedName(SERIALIZED_NAME_EVENT_ID)
@@ -167,12 +167,10 @@ public class FakeWebhooksSourcesDeletedPostRequestEvent {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("event_id");
+    openapiFields = new HashSet<String>(Arrays.asList("event_id"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("event_id");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("event_id"));
   }
 
   /**

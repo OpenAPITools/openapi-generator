@@ -8,9 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +26,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FakeClassnameTags123Api {
     private ApiClient apiClient;
 
@@ -33,7 +34,6 @@ public class FakeClassnameTags123Api {
         this(new ApiClient());
     }
 
-    @Autowired
     public FakeClassnameTags123Api(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -46,7 +46,6 @@ public class FakeClassnameTags123Api {
         this.apiClient = apiClient;
     }
 
-    
     /**
      * To test class name in snake case
      * To test class name in snake case
@@ -55,7 +54,7 @@ public class FakeClassnameTags123Api {
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testClassnameRequestCreation(Client client) throws WebClientResponseException {
+    private ResponseSpec testClassnameRequestCreation(@jakarta.annotation.Nonnull Client client) throws WebClientResponseException {
         Object postBody = client;
         // verify the required parameter 'client' is set
         if (client == null) {
@@ -92,7 +91,7 @@ public class FakeClassnameTags123Api {
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> testClassname(Client client) throws WebClientResponseException {
+    public Mono<Client> testClassname(@jakarta.annotation.Nonnull Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return testClassnameRequestCreation(client).bodyToMono(localVarReturnType);
     }
@@ -105,7 +104,7 @@ public class FakeClassnameTags123Api {
      * @return ResponseEntity&lt;Client&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Client>> testClassnameWithHttpInfo(Client client) throws WebClientResponseException {
+    public Mono<ResponseEntity<Client>> testClassnameWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return testClassnameRequestCreation(client).toEntity(localVarReturnType);
     }
@@ -118,7 +117,7 @@ public class FakeClassnameTags123Api {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testClassnameWithResponseSpec(Client client) throws WebClientResponseException {
+    public ResponseSpec testClassnameWithResponseSpec(@jakarta.annotation.Nonnull Client client) throws WebClientResponseException {
         return testClassnameRequestCreation(client);
     }
 }

@@ -1,0 +1,23 @@
+openapi: 3.0.1
+info:
+  title: ping test
+  version: "1.0"
+servers:
+- url: http://localhost:8080/
+security:
+- bearerAuth: []
+paths:
+  /ping:
+    get:
+      operationId: pingGet
+      responses:
+        "201":
+          description: OK
+components:
+  schemas: {}
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: token
+      scheme: bearer
+      type: http
+

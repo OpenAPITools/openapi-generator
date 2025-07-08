@@ -50,8 +50,8 @@ impl FakeApi for FakeApiClient {
         let local_var_uri_str = format!("{}/fake/user/{user_name}", local_var_configuration.base_path, user_name=crate::apis::urlencode(user_name));
         let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-        if let Some(ref local_var_str) = content {
-            local_var_req_builder = local_var_req_builder.query(&[("content", &local_var_str.to_string())]);
+        if let Some(ref param_value) = content {
+            local_var_req_builder = local_var_req_builder.query(&[("content", &param_value.to_string())]);
         }
         local_var_req_builder = local_var_req_builder.query(&[("anyType", &any_type.to_string())]);
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -82,7 +82,7 @@ impl FakeApi for FakeApiClient {
 
 }
 
-/// struct for typed errors of method [`test_nullable_required_param`]
+/// struct for typed errors of method [`FakeApi::test_nullable_required_param`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestNullableRequiredParamError {

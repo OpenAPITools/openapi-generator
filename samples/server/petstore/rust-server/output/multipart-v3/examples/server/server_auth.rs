@@ -1,8 +1,8 @@
 use swagger::{
     ApiError,
-    auth::{Basic, Bearer},
     Has,
     XSpanIdString};
+use headers::authorization::{Basic, Bearer};
 use multipart_v3::{AuthenticationApi, Claims};
 use crate::server::Server;
 use jsonwebtoken::{decode, errors as JwtError, decode_header, DecodingKey, TokenData, Validation};
@@ -87,7 +87,7 @@ impl<C> AuthenticationApi for Server<C> where C: Has<XSpanIdString> + Send + Syn
     fn bearer_authorization(&self, bearer: &Bearer) -> Result<Authorization, ApiError> {
         debug!("\tAuthorizationApi: Received Bearer-token, {bearer:#?}");
 
-        match extract_token_data(&bearer.token, b"secret") {
+        match extract_token_data(&bearer.token(), b"secret") {
             Ok(auth_data) => {
                 debug!("\tUnpack auth_data as: {auth_data:#?}");
                 let authorization = build_authorization(auth_data.claims);
@@ -124,4 +124,3 @@ impl<C> AuthenticationApi for Server<C> where C: Has<XSpanIdString> + Send + Syn
     }
 
 }
-

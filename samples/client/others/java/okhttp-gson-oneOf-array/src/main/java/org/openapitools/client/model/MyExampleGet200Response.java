@@ -14,6 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.OneOf1;
 import javax.validation.constraints.*;
@@ -54,7 +61,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class MyExampleGet200Response extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(MyExampleGet200Response.class.getName());
 
@@ -69,6 +76,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
 
             final Type typeInstanceListOneOf1 = new TypeToken<List<@Valid OneOf1>>(){}.getType();
             final TypeAdapter<List<@Valid OneOf1>> adapterListOneOf1 = (TypeAdapter<List<@Valid OneOf1>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListOneOf1));
+            final TypeAdapter<OneOf1> adapterOneOf1 = gson.getDelegateAdapter(this, TypeToken.get(OneOf1.class));
 
             return (TypeAdapter<T>) new TypeAdapter<MyExampleGet200Response>() {
                 @Override
@@ -87,7 +95,13 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
                             return;
                         }
                     }
-                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: List<@Valid OneOf1>");
+                    // check if the actual instance is of the type `OneOf1`
+                    if (value.getActualInstance() instanceof OneOf1) {
+                        JsonElement element = adapterOneOf1.toJsonTree((OneOf1)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
+                    }
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: List<@Valid OneOf1>, OneOf1");
                 }
 
                 @Override
@@ -119,6 +133,18 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
                         errorMessages.add(String.format("Deserialization for List<@Valid OneOf1> failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'List<@Valid OneOf1>'", e);
                     }
+                    // deserialize OneOf1
+                    try {
+                        // validate the JSON object to see if any exception is thrown
+                        OneOf1.validateJsonElement(jsonElement);
+                        actualAdapter = adapterOneOf1;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'OneOf1'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for OneOf1 failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'OneOf1'", e);
+                    }
 
                     if (match == 1) {
                         MyExampleGet200Response ret = new MyExampleGet200Response();
@@ -146,6 +172,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
 
     static {
         schemas.put("List<@Valid OneOf1>", List.class);
+        schemas.put("OneOf1", OneOf1.class);
     }
 
     @Override
@@ -156,7 +183,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * List<@Valid OneOf1>
+     * List<@Valid OneOf1>, OneOf1
      *
      * It could be an instance of the 'oneOf' schemas.
      */
@@ -170,14 +197,19 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
             }
         }
 
-        throw new RuntimeException("Invalid instance type. Must be List<@Valid OneOf1>");
+        if (instance instanceof OneOf1) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        throw new RuntimeException("Invalid instance type. Must be List<@Valid OneOf1>, OneOf1");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * List<@Valid OneOf1>
+     * List<@Valid OneOf1>, OneOf1
      *
-     * @return The actual instance (List<@Valid OneOf1>)
+     * @return The actual instance (List<@Valid OneOf1>, OneOf1)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -194,6 +226,17 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
      */
     public List<@Valid OneOf1> getListOneOf1() throws ClassCastException {
         return (List<@Valid OneOf1>)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `OneOf1`. If the actual instance is not `OneOf1`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `OneOf1`
+     * @throws ClassCastException if the instance is not `OneOf1`
+     */
+    public OneOf1 getOneOf1() throws ClassCastException {
+        return (OneOf1)super.getActualInstance();
     }
 
     /**
@@ -221,8 +264,16 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
             errorMessages.add(String.format("Deserialization for List<@Valid OneOf1> failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
+        // validate the json string with OneOf1
+        try {
+            OneOf1.validateJsonElement(jsonElement);
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for OneOf1 failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for MyExampleGet200Response with oneOf schemas: List<@Valid OneOf1>. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format("The JSON string is invalid for MyExampleGet200Response with oneOf schemas: List<@Valid OneOf1>, OneOf1. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

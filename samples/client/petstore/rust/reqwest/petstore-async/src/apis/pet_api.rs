@@ -52,6 +52,20 @@ pub struct GetPetByIdParams {
     pub pet_id: i64
 }
 
+/// struct for passing parameters to the method [`pets_explode_post`]
+#[derive(Clone, Debug)]
+pub struct PetsExplodePostParams {
+    /// Object containing page `size` and page `number`.
+    pub page_explode: Option<models::Page>
+}
+
+/// struct for passing parameters to the method [`pets_post`]
+#[derive(Clone, Debug)]
+pub struct PetsPostParams {
+    /// The page number
+    pub page: Option<models::Page>
+}
+
 /// struct for passing parameters to the method [`update_pet`]
 #[derive(Clone, Debug)]
 pub struct UpdatePetParams {
@@ -121,6 +135,22 @@ pub enum GetPetByIdSuccess {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed successes of method [`pets_explode_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PetsExplodePostSuccess {
+    Status200(Vec<models::Pet>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method [`pets_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PetsPostSuccess {
+    Status200(Vec<models::Pet>),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed successes of method [`update_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -182,6 +212,22 @@ pub enum FindPetsByTagsError {
 pub enum GetPetByIdError {
     Status400(),
     Status404(),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`pets_explode_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PetsExplodePostError {
+    Status400(),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`pets_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PetsPostError {
+    Status400(),
     UnknownValue(serde_json::Value),
 }
 
@@ -375,6 +421,64 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
     } else {
         let content = resp.text().await?;
         let entity: Option<GetPetByIdError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Returns a list of pets
+pub async fn pets_explode_post(configuration: &configuration::Configuration, params: PetsExplodePostParams) -> Result<ResponseContent<PetsExplodePostSuccess>, Error<PetsExplodePostError>> {
+
+    let uri_str = format!("{}/pets/explode", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref param_value) = params.page_explode {
+        req_builder = req_builder.query(&param_value);
+    }
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        let entity: Option<PetsExplodePostSuccess> = serde_json::from_str(&content).ok();
+        Ok(ResponseContent { status, content, entity })
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<PetsExplodePostError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Returns a list of pets
+pub async fn pets_post(configuration: &configuration::Configuration, params: PetsPostParams) -> Result<ResponseContent<PetsPostSuccess>, Error<PetsPostError>> {
+
+    let uri_str = format!("{}/pets", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref param_value) = params.page {
+        req_builder = req_builder.query(&[("page", &serde_json::to_string(param_value)?)]);
+    }
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        let entity: Option<PetsPostSuccess> = serde_json::from_str(&content).ok();
+        Ok(ResponseContent { status, content, entity })
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<PetsPostError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

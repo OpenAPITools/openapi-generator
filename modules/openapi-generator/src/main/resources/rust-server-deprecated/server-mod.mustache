@@ -1,0 +1,47 @@
+{{>server-imports}}
+use crate::{Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
+     {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+};
+
+mod server_auth;
+
+{{#hasCallbacks}}
+pub mod callbacks;
+
+{{/hasCallbacks}}
+{{>server-paths}}
+{{>server-make-service}}
+{{>server-service-header}}
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+{{>server-operation}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+{{#pathSet}}
+            _ if path.matched(paths::ID_{{PATH_ID}}) => method_not_allowed(),
+{{/pathSet}}
+{{>server-service-footer}}
+/// Request parser for `Api`.
+pub struct ApiRequestParser;
+impl<T> RequestParser<T> for ApiRequestParser {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
+        let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
+        match *request.method() {
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+            // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
+            hyper::Method::{{{vendorExtensions.x-http-method}}} if path.matched(paths::ID_{{{vendorExtensions.x-path-id}}}) => Some("{{{operationId}}}"),
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+            _ => None,
+        }
+    }
+}

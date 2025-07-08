@@ -13,8 +13,8 @@
  */
 
 import { mapValues } from '../runtime';
-import { Cat, CatFromJSONTyped, CatToJSON, CatToJSONTyped } from './Cat';
-import { Dog, DogFromJSONTyped, DogToJSON, DogToJSONTyped } from './Dog';
+import { type Cat, CatFromJSONTyped, CatToJSON, CatToJSONTyped } from './Cat';
+import { type Dog, DogFromJSONTyped, DogToJSON, DogToJSONTyped } from './Dog';
 /**
  * 
  * @export
@@ -82,7 +82,7 @@ export function AnimalToJSONTyped(value?: Animal | null, ignoreDiscriminator: bo
             case 'DOG':
                 return DogToJSONTyped(value as Dog, ignoreDiscriminator);
             default:
-                throw new Error(`No variant of Animal exists with 'className=${value['className']}'`);
+                return value;
         }
     }
 

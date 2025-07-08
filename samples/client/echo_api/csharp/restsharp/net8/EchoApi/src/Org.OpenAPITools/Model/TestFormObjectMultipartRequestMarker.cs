@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestFormObjectMultipartRequestMarker" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        public TestFormObjectMultipartRequestMarker(string name = default(string))
+        public TestFormObjectMultipartRequestMarker(string name = default)
         {
             this.Name = name;
         }
