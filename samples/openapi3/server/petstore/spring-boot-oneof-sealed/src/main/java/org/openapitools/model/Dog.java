@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
-public class Dog implements Animal {
+public final class Dog implements Animal {
 
   private @Nullable Boolean bark;
 
@@ -80,5 +80,63 @@ public class Dog implements Animal {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Dog instance;
+
+    public Builder() {
+      this(new Dog());
+    }
+
+    protected Builder(Dog instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Dog value) { 
+      this.instance.setBark(value.bark);
+      return this;
+    }
+
+    public Dog.Builder bark(Boolean bark) {
+      this.instance.bark(bark);
+      return this;
+    }
+    
+    /**
+    * returns a built Dog instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Dog build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Dog.Builder builder() {
+    return new Dog.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Dog.Builder toBuilder() {
+    Dog.Builder builder = new Dog.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

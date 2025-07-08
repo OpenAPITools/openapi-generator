@@ -264,8 +264,8 @@ components:
       type: object
     Animal:
       oneOf:
-      - $ref: '#/components/schemas/Dog'
-      - $ref: '#/components/schemas/Cat'
+      - $ref: "#/components/schemas/Dog"
+      - $ref: "#/components/schemas/Cat"
       x-one-of-name: Animal
     Cat:
       properties:

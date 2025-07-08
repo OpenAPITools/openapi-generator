@@ -73,6 +73,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.model|
+|oneOfInterfacesDeduction|whether to use deduction for generated oneOf interfaces| |false|
 |openApiNullable|Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.| |true|
 |optionalAcceptNullable|Use `ofNullable` instead of just `of` to accept null values when using Optional.| |true|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|

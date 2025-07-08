@@ -19,12 +19,12 @@ import javax.annotation.Generated;
  * Dog
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class Dog implements Animal {
 
   private @Nullable Boolean bark;
 
-  public Dog bark(Boolean bark) {
+  public Dog bark(@Nullable Boolean bark) {
     this.bark = bark;
     return this;
   }
@@ -36,11 +36,11 @@ public class Dog implements Animal {
   
   @Schema(name = "bark", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("bark")
-  public Boolean getBark() {
+  public @Nullable Boolean getBark() {
     return bark;
   }
 
-  public void setBark(Boolean bark) {
+  public void setBark(@Nullable Boolean bark) {
     this.bark = bark;
   }
 
