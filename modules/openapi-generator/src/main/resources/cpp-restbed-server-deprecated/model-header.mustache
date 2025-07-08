@@ -34,7 +34,7 @@ class {{declspec}} {{classname}} {{#interfaces}}{{#-first}}:{{/-first}}{{^-first
 public:
     {{classname}}() = default;
     explicit {{classname}}(boost::property_tree::ptree const& pt);
-    virtual ~{{classname}}() = default;
+    virtual ~{{classname}}();
 
     std::string toJsonString(bool prettyJson = false);
     void fromJsonString(std::string const& jsonString);
