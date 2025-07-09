@@ -626,6 +626,11 @@ public class DefaultGenerator implements Generator {
         }
     }
 
+    /**
+     * this method splits the specified property by commas, trims any results for spaces and
+     * newlines, and returns them as a Set of Strings. the method will return an empty
+     * set if the specified property has not been set or is an empty string.
+     */
     private Set<String> getPropertyAsSet(String propertyName) {
         String propertyRaw = GlobalSettings.getProperty(propertyName);
         if (propertyRaw == null || propertyRaw.isEmpty()) {
