@@ -25,6 +25,7 @@ import javax.annotation.Generated;
 @Validated
 public interface SomeApi {
 
+    public static final String PATH_SOME_ENDPOINT_GET = "/some/endpoint";
     /**
      * GET /some/endpoint
      *
@@ -32,7 +33,7 @@ public interface SomeApi {
      */
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/some/endpoint"
+        value = SomeApi.PATH_SOME_ENDPOINT_GET
     )
     
     ResponseEntity<Void> someEndpointGet(
