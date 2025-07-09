@@ -372,6 +372,39 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(exampleApiPath, "new Blob([JSON.stringify(ResponseOfStringToJSON");
     }
 
+    @Test(description = "Issue #21295")
+    public void givenSchemaIsOneOfAndComposedSchemasArePrimitiveThenReturnStatementsAreCorrect() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath();
+
+
+        TypeScriptFetchClientCodegen clientCodegen = new TypeScriptFetchClientCodegen();
+        clientCodegen.setOutputDir(outputPath);
+
+        DefaultGenerator defaultGenerator = new DefaultGenerator();
+        defaultGenerator.opts(
+                new ClientOptInput().openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_21259.yaml"))
+                        .config(clientCodegen)
+        ).generate();
+
+        Path exampleModelPath = Paths.get(outputPath + "/models/MyCustomSpeed.ts");
+        //FromJSON
+        TestUtils.assertFileContains(exampleModelPath, "typeof json === 'number'");
+        TestUtils.assertFileContains(exampleModelPath, "typeof json === 'string'");
+        TestUtils.assertFileContains(exampleModelPath, "json === 'fixed-value-a' || json === 'fixed-value-b' || json === 'fixed-value-c'");
+        TestUtils.assertFileContains(exampleModelPath, "isNaN(new Date(json).getTime())");
+        TestUtils.assertFileContains(exampleModelPath, "json.every(item => typeof item === 'number'");
+//        TestUtils.assertFileContains(exampleModelPath, "json.every(item => typeof item === 'string' && (item === 'oneof-array-enum-a' || item oneof-array-enum-b || item === oneof-array-enum-c)");
+        //ToJSON
+        TestUtils.assertFileContains(exampleModelPath, "typeof value === 'number'");
+        TestUtils.assertFileContains(exampleModelPath, "typeof value === 'string'");
+        TestUtils.assertFileContains(exampleModelPath, "value === 'fixed-value-a' || value === 'fixed-value-b' || value === 'fixed-value-c'");
+        TestUtils.assertFileContains(exampleModelPath, "value instanceof Date");
+        TestUtils.assertFileContains(exampleModelPath, "value.every(item => typeof item === 'number'");
+//        TestUtils.assertFileContains(exampleModelPath, "value.every(item => typeof item === 'string' && (item === 'oneof-array-enum-a' || item oneof-array-enum-b || item === oneof-array-enum-c)");
+    }
+
     private static File generate(Map<String, Object> properties) throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
