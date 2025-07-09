@@ -39,6 +39,7 @@ Animal::Animal(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Animal::~Animal = default;
 
 std::string Animal::toJsonString(bool prettyJson /* = false */) const
 {

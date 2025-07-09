@@ -39,7 +39,7 @@ class  OuterEnumInteger
 public:
     OuterEnumInteger() = default;
     explicit OuterEnumInteger(boost::property_tree::ptree const& pt);
-    virtual ~OuterEnumInteger() = default;
+    virtual ~OuterEnumInteger();
 
     OuterEnumInteger(const OuterEnumInteger& other) = default; // copy constructor
     OuterEnumInteger(OuterEnumInteger&& other) noexcept = default; // move constructor

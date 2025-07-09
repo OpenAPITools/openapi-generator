@@ -39,6 +39,7 @@ ClassModel::ClassModel(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+ClassModel::~ClassModel = default;
 
 std::string ClassModel::toJsonString(bool prettyJson /* = false */) const
 {

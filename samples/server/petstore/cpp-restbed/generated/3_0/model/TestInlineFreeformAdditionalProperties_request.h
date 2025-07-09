@@ -42,7 +42,7 @@ class  TestInlineFreeformAdditionalProperties_request
 public:
     TestInlineFreeformAdditionalProperties_request() = default;
     explicit TestInlineFreeformAdditionalProperties_request(boost::property_tree::ptree const& pt);
-    virtual ~TestInlineFreeformAdditionalProperties_request() = default;
+    virtual ~TestInlineFreeformAdditionalProperties_request();
 
     TestInlineFreeformAdditionalProperties_request(const TestInlineFreeformAdditionalProperties_request& other) = default; // copy constructor
     TestInlineFreeformAdditionalProperties_request(TestInlineFreeformAdditionalProperties_request&& other) noexcept = default; // move constructor

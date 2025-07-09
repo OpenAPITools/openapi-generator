@@ -28,6 +28,8 @@ Category::Category()
     
 }
 
+Category::~Category() = default;
+
 void Category::validate() const
 {
     std::stringstream msg;

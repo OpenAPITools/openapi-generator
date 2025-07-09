@@ -40,7 +40,7 @@ class  r_200_response
 public:
     r_200_response() = default;
     explicit r_200_response(boost::property_tree::ptree const& pt);
-    virtual ~r_200_response() = default;
+    virtual ~r_200_response();
 
     r_200_response(const r_200_response& other) = default; // copy constructor
     r_200_response(r_200_response&& other) noexcept = default; // move constructor

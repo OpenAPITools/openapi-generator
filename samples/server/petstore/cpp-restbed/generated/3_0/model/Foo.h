@@ -40,7 +40,7 @@ class  Foo
 public:
     Foo() = default;
     explicit Foo(boost::property_tree::ptree const& pt);
-    virtual ~Foo() = default;
+    virtual ~Foo();
 
     Foo(const Foo& other) = default; // copy constructor
     Foo(Foo&& other) noexcept = default; // move constructor

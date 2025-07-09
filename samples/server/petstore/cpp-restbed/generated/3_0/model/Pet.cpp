@@ -40,6 +40,7 @@ Pet::Pet(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Pet::~Pet = default;
 
 std::string Pet::toJsonString(bool prettyJson /* = false */) const
 {

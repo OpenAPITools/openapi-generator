@@ -67,7 +67,7 @@ class  Another_fakeDummyResource: public restbed::Resource
 {
 public:
     Another_fakeDummyResource(const std::string& context = "/v2");
-    virtual ~Another_fakeDummyResource() = default;
+    virtual ~Another_fakeDummyResource();
 
     Another_fakeDummyResource(
         const Another_fakeDummyResource& other) = default; // copy constructor

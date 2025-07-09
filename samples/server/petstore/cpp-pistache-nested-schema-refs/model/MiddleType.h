@@ -32,7 +32,7 @@ class  MiddleType
 {
 public:
     MiddleType();
-    virtual ~MiddleType() = default;
+    virtual ~MiddleType();
 
 
     /// <summary>

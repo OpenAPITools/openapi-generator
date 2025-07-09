@@ -39,6 +39,7 @@ NullableClass::NullableClass(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+NullableClass::~NullableClass = default;
 
 std::string NullableClass::toJsonString(bool prettyJson /* = false */) const
 {

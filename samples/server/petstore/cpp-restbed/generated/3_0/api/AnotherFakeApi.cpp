@@ -122,6 +122,8 @@ Another_fakeDummyResource::Another_fakeDummyResource(const std::string& context 
 			std::placeholders::_1));
 }
 
+Another_fakeDummyResource::~Another_fakeDummyResource() = default;
+
 std::pair<int, std::string> Another_fakeDummyResource::handleAnotherFakeApiException(const AnotherFakeApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());

@@ -40,7 +40,7 @@ class  ApiResponse
 public:
     ApiResponse() = default;
     explicit ApiResponse(boost::property_tree::ptree const& pt);
-    virtual ~ApiResponse() = default;
+    virtual ~ApiResponse();
 
     ApiResponse(const ApiResponse& other) = default; // copy constructor
     ApiResponse(ApiResponse&& other) noexcept = default; // move constructor

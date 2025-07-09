@@ -39,6 +39,7 @@ HasOnlyReadOnly::HasOnlyReadOnly(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+HasOnlyReadOnly::~HasOnlyReadOnly = default;
 
 std::string HasOnlyReadOnly::toJsonString(bool prettyJson /* = false */) const
 {

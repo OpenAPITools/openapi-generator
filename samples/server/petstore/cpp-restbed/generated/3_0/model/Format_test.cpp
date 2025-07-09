@@ -39,6 +39,7 @@ Format_test::Format_test(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Format_test::~Format_test = default;
 
 std::string Format_test::toJsonString(bool prettyJson /* = false */) const
 {

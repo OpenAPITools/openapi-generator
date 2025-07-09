@@ -122,6 +122,8 @@ FooResource::FooResource(const std::string& context /* = "/v2" */)
 			std::placeholders::_1));
 }
 
+FooResource::~FooResource() = default;
+
 std::pair<int, std::string> FooResource::handleDefaultApiException(const DefaultApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());

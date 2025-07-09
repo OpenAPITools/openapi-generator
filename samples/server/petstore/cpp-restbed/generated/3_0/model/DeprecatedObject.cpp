@@ -39,6 +39,7 @@ DeprecatedObject::DeprecatedObject(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+DeprecatedObject::~DeprecatedObject = default;
 
 std::string DeprecatedObject::toJsonString(bool prettyJson /* = false */) const
 {

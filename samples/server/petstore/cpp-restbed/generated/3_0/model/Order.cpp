@@ -40,6 +40,7 @@ Order::Order(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Order::~Order = default;
 
 std::string Order::toJsonString(bool prettyJson /* = false */) const
 {

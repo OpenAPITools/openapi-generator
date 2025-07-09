@@ -39,6 +39,7 @@ TestInlineFreeformAdditionalProperties_request::TestInlineFreeformAdditionalProp
         fromPropertyTree(pt);
 }
 
+TestInlineFreeformAdditionalProperties_request::~TestInlineFreeformAdditionalProperties_request = default;
 
 std::string TestInlineFreeformAdditionalProperties_request::toJsonString(bool prettyJson /* = false */) const
 {

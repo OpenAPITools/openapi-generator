@@ -39,6 +39,7 @@ File::File(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+File::~File = default;
 
 std::string File::toJsonString(bool prettyJson /* = false */) const
 {

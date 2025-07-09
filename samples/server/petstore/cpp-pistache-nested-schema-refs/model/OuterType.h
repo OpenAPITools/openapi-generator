@@ -32,7 +32,7 @@ class  OuterType
 {
 public:
     OuterType();
-    virtual ~OuterType() = default;
+    virtual ~OuterType();
 
 
     /// <summary>

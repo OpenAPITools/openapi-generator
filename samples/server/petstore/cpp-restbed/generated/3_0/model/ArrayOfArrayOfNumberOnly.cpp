@@ -39,6 +39,7 @@ ArrayOfArrayOfNumberOnly::ArrayOfArrayOfNumberOnly(boost::property_tree::ptree c
         fromPropertyTree(pt);
 }
 
+ArrayOfArrayOfNumberOnly::~ArrayOfArrayOfNumberOnly = default;
 
 std::string ArrayOfArrayOfNumberOnly::toJsonString(bool prettyJson /* = false */) const
 {

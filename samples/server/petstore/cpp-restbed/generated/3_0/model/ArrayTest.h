@@ -42,7 +42,7 @@ class  ArrayTest
 public:
     ArrayTest() = default;
     explicit ArrayTest(boost::property_tree::ptree const& pt);
-    virtual ~ArrayTest() = default;
+    virtual ~ArrayTest();
 
     ArrayTest(const ArrayTest& other) = default; // copy constructor
     ArrayTest(ArrayTest&& other) noexcept = default; // move constructor

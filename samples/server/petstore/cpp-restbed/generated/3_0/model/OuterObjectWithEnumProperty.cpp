@@ -40,6 +40,7 @@ OuterObjectWithEnumProperty::OuterObjectWithEnumProperty(boost::property_tree::p
         fromPropertyTree(pt);
 }
 
+OuterObjectWithEnumProperty::~OuterObjectWithEnumProperty = default;
 
 std::string OuterObjectWithEnumProperty::toJsonString(bool prettyJson /* = false */) const
 {

@@ -42,7 +42,7 @@ class  AllOfWithSingleRef
 public:
     AllOfWithSingleRef() = default;
     explicit AllOfWithSingleRef(boost::property_tree::ptree const& pt);
-    virtual ~AllOfWithSingleRef() = default;
+    virtual ~AllOfWithSingleRef();
 
     AllOfWithSingleRef(const AllOfWithSingleRef& other) = default; // copy constructor
     AllOfWithSingleRef(AllOfWithSingleRef&& other) noexcept = default; // move constructor

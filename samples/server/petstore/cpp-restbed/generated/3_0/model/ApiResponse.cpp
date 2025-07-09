@@ -39,6 +39,7 @@ ApiResponse::ApiResponse(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+ApiResponse::~ApiResponse = default;
 
 std::string ApiResponse::toJsonString(bool prettyJson /* = false */) const
 {

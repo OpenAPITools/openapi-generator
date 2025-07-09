@@ -41,7 +41,7 @@ class  ParentWithNullable
 public:
     ParentWithNullable() = default;
     explicit ParentWithNullable(boost::property_tree::ptree const& pt);
-    virtual ~ParentWithNullable() = default;
+    virtual ~ParentWithNullable();
 
     ParentWithNullable(const ParentWithNullable& other) = default; // copy constructor
     ParentWithNullable(ParentWithNullable&& other) noexcept = default; // move constructor

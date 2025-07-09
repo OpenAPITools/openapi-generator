@@ -39,6 +39,7 @@ Tag::Tag(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Tag::~Tag = default;
 
 std::string Tag::toJsonString(bool prettyJson /* = false */) const
 {

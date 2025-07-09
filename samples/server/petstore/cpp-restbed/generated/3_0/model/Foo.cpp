@@ -39,6 +39,7 @@ Foo::Foo(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Foo::~Foo = default;
 
 std::string Foo::toJsonString(bool prettyJson /* = false */) const
 {

@@ -39,6 +39,7 @@ Category::Category(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Category::~Category = default;
 
 std::string Category::toJsonString(bool prettyJson /* = false */) const
 {

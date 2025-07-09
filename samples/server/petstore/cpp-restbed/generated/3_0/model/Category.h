@@ -40,7 +40,7 @@ class  Category
 public:
     Category() = default;
     explicit Category(boost::property_tree::ptree const& pt);
-    virtual ~Category() = default;
+    virtual ~Category();
 
     Category(const Category& other) = default; // copy constructor
     Category(Category&& other) noexcept = default; // move constructor

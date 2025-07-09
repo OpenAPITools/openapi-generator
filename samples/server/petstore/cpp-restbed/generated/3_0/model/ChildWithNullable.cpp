@@ -40,6 +40,7 @@ ChildWithNullable::ChildWithNullable(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+ChildWithNullable::~ChildWithNullable = default;
 
 std::string ChildWithNullable::toJsonString(bool prettyJson /* = false */) const
 {

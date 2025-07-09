@@ -39,6 +39,7 @@ AdditionalPropertiesClass::AdditionalPropertiesClass(boost::property_tree::ptree
         fromPropertyTree(pt);
 }
 
+AdditionalPropertiesClass::~AdditionalPropertiesClass = default;
 
 std::string AdditionalPropertiesClass::toJsonString(bool prettyJson /* = false */) const
 {

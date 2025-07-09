@@ -39,7 +39,7 @@ class  OuterEnumDefaultValue
 public:
     OuterEnumDefaultValue() = default;
     explicit OuterEnumDefaultValue(boost::property_tree::ptree const& pt);
-    virtual ~OuterEnumDefaultValue() = default;
+    virtual ~OuterEnumDefaultValue();
 
     OuterEnumDefaultValue(const OuterEnumDefaultValue& other) = default; // copy constructor
     OuterEnumDefaultValue(OuterEnumDefaultValue&& other) noexcept = default; // move constructor

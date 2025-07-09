@@ -39,6 +39,7 @@ _special_model_name_::_special_model_name_(boost::property_tree::ptree const& pt
         fromPropertyTree(pt);
 }
 
+_special_model_name_::~_special_model_name_ = default;
 
 std::string _special_model_name_::toJsonString(bool prettyJson /* = false */) const
 {

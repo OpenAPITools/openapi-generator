@@ -39,6 +39,7 @@ _foo_get_default_response::_foo_get_default_response(boost::property_tree::ptree
         fromPropertyTree(pt);
 }
 
+_foo_get_default_response::~_foo_get_default_response = default;
 
 std::string _foo_get_default_response::toJsonString(bool prettyJson /* = false */) const
 {

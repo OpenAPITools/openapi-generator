@@ -39,6 +39,7 @@ User::User(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+User::~User = default;
 
 std::string User::toJsonString(bool prettyJson /* = false */) const
 {

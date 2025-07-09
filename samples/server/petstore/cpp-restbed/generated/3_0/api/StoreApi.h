@@ -69,7 +69,7 @@ class  StoreOrderOrder_idResource: public restbed::Resource
 {
 public:
     StoreOrderOrder_idResource(const std::string& context = "/v2");
-    virtual ~StoreOrderOrder_idResource() = default;
+    virtual ~StoreOrderOrder_idResource();
 
     StoreOrderOrder_idResource(
         const StoreOrderOrder_idResource& other) = default; // copy constructor
@@ -139,7 +139,7 @@ class  StoreInventoryResource: public restbed::Resource
 {
 public:
     StoreInventoryResource(const std::string& context = "/v2");
-    virtual ~StoreInventoryResource() = default;
+    virtual ~StoreInventoryResource();
 
     StoreInventoryResource(
         const StoreInventoryResource& other) = default; // copy constructor
@@ -201,7 +201,7 @@ class  StoreOrderResource: public restbed::Resource
 {
 public:
     StoreOrderResource(const std::string& context = "/v2");
-    virtual ~StoreOrderResource() = default;
+    virtual ~StoreOrderResource();
 
     StoreOrderResource(
         const StoreOrderResource& other) = default; // copy constructor

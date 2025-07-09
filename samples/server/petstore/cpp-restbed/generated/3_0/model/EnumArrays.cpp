@@ -40,6 +40,7 @@ EnumArrays::EnumArrays(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+EnumArrays::~EnumArrays = default;
 
 std::string EnumArrays::toJsonString(bool prettyJson /* = false */) const
 {

@@ -41,7 +41,7 @@ class  Order
 public:
     Order() = default;
     explicit Order(boost::property_tree::ptree const& pt);
-    virtual ~Order() = default;
+    virtual ~Order();
 
     Order(const Order& other) = default; // copy constructor
     Order(Order&& other) noexcept = default; // move constructor
