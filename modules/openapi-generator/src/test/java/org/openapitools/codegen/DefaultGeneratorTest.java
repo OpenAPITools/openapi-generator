@@ -993,13 +993,13 @@ public class DefaultGeneratorTest {
             generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
             generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
 
-            List<String> filesToGenerate = Arrays.asList(
+            List<String> supportingFilesToGenerate = Arrays.asList(
                 "pom.xml",
                 ".travis.yml",
                 ".gitignore",
                 "git_push.sh"
             );
-            GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, String.join(multiLineSeparator, filesToGenerate));
+            GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, String.join(multiLineSeparator, supportingFilesToGenerate));
 
             List<String> apisToGenerate = Arrays.asList(
                 "Pet",
@@ -1017,21 +1017,24 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 5 + modelsToGenerate.size() + apisToGenerate.size());
+            Assert.assertEquals(
+                files.size(),
+                // version file + files specified by properties
+                1 + supportingFilesToGenerate.size() + modelsToGenerate.size() + apisToGenerate.size()
+            );
 
-            TestUtils.ensureContainsFile(files, output, "pom.xml");
-            TestUtils.ensureContainsFile(files, output, ".travis.yml");
-            TestUtils.ensureContainsFile(files, output, ".gitignore");
-            TestUtils.ensureContainsFile(files, output, "git_push.sh");
             TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
+            for(String supportingFile : supportingFilesToGenerate) {
+                TestUtils.ensureContainsFile(files, output, supportingFile);
+            }
 
             for(String apiFile : apisToGenerate) {
                 String filename = "src/main/java/org/openapitools/client/api/" + apiFile + "Api.java";
                 TestUtils.ensureContainsFile(files, output, filename);
             }
 
-            for(String apiFile : modelsToGenerate) {
-                String filename = "src/main/java/org/openapitools/client/model/" + apiFile + ".java";
+            for(String modelFile : modelsToGenerate) {
+                String filename = "src/main/java/org/openapitools/client/model/" + modelFile + ".java";
                 TestUtils.ensureContainsFile(files, output, filename);
             }
         } finally {
