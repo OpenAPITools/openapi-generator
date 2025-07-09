@@ -53,6 +53,17 @@ import java.util.function.Consumer;
 import java.util.concurrent.CompletableFuture;
 {{/asyncNative}}
 
+static class HttpRequestBuilderExtensions {
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+}
+
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
@@ -677,11 +688,7 @@ public class {{classname}} {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
     // Add custom headers if provided
-    if (headers != null) {
-      for (Map.Entry<String, String> entry : headers.entrySet()) {
-        localVarRequestBuilder.header(entry.getKey(), entry.getValue());
-      }
-    }
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
