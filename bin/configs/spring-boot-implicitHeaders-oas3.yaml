@@ -9,3 +9,4 @@ additionalProperties:
   artifactId: springboot-implicitHeaders
   hideGenerationTimestamp: "true"
   implicitHeaders: true
+  disallowAdditionalPropertiesIfNotPresent: true
