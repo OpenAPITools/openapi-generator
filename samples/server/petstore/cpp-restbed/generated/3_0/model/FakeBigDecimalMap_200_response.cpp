@@ -39,6 +39,7 @@ FakeBigDecimalMap_200_response::FakeBigDecimalMap_200_response(boost::property_t
         fromPropertyTree(pt);
 }
 
+FakeBigDecimalMap_200_response::~FakeBigDecimalMap_200_response = default;
 
 std::string FakeBigDecimalMap_200_response::toJsonString(bool prettyJson /* = false */) const
 {
