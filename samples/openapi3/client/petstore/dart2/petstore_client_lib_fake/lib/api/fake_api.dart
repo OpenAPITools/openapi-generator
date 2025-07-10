@@ -883,7 +883,7 @@ class FakeApi {
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<Response> testEnumParametersWithHttpInfo({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, }) async {
+  Future<Response> testEnumParametersWithHttpInfo({ List<String>? enumHeaderStringArray = const [], String? enumHeaderString = '-efg', List<String>? enumQueryStringArray = const [], String? enumQueryString = '-efg', int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray = const [], List<String>? enumFormStringArray = '$', String? enumFormString = '-efg', }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake';
 
@@ -968,7 +968,7 @@ class FakeApi {
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<void> testEnumParameters({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, }) async {
+  Future<void> testEnumParameters({ List<String>? enumHeaderStringArray = const [], String? enumHeaderString = '-efg', List<String>? enumQueryStringArray = const [], String? enumQueryString = '-efg', int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray = const [], List<String>? enumFormStringArray = '$', String? enumFormString = '-efg', }) async {
     final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumQueryModelArray: enumQueryModelArray, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -1300,7 +1300,7 @@ class FakeApi {
   /// * [String] allowEmpty (required):
   ///
   /// * [Map<String, String>] language:
-  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, }) async {
+  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language = const {}, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/test-query-parameters';
 
@@ -1352,7 +1352,7 @@ class FakeApi {
   /// * [String] allowEmpty (required):
   ///
   /// * [Map<String, String>] language:
-  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, }) async {
+  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language = const {}, }) async {
     final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty,  language: language, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
