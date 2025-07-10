@@ -57,8 +57,8 @@ trait FakeApiDelegate[F[_]] {
 
     def handle(
       req: Request[F],
-      _type: String,
-      _var: Option[String],
+      `type`: String,
+      `var`: Option[String],
       responses: reservedWordsResponses[F]
     ): F[Response[F]]
 

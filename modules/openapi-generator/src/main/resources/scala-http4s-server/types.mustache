@@ -23,7 +23,7 @@ import {{modelPackage}}.{{classname}}.{{classname}}
 /**
 * {{{description}}}
 {{#vars}}
-* @param {{name}} {{{description}}}
+* @param {{#fnEscapeBacktick}}{{{name}}}{{/fnEscapeBacktick}} {{{description}}}
 {{/vars}}
 */
 {{#vendorExtensions.x-isSealedTrait}}
@@ -104,7 +104,7 @@ object {{classname}} extends Enumeration {
 {{#vendorExtensions.x-another}}
 case class {{classname}}(
 {{#vars}}
-  {{name}}: {{^required}}Option[{{{vendorExtensions.x-type}}}]{{/required}}{{#required}}{{{vendorExtensions.x-type}}}{{/required}}{{^-last}},{{/-last}}
+  {{#fnEscapeBacktick}}{{{name}}}{{/fnEscapeBacktick}}: {{^required}}Option[{{{vendorExtensions.x-type}}}]{{/required}}{{#required}}{{{vendorExtensions.x-type}}}{{/required}}{{^-last}},{{/-last}}
 {{/vars}}
 ){{#vendorExtensions.x-extends}} extends {{.}}{{/vendorExtensions.x-extends}}{{#vendorExtensions.x-extendsWith}} with {{.}}{{/vendorExtensions.x-extendsWith}}
 object {{classname}} {
