@@ -55,6 +55,16 @@ import java.util.concurrent.CompletableFuture;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class StoreApi {
+  private static class HttpRequestBuilderExtensions {
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
@@ -76,6 +86,7 @@ public class StoreApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
 
   private ApiException getApiException(String operationId, HttpResponse<String> response) {
     String message = formatExceptionMessage(operationId, response.statusCode(), response.body());
@@ -145,8 +156,20 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> deleteOrder(@javax.annotation.Nonnull String orderId) throws ApiException {
+    return deleteOrder(orderId, null);
+  }
+
+  /**
+   * Delete purchase order by ID
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param orderId ID of the order that needs to be deleted (required)
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;Void&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<Void> deleteOrder(@javax.annotation.Nonnull String orderId, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = deleteOrderRequestBuilder(orderId);
+      HttpRequest.Builder localVarRequestBuilder = deleteOrderRequestBuilder(orderId, headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -169,8 +192,20 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<ApiResponse<Void>> deleteOrderWithHttpInfo(@javax.annotation.Nonnull String orderId) throws ApiException {
+    return deleteOrderWithHttpInfo(orderId, null);
+  }
+
+  /**
+   * Delete purchase order by ID
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param orderId ID of the order that needs to be deleted (required)
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> deleteOrderWithHttpInfo(@javax.annotation.Nonnull String orderId, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = deleteOrderRequestBuilder(orderId);
+      HttpRequest.Builder localVarRequestBuilder = deleteOrderRequestBuilder(orderId, headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -191,7 +226,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder deleteOrderRequestBuilder(@javax.annotation.Nonnull String orderId) throws ApiException {
+  private HttpRequest.Builder deleteOrderRequestBuilder(@javax.annotation.Nonnull String orderId, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
@@ -210,6 +245,8 @@ public class StoreApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -223,8 +260,19 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Map<String, Integer>> getInventory() throws ApiException {
+    return getInventory(null);
+  }
+
+  /**
+   * Returns pet inventories by status
+   * Returns a map of status codes to quantities
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;Map&lt;String, Integer&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<Map<String, Integer>> getInventory(Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = getInventoryRequestBuilder();
+      HttpRequest.Builder localVarRequestBuilder = getInventoryRequestBuilder(headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -253,8 +301,19 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<ApiResponse<Map<String, Integer>>> getInventoryWithHttpInfo() throws ApiException {
+    return getInventoryWithHttpInfo(null);
+  }
+
+  /**
+   * Returns pet inventories by status
+   * Returns a map of status codes to quantities
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;ApiResponse&lt;Map&lt;String, Integer&gt;&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Map<String, Integer>>> getInventoryWithHttpInfo(Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = getInventoryRequestBuilder();
+      HttpRequest.Builder localVarRequestBuilder = getInventoryRequestBuilder(headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -283,7 +342,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder getInventoryRequestBuilder() throws ApiException {
+  private HttpRequest.Builder getInventoryRequestBuilder(Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -297,6 +356,8 @@ public class StoreApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -311,8 +372,20 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Order> getOrderById(@javax.annotation.Nonnull Long orderId) throws ApiException {
+    return getOrderById(orderId, null);
+  }
+
+  /**
+   * Find purchase order by ID
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+   * @param orderId ID of pet that needs to be fetched (required)
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;Order&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<Order> getOrderById(@javax.annotation.Nonnull Long orderId, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = getOrderByIdRequestBuilder(orderId);
+      HttpRequest.Builder localVarRequestBuilder = getOrderByIdRequestBuilder(orderId, headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -342,8 +415,20 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<ApiResponse<Order>> getOrderByIdWithHttpInfo(@javax.annotation.Nonnull Long orderId) throws ApiException {
+    return getOrderByIdWithHttpInfo(orderId, null);
+  }
+
+  /**
+   * Find purchase order by ID
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+   * @param orderId ID of pet that needs to be fetched (required)
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;ApiResponse&lt;Order&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Order>> getOrderByIdWithHttpInfo(@javax.annotation.Nonnull Long orderId, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = getOrderByIdRequestBuilder(orderId);
+      HttpRequest.Builder localVarRequestBuilder = getOrderByIdRequestBuilder(orderId, headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -372,7 +457,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder getOrderByIdRequestBuilder(@javax.annotation.Nonnull Long orderId) throws ApiException {
+  private HttpRequest.Builder getOrderByIdRequestBuilder(@javax.annotation.Nonnull Long orderId, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
@@ -391,6 +476,8 @@ public class StoreApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -405,8 +492,20 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Order> placeOrder(@javax.annotation.Nonnull Order order) throws ApiException {
+    return placeOrder(order, null);
+  }
+
+  /**
+   * Place an order for a pet
+   * 
+   * @param order order placed for purchasing the pet (required)
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;Order&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<Order> placeOrder(@javax.annotation.Nonnull Order order, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(order);
+      HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(order, headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -436,8 +535,20 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<ApiResponse<Order>> placeOrderWithHttpInfo(@javax.annotation.Nonnull Order order) throws ApiException {
+    return placeOrderWithHttpInfo(order, null);
+  }
+
+  /**
+   * Place an order for a pet
+   * 
+   * @param order order placed for purchasing the pet (required)
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;ApiResponse&lt;Order&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Order>> placeOrderWithHttpInfo(@javax.annotation.Nonnull Order order, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(order);
+      HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(order, headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -466,7 +577,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder placeOrderRequestBuilder(@javax.annotation.Nonnull Order order) throws ApiException {
+  private HttpRequest.Builder placeOrderRequestBuilder(@javax.annotation.Nonnull Order order, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'order' is set
     if (order == null) {
       throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder");
@@ -490,6 +601,8 @@ public class StoreApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

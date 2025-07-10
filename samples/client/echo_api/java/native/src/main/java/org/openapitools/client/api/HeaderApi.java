@@ -53,6 +53,16 @@ import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class HeaderApi {
+  private static class HttpRequestBuilderExtensions {
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
@@ -74,6 +84,7 @@ public class HeaderApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
     String body = response.body() == null ? null : new String(response.body().readAllBytes());
@@ -148,7 +159,23 @@ public class HeaderApi {
    * @throws ApiException if fails to make API call
    */
   public String testHeaderIntegerBooleanStringEnums(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader) throws ApiException {
-    ApiResponse<String> localVarResponse = testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
+    return testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, null);
+  }
+
+  /**
+   * Test header parameter(s)
+   * Test header parameter(s)
+   * @param integerHeader  (optional)
+   * @param booleanHeader  (optional)
+   * @param stringHeader  (optional)
+   * @param enumNonrefStringHeader  (optional)
+   * @param enumRefStringHeader  (optional)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testHeaderIntegerBooleanStringEnums(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader, Map<String, String> headers) throws ApiException {
+          ApiResponse<String> localVarResponse = testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, headers);
     return localVarResponse.getData();
   }
 
@@ -164,7 +191,23 @@ public class HeaderApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testHeaderIntegerBooleanStringEnumsRequestBuilder(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
+    return testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, null);
+  }
+
+  /**
+   * Test header parameter(s)
+   * Test header parameter(s)
+   * @param integerHeader  (optional)
+   * @param booleanHeader  (optional)
+   * @param stringHeader  (optional)
+   * @param enumNonrefStringHeader  (optional)
+   * @param enumRefStringHeader  (optional)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testHeaderIntegerBooleanStringEnumsRequestBuilder(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -200,7 +243,7 @@ public class HeaderApi {
     }
   }
 
-  private HttpRequest.Builder testHeaderIntegerBooleanStringEnumsRequestBuilder(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader) throws ApiException {
+  private HttpRequest.Builder testHeaderIntegerBooleanStringEnumsRequestBuilder(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -229,6 +272,8 @@ public class HeaderApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

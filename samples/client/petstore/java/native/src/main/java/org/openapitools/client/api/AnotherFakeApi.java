@@ -47,6 +47,16 @@ import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class AnotherFakeApi {
+  private static class HttpRequestBuilderExtensions {
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
@@ -68,6 +78,7 @@ public class AnotherFakeApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
     String body = response.body() == null ? null : new String(response.body().readAllBytes());
@@ -138,7 +149,19 @@ public class AnotherFakeApi {
    * @throws ApiException if fails to make API call
    */
   public Client call123testSpecialTags(@javax.annotation.Nonnull Client client) throws ApiException {
-    ApiResponse<Client> localVarResponse = call123testSpecialTagsWithHttpInfo(client);
+    return call123testSpecialTags(client, null);
+  }
+
+  /**
+   * To test special tags
+   * To test special tags and operation ID starting with number
+   * @param client client model (required)
+   * @param headers Optional headers to include in the request
+   * @return Client
+   * @throws ApiException if fails to make API call
+   */
+  public Client call123testSpecialTags(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
+          ApiResponse<Client> localVarResponse = call123testSpecialTagsWithHttpInfo(client, headers);
     return localVarResponse.getData();
   }
 
@@ -150,7 +173,19 @@ public class AnotherFakeApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client);
+    return call123testSpecialTagsWithHttpInfo(client, null);
+  }
+
+  /**
+   * To test special tags
+   * To test special tags and operation ID starting with number
+   * @param client client model (required)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;Client&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -193,7 +228,7 @@ public class AnotherFakeApi {
     }
   }
 
-  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(@javax.annotation.Nonnull Client client) throws ApiException {
+  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");
@@ -217,6 +252,8 @@ public class AnotherFakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
