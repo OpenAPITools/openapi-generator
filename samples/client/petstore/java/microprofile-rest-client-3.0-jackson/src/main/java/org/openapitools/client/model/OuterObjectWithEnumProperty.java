@@ -42,7 +42,7 @@ public class OuterObjectWithEnumProperty  {
    * Get value
    * @return value
    **/
-  @JsonProperty(JSON_PROPERTY_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_VALUE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public OuterEnumInteger getValue() {
     return value;
@@ -51,7 +51,7 @@ public class OuterObjectWithEnumProperty  {
   /**
    * Set value
    */
-  @JsonProperty(JSON_PROPERTY_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_VALUE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setValue(OuterEnumInteger value) {
     this.value = value;
