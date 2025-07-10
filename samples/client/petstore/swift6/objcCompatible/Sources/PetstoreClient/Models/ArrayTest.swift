@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class ArrayTest: NSObject, Codable, ParameterConvertible {
+@objcMembers public class ArrayTest: NSObject, Codable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?
