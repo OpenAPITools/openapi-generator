@@ -1,0 +1,17 @@
+.gitignore
+.npmignore
+README.md
+api.ts
+base.ts
+client/default-api.ts
+common.ts
+configuration.ts
+docs/DefaultApi.md
+docs/Pet.md
+git_push.sh
+index.ts
+models/index.ts
+models/pet.ts
+package.json
+tsconfig.esm.json
+tsconfig.json
