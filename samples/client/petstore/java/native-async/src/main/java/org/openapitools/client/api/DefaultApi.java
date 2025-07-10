@@ -49,6 +49,16 @@ import java.util.concurrent.CompletableFuture;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class DefaultApi {
+  private static class HttpRequestBuilderExtensions {
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
@@ -188,11 +198,7 @@ public class DefaultApi {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
     // Add custom headers if provided
-    if (headers != null) {
-      for (Map.Entry<String, String> entry : headers.entrySet()) {
-        localVarRequestBuilder.header(entry.getKey(), entry.getValue());
-      }
-    }
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
