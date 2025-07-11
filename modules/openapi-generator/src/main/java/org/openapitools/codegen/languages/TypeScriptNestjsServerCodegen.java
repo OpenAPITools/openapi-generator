@@ -43,7 +43,6 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
     public static final String NPM_REPOSITORY = "npmRepository";
-    public static final String WITH_INTERFACES = "withInterfaces";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NEST_VERSION = "nestVersion";
     public static final String API_SUFFIX = "apiSuffix";
@@ -96,9 +95,6 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
-                "Setting this property to true will generate interfaces next to the default class implementations.",
-                false));
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
@@ -194,13 +190,6 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             if (getStringEnums()) {
                 enumSuffix = "";
                 classEnumSeparator = "";
-            }
-        }
-
-        if (additionalProperties.containsKey(WITH_INTERFACES)) {
-            boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
-            if (withInterfaces) {
-                apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
         }
 
@@ -303,7 +292,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
 
             List<CodegenParameter> params = operation.allParams;
-            if (params != null && params.size() == 0) {
+            if (params != null && params.isEmpty()) {
                 operation.allParams = null;
             }
             List<CodegenResponse> responses = operation.responses;
