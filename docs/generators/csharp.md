@@ -61,7 +61,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Extension name | Description | Applicable for | Default value |
 | -------------- | ----------- | -------------- | ------------- |
-|x-zero-based-enum|When used on an enum, the index will not be generated and the default numbering will be used. Zero-based.|MODEL|false
+|x-zero-based-enum|When used on an enum, the index will not be generated and the default numbering will be used, zero-based|MODEL|false
+
 
 ## IMPORT MAPPING
 
