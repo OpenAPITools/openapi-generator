@@ -7,11 +7,11 @@ title: Documentation for the cpp-oatpp-server Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | cpp-oatpp-server | pass this to the generate command after -g |
-| generator stability | ALPHA | |
+| generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | C++ | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a C++ API server (based on oat++) | |
+| helpTxt | Generates a C++ API server (based on Oat++) | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -37,21 +37,22 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>oatpp::String</li>
+<li>oatpp::Any</li>
 <li>oatpp::Boolean</li>
+<li>oatpp::Fields</li>
+<li>oatpp::Float64</li>
 <li>oatpp::Int32</li>
 <li>oatpp::Int64</li>
-<li>oatpp::Vector</li>
-<li>oatpp::Fields</li>
-<li>oatpp::UnorderedSet</li>
 <li>oatpp::Object</li>
-<li>oatpp::Float64</li>
-<li>oatpp::Any</li>
+<li>oatpp::String</li>
+<li>oatpp::UnorderedSet</li>
+<li>oatpp::Vector</li>
 </ul>
 
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>NULL</li>
 <li>alignas</li>
 <li>alignof</li>
 <li>and</li>
@@ -147,113 +148,115 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Client Modification Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasePath|âœ—|ToolingExtension
-|Authorizations|âœ—|ToolingExtension
-|UserAgent|âœ—|ToolingExtension
-|MockServer|âœ—|ToolingExtension
+|BasePath|✗|ToolingExtension
+|Authorizations|✗|ToolingExtension
+|UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|Custom|âœ—|OAS2,OAS3
-|Int32|âœ“|OAS2,OAS3
-|Int64|âœ“|OAS2,OAS3
-|Float|âœ“|OAS2,OAS3
-|Double|âœ“|OAS2,OAS3
-|Decimal|âœ“|ToolingExtension
-|String|âœ“|OAS2,OAS3
-|Byte|âœ“|OAS2,OAS3
-|Binary|âœ“|OAS2,OAS3
-|Boolean|âœ“|OAS2,OAS3
-|Date|âœ“|OAS2,OAS3
-|DateTime|âœ“|OAS2,OAS3
-|Password|âœ“|OAS2,OAS3
-|File|âœ“|OAS2
-|Uuid|âœ—|
-|Array|âœ“|OAS2,OAS3
-|Null|âœ—|OAS3
-|AnyType|âœ—|OAS2,OAS3
-|Object|âœ“|OAS2,OAS3
-|Maps|âœ“|ToolingExtension
-|CollectionFormat|âœ“|OAS2
-|CollectionFormatMulti|âœ“|OAS2
-|Enum|âœ“|OAS2,OAS3
-|ArrayOfEnum|âœ“|ToolingExtension
-|ArrayOfModel|âœ“|ToolingExtension
-|ArrayOfCollectionOfPrimitives|âœ“|ToolingExtension
-|ArrayOfCollectionOfModel|âœ“|ToolingExtension
-|ArrayOfCollectionOfEnum|âœ“|ToolingExtension
-|MapOfEnum|âœ“|ToolingExtension
-|MapOfModel|âœ“|ToolingExtension
-|MapOfCollectionOfPrimitives|âœ“|ToolingExtension
-|MapOfCollectionOfModel|âœ“|ToolingExtension
-|MapOfCollectionOfEnum|âœ“|ToolingExtension
+|Custom|✗|OAS2,OAS3
+|Int32|✓|OAS2,OAS3
+|Int64|✓|OAS2,OAS3
+|Float|✓|OAS2,OAS3
+|Double|✓|OAS2,OAS3
+|Decimal|✓|ToolingExtension
+|String|✓|OAS2,OAS3
+|Byte|✓|OAS2,OAS3
+|Binary|✓|OAS2,OAS3
+|Boolean|✓|OAS2,OAS3
+|Date|✓|OAS2,OAS3
+|DateTime|✓|OAS2,OAS3
+|Password|✓|OAS2,OAS3
+|File|✓|OAS2
+|Uuid|✗|
+|Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
+|Maps|✓|ToolingExtension
+|CollectionFormat|✓|OAS2
+|CollectionFormatMulti|✓|OAS2
+|Enum|✓|OAS2,OAS3
+|ArrayOfEnum|✓|ToolingExtension
+|ArrayOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfPrimitives|✓|ToolingExtension
+|ArrayOfCollectionOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfEnum|✓|ToolingExtension
+|MapOfEnum|✓|ToolingExtension
+|MapOfModel|✓|ToolingExtension
+|MapOfCollectionOfPrimitives|✓|ToolingExtension
+|MapOfCollectionOfModel|✓|ToolingExtension
+|MapOfCollectionOfEnum|✓|ToolingExtension
 
 ### Documentation Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|Readme|âœ“|ToolingExtension
-|Model|âœ“|ToolingExtension
-|Api|âœ“|ToolingExtension
+|Readme|✓|ToolingExtension
+|Model|✓|ToolingExtension
+|Api|✓|ToolingExtension
 
 ### Global Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|Host|âœ“|OAS2,OAS3
-|BasePath|âœ“|OAS2,OAS3
-|Info|âœ“|OAS2,OAS3
-|Schemes|âœ—|OAS2,OAS3
-|PartialSchemes|âœ“|OAS2,OAS3
-|Consumes|âœ“|OAS2
-|Produces|âœ“|OAS2
-|ExternalDocumentation|âœ“|OAS2,OAS3
-|Examples|âœ“|OAS2,OAS3
-|XMLStructureDefinitions|âœ—|OAS2,OAS3
-|MultiServer|âœ—|OAS3
-|ParameterizedServer|âœ—|OAS3
-|ParameterStyling|âœ—|OAS3
-|Callbacks|âœ—|OAS3
-|LinkObjects|âœ—|OAS3
+|Host|✓|OAS2,OAS3
+|BasePath|✓|OAS2,OAS3
+|Info|✓|OAS2,OAS3
+|Schemes|✗|OAS2,OAS3
+|PartialSchemes|✓|OAS2,OAS3
+|Consumes|✓|OAS2
+|Produces|✓|OAS2
+|ExternalDocumentation|✓|OAS2,OAS3
+|Examples|✓|OAS2,OAS3
+|XMLStructureDefinitions|✗|OAS2,OAS3
+|MultiServer|✗|OAS3
+|ParameterizedServer|✗|OAS3
+|ParameterStyling|✗|OAS3
+|Callbacks|✗|OAS3
+|LinkObjects|✗|OAS3
 
 ### Parameter Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|Path|âœ“|OAS2,OAS3
-|Query|âœ“|OAS2,OAS3
-|Header|âœ“|OAS2,OAS3
-|Body|âœ“|OAS2
-|FormUnencoded|âœ“|OAS2
-|FormMultipart|âœ“|OAS2
-|Cookie|âœ—|OAS3
+|Path|✓|OAS2,OAS3
+|Query|✓|OAS2,OAS3
+|Header|✓|OAS2,OAS3
+|Body|✓|OAS2
+|FormUnencoded|✓|OAS2
+|FormMultipart|✓|OAS2
+|Cookie|✗|OAS3
 
 ### Schema Support Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|Simple|âœ“|OAS2,OAS3
-|Composite|âœ“|OAS2,OAS3
-|Polymorphism|âœ—|OAS2,OAS3
-|Union|âœ—|OAS3
-|allOf|âœ—|OAS2,OAS3
-|anyOf|âœ—|OAS3
-|oneOf|âœ—|OAS3
-|not|âœ—|OAS3
+|Simple|✓|OAS2,OAS3
+|Composite|✓|OAS2,OAS3
+|Polymorphism|✗|OAS2,OAS3
+|Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|âœ—|OAS2,OAS3
-|ApiKey|âœ—|OAS2,OAS3
-|OpenIDConnect|âœ—|OAS3
-|BearerToken|âœ—|OAS3
-|OAuth2_Implicit|âœ—|OAS2,OAS3
-|OAuth2_Password|âœ—|OAS2,OAS3
-|OAuth2_ClientCredentials|âœ—|OAS2,OAS3
-|OAuth2_AuthorizationCode|âœ—|OAS2,OAS3
+|BasicAuth|✗|OAS2,OAS3
+|ApiKey|✗|OAS2,OAS3
+|OpenIDConnect|✗|OAS3
+|BearerToken|✗|OAS3
+|OAuth2_Implicit|✗|OAS2,OAS3
+|OAuth2_Password|✗|OAS2,OAS3
+|OAuth2_ClientCredentials|✗|OAS2,OAS3
+|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|JSON|âœ“|OAS2,OAS3
-|XML|âœ“|OAS2,OAS3
-|PROTOBUF|âœ—|ToolingExtension
-|Custom|âœ—|OAS2,OAS3
+|JSON|✓|OAS2,OAS3
+|XML|✓|OAS2,OAS3
+|PROTOBUF|✗|ToolingExtension
+|Custom|✗|OAS2,OAS3
