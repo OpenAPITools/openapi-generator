@@ -274,57 +274,6 @@ internal class PetAPI {
     }
 
     /**
-     updates an existing image
-     
-     - parameter petId: (path) ID of pet to update 
-     - parameter imageData: (body) file to upload (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the result
-     */
-    @discardableResult
-    internal class func updateImageFile(petId: Int64, imageData: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<ApiResponse, ErrorResponse>) -> Void)) -> RequestTask {
-        return updateImageFileWithRequestBuilder(petId: petId, imageData: imageData).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(.success(response.body))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    /**
-     updates an existing image
-     - PUT /pet/{petId}/uploadImage
-     - OAuth:
-       - type: oauth2
-       - name: petstore_auth
-     - parameter petId: (path) ID of pet to update 
-     - parameter imageData: (body) file to upload (optional)
-     - returns: RequestBuilder<ApiResponse> 
-     */
-    internal class func updateImageFileWithRequestBuilder(petId: Int64, imageData: URL? = nil) -> RequestBuilder<ApiResponse> {
-        var localVariablePath = "/pet/{petId}/uploadImage"
-        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
-        let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
-        let localVariableParameters = ["body": imageData]
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "image/jpeg",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store 

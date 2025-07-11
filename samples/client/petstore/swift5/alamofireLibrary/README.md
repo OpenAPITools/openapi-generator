@@ -45,7 +45,6 @@ Class | Method | HTTP request | Description
 *PetAPI* | [**findPetsByStatus**](docs/PetAPI.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
 *PetAPI* | [**findPetsByTags**](docs/PetAPI.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
 *PetAPI* | [**getPetById**](docs/PetAPI.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
-*PetAPI* | [**updateImageFile**](docs/PetAPI.md#updateimagefile) | **PUT** /pet/{petId}/uploadImage | updates an existing image
 *PetAPI* | [**updatePet**](docs/PetAPI.md#updatepet) | **PUT** /pet | Update an existing pet
 *PetAPI* | [**updatePetWithForm**](docs/PetAPI.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetAPI* | [**uploadFile**](docs/PetAPI.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image

@@ -273,38 +273,6 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
-    put:
-      tags:
-        - pet
-      summary: updates an existing image
-      description: ''
-      operationId: updateImageFile
-      consumes:
-        - image/jpeg
-      produces:
-        - application/json
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to update
-          required: true
-          type: integer
-          format: int64
-        - name: imageData
-          in: body
-          description: file to upload
-          required: false
-          schema:
-            $ref: '#/definitions/InputStream'
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/ApiResponse'
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
   /store/inventory:
     get:
       tags:
@@ -1674,6 +1642,3 @@ definitions:
             - 1
             - 2
             - 3
-  InputStream:
-    type: string
-    format: binary

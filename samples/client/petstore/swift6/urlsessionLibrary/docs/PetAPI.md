@@ -9,7 +9,6 @@ Method | HTTP request | Description
 [**findPetsByStatus**](PetAPI.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**findPetsByTags**](PetAPI.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
 [**getPetById**](PetAPI.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
-[**updateImageFile**](PetAPI.md#updateimagefile) | **PUT** /pet/{petId}/uploadImage | updates an existing image
 [**updatePet**](PetAPI.md#updatepet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetAPI.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetAPI.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -261,56 +260,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **updateImageFile**
-```swift
-    open class func updateImageFile(petId: Int64, imageData: Data? = nil, completion: @escaping (_ data: ApiResponse?, _ error: Error?) -> Void)
-```
-
-updates an existing image
-
-### Example
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import PetstoreClient
-
-let petId = 987 // Int64 | ID of pet to update
-let imageData = Data([9, 8, 7]) // Data | file to upload (optional)
-
-// updates an existing image
-PetAPI.updateImageFile(petId: petId, imageData: imageData) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Int64** | ID of pet to update | 
- **imageData** | **Data** | file to upload | [optional] 
-
-### Return type
-
-[**ApiResponse**](ApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
- - **Content-Type**: image/jpeg
- - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
