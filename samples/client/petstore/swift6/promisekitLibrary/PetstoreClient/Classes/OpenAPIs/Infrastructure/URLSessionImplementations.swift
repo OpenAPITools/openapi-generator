@@ -140,7 +140,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
                 encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
             } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = FormURLEncoding()
-            } else if contentType.hasPrefix("application/octet-stream"){
+            } else if contentType.hasPrefix("application/octet-stream") || contentType.hasPrefix("image/") {
                 encoding = OctetStreamEncoding()
             } else {
                 fatalError("Unsupported Media Type - \(contentType)")
