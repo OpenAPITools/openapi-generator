@@ -800,6 +800,164 @@ open class PetAPI {
     }
 
     /**
+     updates an existing image
+     
+     - parameter petId: (path) ID of pet to update 
+     - parameter imageData: (body) file to upload (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open func updateImageFile(petId: Int64, imageData: Data? = nil, completion: @Sendable @escaping (_ data: ApiResponse?, _ error: Error?) -> Void) -> RequestTask {
+        return updateImageFileWithRequestBuilder(petId: petId, imageData: imageData).execute { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     updates an existing image
+     
+     - parameter petId: (path) ID of pet to update 
+     - parameter imageData: (body) file to upload (optional)
+     - returns: Promise<ApiResponse>
+     */
+    open func updateImageFile(petId: Int64, imageData: Data? = nil) -> Promise<ApiResponse> {
+        let deferred = Promise<ApiResponse>.pending()
+        updateImageFileWithRequestBuilder(petId: petId, imageData: imageData).execute { result in
+            switch result {
+            case let .success(response):
+                deferred.resolver.fulfill(response.body)
+            case let .failure(error):
+                deferred.resolver.reject(error)
+            }
+        }
+        return deferred.promise
+    }
+
+    /**
+     updates an existing image
+     
+     - parameter petId: (path) ID of pet to update 
+     - parameter imageData: (body) file to upload (optional)
+     - returns: Observable<ApiResponse>
+     */
+    open func updateImageFile(petId: Int64, imageData: Data? = nil) -> Observable<ApiResponse> {
+        return Observable.create { observer -> Disposable in
+            let requestTask = self.updateImageFileWithRequestBuilder(petId: petId, imageData: imageData).execute { result in
+                switch result {
+                case let .success(response):
+                    observer.onNext(response.body)
+                case let .failure(error):
+                    observer.onError(error)
+                }
+                observer.onCompleted()
+            }
+            
+            return Disposables.create {
+                requestTask.cancel()
+            }
+        }
+    }
+
+    /**
+     updates an existing image
+     
+     - parameter petId: (path) ID of pet to update 
+     - parameter imageData: (body) file to upload (optional)
+     - returns: AnyPublisher<ApiResponse, Error>
+     */
+    #if canImport(Combine)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func updateImageFile(petId: Int64, imageData: Data? = nil) -> AnyPublisher<ApiResponse, Error> {
+        let requestBuilder = updateImageFileWithRequestBuilder(petId: petId, imageData: imageData)
+        let requestTask = requestBuilder.requestTask
+        return Deferred { Future<ApiResponse, Error> { promise in
+            nonisolated(unsafe) let promise = promise
+            requestBuilder.execute { result in
+                switch result {
+                case let .success(response):
+                    promise(.success(response.body))
+                case let .failure(error):
+                    promise(.failure(error))
+                }
+            }
+        }
+        .handleEvents(receiveCancel: {
+            requestTask.cancel()
+        })
+        .eraseToAnyPublisher()
+        }
+        .eraseToAnyPublisher()
+    }
+    #endif
+
+    /**
+     updates an existing image
+     
+     - parameter petId: (path) ID of pet to update 
+     - parameter imageData: (body) file to upload (optional)
+     - returns: ApiResponse
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func updateImageFile(petId: Int64, imageData: Data? = nil) async throws(ErrorResponse) -> ApiResponse {
+        return try await updateImageFileWithRequestBuilder(petId: petId, imageData: imageData).execute().body
+    }
+
+    /**
+     updates an existing image
+     
+     - parameter petId: (path) ID of pet to update 
+     - parameter imageData: (body) file to upload (optional)
+     - parameter completion: completion handler to receive the result
+     */
+    @discardableResult
+    open func updateImageFile(petId: Int64, imageData: Data? = nil, completion: @Sendable @escaping (_ result: Swift.Result<ApiResponse, ErrorResponse>) -> Void) -> RequestTask {
+        return updateImageFileWithRequestBuilder(petId: petId, imageData: imageData).execute { result in
+            switch result {
+            case let .success(response):
+                completion(.success(response.body))
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    /**
+     updates an existing image
+     - PUT /pet/{petId}/uploadImage
+     - OAuth:
+       - type: oauth2
+       - name: petstore_auth
+     - parameter petId: (path) ID of pet to update 
+     - parameter imageData: (body) file to upload (optional)
+     - returns: RequestBuilder<ApiResponse> 
+     */
+    open func updateImageFileWithRequestBuilder(petId: Int64, imageData: Data? = nil) -> RequestBuilder<ApiResponse> {
+        var localVariablePath = "/pet/{petId}/uploadImage"
+        let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
+        let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = ["body": imageData]
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "image/jpeg",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ApiResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store 
