@@ -1,0 +1,31 @@
+import { Injectable } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { {{#tsImports}}{{classname}}, {{/tsImports}} } from '../{{modelPackage}}';
+
+{{#useSingleRequestParameter}}
+{{#operations}}
+{{#operation}}
+export type {{#lambda.pascalcase}}{{operationId}}{{/lambda.pascalcase}}RequestParams = {
+{{#allParams}}
+    {{paramName}}: {{{dataType}}}
+{{/allParams}}
+}
+{{/operation}}
+{{/operations}}
+{{/useSingleRequestParameter}}
+
+@Injectable()
+export abstract class {{classname}} {
+{{#operations}}
+{{#operation}}
+{{#useSingleRequestParameter}}
+  abstract {{operationId}}({{operationId}}RequestParams: {{#lambda.pascalcase}}{{operationId}}{{/lambda.pascalcase}}RequestParams, request: Request): {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} | Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> | Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+{{/useSingleRequestParameter}}
+
+{{^useSingleRequestParameter}}
+  abstract {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}} request: Request): {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} | Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> | Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+{{/useSingleRequestParameter}}
+
+{{/operation}}
+{{/operations}}
+} 
