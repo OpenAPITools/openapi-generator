@@ -7,7 +7,7 @@ title: Documentation for the cpp-oatpp-server Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | cpp-oatpp-server | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator stability | ALPHA | |
 | generator type | SERVER | |
 | generator language | C++ | |
 | generator default templating engine | mustache | |
