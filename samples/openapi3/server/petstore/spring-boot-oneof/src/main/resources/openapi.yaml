@@ -262,3 +262,18 @@ components:
       required:
       - length
       type: object
+    Animal:
+      oneOf:
+      - $ref: "#/components/schemas/Dog"
+      - $ref: "#/components/schemas/Cat"
+      x-one-of-name: Animal
+    Cat:
+      properties:
+        declawed:
+          type: boolean
+      type: object
+    Dog:
+      properties:
+        bark:
+          type: boolean
+      type: object

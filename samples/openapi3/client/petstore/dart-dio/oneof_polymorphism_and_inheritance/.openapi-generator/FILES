@@ -2,6 +2,7 @@
 README.md
 analysis_options.yaml
 doc/Addressable.md
+doc/Animal.md
 doc/Apple.md
 doc/Banana.md
 doc/Bar.md
@@ -9,6 +10,8 @@ doc/BarApi.md
 doc/BarCreate.md
 doc/BarRef.md
 doc/BarRefOrValue.md
+doc/Cat.md
+doc/Dog.md
 doc/Entity.md
 doc/EntityRef.md
 doc/Extensible.md
@@ -33,13 +36,16 @@ lib/src/auth/bearer_auth.dart
 lib/src/auth/oauth.dart
 lib/src/date_serializer.dart
 lib/src/model/addressable.dart
+lib/src/model/animal.dart
 lib/src/model/apple.dart
 lib/src/model/banana.dart
 lib/src/model/bar.dart
 lib/src/model/bar_create.dart
 lib/src/model/bar_ref.dart
 lib/src/model/bar_ref_or_value.dart
+lib/src/model/cat.dart
 lib/src/model/date.dart
+lib/src/model/dog.dart
 lib/src/model/entity.dart
 lib/src/model/entity_ref.dart
 lib/src/model/extensible.dart
