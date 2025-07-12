@@ -967,6 +967,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
         if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.kotlinx_serialization) {
+            // The loop removes unneeded variables so commas are handled correctly in the related templates
             for (Map.Entry<String, ModelsMap> modelsMap : objs.entrySet()) {
                 for (ModelMap mo : modelsMap.getValue().getModels()) {
                     CodegenModel cm = mo.getModel();
@@ -974,15 +975,20 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     if (discriminator == null) {
                         continue;
                     }
+                    // Remove discriminator property from the base class, it is not needed in the generated code
                     getAllVarProperties(cm).forEach(list -> list.removeIf(var -> var.name == discriminator.getPropertyName()));
 
                     for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
+                        // Add the mapping name to additionalProperties.disciminatorValue
+                        // The mapping name is used to define SerializedName, which in result makes derived classes
+                        // found by kotlinx-serialization during deserialization
                         CodegenProperty additionalProperties = mappedModel.getModel().getAdditionalProperties();
                         if (additionalProperties == null) {
                             additionalProperties = new CodegenProperty();
                             mappedModel.getModel().setAdditionalProperties(additionalProperties);
                         }
                         additionalProperties.discriminatorValue = mappedModel.getMappingName();
+                        // Remove the discriminator property from the derived class, it is not needed in the generated code
                         getAllVarProperties(mappedModel.getModel()).forEach(list -> list.removeIf(prop -> prop.name == discriminator.getPropertyName()));
                     }
 
