@@ -533,6 +533,46 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(customKotlinParseListener.getStringReferenceCount(), 0);
     }
 
+    @Test(description = "generate polymorphic kotlinx_serialization model")
+    public void polymorphicKotlinxSerialzation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-retrofit2")
+                .setAdditionalProperties(new HashMap<>() {{
+                    put(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization");
+                    put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
+                }})
+                .setInputSpec("src/test/resources/3_0/kotlin/polymorphism.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 36);
+
+        final Path animalKt = Paths.get(output + "/src/main/kotlin/xyz/abcdef/model/Animal.kt");
+        // base doesn't contain discriminator
+        TestUtils.assertFileNotContains(animalKt, "val discriminator");
+        // base is sealed class
+        TestUtils.assertFileContains(animalKt, "sealed class Animal");
+        // base properties are abstract
+        TestUtils.assertFileContains(animalKt, "abstract val id");
+        TestUtils.assertFileContains(animalKt, "abstract val optionalProperty");
+        // base has extra imports
+        TestUtils.assertFileContains(animalKt, "import kotlinx.serialization.ExperimentalSerializationApi");
+        TestUtils.assertFileContains(animalKt, "import kotlinx.serialization.json.JsonClassDiscriminator");
+
+        final Path birdKt = Paths.get(output + "/src/main/kotlin/xyz/abcdef/model/Bird.kt");
+        // derived doesn't contain disciminator
+        TestUtils.assertFileNotContains(birdKt, "val discriminator");
+        // derived has serial name set to mapping key
+        TestUtils.assertFileContains(birdKt, "@SerialName(value = \"BIRD\")");
+    }
+
     private static class ModelNameTest {
         private final String expectedName;
         private final String expectedClassName;
