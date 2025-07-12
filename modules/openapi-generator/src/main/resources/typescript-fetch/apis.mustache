@@ -291,7 +291,7 @@ export class {{classname}} extends runtime.BaseAPI {
         {{^isDateTimeType}}
         {{#isDateType}}
         if (requestParameters['{{paramName}}'] instanceof Date) {
-            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(requestParameters['{{paramName}}'].toISOString().substring(0,10));
+            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(requestParameters['{{paramName}}'].toISOString().substring(0,10)));
         } else {
             urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}'])));
         }
