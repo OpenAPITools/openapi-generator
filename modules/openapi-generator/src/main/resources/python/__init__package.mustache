@@ -24,29 +24,21 @@ __all__ = [
     {{/-last}}{{#-last}},{{/-last}}{{/model}}{{/models}}
 ]
 
-# import apis into sdk package
-{{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classFilename}} import {{classname}} as {{classname}}
-{{/apis}}{{/apiInfo}}
-# import ApiClient
-from {{packageName}}.api_response import ApiResponse as ApiResponse
-from {{packageName}}.api_client import ApiClient as ApiClient
-from {{packageName}}.configuration import Configuration as Configuration
-from {{packageName}}.exceptions import OpenApiException as OpenApiException
-from {{packageName}}.exceptions import ApiTypeError as ApiTypeError
-from {{packageName}}.exceptions import ApiValueError as ApiValueError
-from {{packageName}}.exceptions import ApiKeyError as ApiKeyError
-from {{packageName}}.exceptions import ApiAttributeError as ApiAttributeError
-from {{packageName}}.exceptions import ApiException as ApiException
-{{#hasHttpSignatureMethods}}
-from {{packageName}}.signing import HttpSigningConfiguration as HttpSigningConfiguration
-{{/hasHttpSignatureMethods}}
+if __import__("typing").TYPE_CHECKING:
+    {{>exports_package}}
+else:
+    from lazy_imports import LazyModule, as_package, load
 
-# import models into sdk package
-{{#models}}
-{{#model}}
-from {{modelPackage}}.{{classFilename}} import {{classname}} as {{classname}}
-{{/model}}
-{{/models}}
+    load(
+        LazyModule(
+            *as_package(__file__),
+            ("__version__", __version__),
+            ("__all__", __all__),
+            """{{>exports_package}}""",
+            name=__name__,
+            doc=__doc__,
+        )
+    )
 {{#recursionLimit}}
 
 __import__('sys').setrecursionlimit({{{.}}})
