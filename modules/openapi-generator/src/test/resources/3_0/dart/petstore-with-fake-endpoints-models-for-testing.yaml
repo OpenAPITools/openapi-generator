@@ -2062,3 +2062,22 @@ components:
       enum:
         - admin
         - user
+    TestEnum:
+      type: string
+      enum:
+        - ""
+        - "1"
+        - "2"
+      title: TestEnum
+    TestItem:
+      type: object
+      required:
+        - test
+      properties:
+        test:
+          type: integer
+          title: test
+        testEmum:
+          $ref: '#/components/schemas/TestEnum'
+          default: ""
+      title: TestItem

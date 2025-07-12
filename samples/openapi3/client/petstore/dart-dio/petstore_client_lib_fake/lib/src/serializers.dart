@@ -62,7 +62,9 @@ import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
+import 'package:openapi/src/model/test_enum.dart';
 import 'package:openapi/src/model/test_inline_freeform_additional_properties_request.dart';
+import 'package:openapi/src/model/test_item.dart';
 import 'package:openapi/src/model/user.dart';
 
 part 'serializers.g.dart';
@@ -116,7 +118,9 @@ part 'serializers.g.dart';
   SingleRefType,
   SpecialModelName,
   Tag,
+  TestEnum,
   TestInlineFreeformAdditionalPropertiesRequest,
+  TestItem,
   User,
 ])
 Serializers serializers = (_$serializers.toBuilder()
