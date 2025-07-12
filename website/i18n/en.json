@@ -87,6 +87,10 @@
         "title": "Config Options for clojure",
         "sidebar_label": "clojure"
       },
+      "generators/cpp-oatpp-server": {
+        "title": "Config Options for cpp-oatpp-server",
+        "sidebar_label": "cpp-oatpp-server"
+      },
       "generators/cpp-pistache-server": {
         "title": "Config Options for cpp-pistache-server",
         "sidebar_label": "cpp-pistache-server"

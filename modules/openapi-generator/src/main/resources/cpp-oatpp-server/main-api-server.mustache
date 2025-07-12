@@ -1,0 +1,95 @@
+{{>licenseInfo}}
+
+#include "oatpp/web/server/HttpConnectionHandler.hpp"
+
+#include "oatpp/network/Server.hpp"
+#include "oatpp/network/tcp/server/ConnectionProvider.hpp"
+#include "oatpp/parser/json/mapping/ObjectMapper.hpp"
+#include "oatpp/parser/json/Utils.hpp"
+
+
+{{#apiInfo}}{{#apis}}{{#operations}}
+#include "{{classname}}Controller.hpp"{{/operations}}{{/apis}}{{/apiInfo}}
+
+/**
+ *  Class which creates and holds Application components and registers components in oatpp::base::Environment
+ *  Order of components initialization is from top to bottom
+ */
+class AppComponent {
+public:
+
+  /**
+   *  Create ConnectionProvider component which listens on the port
+   */
+  OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, serverConnectionProvider)([] {
+    return oatpp::network::tcp::server::ConnectionProvider::createShared({"localhost", {{serverPort}}{{^serverPort}}8080{{/serverPort}}, oatpp::network::Address::IP_4});
+  }());
+
+  /**
+   *  Create Router component
+   */
+  OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, httpRouter)([] {
+    return oatpp::web::server::HttpRouter::createShared();
+  }());
+
+  /**
+   *  Create ConnectionHandler component which uses Router component to route requests
+   */
+  OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, serverConnectionHandler)([] {
+    OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router); // get Router component
+    return oatpp::web::server::HttpConnectionHandler::createShared(router);
+  }());
+
+  /**
+   *  Create ObjectMapper component to serialize/deserialize DTOs in Contoller's API
+   */
+  OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, apiObjectMapper)([] {
+    return oatpp::parser::json::mapping::ObjectMapper::createShared();
+  }());
+
+};
+
+static int _main_app(void) {
+  /* Register Components in scope of run() method */
+  AppComponent components;
+
+  /* Get router component */
+  OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router);
+
+  {{#apiInfo}}{{#apis}}{{#operations}}
+  /* Create {{classname}}Controller and add all of its endpoints to router */
+  auto {{classname}}Controller = std::make_shared<{{apiNamespace}}::{{classname}}Controller>();
+  router->addController({{classname}}Controller);
+  {{/operations}}{{/apis}}{{/apiInfo}}
+
+
+  /* Get connection handler component */
+  OATPP_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, connectionHandler);
+
+  /* Get connection provider component */
+  OATPP_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, connectionProvider);
+
+  /* Create server which takes provided TCP connections and passes them to HTTP connection handler */
+  oatpp::network::Server server(connectionProvider, connectionHandler);
+
+
+  /* Print info about server port */
+  OATPP_LOGI("MyApp", "Server running on port %s", connectionProvider->getProperty("port").getData());
+
+  /* Run server */
+  server.run();
+
+  return 0;
+}
+
+int main(int argc, char **argv) {
+  /* Init oatpp Environment */
+  oatpp::base::Environment::init();
+
+  int ret = _main_app();
+
+  /* Destroy oatpp Environment */
+  oatpp::base::Environment::destroy();
+
+  return ret;
+}
