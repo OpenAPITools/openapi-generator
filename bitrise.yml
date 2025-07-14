@@ -25,7 +25,7 @@ workflows:
             #!/bin/bash
             set -ex
 
-            brew cask install docker-toolbox
+            brew install docker-toolbox --cask
     - script@1.1.4:
         title: docker-machine create
         inputs:
