@@ -35,7 +35,7 @@ open class PetstoreClientAPIConfiguration: @unchecked Sendable {
     public var stringResponseSerializer: AnyResponseSerializer<String>
 
     public init(
-        basePath: String = "http://petstore.swagger.io:80/v2",
+        basePath: String = "http://localhost/v2",
         customHeaders: [String: String] = [:],
         credential: URLCredential? = nil,
         requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory(),

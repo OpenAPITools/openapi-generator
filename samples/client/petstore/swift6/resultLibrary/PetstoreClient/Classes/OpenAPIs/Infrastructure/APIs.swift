@@ -25,7 +25,7 @@ internal class PetstoreClientAPIConfiguration: @unchecked Sendable {
     internal var interceptor: OpenAPIInterceptor
 
     internal init(
-        basePath: String = "http://petstore.swagger.io:80/v2",
+        basePath: String = "http://localhost/v2",
         customHeaders: [String: String] = [:],
         credential: URLCredential? = nil,
         requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory(),

@@ -19,6 +19,15 @@ workflows:
 
             sudo gem install cocoapods
     - script@1.2.0:
+        title: Run petstore docker
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            docker pull swaggerapi/petstore
+
+            docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+    - script@1.2.0:
         title: Run Swift6 tests
         inputs:
         - content: |
@@ -48,4 +57,4 @@ workflows:
 
 meta:
   bitrise.io:
-    stack: osx-xcode-16.0.x
+    stack: osx-xcode-16.3.x

@@ -9,7 +9,7 @@ import Foundation
 import FoundationNetworking
 #endif
 internal class PetstoreClientAPI {
-    internal static var basePath = "http://petstore.swagger.io:80/v2"
+    internal static var basePath = "http://localhost/v2"
     internal static var customHeaders: [String: String] = [:]
     internal static var credential: URLCredential?
     internal static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
