@@ -19,6 +19,13 @@ workflows:
 
             sudo gem install cocoapods
     - script@1.2.0:
+        title: Update xcpretty
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            bundle update xcpretty
+    - script@1.2.0:
         title: Run Swift6 tests
         inputs:
         - content: |
