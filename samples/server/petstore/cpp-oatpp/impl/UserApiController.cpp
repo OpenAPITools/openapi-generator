@@ -17,27 +17,27 @@ namespace openapitools {
 namespace server {
 namespace api {
 
-std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> UserApiController::create_user(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::User> &body) {
+std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> UserApiController::create_user(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::User> &user) {
     (void)request;
     
     
-    (void)body;
+    (void)user;
     
     return createResponse(Status::CODE_501, "TODO: Implement API Handler");
 }
-std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> UserApiController::create_users_with_array_input(const std::shared_ptr<IncomingRequest> &request, const oatpp::Vector<oatpp::Object<org::openapitools::server::model::User>> &body) {
+std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> UserApiController::create_users_with_array_input(const std::shared_ptr<IncomingRequest> &request, const oatpp::Vector<oatpp::Object<org::openapitools::server::model::User>> &user) {
     (void)request;
     
     
-    (void)body;
+    (void)user;
     
     return createResponse(Status::CODE_501, "TODO: Implement API Handler");
 }
-std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> UserApiController::create_users_with_list_input(const std::shared_ptr<IncomingRequest> &request, const oatpp::Vector<oatpp::Object<org::openapitools::server::model::User>> &body) {
+std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> UserApiController::create_users_with_list_input(const std::shared_ptr<IncomingRequest> &request, const oatpp::Vector<oatpp::Object<org::openapitools::server::model::User>> &user) {
     (void)request;
     
     
-    (void)body;
+    (void)user;
     
     return createResponse(Status::CODE_501, "TODO: Implement API Handler");
 }
@@ -73,7 +73,7 @@ std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> UserApiControlle
     (void)request;
     return createResponse(Status::CODE_501, "TODO: Implement API Handler");
 }
-std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> UserApiController::update_user(const std::shared_ptr<IncomingRequest> &request, const oatpp::String &username, const oatpp::Object<org::openapitools::server::model::User> &body) {
+std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> UserApiController::update_user(const std::shared_ptr<IncomingRequest> &request, const oatpp::String &username, const oatpp::Object<org::openapitools::server::model::User> &user) {
     (void)request;
     (void)username;
     
@@ -81,7 +81,7 @@ std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> UserApiControlle
     
     
     
-    (void)body;
+    (void)user;
     
     return createResponse(Status::CODE_501, "TODO: Implement API Handler");
 }

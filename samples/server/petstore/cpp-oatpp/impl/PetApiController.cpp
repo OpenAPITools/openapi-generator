@@ -17,11 +17,11 @@ namespace openapitools {
 namespace server {
 namespace api {
 
-std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> PetApiController::add_pet(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Pet> &body) {
+std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> PetApiController::add_pet(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Pet> &pet) {
     (void)request;
     
     
-    (void)body;
+    (void)pet;
     
     return createResponse(Status::CODE_501, "TODO: Implement API Handler");
 }
@@ -61,11 +61,11 @@ std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> PetApiController
     
     return createResponse(Status::CODE_501, "TODO: Implement API Handler");
 }
-std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> PetApiController::update_pet(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Pet> &body) {
+std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> PetApiController::update_pet(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Pet> &pet) {
     (void)request;
     
     
-    (void)body;
+    (void)pet;
     
     return createResponse(Status::CODE_501, "TODO: Implement API Handler");
 }

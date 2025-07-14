@@ -47,11 +47,11 @@ public:
   /// 
   /// </remarks>
   /// <param name="request">HTTP Request</param>
-  /// <param name="body">Pet object that needs to be added to the store</param>
-  virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> add_pet(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Pet> &body) = 0;
+  /// <param name="pet">Pet object that needs to be added to the store</param>
+  virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> add_pet(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Pet> &pet) = 0;
 
-  ENDPOINT("POST", "/pet", add_pet_handler, REQUEST(std::shared_ptr<IncomingRequest>, request), BODY_DTO(oatpp::Object<org::openapitools::server::model::Pet>, body)) {
-      return add_pet(request, body);
+  ENDPOINT("POST", "/pet", add_pet_handler, REQUEST(std::shared_ptr<IncomingRequest>, request), BODY_DTO(oatpp::Object<org::openapitools::server::model::Pet>, pet)) {
+      return add_pet(request, pet);
   }
   /// <summary>
   /// Deletes a pet
@@ -113,11 +113,11 @@ public:
   /// 
   /// </remarks>
   /// <param name="request">HTTP Request</param>
-  /// <param name="body">Pet object that needs to be added to the store</param>
-  virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> update_pet(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Pet> &body) = 0;
+  /// <param name="pet">Pet object that needs to be added to the store</param>
+  virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> update_pet(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Pet> &pet) = 0;
 
-  ENDPOINT("PUT", "/pet", update_pet_handler, REQUEST(std::shared_ptr<IncomingRequest>, request), BODY_DTO(oatpp::Object<org::openapitools::server::model::Pet>, body)) {
-      return update_pet(request, body);
+  ENDPOINT("PUT", "/pet", update_pet_handler, REQUEST(std::shared_ptr<IncomingRequest>, request), BODY_DTO(oatpp::Object<org::openapitools::server::model::Pet>, pet)) {
+      return update_pet(request, pet);
   }
   /// <summary>
   /// Updates a pet in the store with form data

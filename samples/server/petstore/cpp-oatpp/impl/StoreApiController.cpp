@@ -37,11 +37,11 @@ std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> StoreApiControll
     
     return createResponse(Status::CODE_501, "TODO: Implement API Handler");
 }
-std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> StoreApiController::place_order(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Order> &body) {
+std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> StoreApiController::place_order(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Order> &order) {
     (void)request;
     
     
-    (void)body;
+    (void)order;
     
     return createResponse(Status::CODE_501, "TODO: Implement API Handler");
 }

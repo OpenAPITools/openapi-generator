@@ -84,11 +84,11 @@ public:
   /// 
   /// </remarks>
   /// <param name="request">HTTP Request</param>
-  /// <param name="body">order placed for purchasing the pet</param>
-  virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> place_order(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Order> &body) = 0;
+  /// <param name="order">order placed for purchasing the pet</param>
+  virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> place_order(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::Order> &order) = 0;
 
-  ENDPOINT("POST", "/store/order", place_order_handler, REQUEST(std::shared_ptr<IncomingRequest>, request), BODY_DTO(oatpp::Object<org::openapitools::server::model::Order>, body)) {
-      return place_order(request, body);
+  ENDPOINT("POST", "/store/order", place_order_handler, REQUEST(std::shared_ptr<IncomingRequest>, request), BODY_DTO(oatpp::Object<org::openapitools::server::model::Order>, order)) {
+      return place_order(request, order);
   }
 };
 

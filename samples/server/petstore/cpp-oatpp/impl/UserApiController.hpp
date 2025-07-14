@@ -38,8 +38,8 @@ public:
     /// This can only be done by the logged in user.
     /// </remarks>
     /// <param name="request">HTTP Request</param>
-    /// <param name="body">Created user object</param>
-    virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> create_user(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::User> &body);
+    /// <param name="user">Created user object</param>
+    virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> create_user(const std::shared_ptr<IncomingRequest> &request, const oatpp::Object<org::openapitools::server::model::User> &user);
     /// <summary>
     /// Creates list of users with given input array
     /// </summary>
@@ -47,8 +47,8 @@ public:
     /// 
     /// </remarks>
     /// <param name="request">HTTP Request</param>
-    /// <param name="body">List of user object</param>
-    virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> create_users_with_array_input(const std::shared_ptr<IncomingRequest> &request, const oatpp::Vector<oatpp::Object<org::openapitools::server::model::User>> &body);
+    /// <param name="user">List of user object</param>
+    virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> create_users_with_array_input(const std::shared_ptr<IncomingRequest> &request, const oatpp::Vector<oatpp::Object<org::openapitools::server::model::User>> &user);
     /// <summary>
     /// Creates list of users with given input array
     /// </summary>
@@ -56,8 +56,8 @@ public:
     /// 
     /// </remarks>
     /// <param name="request">HTTP Request</param>
-    /// <param name="body">List of user object</param>
-    virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> create_users_with_list_input(const std::shared_ptr<IncomingRequest> &request, const oatpp::Vector<oatpp::Object<org::openapitools::server::model::User>> &body);
+    /// <param name="user">List of user object</param>
+    virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> create_users_with_list_input(const std::shared_ptr<IncomingRequest> &request, const oatpp::Vector<oatpp::Object<org::openapitools::server::model::User>> &user);
     /// <summary>
     /// Delete user
     /// </summary>
@@ -102,8 +102,8 @@ public:
     /// </remarks>
     /// <param name="request">HTTP Request</param>
     /// <param name="username">name that need to be deleted</param>
-    /// <param name="body">Updated user object</param>
-    virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> update_user(const std::shared_ptr<IncomingRequest> &request, const oatpp::String &username, const oatpp::Object<org::openapitools::server::model::User> &body);
+    /// <param name="user">Updated user object</param>
+    virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> update_user(const std::shared_ptr<IncomingRequest> &request, const oatpp::String &username, const oatpp::Object<org::openapitools::server::model::User> &user);
 };
 
 } // namespace org::openapitools::server::api
