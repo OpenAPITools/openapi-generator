@@ -18,11 +18,31 @@ workflows:
             #!/usr/bin/env bash
 
             sudo gem install cocoapods
+    - script@1.1.4:
+        title: brew cask install docker-toolbox
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+
+            brew cask install docker-toolbox
+    - script@1.1.4:
+        title: docker-machine create
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+
+            docker-machine create --driver "virtualbox" default
     - script@1.2.0:
-        title: Run petstore docker
+        title: Run local petstore server via docker
         inputs:
         - content: |
             #!/usr/bin/env bash
+
+            set -ex
+
+            eval $(docker-machine env default)
 
             docker pull swaggerapi/petstore
 
