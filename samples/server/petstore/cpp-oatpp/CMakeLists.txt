@@ -28,4 +28,8 @@ add_executable(${PROJECT_NAME} ${SRCS})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 
 add_dependencies(${PROJECT_NAME} OATPP)
+if(WIN32)
+target_link_libraries(${PROJECT_NAME} ${EXTERNAL_INSTALL_LOCATION}/lib/oatpp-1.3.0/liboatpp.lib)
+else()
 target_link_libraries(${PROJECT_NAME} ${EXTERNAL_INSTALL_LOCATION}/lib/oatpp-1.3.0/liboatpp.a)
+endif(WIN32)
