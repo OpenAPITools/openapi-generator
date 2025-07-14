@@ -366,3 +366,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |XML|✓|OAS2,OAS3
 |PROTOBUF|✗|ToolingExtension
 |Custom|✗|OAS2,OAS3
+### Using the CLI with Maven
+
+You can also use the OpenAPI Generator from the command line with Maven:
+
+```bash
+mvn openapi-generator:generate \
+  -DgeneratorName=java \
+  -DinputSpec=path/to/your-api.yaml \
+  -DoutputDir=generated-code/java
