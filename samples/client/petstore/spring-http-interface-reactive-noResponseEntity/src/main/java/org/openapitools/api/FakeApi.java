@@ -226,7 +226,7 @@ public interface FakeApi {
          @RequestPart(value = "int64", required = false) Long int64,
          @RequestPart(value = "float", required = false) Float _float,
          @RequestPart(value = "string", required = false) String string,
-         @RequestPart(value = "binary", required = false) Flux<Part> binary,
+         @RequestPart(value = "binary", required = false) Part binary,
          @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
          @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
          @RequestPart(value = "password", required = false) String password,
