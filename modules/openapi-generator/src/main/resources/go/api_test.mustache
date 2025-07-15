@@ -36,7 +36,12 @@ func Test_{{packageName}}_{{classname}}Service(t *testing.T) {
 		t.Skip("skip test")  // remove to run test
 
 		{{/-first}}
+		{{#isPrimitiveType}}
 		var {{paramName}} {{{dataType}}}
+		{{/isPrimitiveType}}
+		{{^isPrimitiveType}}
+		var {{paramName}} {{goImportAlias}}.{{{dataType}}}
+		{{/isPrimitiveType}}
 		{{/pathParams}}
 
 		{{#returnType}}resp, {{/returnType}}httpRes, err := apiClient.{{classname}}.{{operationId}}(context.Background(){{#pathParams}}, {{paramName}}{{/pathParams}}).Execute()

@@ -18,7 +18,8 @@
     "target": "ES2022",
     "module": "ES2022",
     "paths": {
-      "@swagger/typescript-angular-petstore": ["./builds/default"]
+      "@swagger/typescript-angular-petstore": ["./builds/default"],
+      "@swagger/typescript-angular-deepobject": ["./builds/deep-object"]
     }
   },
   "angularCompilerOptions": {

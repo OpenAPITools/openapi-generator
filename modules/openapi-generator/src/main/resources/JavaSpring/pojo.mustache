@@ -3,6 +3,7 @@
  * @deprecated{{/isDeprecated}}
  */
 {{>additionalModelTypeAnnotations}}
+
 {{#isDeprecated}}
 @Deprecated
 {{/isDeprecated}}
@@ -16,6 +17,7 @@
 {{/description}}
 {{#discriminator}}
 {{>typeInfoAnnotation}}
+
 {{/discriminator}}
 {{#jackson}}
 {{#isClassnameSanitized}}
@@ -26,8 +28,10 @@
 {{/jackson}}
 {{#withXml}}
 {{>xmlAnnotation}}
+
 {{/withXml}}
 {{>generatedAnnotation}}
+
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
@@ -41,10 +45,12 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
     {{#isEnum}}
     {{^isContainer}}
 {{>enumClass}}
+
     {{/isContainer}}
     {{#isContainer}}
     {{#mostInnerItems}}
 {{>enumClass}}
+
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
@@ -154,7 +160,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{^lombok.Data}}
 
   {{! begin feature: fluent setter methods }}
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{>nullableAnnotation}}{{{datatypeWithEnum}}} {{name}}) {
     {{#openApiNullable}}
     this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.of{{#optionalAcceptNullable}}Nullable{{/optionalAcceptNullable}}({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
     {{/openApiNullable}}
@@ -225,7 +231,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
   {{#useBeanValidation}}
-  {{>beanValidation}}
+  {{>beanValidation}}{{! prevent indent}}
   {{/useBeanValidation}}
   {{^useBeanValidation}}
   {{#required}}@NotNull{{/required}}
@@ -254,7 +260,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-  public {{>nullableDataTypeBeanValidation}} {{getter}}() {
+  public {{>nullableAnnotation}}{{>nullableDataTypeBeanValidation}} {{getter}}() {
     return {{name}};
   }
   {{/lombok.Getter}}
@@ -271,7 +277,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-  public void {{setter}}({{>nullableDataType}} {{name}}) {
+  public void {{setter}}({{>nullableAnnotation}}{{>nullableDataType}} {{name}}) {
     this.{{name}} = {{name}};
   }
   {{/lombok.Setter}}
@@ -279,6 +285,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{! end feature: getter and setter }}
   {{/vars}}
 {{>additionalProperties}}
+
   {{^lombok.Data}}
   {{#parentVars}}
 
@@ -366,7 +373,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   }
   {{/lombok.ToString}}
   {{#generateBuilders}}
-  {{>javaBuilder}}
+  {{>javaBuilder}}{{! prevent indent}}
   {{/generateBuilders}}
   {{/lombok.Data}}
 }

@@ -284,6 +284,7 @@
             {{^vendorExtensions.x-duplicated-data-type}}
             {{#model.discriminator}}
             {{#model.hasDiscriminatorWithNonEmptyMapping}}
+            {{^model.composedSchemas.anyOf}}
             {{#mappedModels}}
             if ({{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}} != null)
                 return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{^isDiscriminator}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}.Value{{nrt!}}{{^isNullable}}{{#vendorExtensions.x-is-value-type}}.Value{{/vendorExtensions.x-is-value-type}}{{/isNullable}}{{/required}}  {{/isDiscriminator}}{{/allVars}}{{/lambda.joinWithComma}});
@@ -292,6 +293,7 @@
             throw new JsonException();
             {{/-last}}
             {{/mappedModels}}
+            {{/model.composedSchemas.anyOf}}
             {{/model.hasDiscriminatorWithNonEmptyMapping}}
             {{/model.discriminator}}
             {{^composedSchemas.oneOf}}
@@ -452,7 +454,7 @@
             {{/isDecimal}}
             {{/lambda.copyText}}
             {{#lambda.indent3}}
-            {{>WriteProperty}}
+            {{>WriteProperty}}{{! prevent indent}}
             {{/lambda.indent3}}
             {{/isUuid}}
             {{/isEnum}}
@@ -463,7 +465,7 @@
             writer.WriteBoolean("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}});
             {{/lambda.copyText}}
             {{#lambda.indent3}}
-            {{>WriteProperty}}
+            {{>WriteProperty}}{{! prevent indent}}
             {{/lambda.indent3}}
             {{/isBoolean}}
             {{^isEnum}}
@@ -472,7 +474,7 @@
             writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}});
             {{/lambda.copyText}}
             {{#lambda.indent3}}
-            {{>WriteProperty}}
+            {{>WriteProperty}}{{! prevent indent}}
             {{/lambda.indent3}}
             {{/isNumeric}}
             {{/isEnum}}
@@ -481,7 +483,7 @@
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}.ToString({{name}}Format));
             {{/lambda.copyText}}
             {{#lambda.indent3}}
-            {{>WriteProperty}}
+            {{>WriteProperty}}{{! prevent indent}}
             {{/lambda.indent3}}
             {{/isDate}}
             {{#isDateTime}}
@@ -489,7 +491,7 @@
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}.ToString({{name}}Format));
             {{/lambda.copyText}}
             {{#lambda.indent3}}
-            {{>WriteProperty}}
+            {{>WriteProperty}}{{! prevent indent}}
             {{/lambda.indent3}}
             {{/isDateTime}}
             {{#isEnum}}
@@ -498,7 +500,7 @@
             writer.WriteNumber("{{baseName}}", {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}));
             {{/lambda.copyText}}
             {{#lambda.indent3}}
-            {{>WriteProperty}}
+            {{>WriteProperty}}{{! prevent indent}}
             {{/lambda.indent3}}
             {{/isNumeric}}
             {{^isMap}}
@@ -589,7 +591,7 @@
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}});
             {{/lambda.copyText}}
             {{#lambda.indent3}}
-            {{>WriteProperty}}
+            {{>WriteProperty}}{{! prevent indent}}
             {{/lambda.indent3}}
             {{/isUuid}}
             {{^isUuid}}

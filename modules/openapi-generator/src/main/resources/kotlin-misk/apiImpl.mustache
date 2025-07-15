@@ -18,7 +18,8 @@ import misk.web.PathParam
 import misk.web.QueryParam
 import misk.web.RequestBody
 import misk.web.RequestHeader
-{{#imports}}import {{import}}
+{{#imports}}
+import {{import}}
 {{/imports}}
 
 /**
@@ -30,7 +31,8 @@ class {{classname}}Impl @Inject constructor(
 ): {{classname}} {
 {{#operation}}
 
-    override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
+    override fun {{operationId}}({{#allParams}}
+        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
         TODO()
     }
 {{/operation}}

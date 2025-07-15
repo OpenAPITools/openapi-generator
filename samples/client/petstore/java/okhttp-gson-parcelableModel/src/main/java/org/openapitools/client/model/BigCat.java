@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class BigCat extends Cat implements Parcelable {
   /**
    * Gets or Sets kind
@@ -207,15 +207,10 @@ public class BigCat extends Cat implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("className");
-    openapiFields.add("color");
-    openapiFields.add("declawed");
-    openapiFields.add("kind");
+    openapiFields = new HashSet<String>(Arrays.asList("className", "color", "declawed", "kind"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("className");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("className"));
   }
 
   /**

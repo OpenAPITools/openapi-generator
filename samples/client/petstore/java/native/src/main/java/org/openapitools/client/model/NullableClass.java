@@ -63,8 +63,8 @@ import org.openapitools.client.ApiClient;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
-public class NullableClass extends HashMap<String, Object> {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+public class NullableClass {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
 
@@ -609,7 +609,6 @@ public class NullableClass extends HashMap<String, Object> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NullableClass {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    integerProp: ").append(toIndentedString(integerProp)).append("\n");
     sb.append("    numberProp: ").append(toIndentedString(numberProp)).append("\n");
     sb.append("    booleanProp: ").append(toIndentedString(booleanProp)).append("\n");

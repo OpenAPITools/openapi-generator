@@ -209,7 +209,7 @@ impl StoreApi for StoreApiClient {
 
 }
 
-/// struct for typed errors of method [`delete_order`]
+/// struct for typed errors of method [`StoreApi::delete_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteOrderError {
@@ -218,14 +218,14 @@ pub enum DeleteOrderError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_inventory`]
+/// struct for typed errors of method [`StoreApi::get_inventory`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventoryError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_order_by_id`]
+/// struct for typed errors of method [`StoreApi::get_order_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOrderByIdError {
@@ -234,7 +234,7 @@ pub enum GetOrderByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`place_order`]
+/// struct for typed errors of method [`StoreApi::place_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PlaceOrderError {

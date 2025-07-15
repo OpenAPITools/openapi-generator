@@ -18,8 +18,11 @@
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -48,11 +51,13 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.lang.model.SourceVersion;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -147,16 +152,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter @Setter
     protected String testFolder = projectTestFolder + "/java";
 
-    protected enum ENUM_PROPERTY_NAMING_TYPE {MACRO_CASE, legacy}
+    protected enum ENUM_PROPERTY_NAMING_TYPE {MACRO_CASE, legacy, original}
 
-    protected static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'MACRO_CASE' and 'legacy'";
+    protected static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'MACRO_CASE', 'legacy' and 'original'";
     @Getter protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.MACRO_CASE;
 
     /**
      * -- SETTER --
      * Set whether discriminator value lookup is case-sensitive or not.
      *
-     * @param discriminatorCaseSensitive true if the discriminator value lookup should be case-sensitive.
      */
     @Setter protected boolean discriminatorCaseSensitive = true;
     @Getter @Setter
@@ -666,6 +670,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         });
         additionalProperties.put("removeAnnotations", (Mustache.Lambda) (fragment, writer) -> {
             writer.write(removeAnnotations(fragment.execute()));
+        });
+        additionalProperties.put("sanitizeDataType", (Mustache.Lambda) (fragment, writer) -> {
+            writer.write(sanitizeDataType(fragment.execute()));
         });
     }
 
@@ -1237,7 +1244,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 if (schema.getDefault() instanceof ArrayNode) { // array of default values
                     ArrayNode _default = (ArrayNode) schema.getDefault();
                     if (_default.isEmpty()) { // e.g. default: []
-                        return getDefaultCollectionType(schema);
+                        return getDefaultCollectionType(schema, "");
                     }
 
                     List<String> final_values = _values;
@@ -1250,6 +1257,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     _default.forEach((element) -> {
                         final_values.add(String.valueOf(element));
                     });
+
+                    if (_default != null && _default.isEmpty() && defaultToEmptyContainer) {
+                        // e.g. [] with the option defaultToEmptyContainer enabled
+                        return getDefaultCollectionType(schema, "");
+                    }
                 } else { // single value
                     _values = java.util.Collections.singletonList(String.valueOf(schema.getDefault()));
                 }
@@ -1303,7 +1315,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String toDefaultValue(CodegenProperty cp, Schema schema) {
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
-            if (schema.getDefault() == null) {
+            if (defaultToEmptyContainer) {
+                // if default to empty container option is set, respect the default values provided in the spec
+                return toArrayDefaultValue(cp, schema);
+            } else if (schema.getDefault() == null) {
                 // nullable or containerDefaultToNull set to true
                 if (cp.isNullable || containerDefaultToNull) {
                     return null;
@@ -1318,6 +1333,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     return super.toDefaultValue(schema);
                 }
                 return null;
+            }
+
+            if (defaultToEmptyContainer) {
+                // respect the default values provided in the spec when the option is enabled
+                if (schema.getDefault() != null) {
+                    return String.format(Locale.ROOT, "new %s<>()",
+                            instantiationTypes().getOrDefault("map", "HashMap"));
+                } else {
+                    return null;
+                }
             }
 
             // nullable or containerDefaultToNull set to true
@@ -1396,7 +1421,74 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isObjectSchema(schema)) {
             if (schema.getDefault() != null) {
-                return super.toDefaultValue(schema);
+                try {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append("new " + cp.datatypeWithEnum + "()");
+                    Map<String, Schema> propertySchemas = schema.getProperties();
+                    if(propertySchemas != null) {
+                        // With `parseOptions.setResolve(true)`, objects with 1 key-value pair are LinkedHashMap and objects with more than 1 are ObjectNode
+                        // When not set, objects of any size are ObjectNode
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ObjectNode objectNode;
+                        if(!(schema.getDefault() instanceof ObjectNode)) {
+                            objectNode = objectMapper.valueToTree(schema.getDefault());
+                        } else {
+                            objectNode = (ObjectNode) schema.getDefault();
+
+                        }
+                        Set<Map.Entry<String, JsonNode>> defaultProperties = objectNode.properties();
+                        for (Map.Entry<String, JsonNode> defaultProperty : defaultProperties) {
+                            String key = defaultProperty.getKey();
+                            JsonNode value = defaultProperty.getValue();
+                            Schema propertySchema = propertySchemas.get(key);
+                            if (!value.isValueNode() || propertySchema == null) { //Skip complex objects for now
+                                continue;
+                            }
+
+                            String defaultPropertyExpression = null;
+                            if(ModelUtils.isLongSchema(propertySchema)) {
+                                defaultPropertyExpression = value.asText()+"l";
+                            } else if(ModelUtils.isIntegerSchema(propertySchema)) {
+                                defaultPropertyExpression = value.asText();
+                            } else if(ModelUtils.isDoubleSchema(propertySchema)) {
+                                defaultPropertyExpression = value.asText()+"d";
+                            } else if(ModelUtils.isFloatSchema(propertySchema)) {
+                                defaultPropertyExpression = value.asText()+"f";
+                            } else if(ModelUtils.isNumberSchema(propertySchema)) {
+                                defaultPropertyExpression = "new java.math.BigDecimal(\"" + value.asText() + "\")";
+                            } else if(ModelUtils.isURISchema(propertySchema)) {
+                                defaultPropertyExpression = "java.net.URI.create(\"" + escapeText(value.asText()) + "\")";
+                            } else if(ModelUtils.isDateSchema(propertySchema)) {
+                                if("java8".equals(getDateLibrary())) {
+                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDate.parse(\"%s\")", value.asText());
+                                }
+                            } else if(ModelUtils.isDateTimeSchema(propertySchema)) {
+                                if("java8".equals(getDateLibrary())) {
+                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.OffsetDateTime.parse(\"%s\", %s)",
+                                            value.asText(),
+                                            "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
+                                }
+                            } else if(ModelUtils.isUUIDSchema(propertySchema)) {
+                                defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
+                            } else if(ModelUtils.isStringSchema(propertySchema)) {
+                                defaultPropertyExpression = "\"" + value.asText() + "\"";
+                            } else if(ModelUtils.isBooleanSchema(propertySchema)) {
+                                defaultPropertyExpression = value.asText();
+                            }
+                            if(defaultPropertyExpression != null) {
+                                stringBuilder
+//                                        .append(System.lineSeparator())
+                                        .append(".")
+                                        .append(toVarName(key))
+                                        .append("(").append(defaultPropertyExpression).append(")");
+                            }
+                        }
+                    }
+                    return stringBuilder.toString();
+                } catch (ClassCastException e) {
+                    LOGGER.error("Can't resolve default value: "+schema.getDefault(), e);
+                    return null;
+                }
             }
             return null;
         } else if (ModelUtils.isComposedSchema(schema)) {
@@ -1415,12 +1507,31 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     private String getDefaultCollectionType(Schema schema, String defaultValues) {
         String arrayFormat = "new %s<>(Arrays.asList(%s))";
+
+        if (defaultToEmptyContainer) {
+            // respect the default value in the spec
+            if (defaultValues == null) { // default value not provided
+                return null;
+            } else if (defaultValues.isEmpty()) { // e.g. [] to indicates empty container
+                arrayFormat = "new %s<>()";
+                return getDefaultCollectionType(arrayFormat, defaultValues, ModelUtils.isSet(schema));
+            } else { // default value not empty
+                return getDefaultCollectionType(arrayFormat, defaultValues, ModelUtils.isSet(schema));
+            }
+        }
+
         if (defaultValues == null || defaultValues.isEmpty()) {
+            // default to empty container even though default value is null
+            // to respect default values provided in the spec, set the option `defaultToEmptyContainer` properly
             defaultValues = "";
             arrayFormat = "new %s<>()";
         }
 
-        if (ModelUtils.isSet(schema)) {
+        return getDefaultCollectionType(arrayFormat, defaultValues, ModelUtils.isSet(schema));
+    }
+
+    private String getDefaultCollectionType(String arrayFormat, String defaultValues, boolean isSet) {
+        if (isSet) {
             return String.format(Locale.ROOT, arrayFormat,
                     instantiationTypes().getOrDefault("set", "LinkedHashSet"), defaultValues);
         }
@@ -1843,6 +1954,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return dataType;
     }
 
+    /**
+     * Sanitize the datatype.
+     * This will remove all characters except alphanumeric ones.
+     * It will also first use {{@link #removeAnnotations(String)}} to remove the annotations added to the datatype
+     * @param dataType the data type string
+     * @return the data type string without annotations and any characters except alphanumeric ones
+     */
+    public String sanitizeDataType(String dataType) {
+        String content = removeAnnotations(dataType);
+        if (content != null && content.matches(".*\\P{Alnum}.*")) {
+            content = content.replaceAll("\\P{Alnum}", "");
+        }
+        return content;
+    }
+
+
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         // recursively add import for mapping one type to multiple imports
@@ -2015,6 +2142,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return sanitizeName(camelize(property.name)) + "Enum";
     }
 
+    private boolean isValidVariableNameInVersion(CharSequence name, SourceVersion version) {
+        return SourceVersion.isIdentifier(name) && !SourceVersion.isKeyword(name, version);
+    }
+
     @Override
     public String toEnumVarName(String value, String datatype) {
         if (enumNameMapping.containsKey(value)) {
@@ -2050,6 +2181,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             case legacy:
                 // legacy ,e.g. WITHNUMBER1
                 var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
+                break;
+            case original:
+                // keep value as it is, if meets language naming convention
+                if (isValidVariableNameInVersion(value, SourceVersion.RELEASE_11)) {
+                    return value;
+                } else {
+                    LOGGER.warn("Enum value '{}' is not a valid variable name in Java 11. Enum value will be renamed.", value);
+                    var = value;
+                }
                 break;
             default:
                 // default to MACRO_CASE, e.g. WITH_NUMBER1
@@ -2354,7 +2494,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 operation.allParams.add(p);
             }
         }
-        operation.hasParams = !operation.allParams.isEmpty();
     }
 
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {

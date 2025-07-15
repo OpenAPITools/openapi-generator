@@ -22,9 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -37,7 +38,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -45,7 +46,6 @@ public class FakeApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public FakeApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -122,6 +122,7 @@ public class FakeApi {
     public ResponseSpec fakeBigDecimalMapWithResponseSpec() throws RestClientResponseException {
         return fakeBigDecimalMapRequestCreation();
     }
+
     /**
      * Health check endpoint
      * 
@@ -186,6 +187,7 @@ public class FakeApi {
     public ResponseSpec fakeHealthGetWithResponseSpec() throws RestClientResponseException {
         return fakeHealthGetRequestCreation();
     }
+
     /**
      * test http signature authentication
      * 
@@ -268,6 +270,7 @@ public class FakeApi {
     public ResponseSpec fakeHttpSignatureTestWithResponseSpec(@jakarta.annotation.Nonnull Pet pet, @jakarta.annotation.Nullable String query1, @jakarta.annotation.Nullable String header1) throws RestClientResponseException {
         return fakeHttpSignatureTestRequestCreation(pet, query1, header1);
     }
+
     /**
      * 
      * Test serialization of outer boolean types
@@ -338,6 +341,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterBooleanSerializeWithResponseSpec(@jakarta.annotation.Nullable Boolean body) throws RestClientResponseException {
         return fakeOuterBooleanSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of object with outer number type
@@ -408,6 +412,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterCompositeSerializeWithResponseSpec(@jakarta.annotation.Nullable OuterComposite outerComposite) throws RestClientResponseException {
         return fakeOuterCompositeSerializeRequestCreation(outerComposite);
     }
+
     /**
      * 
      * Test serialization of outer number types
@@ -478,6 +483,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterNumberSerializeWithResponseSpec(@jakarta.annotation.Nullable BigDecimal body) throws RestClientResponseException {
         return fakeOuterNumberSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of outer string types
@@ -548,6 +554,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterStringSerializeWithResponseSpec(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
         return fakeOuterStringSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of enum (int) properties with examples
@@ -622,6 +629,7 @@ public class FakeApi {
     public ResponseSpec fakePropertyEnumIntegerSerializeWithResponseSpec(@jakarta.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws RestClientResponseException {
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty);
     }
+
     /**
      * test referenced additionalProperties
      * 
@@ -691,6 +699,7 @@ public class FakeApi {
     public ResponseSpec testAdditionalPropertiesReferenceWithResponseSpec(@jakarta.annotation.Nonnull Map<String, Object> requestBody) throws RestClientResponseException {
         return testAdditionalPropertiesReferenceRequestCreation(requestBody);
     }
+
     /**
      * 
      * For this test, the body has to be a binary file.
@@ -760,6 +769,7 @@ public class FakeApi {
     public ResponseSpec testBodyWithBinaryWithResponseSpec(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
         return testBodyWithBinaryRequestCreation(body);
     }
+
     /**
      * 
      * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
@@ -829,6 +839,7 @@ public class FakeApi {
     public ResponseSpec testBodyWithFileSchemaWithResponseSpec(@jakarta.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws RestClientResponseException {
         return testBodyWithFileSchemaRequestCreation(fileSchemaTestClass);
     }
+
     /**
      * 
      * 
@@ -908,6 +919,7 @@ public class FakeApi {
     public ResponseSpec testBodyWithQueryParamsWithResponseSpec(@jakarta.annotation.Nonnull String query, @jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         return testBodyWithQueryParamsRequestCreation(query, user);
     }
+
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -982,6 +994,7 @@ public class FakeApi {
     public ResponseSpec testClientModelWithResponseSpec(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         return testClientModelRequestCreation(client);
     }
+
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -1148,6 +1161,7 @@ public class FakeApi {
     public ResponseSpec testEndpointParametersWithResponseSpec(@jakarta.annotation.Nonnull BigDecimal number, @jakarta.annotation.Nonnull Double _double, @jakarta.annotation.Nonnull String patternWithoutDelimiter, @jakarta.annotation.Nonnull byte[] _byte, @jakarta.annotation.Nullable Integer integer, @jakarta.annotation.Nullable Integer int32, @jakarta.annotation.Nullable Long int64, @jakarta.annotation.Nullable Float _float, @jakarta.annotation.Nullable String string, @jakarta.annotation.Nullable File binary, @jakarta.annotation.Nullable LocalDate date, @jakarta.annotation.Nullable OffsetDateTime dateTime, @jakarta.annotation.Nullable String password, @jakarta.annotation.Nullable String paramCallback) throws RestClientResponseException {
         return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
+
     /**
      * To test enum parameters
      * To test enum parameters
@@ -1265,6 +1279,7 @@ public class FakeApi {
     public ResponseSpec testEnumParametersWithResponseSpec(@jakarta.annotation.Nullable List<String> enumHeaderStringArray, @jakarta.annotation.Nullable String enumHeaderString, @jakarta.annotation.Nullable List<String> enumQueryStringArray, @jakarta.annotation.Nullable String enumQueryString, @jakarta.annotation.Nullable Integer enumQueryInteger, @jakarta.annotation.Nullable Double enumQueryDouble, @jakarta.annotation.Nullable List<EnumClass> enumQueryModelArray, @jakarta.annotation.Nullable List<String> enumFormStringArray, @jakarta.annotation.Nullable String enumFormString) throws RestClientResponseException {
         return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
     }
+
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -1370,6 +1385,7 @@ public class FakeApi {
     public ResponseSpec testGroupParametersWithResponseSpec(@jakarta.annotation.Nonnull Integer requiredStringGroup, @jakarta.annotation.Nonnull Boolean requiredBooleanGroup, @jakarta.annotation.Nonnull Long requiredInt64Group, @jakarta.annotation.Nullable Integer stringGroup, @jakarta.annotation.Nullable Boolean booleanGroup, @jakarta.annotation.Nullable Long int64Group) throws RestClientResponseException {
         return testGroupParametersRequestCreation(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
+
     /**
      * test inline additionalProperties
      * 
@@ -1439,6 +1455,7 @@ public class FakeApi {
     public ResponseSpec testInlineAdditionalPropertiesWithResponseSpec(@jakarta.annotation.Nonnull Map<String, String> requestBody) throws RestClientResponseException {
         return testInlineAdditionalPropertiesRequestCreation(requestBody);
     }
+
     /**
      * test inline free-form additionalProperties
      * 
@@ -1508,6 +1525,7 @@ public class FakeApi {
     public ResponseSpec testInlineFreeformAdditionalPropertiesWithResponseSpec(@jakarta.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws RestClientResponseException {
         return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest);
     }
+
     /**
      * test json serialization of form data
      * 
@@ -1590,6 +1608,7 @@ public class FakeApi {
     public ResponseSpec testJsonFormDataWithResponseSpec(@jakarta.annotation.Nonnull String param, @jakarta.annotation.Nonnull String param2) throws RestClientResponseException {
         return testJsonFormDataRequestCreation(param, param2);
     }
+
     /**
      * test nullable parent property
      * 
@@ -1659,6 +1678,7 @@ public class FakeApi {
     public ResponseSpec testNullableWithResponseSpec(@jakarta.annotation.Nonnull ChildWithNullable childWithNullable) throws RestClientResponseException {
         return testNullableRequestCreation(childWithNullable);
     }
+
     /**
      * 
      * To test the collection format in query parameters
@@ -1778,6 +1798,7 @@ public class FakeApi {
     public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(@jakarta.annotation.Nonnull List<String> pipe, @jakarta.annotation.Nonnull List<String> ioutil, @jakarta.annotation.Nonnull List<String> http, @jakarta.annotation.Nonnull List<String> url, @jakarta.annotation.Nonnull List<String> context, @jakarta.annotation.Nonnull String allowEmpty, @jakarta.annotation.Nullable Map<String, String> language) throws RestClientResponseException {
         return testQueryParameterCollectionFormatRequestCreation(pipe, ioutil, http, url, context, allowEmpty, language);
     }
+
     /**
      * test referenced string map
      * 

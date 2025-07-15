@@ -8,9 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class StoreApi {
     private ApiClient apiClient;
 
@@ -31,7 +32,6 @@ public class StoreApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public StoreApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -117,6 +117,7 @@ public class StoreApi {
     public ResponseSpec deleteOrderWithResponseSpec(@jakarta.annotation.Nonnull String orderId) throws RestClientResponseException {
         return deleteOrderRequestCreation(orderId);
     }
+
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -181,6 +182,7 @@ public class StoreApi {
     public ResponseSpec getInventoryWithResponseSpec() throws RestClientResponseException {
         return getInventoryRequestCreation();
     }
+
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -263,6 +265,7 @@ public class StoreApi {
     public ResponseSpec getOrderByIdWithResponseSpec(@jakarta.annotation.Nonnull Long orderId) throws RestClientResponseException {
         return getOrderByIdRequestCreation(orderId);
     }
+
     /**
      * Place an order for a pet
      * 

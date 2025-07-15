@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
@@ -31,6 +32,7 @@ import io.virtualan.annotation.VirtualService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 {{/jdk8-no-delegate}}
+import org.springframework.lang.Nullable;
 {{^useResponseEntity}}
 import org.springframework.http.HttpStatus;
 {{/useResponseEntity}}
@@ -77,9 +79,13 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.CompletableFuture;
 {{/async}}
+{{#returnSuccessCode}}
+import java.util.concurrent.atomic.AtomicInteger;
+{{/returnSuccessCode}}
 import {{javaxPackage}}.annotation.Generated;
 
 {{>generatedAnnotation}}
+
 {{#useBeanValidation}}{{^useSpringBuiltInValidation}}@Validated{{/useSpringBuiltInValidation}}{{/useBeanValidation}}
 {{#useSpringController}}
 {{#useResponseEntity}}
@@ -123,6 +129,7 @@ public interface {{classname}} {
 {{/jdk8-default-interface}}
 {{#operation}}
 
+    public static final String PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = "{{{path}}}";
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
     {{#notes}}
@@ -167,7 +174,19 @@ public interface {{classname}} {
             {{#responses}}
             @ApiResponse(responseCode = {{#isDefault}}"default"{{/isDefault}}{{^isDefault}}"{{{code}}}"{{/isDefault}}, description = "{{{message}}}"{{#baseType}}, content = {
                 {{#produces}}
-                @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}){{^-last}},{{/-last}}
+                @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}{{^isJson}}){{^-last}},{{/-last}}{{/isJson}}{{#isJson}}{{^examples.0}}){{^-last}},{{/-last}}{{/examples.0}}{{#examples.0}}, examples = {
+                {{#examples}}
+                    @ExampleObject(
+                        name = "{{{exampleName}}}",
+                        value = "{{{exampleValue}}}"
+                    ){{^-last}},{{/-last}}
+                {{/examples}}
+                {{#-last}}
+                })
+                {{/-last}}
+                {{^-last}}
+                }),
+                {{/-last}}{{/examples.0}}{{/isJson}}
                 {{/produces}}
             }{{/baseType}}){{^-last}},{{/-last}}
             {{/responses}}
@@ -228,7 +247,7 @@ public interface {{classname}} {
     {{/implicitHeadersParams.0}}
     @RequestMapping(
         method = RequestMethod.{{httpMethod}},
-        value = "{{{path}}}"{{#singleContentTypes}}{{#hasProduces}},
+        value = {{classname}}.PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}{{#singleContentTypes}}{{#hasProduces}},
         produces = { {{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
         produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
@@ -256,10 +275,10 @@ public interface {{classname}} {
     }
 
     // Override this method
-    {{#jdk8-default-interface}}default {{/jdk8-default-interface}} {{>responseType}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}Mono<{{{dataType}}}>{{/isArray}}{{#isArray}}Flux<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#reactive}}Flux<Part>{{/reactive}}{{^reactive}}MultipartFile{{/reactive}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore{{/springFoxDocumentationProvider}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore{{/springFoxDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}} {
+    {{#jdk8-default-interface}}default {{/jdk8-default-interface}} {{>responseType}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}Mono<{{{dataType}}}>{{/isArray}}{{#isArray}}Flux<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#reactive}}Flux<Part>{{/reactive}}{{^reactive}}{{#isArray}}List<MultipartFile>{{/isArray}}{{^isArray}}MultipartFile{{/isArray}}{{/reactive}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore{{/springFoxDocumentationProvider}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore{{/springFoxDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}} {
         {{/delegate-method}}
         {{^isDelegate}}
-        {{>methodBody}}
+        {{>methodBody}}{{! prevent indent}}
         {{/isDelegate}}
         {{#isDelegate}}
         {{^isVoid}}return {{/isVoid}}{{#isVoid}}{{#useResponseEntity}}return {{/useResponseEntity}}{{^useResponseEntity}}{{#reactive}}return {{/reactive}}{{/useResponseEntity}}{{/isVoid}}getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}});

@@ -22,6 +22,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @Test(groups = {TypeScriptGroups.TYPESCRIPT})
 public class TypeScriptClientCodegenTest {
     @Test
@@ -213,6 +215,58 @@ public class TypeScriptClientCodegenTest {
         );
     }
 
+    @Test
+    public void testDeprecatedOperation() throws Exception {
+        final File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript")
+                .setInputSpec("src/test/resources/3_0/typescript/deprecated-operation.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        // verify operation is deprecated
+        Path file = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(
+                file,
+                "* @deprecated"
+        );
+
+        String content = Files.readString(file);
+        assertEquals(1, TestUtils.countOccurrences(content, "@deprecated"));
+    }
+
+    @Test
+    public void testDeprecatedParameter() throws Exception {
+        final File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript")
+                .setInputSpec("src/test/resources/3_0/typescript/deprecated-parameter.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        // verify parameter is deprecated parameter
+        Path file = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(
+                file,
+                "* @param name name of pet  (@deprecated)"
+        );
+
+        String content = Files.readString(file);
+        assertEquals(1, TestUtils.countOccurrences(content, "@deprecated"));
+    }
+     
     @Test(description = "Verify useErasableSyntax config parameter generates erasable code")
     public void testUseErasableSyntaxConfig() throws IOException {
         boolean[] options = {true, false};

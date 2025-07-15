@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * TypeHolderDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class TypeHolderDefault {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -236,20 +236,10 @@ public class TypeHolderDefault {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("string_item");
-    openapiFields.add("number_item");
-    openapiFields.add("integer_item");
-    openapiFields.add("bool_item");
-    openapiFields.add("array_item");
+    openapiFields = new HashSet<String>(Arrays.asList("string_item", "number_item", "integer_item", "bool_item", "array_item"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("string_item");
-    openapiRequiredFields.add("number_item");
-    openapiRequiredFields.add("integer_item");
-    openapiRequiredFields.add("bool_item");
-    openapiRequiredFields.add("array_item");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("string_item", "number_item", "integer_item", "bool_item", "array_item"));
   }
 
   /**

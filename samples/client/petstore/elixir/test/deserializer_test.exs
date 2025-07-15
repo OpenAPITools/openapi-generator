@@ -30,7 +30,7 @@ defmodule DeserializerTest do
   """
 
   test "jason_decode/2 with valid JSON" do
-    assert Deserializer.jason_decode(@valid_json, Pet) ==
+    assert Deserializer.json_decode(@valid_json, Pet) ==
              {:ok,
               %Pet{
                 id: 14,
@@ -43,7 +43,7 @@ defmodule DeserializerTest do
   end
 
   test "jason_decode/2 with invalid JSON" do
-    assert Deserializer.jason_decode(~s/{: 1}/, Pet) ==
-             {:error, %Jason.DecodeError{data: "{: 1}", position: 1, token: nil}}
+    assert Deserializer.json_decode(~s/{: 1}/, Pet) ==
+             {:error, {:invalid_byte, 1, 58}}
   end
 end

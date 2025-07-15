@@ -54,8 +54,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{/isArray}}
             {{#isArray}}
 
-            final Type typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = new TypeToken<{{{dataType}}}>(){}.getType();
-            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}));
+            final Type typeInstance{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = new TypeToken<{{{dataType}}}>(){}.getType();
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}));
             {{/isArray}}
             {{/anyOf}}
             {{/composedSchemas}}
@@ -74,7 +74,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     // check if the actual instance is of the type `{{{dataType}}}`
                     if (value.getActualInstance() instanceof {{#isArray}}List<?>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
                     {{#isPrimitiveType}}
-                        JsonPrimitive primitive = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonPrimitive();
+                        JsonPrimitive primitive = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonPrimitive();
                         elementAdapter.write(out, primitive);
                         return;
                     {{/isPrimitiveType}}
@@ -82,7 +82,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{#isArray}}
                         List<?> list = (List<?>) value.getActualInstance();
                         if (list.get(0) instanceof {{{items.dataType}}}) {
-                            JsonArray array = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonArray();
+                            JsonArray array = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonArray();
                             elementAdapter.write(out, array);
                             return;
                         }
@@ -90,7 +90,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{/isPrimitiveType}}
                     {{^isArray}}
                     {{^isPrimitiveType}}
-                        JsonElement element = adapter{{{dataType}}}.toJsonTree(({{{dataType}}})value.getActualInstance());
+                        JsonElement element = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}.toJsonTree(({{{dataType}}})value.getActualInstance());
                         elementAdapter.write(out, element);
                         return;
                     {{/isPrimitiveType}}
@@ -122,20 +122,20 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
-                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
+                        actualAdapter = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}};
                     {{/isNumber}}
                     {{^isNumber}}
                     {{#isPrimitiveType}}
                         if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
                         }
-                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
+                        actualAdapter = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}};
                     {{/isPrimitiveType}}
                     {{/isNumber}}
                     {{^isNumber}}
                     {{^isPrimitiveType}}
                         {{{dataType}}}.validateJsonElement(jsonElement);
-                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
+                        actualAdapter = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}};
                     {{/isPrimitiveType}}
                     {{/isNumber}}
                     {{/isArray}}
@@ -167,7 +167,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         {{/isNumber}}
                         {{/items}}
                         }
-                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
+                        actualAdapter = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}};
                     {{/isArray}}
                         {{classname}} ret = new {{classname}}();
                         ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
@@ -291,7 +291,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
      * @return The actual instance of `{{{dataType}}}`
      * @throws ClassCastException if the instance is not `{{{dataType}}}`
      */
-    public {{{dataType}}} get{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}() throws ClassCastException {
+    public {{{dataType}}} get{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}() throws ClassCastException {
         return ({{{dataType}}})super.getActualInstance();
     }
 

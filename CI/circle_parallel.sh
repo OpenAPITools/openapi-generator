@@ -74,8 +74,8 @@ elif [ "$NODE_INDEX" = "3" ]; then
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
   #nvm install stable
   # install v16 instead of the latest stable version
-  nvm install 16
-  nvm alias default 16
+  nvm install 18
+  nvm alias default 18
   node --version
 
   # Each step uses the same `$BASH_ENV`, so need to modify it
@@ -122,6 +122,7 @@ else
 
   (cd samples/client/petstore/scala-akka && mvn integration-test)
   (cd samples/client/petstore/scala-sttp && mvn integration-test)
+  (cd samples/client/petstore/scala-sttp-circe && mvn integration-test)
   (cd samples/client/petstore/scala-sttp4 && mvn integration-test)
   (cd samples/client/petstore/clojure && mvn integration-test)
   (cd samples/client/petstore/java/jersey2-java8 && mvn integration-test)

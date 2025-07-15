@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
@@ -598,31 +598,10 @@ public class FormatTest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("integer");
-    openapiFields.add("int32");
-    openapiFields.add("int64");
-    openapiFields.add("number");
-    openapiFields.add("float");
-    openapiFields.add("double");
-    openapiFields.add("decimal");
-    openapiFields.add("string");
-    openapiFields.add("byte");
-    openapiFields.add("binary");
-    openapiFields.add("date");
-    openapiFields.add("dateTime");
-    openapiFields.add("uuid");
-    openapiFields.add("uuid_with_default");
-    openapiFields.add("password");
-    openapiFields.add("pattern_with_digits");
-    openapiFields.add("pattern_with_digits_and_delimiter");
+    openapiFields = new HashSet<String>(Arrays.asList("integer", "int32", "int64", "number", "float", "double", "decimal", "string", "byte", "binary", "date", "dateTime", "uuid", "uuid_with_default", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("number");
-    openapiRequiredFields.add("byte");
-    openapiRequiredFields.add("date");
-    openapiRequiredFields.add("password");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("number", "byte", "date", "password"));
   }
 
   /**

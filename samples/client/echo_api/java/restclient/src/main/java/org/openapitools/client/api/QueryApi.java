@@ -14,9 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +30,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class QueryApi {
     private ApiClient apiClient;
 
@@ -37,7 +38,6 @@ public class QueryApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public QueryApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -125,6 +125,7 @@ public class QueryApi {
     public ResponseSpec testEnumRefStringWithResponseSpec(@jakarta.annotation.Nullable String enumNonrefStringQuery, @jakarta.annotation.Nullable StringEnumRef enumRefStringQuery) throws RestClientResponseException {
         return testEnumRefStringRequestCreation(enumNonrefStringQuery, enumRefStringQuery);
     }
+
     /**
      * Test query parameter(s)
      * Test query parameter(s)
@@ -205,6 +206,7 @@ public class QueryApi {
     public ResponseSpec testQueryDatetimeDateStringWithResponseSpec(@jakarta.annotation.Nullable Instant datetimeQuery, @jakarta.annotation.Nullable LocalDate dateQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
         return testQueryDatetimeDateStringRequestCreation(datetimeQuery, dateQuery, stringQuery);
     }
+
     /**
      * Test query parameter(s)
      * Test query parameter(s)
@@ -285,6 +287,7 @@ public class QueryApi {
     public ResponseSpec testQueryIntegerBooleanStringWithResponseSpec(@jakarta.annotation.Nullable Integer integerQuery, @jakarta.annotation.Nullable Boolean booleanQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
         return testQueryIntegerBooleanStringRequestCreation(integerQuery, booleanQuery, stringQuery);
     }
+
     /**
      * Test query parameter(s)
      * Test query parameter(s)
@@ -360,6 +363,7 @@ public class QueryApi {
     public ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectWithResponseSpec(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
         return testQueryStyleDeepObjectExplodeTrueObjectRequestCreation(queryObject);
     }
+
     /**
      * Test query parameter(s)
      * Test query parameter(s)
@@ -430,6 +434,7 @@ public class QueryApi {
     public ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectAllOfWithResponseSpec(@jakarta.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientResponseException {
         return testQueryStyleDeepObjectExplodeTrueObjectAllOfRequestCreation(queryObject);
     }
+
     /**
      * Test query parameter(s)
      * Test query parameter(s)
@@ -500,6 +505,7 @@ public class QueryApi {
     public ResponseSpec testQueryStyleFormExplodeFalseArrayIntegerWithResponseSpec(@jakarta.annotation.Nullable List<Integer> queryObject) throws RestClientResponseException {
         return testQueryStyleFormExplodeFalseArrayIntegerRequestCreation(queryObject);
     }
+
     /**
      * Test query parameter(s)
      * Test query parameter(s)
@@ -570,6 +576,7 @@ public class QueryApi {
     public ResponseSpec testQueryStyleFormExplodeFalseArrayStringWithResponseSpec(@jakarta.annotation.Nullable List<String> queryObject) throws RestClientResponseException {
         return testQueryStyleFormExplodeFalseArrayStringRequestCreation(queryObject);
     }
+
     /**
      * Test query parameter(s)
      * Test query parameter(s)
@@ -640,6 +647,7 @@ public class QueryApi {
     public ResponseSpec testQueryStyleFormExplodeTrueArrayStringWithResponseSpec(@jakarta.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientResponseException {
         return testQueryStyleFormExplodeTrueArrayStringRequestCreation(queryObject);
     }
+
     /**
      * Test query parameter(s)
      * Test query parameter(s)
@@ -715,6 +723,7 @@ public class QueryApi {
     public ResponseSpec testQueryStyleFormExplodeTrueObjectWithResponseSpec(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
         return testQueryStyleFormExplodeTrueObjectRequestCreation(queryObject);
     }
+
     /**
      * Test query parameter(s)
      * Test query parameter(s)

@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   AllOfWithSingleRef.JSON_PROPERTY_USERNAME,
   AllOfWithSingleRef.JSON_PROPERTY_SINGLE_REF_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class AllOfWithSingleRef {
   public static final String JSON_PROPERTY_USERNAME = "username";
   @jakarta.annotation.Nullable
@@ -96,6 +96,7 @@ public class AllOfWithSingleRef {
   public void setSingleRefType(@jakarta.annotation.Nullable SingleRefType singleRefType) {
     this.singleRefType = singleRefType;
   }
+
 
   @Override
   public boolean equals(Object o) {

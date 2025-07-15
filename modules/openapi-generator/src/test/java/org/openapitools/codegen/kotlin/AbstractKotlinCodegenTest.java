@@ -48,6 +48,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setEnumPropertyNaming(camelCase.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "longName");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1longName");
+        assertEquals(codegen.toEnumVarName("long-Name", null), "longName");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "not1longName");
     }
 
@@ -56,6 +57,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setEnumPropertyNaming(UPPERCASE.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "LONG_NAME");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1LONG_NAME");
+        assertEquals(codegen.toEnumVarName("long-Name", null), "LONG_NAME");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "NOT1LONG_NAME");
     }
 
@@ -64,6 +66,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setEnumPropertyNaming(snake_case.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "long_name");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1long_name");
+        assertEquals(codegen.toEnumVarName("long-Name", null), "long_name");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "not1long_name");
     }
 
@@ -72,6 +75,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setEnumPropertyNaming(original.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "long_Name");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1long_Name");
+        assertEquals(codegen.toEnumVarName("long-Name", null), "longMinusName");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "not1long_Name");
         assertEquals(codegen.toEnumVarName("data/*", null), "dataSlashStar");
     }
@@ -81,6 +85,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setEnumPropertyNaming(PascalCase.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "LongName");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1longName");
+        assertEquals(codegen.toEnumVarName("long-Name", null), "LongName");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "Not1longName");
     }
 

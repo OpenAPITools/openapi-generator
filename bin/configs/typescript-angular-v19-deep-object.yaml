@@ -1,0 +1,8 @@
+generatorName: typescript-angular
+outputDir: samples/client/petstore/typescript-angular-v19/builds/deep-object
+inputSpec: modules/openapi-generator/src/test/resources/3_0/deep-object-query.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 19.0.0
+  npmName: sample-angular-19-0-0-deep-object
+  supportsES6: true

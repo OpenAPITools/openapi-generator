@@ -397,6 +397,7 @@ paths:
           description: Order not found
   /user:
     servers:
+    - url: 'http://localhost/v2'
     - url: 'http://petstore.swagger.io/v2'
     - url: 'http://path-server-test.petstore.local/v2'
     - url: 'http://{server}.swagger.io:{port}/v2'
@@ -2102,35 +2103,6 @@ components:
           enum:
             - 1.1
             - -1.2
-        enum_number_vendor_ext:
-          type: integer
-          format: int32
-          enum:
-            - 42
-            - 18
-            - 56
-          x-enum-descriptions:
-            - 'Description for 42'
-            - 'Description for 18'
-            - 'Description for 56'
-          x-enum-varnames:
-            - FortyTwo
-            - Eigtheen
-            - FiftySix
-        enum_string_vendor_ext:
-          type: string
-          enum:
-            - FOO
-            - Bar
-            - baz
-          x-enum-descriptions:
-            - 'Description for FOO'
-            - 'Description for Bar'
-            - 'Description for baz'
-          x-enum-varnames:
-            - FOOVar
-            - BarVar
-            - bazVar
         enum_string_single_member:
           type: string
           enum:
@@ -2148,6 +2120,10 @@ components:
           $ref: '#/components/schemas/OuterEnumDefaultValue'
         outerEnumIntegerDefaultValue:
           $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
+        enumNumberVendorExt:
+          $ref: '#/components/schemas/EnumNumberVendorExt'
+        enumStringVendorExt:
+          $ref: '#/components/schemas/EnumStringVendorExt'
     AdditionalPropertiesClass:
       type: object
       properties:
@@ -2339,6 +2315,35 @@ components:
       - 1
       - 2
       example: 2
+    EnumNumberVendorExt:
+      type: integer
+      format: int32
+      enum:
+        - 42
+        - 18
+        - 56
+      x-enum-descriptions:
+        - 'Description for 42'
+        - 'Description for 18'
+        - 'Description for 56'
+      x-enum-varnames:
+        - FortyTwo
+        - Eigtheen
+        - FiftySix
+    EnumStringVendorExt:
+      type: string
+      enum:
+        - FOO
+        - Bar
+        - baz
+      x-enum-descriptions:
+        - 'Description for FOO'
+        - 'Description for Bar'
+        - 'Description for baz'
+      x-enum-varnames:
+        - FOO_XEnumVarname
+        - BarVar_XEnumVarname
+        - bazVar_XEnumVarname
     OuterEnumDefaultValue:
       type: string
       enum:
@@ -2893,3 +2898,15 @@ components:
             - B
             - C
           default: B
+    PonySizes:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/Type'
+    Type:
+      type: float
+      enum:
+        - 2.0
+        - 1.0
+        - 0.5
+        - 0.25

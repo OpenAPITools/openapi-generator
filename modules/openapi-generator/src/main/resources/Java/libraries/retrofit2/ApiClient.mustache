@@ -55,11 +55,11 @@ import java.util.HashMap;
 
 public class ApiClient {
 
-  private Map<String, Interceptor> apiAuthorizations;
-  private OkHttpClient.Builder okBuilder;
-  private Retrofit.Builder adapterBuilder;
-  private JSON json;
-  private OkHttpClient okHttpClient;
+  protected Map<String, Interceptor> apiAuthorizations;
+  protected OkHttpClient.Builder okBuilder;
+  protected Retrofit.Builder adapterBuilder;
+  protected JSON json;
+  protected OkHttpClient okHttpClient;
 
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, Interceptor>();
@@ -426,8 +426,8 @@ public class ApiClient {
  * expected type is String, then just return the body string.
  */
 class GsonResponseBodyConverterToString<T> implements Converter<ResponseBody, T> {
-  private final Gson gson;
-  private final Type type;
+  protected final Gson gson;
+  protected final Type type;
 
   GsonResponseBodyConverterToString(Gson gson, Type type) {
     this.gson = gson;
@@ -447,14 +447,14 @@ class GsonResponseBodyConverterToString<T> implements Converter<ResponseBody, T>
 
 class GsonCustomConverterFactory extends Converter.Factory
 {
-  private final Gson gson;
-  private final GsonConverterFactory gsonConverterFactory;
+  protected final Gson gson;
+  protected final GsonConverterFactory gsonConverterFactory;
 
   public static GsonCustomConverterFactory create(Gson gson) {
     return new GsonCustomConverterFactory(gson);
   }
 
-  private GsonCustomConverterFactory(Gson gson) {
+  protected GsonCustomConverterFactory(Gson gson) {
     if (gson == null)
       throw new NullPointerException("gson == null");
     this.gson = gson;
