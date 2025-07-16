@@ -89,7 +89,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
                     // check if the actual instance is of the type `List<@Valid OneOf1>`
                     if (value.getActualInstance() instanceof List<?>) {
                         List<?> list = (List<?>) value.getActualInstance();
-                        if (list.get(0) instanceof OneOf1) {
+                        if (!list.isEmpty() && list.get(0) instanceof OneOf1) {
                             JsonArray array = adapterListOneOf1.toJsonTree((List<@Valid OneOf1>)value.getActualInstance()).getAsJsonArray();
                             elementAdapter.write(out, array);
                             return;
@@ -191,7 +191,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
     public void setActualInstance(Object instance) {
         if (instance instanceof List<?>) {
             List<?> list = (List<?>) instance;
-            if (list.get(0) instanceof OneOf1) {
+            if (!list.isEmpty() && list.get(0) instanceof OneOf1) {
                 super.setActualInstance(instance);
                 return;
             }
