@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,16 +105,16 @@ public class CppOatppServerCodegen extends AbstractCppCodegen {
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
-                    "oatpp::String",
-                    "oatpp::Boolean",
-                    "oatpp::Int32",
-                    "oatpp::Int64",
-                    "oatpp::Vector",
-                    "oatpp::Fields",
-                    "oatpp::UnorderedSet",
-                    "oatpp::Object",
-                    "oatpp::Float64",
-                    "oatpp::Any"
+                        "oatpp::String",
+                        "oatpp::Boolean",
+                        "oatpp::Int32",
+                        "oatpp::Int64",
+                        "oatpp::Vector",
+                        "oatpp::Fields",
+                        "oatpp::UnorderedSet",
+                        "oatpp::Object",
+                        "oatpp::Float64",
+                        "oatpp::Any"
                 ));
 
         typeMapping = new HashMap<>();
@@ -276,7 +275,7 @@ public class CppOatppServerCodegen extends AbstractCppCodegen {
     /**
      * postProcessSingleParam - Modifies a single parameter, adjusting generated
      * data types for Header and Query parameters.
-     * 
+     *
      * @param param CodegenParameter to be modified.
      */
     private static void postProcessSingleParam(CodegenParameter param) {
@@ -357,7 +356,7 @@ public class CppOatppServerCodegen extends AbstractCppCodegen {
             return toModelName(openAPIType);
         }
 
-        String namespace = (String)additionalProperties.get("modelNamespace");
+        String namespace = (String) additionalProperties.get("modelNamespace");
         return namespace + "::" + openAPIType;
     }
 
