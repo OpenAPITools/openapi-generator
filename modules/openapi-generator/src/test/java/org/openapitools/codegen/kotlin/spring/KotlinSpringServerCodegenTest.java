@@ -5,8 +5,10 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
@@ -789,7 +791,7 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void givenMultipartFormArray_whenGenerateDelegateAndService_thenParameterIsCreatedAsListOfMultipartFile() throws IOException {
+    public void givenNonRequiredMultipartFileArray_whenGenerateDelegateAndService_thenParameterIsCreatedAsNullableListOfMultipartFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -799,7 +801,8 @@ public class KotlinSpringServerCodegenTest {
         codegen.setOpenAPI(openAPI);
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setDelegatePattern(true);
-        codegen.setServiceInterface(true);
+        // this will generate the service interface & implementation files
+        codegen.setServiceImplementation(true);
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -817,14 +820,94 @@ public class KotlinSpringServerCodegenTest {
 
         Path delegateFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiDelegate.kt");
         assertFileContains(delegateFile, "additionalMetadata: kotlin.String?");
-        assertFileContains(delegateFile, "images: Array<org.springframework.web.multipart.MultipartFile>");
+        assertFileContains(delegateFile, "images: Array<org.springframework.web.multipart.MultipartFile>?)");
 
         Path controllerFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApi.kt");
-        assertFileContains(controllerFile, "images: Array<org.springframework.web.multipart.MultipartFile>");
-
+        assertFileContains(controllerFile, "additionalMetadata: kotlin.String?");
+        assertFileContains(controllerFile, "images: Array<org.springframework.web.multipart.MultipartFile>?)");
 
         Path serviceFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiService.kt");
-        assertFileContains(serviceFile, "images: Array<org.springframework.web.multipart.MultipartFile>");
+        assertFileContains(serviceFile, "additionalMetadata: kotlin.String?");
+        assertFileContains(serviceFile, "images: Array<org.springframework.web.multipart.MultipartFile>?)");
+
+        Path serviceImplFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiServiceImpl.kt");
+        assertFileContains(serviceImplFile, "additionalMetadata: kotlin.String?");
+        assertFileContains(serviceImplFile, "images: Array<org.springframework.web.multipart.MultipartFile>?)");
+    }
+
+    @Test
+    public void givenMultipartBinaryArray_whenGenerateDelegateAndService_correctMultipartFileIsCreated() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/form-multipart-binary-array.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setDelegatePattern(true);
+        // this will generate the service interface & implementation files
+        codegen.setServiceImplementation(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        validateMultipartFiles(
+            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartArray",
+            "files: Array<org.springframework.web.multipart.MultipartFile>?)"
+        );
+
+        validateMultipartFiles(
+            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartMixed",
+            "file: org.springframework.web.multipart.MultipartFile,",
+            "marker: MultipartMixedRequestMarker?",
+            "statusArray: kotlin.collections.List<MultipartMixedStatus>?"
+        );
+
+        validateMultipartFiles(
+            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartSingle",
+            "file: org.springframework.web.multipart.MultipartFile?"
+        );
+    }
+
+    private void validateMultipartFiles(
+        String filePrefix,
+        String... lines
+    ) {
+        Stream.of(
+                filePrefix + "ApiDelegate.kt",
+                filePrefix + "ApiService.kt",
+                filePrefix + "ApiServiceImpl.kt",
+                filePrefix + "Api.kt"
+            )
+            .map(Paths::get)
+            .forEach(path -> {
+                try {
+                    validateMultipartFile(path, lines);
+                } catch (AssertionError e) {
+                    throw new AssertionError(path.toString() + " does not contain a line", e);
+                }
+            });
+    }
+
+    private void validateMultipartFile(
+        Path filePath,
+        String... lines
+    ) {
+        for(String line : lines) {
+            assertFileContains(filePath, line);
+        }
     }
 
     @Test
@@ -887,7 +970,7 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(outputFilepath,
                 "@Parameter(description = \"Additional data to pass to server\") @Valid @RequestParam(value = \"additionalMetadata\", required = false) additionalMetadata: kotlin.String?");
         assertFileContains(outputFilepath,
-                "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = false) image: org.springframework.web.multipart.MultipartFile");
+                "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = false) image: org.springframework.web.multipart.MultipartFile?)");
 
     }
 
