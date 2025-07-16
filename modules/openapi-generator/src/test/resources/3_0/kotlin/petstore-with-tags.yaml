@@ -267,16 +267,15 @@ paths:
         content:
           multipart/form-data:
             schema:
+              type: object
               properties:
                 additionalMetadata:
-                  type: string
-                  description: Additional data to pass to server
-                  required: false
+                    type: string
+                    description: Additional data to pass to server
                 image:
-                  type: string
-                  description: image to upload
-                  format: binary
-                  required: true
+                    type: string
+                    description: image to upload
+                    format: binary
       responses:
         200:
           description: successful operation
@@ -306,18 +305,17 @@ paths:
         content:
           multipart/form-data:
             schema:
+              type: object
               properties:
                 additionalMetadata:
                   type: string
                   description: Additional data to pass to server
-                  required: false
                 images:
                   type: array
                   items:
                     type: string
                     description: image to upload
                     format: binary
-                    required: true
       responses:
         200:
           description: successful operation
