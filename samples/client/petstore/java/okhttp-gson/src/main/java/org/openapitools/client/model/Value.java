@@ -86,7 +86,7 @@ public class Value extends AbstractOpenApiSchema {
                     // check if the actual instance is of the type `List<Scalar>`
                     if (value.getActualInstance() instanceof List<?>) {
                         List<?> list = (List<?>) value.getActualInstance();
-                        if (list.get(0) instanceof Scalar) {
+                        if (!list.isEmpty() && list.get(0) instanceof Scalar) {
                             JsonArray array = adapterListScalar.toJsonTree((List<Scalar>)value.getActualInstance()).getAsJsonArray();
                             elementAdapter.write(out, array);
                             return;
@@ -187,7 +187,7 @@ public class Value extends AbstractOpenApiSchema {
 
         if (instance instanceof List<?>) {
             List<?> list = (List<?>) instance;
-            if (list.get(0) instanceof Scalar) {
+            if (!list.isEmpty() && list.get(0) instanceof Scalar) {
                 super.setActualInstance(instance);
                 return;
             }
