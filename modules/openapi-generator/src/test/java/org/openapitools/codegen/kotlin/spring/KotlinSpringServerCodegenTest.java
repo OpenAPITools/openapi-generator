@@ -881,6 +881,53 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test
+    public void givenMultipartBinaryArray_whenGenerateReactiveDelegateAndService_correctPartIsCreated() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/form-multipart-binary-array.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setDelegatePattern(true);
+        // this will generate the service interface & implementation files
+        codegen.setServiceImplementation(true);
+        codegen.setReactive(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+//        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        validateMultipartFiles(
+            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartArray",
+            "files: Flux<org.springframework.http.codec.multipart.Part>?)"
+        );
+
+        validateMultipartFiles(
+            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartMixed",
+            "file: org.springframework.http.codec.multipart.Part,",
+            "marker: MultipartMixedRequestMarker?",
+            "statusArray: kotlin.collections.List<MultipartMixedStatus>?"
+        );
+
+        validateMultipartFiles(
+            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartSingle",
+            "file: org.springframework.http.codec.multipart.Part?"
+        );
+    }
+
     private void validateMultipartFiles(
         String filePrefix,
         String... lines
