@@ -194,7 +194,8 @@ where
   };
   {{/disableValidator}}
 
-  {{#havingAuthMethod}}
+{{#vendorExtensions}}
+{{#x-has-auth-methods}}
   {{#havingAuthorization}}
     {{#vendorExtensions}}
       // Authorization
@@ -239,7 +240,8 @@ where
       }
       {{/vendorExtensions}}
   {{/havingAuthorization}}
-  {{/havingAuthMethod}}
+{{/x-has-auth-methods}}
+{{/vendorExtensions}}
 
   let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
       &method,

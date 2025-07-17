@@ -24,7 +24,8 @@ pub trait {{classnamePascalCase}}Authorization {
     type Claims;
 
 {{#operation}}
-  {{#havingAuthMethod}}
+  {{#vendorExtensions}}
+  {{#x-has-auth-methods}}
   {{#havingAuthorization}}
    {{#vendorExtensions}}
     /// Authorization{{#summary}} - {{{.}}}{{/summary}}.
@@ -74,7 +75,8 @@ pub trait {{classnamePascalCase}}Authorization {
         }
    {{/vendorExtensions}}
   {{/havingAuthorization}}
-  {{/havingAuthMethod}}
+  {{/x-has-auth-methods}}
+  {{/vendorExtensions}}
   {{^-last}}
 
   {{/-last}}
