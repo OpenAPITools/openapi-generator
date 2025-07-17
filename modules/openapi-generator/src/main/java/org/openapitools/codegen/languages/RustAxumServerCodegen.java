@@ -61,7 +61,8 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private Boolean allowBlockingValidator = false;
     private Boolean allowBlockingResponseSerialize = false;
     private String externCrateName;
-    private Boolean havingAuthorization = false;
+    private Boolean basicAuthorization = false;
+    private Boolean basicAnalytic = false;
 
     // Types
     private static final String uuidType = "uuid::Uuid";
@@ -227,11 +228,6 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         optAllowBlockingResponseSerialize.setType("bool");
         optAllowBlockingResponseSerialize.defaultValue(allowBlockingResponseSerialize.toString());
 
-        CliOption optHavingAuthorization = new CliOption("havingAuthorization",
-                String.join("", "Set this option to true will generate authorization handle for all authenticated operations."));
-        optHavingAuthorization.setType("bool");
-        optHavingAuthorization.defaultValue(havingAuthorization.toString());
-
         cliOptions = new ArrayList<>(
                 List.of(
                         new CliOption(CodegenConstants.PACKAGE_NAME,
@@ -241,8 +237,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                                 "Rust crate version."),
                         optDisableValidator,
                         optAllowBlockingValidator,
-                        optAllowBlockingResponseSerialize,
-                        optHavingAuthorization
+                        optAllowBlockingResponseSerialize
                 )
         );
 
@@ -324,10 +319,16 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             additionalProperties.put("allowBlockingResponseSerialize", allowBlockingResponseSerialize);
         }
 
-        if (additionalProperties.containsKey("havingAuthorization")) {
-            havingAuthorization = convertPropertyToBooleanAndWriteBack("havingAuthorization");
+        if (additionalProperties.containsKey("basicAuthorization")) {
+            basicAuthorization = convertPropertyToBooleanAndWriteBack("basicAuthorization");
         } else {
-            additionalProperties.put("havingAuthorization ", havingAuthorization);
+            additionalProperties.put("basicAuthorization", basicAuthorization);
+        }
+
+        if (additionalProperties.containsKey("basicAnalytic")) {
+            basicAnalytic = convertPropertyToBooleanAndWriteBack("basicAnalytic");
+        } else {
+            additionalProperties.put("basicAnalytic", basicAnalytic);
         }
     }
 
@@ -736,10 +737,15 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             operations.getOperation().forEach(op -> op.vendorExtensions.put("havingAuthMethod", true));
             this.havingAuthMethods = true;
 
-            if (havingAuthorization) {
-                operations.put("havingAuthorization", true);
-                operations.getOperation().forEach(op -> op.vendorExtensions.put("havingAuthorization", true));
+            if (basicAuthorization) {
+                operations.put("basicAuthorization", true);
+                operations.getOperation().forEach(op -> op.vendorExtensions.put("basicAuthorization", true));
             }
+        }
+
+        if (basicAnalytic) {
+            operations.put("basicAnalytic", true);
+            operations.getOperation().forEach(op -> op.vendorExtensions.put("basicAnalytic", true));
         }
 
         return operationsMap;

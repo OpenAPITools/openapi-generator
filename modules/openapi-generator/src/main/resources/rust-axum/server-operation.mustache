@@ -59,9 +59,11 @@ async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A, E{
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::{{classFilename}}::{{classnamePascalCase}}<E{{#havingAuthMethod}}, Claims = C{{/havingAuthMethod}}>{{#havingAuthMethod}}{{#havingAuthorization}} + apis::{{classFilename}}::{{classnamePascalCase}}Authorization<Claims = C>{{/havingAuthorization}}{{/havingAuthMethod}}{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication<Claims = C>{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader<Claims = C>{{/x-has-header-auth-methods}}{{#x-has-basic-auth-methods}}+ apis::ApiAuthBasic<Claims = C>{{/x-has-basic-auth-methods}}{{/vendorExtensions}} + Send + Sync,
+    A: {{#basicAnalytic}}apis::EventDispatcher + {{/basicAnalytic}}apis::{{classFilename}}::{{classnamePascalCase}}<E{{#havingAuthMethod}}, Claims = C{{/havingAuthMethod}}>{{#havingAuthMethod}}{{#basicAuthorization}} + apis::{{classFilename}}::{{classnamePascalCase}}Authorization<Claims = C>{{/basicAuthorization}}{{/havingAuthMethod}}{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication<Claims = C>{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader<Claims = C>{{/x-has-header-auth-methods}}{{#x-has-basic-auth-methods}}+ apis::ApiAuthBasic<Claims = C>{{/x-has-basic-auth-methods}}{{/vendorExtensions}} + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
         {
+{{#basicAnalytic}}let start_at = chrono::Utc::now();{{/basicAnalytic}}
+
 {{#vendorExtensions}}
 {{#x-has-auth-methods}}
     // Authentication
@@ -196,7 +198,7 @@ where
 
 {{#vendorExtensions}}
 {{#x-has-auth-methods}}
-  {{#havingAuthorization}}
+  {{#basicAuthorization}}
     {{#vendorExtensions}}
       // Authorization
       let authorization = api_impl.as_ref().{{{x-operation-id}}}_authorize(
@@ -239,11 +241,13 @@ where
           Err(_) => { return response_with_status_code_only(StatusCode::INTERNAL_SERVER_ERROR); }
       }
       {{/vendorExtensions}}
-  {{/havingAuthorization}}
+  {{/basicAuthorization}}
 {{/x-has-auth-methods}}
 {{/vendorExtensions}}
 
+  {{#basicAnalytic}}let mut event = apis::event::Event::default();{{/basicAnalytic}}
   let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+      {{#basicAnalytic}}&mut event,{{/basicAnalytic}}
       &method,
       &host,
       &cookies,
@@ -406,6 +410,17 @@ where
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
+
+                                        {{#basicAnalytic}}
+                                        if let Ok(resp) = resp.as_ref() && !event.is_empty() {
+                                             event.insert(apis::event::convention::EVENT_TIMESTAMP.to_string(), format!("{start_at:?}"));
+                                             event.insert(apis::event::convention::EVENT_SERVICE.to_string(), api_impl.as_ref().service_name());
+                                             event.insert(apis::event::convention::EVENT_STATUS_CODE.to_string(), resp.status().as_u16().to_string());
+                                             event.insert(apis::event::convention::EVENT_ACTION.to_string(), "{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}".to_string());
+                                             event.insert(apis::event::convention::EVENT_LATENCY_SECS.to_string(), format!("{:.6}", chrono::Utc::now().signed_duration_since(start_at).as_seconds_f64()));
+                                             api_impl.as_ref().dispatch(event).await;
+                                        }
+                                        {{/basicAnalytic}}
 
                                         resp.map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR })
 }

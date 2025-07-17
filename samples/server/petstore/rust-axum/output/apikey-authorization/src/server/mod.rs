@@ -16,7 +16,8 @@ use crate::{apis, models};
 pub fn new<I, A, E, C>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: apis::payments::Payments<E, Claims = C>
+    A: apis::EventDispatcher
+        + apis::payments::Payments<E, Claims = C>
         + apis::payments::PaymentsAuthorization<Claims = C>
         + apis::ApiAuthBasic<Claims = C>
         + apis::ApiAuthBasic<Claims = C>
@@ -62,13 +63,16 @@ async fn get_payment_method_by_id<I, A, E, C>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::payments::Payments<E, Claims = C>
+    A: apis::EventDispatcher
+        + apis::payments::Payments<E, Claims = C>
         + apis::payments::PaymentsAuthorization<Claims = C>
         + apis::ApiAuthBasic<Claims = C>
         + Send
         + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
+    let start_at = chrono::Utc::now();
+
     // Authentication
     let claims_in_auth_header = api_impl
         .as_ref()
@@ -109,9 +113,10 @@ where
         }
     }
 
+    let mut event = apis::event::Event::default();
     let result = api_impl
         .as_ref()
-        .get_payment_method_by_id(&method, &host, &cookies, &claims, &path_params)
+        .get_payment_method_by_id(&mut event, &method, &host, &cookies, &claims, &path_params)
         .await;
 
     let mut response = Response::builder();
@@ -175,6 +180,37 @@ where
         }
     };
 
+    if let Ok(resp) = resp.as_ref()
+        && !event.is_empty()
+    {
+        event.insert(
+            apis::event::convention::EVENT_TIMESTAMP.to_string(),
+            format!("{start_at:?}"),
+        );
+        event.insert(
+            apis::event::convention::EVENT_SERVICE.to_string(),
+            api_impl.as_ref().service_name(),
+        );
+        event.insert(
+            apis::event::convention::EVENT_STATUS_CODE.to_string(),
+            resp.status().as_u16().to_string(),
+        );
+        event.insert(
+            apis::event::convention::EVENT_ACTION.to_string(),
+            "get_payment_method_by_id".to_string(),
+        );
+        event.insert(
+            apis::event::convention::EVENT_LATENCY_SECS.to_string(),
+            format!(
+                "{:.6}",
+                chrono::Utc::now()
+                    .signed_duration_since(start_at)
+                    .as_seconds_f64()
+            ),
+        );
+        api_impl.as_ref().dispatch(event).await;
+    }
+
     resp.map_err(|e| {
         error!(error = ?e);
         StatusCode::INTERNAL_SERVER_ERROR
@@ -196,13 +232,16 @@ async fn get_payment_methods<I, A, E, C>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::payments::Payments<E, Claims = C>
+    A: apis::EventDispatcher
+        + apis::payments::Payments<E, Claims = C>
         + apis::payments::PaymentsAuthorization<Claims = C>
         + apis::ApiAuthBasic<Claims = C>
         + Send
         + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
+    let start_at = chrono::Utc::now();
+
     // Authentication
     let claims_in_auth_header = api_impl
         .as_ref()
@@ -242,9 +281,10 @@ where
         }
     }
 
+    let mut event = apis::event::Event::default();
     let result = api_impl
         .as_ref()
-        .get_payment_methods(&method, &host, &cookies, &claims)
+        .get_payment_methods(&mut event, &method, &host, &cookies, &claims)
         .await;
 
     let mut response = Response::builder();
@@ -285,6 +325,37 @@ where
         }
     };
 
+    if let Ok(resp) = resp.as_ref()
+        && !event.is_empty()
+    {
+        event.insert(
+            apis::event::convention::EVENT_TIMESTAMP.to_string(),
+            format!("{start_at:?}"),
+        );
+        event.insert(
+            apis::event::convention::EVENT_SERVICE.to_string(),
+            api_impl.as_ref().service_name(),
+        );
+        event.insert(
+            apis::event::convention::EVENT_STATUS_CODE.to_string(),
+            resp.status().as_u16().to_string(),
+        );
+        event.insert(
+            apis::event::convention::EVENT_ACTION.to_string(),
+            "get_payment_methods".to_string(),
+        );
+        event.insert(
+            apis::event::convention::EVENT_LATENCY_SECS.to_string(),
+            format!(
+                "{:.6}",
+                chrono::Utc::now()
+                    .signed_duration_since(start_at)
+                    .as_seconds_f64()
+            ),
+        );
+        api_impl.as_ref().dispatch(event).await;
+    }
+
     resp.map_err(|e| {
         error!(error = ?e);
         StatusCode::INTERNAL_SERVER_ERROR
@@ -321,7 +392,8 @@ async fn post_make_payment<I, A, E, C>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::payments::Payments<E, Claims = C>
+    A: apis::EventDispatcher
+        + apis::payments::Payments<E, Claims = C>
         + apis::payments::PaymentsAuthorization<Claims = C>
         + apis::CookieAuthentication<Claims = C>
         + apis::ApiAuthBasic<Claims = C>
@@ -329,6 +401,8 @@ where
         + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
+    let start_at = chrono::Utc::now();
+
     // Authentication
     let claims_in_cookie = api_impl
         .as_ref()
@@ -372,9 +446,10 @@ where
         }
     }
 
+    let mut event = apis::event::Event::default();
     let result = api_impl
         .as_ref()
-        .post_make_payment(&method, &host, &cookies, &claims, &body)
+        .post_make_payment(&mut event, &method, &host, &cookies, &claims, &body)
         .await;
 
     let mut response = Response::builder();
@@ -437,6 +512,37 @@ where
                 .await;
         }
     };
+
+    if let Ok(resp) = resp.as_ref()
+        && !event.is_empty()
+    {
+        event.insert(
+            apis::event::convention::EVENT_TIMESTAMP.to_string(),
+            format!("{start_at:?}"),
+        );
+        event.insert(
+            apis::event::convention::EVENT_SERVICE.to_string(),
+            api_impl.as_ref().service_name(),
+        );
+        event.insert(
+            apis::event::convention::EVENT_STATUS_CODE.to_string(),
+            resp.status().as_u16().to_string(),
+        );
+        event.insert(
+            apis::event::convention::EVENT_ACTION.to_string(),
+            "post_make_payment".to_string(),
+        );
+        event.insert(
+            apis::event::convention::EVENT_LATENCY_SECS.to_string(),
+            format!(
+                "{:.6}",
+                chrono::Utc::now()
+                    .signed_duration_since(start_at)
+                    .as_seconds_f64()
+            ),
+        );
+        api_impl.as_ref().dispatch(event).await;
+    }
 
     resp.map_err(|e| {
         error!(error = ?e);

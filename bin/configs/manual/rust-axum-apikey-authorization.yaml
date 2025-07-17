@@ -6,7 +6,8 @@ generateAliasAsModel: true
 additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: apikey-authorization
-  havingAuthorization: true
+  basicAuthorization: true
+  basicAnalytic: true
 globalProperties:
   skipFormModel: false
 enablePostProcessFile: true
