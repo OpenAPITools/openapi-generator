@@ -918,7 +918,11 @@ paths:
         $ref: "#/components/requestBodies/TestBody"
       responses:
         "200":
-          $ref: "#/components/responses/SuccessfulOp"
+          content:
+            application/json:
+              schema:
+                type: bool
+          description: Successful Operation
       summary: POST a test batch
       tags:
       - fake
