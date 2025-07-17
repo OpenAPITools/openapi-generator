@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import lombok.Getter;
@@ -768,6 +769,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
 
+        if (SPRING_BOOT.equals(library) && containsEnums()) {
+            supportingFiles.add(new SupportingFile("converter.mustache",
+                (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.kt"));
+        }
+
         if (!additionalProperties.containsKey(TITLE)) {
             // The purpose of the title is for:
             // - README documentation
@@ -795,6 +801,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         // TODO: Handle tags
+    }
+
+    private boolean containsEnums() {
+        if (openAPI == null) {
+            return false;
+        }
+
+        Components components = this.openAPI.getComponents();
+        if (components == null || components.getSchemas() == null) {
+            return false;
+        }
+
+        return components.getSchemas().values().stream()
+            .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty());
     }
 
     @Override

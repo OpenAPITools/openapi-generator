@@ -5,6 +5,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import java.util.HashMap;
+import java.util.function.Consumer;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +14,8 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -31,8 +35,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 
@@ -749,6 +755,49 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void contractWithoutEnumDoesNotContainEnumConverter() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/generic.yaml");
+
+        assertThat(output).doesNotContainKey("EnumConverterConfiguration.kt");
+    }
+
+    @Test
+    public void contractWithEnumContainsEnumConverter() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/enum.yaml");
+
+        File enumConverterFile = output.get("EnumConverterConfiguration.kt");
+        assertThat(enumConverterFile).isNotNull();
+        assertFileContains(enumConverterFile.toPath(), "fun typeConverter(): Converter<kotlin.String, Type> {");
+        assertFileContains(enumConverterFile.toPath(), "return object: Converter<kotlin.String, Type> {");
+        assertFileContains(enumConverterFile.toPath(), "override fun convert(source: kotlin.String): Type = Type.forValue(source)");
+    }
+
+    @Test
+    public void contractWithResolvedInnerEnumContainsEnumConverter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("kotlin-spring")
+            .setInputSpec("src/test/resources/3_0/inner_enum.yaml")
+            .addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File enumConverterFile = files.get("EnumConverterConfiguration.kt");
+        assertThat(enumConverterFile).isNotNull();
+        assertFileContains(enumConverterFile.toPath(), "fun ponyTypeConverter(): Converter<kotlin.String, PonyType> {");
+        assertFileContains(enumConverterFile.toPath(), "return object: Converter<kotlin.String, PonyType> {");
+        assertFileContains(enumConverterFile.toPath(), "override fun convert(source: kotlin.String): PonyType = PonyType.forValue(source)");
+    }
+
+    @Test
     public void givenMultipartFormArray_whenGenerateDelegateAndService_thenParameterIsCreatedAsListOfMultipartFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -1192,4 +1241,55 @@ public class KotlinSpringServerCodegenTest {
                 "@NotNull", "@Valid", "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$\")");
     }
 
+
+    private Map<String, File> generateFromContract(String url) throws IOException {
+        return generateFromContract(url, new HashMap<>(), new HashMap<>());
+    }
+
+    private Map<String, File> generateFromContract(String url, Map<String, Object> additionalProperties) throws IOException {
+        return generateFromContract(url, additionalProperties, new HashMap<>());
+    }
+
+    private Map<String, File> generateFromContract(
+        String url,
+        Map<String, Object> additionalProperties,
+        Map<String, String> generatorPropertyDefaults
+    ) throws IOException {
+        return generateFromContract(url, additionalProperties, generatorPropertyDefaults, codegen -> {
+        });
+    }
+
+    /**
+     * Generate the contract with additional configuration.
+     * <p>
+     * use CodegenConfigurator instead of CodegenConfig for easier configuration like in JavaClientCodeGenTest
+     */
+    private Map<String, File> generateFromContract(
+        String url,
+        Map<String, Object> additionalProperties,
+        Map<String, String> generatorPropertyDefaults,
+        Consumer<CodegenConfigurator> consumer
+    ) throws IOException {
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("kotlin-spring")
+            .setAdditionalProperties(additionalProperties)
+            .setValidateSpec(false)
+            .setInputSpec(url)
+            .setLibrary(SPRING_BOOT)
+            .setOutputDir(output.getAbsolutePath());
+
+        consumer.accept(configurator);
+
+        ClientOptInput input = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generatorPropertyDefaults.forEach(generator::setGeneratorPropertyDefault);
+
+        return generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+    }
 }
