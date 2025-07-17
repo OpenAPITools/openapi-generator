@@ -278,8 +278,12 @@ class ApiClient {
           return SpecialModelName.fromJson(value);
         case 'Tag':
           return Tag.fromJson(value);
+        case 'TestEnum':
+          return TestEnumTypeTransformer().decode(value);
         case 'TestInlineFreeformAdditionalPropertiesRequest':
           return TestInlineFreeformAdditionalPropertiesRequest.fromJson(value);
+        case 'TestItem':
+          return TestItem.fromJson(value);
         case 'User':
           return User.fromJson(value);
         default:
