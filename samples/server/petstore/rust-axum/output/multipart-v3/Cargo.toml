@@ -3,7 +3,7 @@ name = "multipart-v3"
 version = "1.0.7"
 authors = ["OpenAPI Generator team and contributors"]
 description = "API under test"
-edition = "2021"
+edition = "2024"
 
 [features]
 default = ["server"]

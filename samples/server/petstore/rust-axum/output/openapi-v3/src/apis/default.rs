@@ -46,6 +46,14 @@ pub enum EnumInPathPathParamGetResponse {
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
+pub enum ExamplesTestResponse {
+    /// OK
+    Status200_OK(models::AdditionalPropertiesReferencedAnyOfObject),
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum FormTestResponse {
     /// OK
     Status200_OK,
@@ -310,6 +318,17 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         cookies: &CookieJar,
         path_params: &models::EnumInPathPathParamGetPathParams,
     ) -> Result<EnumInPathPathParamGetResponse, E>;
+
+    /// Test examples.
+    ///
+    /// ExamplesTest - GET /examples-test
+    async fn examples_test(
+        &self,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        query_params: &models::ExamplesTestQueryParams,
+    ) -> Result<ExamplesTestResponse, E>;
 
     /// Test a Form Post.
     ///

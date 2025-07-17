@@ -3,7 +3,7 @@ name = "apikey-auths"
 version = "1.0.0"
 authors = ["OpenAPI Generator team and contributors"]
 description = "Checkout Basic"
-edition = "2021"
+edition = "2024"
 
 [features]
 default = ["server"]

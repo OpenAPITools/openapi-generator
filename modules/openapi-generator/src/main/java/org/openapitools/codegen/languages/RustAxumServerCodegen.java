@@ -61,6 +61,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private Boolean allowBlockingValidator = false;
     private Boolean allowBlockingResponseSerialize = false;
     private String externCrateName;
+    private Boolean havingAuthorization = false;
 
     // Types
     private static final String uuidType = "uuid::Uuid";
@@ -226,6 +227,11 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         optAllowBlockingResponseSerialize.setType("bool");
         optAllowBlockingResponseSerialize.defaultValue(allowBlockingResponseSerialize.toString());
 
+        CliOption optHavingAuthorization = new CliOption("havingAuthorization",
+                String.join("", "Set this option to true will generate authorization handle for all authenticated operations."));
+        optHavingAuthorization.setType("bool");
+        optHavingAuthorization.defaultValue(havingAuthorization.toString());
+
         cliOptions = new ArrayList<>(
                 List.of(
                         new CliOption(CodegenConstants.PACKAGE_NAME,
@@ -235,7 +241,8 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                                 "Rust crate version."),
                         optDisableValidator,
                         optAllowBlockingValidator,
-                        optAllowBlockingResponseSerialize
+                        optAllowBlockingResponseSerialize,
+                        optHavingAuthorization
                 )
         );
 
@@ -286,7 +293,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             LOGGER.info("Warning: Environment variable 'RUST_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
+        if (!ModelUtils.isGenerateAliasAsModel()) {
             LOGGER.warn("generateAliasAsModel is set to false, which means array/map will be generated as model instead and the resulting code may have issues. Please enable `generateAliasAsModel` to address the issue.");
         }
 
@@ -315,6 +322,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             allowBlockingResponseSerialize = convertPropertyToBooleanAndWriteBack("allowBlockingResponseSerialize");
         } else {
             additionalProperties.put("allowBlockingResponseSerialize", allowBlockingResponseSerialize);
+        }
+
+        if (additionalProperties.containsKey("havingAuthorization")) {
+            havingAuthorization = convertPropertyToBooleanAndWriteBack("havingAuthorization");
+        } else {
+            additionalProperties.put("havingAuthorization ", havingAuthorization);
         }
     }
 
@@ -722,6 +735,11 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             operations.put("havingAuthMethod", true);
             operations.getOperation().forEach(op -> op.vendorExtensions.put("havingAuthMethod", true));
             this.havingAuthMethods = true;
+
+            if (havingAuthorization) {
+                operations.put("havingAuthorization", true);
+                operations.getOperation().forEach(op -> op.vendorExtensions.put("havingAuthorization", true));
+            }
         }
 
         return operationsMap;

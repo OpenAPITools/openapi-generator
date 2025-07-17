@@ -207,7 +207,7 @@ use crate::{models, types::*};
     #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))] 
     pub struct {{{operationIdCamelCase}}}QueryParams {
         {{#queryParams}}
-            {{#description}}    
+            {{#description}}
             /// {{{.}}}
             {{/description}}
             {{#isEnum}}
@@ -313,7 +313,7 @@ use crate::{models, types::*};
     {{/isByteArray}}
     {{/pattern}}
     {{/hasValidation}}
-    {{/queryParams}} 
+    {{/queryParams}}
   {{/queryParams.size}}
 {{/vendorExtensions}}
       {{/operation}}
@@ -367,7 +367,7 @@ impl std::str::FromStr for {{{classname}}} {
             {{{value}}} => std::result::Result::Ok({{{classname}}}::{{{name}}}),
   {{/enumVars}}
 {{/allowableValues}}
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!(r#"Value not valid: {s}"#)),
         }
     }
 }
@@ -665,7 +665,7 @@ impl std::str::FromStr for {{{classname}}} {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct {{{classname}}} {
 {{#vars}}
-{{#description}}    
+{{#description}}
     /// {{{.}}}
 {{/description}}
 {{#isEnum}}
@@ -958,9 +958,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<{{{classname}}}>> for HeaderV
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for {{classname}} - value: {} is invalid {}",
-                     hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for {{classname}} - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -974,14 +972,10 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<{{{classname
              std::result::Result::Ok(value) => {
                     match <{{{classname}}} as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into {{classname}} - {}",
-                                value, err))
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into {{classname}} - {err}"#))
                     }
              },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }

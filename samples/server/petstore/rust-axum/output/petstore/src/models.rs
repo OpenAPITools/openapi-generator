@@ -193,7 +193,7 @@ impl std::str::FromStr for ApiResponse {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ApiResponse".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -215,7 +215,7 @@ impl std::str::FromStr for ApiResponse {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ApiResponse".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -246,8 +246,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ApiResponse>> for HeaderValue
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for ApiResponse - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for ApiResponse - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -265,14 +264,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ApiResponse>
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into ApiResponse - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into ApiResponse - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -357,7 +354,7 @@ impl std::str::FromStr for Category {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Category".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -375,7 +372,7 @@ impl std::str::FromStr for Category {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Category".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -405,8 +402,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Category>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for Category - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for Category - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -424,14 +420,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Category> {
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into Category - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into Category - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -545,7 +539,7 @@ impl std::str::FromStr for Order {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Order".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -580,7 +574,7 @@ impl std::str::FromStr for Order {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Order".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -614,8 +608,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Order>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for Order - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for Order - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -632,13 +625,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Order> {
                     std::result::Result::Ok(header::IntoHeaderValue(value))
                 }
                 std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    "Unable to convert header value '{}' into Order - {}",
-                    value, err
+                    r#"Unable to convert header value '{value}' into Order - {err}"#
                 )),
             },
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -750,7 +741,7 @@ impl std::str::FromStr for Pet {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Pet".to_string())
+                    return std::result::Result::Err("Missing value while parsing Pet".to_string());
                 }
             };
 
@@ -773,12 +764,12 @@ impl std::str::FromStr for Pet {
                     "photoUrls" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in Pet".to_string(),
-                        )
+                        );
                     }
                     "tags" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in Pet".to_string(),
-                        )
+                        );
                     }
                     #[allow(clippy::redundant_clone)]
                     "status" => intermediate_rep.status.push(
@@ -787,7 +778,7 @@ impl std::str::FromStr for Pet {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Pet".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -827,8 +818,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Pet>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for Pet - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for Pet - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -845,13 +835,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Pet> {
                     std::result::Result::Ok(header::IntoHeaderValue(value))
                 }
                 std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    "Unable to convert header value '{}' into Pet - {}",
-                    value, err
+                    r#"Unable to convert header value '{value}' into Pet - {err}"#
                 )),
             },
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -927,7 +915,7 @@ impl std::str::FromStr for Tag {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Tag".to_string())
+                    return std::result::Result::Err("Missing value while parsing Tag".to_string());
                 }
             };
 
@@ -945,7 +933,7 @@ impl std::str::FromStr for Tag {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Tag".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -973,8 +961,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Tag>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for Tag - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for Tag - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -991,13 +978,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Tag> {
                     std::result::Result::Ok(header::IntoHeaderValue(value))
                 }
                 std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    "Unable to convert header value '{}' into Tag - {}",
-                    value, err
+                    r#"Unable to convert header value '{value}' into Tag - {err}"#
                 )),
             },
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -1076,7 +1061,7 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing UpdatePetWithFormRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1094,7 +1079,7 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing UpdatePetWithFormRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1124,8 +1109,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<UpdatePetWithFormRequest>> fo
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for UpdatePetWithFormRequest - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for UpdatePetWithFormRequest - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -1143,14 +1127,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<UpdatePetWit
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into UpdatePetWithFormRequest - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into UpdatePetWithFormRequest - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -1234,7 +1216,7 @@ impl std::str::FromStr for UploadFileRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing UploadFileRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1252,7 +1234,7 @@ impl std::str::FromStr for UploadFileRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing UploadFileRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1282,8 +1264,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<UploadFileRequest>> for Heade
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for UploadFileRequest - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for UploadFileRequest - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -1301,14 +1282,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<UploadFileRe
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into UploadFileRequest - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into UploadFileRequest - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -1439,7 +1418,7 @@ impl std::str::FromStr for User {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing User".to_string())
+                    return std::result::Result::Err("Missing value while parsing User".to_string());
                 }
             };
 
@@ -1481,7 +1460,7 @@ impl std::str::FromStr for User {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing User".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1517,8 +1496,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<User>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for User - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for User - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -1535,13 +1513,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<User> {
                     std::result::Result::Ok(header::IntoHeaderValue(value))
                 }
                 std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    "Unable to convert header value '{}' into User - {}",
-                    value, err
+                    r#"Unable to convert header value '{value}' into User - {err}"#
                 )),
             },
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }

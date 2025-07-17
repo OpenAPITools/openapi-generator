@@ -59,7 +59,7 @@ async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A, E{
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::{{classFilename}}::{{classnamePascalCase}}<E{{#havingAuthMethod}}, Claims = C{{/havingAuthMethod}}>{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication<Claims = C>{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader<Claims = C>{{/x-has-header-auth-methods}}{{#x-has-basic-auth-methods}}+ apis::ApiAuthBasic<Claims = C>{{/x-has-basic-auth-methods}}{{/vendorExtensions}} + Send + Sync,
+    A: apis::{{classFilename}}::{{classnamePascalCase}}<E{{#havingAuthMethod}}, Claims = C{{/havingAuthMethod}}>{{#havingAuthMethod}}{{#havingAuthorization}} + apis::{{classFilename}}::{{classnamePascalCase}}Authorization<Claims = C>{{/havingAuthorization}}{{/havingAuthMethod}}{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication<Claims = C>{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader<Claims = C>{{/x-has-header-auth-methods}}{{#x-has-basic-auth-methods}}+ apis::ApiAuthBasic<Claims = C>{{/x-has-basic-auth-methods}}{{/vendorExtensions}} + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
         {
 {{#vendorExtensions}}
@@ -88,10 +88,7 @@ where
           {{/x-has-basic-auth-methods}}
           ;
     let Some(claims) = claims else {
-        return Response::builder()
-                        .status(StatusCode::UNAUTHORIZED)
-                        .body(Body::empty())
-                        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+        return response_with_status_code_only(StatusCode::UNAUTHORIZED);
     };
 {{/x-has-auth-methods}}
 {{/vendorExtensions}}
@@ -115,7 +112,7 @@ where
                         Err(err) => {
                             return Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Invalid header {{{baseName}}} - {}", err))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                        .body(Body::from(format!("Invalid header {{{baseName}}} - {err}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
 
                         },
                     },
@@ -197,6 +194,53 @@ where
   };
   {{/disableValidator}}
 
+  {{#havingAuthMethod}}
+  {{#havingAuthorization}}
+    {{#vendorExtensions}}
+      // Authorization
+      let authorization = api_impl.as_ref().{{{x-operation-id}}}_authorize(
+          &method,
+          &host,
+          &cookies,
+          &claims,
+          {{#headerParams.size}}
+            &header_params,
+          {{/headerParams.size}}
+          {{#pathParams.size}}
+            &path_params,
+          {{/pathParams.size}}
+          {{#queryParams.size}}
+            &query_params,
+          {{/queryParams.size}}
+          {{#vendorExtensions}}
+            {{^x-consumes-multipart-related}}
+            {{^x-consumes-multipart}}
+              {{#bodyParams}}
+                {{#-first}}
+                  &body,
+                {{/-first}}
+              {{/bodyParams}}
+            {{/x-consumes-multipart}}
+            {{/x-consumes-multipart-related}}
+            {{#x-consumes-multipart}}
+              &body,
+            {{/x-consumes-multipart}}
+            {{#x-consumes-multipart-related}}
+              &body,
+            {{/x-consumes-multipart-related}}
+          {{/vendorExtensions}}
+      ).await;
+      match authorization {
+          Ok(authorization) => match authorization {
+              apis::Authorization::Authorized => {},
+              apis::Authorization::Forbidden => { return response_with_status_code_only(StatusCode::FORBIDDEN); },
+          },
+          Err(_) => { return response_with_status_code_only(StatusCode::INTERNAL_SERVER_ERROR); }
+      }
+      {{/vendorExtensions}}
+  {{/havingAuthorization}}
+  {{/havingAuthMethod}}
+
   let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
       &method,
       &host,
@@ -276,7 +320,7 @@ where
                                                         Err(e) => {
                                                             return Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling {{name}} header - {}", e))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                                                    .body(Body::from(format!("An internal server error occurred handling {{name}} header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                                                         }
                                                     };
 
