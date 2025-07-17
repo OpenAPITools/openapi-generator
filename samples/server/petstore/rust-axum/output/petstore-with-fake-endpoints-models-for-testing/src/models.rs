@@ -7,6 +7,60 @@ use validator::Validate;
 use crate::header;
 use crate::{models, types::*};
 
+#[allow(dead_code)]
+pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
+    if ammonia::is_html(v) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
+    if v.iter().any(|i| ammonia::is_html(i)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_string(
+    v: &std::collections::HashMap<String, String>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_nested<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError>
+where
+    T: validator::Validate,
+{
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HyphenParamPathParams {
@@ -155,10 +209,12 @@ pub struct UpdateUserPathParams {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
+    #[validate(custom(function = "check_xss_map_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub map_property: Option<std::collections::HashMap<String, String>>,
 
     #[serde(rename = "map_of_map_property")]
+    #[validate(custom(function = "check_xss_map"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub map_of_map_property:
         Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
@@ -294,9 +350,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AdditionalPr
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Animal {
     #[serde(rename = "className")]
+    #[validate(custom(function = "check_xss_string"))]
     pub class_name: String,
 
     #[serde(rename = "color")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub color: Option<String>,
 }
@@ -589,10 +647,12 @@ pub struct ApiResponse {
     pub code: Option<i32>,
 
     #[serde(rename = "type")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub r#type: Option<String>,
 
     #[serde(rename = "message")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub message: Option<String>,
 }
@@ -1011,6 +1071,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ArrayOfNumbe
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayTest {
     #[serde(rename = "array_of_string")]
+    #[validate(custom(function = "check_xss_vec_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub array_of_string: Option<Vec<String>>,
 
@@ -1024,6 +1085,7 @@ pub struct ArrayTest {
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "array_of_enum")]
+    #[validate(custom(function = "check_xss_vec_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub array_of_enum: Option<Vec<String>>,
 }
@@ -1209,27 +1271,33 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ArrayTest> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Capitalization {
     #[serde(rename = "smallCamel")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub small_camel: Option<String>,
 
     #[serde(rename = "CapitalCamel")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub capital_camel: Option<String>,
 
     #[serde(rename = "small_Snake")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub small_snake: Option<String>,
 
     #[serde(rename = "Capital_Snake")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub capital_snake: Option<String>,
 
     #[serde(rename = "SCA_ETH_Flow_Points")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sca_eth_flow_points: Option<String>,
 
     /// Name of the pet
     #[serde(rename = "ATT_NAME")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub att_name: Option<String>,
 }
@@ -1420,9 +1488,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Capitalizati
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Cat {
     #[serde(rename = "className")]
+    #[validate(custom(function = "check_xss_string"))]
     pub class_name: String,
 
     #[serde(rename = "color")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub color: Option<String>,
 
@@ -1582,6 +1652,7 @@ pub struct Category {
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 }
@@ -1727,6 +1798,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Category> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
     #[serde(rename = "_class")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub _class: Option<String>,
 }
@@ -1859,6 +1931,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ClassModel> 
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Client {
     #[serde(rename = "client")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub client: Option<String>,
 }
@@ -1991,13 +2064,16 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Client> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Dog {
     #[serde(rename = "className")]
+    #[validate(custom(function = "check_xss_string"))]
     pub class_name: String,
 
     #[serde(rename = "color")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub color: Option<String>,
 
     #[serde(rename = "breed")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub breed: Option<String>,
 }
@@ -2288,11 +2364,13 @@ impl std::convert::TryFrom<HeaderValue>
 pub struct EnumArrays {
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "just_symbol")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub just_symbol: Option<String>,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "array_enum")]
+    #[validate(custom(function = "check_xss_vec_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub array_enum: Option<Vec<String>>,
 
@@ -2476,6 +2554,12 @@ pub enum EnumClass {
     LeftParenthesisXyzRightParenthesis,
 }
 
+impl validator::Validate for EnumClass {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
 impl std::fmt::Display for EnumClass {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
@@ -2504,11 +2588,13 @@ impl std::str::FromStr for EnumClass {
 pub struct EnumTest {
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_string")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub enum_string: Option<String>,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_string_required")]
+    #[validate(custom(function = "check_xss_string"))]
     pub enum_string_required: String,
 
     /// Note: inline enums are not fully supported by openapi-generator
@@ -2522,6 +2608,7 @@ pub struct EnumTest {
     pub enum_number: Option<f64>,
 
     #[serde(rename = "outerEnum")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub outer_enum: Option<models::OuterEnum>,
 }
@@ -2728,7 +2815,8 @@ pub struct FormatTest {
     #[serde(rename = "string")]
     #[validate(
             regex(path = *RE_FORMATTEST_STRING),
-        )]
+          custom(function = "check_xss_string"),
+    )]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub string: Option<String>,
 
@@ -2752,7 +2840,7 @@ pub struct FormatTest {
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "password")]
-    #[validate(length(min = 10, max = 64))]
+    #[validate(length(min = 10, max = 64), custom(function = "check_xss_string"))]
     pub password: String,
 }
 
@@ -3043,10 +3131,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FormatTest> 
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "foo")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub foo: Option<String>,
 }
@@ -3191,6 +3281,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<HasOnlyReadO
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct List {
     #[serde(rename = "123-list")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub param_123_list: Option<String>,
 }
@@ -3320,18 +3411,21 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<List> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
+    #[validate(custom(function = "check_xss_map"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub map_map_of_string:
         Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_map_of_enum")]
+    #[validate(custom(function = "check_xss_map"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub map_map_of_enum:
         Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_of_enum_string")]
+    #[validate(custom(function = "check_xss_map_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub map_of_enum_string: Option<std::collections::HashMap<String, String>>,
 }
@@ -3501,6 +3595,7 @@ pub struct MixedPropertiesAndAdditionalPropertiesClass {
     pub date_time: Option<chrono::DateTime<chrono::Utc>>,
 
     #[serde(rename = "map")]
+    #[validate(custom(function = "check_xss_map_nested"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub map: Option<std::collections::HashMap<String, models::Animal>>,
 }
@@ -3653,6 +3748,7 @@ pub struct Model200Response {
     pub name: Option<i32>,
 
     #[serde(rename = "class")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub class: Option<String>,
 }
@@ -3805,6 +3901,7 @@ pub struct Name {
     pub snake_case: Option<i32>,
 
     #[serde(rename = "property")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub property: Option<String>,
 
@@ -4104,6 +4201,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<NumberOnly> 
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub inner: Option<models::ObjectWithOnlyAdditionalProperties>,
 }
@@ -4305,6 +4403,7 @@ pub struct Order {
     /// Order Status
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 
@@ -4529,6 +4628,7 @@ pub struct OuterComposite {
     pub my_number: Option<f64>,
 
     #[serde(rename = "my_string")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub my_string: Option<String>,
 
@@ -4701,6 +4801,12 @@ pub enum OuterEnum {
     Delivered,
 }
 
+impl validator::Validate for OuterEnum {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
 impl std::fmt::Display for OuterEnum {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
@@ -4815,22 +4921,27 @@ pub struct Pet {
     pub id: Option<i64>,
 
     #[serde(rename = "category")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub category: Option<models::Category>,
 
     #[serde(rename = "name")]
+    #[validate(custom(function = "check_xss_string"))]
     pub name: String,
 
     #[serde(rename = "photoUrls")]
+    #[validate(custom(function = "check_xss_vec_string"))]
     pub photo_urls: Vec<String>,
 
     #[serde(rename = "tags")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tags: Option<Vec<models::Tag>>,
 
     /// pet status in the store
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 }
@@ -5020,10 +5131,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Pet> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "baz")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub baz: Option<String>,
 }
@@ -5305,6 +5418,7 @@ pub struct Tag {
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 }
@@ -5479,7 +5593,8 @@ pub struct TestEndpointParametersRequest {
     #[serde(rename = "string")]
     #[validate(
             regex(path = *RE_TESTENDPOINTPARAMETERSREQUEST_STRING),
-        )]
+          custom(function = "check_xss_string"),
+    )]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub string: Option<String>,
 
@@ -5487,7 +5602,8 @@ pub struct TestEndpointParametersRequest {
     #[serde(rename = "pattern_without_delimiter")]
     #[validate(
             regex(path = *RE_TESTENDPOINTPARAMETERSREQUEST_PATTERN_WITHOUT_DELIMITER),
-        )]
+          custom(function = "check_xss_string"),
+    )]
     pub pattern_without_delimiter: String,
 
     /// None
@@ -5511,12 +5627,13 @@ pub struct TestEndpointParametersRequest {
 
     /// None
     #[serde(rename = "password")]
-    #[validate(length(min = 10, max = 64))]
+    #[validate(length(min = 10, max = 64), custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub password: Option<String>,
 
     /// None
     #[serde(rename = "callback")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub callback: Option<String>,
 }
@@ -5773,6 +5890,7 @@ pub struct TestEnumParametersRequest {
     /// Form parameter enum test (string)
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_form_string")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub enum_form_string: Option<String>,
 }
@@ -5907,10 +6025,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<TestEnumPara
 pub struct TestJsonFormDataRequest {
     /// field1
     #[serde(rename = "param")]
+    #[validate(custom(function = "check_xss_string"))]
     pub param: String,
 
     /// field2
     #[serde(rename = "param2")]
+    #[validate(custom(function = "check_xss_string"))]
     pub param2: String,
 }
 
@@ -6058,11 +6178,13 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<TestJsonForm
 pub struct UpdatePetWithFormRequest {
     /// Updated name of the pet
     #[serde(rename = "name")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 
     /// Updated status of the pet
     #[serde(rename = "status")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 }
@@ -6208,6 +6330,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<UpdatePetWit
 pub struct UploadFileRequest {
     /// Additional data to pass to server
     #[serde(rename = "additionalMetadata")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub additional_metadata: Option<String>,
 
@@ -6366,26 +6489,32 @@ pub struct User {
     pub id: Option<i64>,
 
     #[serde(rename = "username")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub username: Option<String>,
 
     #[serde(rename = "firstName")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub first_name: Option<String>,
 
     #[serde(rename = "lastName")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub last_name: Option<String>,
 
     #[serde(rename = "email")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub email: Option<String>,
 
     #[serde(rename = "password")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub password: Option<String>,
 
     #[serde(rename = "phone")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub phone: Option<String>,
 

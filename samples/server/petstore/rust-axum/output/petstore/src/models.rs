@@ -7,6 +7,60 @@ use validator::Validate;
 use crate::header;
 use crate::{models, types::*};
 
+#[allow(dead_code)]
+pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
+    if ammonia::is_html(v) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
+    if v.iter().any(|i| ammonia::is_html(i)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_string(
+    v: &std::collections::HashMap<String, String>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_nested<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError>
+where
+    T: validator::Validate,
+{
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DeletePetHeaderParams {
@@ -94,7 +148,7 @@ pub struct LoginUserQueryParams {
     #[serde(rename = "username")]
     #[validate(
                           regex(path = *RE_LOGINUSERQUERYPARAMS_USERNAME),
-                    )]
+              )]
     pub username: String,
     /// The password for login in clear text
     #[serde(rename = "password")]
@@ -121,10 +175,12 @@ pub struct ApiResponse {
     pub code: Option<i32>,
 
     #[serde(rename = "type")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub r#type: Option<String>,
 
     #[serde(rename = "message")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub message: Option<String>,
 }
@@ -286,7 +342,8 @@ pub struct Category {
     #[serde(rename = "name")]
     #[validate(
             regex(path = *RE_CATEGORY_NAME),
-        )]
+          custom(function = "check_xss_string"),
+    )]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 }
@@ -454,6 +511,7 @@ pub struct Order {
     /// Order Status
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 
@@ -644,22 +702,27 @@ pub struct Pet {
     pub id: Option<i64>,
 
     #[serde(rename = "category")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub category: Option<models::Category>,
 
     #[serde(rename = "name")]
+    #[validate(custom(function = "check_xss_string"))]
     pub name: String,
 
     #[serde(rename = "photoUrls")]
+    #[validate(custom(function = "check_xss_vec_string"))]
     pub photo_urls: Vec<String>,
 
     #[serde(rename = "tags")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tags: Option<Vec<models::Tag>>,
 
     /// pet status in the store
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 }
@@ -854,6 +917,7 @@ pub struct Tag {
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 }
@@ -993,11 +1057,13 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Tag> {
 pub struct UpdatePetWithFormRequest {
     /// Updated name of the pet
     #[serde(rename = "name")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 
     /// Updated status of the pet
     #[serde(rename = "status")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 }
@@ -1143,6 +1209,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<UpdatePetWit
 pub struct UploadFileRequest {
     /// Additional data to pass to server
     #[serde(rename = "additionalMetadata")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub additional_metadata: Option<String>,
 
@@ -1302,26 +1369,32 @@ pub struct User {
     pub id: Option<i64>,
 
     #[serde(rename = "username")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub username: Option<String>,
 
     #[serde(rename = "firstName")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub first_name: Option<String>,
 
     #[serde(rename = "lastName")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub last_name: Option<String>,
 
     #[serde(rename = "email")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub email: Option<String>,
 
     #[serde(rename = "password")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub password: Option<String>,
 
     #[serde(rename = "phone")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub phone: Option<String>,
 

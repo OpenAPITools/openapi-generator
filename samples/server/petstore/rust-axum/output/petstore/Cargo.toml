@@ -18,6 +18,7 @@ conversion = [
 ]
 
 [dependencies]
+ammonia = "4"
 async-trait = "0.1"
 axum = { version = "0.8", features = ["multipart"] }
 axum-extra = { version = "0.10", features = ["cookie", "query"] }

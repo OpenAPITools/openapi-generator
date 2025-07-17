@@ -7,6 +7,60 @@ use validator::Validate;
 use crate::header;
 use crate::{models, types::*};
 
+#[allow(dead_code)]
+pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
+    if ammonia::is_html(v) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
+    if v.iter().any(|i| ammonia::is_html(i)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_string(
+    v: &std::collections::HashMap<String, String>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_nested<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError>
+where
+    T: validator::Validate,
+{
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfGetQueryParams {
@@ -250,6 +304,7 @@ pub struct AdditionalPropertiesWithNullable {
     pub nullable_string: Option<Nullable<String>>,
 
     #[serde(rename = "nullableMap")]
+    #[validate(custom(function = "check_xss_map_nested"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub nullable_map: Option<std::collections::HashMap<String, models::NullableObject>>,
 }
@@ -584,6 +639,7 @@ impl std::ops::DerefMut for AnotherXmlInner {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnotherXmlObject {
     #[serde(rename = "inner_string")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub inner_string: Option<String>,
 }
@@ -804,9 +860,11 @@ impl PartialEq for AnyOfObject {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfProperty {
     #[serde(rename = "requiredAnyOf")]
+    #[validate(nested)]
     pub required_any_of: models::AnyOfObject,
 
     #[serde(rename = "optionalAnyOf")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub optional_any_of: Option<models::Model12345AnyOfObject>,
 }
@@ -956,10 +1014,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnyOfPropert
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DuplicateXmlObject {
     #[serde(rename = "inner_string")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub inner_string: Option<String>,
 
     #[serde(rename = "inner_array")]
+    #[validate(nested)]
     pub inner_array: models::XmlArray,
 }
 
@@ -1121,6 +1181,12 @@ pub enum EnumWithStarObject {
     Star,
 }
 
+impl validator::Validate for EnumWithStarObject {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
 impl std::fmt::Display for EnumWithStarObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
@@ -1244,6 +1310,7 @@ impl std::ops::DerefMut for Error {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FormTestRequest {
     #[serde(rename = "requiredArray")]
+    #[validate(custom(function = "check_xss_vec_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub required_array: Option<Vec<String>>,
 }
@@ -1416,6 +1483,7 @@ impl PartialEq for Model12345AnyOfObject {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultigetGet201Response {
     #[serde(rename = "foo")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub foo: Option<String>,
 }
@@ -2567,6 +2635,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ObjectUntype
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectWithArrayOfObjects {
     #[serde(rename = "objectArray")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub object_array: Option<Vec<models::StringObject>>,
 }
@@ -2915,6 +2984,12 @@ pub enum StringEnum {
     Bar,
 }
 
+impl validator::Validate for StringEnum {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
 impl std::fmt::Display for StringEnum {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
@@ -3214,6 +3289,7 @@ impl std::ops::DerefMut for XmlInner {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct XmlObject {
     #[serde(rename = "innerString")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub inner_string: Option<String>,
 

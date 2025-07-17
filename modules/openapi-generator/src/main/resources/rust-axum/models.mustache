@@ -7,12 +7,64 @@ use validator::Validate;
 use crate::header;
 use crate::{models, types::*};
 
+#[allow(dead_code)]
+pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
+    if ammonia::is_html(v) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
+    if v.iter().any(|i| ammonia::is_html(i)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_string(
+    v: &std::collections::HashMap<String, String>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_nested<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError>
+where
+    T: validator::Validate,
+{
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
 {{! Don't "use" structs here - they can conflict with the names of models, and mean that the code won't compile }}
 {{#apiInfo}}
   {{#apis}}
     {{#operations}}
       {{#operation}}
-      
+
 {{#vendorExtensions}}
   {{#headerParams.size}}
     #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -68,10 +120,54 @@ use crate::{models, types::*};
                     length(min = {{minItems}}),
                     {{/minItems}}
                 {{/maxItems}}
-                )]
+                {{#vendorExtensions.is-nested}}
+                  nested,
+                {{/vendorExtensions.is-nested}}
+                {{#vendorExtensions.is-string}}
+                  custom(function = "check_xss_string")),
+                {{/vendorExtensions.is-string}}
+                {{#vendorExtensions.is-vec-nested}}
+                  nested,
+                {{/vendorExtensions.is-vec-nested}}
+                {{#vendorExtensions.is-vec-string}}
+                  custom(function = "check_xss_vec_string"),
+                {{/vendorExtensions.is-vec-string}}
+                {{#vendorExtensions.is-map-nested}}
+                  custom(function = "check_xss_map_nested"),
+                {{/vendorExtensions.is-map-nested}}
+                {{#vendorExtensions.is-map}}
+                  custom(function = "check_xss_map"),
+                {{/vendorExtensions.is-map}}
+                {{#vendorExtensions.is-map-string}}
+                  custom(function = "check_xss_map_string"),
+                {{/vendorExtensions.is-map-string}}
+            )]
+            {{/hasValidation}}
+            {{^hasValidation}}
+                {{#vendorExtensions.is-nested}}
+                  #[validate(nested)]
+                {{/vendorExtensions.is-nested}}
+                {{#vendorExtensions.is-string}}
+                  #[validate(custom(function = "check_xss_string"))]
+                {{/vendorExtensions.is-string}}
+                {{#vendorExtensions.is-vec-nested}}
+                  #[validate(nested)
+                {{/vendorExtensions.is-vec-nested}}
+                {{#vendorExtensions.is-vec-string}}
+                  #[validate(custom(function = "check_xss_vec_string"))]
+                {{/vendorExtensions.is-vec-string}}
+                {{#vendorExtensions.is-map-nested}}
+                  #[validate(custom(function = "check_xss_map_nested"))]
+                {{/vendorExtensions.is-map-nested}}
+                {{#vendorExtensions.is-map}}
+                  #[validate(custom(function = "check_xss_map"))]
+                {{/vendorExtensions.is-map}}
+                {{#vendorExtensions.is-map-string}}
+                  #[validate(custom(function = "check_xss_map_string"))]
+                {{/vendorExtensions.is-map-string}}
             {{/hasValidation}}
         pub {{{paramName}}}: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
-        {{/headerParams}} 
+        {{/headerParams}}
     }
 
     {{#headerParams}}
@@ -97,15 +193,15 @@ use crate::{models, types::*};
     {{/isByteArray}}
     {{/pattern}}
     {{/hasValidation}}
-    {{/headerParams}} 
-            
+    {{/headerParams}}
+
   {{/headerParams.size}}
   {{#pathParams.size}}
     #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))] 
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
     pub struct {{{operationIdCamelCase}}}PathParams {
         {{#pathParams}}
-            {{#description}}    
+            {{#description}}
             /// {{{.}}}
             {{/description}}
             {{#isEnum}}
@@ -160,7 +256,55 @@ use crate::{models, types::*};
                         length(min = {{minItems}}),
                         {{/minItems}}
                     {{/maxItems}}
-                    )]
+                    {{^isNullable}}
+                        {{#vendorExtensions.is-nested}}
+                          nested,
+                        {{/vendorExtensions.is-nested}}
+                        {{#vendorExtensions.is-string}}
+                          custom(function = "check_xss_string"),
+                        {{/vendorExtensions.is-string}}
+                        {{#vendorExtensions.is-vec-nested}}
+                          nested,
+                        {{/vendorExtensions.is-vec-nested}}
+                        {{#vendorExtensions.is-vec-string}}
+                          custom(function = "check_xss_vec_string"),
+                        {{/vendorExtensions.is-vec-string}}
+                        {{#vendorExtensions.is-map-nested}}
+                          custom(function = "check_xss_map_nested"),
+                        {{/vendorExtensions.is-map-nested}}
+                        {{#vendorExtensions.is-map}}
+                          custom(function = "check_xss_map"),
+                        {{/vendorExtensions.is-map}}
+                        {{#vendorExtensions.is-map-string}}
+                          custom(function = "check_xss_map_string"),
+                        {{/vendorExtensions.is-map-string}}
+                    {{/isNullable}}
+            )]
+            {{/hasValidation}}
+            {{^hasValidation}}
+                    {{^isNullable}}
+                    {{#vendorExtensions.is-nested}}
+                      #[validate(nested)]
+                    {{/vendorExtensions.is-nested}}
+                    {{#vendorExtensions.is-string}}
+                      #[validate(custom(function = "check_xss_string"))]
+                    {{/vendorExtensions.is-string}}
+                    {{#vendorExtensions.is-vec-nested}}
+                      #[validate(nested)]
+                    {{/vendorExtensions.is-vec-nested}}
+                    {{#vendorExtensions.is-vec-string}}
+                      #[validate(custom(function = "check_xss_vec_string"))]
+                    {{/vendorExtensions.is-vec-string}}
+                    {{#vendorExtensions.is-map-nested}}
+                      #[validate(custom(function = "check_xss_map_nested"))]
+                    {{/vendorExtensions.is-map-nested}}
+                    {{#vendorExtensions.is-map}}
+                      #[validate(custom(function = "check_xss_map"))]
+                    {{/vendorExtensions.is-map}}
+                    {{#vendorExtensions.is-map-string}}
+                      #[validate(custom(function = "check_xss_map_string"))]
+                    {{/vendorExtensions.is-map-string}}
+                    {{/isNullable}}
             {{/hasValidation}}
             {{#required}}
                 pub {{{paramName}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
@@ -204,7 +348,7 @@ use crate::{models, types::*};
   {{/pathParams.size}}
   {{#queryParams.size}}
     #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))] 
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
     pub struct {{{operationIdCamelCase}}}QueryParams {
         {{#queryParams}}
             {{#description}}
@@ -263,29 +407,77 @@ use crate::{models, types::*};
                         length(min = {{minItems}}),
                         {{/minItems}}
                     {{/maxItems}}
-                    )]
+                    {{^isNullable}}
+                    {{#vendorExtensions.is-nested}}
+                      nested,
+                    {{/vendorExtensions.is-nested}}
+                    {{#vendorExtensions.is-string}}
+                      custom(function = "check_xss_string"),
+                    {{/vendorExtensions.is-string}}
+                    {{#vendorExtensions.is-vec-nested}}
+                      nested,
+                    {{/vendorExtensions.is-vec-nested}}
+                    {{#vendorExtensions.is-vec-string}}
+                      custom(function = "check_xss_vec_string"),
+                    {{/vendorExtensions.is-vec-string}}
+                    {{#vendorExtensions.is-map-nested}}
+                      custom(function = "check_xss_map_nested"),
+                    {{/vendorExtensions.is-map-nested}}
+                    {{#vendorExtensions.is-map}}
+                      custom(function = "check_xss_map"),
+                    {{/vendorExtensions.is-map}}
+                    {{#vendorExtensions.is-map-string}}
+                      custom(function = "check_xss_map_string"),
+                    {{/vendorExtensions.is-map-string}}
+                    {{/isNullable}}
+              )]
+            {{/hasValidation}}
+            {{^hasValidation}}
+                    {{^isNullable}}
+                    {{#vendorExtensions.is-nested}}
+                      #[validate(nested)]
+                    {{/vendorExtensions.is-nested}}
+                    {{#vendorExtensions.is-string}}
+                      #[validate(custom(function = "check_xss_string"))]
+                    {{/vendorExtensions.is-string}}
+                    {{#vendorExtensions.is-vec-nested}}
+                      #[validate(nested)]
+                    {{/vendorExtensions.is-vec-nested}}
+                    {{#vendorExtensions.is-vec-string}}
+                      #[validate(custom(function = "check_xss_vec_string"))]
+                    {{/vendorExtensions.is-vec-string}}
+                    {{#vendorExtensions.is-map-nested}}
+                      #[validate(custom(function = "check_xss_map_nested"))]
+                    {{/vendorExtensions.is-map-nested}}
+                    {{#vendorExtensions.is-map}}
+                      #[validate(custom(function = "check_xss_map"))]
+                    {{/vendorExtensions.is-map}}
+                    {{#vendorExtensions.is-map-string}}
+                      #[validate(custom(function = "check_xss_map_string"))]
+                    {{/vendorExtensions.is-map-string}}
+                    {{/isNullable}}
             {{/hasValidation}}
             {{#isArray}}
-            {{#isNullable}}
-                // Nullable array query parameters are not fully supported.
-            {{/isNullable}}
-            {{^required}}
-                #[serde(default)]
-            {{/required}}
-                pub {{{paramName}}}: {{{dataType}}},
-            {{/isArray}}
+                {{#isNullable}}
+                    // Nullable array query parameters are not fully supported.
+                {{/isNullable}}
+                {{^required}}
+                    #[serde(default)]
+                {{/required}}
+                    pub {{{paramName}}}: {{{dataType}}},
+                {{/isArray}}
             {{^isArray}}
-            {{#required}}
-                pub {{{paramName}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
-            {{/required}}
-            {{^required}}
-            {{#isNullable}}
-                #[serde(deserialize_with = "deserialize_optional_nullable")]
-                #[serde(default = "default_optional_nullable")]
-            {{/isNullable}}
-                #[serde(skip_serializing_if="Option::is_none")]
-                pub {{{paramName}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
-            {{/required}}
+                {{#required}}
+                    pub {{{paramName}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
+                {{/required}}
+                {{^required}}
+                {{#isNullable}}
+                    #[serde(deserialize_with = "deserialize_optional_nullable")]
+                    #[serde(default = "default_optional_nullable")]
+                {{/isNullable}}
+                    #[serde(skip_serializing_if="Option::is_none")]
+                    pub {{{paramName}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
+                {{/required}}
             {{/isArray}}
         {{/queryParams}}
     }
@@ -343,6 +535,13 @@ pub enum {{{classname}}} {
     {{{name}}},
   {{/enumVars}}
 {{/allowableValues}}
+}
+
+impl validator::Validate for {{{classname}}}
+{
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
 }
 
 impl std::fmt::Display for {{{classname}}} {
@@ -725,7 +924,55 @@ pub struct {{{classname}}} {
             length(min = {{minItems}}),
             {{/minItems}}
         {{/maxItems}}
-        )]
+        {{^isNullable}}
+        {{#vendorExtensions.is-nested}}
+          nested,
+        {{/vendorExtensions.is-nested}}
+        {{#vendorExtensions.is-string}}
+          custom(function = "check_xss_string"),
+        {{/vendorExtensions.is-string}}
+        {{#vendorExtensions.is-vec-nested}}
+          nested,
+        {{/vendorExtensions.is-vec-nested}}
+        {{#vendorExtensions.is-vec-string}}
+          custom(function = "check_xss_vec_string"),
+        {{/vendorExtensions.is-vec-string}}
+        {{#vendorExtensions.is-map-nested}}
+          custom(function = "check_xss_map_nested"),
+        {{/vendorExtensions.is-map-nested}}
+        {{#vendorExtensions.is-map}}
+          custom(function = "check_xss_map"),
+        {{/vendorExtensions.is-map}}
+        {{#vendorExtensions.is-map-string}}
+          custom(function = "check_xss_map_string"),
+        {{/vendorExtensions.is-map-string}}
+        {{/isNullable}}
+    )]
+{{/hasValidation}}
+{{^hasValidation}}
+        {{^isNullable}}
+        {{#vendorExtensions.is-nested}}
+          #[validate(nested)]
+        {{/vendorExtensions.is-nested}}
+        {{#vendorExtensions.is-string}}
+          #[validate(custom(function = "check_xss_string"))]
+        {{/vendorExtensions.is-string}}
+        {{#vendorExtensions.is-vec-nested}}
+          #[validate(nested)]
+        {{/vendorExtensions.is-vec-nested}}
+        {{#vendorExtensions.is-vec-string}}
+          #[validate(custom(function = "check_xss_vec_string"))]
+        {{/vendorExtensions.is-vec-string}}
+        {{#vendorExtensions.is-map-nested}}
+          #[validate(custom(function = "check_xss_map_nested"))]
+        {{/vendorExtensions.is-map-nested}}
+        {{#vendorExtensions.is-map}}
+          #[validate(custom(function = "check_xss_map"))]
+        {{/vendorExtensions.is-map}}
+        {{#vendorExtensions.is-map-string}}
+          #[validate(custom(function = "check_xss_map_string"))]
+        {{/vendorExtensions.is-map-string}}
+        {{/isNullable}}
 {{/hasValidation}}
 {{#required}}
     pub {{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},

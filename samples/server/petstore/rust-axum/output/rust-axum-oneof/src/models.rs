@@ -7,6 +7,60 @@ use validator::Validate;
 use crate::header;
 use crate::{models, types::*};
 
+#[allow(dead_code)]
+pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
+    if ammonia::is_html(v) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
+    if v.iter().any(|i| ammonia::is_html(i)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_string(
+    v: &std::collections::HashMap<String, String>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_nested<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError>
+where
+    T: validator::Validate,
+{
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Goodbye {
@@ -14,9 +68,11 @@ pub struct Goodbye {
     #[serde(default = "Goodbye::_name_for_op")]
     #[serde(serialize_with = "Goodbye::_serialize_op")]
     #[serde(rename = "op")]
+    #[validate(custom(function = "check_xss_string"))]
     pub op: String,
 
     #[serde(rename = "d")]
+    #[validate(nested)]
     pub d: models::GoodbyeD,
 }
 
@@ -176,6 +232,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Goodbye> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GoodbyeD {
     #[serde(rename = "goodbye_message")]
+    #[validate(custom(function = "check_xss_string"))]
     pub goodbye_message: String,
 }
 
@@ -310,6 +367,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<GoodbyeD> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Greeting {
     #[serde(rename = "d")]
+    #[validate(nested)]
     pub d: models::GreetingD,
 
     #[serde(default = "Greeting::_name_for_op")]
@@ -477,6 +535,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Greeting> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GreetingD {
     #[serde(rename = "greet_message")]
+    #[validate(custom(function = "check_xss_string"))]
     pub greet_message: String,
 }
 
@@ -614,9 +673,11 @@ pub struct Hello {
     #[serde(default = "Hello::_name_for_op")]
     #[serde(serialize_with = "Hello::_serialize_op")]
     #[serde(rename = "op")]
+    #[validate(custom(function = "check_xss_string"))]
     pub op: String,
 
     #[serde(rename = "d")]
+    #[validate(nested)]
     pub d: models::HelloD,
 }
 
@@ -777,6 +838,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Hello> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HelloD {
     #[serde(rename = "welcome_message")]
+    #[validate(custom(function = "check_xss_string"))]
     pub welcome_message: String,
 }
 
