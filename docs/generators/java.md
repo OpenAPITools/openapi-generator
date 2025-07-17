@@ -122,6 +122,17 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
 |x-webclient-blocking|Specifies if method for specific operation should be blocking or non-blocking(ex: return `Mono<T>/Flux<T>` or `return T/List<T>/Set<T>` & execute `.block()` inside generated method)|OPERATION|false
 
+## Generating Java client using Maven CLI
+
+If you prefer using Maven directly to generate a Java client from an OpenAPI spec, you can run:
+
+```bash
+mvn compile exec:java \
+  -pl modules/openapi-generator-cli \
+  -Dexec.mainClass=org.openapitools.codegen.OpenAPIGenerator \
+  -Dexec.args="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g java -o output/java-client"
+
+
 
 ## IMPORT MAPPING
 
