@@ -774,21 +774,12 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void contractWithResolvedInnerEnumContainsEnumConverter() throws IOException {
-        File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("kotlin-spring")
-            .setInputSpec("src/test/resources/3_0/inner_enum.yaml")
-            .addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGenerateMetadata(false);
-
-        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/inner_enum.yaml",
+            new HashMap<>(),
+            new HashMap<>(),
+            configurator -> configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
+        );
 
         File enumConverterFile = files.get("EnumConverterConfiguration.kt");
         assertThat(enumConverterFile).isNotNull();
@@ -1240,7 +1231,6 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApi.kt"),
                 "@NotNull", "@Valid", "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$\")");
     }
-
 
     private Map<String, File> generateFromContract(String url) throws IOException {
         return generateFromContract(url, new HashMap<>(), new HashMap<>());
