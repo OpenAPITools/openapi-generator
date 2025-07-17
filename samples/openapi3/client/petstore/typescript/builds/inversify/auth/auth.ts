@@ -69,7 +69,6 @@ export class ApiKeyAuthentication implements SecurityAuthentication {
     }
 }
 
-
 export type AuthMethods = {
     "petstore_auth"?: SecurityAuthentication,
     "api_key"?: SecurityAuthentication
