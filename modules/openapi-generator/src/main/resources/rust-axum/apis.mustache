@@ -54,7 +54,7 @@ pub trait {{classnamePascalCase}}Authorization {
             {{/x-consumes-plain-text}}
             {{#x-consumes-plain-text}}
               {{#isString}}
-                body: &str,
+                body: &String,
               {{/isString}}
               {{^isString}}
                 body: &Bytes,
@@ -102,36 +102,36 @@ pub trait {{classnamePascalCase}}<E: std::fmt::Debug + Send + Sync + 'static = (
     async fn {{{x-operation-id}}}(
     &self,
     {{#basicAnalytic}}event: &mut super::event::Event,{{/basicAnalytic}}
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
+    method: {{^ownedRequest}}&{{/ownedRequest}}Method,
+    host: {{^ownedRequest}}&{{/ownedRequest}}Host,
+    cookies: {{^ownedRequest}}&{{/ownedRequest}}CookieJar,
     {{#vendorExtensions}}
       {{#x-has-auth-methods}}
-        claims: &Self::Claims,
+        claims: {{^ownedRequest}}&{{/ownedRequest}}Self::Claims,
       {{/x-has-auth-methods}}
     {{/vendorExtensions}}
     {{#headerParams.size}}
-      header_params: &models::{{{operationIdCamelCase}}}HeaderParams,
+      header_params: {{^ownedRequest}}&{{/ownedRequest}}models::{{{operationIdCamelCase}}}HeaderParams,
     {{/headerParams.size}}
     {{#pathParams.size}}
-      path_params: &models::{{{operationIdCamelCase}}}PathParams,
+      path_params: {{^ownedRequest}}&{{/ownedRequest}}models::{{{operationIdCamelCase}}}PathParams,
     {{/pathParams.size}}
     {{#queryParams.size}}
-      query_params: &models::{{{operationIdCamelCase}}}QueryParams,
+      query_params: {{^ownedRequest}}&{{/ownedRequest}}models::{{{operationIdCamelCase}}}QueryParams,
     {{/queryParams.size}}
     {{^x-consumes-multipart-related}}
     {{^x-consumes-multipart}}
       {{#bodyParam}}
       {{#vendorExtensions}}
         {{^x-consumes-plain-text}}
-            body: &{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
+            body: {{^ownedRequest}}&{{/ownedRequest}}{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
         {{/x-consumes-plain-text}}
         {{#x-consumes-plain-text}}
           {{#isString}}
-            body: &str,
+            body: {{^ownedRequest}}&{{/ownedRequest}}String,
           {{/isString}}
           {{^isString}}
-            body: &Bytes,
+            body: {{^ownedRequest}}&{{/ownedRequest}}Bytes,
           {{/isString}}
         {{/x-consumes-plain-text}}
       {{/vendorExtensions}}

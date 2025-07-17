@@ -8,6 +8,7 @@ additionalProperties:
   packageName: apikey-authorization
   basicAuthorization: true
   basicAnalytic: true
+  ownedRequest: true
 globalProperties:
   skipFormModel: false
 enablePostProcessFile: true

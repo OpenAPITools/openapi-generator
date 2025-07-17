@@ -245,32 +245,32 @@ where
 {{/x-has-auth-methods}}
 {{/vendorExtensions}}
 
-  {{#basicAnalytic}}let mut event = apis::event::Event::default();{{/basicAnalytic}}
-  let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+{{#basicAnalytic}}let mut event = apis::event::Event::default();{{/basicAnalytic}}
+let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
       {{#basicAnalytic}}&mut event,{{/basicAnalytic}}
-      &method,
-      &host,
-      &cookies,
+      {{^ownedRequest}}&{{/ownedRequest}}method,
+      {{^ownedRequest}}&{{/ownedRequest}}host,
+      {{^ownedRequest}}&{{/ownedRequest}}cookies,
       {{#vendorExtensions}}
         {{#x-has-auth-methods}}
-        &claims,
+        {{^ownedRequest}}&{{/ownedRequest}}claims,
         {{/x-has-auth-methods}}
       {{/vendorExtensions}}
       {{#headerParams.size}}
-        &header_params,
+        {{^ownedRequest}}&{{/ownedRequest}}header_params,
       {{/headerParams.size}}
       {{#pathParams.size}}
-        &path_params,
+        {{^ownedRequest}}&{{/ownedRequest}}path_params,
       {{/pathParams.size}}
       {{#queryParams.size}}
-        &query_params,
+        {{^ownedRequest}}&{{/ownedRequest}}query_params,
       {{/queryParams.size}}
       {{#vendorExtensions}}
         {{^x-consumes-multipart-related}}
         {{^x-consumes-multipart}}
           {{#bodyParams}}
             {{#-first}}
-              &body,
+              {{^ownedRequest}}&{{/ownedRequest}}body,
             {{/-first}}
           {{/bodyParams}}
         {{/x-consumes-multipart}}
@@ -404,10 +404,15 @@ where
                                                 },
 {{/responses}}
                                             },
-                                            Err(why) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+                                            Err({{#ownedRequest}}_{{/ownedRequest}}why) => {
+                                                {{^ownedRequest}}
+                                                    // Application code returned an error. This should not happen, as the implementation should
+                                                    // return a valid response.
+                                                    return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+                                                {{/ownedRequest}}
+                                                {{#ownedRequest}}
+                                                    return response_with_status_code_only(StatusCode::INTERNAL_SERVER_ERROR);
+                                                {{/ownedRequest}}
                                             },
                                         };
 

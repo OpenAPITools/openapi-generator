@@ -142,7 +142,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-        body: &str,
+        body: &String,
     ) -> Result<HtmlPostResponse, E>;
 
     /// PostYaml - POST /post-yaml
@@ -152,7 +152,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
-        body: &str,
+        body: &String,
     ) -> Result<PostYamlResponse, E>;
 
     /// Get an arbitrary JSON blob..

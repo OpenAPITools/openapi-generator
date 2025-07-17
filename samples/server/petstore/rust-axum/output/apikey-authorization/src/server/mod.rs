@@ -116,7 +116,7 @@ where
     let mut event = apis::event::Event::default();
     let result = api_impl
         .as_ref()
-        .get_payment_method_by_id(&mut event, &method, &host, &cookies, &claims, &path_params)
+        .get_payment_method_by_id(&mut event, method, host, cookies, claims, path_params)
         .await;
 
     let mut response = Response::builder();
@@ -170,13 +170,8 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(why) => {
-            // Application code returned an error. This should not happen, as the implementation should
-            // return a valid response.
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
+        Err(_why) => {
+            return response_with_status_code_only(StatusCode::INTERNAL_SERVER_ERROR);
         }
     };
 
@@ -284,7 +279,7 @@ where
     let mut event = apis::event::Event::default();
     let result = api_impl
         .as_ref()
-        .get_payment_methods(&mut event, &method, &host, &cookies, &claims)
+        .get_payment_methods(&mut event, method, host, cookies, claims)
         .await;
 
     let mut response = Response::builder();
@@ -315,13 +310,8 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(why) => {
-            // Application code returned an error. This should not happen, as the implementation should
-            // return a valid response.
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
+        Err(_why) => {
+            return response_with_status_code_only(StatusCode::INTERNAL_SERVER_ERROR);
         }
     };
 
@@ -449,7 +439,7 @@ where
     let mut event = apis::event::Event::default();
     let result = api_impl
         .as_ref()
-        .post_make_payment(&mut event, &method, &host, &cookies, &claims, &body)
+        .post_make_payment(&mut event, method, host, cookies, claims, body)
         .await;
 
     let mut response = Response::builder();
@@ -503,13 +493,8 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(why) => {
-            // Application code returned an error. This should not happen, as the implementation should
-            // return a valid response.
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
+        Err(_why) => {
+            return response_with_status_code_only(StatusCode::INTERNAL_SERVER_ERROR);
         }
     };
 

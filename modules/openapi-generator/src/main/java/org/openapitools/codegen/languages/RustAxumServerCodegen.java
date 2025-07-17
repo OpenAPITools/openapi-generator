@@ -63,6 +63,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private String externCrateName;
     private Boolean basicAuthorization = false;
     private Boolean basicAnalytic = false;
+    private Boolean ownedRequest = false;
 
     // Types
     private static final String uuidType = "uuid::Uuid";
@@ -329,6 +330,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             basicAnalytic = convertPropertyToBooleanAndWriteBack("basicAnalytic");
         } else {
             additionalProperties.put("basicAnalytic", basicAnalytic);
+        }
+
+        if (additionalProperties.containsKey("ownedRequest")) {
+            ownedRequest = convertPropertyToBooleanAndWriteBack("ownedRequest");
+        } else {
+            additionalProperties.put("ownedRequest", ownedRequest);
         }
     }
 
@@ -746,6 +753,11 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         if (basicAnalytic) {
             operations.put("basicAnalytic", true);
             operations.getOperation().forEach(op -> op.vendorExtensions.put("basicAnalytic", true));
+        }
+
+        if (ownedRequest) {
+            operations.put("ownedRequest", true);
+            operations.getOperation().forEach(op -> op.vendorExtensions.put("ownedRequest", true));
         }
 
         return operationsMap;

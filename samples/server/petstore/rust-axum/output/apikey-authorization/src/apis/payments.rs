@@ -94,11 +94,11 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     async fn get_payment_method_by_id(
         &self,
         event: &mut super::event::Event,
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        claims: &Self::Claims,
-        path_params: &models::GetPaymentMethodByIdPathParams,
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        claims: Self::Claims,
+        path_params: models::GetPaymentMethodByIdPathParams,
     ) -> Result<GetPaymentMethodByIdResponse, E>;
 
     /// Get payment methods.
@@ -107,10 +107,10 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     async fn get_payment_methods(
         &self,
         event: &mut super::event::Event,
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        claims: &Self::Claims,
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        claims: Self::Claims,
     ) -> Result<GetPaymentMethodsResponse, E>;
 
     /// Make a payment.
@@ -119,10 +119,10 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     async fn post_make_payment(
         &self,
         event: &mut super::event::Event,
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-        claims: &Self::Claims,
-        body: &Option<models::Payment>,
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        claims: Self::Claims,
+        body: Option<models::Payment>,
     ) -> Result<PostMakePaymentResponse, E>;
 }
