@@ -55,7 +55,17 @@ import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class PetApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
   private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
     static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -119,7 +129,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void addPet(@javax.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
-          addPetWithHttpInfo(pet, headers);
+    addPetWithHttpInfo(pet, headers);
   }
 
   /**
@@ -227,7 +237,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey, Map<String, String> headers) throws ApiException {
-          deletePetWithHttpInfo(petId, apiKey, headers);
+    deletePetWithHttpInfo(petId, apiKey, headers);
   }
 
   /**
@@ -335,7 +345,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public List<Pet> findPetsByStatus(@javax.annotation.Nonnull List<String> status, Map<String, String> headers) throws ApiException {
-          ApiResponse<List<Pet>> localVarResponse = findPetsByStatusWithHttpInfo(status, headers);
+    ApiResponse<List<Pet>> localVarResponse = findPetsByStatusWithHttpInfo(status, headers);
     return localVarResponse.getData();
   }
 
@@ -463,7 +473,7 @@ public class PetApi {
    */
   @Deprecated
   public List<Pet> findPetsByTags(@javax.annotation.Nonnull List<String> tags, Map<String, String> headers) throws ApiException {
-          ApiResponse<List<Pet>> localVarResponse = findPetsByTagsWithHttpInfo(tags, headers);
+    ApiResponse<List<Pet>> localVarResponse = findPetsByTagsWithHttpInfo(tags, headers);
     return localVarResponse.getData();
   }
 
@@ -591,7 +601,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public Pet getPetById(@javax.annotation.Nonnull Long petId, Map<String, String> headers) throws ApiException {
-          ApiResponse<Pet> localVarResponse = getPetByIdWithHttpInfo(petId, headers);
+    ApiResponse<Pet> localVarResponse = getPetByIdWithHttpInfo(petId, headers);
     return localVarResponse.getData();
   }
 
@@ -699,7 +709,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void updatePet(@javax.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
-          updatePetWithHttpInfo(pet, headers);
+    updatePetWithHttpInfo(pet, headers);
   }
 
   /**
@@ -809,7 +819,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void updatePetWithForm(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, Map<String, String> headers) throws ApiException {
-          updatePetWithFormWithHttpInfo(petId, name, status, headers);
+    updatePetWithFormWithHttpInfo(petId, name, status, headers);
   }
 
   /**
@@ -937,7 +947,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public ModelApiResponse uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, Map<String, String> headers) throws ApiException {
-          ApiResponse<ModelApiResponse> localVarResponse = uploadFileWithHttpInfo(petId, additionalMetadata, _file, headers);
+    ApiResponse<ModelApiResponse> localVarResponse = uploadFileWithHttpInfo(petId, additionalMetadata, _file, headers);
     return localVarResponse.getData();
   }
 
@@ -1091,7 +1101,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public ModelApiResponse uploadFileWithRequiredFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata, Map<String, String> headers) throws ApiException {
-          ApiResponse<ModelApiResponse> localVarResponse = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, headers);
+    ApiResponse<ModelApiResponse> localVarResponse = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, headers);
     return localVarResponse.getData();
   }
 

@@ -53,7 +53,17 @@ import java.util.function.Consumer;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class StoreApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
   private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
     static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -117,7 +127,7 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public void deleteOrder(@jakarta.annotation.Nonnull String orderId, Map<String, String> headers) throws ApiException {
-          deleteOrderWithHttpInfo(orderId, headers);
+    deleteOrderWithHttpInfo(orderId, headers);
   }
 
   /**
@@ -218,7 +228,7 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public Map<String, Integer> getInventory(Map<String, String> headers) throws ApiException {
-          ApiResponse<Map<String, Integer>> localVarResponse = getInventoryWithHttpInfo(headers);
+    ApiResponse<Map<String, Integer>> localVarResponse = getInventoryWithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -321,7 +331,7 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public Order getOrderById(@jakarta.annotation.Nonnull Long orderId, Map<String, String> headers) throws ApiException {
-          ApiResponse<Order> localVarResponse = getOrderByIdWithHttpInfo(orderId, headers);
+    ApiResponse<Order> localVarResponse = getOrderByIdWithHttpInfo(orderId, headers);
     return localVarResponse.getData();
   }
 
@@ -431,7 +441,7 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    */
   public Order placeOrder(@jakarta.annotation.Nonnull Order order, Map<String, String> headers) throws ApiException {
-          ApiResponse<Order> localVarResponse = placeOrderWithHttpInfo(order, headers);
+    ApiResponse<Order> localVarResponse = placeOrderWithHttpInfo(order, headers);
     return localVarResponse.getData();
   }
 

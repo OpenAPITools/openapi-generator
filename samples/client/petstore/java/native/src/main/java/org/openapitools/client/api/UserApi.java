@@ -54,7 +54,17 @@ import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class UserApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
   private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
     static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -118,7 +128,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public void createUser(@javax.annotation.Nonnull User user, Map<String, String> headers) throws ApiException {
-          createUserWithHttpInfo(user, headers);
+    createUserWithHttpInfo(user, headers);
   }
 
   /**
@@ -224,7 +234,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> user, Map<String, String> headers) throws ApiException {
-          createUsersWithArrayInputWithHttpInfo(user, headers);
+    createUsersWithArrayInputWithHttpInfo(user, headers);
   }
 
   /**
@@ -330,7 +340,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public void createUsersWithListInput(@javax.annotation.Nonnull List<User> user, Map<String, String> headers) throws ApiException {
-          createUsersWithListInputWithHttpInfo(user, headers);
+    createUsersWithListInputWithHttpInfo(user, headers);
   }
 
   /**
@@ -436,7 +446,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public void deleteUser(@javax.annotation.Nonnull String username, Map<String, String> headers) throws ApiException {
-          deleteUserWithHttpInfo(username, headers);
+    deleteUserWithHttpInfo(username, headers);
   }
 
   /**
@@ -539,7 +549,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public User getUserByName(@javax.annotation.Nonnull String username, Map<String, String> headers) throws ApiException {
-          ApiResponse<User> localVarResponse = getUserByNameWithHttpInfo(username, headers);
+    ApiResponse<User> localVarResponse = getUserByNameWithHttpInfo(username, headers);
     return localVarResponse.getData();
   }
 
@@ -651,7 +661,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public String loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = loginUserWithHttpInfo(username, password, headers);
+    ApiResponse<String> localVarResponse = loginUserWithHttpInfo(username, password, headers);
     return localVarResponse.getData();
   }
 
@@ -779,7 +789,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public void logoutUser(Map<String, String> headers) throws ApiException {
-          logoutUserWithHttpInfo(headers);
+    logoutUserWithHttpInfo(headers);
   }
 
   /**
@@ -875,7 +885,7 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    */
   public void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user, Map<String, String> headers) throws ApiException {
-          updateUserWithHttpInfo(username, user, headers);
+    updateUserWithHttpInfo(username, user, headers);
   }
 
   /**

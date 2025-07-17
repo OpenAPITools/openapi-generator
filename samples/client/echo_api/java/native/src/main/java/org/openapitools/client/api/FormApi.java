@@ -53,7 +53,17 @@ import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FormApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
   private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
     static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -123,7 +133,7 @@ public class FormApi {
    * @throws ApiException if fails to make API call
    */
   public String testFormIntegerBooleanString(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testFormIntegerBooleanStringWithHttpInfo(integerForm, booleanForm, stringForm, headers);
+    ApiResponse<String> localVarResponse = testFormIntegerBooleanStringWithHttpInfo(integerForm, booleanForm, stringForm, headers);
     return localVarResponse.getData();
   }
 
@@ -249,7 +259,7 @@ public class FormApi {
    * @throws ApiException if fails to make API call
    */
   public String testFormObjectMultipart(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testFormObjectMultipartWithHttpInfo(marker, headers);
+    ApiResponse<String> localVarResponse = testFormObjectMultipartWithHttpInfo(marker, headers);
     return localVarResponse.getData();
   }
 
@@ -399,7 +409,7 @@ public class FormApi {
    * @throws ApiException if fails to make API call
    */
   public String testFormOneof(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testFormOneofWithHttpInfo(form1, form2, form3, form4, id, name, headers);
+    ApiResponse<String> localVarResponse = testFormOneofWithHttpInfo(form1, form2, form3, form4, id, name, headers);
     return localVarResponse.getData();
   }
 

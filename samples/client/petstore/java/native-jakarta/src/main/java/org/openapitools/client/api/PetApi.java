@@ -55,7 +55,17 @@ import java.util.function.Consumer;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class PetApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
   private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
     static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -121,7 +131,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public Pet addPet(@jakarta.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
-          ApiResponse<Pet> localVarResponse = addPetWithHttpInfo(pet, headers);
+    ApiResponse<Pet> localVarResponse = addPetWithHttpInfo(pet, headers);
     return localVarResponse.getData();
   }
 
@@ -236,7 +246,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void deletePet(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey, Map<String, String> headers) throws ApiException {
-          deletePetWithHttpInfo(petId, apiKey, headers);
+    deletePetWithHttpInfo(petId, apiKey, headers);
   }
 
   /**
@@ -344,7 +354,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public List<Pet> findPetsByStatus(@jakarta.annotation.Nonnull List<String> status, Map<String, String> headers) throws ApiException {
-          ApiResponse<List<Pet>> localVarResponse = findPetsByStatusWithHttpInfo(status, headers);
+    ApiResponse<List<Pet>> localVarResponse = findPetsByStatusWithHttpInfo(status, headers);
     return localVarResponse.getData();
   }
 
@@ -472,7 +482,7 @@ public class PetApi {
    */
   @Deprecated
   public List<Pet> findPetsByTags(@jakarta.annotation.Nonnull List<String> tags, Map<String, String> headers) throws ApiException {
-          ApiResponse<List<Pet>> localVarResponse = findPetsByTagsWithHttpInfo(tags, headers);
+    ApiResponse<List<Pet>> localVarResponse = findPetsByTagsWithHttpInfo(tags, headers);
     return localVarResponse.getData();
   }
 
@@ -600,7 +610,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public Pet getPetById(@jakarta.annotation.Nonnull Long petId, Map<String, String> headers) throws ApiException {
-          ApiResponse<Pet> localVarResponse = getPetByIdWithHttpInfo(petId, headers);
+    ApiResponse<Pet> localVarResponse = getPetByIdWithHttpInfo(petId, headers);
     return localVarResponse.getData();
   }
 
@@ -714,7 +724,7 @@ public class PetApi {
    * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
    */
   public Pet updatePet(@jakarta.annotation.Nonnull Pet pet, Map<String, String> headers) throws ApiException {
-          ApiResponse<Pet> localVarResponse = updatePetWithHttpInfo(pet, headers);
+    ApiResponse<Pet> localVarResponse = updatePetWithHttpInfo(pet, headers);
     return localVarResponse.getData();
   }
 
@@ -835,7 +845,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public void updatePetWithForm(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status, Map<String, String> headers) throws ApiException {
-          updatePetWithFormWithHttpInfo(petId, name, status, headers);
+    updatePetWithFormWithHttpInfo(petId, name, status, headers);
   }
 
   /**
@@ -963,7 +973,7 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    */
   public ModelApiResponse uploadFile(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file, Map<String, String> headers) throws ApiException {
-          ApiResponse<ModelApiResponse> localVarResponse = uploadFileWithHttpInfo(petId, additionalMetadata, _file, headers);
+    ApiResponse<ModelApiResponse> localVarResponse = uploadFileWithHttpInfo(petId, additionalMetadata, _file, headers);
     return localVarResponse.getData();
   }
 

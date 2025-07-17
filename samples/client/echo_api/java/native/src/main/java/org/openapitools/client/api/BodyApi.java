@@ -56,7 +56,17 @@ import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class BodyApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
   private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
     static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -120,7 +130,7 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public File testBinaryGif(Map<String, String> headers) throws ApiException {
-          ApiResponse<File> localVarResponse = testBinaryGifWithHttpInfo(headers);
+    ApiResponse<File> localVarResponse = testBinaryGifWithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -223,7 +233,7 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public String testBodyApplicationOctetstreamBinary(@javax.annotation.Nullable File body, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testBodyApplicationOctetstreamBinaryWithHttpInfo(body, headers);
+    ApiResponse<String> localVarResponse = testBodyApplicationOctetstreamBinaryWithHttpInfo(body, headers);
     return localVarResponse.getData();
   }
 
@@ -331,7 +341,7 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public String testBodyMultipartFormdataArrayOfBinary(@javax.annotation.Nonnull List<File> files, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files, headers);
+    ApiResponse<String> localVarResponse = testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files, headers);
     return localVarResponse.getData();
   }
 
@@ -472,7 +482,7 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public String testBodyMultipartFormdataSingleBinary(@javax.annotation.Nullable File myFile, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile, headers);
+    ApiResponse<String> localVarResponse = testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile, headers);
     return localVarResponse.getData();
   }
 
@@ -607,7 +617,7 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public Pet testEchoBodyAllOfPet(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
-          ApiResponse<Pet> localVarResponse = testEchoBodyAllOfPetWithHttpInfo(pet, headers);
+    ApiResponse<Pet> localVarResponse = testEchoBodyAllOfPetWithHttpInfo(pet, headers);
     return localVarResponse.getData();
   }
 
@@ -718,7 +728,7 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public String testEchoBodyFreeFormObjectResponseString(@javax.annotation.Nullable Object body, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body, headers);
+    ApiResponse<String> localVarResponse = testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body, headers);
     return localVarResponse.getData();
   }
 
@@ -826,7 +836,7 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public Pet testEchoBodyPet(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
-          ApiResponse<Pet> localVarResponse = testEchoBodyPetWithHttpInfo(pet, headers);
+    ApiResponse<Pet> localVarResponse = testEchoBodyPetWithHttpInfo(pet, headers);
     return localVarResponse.getData();
   }
 
@@ -937,7 +947,7 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public String testEchoBodyPetResponseString(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testEchoBodyPetResponseStringWithHttpInfo(pet, headers);
+    ApiResponse<String> localVarResponse = testEchoBodyPetResponseStringWithHttpInfo(pet, headers);
     return localVarResponse.getData();
   }
 
@@ -1045,7 +1055,7 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
-          ApiResponse<StringEnumRef> localVarResponse = testEchoBodyStringEnumWithHttpInfo(body, headers);
+    ApiResponse<StringEnumRef> localVarResponse = testEchoBodyStringEnumWithHttpInfo(body, headers);
     return localVarResponse.getData();
   }
 
@@ -1156,7 +1166,7 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public String testEchoBodyTagResponseString(@javax.annotation.Nullable Tag tag, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testEchoBodyTagResponseStringWithHttpInfo(tag, headers);
+    ApiResponse<String> localVarResponse = testEchoBodyTagResponseStringWithHttpInfo(tag, headers);
     return localVarResponse.getData();
   }
 

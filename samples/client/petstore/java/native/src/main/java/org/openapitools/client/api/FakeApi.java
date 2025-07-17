@@ -64,7 +64,17 @@ import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FakeApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
   private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
     static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -128,7 +138,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public FakeBigDecimalMap200Response fakeBigDecimalMap(Map<String, String> headers) throws ApiException {
-          ApiResponse<FakeBigDecimalMap200Response> localVarResponse = fakeBigDecimalMapWithHttpInfo(headers);
+    ApiResponse<FakeBigDecimalMap200Response> localVarResponse = fakeBigDecimalMapWithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -229,7 +239,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public HealthCheckResult fakeHealthGet(Map<String, String> headers) throws ApiException {
-          ApiResponse<HealthCheckResult> localVarResponse = fakeHealthGetWithHttpInfo(headers);
+    ApiResponse<HealthCheckResult> localVarResponse = fakeHealthGetWithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -332,7 +342,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public Boolean fakeOuterBooleanSerialize(@javax.annotation.Nullable Boolean body, Map<String, String> headers) throws ApiException {
-          ApiResponse<Boolean> localVarResponse = fakeOuterBooleanSerializeWithHttpInfo(body, headers);
+    ApiResponse<Boolean> localVarResponse = fakeOuterBooleanSerializeWithHttpInfo(body, headers);
     return localVarResponse.getData();
   }
 
@@ -443,7 +453,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public OuterComposite fakeOuterCompositeSerialize(@javax.annotation.Nullable OuterComposite outerComposite, Map<String, String> headers) throws ApiException {
-          ApiResponse<OuterComposite> localVarResponse = fakeOuterCompositeSerializeWithHttpInfo(outerComposite, headers);
+    ApiResponse<OuterComposite> localVarResponse = fakeOuterCompositeSerializeWithHttpInfo(outerComposite, headers);
     return localVarResponse.getData();
   }
 
@@ -554,7 +564,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public BigDecimal fakeOuterNumberSerialize(@javax.annotation.Nullable BigDecimal body, Map<String, String> headers) throws ApiException {
-          ApiResponse<BigDecimal> localVarResponse = fakeOuterNumberSerializeWithHttpInfo(body, headers);
+    ApiResponse<BigDecimal> localVarResponse = fakeOuterNumberSerializeWithHttpInfo(body, headers);
     return localVarResponse.getData();
   }
 
@@ -665,7 +675,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public String fakeOuterStringSerialize(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = fakeOuterStringSerializeWithHttpInfo(body, headers);
+    ApiResponse<String> localVarResponse = fakeOuterStringSerializeWithHttpInfo(body, headers);
     return localVarResponse.getData();
   }
 
@@ -769,7 +779,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public List<OuterEnum> getApplicationJsonUtf8(Map<String, String> headers) throws ApiException {
-          ApiResponse<List<OuterEnum>> localVarResponse = getApplicationJsonUtf8WithHttpInfo(headers);
+    ApiResponse<List<OuterEnum>> localVarResponse = getApplicationJsonUtf8WithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -870,7 +880,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public List<OuterEnum> getArrayOfEnums(Map<String, String> headers) throws ApiException {
-          ApiResponse<List<OuterEnum>> localVarResponse = getArrayOfEnumsWithHttpInfo(headers);
+    ApiResponse<List<OuterEnum>> localVarResponse = getArrayOfEnumsWithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -971,7 +981,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testAdditionalPropertiesReference(@javax.annotation.Nonnull Map<String, Object> requestBody, Map<String, String> headers) throws ApiException {
-          testAdditionalPropertiesReferenceWithHttpInfo(requestBody, headers);
+    testAdditionalPropertiesReferenceWithHttpInfo(requestBody, headers);
   }
 
   /**
@@ -1077,7 +1087,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testBodyWithFileSchema(@javax.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass, Map<String, String> headers) throws ApiException {
-          testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass, headers);
+    testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass, headers);
   }
 
   /**
@@ -1185,7 +1195,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testBodyWithQueryParams(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User user, Map<String, String> headers) throws ApiException {
-          testBodyWithQueryParamsWithHttpInfo(query, user, headers);
+    testBodyWithQueryParamsWithHttpInfo(query, user, headers);
   }
 
   /**
@@ -1314,7 +1324,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public Client testClientModel(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
-          ApiResponse<Client> localVarResponse = testClientModelWithHttpInfo(client, headers);
+    ApiResponse<Client> localVarResponse = testClientModelWithHttpInfo(client, headers);
     return localVarResponse.getData();
   }
 
@@ -1453,7 +1463,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testEndpointParameters(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback, Map<String, String> headers) throws ApiException {
-          testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, headers);
+    testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, headers);
   }
 
   /**
@@ -1658,7 +1668,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testEnumParameters(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString, Map<String, String> headers) throws ApiException {
-          testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, headers);
+    testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, headers);
   }
 
   /**
@@ -1886,7 +1896,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testGroupParameters(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group, Map<String, String> headers) throws ApiException {
-          testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, headers);
+    testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, headers);
   }
 
   /**
@@ -2120,7 +2130,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testInlineAdditionalProperties(@javax.annotation.Nonnull Map<String, String> requestBody, Map<String, String> headers) throws ApiException {
-          testInlineAdditionalPropertiesWithHttpInfo(requestBody, headers);
+    testInlineAdditionalPropertiesWithHttpInfo(requestBody, headers);
   }
 
   /**
@@ -2226,7 +2236,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testInlineFreeformAdditionalProperties(@javax.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, Map<String, String> headers) throws ApiException {
-          testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest, headers);
+    testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest, headers);
   }
 
   /**
@@ -2334,7 +2344,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testJsonFormData(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2, Map<String, String> headers) throws ApiException {
-          testJsonFormDataWithHttpInfo(param, param2, headers);
+    testJsonFormDataWithHttpInfo(param, param2, headers);
   }
 
   /**
@@ -2465,7 +2475,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testQueryParameterCollectionFormat(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, Map<String, String> headers) throws ApiException {
-          testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, headers);
+    testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, headers);
   }
 
   /**
@@ -2612,7 +2622,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testStringMapReference(@javax.annotation.Nonnull Map<String, String> requestBody, Map<String, String> headers) throws ApiException {
-          testStringMapReferenceWithHttpInfo(requestBody, headers);
+    testStringMapReferenceWithHttpInfo(requestBody, headers);
   }
 
   /**

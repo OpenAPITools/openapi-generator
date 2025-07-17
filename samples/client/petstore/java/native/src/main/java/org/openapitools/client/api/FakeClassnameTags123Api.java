@@ -53,7 +53,17 @@ import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class FakeClassnameTags123Api {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
   private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
     static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -119,7 +129,7 @@ public class FakeClassnameTags123Api {
    * @throws ApiException if fails to make API call
    */
   public Client testClassname(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
-          ApiResponse<Client> localVarResponse = testClassnameWithHttpInfo(client, headers);
+    ApiResponse<Client> localVarResponse = testClassnameWithHttpInfo(client, headers);
     return localVarResponse.getData();
   }
 

@@ -59,7 +59,17 @@ import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
 public class QueryApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
   private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
     static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -127,7 +137,7 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testEnumRefString(@javax.annotation.Nullable String enumNonrefStringQuery, @javax.annotation.Nullable StringEnumRef enumRefStringQuery, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery, headers);
+    ApiResponse<String> localVarResponse = testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery, headers);
     return localVarResponse.getData();
   }
 
@@ -252,7 +262,7 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryDatetimeDateString(@javax.annotation.Nullable Instant datetimeQuery, @javax.annotation.Nullable LocalDate dateQuery, @javax.annotation.Nullable String stringQuery, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery, headers);
+    ApiResponse<String> localVarResponse = testQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery, headers);
     return localVarResponse.getData();
   }
 
@@ -381,7 +391,7 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryIntegerBooleanString(@javax.annotation.Nullable Integer integerQuery, @javax.annotation.Nullable Boolean booleanQuery, @javax.annotation.Nullable String stringQuery, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testQueryIntegerBooleanStringWithHttpInfo(integerQuery, booleanQuery, stringQuery, headers);
+    ApiResponse<String> localVarResponse = testQueryIntegerBooleanStringWithHttpInfo(integerQuery, booleanQuery, stringQuery, headers);
     return localVarResponse.getData();
   }
 
@@ -506,7 +516,7 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleDeepObjectExplodeTrueObject(@javax.annotation.Nullable Pet queryObject, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject, headers);
+    ApiResponse<String> localVarResponse = testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject, headers);
     return localVarResponse.getData();
   }
 
@@ -628,7 +638,7 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject, headers);
+    ApiResponse<String> localVarResponse = testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject, headers);
     return localVarResponse.getData();
   }
 
@@ -750,7 +760,7 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleFormExplodeFalseArrayInteger(@javax.annotation.Nullable List<Integer> queryObject, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject, headers);
+    ApiResponse<String> localVarResponse = testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject, headers);
     return localVarResponse.getData();
   }
 
@@ -867,7 +877,7 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleFormExplodeFalseArrayString(@javax.annotation.Nullable List<String> queryObject, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject, headers);
+    ApiResponse<String> localVarResponse = testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject, headers);
     return localVarResponse.getData();
   }
 
@@ -984,7 +994,7 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleFormExplodeTrueArrayString(@javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject, headers);
+    ApiResponse<String> localVarResponse = testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject, headers);
     return localVarResponse.getData();
   }
 
@@ -1101,7 +1111,7 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleFormExplodeTrueObject(@javax.annotation.Nullable Pet queryObject, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject, headers);
+    ApiResponse<String> localVarResponse = testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject, headers);
     return localVarResponse.getData();
   }
 
@@ -1223,7 +1233,7 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleFormExplodeTrueObjectAllOf(@javax.annotation.Nullable DataQuery queryObject, Map<String, String> headers) throws ApiException {
-          ApiResponse<String> localVarResponse = testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject, headers);
+    ApiResponse<String> localVarResponse = testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject, headers);
     return localVarResponse.getData();
   }
 
