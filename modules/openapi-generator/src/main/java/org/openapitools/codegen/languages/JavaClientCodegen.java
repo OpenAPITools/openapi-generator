@@ -109,7 +109,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     // Internal configurations
     public static final String SINGLE_REQUEST_PARAMETER = "singleRequestParameter";
     public static final String STATIC_REQUEST = "staticRequest";
-    // TODO attempt to implement the setting similar to how it is done here https://github.com/OpenAPITools/openapi-generator/pull/20590/files
     public static final String JAVA_17 = "java17";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
@@ -379,6 +378,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(USE_SEALED_ONE_OF_INTERFACES, this::setUseSealedOneOfInterfaces);
         writePropertyBack(SINGLE_REQUEST_PARAMETER, getSingleRequestParameter());
         writePropertyBack(STATIC_REQUEST, getStaticRequest());
+
+        if (libWebClient && (useSealedOneOfInterfaces || useJakartaEe)) {
+            writePropertyBack(JAVA_17, true);
+        }
 
         if (!useRxJava && !useRxJava2 && !useRxJava3) {
             additionalProperties.put(DO_NOT_USE_RX, true);
