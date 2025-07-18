@@ -1,5 +1,5 @@
 generatorName: java
-outputDir: samples/client/petstore/java/webclient-sealedInterface
+outputDir: samples/client/others/java/webclient-sealedInterface
 library: webclient
 inputSpec: modules/openapi-generator/src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
