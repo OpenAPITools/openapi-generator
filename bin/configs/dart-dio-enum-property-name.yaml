@@ -1,0 +1,8 @@
+generatorName: dart-dio
+outputDir: samples/openapi3/client/bug-samples/issue_21582
+inputSpec: modules/openapi-generator/src/test/resources/bugs/issues_21582.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart/libraries/dio
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  enumUnknownDefaultCase: "true"
+  dateLibrary: "core"

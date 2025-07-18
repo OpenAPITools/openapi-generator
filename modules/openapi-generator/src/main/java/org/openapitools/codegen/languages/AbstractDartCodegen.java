@@ -577,6 +577,12 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 // inner items e.g. enums in collections, only works for one level
                 // but same is the case for DefaultCodegen
                 property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.items.datatypeWithEnum, enumName));
+                // Because properties are cached in org.openapitools.codegen.DefaultCodegen.fromProperty(java.lang.String, io.swagger.v3.oas.models.media.Schema, boolean, boolean)
+                // then the same object could be for multiple properties where the name of the inline enum is the same
+                // in 2 different classes and the following renaming will impact properties in other classes we
+                // therefore clone them before editing
+                property.items = property.items.clone();
+                property.mostInnerItems = property.items;
                 property.items.setDatatypeWithEnum(enumName);
                 property.items.setEnumName(enumName);
             } else {
