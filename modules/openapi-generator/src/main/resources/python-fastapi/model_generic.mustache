@@ -260,7 +260,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        {{#disallowAdditionalPropertiesIfNotPresent}}
+        {{^vendorExtensions.x-py-legacy-disallow-additional-properties-default-behavior}}
         {{^isAdditionalPropertiesTrue}}
         # raise errors for additional fields in the input
         for _key in obj.keys():
@@ -268,7 +268,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                 raise ValueError("Error due to additional fields (not defined in {{classname}}) in the input: " + _key)
 
         {{/isAdditionalPropertiesTrue}}
-        {{/disallowAdditionalPropertiesIfNotPresent}}
+        {{/vendorExtensions.x-py-legacy-disallow-additional-properties-default-behavior}}
         _obj = cls.model_validate({
             {{#allVars}}
             {{#isContainer}}
