@@ -33,6 +33,7 @@ import org.eclipse.aether.internal.impl.SimpleLocalRepositoryManagerFactory;
 import org.eclipse.aether.repository.LocalRepository;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -253,6 +254,18 @@ public class CodeGenMojoTest extends BaseTestCase {
                 Files.readString(hashFile), currentHash, "Checksum should not be the same after external file change"
         );
         assertTrue("Src directory should have been regenerated", Files.exists(generatedDir.resolve("src")));
+    }
+
+    public void test_userTemplateFiles() throws Exception {
+
+        final Path tempDir = newTempFolder();
+        final CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/user-defined-templates", null);
+
+        mojo.execute();
+
+        assertTrue(Files.exists(tempDir.resolve(
+                "target/generated-sources/common-maven/remote-openapi/src/main/java/remote/org/openapitools/client/model/CategoryCustom.java"
+        )));
     }
 
     protected CodeGenMojo loadMojo(Path temporaryFolder, String projectRoot, String profile) throws Exception {
