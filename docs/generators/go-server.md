@@ -29,6 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |router|Specify the router which should be used.|<dl><dt>**mux**</dt><dd>mux</dd><dt>**chi**</dt><dd>chi</dd></dl>|mux|
 |serverPort|The network port the generated server binds to| |8080|
 |sourceFolder|source folder for generated code| |go|
+|strictResponseDecoding| Generated server rejects extra JSON fields | |true|
 
 ## IMPORT MAPPING
 
