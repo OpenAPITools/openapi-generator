@@ -1,0 +1,10 @@
+generatorName: dart
+outputDir: samples/openapi3/client/petstore/dart2/petstore_client_lib_use_lower_camel_case
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-use-lower-camel-case.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart2
+typeMappings:
+  Client: "ModelClient"
+  File: "ModelFile"
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  useLowerCamelCase: "true"

@@ -38,6 +38,7 @@ public class DartClientOptionsProvider implements OptionsProvider {
     public static final String PUB_PUBLISH_TO_VALUE = "Publish To";
     public static final String SOURCE_FOLDER_VALUE = "src";
     public static final String USE_ENUM_EXTENSION = "true";
+    public static final String USE_LOWER_CAMEL_CASE = "false";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
@@ -64,6 +65,7 @@ public class DartClientOptionsProvider implements OptionsProvider {
                 .put(DartClientCodegen.PUB_PUBLISH_TO, PUB_PUBLISH_TO_VALUE)
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
                 .put(DartClientCodegen.USE_ENUM_EXTENSION, USE_ENUM_EXTENSION)
+                .put(DartClientCodegen.USE_LOWER_CAMEL_CASE, USE_LOWER_CAMEL_CASE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
