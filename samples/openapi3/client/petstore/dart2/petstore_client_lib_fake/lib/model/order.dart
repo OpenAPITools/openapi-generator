@@ -134,6 +134,7 @@ class Order {
         petId: mapValueOfType<int>(json, r'petId'),
         quantity: mapValueOfType<int>(json, r'quantity'),
         shipDate: mapDateTime(json, r'shipDate', r''),
+                
         status: OrderStatusEnum.fromJson(json[r'status']),
         complete: mapValueOfType<bool>(json, r'complete') ?? false,
       );
@@ -224,6 +225,12 @@ class OrderStatusEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is OrderStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [OrderStatusEnum] to String,
