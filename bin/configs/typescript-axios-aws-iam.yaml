@@ -1,0 +1,14 @@
+generatorName: typescript-axios
+outputDir: samples/client/petstore/typescript-axios/builds/with-aws-iam
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-axios/with-aws-iam.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-axios
+additionalProperties:
+  npmVersion: 1.0.0
+  npmName: '@openapitools/typescript-axios-with-aws-iam'
+  npmRepository: https://skimdb.npmjs.com/registry
+  supportsES6: true
+  withNodeImports: true
+  withSeparateModelsAndApi: true
+  apiPackage: client
+  modelPackage: models
+  enumPropertyNaming: UPPERCASE
