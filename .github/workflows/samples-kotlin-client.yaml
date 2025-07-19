@@ -66,6 +66,7 @@ jobs:
           - samples/client/petstore/kotlin-name-parameter-mappings
           - samples/client/others/kotlin-jvm-okhttp-parameter-tests
           - samples/client/others/kotlin-jvm-okhttp-path-comments
+          - samples/client/petstore/kotlin-allOff-discriminator-kotlinx-serialization
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
