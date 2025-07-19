@@ -103,13 +103,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [DataMember(Name = "category", EmitDefaultValue = false)]
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
