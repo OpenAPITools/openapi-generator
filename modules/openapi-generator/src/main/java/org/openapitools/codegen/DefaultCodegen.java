@@ -2884,6 +2884,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isMapSchema(schema)) {
             // an object or anyType composed schema that has additionalProperties set
             addAdditionPropertiesToCodeGenModel(m, schema);
+        } else if(!ModelUtils.isDisallowAdditionalPropertiesIfNotPresent()) {
+            addAdditionPropertiesToCodeGenModel(m, schema);
         } else if (ModelUtils.isFreeFormObject(schema, openAPI)) {
             // non-composed object type with no properties + additionalProperties
             // additionalProperties must be null, ObjectSchema, or empty Schema
