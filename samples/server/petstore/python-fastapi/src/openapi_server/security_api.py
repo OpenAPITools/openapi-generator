@@ -2,6 +2,7 @@
 
 from typing import List
 
+
 from fastapi import Depends, Security  # noqa: F401
 from fastapi.openapi.models import OAuthFlowImplicit, OAuthFlows  # noqa: F401
 from fastapi.security import (  # noqa: F401
@@ -29,10 +30,9 @@ oauth2_implicit = OAuth2(
         )
     )
 )
-
-
 def get_token_petstore_auth(
-    security_scopes: SecurityScopes, token: str = Depends(oauth2_implicit)
+    security_scopes: SecurityScopes, 
+    token: str = Depends(oauth2_implicit)
 ) -> TokenModel:
     """
     Validate and decode token.
@@ -42,9 +42,8 @@ def get_token_petstore_auth(
     :return: Decoded token information or None if token is invalid
     :rtype: TokenModel | None
     """
-
     ...
-
+    
 
 def validate_scope_petstore_auth(
     required_scopes: SecurityScopes, token_scopes: List[str]
@@ -59,10 +58,8 @@ def validate_scope_petstore_auth(
     :return: True if access to called API is allowed
     :rtype: bool
     """
-
     return False
-
-
+    
 def get_token_api_key(
     token_api_key_header: str = Security(
         APIKeyHeader(name="api_key", auto_error=False)
@@ -78,6 +75,5 @@ def get_token_api_key(
     :return: Information attached to provided api_key or None if api_key is invalid or does not allow access to called API
     :rtype: TokenModel | None
     """
-
     ...
-
+    
