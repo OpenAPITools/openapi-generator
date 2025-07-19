@@ -1,0 +1,19 @@
+import { Body, Controller{{#httpMethods}}, {{.}}{{/httpMethods}}, Param, Query, Req } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { {{classname}} } from '../{{apiPackage}}';
+import { {{#tsImports}}{{classname}}, {{/tsImports}} } from '../{{modelPackage}}';
+
+@Controller()
+export class {{classname}}Controller {
+  constructor(private readonly {{classVarName}}: {{classname}}) {}
+
+{{#operations}}
+{{#operation}}
+  @{{#vendorExtensions.x-http-method}}{{.}}{{/vendorExtensions.x-http-method}}{{^vendorExtensions.x-http-method}}{{httpMethod}}{{/vendorExtensions.x-http-method}}('{{path}}')
+  {{operationId}}({{#allParams}}{{#isPathParam}}@Param('{{paramName}}') {{/isPathParam}}{{#isQueryParam}}@Query('{{paramName}}') {{/isQueryParam}}{{#isBodyParam}}@Body() {{/isBodyParam}}{{paramName}}: {{{dataType}}}, {{/allParams}}@Req() request: Request): {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} | Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> | Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    return this.{{classVarName}}.{{operationId}}({{#useSingleRequestParameter}}{ {{/useSingleRequestParameter}}{{#allParams}}{{paramName}}, {{/allParams}}{{#useSingleRequestParameter}}}, {{/useSingleRequestParameter}}request);
+  }
+
+{{/operation}}
+{{/operations}}
+} 
