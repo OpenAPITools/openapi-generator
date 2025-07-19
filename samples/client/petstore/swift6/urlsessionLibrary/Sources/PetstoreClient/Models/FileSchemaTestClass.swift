@@ -12,7 +12,7 @@ public typealias FileSchemaTestClass = PetstoreClientAPI.FileSchemaTestClass
 
 extension PetstoreClientAPI {
 
-public final class FileSchemaTestClass: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class FileSchemaTestClass: @unchecked Sendable, Codable, Hashable {
 
     public private(set) var file: File?
     public private(set) var files: [File]?
