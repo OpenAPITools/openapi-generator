@@ -397,6 +397,9 @@ public class CodegenConstants {
     public static final String REMOVE_ENUM_VALUE_PREFIX = "removeEnumValuePrefix";
     public static final String REMOVE_ENUM_VALUE_PREFIX_DESC = "Remove the common prefix of enum values";
 
+    public static final String USE_STRING_ENUM_SCHEMA_REF_FOR_REQUEST_BODY = "useStringEnumSchemaRefForRequestBody";
+    public static final String USE_STRING_ENUM_SCHEMA_REF_FOR_REQUEST_BODY_DESC = "A boolean flag that controls how the parameter type for a referenced string enum in a request body is generated. When set to true, the generator will use the referenced schema instead of a plain String type";
+
     public static final String SKIP_ONEOF_ANYOF_GETTER = "skipOneOfAnyOfGetter";
     public static final String SKIP_ONEOF_ANYOF_GETTER_DESC = "Skip the generation of getter for sub-schemas in oneOf/anyOf models.";
 
