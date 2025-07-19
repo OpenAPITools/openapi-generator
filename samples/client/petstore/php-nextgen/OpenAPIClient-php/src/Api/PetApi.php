@@ -179,14 +179,13 @@ class PetApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function addPet(
         \OpenAPI\Client\Model\Pet $pet,
         ?int $hostIndex = null,
         array $variables = [],
         string $contentType = self::contentTypes['addPet'][0]
-    ): void
+    )
     {
         $this->addPetWithHttpInfo($pet, $hostIndex, $variables, $contentType);
     }
@@ -549,13 +548,12 @@ class PetApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function deletePet(
         int $pet_id,
         ?string $api_key = null,
         string $contentType = self::contentTypes['deletePet'][0]
-    ): void
+    )
     {
         $this->deletePetWithHttpInfo($pet_id, $api_key, $contentType);
     }
@@ -1677,14 +1675,13 @@ class PetApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function updatePet(
         \OpenAPI\Client\Model\Pet $pet,
         ?int $hostIndex = null,
         array $variables = [],
         string $contentType = self::contentTypes['updatePet'][0]
-    ): void
+    )
     {
         $this->updatePetWithHttpInfo($pet, $hostIndex, $variables, $contentType);
     }
@@ -2048,14 +2045,13 @@ class PetApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function updatePetWithForm(
         int $pet_id,
         ?string $name = null,
         ?string $status = null,
         string $contentType = self::contentTypes['updatePetWithForm'][0]
-    ): void
+    )
     {
         $this->updatePetWithFormWithHttpInfo($pet_id, $name, $status, $contentType);
     }
