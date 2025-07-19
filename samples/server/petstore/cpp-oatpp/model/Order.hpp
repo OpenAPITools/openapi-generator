@@ -35,25 +35,24 @@ class Order : public oatpp::DTO {
 
   DTO_INIT(Order, DTO /* Extends */)
 
-  DTO_FIELD(oatpp::Int64, Id);
-  DTO_FIELD(oatpp::Boolean, IdIsSet);
-  DTO_FIELD(oatpp::Int64, PetId);
-  DTO_FIELD(oatpp::Boolean, PetIdIsSet);
-  DTO_FIELD(oatpp::Int32, Quantity);
-  DTO_FIELD(oatpp::Boolean, QuantityIsSet);
-  DTO_FIELD(oatpp::String, ShipDate);
-  DTO_FIELD(oatpp::Boolean, ShipDateIsSet);
-  DTO_FIELD(oatpp::String, Status);
-  DTO_FIELD(oatpp::Boolean, StatusIsSet);
-  DTO_FIELD(oatpp::Boolean, Complete);
-  DTO_FIELD(oatpp::Boolean, CompleteIsSet);
+  DTO_FIELD(oatpp::Int64, id);
+  DTO_FIELD(oatpp::Boolean, idIsSet);
+  DTO_FIELD(oatpp::Int64, petId);
+  DTO_FIELD(oatpp::Boolean, petIdIsSet);
+  DTO_FIELD(oatpp::Int32, quantity);
+  DTO_FIELD(oatpp::Boolean, quantityIsSet);
+  DTO_FIELD(oatpp::String, shipDate);
+  DTO_FIELD(oatpp::Boolean, shipDateIsSet);
+  DTO_FIELD(oatpp::String, status);
+  DTO_FIELD(oatpp::Boolean, statusIsSet);
+  DTO_FIELD(oatpp::Boolean, complete);
+  DTO_FIELD(oatpp::Boolean, completeIsSet);
 
-  
-  
 };
 
 /* End DTO code-generation */
 #include OATPP_CODEGEN_END(DTO)
+
 
 } // namespace org::openapitools::server::model
 

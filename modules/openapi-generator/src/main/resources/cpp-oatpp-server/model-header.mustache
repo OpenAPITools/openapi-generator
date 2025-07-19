@@ -11,12 +11,15 @@
 {{{defaultInclude}}}
 {{#imports}}{{{this}}}
 {{/imports}}
+{{^isEnum}}
 #include "oatpp/core/macro/codegen.hpp"
+{{/isEnum}}
 #include "oatpp/core/Types.hpp"
 
 namespace {{modelNamespace}}
 {
 
+{{^isEnum}}
 /* Begin DTO code-generation */
 #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -28,19 +31,28 @@ class {{classname}} : public oatpp::DTO {
   DTO_INIT({{classname}}, DTO /* Extends */)
 
   {{#vars}}
-  DTO_FIELD({{#isModel}}oatpp::Object<{{{dataType}}}>{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}, {{name}});
+  DTO_FIELD({{#isModel}}oatpp::Object<{{{dataType}}}>{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}, {{baseName}});
   {{^required}}
-  DTO_FIELD(oatpp::Boolean, {{name}}IsSet);{{/required}}
+  DTO_FIELD(oatpp::Boolean, {{baseName}}IsSet);{{/required}}
   {{/vars}}
 
-  {{#isEnum}} // TODO:
-  {{classname}}::e{{classname}} m_value = {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;{{/isEnum}}
-  {{#vendorExtensions.x-is-string-enum-container}} // TODO:
-  {{#anyOf}}{{#-first}}{{{this}}} m_value;{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
 };
 
 /* End DTO code-generation */
 #include OATPP_CODEGEN_END(DTO)
+{{/isEnum}}
+
+{{#isEnum}}
+typedef {{dataType}} {{classname}};
+class {{classname}}Values {
+public:
+{{#allowableValues}}
+{{#enumVars}}
+  static {{classname}} {{value}}(void) { return "{{value}}"; }
+{{/enumVars}}
+{{/allowableValues}}
+};
+{{/isEnum}}
 
 } // namespace {{modelNamespace}}
 
