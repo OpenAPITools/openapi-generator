@@ -35,19 +35,18 @@ class ApiResponse : public oatpp::DTO {
 
   DTO_INIT(ApiResponse, DTO /* Extends */)
 
-  DTO_FIELD(oatpp::Int32, Code);
-  DTO_FIELD(oatpp::Boolean, CodeIsSet);
-  DTO_FIELD(oatpp::String, Type);
-  DTO_FIELD(oatpp::Boolean, TypeIsSet);
-  DTO_FIELD(oatpp::String, Message);
-  DTO_FIELD(oatpp::Boolean, MessageIsSet);
+  DTO_FIELD(oatpp::Int32, code);
+  DTO_FIELD(oatpp::Boolean, codeIsSet);
+  DTO_FIELD(oatpp::String, type);
+  DTO_FIELD(oatpp::Boolean, typeIsSet);
+  DTO_FIELD(oatpp::String, message);
+  DTO_FIELD(oatpp::Boolean, messageIsSet);
 
-  
-  
 };
 
 /* End DTO code-generation */
 #include OATPP_CODEGEN_END(DTO)
+
 
 } // namespace org::openapitools::server::model
 

@@ -37,25 +37,24 @@ class Pet : public oatpp::DTO {
 
   DTO_INIT(Pet, DTO /* Extends */)
 
-  DTO_FIELD(oatpp::Int64, Id);
-  DTO_FIELD(oatpp::Boolean, IdIsSet);
-  DTO_FIELD(oatpp::Object<org::openapitools::server::model::Category>, Category);
-  DTO_FIELD(oatpp::Boolean, CategoryIsSet);
-  DTO_FIELD(oatpp::String, Name);
+  DTO_FIELD(oatpp::Int64, id);
+  DTO_FIELD(oatpp::Boolean, idIsSet);
+  DTO_FIELD(oatpp::Object<org::openapitools::server::model::Category>, category);
+  DTO_FIELD(oatpp::Boolean, categoryIsSet);
+  DTO_FIELD(oatpp::String, name);
 
-  DTO_FIELD(oatpp::Vector<oatpp::String>, PhotoUrls);
+  DTO_FIELD(oatpp::Vector<oatpp::String>, photoUrls);
 
-  DTO_FIELD(oatpp::Vector<oatpp::Object<org::openapitools::server::model::Tag>>, Tags);
-  DTO_FIELD(oatpp::Boolean, TagsIsSet);
-  DTO_FIELD(oatpp::String, Status);
-  DTO_FIELD(oatpp::Boolean, StatusIsSet);
+  DTO_FIELD(oatpp::Vector<oatpp::Object<org::openapitools::server::model::Tag>>, tags);
+  DTO_FIELD(oatpp::Boolean, tagsIsSet);
+  DTO_FIELD(oatpp::String, status);
+  DTO_FIELD(oatpp::Boolean, statusIsSet);
 
-  
-  
 };
 
 /* End DTO code-generation */
 #include OATPP_CODEGEN_END(DTO)
+
 
 } // namespace org::openapitools::server::model
 
