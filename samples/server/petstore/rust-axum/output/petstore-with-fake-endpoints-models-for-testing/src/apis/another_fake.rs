@@ -26,6 +26,7 @@ pub trait AnotherFake<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     /// TestSpecialTags - PATCH /v2/another-fake/dummy
     async fn test_special_tags(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,

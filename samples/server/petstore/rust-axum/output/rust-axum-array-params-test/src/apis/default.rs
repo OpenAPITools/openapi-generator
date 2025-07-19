@@ -22,6 +22,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// EndpointGet - GET /endpoint
     async fn endpoint_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
