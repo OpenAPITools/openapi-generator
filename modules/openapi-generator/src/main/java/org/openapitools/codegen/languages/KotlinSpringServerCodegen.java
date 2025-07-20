@@ -34,6 +34,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -769,7 +770,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
 
-        if (SPRING_BOOT.equals(library) && containsEnums()) {
+        if (SPRING_BOOT.equals(library) && ModelUtils.containsEnums(this.openAPI)) {
             supportingFiles.add(new SupportingFile("converter.mustache",
                 (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.kt"));
         }
@@ -801,20 +802,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         // TODO: Handle tags
-    }
-
-    private boolean containsEnums() {
-        if (openAPI == null) {
-            return false;
-        }
-
-        Components components = this.openAPI.getComponents();
-        if (components == null || components.getSchemas() == null) {
-            return false;
-        }
-
-        return components.getSchemas().values().stream()
-            .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty());
     }
 
     @Override
