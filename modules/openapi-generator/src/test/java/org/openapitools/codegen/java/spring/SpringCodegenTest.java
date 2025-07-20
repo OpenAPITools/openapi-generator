@@ -5575,4 +5575,36 @@ public class SpringCodegenTest {
                 .toFileAssert()
                 .assertMethod("findPetsByStatus").hasReturnType("List<Pet>");
     }
+
+    @Test
+    public void testHasRestControllerDoesNotHaveController_issue21156() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/issue_21156.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary("spring-boot");
+
+        codegen.additionalProperties().put(INTERFACE_ONLY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(SPRING_CONTROLLER, "true");
+        codegen.additionalProperties().put(RETURN_SUCCESS_CODE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApiDelegate.java"));
+        javaFileAssert
+                .hasImports("java.util.concurrent.atomic.AtomicInteger");
+    }
 }
