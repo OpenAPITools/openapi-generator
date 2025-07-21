@@ -11,6 +11,6 @@
         /// <summary>
         /// Enum {{name}} for {{{value}}}
         /// </summary>
-        {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}} = {{-index}}{{/isString}}{{^-last}},
+        {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}}{{^vendorExtensions.x-zero-based-enum}} = {{-index}}{{/vendorExtensions.x-zero-based-enum}}{{/isString}}{{^-last}},
         {{/-last}}{{/enumVars}}{{/allowableValues}}
     }
