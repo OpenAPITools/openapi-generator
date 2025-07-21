@@ -17,20 +17,20 @@
         /// <param name="{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}">{{description}}{{^description}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/description}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
         {{/isDiscriminator}}
         {{/allVars}}
-        {{#model.vendorExtensions.x-model-is-mutable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutable}}{{^model.vendorExtensions.x-model-is-mutable}}internal{{/model.vendorExtensions.x-model-is-mutable}} {{classname}}({{#lambda.joinWithComma}}{{{dataType}}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{#model.composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{baseType}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{/model.composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#parentModel.composedSchemas.oneOf}}{{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{parent}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}  {{/parentModel.composedSchemas.oneOf}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
+        {{#model.vendorExtensions.x-model-is-mutable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutable}}{{^model.vendorExtensions.x-model-is-mutable}}internal{{/model.vendorExtensions.x-model-is-mutable}} {{classname}}(/**a**/{{#lambda.joinWithComma}}{{{dataType}}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{#model.composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{baseType}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{/model.composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#parentModel.composedSchemas.oneOf}}{{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{parent}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}  {{/parentModel.composedSchemas.oneOf}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
         {
             {{#composedSchemas.anyOf}}
-            {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
+            {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};  // a1 {{dataType}}
             {{/composedSchemas.anyOf}}
             {{name}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
             {{#allVars}}
             {{^isDiscriminator}}
             {{^isInherited}}
-            {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
+            {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}; // a2 {{dataType}}
             {{/isInherited}}
             {{#isInherited}}
             {{#isNew}}
-            {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
+            {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}; // a3 {{dataType}}
             {{/isNew}}
             {{/isInherited}}
             {{/isDiscriminator}}
@@ -62,7 +62,7 @@
         {{^composedSchemas.anyOf}}
         [JsonConstructor]
         {{/composedSchemas.anyOf}}
-        {{#model.vendorExtensions.x-model-is-mutable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutable}}{{^model.vendorExtensions.x-model-is-mutable}}internal{{/model.vendorExtensions.x-model-is-mutable}} {{classname}}({{#lambda.joinWithComma}}{{#composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{baseType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{/composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
+        {{#model.vendorExtensions.x-model-is-mutable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutable}}{{^model.vendorExtensions.x-model-is-mutable}}internal{{/model.vendorExtensions.x-model-is-mutable}} {{classname}}(/**b**/{{#lambda.joinWithComma}}{{#composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{datatypeWithEnum}}}/**{{dataType}}**/{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{/composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
         {
             {{#composedSchemas.anyOf}}
             {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};

@@ -629,7 +629,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 List<CodegenProperty> allOf = composedSchemas.getAllOf();
                 if (allOf != null) {
                     for (CodegenProperty property : allOf) {
-                        property.name = patchPropertyName(model, camelize(property.baseType), composedPropertyNames);
+                        property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                         patchPropertyVendorExtensions(property);
                     }
                 }
@@ -638,7 +638,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (anyOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for (CodegenProperty property : anyOf) {
-                        property.name = patchPropertyName(model, camelize(property.baseType), composedPropertyNames);
+                        property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
                         patchPropertyVendorExtensions(property);
                         property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
@@ -649,10 +649,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (oneOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for (CodegenProperty property : oneOf) {
-                        property.name = patchPropertyName(model, camelize(property.baseType), composedPropertyNames);
+                        property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
                         patchPropertyVendorExtensions(property);
                         property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
+
+                        if (!property.isEnum) {
+                            CodegenModel composedOf = ModelUtils.getModelByName(property.name, processed);
+                            if (composedOf != null) {
+                                property.isEnum = composedOf.isEnum;
+                                patchPropertyVendorExtensions(property);
+                            }
+                        }
                     }
                 }
             }
@@ -716,7 +724,47 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
     }
 
-    private String patchPropertyName(CodegenModel model, String value, Set<String> composedPropertyNames) {
+    /**
+     * If the model has duplicate proprety names, just make it unique
+     * This can happen for base names like "id" and "@id"
+     * @param model
+     * @param property
+     * @param value
+     * @return
+     */
+    private String setUniquePropertyName(CodegenModel model, CodegenProperty property, String value) {
+        if (property.name.equalsIgnoreCase(property.baseName)) {
+            return value;
+        }
+
+        Optional<CodegenProperty> alreadyUpdatedProperty = model.allVars.stream()
+                .filter(p -> !p.name.equals(property.name) && p.baseName.equals(property.baseName))
+                .collect(Collectors.toList())
+                .stream()
+                .findFirst();
+
+        if (alreadyUpdatedProperty.isPresent()) {
+            // above iterates allVars, which may have already been corrected
+            return alreadyUpdatedProperty.get().name;
+        }
+
+        final String tmp = value;
+
+        long count = model.allVars.stream()
+                .filter(v -> v.name.equalsIgnoreCase(tmp))
+                .count();
+
+        if (count > 1) {
+            value = value + count;
+            value = setUniquePropertyName(model, property, value);
+        }
+
+        return value;
+    }
+
+    private String patchPropertyName(CodegenModel model, CodegenProperty property, String value, Set<String> composedPropertyNames) {
+        value = setUniquePropertyName(model, property, value);
+
         String name = escapeReservedWord(model, value);
 
         if (name.startsWith(AbstractCSharpCodegen.invalidParameterNamePrefix)) {
@@ -768,26 +816,44 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         patchPropertyVendorExtensions(property);
 
-        property.name = patchPropertyName(model, property.name, null);
+        property.name = patchPropertyName(model, property, property.name, null);
 
-        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
-
-        Arrays.stream(nestedTypes).forEach(nestedType -> {
-            // fix incorrect data types for maps of maps
-            if (property.datatypeWithEnum.contains(", " + nestedType + ">") && property.items != null) {
-                property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + nestedType + ">", ", " + property.items.datatypeWithEnum + ">");
-                property.dataType = property.datatypeWithEnum;
-            }
-
-            if (property.datatypeWithEnum.contains("<" + nestedType + ">") && property.items != null) {
-                property.datatypeWithEnum = property.datatypeWithEnum.replace("<" + nestedType + ">", "<" + property.items.datatypeWithEnum + ">");
-                property.dataType = property.datatypeWithEnum;
-            }
-        });
+        patchNestedMaps(property);
 
         // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
         if (property.datatypeWithEnum.equals("decimal")) {
             property.isDecimal = true;
+        }
+    }
+
+    private void patchNestedMaps(CodegenProperty property) {
+        // Process nested types before making any replacements to ensure we have the correct inner type
+        if (property.items != null) {
+            patchNestedMaps(property.items);
+        }
+
+        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
+        
+        if (property.datatypeWithEnum != null) {
+            String originalType = property.datatypeWithEnum;
+            
+            for (String nestedType : nestedTypes) {
+                // fix incorrect data types for maps of maps
+                if (property.items != null) {
+                    if (property.datatypeWithEnum.contains(", " + nestedType + ">")) {
+                        property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + nestedType + ">", ", " + property.items.datatypeWithEnum + ">");
+                    }
+
+                    if (property.datatypeWithEnum.contains("<" + nestedType + ">")) {
+                        property.datatypeWithEnum = property.datatypeWithEnum.replace("<" + nestedType + ">", "<" + property.items.datatypeWithEnum + ">");
+                    }
+                }
+            }
+
+            // Only update dataType if we actually made changes
+            if (!originalType.equals(property.datatypeWithEnum)) {
+                property.dataType = property.datatypeWithEnum;
+            }
         }
     }
 
