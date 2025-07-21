@@ -9,3 +9,4 @@ additionalProperties:
   documentationProvider: springfox
   artifactId: springboot-spring-pageable-delegatePattern-without-j8
   hideGenerationTimestamp: 'true'
+  disallowAdditionalPropertiesIfNotPresent: true

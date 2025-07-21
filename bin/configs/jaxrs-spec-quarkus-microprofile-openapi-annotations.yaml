@@ -11,3 +11,4 @@ additionalProperties:
   useMicroProfileOpenAPIAnnotations: "true"
   library: "quarkus"
   dateLibrary: "java8-localdatetime"
+  disallowAdditionalPropertiesIfNotPresent: true
