@@ -55,7 +55,7 @@ class PetApi(baseUrl: String) {
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
-      .header("api_key", apiKey.toString)
+      .header("api_key", apiKey.map(_.toString()).getOrElse(null))
       .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**

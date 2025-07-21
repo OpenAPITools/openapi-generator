@@ -110,4 +110,38 @@ public class SttpCodegenTest {
         assertFileContains(path, ".cookie(\"apikey\", apiKeyCookie)");
     }
 
+    @Test
+    public void headerSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_21602.yaml", null, new ParseOptions()).getOpenAPI();
+
+        ScalaSttpClientCodegen codegen = new ScalaSttpClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/api/DefaultApi.scala");
+        assertFileContains(path, ".method(Method.GET, uri\"$baseUrl/ping\")\n");
+        assertFileContains(path, ".header(\"X-Optional-Header\", xOptionalHeader.map(_.toString()).getOrElse(null))");
+        assertFileContains(path, ".header(\"X-Required-Header\", xRequiredHeader.toString)");
+        assertFileContains(path, ".header(\"X-Optional-Schema-Header\", xOptionalSchemaHeader.map(_.toString()).getOrElse(null))");
+        assertFileContains(path, ".header(\"X-Required-Schema-Header\", xRequiredSchemaHeader.toString)");
+    }
+
 }
