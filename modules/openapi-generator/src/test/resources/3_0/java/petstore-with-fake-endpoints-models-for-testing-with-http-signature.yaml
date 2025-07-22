@@ -1969,11 +1969,13 @@ components:
           type: string
           pattern: /^[A-Z\s]*$/i
       nullable: true
+      additionalProperties: false
     banana:
       type: object
       properties:
         lengthCm:
           type: number
+      additionalProperties: false
     mammal:
       oneOf:
         - $ref: '#/components/schemas/whale'

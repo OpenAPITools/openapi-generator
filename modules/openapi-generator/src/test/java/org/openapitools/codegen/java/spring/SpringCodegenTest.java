@@ -58,9 +58,12 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openapitools.codegen.CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT;
+import static org.openapitools.codegen.CodegenConstants.LIBRARY;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
+import static org.openapitools.codegen.languages.JavaClientCodegen.JERSEY2;
 import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
@@ -5507,6 +5510,27 @@ public class SpringCodegenTest {
                 .fileContains("private final String value");
     }
 
+    @Test(description = "Issue #20139")
+    public void givenAdditionalPropertiesNotDefinedAndIsDisallowAdditionalPropertiesIfNotPresentIsFalseWhenGenerateModelThenAdditionalPropertiesTypeIsObject() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(true);
+        codegen.additionalProperties().put(DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, false);
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/2_0/issue_20139.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/java/org/openapitools";
+        Path jsonWebKey = Paths.get(outputPath + "/model/JsonWebKey.java");
+        JavaFileAssert.assertThat(jsonWebKey)
+                .assertProperty("additionalProperties")
+                .withType("Map<String, Object>");
+    }
+    
     @Test
     public void testCollectionTypesWithDefaults_issue_collection() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

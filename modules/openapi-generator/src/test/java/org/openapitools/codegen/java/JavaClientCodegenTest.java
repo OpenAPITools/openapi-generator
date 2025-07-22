@@ -40,6 +40,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.KotlinServerCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -62,14 +63,17 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.openapitools.codegen.CodegenConstants.*;
-import static org.openapitools.codegen.TestUtils.newTempFolder;
-import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.openapitools.codegen.TestUtils.*;
+import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKARTA_EE;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INTERFACE_ONLY;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
 import static org.testng.Assert.*;
 
 public class JavaClientCodegenTest {
@@ -3600,6 +3604,31 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test(description = "Issue #20139")
+    public void givenAdditionalPropertiesNotDefinedAndIsDisallowAdditionalPropertiesIfNotPresentIsFalseWhenGenerateModelThenAdditionalPropertiesTypeIsObject() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(true);
+        codegen.additionalProperties().put(DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, false);
+
+        // Only works for these libraries: jersey3, jersey2, feign, feign-hc5, resttemplate, webclient, restclient native
+        // The default, okhttp-gson, relies on isAdditionalPropertiesTrue and doesn't use additionalPropertiesType
+        codegen.additionalProperties().put(LIBRARY, JERSEY2);
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/2_0/issue_20139.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/java/org/openapitools/client";
+        Path jsonWebKey = Paths.get(outputPath + "/model/JsonWebKey.java");
+        JavaFileAssert.assertThat(jsonWebKey)
+                        .assertProperty("additionalProperties")
+                                .withType("Map<String, Object>");
+    }
+    
     @Test(description = "Issue #21051")
     public void givenComplexObjectHasDefaultValueWhenGenerateThenDefaultAssignmentsAreValid() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
