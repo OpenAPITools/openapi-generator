@@ -110,6 +110,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         additionalProperties.put("baseSuffix", BASE_CLASS_SUFFIX);
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, DEFAULT_SOURCE_FOLDER);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
+        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, DEFAULT_PACKAGE_VERSION);
         additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, DEFAULT_IMPL_FOLDER);
 
         languageSpecificPrimitives.add("List");
@@ -146,6 +147,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
+            setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
