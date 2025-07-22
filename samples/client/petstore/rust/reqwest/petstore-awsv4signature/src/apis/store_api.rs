@@ -52,9 +52,9 @@ pub enum PlaceOrderError {
 /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 pub fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error<DeleteOrderError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_order_id = order_id;
+    let p_path_order_id = order_id;
 
-    let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(p_order_id));
+    let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(p_path_order_id));
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -134,9 +134,9 @@ pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<s
 /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<models::Order, Error<GetOrderByIdError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_order_id = order_id;
+    let p_path_order_id = order_id;
 
-    let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=p_order_id);
+    let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=p_path_order_id);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -171,7 +171,7 @@ pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i
 /// 
 pub fn place_order(configuration: &configuration::Configuration, order: models::Order) -> Result<models::Order, Error<PlaceOrderError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_order = order;
+    let p_body_order = order;
 
     let uri_str = format!("{}/store/order", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -179,7 +179,7 @@ pub fn place_order(configuration: &configuration::Configuration, order: models::
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    req_builder = req_builder.json(&p_order);
+    req_builder = req_builder.json(&p_body_order);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;
