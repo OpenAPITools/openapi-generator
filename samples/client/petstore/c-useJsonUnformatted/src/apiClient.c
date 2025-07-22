@@ -10,6 +10,7 @@ apiClient_t *apiClient_create() {
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     apiClient->basePath = strdup("http://petstore.swagger.io/v2");
     apiClient->sslConfig = NULL;
+    apiClient->curlConfig = NULL;
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
     apiClient->data_callback_func = NULL;
@@ -38,6 +39,12 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     }else{
         apiClient->sslConfig = NULL;
     }
+
+    apiClient->curlConfig = malloc(sizeof(curlConfig_t));
+    apiClient->curlConfig->verbose = 0;
+    apiClient->curlConfig->keepalive = 0;
+    apiClient->curlConfig->keepidle = 120;
+    apiClient->curlConfig->keepintvl = 60;
 
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
@@ -85,6 +92,12 @@ void apiClient_free(apiClient_t *apiClient) {
         }
         list_freeList(apiClient->apiKeys_api_key);
     }
+
+    if(apiClient->curlConfig) {
+        free(apiClient->curlConfig);
+        apiClient->curlConfig = NULL;
+    }
+
     free(apiClient);
 }
 
@@ -413,6 +426,12 @@ void apiClient_invoke(apiClient_t    *apiClient,
                               operationParameter,
                               queryParameters);
 
+        if(apiClient->curlConfig->keepalive == 1) {
+            curl_easy_setopt(handle, CURLOPT_TCP_KEEPALIVE, 1L);
+            curl_easy_setopt(handle, CURLOPT_TCP_KEEPIDLE, apiClient->curlConfig->keepidle);
+            curl_easy_setopt(handle, CURLOPT_TCP_KEEPINTVL, apiClient->curlConfig->keepintvl);
+        }
+
         curl_easy_setopt(handle, CURLOPT_URL, targetUrl);
         curl_easy_setopt(handle,
                          CURLOPT_WRITEFUNCTION,
@@ -421,7 +440,7 @@ void apiClient_invoke(apiClient_t    *apiClient,
                          CURLOPT_WRITEDATA,
                          apiClient);
         curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
-        curl_easy_setopt(handle, CURLOPT_VERBOSE, 0); // to get curl debug msg 0: to disable, 1L:to enable
+        curl_easy_setopt(handle, CURLOPT_VERBOSE, apiClient->curlConfig->verbose);
 
         // this would only be generated for OAuth2 authentication
         if(apiClient->accessToken != NULL) {
