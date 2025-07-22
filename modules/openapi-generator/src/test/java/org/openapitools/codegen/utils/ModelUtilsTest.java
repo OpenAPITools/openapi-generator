@@ -243,6 +243,31 @@ public class ModelUtilsTest {
     }
 
     /**
+     * This test verifies that nullable property is preserved when unaliasing a schema reference.
+     * See https://github.com/OpenAPITools/openapi-generator/issues/21612
+     */
+    @Test
+    public void testNullableUnaliasedSchema() {
+        Schema refSchema = new Schema().$ref("#/components/schemas/MyString").nullable(true);
+        StringSchema myStringSchema = new StringSchema();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("MyString", myStringSchema);
+
+        Schema unaliased = ModelUtils.unaliasSchema(openAPI, refSchema, new HashMap<>());
+
+        Assert.assertTrue(unaliased.getNullable(), "Nullable property should be preserved after unaliasing");
+        Assert.assertNotSame(unaliased, refSchema, "Unaliased schema should not be the same instance as the original reference");
+
+        Schema refSchema2 = new Schema().$ref("#/components/schemas/MyString");
+        StringSchema myStringSchema2 = new StringSchema();
+        OpenAPI openAPI2 = TestUtils.createOpenAPIWithOneSchema("MyString", myStringSchema2);
+
+        Schema unaliased2 = ModelUtils.unaliasSchema(openAPI2, refSchema2, new HashMap<>());
+
+        Assert.assertNull(unaliased2.getNullable(), "Nullable property should be preserved after unaliasing");
+        Assert.assertNotSame(unaliased2, refSchema2, "Unaliased schema should not be the same instance as the original reference");
+    }
+
+    /**
      * Issue https://github.com/OpenAPITools/openapi-generator/issues/1624.
      * ModelUtils.isFreeFormObject() should not throw an NPE when passed an empty
      * object schema that has additionalProperties defined as an empty object schema.

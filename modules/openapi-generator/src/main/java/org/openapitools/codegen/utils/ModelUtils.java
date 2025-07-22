@@ -1410,7 +1410,11 @@ public class ModelUtils {
                             schemaMappings);
                 }
             } else {
-                return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), schemaMappings);
+                Schema unaliased = unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), schemaMappings);
+                // Preserve nullable property from the original schema reference
+                Schema newSchema = cloneSchema(unaliased, false);
+                newSchema.setNullable(schema.getNullable());
+                return newSchema;
             }
         }
         return schema;
