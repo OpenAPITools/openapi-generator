@@ -4690,7 +4690,7 @@ public class DefaultCodegen implements CodegenConfig {
                     ((!(this instanceof RustAxumServerCodegen) && contentType.startsWith("application/x-www-form-urlencoded")) ||
                             contentType.startsWith("multipart"))) {
                 // process form parameters
-                formParams = fromRequestBodyToFormParameters(requestBody, imports);
+                formParams = fromRequestBodyToFormParameters(requestBody, imports, contentTypeIndex);
                 op.isMultipart = contentType.startsWith("multipart");
                 for (CodegenParameter cp : formParams) {
                     setParameterEncodingValues(cp, requestBody.getContent().get(contentType));
@@ -7189,10 +7189,10 @@ public class DefaultCodegen implements CodegenConfig {
         return null;
     }
 
-    public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports) {
+    public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports, int ContentTypeIndex) {
         List<CodegenParameter> parameters = new ArrayList<>();
         LOGGER.debug("debugging fromRequestBodyToFormParameters= {}", body);
-        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(body, ContentTypeIndex);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
         Schema original = null;
@@ -7251,6 +7251,11 @@ public class DefaultCodegen implements CodegenConfig {
 
         return parameters;
     }
+
+    public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports) {
+        return fromRequestBodyToFormParameters(body, imports, 0);
+    }
+    
 
     public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);

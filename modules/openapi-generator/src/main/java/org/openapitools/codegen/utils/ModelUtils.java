@@ -1186,13 +1186,17 @@ public class ModelUtils {
     }
 
     /**
-     * Return the first defined Schema for a RequestBody
+     * Return the selected defined Schema for a RequestBody
      *
      * @param requestBody request body of the operation
-     * @return first schema
+     * @return selected schema
      */
+    public static Schema getSchemaFromRequestBody(RequestBody requestBody, int contentTypeIndex) {
+        return getSchemaFromContent(requestBody.getContent(), contentTypeIndex);
+    }
+
     public static Schema getSchemaFromRequestBody(RequestBody requestBody) {
-        return getSchemaFromContent(requestBody.getContent());
+        return getSchemaFromRequestBody(requestBody, 0);
     }
 
     /**
@@ -1212,7 +1216,7 @@ public class ModelUtils {
     }
 
     /**
-     * Return the first Schema from a specified OAS 'content' section.
+     * Return the selected Schema from a specified OAS 'content' section.
      * <p>
      * For example, given the following OAS, this method returns the schema
      * for the 'application/json' content type because it is listed first in the OAS.
@@ -1229,18 +1233,27 @@ public class ModelUtils {
      * @param content a 'content' section in the OAS specification.
      * @return the Schema.
      */
-    private static Schema getSchemaFromContent(Content content) {
+    private static Schema getSchemaFromContent(Content content, int contentTypeIndex) {
         if (content == null || content.isEmpty()) {
             return null;
         }
-        Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
-        if (content.size() > 1) {
-            // Other content types are currently ignored by codegen. If you see this warning,
-            // reorder the OAS spec to put the desired content type first.
-            once(LOGGER).debug("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
-                    entry.getKey());
+
+        if (contentTypeIndex < 0 || contentTypeIndex >= content.size()) {
+            LOGGER.warn("Requested contentTypeIndex {} is out of bounds for content size {}", contentTypeIndex, content.size());
+            return null;
         }
+
+        Iterator<Map.Entry<String, MediaType>> iterator = content.entrySet().iterator();
+        for (int i = 0; i < contentTypeIndex; i++) {
+            iterator.next(); // skip entries until the desired index
+        }
+
+        Map.Entry<String, MediaType> entry = iterator.next();
         return entry.getValue().getSchema();
+    }
+
+    private static Schema getSchemaFromContent(Content content){
+        return getSchemaFromContent(content, 0);
     }
 
     /**
