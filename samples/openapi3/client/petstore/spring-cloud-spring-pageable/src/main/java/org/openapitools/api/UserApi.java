@@ -54,7 +54,7 @@ public interface UserApi {
         description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "default", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -79,7 +79,7 @@ public interface UserApi {
         summary = "Creates list of users with given input array",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "default", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -104,7 +104,7 @@ public interface UserApi {
         summary = "Creates list of users with given input array",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "default", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -132,8 +132,8 @@ public interface UserApi {
         description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
-            @ApiResponse(responseCode = "404", description = "User not found")
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         }
     )
     @RequestMapping(
@@ -164,8 +164,8 @@ public interface UserApi {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class)),
                 @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
-            @ApiResponse(responseCode = "404", description = "User not found")
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         }
     )
     @RequestMapping(
@@ -197,7 +197,7 @@ public interface UserApi {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = String.class)),
                 @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
+            @ApiResponse(responseCode = "400", description = "Invalid username/password supplied", content = @Content)
         }
     )
     @RequestMapping(
@@ -223,7 +223,7 @@ public interface UserApi {
         summary = "Logs out current logged in user session",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "default", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -247,7 +247,7 @@ public interface UserApi {
         summary = "logoutUserOptions",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "default", description = "endpoint configuration response")
+            @ApiResponse(responseCode = "default", description = "endpoint configuration response", content = @Content)
         }
     )
     @RequestMapping(
@@ -276,8 +276,8 @@ public interface UserApi {
         description = "This can only be done by the logged in user.",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "400", description = "Invalid user supplied"),
-            @ApiResponse(responseCode = "404", description = "User not found")
+            @ApiResponse(responseCode = "400", description = "Invalid user supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         }
     )
     @RequestMapping(
