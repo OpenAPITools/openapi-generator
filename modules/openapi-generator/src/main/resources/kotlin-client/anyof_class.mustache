@@ -71,6 +71,7 @@ import java.io.IOException
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
 {{>additionalModelTypeAnnotations}}
+
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}data class {{classname}}(var actualInstance: Any? = null) {
 
     class CustomTypeAdapterFactory : TypeAdapterFactory {
@@ -109,7 +110,7 @@ import java.io.IOException
                     if (value.actualInstance is {{#isArray}}List<*>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
                     {{#isArray}}
                         val list = value.actualInstance as List<Any>
-                        if (list.get(0) is {{{items.dataType}}}) {
+                        if (!list.isEmpty() && list.get(0) is {{{items.dataType}}}) {
                             val array = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(value.actualInstance as {{{dataType}}}?).getAsJsonArray()
                             elementAdapter.write(out, array)
                             return

@@ -20,10 +20,10 @@
     ) {{/discriminator}}{{#parent}}: {{{.}}}{{#serializableModel}}, Serializable{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}: Serializable{{/serializableModel}}{{/parent}}{
 {{#discriminator}}
     {{#requiredVars}}
-        {{>interfaceReqVar}}
+        {{>interfaceReqVar}}{{! prevent indent}}
     {{/requiredVars}}
     {{#optionalVars}}
-        {{>interfaceOptVar}}
+        {{>interfaceOptVar}}{{! prevent indent}}
     {{/optionalVars}}
 {{/discriminator}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}

@@ -164,7 +164,9 @@ Class | Method | HTTP request | Description
  - [SingleRefType](doc/SingleRefType.md)
  - [SpecialModelName](doc/SpecialModelName.md)
  - [Tag](doc/Tag.md)
+ - [TestEnum](doc/TestEnum.md)
  - [TestInlineFreeformAdditionalPropertiesRequest](doc/TestInlineFreeformAdditionalPropertiesRequest.md)
+ - [TestItem](doc/TestItem.md)
  - [User](doc/User.md)
 
 

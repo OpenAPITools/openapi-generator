@@ -48,4 +48,4 @@ workflows:
 
 meta:
   bitrise.io:
-    stack: osx-xcode-16.0.x
+    stack: osx-xcode-16.3.x

@@ -2435,6 +2435,19 @@ public class ModelUtils {
                 schema.getContentSchema() != null);
     }
 
+    /**
+     * Returns true if the OpenAPI specification contains any schemas which are enums.
+     * @param openAPI   OpenAPI specification
+     * @return          true if the OpenAPI specification contains any schemas which are enums.
+     */
+    public static boolean containsEnums(OpenAPI openAPI) {
+        Map<String, Schema> schemaMap = getSchemas(openAPI);
+        if (schemaMap.isEmpty()) {
+            return false;
+        }
+
+        return schemaMap.values().stream().anyMatch(ModelUtils::isEnumSchema);
+    }
 
     @FunctionalInterface
     private interface OpenAPISchemaVisitor {

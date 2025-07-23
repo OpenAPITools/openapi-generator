@@ -70,6 +70,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String MICROPROFILE_MUTINY = "microprofileMutiny";
+    public static final String MICROPROFILE_GLOBAL_EXCEPTION_MAPPER = "microprofileGlobalExceptionMapper";
+    public static final String MICROPROFILE_REGISTER_EXCEPTION_MAPPER = "microprofileRegisterExceptionMapper";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
     public static final String SUPPORT_STREAMING = "supportStreaming";
@@ -120,6 +122,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected String microprofileFramework = MICROPROFILE_DEFAULT;
     @Setter protected String microprofileRestClientVersion = MICROPROFILE_REST_CLIENT_DEFAULT_VERSION;
     @Setter protected boolean microprofileMutiny = false;
+    @Setter protected boolean microProfileGlobalExceptionMapper = true;
+    @Setter protected boolean microProfileRegisterExceptionMapper = true;
     @Setter protected String configKey = null;
     @Setter(AccessLevel.PRIVATE) protected boolean configKeyFromClassName = false;
 
@@ -229,6 +233,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newString(MICROPROFILE_MUTINY, "Whether to use async types for microprofile (currently only Smallrye Mutiny is supported)."));
+        cliOptions.add(CliOption.newString(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, "Should generated API Clients be annotated with @RegisterProvider(ApiExceptionMapper.class).").defaultValue("true"));
+        cliOptions.add(CliOption.newString(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, "Should ApiExceptionMapper be annotated with @Provider making it a global exception mapper").defaultValue("true"));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, restclient, libraries"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
         cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
@@ -379,6 +385,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 //            this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
         }
         convertPropertyToStringAndWriteBack(MICROPROFILE_FRAMEWORK, this::setMicroprofileFramework);
+
+        convertPropertyToBooleanAndWriteBack(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, this::setMicroProfileGlobalExceptionMapper);
+        convertPropertyToBooleanAndWriteBack(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, this::setMicroProfileRegisterExceptionMapper);
+
+        additionalProperties.put(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, microProfileRegisterExceptionMapper);
+        additionalProperties.put(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, microProfileGlobalExceptionMapper);
 
         convertPropertyToBooleanAndWriteBack(MICROPROFILE_MUTINY, this::setMicroprofileMutiny);
 
@@ -708,6 +720,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 if (getSerializationLibrary().equals(SERIALIZATION_LIBRARY_JSONB)) {
                     additionalProperties.put("jsonbPolymorphism", true);
                 }
+            }
+
+            if (getSerializationLibrary().equals(SERIALIZATION_LIBRARY_JACKSON)) {
+                // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+                // In principle, this should be enabled by default for all code generators. However due to limitations
+                // in other code generators, support needs to be enabled on a case-by-case basis.
+                // The flag below should be set for all Java libraries, but the templates need to be ported
+                // one by one for each library.
+                supportsAdditionalPropertiesWithComposedSchema = true;
             }
         } else if (libApache) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);

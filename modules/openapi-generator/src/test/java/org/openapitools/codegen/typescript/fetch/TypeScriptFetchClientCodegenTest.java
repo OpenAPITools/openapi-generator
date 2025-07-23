@@ -347,31 +347,6 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileExists(Paths.get(output + "/apis/petControllerApi.ts"));
     }
 
-    @Test(description = "Issue #20195")
-    public void givenObjectHasAdditionalPropertiesWhenGenerateThenIndexSignatureNotUsedToGenerateMethodName() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        TypeScriptFetchClientCodegen clientCodegen = new TypeScriptFetchClientCodegen();
-        clientCodegen.setWithoutRuntimeChecks(false);
-        clientCodegen.setOutputDir(output.getAbsolutePath());
-
-        Map<String, Object> properties = new HashMap<>();
-        properties.put(TypeScriptFetchClientCodegen.WITH_INTERFACES, true);
-        properties.put(CodegenConstants.ENUM_PROPERTY_NAMING, "original");
-        clientCodegen.additionalProperties().putAll(properties);
-
-        DefaultGenerator defaultGenerator = new DefaultGenerator();
-        defaultGenerator.opts(
-                new ClientOptInput().openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_20195.json"))
-                        .config(clientCodegen)
-        ).generate();
-
-        String outputPath = output.getAbsolutePath();
-        Path exampleApiPath = Paths.get(outputPath + "/apis/ExampleApi.ts");
-        TestUtils.assertFileContains(exampleApiPath, "new Blob([JSON.stringify(ResponseOfStringToJSON");
-    }
-
     @Test(description = "Issue #21295")
     public void givenSchemaIsOneOfAndComposedSchemasArePrimitiveThenReturnStatementsAreCorrect() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

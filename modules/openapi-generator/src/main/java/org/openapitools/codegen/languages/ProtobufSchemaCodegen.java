@@ -1105,14 +1105,17 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 addtionalPropertiesName = schema.getTitle();
             } else {
                 Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
-                if (additionalProperties.getTitle() != null) {
+                if(additionalProperties == null) {
+                   return; 
+                } else if (additionalProperties.getTitle() != null) {
                     addtionalPropertiesName = additionalProperties.getTitle();
                 } else if (additionalProperties.get$ref() != null) {
                     String ref = ModelUtils.getSimpleRef(additionalProperties.get$ref());
                     addtionalPropertiesName = toVarName(toModelName(ref));
                 }
             }
-            properties.put(addtionalPropertiesName, schema);
+            
+            properties.put(addtionalPropertiesName, schema);        
         }
     }
 }

@@ -26,11 +26,11 @@ pub trait {{{classname}}}: Send + Sync {
     /// {{{notes}}}
     {{/notes.empty}}
 {{#vendorExtensions.x-group-parameters}}
-    async fn {{{operationId}}}(&self, {{#allParams}}{{#-first}} params: {{{operationIdCamelCase}}}Params {{/-first}}{{/allParams}}{{! 
+    async fn {{{operationId}}}(&self, {{#allParams}}{{#-first}} params: {{{operationIdCamelCase}}}Params {{/-first}}{{/allParams}}{{!
     ### Function return type
     }}) -> Result<{{!
     ### Multi response support
-    }}{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{! 
+    }}{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{!
     ### Regular return type
     }}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}{{!
     ### Error Type
@@ -39,27 +39,27 @@ pub trait {{{classname}}}: Send + Sync {
 {{^vendorExtensions.x-group-parameters}}
     async fn {{{operationId}}}{{!
     ### Lifetimes
-    }}<{{#allParams}}'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}}{{^-last}}, {{/-last}}{{/allParams}}>{{! 
+    }}<{{#allParams}}'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}}{{^-last}}, {{/-last}}{{/allParams}}>{{!
     ### Function parameter names
-    }}(&self, {{#allParams}}{{{paramName}}}: {{! 
+    }}(&self, {{#allParams}}{{{paramName}}}: {{!
     ### Option Start
-    }}{{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{! 
+    }}{{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{!
     ### &str and Vec<&str>
-    }}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{! 
+    }}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{!
     ### UUIDs
-    }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{! 
+    }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{!
     ### Models and primative types
-    }}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{! 
+    }}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{!
     ### Option End
-    }}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{! 
+    }}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{!
     ### Comma for next arguement
     }}{{^-last}}, {{/-last}}{{/allParams}}{{!
     ### Function return type
-    }}) -> Result<{{! 
+    }}) -> Result<{{!
     ### Multi response support
-    }}{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{! 
+    }}{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{!
     ### Regular return type
-    }}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}{{! 
+    }}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}{{!
     ### Error Type
     }}, Error<{{{operationIdCamelCase}}}Error>>;
 {{/vendorExtensions.x-group-parameters}}
@@ -83,7 +83,7 @@ impl {{classname}}Client {
 {{#vendorExtensions.x-group-parameters}}
 {{#allParams}}
 {{#-first}}
-/// struct for passing parameters to the method [`{{operationId}}`]
+/// struct for passing parameters to the method [`{{{classname}}}::{{operationId}}`]
 #[derive(Clone, Debug)]
 {{#useBonBuilder}}
 #[cfg_attr(feature = "bon", derive(::bon::Builder))]
@@ -149,7 +149,7 @@ impl {{classname}} for {{classname}}Client {
     ### Lifetimes
     }}<{{#allParams}}'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}}{{^-last}}, {{/-last}}{{/allParams}}>{{!
     ### Function parameter names
-    }}(&self, {{#allParams}}{{{paramName}}}: {{! 
+    }}(&self, {{#allParams}}{{{paramName}}}: {{!
     ### Option Start
     }}{{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{!
     ### &str and Vec<&str>
@@ -161,9 +161,9 @@ impl {{classname}} for {{classname}}Client {
     ### Option End
     }}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{!
     ### Comma for next arguement
-    }}{{^-last}}, {{/-last}}{{/allParams}}{{! 
+    }}{{^-last}}, {{/-last}}{{/allParams}}{{!
     ### Function return type
-    }}) -> Result<{{! 
+    }}) -> Result<{{!
     ### Multi response support
     }}{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{!
     ### Regular return type
@@ -516,7 +516,7 @@ impl {{classname}} for {{classname}}Client {
 {{#supportMultipleResponses}}
 {{#operations}}
 {{#operation}}
-/// struct for typed successes of method [`{{operationId}}`]
+/// struct for typed successes of method [`{{{classname}}}::{{operationId}}`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum {{{operationIdCamelCase}}}Success {
@@ -536,7 +536,7 @@ pub enum {{{operationIdCamelCase}}}Success {
 {{/supportMultipleResponses}}
 {{#operations}}
 {{#operation}}
-/// struct for typed errors of method [`{{operationId}}`]
+/// struct for typed errors of method [`{{{classname}}}::{{operationId}}`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum {{{operationIdCamelCase}}}Error {

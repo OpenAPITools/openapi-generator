@@ -74,6 +74,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
 {{>additionalModelTypeAnnotations}}
+
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
@@ -292,6 +293,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
             }
             {{/required}}
             {{#items.isPrimitiveType}}
+            {{^items.isArray}}
             // ensure the items in json array are primitive
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null) {
               for (i in 0 until jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").size()) {
@@ -300,6 +302,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
                 }
               }
             }
+            {{/items.isArray}}
             {{/items.isPrimitiveType}}
             {{/items.isModel}}
             {{/isArray}}

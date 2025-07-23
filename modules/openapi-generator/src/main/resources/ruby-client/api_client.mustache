@@ -1,5 +1,6 @@
 =begin
 {{> api_info}}
+
 =end
 
 require 'date'
@@ -48,12 +49,15 @@ module {{moduleName}}
 
 {{#isTyphoeus}}
 {{> api_client_typhoeus_partial}}
+
 {{/isTyphoeus}}
 {{#isFaraday}}
 {{> api_client_faraday_partial}}
+
 {{/isFaraday}}
 {{#isHttpx}}
 {{> api_client_httpx_partial}}
+
 {{/isHttpx}}
     # Check if the given MIME is a JSON MIME.
     # JSON MIME examples:

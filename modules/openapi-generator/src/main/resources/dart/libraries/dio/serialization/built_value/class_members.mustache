@@ -32,7 +32,7 @@
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults({{{classname}}}Builder b) => b{{#vendorExtensions.x-parent-discriminator}}..{{propertyName}}=b.discriminatorValue{{/vendorExtensions.x-parent-discriminator}}{{#vendorExtensions.x-self-and-ancestor-only-props}}{{#defaultValue}}
-      ..{{{name}}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/vendorExtensions.x-self-and-ancestor-only-props}};
+      ..{{{name}}} = {{#isEnum}}{{^isContainer}}{{{defaultValue}}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/defaultValue}}{{/vendorExtensions.x-self-and-ancestor-only-props}};
 
 {{/vendorExtensions.x-is-parent}}  @BuiltValueSerializer(custom: true)
   static Serializer<{{classname}}> get serializer => _${{classname}}Serializer();

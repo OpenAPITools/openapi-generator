@@ -1,6 +1,6 @@
 {{^authName}}
-  delegate.{{operationId}}.handle(req, req.asJsonDecode[{{{bodyParam.dataType}}}] , {{#pathParams}}{{baseName}}, {{/pathParams}}{{#queryParams}}{{baseName}}, {{/queryParams}}responses)
+  delegate.{{operationId}}.handle(req, req.asJsonDecode[{{{bodyParam.dataType}}}] , {{#pathParams}}{{#lambda.escapeReservedWordUnapply}}{{baseName}}{{/lambda.escapeReservedWordUnapply}}, {{/pathParams}}{{#queryParams}}{{#lambda.escapeReservedWordUnapply}}{{baseName}}{{/lambda.escapeReservedWordUnapply}}, {{/queryParams}}responses)
 {{/authName}}
 {{#authName}}
-  delegate.{{operationId}}.handle_{{authName}}(auth, req, req.asJsonDecode[{{{bodyParam.dataType}}}] , {{#pathParams}}{{baseName}}, {{/pathParams}}{{#queryParams}}{{baseName}}, {{/queryParams}}responses)
+  delegate.{{operationId}}.handle_{{authName}}(auth, req, req.asJsonDecode[{{{bodyParam.dataType}}}] , {{#pathParams}}{{#lambda.escapeReservedWordUnapply}}{{baseName}}{{/lambda.escapeReservedWordUnapply}}, {{/pathParams}}{{#queryParams}}{{#lambda.escapeReservedWordUnapply}}{{baseName}}{{/lambda.escapeReservedWordUnapply}}, {{/queryParams}}responses)
 {{/authName}}

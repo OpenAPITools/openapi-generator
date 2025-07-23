@@ -54,6 +54,7 @@ import java.util.concurrent.CompletableFuture;
 {{/asyncNative}}
 
 {{>generatedAnnotation}}
+
 {{#operations}}
 public class {{classname}} {
   private final HttpClient memberVarHttpClient;
@@ -100,6 +101,54 @@ public class {{classname}} {
     return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
+  /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
+  }
+
   {{#operation}}
   {{#vendorExtensions.x-group-parameters}}
   {{#hasParams}}
@@ -129,7 +178,7 @@ public class {{classname}} {
   {{/isDeprecated}}
   public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest) throws ApiException {
     {{#allParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     {{{dataType}}} {{paramName}} = apiRequest.{{paramName}}();
     {{/allParams}}
     {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
@@ -291,13 +340,23 @@ public class {{classname}} {
           );
         }
 
+        {{^isResponseFile}}{{#isResponseBinary}}
+        Byte[] responseValue = localVarResponse.body().readAllBytes();
+        {{/isResponseBinary}}{{/isResponseFile}}
+        {{#isResponseFile}}
+        // Handle file downloading.
+        File responseValue = downloadFileFromResponse(localVarResponse);
+        {{/isResponseFile}}
+        {{^isResponseBinary}}{{^isResponseFile}}
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        {{{returnType}}} responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {});
+        {{/isResponseFile}}{{/isResponseBinary}}
         localVarResponse.body().close();
 
         return new ApiResponse<{{{returnType}}}>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
+            responseValue
         );
         {{/returnType}}
         {{^returnType}}
@@ -580,11 +639,11 @@ public class {{classname}} {
 
   public static final class API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
     {{#requiredParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     private {{{dataType}}} {{paramName}}; // {{description}} (required)
     {{/requiredParams}}
     {{#optionalParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}})
     {{/optionalParams}}
 
@@ -597,7 +656,7 @@ public class {{classname}} {
       {{/optionalParams}}
     }
     {{#allParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     public {{{dataType}}} {{paramName}}() {
       return {{paramName}};
     }
