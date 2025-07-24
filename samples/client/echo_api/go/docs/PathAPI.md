@@ -31,7 +31,7 @@ import (
 func main() {
 	pathString := "pathString_example" // string | 
 	pathInteger := int32(56) // int32 | 
-	enumNonrefStringPath := "enumNonrefStringPath_example" // string | 
+	enumNonrefStringPath := openapiclient.tests_path_string__path_string__integer__path_integer___enum_nonref_string_path___enum_ref_string_path__enum_nonref_string_path_parameter("success") // TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter | 
 	enumRefStringPath := openapiclient.StringEnumRef("success") // StringEnumRef | 
 
 	configuration := openapiclient.NewConfiguration()
@@ -54,7 +54,7 @@ Name | Type | Description  | Notes
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
 **pathString** | **string** |  | 
 **pathInteger** | **int32** |  | 
-**enumNonrefStringPath** | **string** |  | 
+**enumNonrefStringPath** | [**TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter**](.md) |  | 
 **enumRefStringPath** | [**StringEnumRef**](.md) |  | 
 
 ### Other Parameters

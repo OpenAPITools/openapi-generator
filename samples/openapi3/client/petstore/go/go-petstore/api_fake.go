@@ -1641,60 +1641,59 @@ func (a *FakeAPIService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 type ApiTestEnumParametersRequest struct {
 	ctx context.Context
 	ApiService FakeAPI
-	enumHeaderStringArray *[]string
-	enumHeaderString *string
-	enumQueryStringArray *[]string
-	enumQueryString *string
-	enumQueryInteger *int32
-	enumQueryDouble *float64
-	enumFormStringArray *[]string
-	enumFormString *string
+	enumHeaderStringArray *[]TestEnumParametersRequestEnumFormStringArrayInner
+	enumHeaderString *TestEnumParametersEnumHeaderStringParameter
+	enumQueryStringArray *[]TestEnumParametersRequestEnumFormStringArrayInner
+	enumQueryString *TestEnumParametersEnumHeaderStringParameter
+	enumQueryInteger *TestEnumParametersEnumQueryIntegerParameter
+	enumQueryDouble *TestEnumParametersEnumQueryDoubleParameter
+	enumFormStringArray *[]TestEnumParametersRequestEnumFormStringArrayInner
+	enumFormString *TestEnumParametersRequestEnumFormString
 }
 
 // Header parameter enum test (string array)
-func (r ApiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []TestEnumParametersRequestEnumFormStringArrayInner) ApiTestEnumParametersRequest {
 	r.enumHeaderStringArray = &enumHeaderStringArray
 	return r
 }
 
 // Header parameter enum test (string)
-func (r ApiTestEnumParametersRequest) EnumHeaderString(enumHeaderString string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumHeaderString(enumHeaderString TestEnumParametersEnumHeaderStringParameter) ApiTestEnumParametersRequest {
 	r.enumHeaderString = &enumHeaderString
 	return r
 }
 
 // Query parameter enum test (string array)
-func (r ApiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []TestEnumParametersRequestEnumFormStringArrayInner) ApiTestEnumParametersRequest {
 	r.enumQueryStringArray = &enumQueryStringArray
 	return r
 }
 
 // Query parameter enum test (string)
-func (r ApiTestEnumParametersRequest) EnumQueryString(enumQueryString string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumQueryString(enumQueryString TestEnumParametersEnumHeaderStringParameter) ApiTestEnumParametersRequest {
 	r.enumQueryString = &enumQueryString
 	return r
 }
 
 // Query parameter enum test (double)
-func (r ApiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger int32) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger TestEnumParametersEnumQueryIntegerParameter) ApiTestEnumParametersRequest {
 	r.enumQueryInteger = &enumQueryInteger
 	return r
 }
 
 // Query parameter enum test (double)
-func (r ApiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble float64) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble TestEnumParametersEnumQueryDoubleParameter) ApiTestEnumParametersRequest {
 	r.enumQueryDouble = &enumQueryDouble
 	return r
 }
 
 // Form parameter enum test (string array)
-func (r ApiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []TestEnumParametersRequestEnumFormStringArrayInner) ApiTestEnumParametersRequest {
 	r.enumFormStringArray = &enumFormStringArray
 	return r
 }
 
-// Form parameter enum test (string)
-func (r ApiTestEnumParametersRequest) EnumFormString(enumFormString string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumFormString(enumFormString TestEnumParametersRequestEnumFormString) ApiTestEnumParametersRequest {
 	r.enumFormString = &enumFormString
 	return r
 }
@@ -1751,7 +1750,7 @@ func (a *FakeAPIService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	if r.enumQueryString != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string", r.enumQueryString, "form", "")
 	} else {
-		var defaultValue string = "-efg"
+		var defaultValue TestEnumParametersEnumHeaderStringParameter = "-efg"
 		r.enumQueryString = &defaultValue
 	}
 	if r.enumQueryInteger != nil {

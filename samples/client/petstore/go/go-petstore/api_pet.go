@@ -345,11 +345,11 @@ func (a *PetAPIService) DeletePetExecute(r ApiDeletePetRequest) (*http.Response,
 type ApiFindPetsByStatusRequest struct {
 	ctx context.Context
 	ApiService PetAPI
-	status *[]string
+	status *[]FindPetsByStatusStatusParameterInner
 }
 
 // Status values that need to be considered for filter
-func (r ApiFindPetsByStatusRequest) Status(status []string) ApiFindPetsByStatusRequest {
+func (r ApiFindPetsByStatusRequest) Status(status []FindPetsByStatusStatusParameterInner) ApiFindPetsByStatusRequest {
 	r.status = &status
 	return r
 }

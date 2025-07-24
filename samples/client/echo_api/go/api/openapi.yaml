@@ -35,11 +35,7 @@ paths:
         name: enum_nonref_string_path
         required: true
         schema:
-          enum:
-          - success
-          - failure
-          - unclassified
-          type: string
+          $ref: "#/components/schemas/tests_path_string__path_string__integer__path_integer___enum_nonref_string_path___enum_ref_string_path__enum_nonref_string_path_parameter"
         style: simple
       - explode: false
         in: path
@@ -146,11 +142,7 @@ paths:
         name: enum_nonref_string_header
         required: false
         schema:
-          enum:
-          - success
-          - failure
-          - unclassified
-          type: string
+          $ref: "#/components/schemas/tests_path_string__path_string__integer__path_integer___enum_nonref_string_path___enum_ref_string_path__enum_nonref_string_path_parameter"
         style: form
       - explode: true
         in: header
@@ -179,11 +171,7 @@ paths:
         name: enum_nonref_string_query
         required: false
         schema:
-          enum:
-          - success
-          - failure
-          - unclassified
-          type: string
+          $ref: "#/components/schemas/tests_path_string__path_string__integer__path_integer___enum_nonref_string_path___enum_ref_string_path__enum_nonref_string_path_parameter"
         style: form
       - explode: true
         in: query
@@ -734,12 +722,7 @@ components:
           xml:
             wrapped: true
         status:
-          description: pet status in the store
-          enum:
-          - available
-          - pending
-          - sold
-          type: string
+          $ref: "#/components/schemas/Pet_status"
       required:
       - name
       - photoUrls
@@ -767,11 +750,7 @@ components:
           - success
           - failure
           items:
-            enum:
-            - success
-            - failure
-            - unclassified
-            type: string
+            $ref: "#/components/schemas/tests_path_string__path_string__integer__path_integer___enum_nonref_string_path___enum_ref_string_path__enum_nonref_string_path_parameter"
           type: array
         array_string_default:
           default:
@@ -823,11 +802,7 @@ components:
           - SUCCESS
           - FAILURE
           items:
-            enum:
-            - SUCCESS
-            - FAILURE
-            - SKIPPED
-            type: string
+            $ref: "#/components/schemas/Query_outcomes_inner"
           type: array
       type: object
       x-parent: true
@@ -860,6 +835,12 @@ components:
           minimum: 0.8
           type: number
       type: object
+    ? tests_path_string__path_string__integer__path_integer___enum_nonref_string_path___enum_ref_string_path__enum_nonref_string_path_parameter
+    : enum:
+      - success
+      - failure
+      - unclassified
+      type: string
     test_form_integer_boolean_string_request:
       properties:
         integer_form:
@@ -928,6 +909,19 @@ components:
       required:
       - files
       type: object
+    Pet_status:
+      description: pet status in the store
+      enum:
+      - available
+      - pending
+      - sold
+      type: string
+    Query_outcomes_inner:
+      enum:
+      - SUCCESS
+      - FAILURE
+      - SKIPPED
+      type: string
   securitySchemes:
     http_auth:
       scheme: basic
