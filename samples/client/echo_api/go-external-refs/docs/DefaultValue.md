@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ArrayStringEnumRefDefault** | Pointer to [**[]StringEnumRef**](StringEnumRef.md) |  | [optional] [default to ["success","failure"]]
-**ArrayStringEnumDefault** | Pointer to **[]string** |  | [optional] [default to ["success","failure"]]
+**ArrayStringEnumDefault** | Pointer to [**[]TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter**](TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter.md) |  | [optional] [default to ["success","failure"]]
 **ArrayStringDefault** | Pointer to **[]string** |  | [optional] [default to ["failure","skipped"]]
 **ArrayIntegerDefault** | Pointer to **[]int32** |  | [optional] [default to [1,3]]
 **ArrayString** | Pointer to **[]string** |  | [optional] 
@@ -59,20 +59,20 @@ HasArrayStringEnumRefDefault returns a boolean if a field has been set.
 
 ### GetArrayStringEnumDefault
 
-`func (o *DefaultValue) GetArrayStringEnumDefault() []string`
+`func (o *DefaultValue) GetArrayStringEnumDefault() []TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter`
 
 GetArrayStringEnumDefault returns the ArrayStringEnumDefault field if non-nil, zero value otherwise.
 
 ### GetArrayStringEnumDefaultOk
 
-`func (o *DefaultValue) GetArrayStringEnumDefaultOk() (*[]string, bool)`
+`func (o *DefaultValue) GetArrayStringEnumDefaultOk() (*[]TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter, bool)`
 
 GetArrayStringEnumDefaultOk returns a tuple with the ArrayStringEnumDefault field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArrayStringEnumDefault
 
-`func (o *DefaultValue) SetArrayStringEnumDefault(v []string)`
+`func (o *DefaultValue) SetArrayStringEnumDefault(v []TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter)`
 
 SetArrayStringEnumDefault sets ArrayStringEnumDefault field to given value.
 

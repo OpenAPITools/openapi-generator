@@ -126,13 +126,7 @@ components:
             name: tag
             wrapped: true
         status:
-          deprecated: true
-          description: pet status in the store
-          enum:
-          - available
-          - pending
-          - sold
-          type: string
+          $ref: "#/components/schemas/Pet_status"
       required:
       - name
       - photoUrls
@@ -140,6 +134,14 @@ components:
       type: object
       xml:
         name: Pet
+    Pet_status:
+      deprecated: true
+      description: pet status in the store
+      enum:
+      - available
+      - pending
+      - sold
+      type: string
   securitySchemes:
     petstore_auth:
       flows:

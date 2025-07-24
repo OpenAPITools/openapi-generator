@@ -34,7 +34,7 @@ type _FinalItem FinalItem
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFinalItem(prop1 string, quantity int32, unitPrice float64, totalPrice float64, title string, type_ string) *FinalItem {
+func NewFinalItem(prop1 string, quantity int32, unitPrice float64, totalPrice float64, title string, type_ BaseItemType) *FinalItem {
 	this := FinalItem{}
 	this.Title = title
 	this.Type = type_

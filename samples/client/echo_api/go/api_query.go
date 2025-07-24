@@ -27,11 +27,11 @@ type QueryAPIService service
 type ApiTestEnumRefStringRequest struct {
 	ctx context.Context
 	ApiService *QueryAPIService
-	enumNonrefStringQuery *string
+	enumNonrefStringQuery *TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter
 	enumRefStringQuery *StringEnumRef
 }
 
-func (r ApiTestEnumRefStringRequest) EnumNonrefStringQuery(enumNonrefStringQuery string) ApiTestEnumRefStringRequest {
+func (r ApiTestEnumRefStringRequest) EnumNonrefStringQuery(enumNonrefStringQuery TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter) ApiTestEnumRefStringRequest {
 	r.enumNonrefStringQuery = &enumNonrefStringQuery
 	return r
 }
