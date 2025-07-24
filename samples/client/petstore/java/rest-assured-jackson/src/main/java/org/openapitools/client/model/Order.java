@@ -116,7 +116,7 @@ public class Order {
    */
   @javax.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -124,7 +124,7 @@ public class Order {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
@@ -142,7 +142,7 @@ public class Order {
    */
   @javax.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @JsonProperty(value = JSON_PROPERTY_PET_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getPetId() {
@@ -150,7 +150,7 @@ public class Order {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @JsonProperty(value = JSON_PROPERTY_PET_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPetId(@javax.annotation.Nullable Long petId) {
     this.petId = petId;
@@ -168,7 +168,7 @@ public class Order {
    */
   @javax.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @JsonProperty(value = JSON_PROPERTY_QUANTITY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getQuantity() {
@@ -176,7 +176,7 @@ public class Order {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @JsonProperty(value = JSON_PROPERTY_QUANTITY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setQuantity(@javax.annotation.Nullable Integer quantity) {
     this.quantity = quantity;
@@ -195,7 +195,7 @@ public class Order {
   @javax.annotation.Nullable
   @Valid
 
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @JsonProperty(value = JSON_PROPERTY_SHIP_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getShipDate() {
@@ -203,7 +203,7 @@ public class Order {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @JsonProperty(value = JSON_PROPERTY_SHIP_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShipDate(@javax.annotation.Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
@@ -221,7 +221,7 @@ public class Order {
    */
   @javax.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public StatusEnum getStatus() {
@@ -229,7 +229,7 @@ public class Order {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
@@ -247,7 +247,7 @@ public class Order {
    */
   @javax.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @JsonProperty(value = JSON_PROPERTY_COMPLETE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean isComplete() {
@@ -255,7 +255,7 @@ public class Order {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @JsonProperty(value = JSON_PROPERTY_COMPLETE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setComplete(@javax.annotation.Nullable Boolean complete) {
     this.complete = complete;

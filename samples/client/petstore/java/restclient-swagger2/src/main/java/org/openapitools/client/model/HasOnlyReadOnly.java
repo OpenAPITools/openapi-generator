@@ -49,8 +49,8 @@ public class HasOnlyReadOnly {
    */
   @JsonCreator
   public HasOnlyReadOnly(
-    @JsonProperty(JSON_PROPERTY_BAR) String bar, 
-    @JsonProperty(JSON_PROPERTY_FOO) String foo
+    @JsonProperty(value = JSON_PROPERTY_BAR, required = false) String bar, 
+    @JsonProperty(value = JSON_PROPERTY_FOO, required = false) String foo
   ) {
     this();
     this.bar = bar;
@@ -63,7 +63,7 @@ public class HasOnlyReadOnly {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBar() {
@@ -78,7 +78,7 @@ public class HasOnlyReadOnly {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getFoo() {

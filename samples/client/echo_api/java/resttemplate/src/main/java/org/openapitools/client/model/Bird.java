@@ -54,7 +54,7 @@ public class Bird {
    * @return size
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSize() {
@@ -62,7 +62,7 @@ public class Bird {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSize(@javax.annotation.Nullable String size) {
     this.size = size;
@@ -79,7 +79,7 @@ public class Bird {
    * @return color
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getColor() {
@@ -87,7 +87,7 @@ public class Bird {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;

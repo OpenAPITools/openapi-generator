@@ -59,7 +59,7 @@ public class HasOnlyReadOnly {
    * @return bar
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBar() {
@@ -74,7 +74,7 @@ public class HasOnlyReadOnly {
    * @return foo
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getFoo() {
