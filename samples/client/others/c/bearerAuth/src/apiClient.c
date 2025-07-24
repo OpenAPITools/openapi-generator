@@ -396,12 +396,6 @@ void apiClient_invoke(apiClient_t    *apiClient,
                               operationParameter,
                               queryParameters);
 
-        if(apiClient->curlConfig->keepalive == 1) {
-            curl_easy_setopt(handle, CURLOPT_TCP_KEEPALIVE, 1L);
-            curl_easy_setopt(handle, CURLOPT_TCP_KEEPIDLE, apiClient->curlConfig->keepidle);
-            curl_easy_setopt(handle, CURLOPT_TCP_KEEPINTVL, apiClient->curlConfig->keepintvl);
-        }
-
         curl_easy_setopt(handle, CURLOPT_URL, targetUrl);
         curl_easy_setopt(handle,
                          CURLOPT_WRITEFUNCTION,
@@ -410,11 +404,19 @@ void apiClient_invoke(apiClient_t    *apiClient,
                          CURLOPT_WRITEDATA,
                          apiClient);
         curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
-        curl_easy_setopt(handle, CURLOPT_VERBOSE, apiClient->curlConfig->verbose);
 
 
         if(bodyParameters != NULL) {
             postData(handle, bodyParameters, bodyParametersLength);
+        }
+
+        if(apiClient->curlConfig != NULL) {
+            if(apiClient->curlConfig->keepalive == 1) {
+                curl_easy_setopt(handle, CURLOPT_TCP_KEEPALIVE, 1L);
+                curl_easy_setopt(handle, CURLOPT_TCP_KEEPIDLE, apiClient->curlConfig->keepidle);
+                curl_easy_setopt(handle, CURLOPT_TCP_KEEPINTVL, apiClient->curlConfig->keepintvl);
+            }
+            curl_easy_setopt(handle, CURLOPT_VERBOSE, apiClient->curlConfig->verbose);
         }
 
         res = curl_easy_perform(handle);
