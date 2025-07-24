@@ -414,13 +414,13 @@ StoreApi <- R6::R6Class(
                                                      reason = "Missing required parameter `order_id`."))
       }
 
-      if (`order_id` > 5) {
+      if (!is.null(`order_id`) && `order_id` >  5) {
         rlang::abort(message = "Invalid value for `order_id` when calling StoreApi$GetOrderById, must be smaller than or equal to 5.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
                                                      reason = "Invalid value for `order_id` when calling StoreApi$GetOrderById, must be smaller than or equal to 5."))
       }
-      if (`order_id` < 1) {
+      if (!is.null(`order_id`) && `order_id` <  1) {
         rlang::abort(message = "Invalid value for `order_id` when calling StoreApi$GetOrderById, must be bigger than or equal to 1.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,

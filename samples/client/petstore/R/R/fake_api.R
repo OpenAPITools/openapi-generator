@@ -561,7 +561,7 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `reg_exp_test`."))
       }
 
-      if (!str_detect(`reg_exp_test`, "^[A-Za-z0-9_]{1,15}$")) {
+      if (!is.null(`reg_exp_test`) && !stringr::str_detect(`reg_exp_test`, "^[A-Za-z0-9_]{1,15}$")) {
         rlang::abort(message = "Invalid value for `reg_exp_test` when calling FakeApi$FakeRegularExpression, must conform to the pattern ^[A-Za-z0-9_]{1,15}$.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
@@ -678,7 +678,7 @@ FakeApi <- R6::R6Class(
 
 
       # check if items are unique
-      if (!identical(`set_dummy`, unique(`set_dummy`))) {
+      if (!is.null(`set_dummy`) && !identical(`set_dummy`, unique(`set_dummy`))) {
         rlang::abort(message = "Invalid value for `set_dummy` when calling FakeApi$FakeSetQuery. Items must be unique.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
