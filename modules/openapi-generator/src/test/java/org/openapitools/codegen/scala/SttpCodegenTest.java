@@ -139,11 +139,11 @@ public class SttpCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/api/DefaultApi.scala");
         assertFileContains(path, ".method(Method.GET, uri\"$baseUrl/ping\")\n");
         assertFileContains(path, "xOptionalHeader: Option[String] = None");
-        assertFileContains(path, ".header(\"X-Optional-Header\", xOptionalHeader.map(_.toString()).getOrElse(null))");
+        assertFileContains(path, ".header(\"X-Optional-Header\", xOptionalHeader.map(_.toString()))");
         assertFileContains(path, "xRequiredHeader: String");
         assertFileContains(path, ".header(\"X-Required-Header\", xRequiredHeader.toString)");
         assertFileContains(path, "xOptionalSchemaHeader: Option[UUID] = None");
-        assertFileContains(path, ".header(\"X-Optional-Schema-Header\", xOptionalSchemaHeader.map(_.toString()).getOrElse(null))");
+        assertFileContains(path, ".header(\"X-Optional-Schema-Header\", xOptionalSchemaHeader.map(_.toString()))");
         assertFileContains(path, "xRequiredSchemaHeader: UUID");
         assertFileContains(path, ".header(\"X-Required-Schema-Header\", xRequiredSchemaHeader.toString)");
     }
