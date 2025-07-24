@@ -6024,10 +6024,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (properties != null) {
             for (String key : properties.keySet()) {
                 properties.put(key, unaliasSchema(properties.get(key)));
-
             }
         }
-
         return properties;
     }
 
@@ -7093,7 +7091,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (booleanValue instanceof String) {
             result = Boolean.parseBoolean((String) booleanValue);
         } else {
-            LOGGER.warn("The value (generator's option) must be either boolean or string. Default to `false`.");
+            LOGGER.warn("The value {} must be either boolean or string. Default to `false`.", propertyKey);
         }
         return result;
     }
