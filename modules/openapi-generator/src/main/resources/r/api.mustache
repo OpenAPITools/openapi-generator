@@ -206,6 +206,19 @@
 
       {{/requiredParams}}
       {{#allParams}}
+      {{^isNullable}}
+      if (is.null(`{{paramName}}`)) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, `{{paramName}}` is not nullable")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, `{{paramName}}` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, `{{paramName}}` is not nullable"))
+        {{/useRlangExceptionHandling}}
+      }
+      {{/isNullable}}
       {{#maxLength}}
       if (!is.null(`{{paramName}}`) && nchar(`{{paramName}}`) > {{maxLength}}) {
         {{#useDefaultExceptionHandling}}
