@@ -20,6 +20,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -81,6 +84,17 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         this.outputFolder = "generated-code/typescript-nestjs-server";
 
         supportsMultipleInheritance = true;
+
+        modifyFeatureSet(features -> features
+                .schemaSupportFeatures(EnumSet.of(
+                        SchemaSupportFeature.Simple,
+                        SchemaSupportFeature.oneOf
+                ))
+        );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         embeddedTemplateDir = templateDir = "typescript-nestjs-server";
         modelTemplateFiles.put("model.mustache", ".ts");
