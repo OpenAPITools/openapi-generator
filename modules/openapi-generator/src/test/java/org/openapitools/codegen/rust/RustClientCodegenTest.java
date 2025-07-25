@@ -19,11 +19,21 @@ package org.openapitools.codegen.rust;
 
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.RustClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+
+import static org.openapitools.codegen.TestUtils.linearize;
 
 public class RustClientCodegenTest {
 
@@ -243,4 +253,22 @@ public class RustClientCodegenTest {
         Assert.assertEquals(codegen.getSchemaType(s), "i64");
     }
 
+    @Test
+    public void testMultipleArrayTypesEnum() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_1/issue_18527.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        Path outputPath = Path.of(target.toString(), "/src/models/option1_or_option2_options.rs");
+        String enumSpec = linearize("pub enum Option1OrOption2Options { " +
+                "ArrayVecString(Vec<String>), " +
+                "ArrayVeci32(Vec<i32>)," +
+                "}");
+        TestUtils.assertFileExists(outputPath);
+        TestUtils.assertFileContains(outputPath, enumSpec);
+    }
 }
