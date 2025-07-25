@@ -207,7 +207,7 @@
       {{/requiredParams}}
       {{#allParams}}
       {{^isNullable}}
-      if (is.null(`{{paramName}}`)) {
+      if (!missing(`{{paramName}}`) && is.null(`{{paramName}}`)) {
         {{#useDefaultExceptionHandling}}
         stop("Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, `{{paramName}}` is not nullable")
         {{/useDefaultExceptionHandling}}
