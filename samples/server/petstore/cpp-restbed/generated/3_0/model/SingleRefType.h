@@ -39,7 +39,7 @@ class  SingleRefType
 public:
     SingleRefType() = default;
     explicit SingleRefType(boost::property_tree::ptree const& pt);
-    virtual ~SingleRefType() = default;
+    virtual ~SingleRefType();
 
     SingleRefType(const SingleRefType& other) = default; // copy constructor
     SingleRefType(SingleRefType&& other) noexcept = default; // move constructor

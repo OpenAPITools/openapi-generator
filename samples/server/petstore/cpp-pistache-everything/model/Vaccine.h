@@ -32,7 +32,7 @@ class  Vaccine
 {
 public:
     Vaccine();
-    virtual ~Vaccine() = default;
+    virtual ~Vaccine();
 
 
     /// <summary>
