@@ -221,6 +221,12 @@ FakeApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (is.null(`pet`)) {
+        rlang::abort(message = "Invalid value for `pet` when calling FakeApi$add_pet_optional, `pet` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `pet` when calling FakeApi$add_pet_optional, `pet` is not nullable"))
+      }
 
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
@@ -345,7 +351,19 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `dummy`."))
       }
 
+      if (is.null(`dummy`)) {
+        rlang::abort(message = "Invalid value for `dummy` when calling FakeApi$fake_data_file, `dummy` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `dummy` when calling FakeApi$fake_data_file, `dummy` is not nullable"))
+      }
 
+      if (is.null(`var_data_file`)) {
+        rlang::abort(message = "Invalid value for `var_data_file` when calling FakeApi$fake_data_file, `var_data_file` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `var_data_file` when calling FakeApi$fake_data_file, `var_data_file` is not nullable"))
+      }
 
       header_params["dummy"] <- `dummy`
 
@@ -460,6 +478,12 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `path_array`."))
       }
 
+      if (is.null(`path_array`)) {
+        rlang::abort(message = "Invalid value for `path_array` when calling FakeApi$fake_path_array, `path_array` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `path_array` when calling FakeApi$fake_path_array, `path_array` is not nullable"))
+      }
 
       local_var_url_path <- "/fake/path_array/{path_array}/testing"
       if (!missing(`path_array`)) {
@@ -561,6 +585,12 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `reg_exp_test`."))
       }
 
+      if (is.null(`reg_exp_test`)) {
+        rlang::abort(message = "Invalid value for `reg_exp_test` when calling FakeApi$fake_regular_expression, `reg_exp_test` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `reg_exp_test` when calling FakeApi$fake_regular_expression, `reg_exp_test` is not nullable"))
+      }
       if (!is.null(`reg_exp_test`) && !stringr::str_detect(`reg_exp_test`, "^[A-Za-z0-9_]{1,15}$")) {
         rlang::abort(message = "Invalid value for `reg_exp_test` when calling FakeApi$fake_regular_expression, must conform to the pattern ^[A-Za-z0-9_]{1,15}$.",
                      .subclass = "ApiException",
@@ -675,7 +705,19 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `array_dummy`."))
       }
 
+      if (is.null(`set_dummy`)) {
+        rlang::abort(message = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query, `set_dummy` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query, `set_dummy` is not nullable"))
+      }
 
+      if (is.null(`array_dummy`)) {
+        rlang::abort(message = "Invalid value for `array_dummy` when calling FakeApi$fake_set_query, `array_dummy` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `array_dummy` when calling FakeApi$fake_set_query, `array_dummy` is not nullable"))
+      }
 
       # check if items are unique
       if (!is.null(`set_dummy`) && !identical(`set_dummy`, unique(`set_dummy`))) {

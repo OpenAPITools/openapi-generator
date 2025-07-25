@@ -205,6 +205,12 @@ StoreApi <- R6::R6Class(
                                                      reason = "Missing required parameter `order_id`."))
       }
 
+      if (is.null(`order_id`)) {
+        rlang::abort(message = "Invalid value for `order_id` when calling StoreApi$DeleteOrder, `order_id` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `order_id` when calling StoreApi$DeleteOrder, `order_id` is not nullable"))
+      }
 
       local_var_url_path <- "/store/order/{orderId}"
       if (!missing(`order_id`)) {
@@ -414,6 +420,12 @@ StoreApi <- R6::R6Class(
                                                      reason = "Missing required parameter `order_id`."))
       }
 
+      if (is.null(`order_id`)) {
+        rlang::abort(message = "Invalid value for `order_id` when calling StoreApi$GetOrderById, `order_id` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `order_id` when calling StoreApi$GetOrderById, `order_id` is not nullable"))
+      }
       if (!is.null(`order_id`) && `order_id` >  5) {
         rlang::abort(message = "Invalid value for `order_id` when calling StoreApi$GetOrderById, must be smaller than or equal to 5.",
                      .subclass = "ApiException",
@@ -542,6 +554,12 @@ StoreApi <- R6::R6Class(
                                                      reason = "Missing required parameter `order`."))
       }
 
+      if (is.null(`order`)) {
+        rlang::abort(message = "Invalid value for `order` when calling StoreApi$PlaceOrder, `order` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `order` when calling StoreApi$PlaceOrder, `order` is not nullable"))
+      }
 
       if (!is.null(`order`)) {
         local_var_body <- `order`$toJSONString()
