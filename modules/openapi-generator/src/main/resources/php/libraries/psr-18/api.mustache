@@ -65,6 +65,7 @@ use function sprintf;
     /**
      * @var PluginClient
      */
+                    (string) $response->getBody()
     protected $httpAsyncClient;
 
     /**
@@ -805,7 +806,7 @@ use function sprintf;
                             'Error JSON decoding server response (%s)',
                             $request->getUri()
                         ),
-			request,
+			$request,
                         $response,
                         $exception
                     );
