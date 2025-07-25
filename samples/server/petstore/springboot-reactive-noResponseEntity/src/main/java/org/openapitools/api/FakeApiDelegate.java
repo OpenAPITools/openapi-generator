@@ -238,7 +238,7 @@ public interface FakeApiDelegate {
         Long int64,
         Float _float,
         String string,
-        Flux<Part> binary,
+        Part binary,
         LocalDate date,
         OffsetDateTime dateTime,
         String password,
@@ -411,7 +411,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#uploadFileWithRequiredFile
      */
     default Mono<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
-        Flux<Part> requiredFile,
+        Part requiredFile,
         String additionalMetadata,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();

@@ -386,7 +386,7 @@ public interface FakeApi {
         @ApiParam(value = "None") @Valid @RequestPart(value = "int64", required = false) Long int64,
         @ApiParam(value = "None") @Valid @RequestPart(value = "float", required = false) Float _float,
         @ApiParam(value = "None") @Valid @RequestPart(value = "string", required = false) String string,
-        @ApiParam(value = "None") @RequestPart(value = "binary", required = false) Flux<Part> binary,
+        @ApiParam(value = "None") @RequestPart(value = "binary", required = false) Part binary,
         @ApiParam(value = "None") @Valid @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @ApiParam(value = "None") @Valid @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
         @ApiParam(value = "None") @Valid @RequestPart(value = "password", required = false) String password,
@@ -680,7 +680,7 @@ public interface FakeApi {
     
     default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) Flux<Part> requiredFile,
+        @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) Part requiredFile,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiIgnore final ServerWebExchange exchange
     ) {
