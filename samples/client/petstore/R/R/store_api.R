@@ -205,7 +205,7 @@ StoreApi <- R6::R6Class(
                                                      reason = "Missing required parameter `order_id`."))
       }
 
-      if (is.null(`order_id`)) {
+      if (!missing(`order_id`) && is.null(`order_id`)) {
         rlang::abort(message = "Invalid value for `order_id` when calling StoreApi$DeleteOrder, `order_id` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -420,7 +420,7 @@ StoreApi <- R6::R6Class(
                                                      reason = "Missing required parameter `order_id`."))
       }
 
-      if (is.null(`order_id`)) {
+      if (!missing(`order_id`) && is.null(`order_id`)) {
         rlang::abort(message = "Invalid value for `order_id` when calling StoreApi$GetOrderById, `order_id` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -554,7 +554,7 @@ StoreApi <- R6::R6Class(
                                                      reason = "Missing required parameter `order`."))
       }
 
-      if (is.null(`order`)) {
+      if (!missing(`order`) && is.null(`order`)) {
         rlang::abort(message = "Invalid value for `order` when calling StoreApi$PlaceOrder, `order` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,

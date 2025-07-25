@@ -221,7 +221,7 @@ FakeApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`pet`)) {
+      if (!missing(`pet`) && is.null(`pet`)) {
         rlang::abort(message = "Invalid value for `pet` when calling FakeApi$add_pet_optional, `pet` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -351,14 +351,14 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `dummy`."))
       }
 
-      if (is.null(`dummy`)) {
+      if (!missing(`dummy`) && is.null(`dummy`)) {
         rlang::abort(message = "Invalid value for `dummy` when calling FakeApi$fake_data_file, `dummy` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
                       reason = "Invalid value for `dummy` when calling FakeApi$fake_data_file, `dummy` is not nullable"))
       }
 
-      if (is.null(`var_data_file`)) {
+      if (!missing(`var_data_file`) && is.null(`var_data_file`)) {
         rlang::abort(message = "Invalid value for `var_data_file` when calling FakeApi$fake_data_file, `var_data_file` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -478,7 +478,7 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `path_array_parameter`."))
       }
 
-      if (is.null(`path_array_parameter`)) {
+      if (!missing(`path_array_parameter`) && is.null(`path_array_parameter`)) {
         rlang::abort(message = "Invalid value for `path_array_parameter` when calling FakeApi$fake_path_array, `path_array_parameter` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -585,7 +585,7 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `reg_exp_test`."))
       }
 
-      if (is.null(`reg_exp_test`)) {
+      if (!missing(`reg_exp_test`) && is.null(`reg_exp_test`)) {
         rlang::abort(message = "Invalid value for `reg_exp_test` when calling FakeApi$fake_regular_expression, `reg_exp_test` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -705,14 +705,14 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `array_dummy`."))
       }
 
-      if (is.null(`set_dummy`)) {
+      if (!missing(`set_dummy`) && is.null(`set_dummy`)) {
         rlang::abort(message = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query, `set_dummy` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
                       reason = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query, `set_dummy` is not nullable"))
       }
 
-      if (is.null(`array_dummy`)) {
+      if (!missing(`array_dummy`) && is.null(`array_dummy`)) {
         rlang::abort(message = "Invalid value for `array_dummy` when calling FakeApi$fake_set_query, `array_dummy` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,

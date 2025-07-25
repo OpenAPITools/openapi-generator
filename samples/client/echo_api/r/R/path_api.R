@@ -113,19 +113,19 @@ PathApi <- R6::R6Class(
         stop("Missing required parameter `enum_ref_string_path`.")
       }
 
-      if (is.null(`path_string`)) {
+      if (!missing(`path_string`) && is.null(`path_string`)) {
         stop("Invalid value for `path_string` when calling PathApi$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, `path_string` is not nullable")
       }
 
-      if (is.null(`path_integer`)) {
+      if (!missing(`path_integer`) && is.null(`path_integer`)) {
         stop("Invalid value for `path_integer` when calling PathApi$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, `path_integer` is not nullable")
       }
 
-      if (is.null(`enum_nonref_string_path`)) {
+      if (!missing(`enum_nonref_string_path`) && is.null(`enum_nonref_string_path`)) {
         stop("Invalid value for `enum_nonref_string_path` when calling PathApi$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, `enum_nonref_string_path` is not nullable")
       }
 
-      if (is.null(`enum_ref_string_path`)) {
+      if (!missing(`enum_ref_string_path`) && is.null(`enum_ref_string_path`)) {
         stop("Invalid value for `enum_ref_string_path` when calling PathApi$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, `enum_ref_string_path` is not nullable")
       }
 

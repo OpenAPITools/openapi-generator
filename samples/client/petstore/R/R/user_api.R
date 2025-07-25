@@ -314,7 +314,7 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `user`."))
       }
 
-      if (is.null(`user`)) {
+      if (!missing(`user`) && is.null(`user`)) {
         rlang::abort(message = "Invalid value for `user` when calling UserApi$CreateUser, `user` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -427,7 +427,7 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `user`."))
       }
 
-      if (is.null(`user`)) {
+      if (!missing(`user`) && is.null(`user`)) {
         rlang::abort(message = "Invalid value for `user` when calling UserApi$CreateUsersWithArrayInput, `user` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -543,7 +543,7 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `user`."))
       }
 
-      if (is.null(`user`)) {
+      if (!missing(`user`) && is.null(`user`)) {
         rlang::abort(message = "Invalid value for `user` when calling UserApi$CreateUsersWithListInput, `user` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -659,7 +659,7 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `username`."))
       }
 
-      if (is.null(`username`)) {
+      if (!missing(`username`) && is.null(`username`)) {
         rlang::abort(message = "Invalid value for `username` when calling UserApi$DeleteUser, `username` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -772,7 +772,7 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `username`."))
       }
 
-      if (is.null(`username`)) {
+      if (!missing(`username`) && is.null(`username`)) {
         rlang::abort(message = "Invalid value for `username` when calling UserApi$GetUserByName, `username` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -903,7 +903,7 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `password`."))
       }
 
-      if (is.null(`username`)) {
+      if (!missing(`username`) && is.null(`username`)) {
         rlang::abort(message = "Invalid value for `username` when calling UserApi$LoginUser, `username` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -916,7 +916,7 @@ UserApi <- R6::R6Class(
                                                      reason = "Invalid value for `username` when calling UserApi$LoginUser, must conform to the pattern ^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$."))
       }
 
-      if (is.null(`password`)) {
+      if (!missing(`password`) && is.null(`password`)) {
         rlang::abort(message = "Invalid value for `password` when calling UserApi$LoginUser, `password` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -1136,14 +1136,14 @@ UserApi <- R6::R6Class(
                                                      reason = "Missing required parameter `user`."))
       }
 
-      if (is.null(`username`)) {
+      if (!missing(`username`) && is.null(`username`)) {
         rlang::abort(message = "Invalid value for `username` when calling UserApi$UpdateUser, `username` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
                       reason = "Invalid value for `username` when calling UserApi$UpdateUser, `username` is not nullable"))
       }
 
-      if (is.null(`user`)) {
+      if (!missing(`user`) && is.null(`user`)) {
         rlang::abort(message = "Invalid value for `user` when calling UserApi$UpdateUser, `user` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,

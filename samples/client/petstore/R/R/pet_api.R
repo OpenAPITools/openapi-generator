@@ -431,7 +431,7 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet`."))
       }
 
-      if (is.null(`pet`)) {
+      if (!missing(`pet`) && is.null(`pet`)) {
         rlang::abort(message = "Invalid value for `pet` when calling PetApi$AddPet, `pet` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -559,14 +559,14 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
-      if (is.null(`pet_id`)) {
+      if (!missing(`pet_id`) && is.null(`pet_id`)) {
         rlang::abort(message = "Invalid value for `pet_id` when calling PetApi$DeletePet, `pet_id` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
                       reason = "Invalid value for `pet_id` when calling PetApi$DeletePet, `pet_id` is not nullable"))
       }
 
-      if (is.null(`api_key`)) {
+      if (!missing(`api_key`) && is.null(`api_key`)) {
         rlang::abort(message = "Invalid value for `api_key` when calling PetApi$DeletePet, `api_key` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -680,7 +680,7 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `status`."))
       }
 
-      if (is.null(`status`)) {
+      if (!missing(`status`) && is.null(`status`)) {
         rlang::abort(message = "Invalid value for `status` when calling PetApi$FindPetsByStatus, `status` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -813,7 +813,7 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `tags`."))
       }
 
-      if (is.null(`tags`)) {
+      if (!missing(`tags`) && is.null(`tags`)) {
         rlang::abort(message = "Invalid value for `tags` when calling PetApi$FindPetsByTags, `tags` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -934,7 +934,7 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
-      if (is.null(`pet_id`)) {
+      if (!missing(`pet_id`) && is.null(`pet_id`)) {
         rlang::abort(message = "Invalid value for `pet_id` when calling PetApi$GetPetById, `pet_id` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -1066,7 +1066,7 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
-      if (is.null(`pet_id`)) {
+      if (!missing(`pet_id`) && is.null(`pet_id`)) {
         rlang::abort(message = "Invalid value for `pet_id` when calling PetApi$GetPetByIdStreaming, `pet_id` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -1203,7 +1203,7 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `header_test_int`."))
       }
 
-      if (is.null(`header_test_int`)) {
+      if (!missing(`header_test_int`) && is.null(`header_test_int`)) {
         rlang::abort(message = "Invalid value for `header_test_int` when calling PetApi$TestHeader, `header_test_int` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -1332,7 +1332,7 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet`."))
       }
 
-      if (is.null(`pet`)) {
+      if (!missing(`pet`) && is.null(`pet`)) {
         rlang::abort(message = "Invalid value for `pet` when calling PetApi$UpdatePet, `pet` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -1461,21 +1461,21 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
-      if (is.null(`pet_id`)) {
+      if (!missing(`pet_id`) && is.null(`pet_id`)) {
         rlang::abort(message = "Invalid value for `pet_id` when calling PetApi$UpdatePetWithForm, `pet_id` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
                       reason = "Invalid value for `pet_id` when calling PetApi$UpdatePetWithForm, `pet_id` is not nullable"))
       }
 
-      if (is.null(`name`)) {
+      if (!missing(`name`) && is.null(`name`)) {
         rlang::abort(message = "Invalid value for `name` when calling PetApi$UpdatePetWithForm, `name` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
                       reason = "Invalid value for `name` when calling PetApi$UpdatePetWithForm, `name` is not nullable"))
       }
 
-      if (is.null(`status`)) {
+      if (!missing(`status`) && is.null(`status`)) {
         rlang::abort(message = "Invalid value for `status` when calling PetApi$UpdatePetWithForm, `status` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
@@ -1590,21 +1590,21 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
-      if (is.null(`pet_id`)) {
+      if (!missing(`pet_id`) && is.null(`pet_id`)) {
         rlang::abort(message = "Invalid value for `pet_id` when calling PetApi$UploadFile, `pet_id` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
                       reason = "Invalid value for `pet_id` when calling PetApi$UploadFile, `pet_id` is not nullable"))
       }
 
-      if (is.null(`additional_metadata`)) {
+      if (!missing(`additional_metadata`) && is.null(`additional_metadata`)) {
         rlang::abort(message = "Invalid value for `additional_metadata` when calling PetApi$UploadFile, `additional_metadata` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,
                       reason = "Invalid value for `additional_metadata` when calling PetApi$UploadFile, `additional_metadata` is not nullable"))
       }
 
-      if (is.null(`file`)) {
+      if (!missing(`file`) && is.null(`file`)) {
         rlang::abort(message = "Invalid value for `file` when calling PetApi$UploadFile, `file` is not nullable",
                      .subclass = "ApiException",
                       ApiException = ApiException$new(status = 0,

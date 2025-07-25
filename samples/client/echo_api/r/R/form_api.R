@@ -127,15 +127,15 @@ FormApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`integer_form`)) {
+      if (!missing(`integer_form`) && is.null(`integer_form`)) {
         stop("Invalid value for `integer_form` when calling FormApi$TestFormIntegerBooleanString, `integer_form` is not nullable")
       }
 
-      if (is.null(`boolean_form`)) {
+      if (!missing(`boolean_form`) && is.null(`boolean_form`)) {
         stop("Invalid value for `boolean_form` when calling FormApi$TestFormIntegerBooleanString, `boolean_form` is not nullable")
       }
 
-      if (is.null(`string_form`)) {
+      if (!missing(`string_form`) && is.null(`string_form`)) {
         stop("Invalid value for `string_form` when calling FormApi$TestFormIntegerBooleanString, `string_form` is not nullable")
       }
 
@@ -235,7 +235,7 @@ FormApi <- R6::R6Class(
         stop("Missing required parameter `marker`.")
       }
 
-      if (is.null(`marker`)) {
+      if (!missing(`marker`) && is.null(`marker`)) {
         stop("Invalid value for `marker` when calling FormApi$TestFormObjectMultipart, `marker` is not nullable")
       }
 
@@ -339,27 +339,27 @@ FormApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`form1`)) {
+      if (!missing(`form1`) && is.null(`form1`)) {
         stop("Invalid value for `form1` when calling FormApi$TestFormOneof, `form1` is not nullable")
       }
 
-      if (is.null(`form2`)) {
+      if (!missing(`form2`) && is.null(`form2`)) {
         stop("Invalid value for `form2` when calling FormApi$TestFormOneof, `form2` is not nullable")
       }
 
-      if (is.null(`form3`)) {
+      if (!missing(`form3`) && is.null(`form3`)) {
         stop("Invalid value for `form3` when calling FormApi$TestFormOneof, `form3` is not nullable")
       }
 
-      if (is.null(`form4`)) {
+      if (!missing(`form4`) && is.null(`form4`)) {
         stop("Invalid value for `form4` when calling FormApi$TestFormOneof, `form4` is not nullable")
       }
 
-      if (is.null(`id`)) {
+      if (!missing(`id`) && is.null(`id`)) {
         stop("Invalid value for `id` when calling FormApi$TestFormOneof, `id` is not nullable")
       }
 
-      if (is.null(`name`)) {
+      if (!missing(`name`) && is.null(`name`)) {
         stop("Invalid value for `name` when calling FormApi$TestFormOneof, `name` is not nullable")
       }
 

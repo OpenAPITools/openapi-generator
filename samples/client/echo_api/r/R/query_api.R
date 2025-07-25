@@ -221,11 +221,11 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`enum_nonref_string_query`)) {
+      if (!missing(`enum_nonref_string_query`) && is.null(`enum_nonref_string_query`)) {
         stop("Invalid value for `enum_nonref_string_query` when calling QueryApi$TestEnumRefString, `enum_nonref_string_query` is not nullable")
       }
 
-      if (is.null(`enum_ref_string_query`)) {
+      if (!missing(`enum_ref_string_query`) && is.null(`enum_ref_string_query`)) {
         stop("Invalid value for `enum_ref_string_query` when calling QueryApi$TestEnumRefString, `enum_ref_string_query` is not nullable")
       }
 
@@ -329,15 +329,15 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`datetime_query`)) {
+      if (!missing(`datetime_query`) && is.null(`datetime_query`)) {
         stop("Invalid value for `datetime_query` when calling QueryApi$TestQueryDatetimeDateString, `datetime_query` is not nullable")
       }
 
-      if (is.null(`date_query`)) {
+      if (!missing(`date_query`) && is.null(`date_query`)) {
         stop("Invalid value for `date_query` when calling QueryApi$TestQueryDatetimeDateString, `date_query` is not nullable")
       }
 
-      if (is.null(`string_query`)) {
+      if (!missing(`string_query`) && is.null(`string_query`)) {
         stop("Invalid value for `string_query` when calling QueryApi$TestQueryDatetimeDateString, `string_query` is not nullable")
       }
 
@@ -440,15 +440,15 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`integer_query`)) {
+      if (!missing(`integer_query`) && is.null(`integer_query`)) {
         stop("Invalid value for `integer_query` when calling QueryApi$TestQueryIntegerBooleanString, `integer_query` is not nullable")
       }
 
-      if (is.null(`boolean_query`)) {
+      if (!missing(`boolean_query`) && is.null(`boolean_query`)) {
         stop("Invalid value for `boolean_query` when calling QueryApi$TestQueryIntegerBooleanString, `boolean_query` is not nullable")
       }
 
-      if (is.null(`string_query`)) {
+      if (!missing(`string_query`) && is.null(`string_query`)) {
         stop("Invalid value for `string_query` when calling QueryApi$TestQueryIntegerBooleanString, `string_query` is not nullable")
       }
 
@@ -547,7 +547,7 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`query_object`)) {
+      if (!missing(`query_object`) && is.null(`query_object`)) {
         stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleDeepObjectExplodeTrueObject, `query_object` is not nullable")
       }
 
@@ -642,7 +642,7 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`query_object`)) {
+      if (!missing(`query_object`) && is.null(`query_object`)) {
         stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleDeepObjectExplodeTrueObjectAllOf, `query_object` is not nullable")
       }
 
@@ -737,7 +737,7 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`query_object`)) {
+      if (!missing(`query_object`) && is.null(`query_object`)) {
         stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleFormExplodeFalseArrayInteger, `query_object` is not nullable")
       }
 
@@ -833,7 +833,7 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`query_object`)) {
+      if (!missing(`query_object`) && is.null(`query_object`)) {
         stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleFormExplodeFalseArrayString, `query_object` is not nullable")
       }
 
@@ -929,7 +929,7 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`query_object`)) {
+      if (!missing(`query_object`) && is.null(`query_object`)) {
         stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleFormExplodeTrueArrayString, `query_object` is not nullable")
       }
 
@@ -1024,7 +1024,7 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`query_object`)) {
+      if (!missing(`query_object`) && is.null(`query_object`)) {
         stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleFormExplodeTrueObject, `query_object` is not nullable")
       }
 
@@ -1119,7 +1119,7 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (is.null(`query_object`)) {
+      if (!missing(`query_object`) && is.null(`query_object`)) {
         stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleFormExplodeTrueObjectAllOf, `query_object` is not nullable")
       }
 
