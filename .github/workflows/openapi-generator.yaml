@@ -146,6 +146,16 @@ jobs:
           rm -rf samples/client/petstore/csharp/generichost/latest/Tags
           rm -rf samples/client/petstore/csharp/generichost/latest/OneOfList
 
+          rm -rf samples/client/petstore/csharp/generichost/net9/AllOf
+          rm -rf samples/client/petstore/csharp/generichost/net9/AnyOf
+          rm -rf samples/client/petstore/csharp/generichost/net9/AnyOfNoCompare
+          rm -rf samples/client/petstore/csharp/generichost/net9/FormModels
+          rm -rf samples/client/petstore/csharp/generichost/net9/NullReferenceTypes
+          rm -rf samples/client/petstore/csharp/generichost/net9/OneOf
+          rm -rf samples/client/petstore/csharp/generichost/net9/Petstore
+          rm -rf samples/client/petstore/csharp/generichost/net9/SourceGeneration
+          rm -rf samples/client/petstore/csharp/generichost/net9/UseDateTimeForDate
+
           rm -rf samples/client/petstore/csharp/generichost/net8/AllOf
           rm -rf samples/client/petstore/csharp/generichost/net8/AnyOf
           rm -rf samples/client/petstore/csharp/generichost/net8/AnyOfNoCompare
