@@ -142,8 +142,19 @@ jobs:
           path: modules/openapi-generator-cli/target
       - name: Delete samples that are entirely generated
         run: |
-          # Delete all directories within generichost that don't contain "Manual" in the path
-          find samples/client/petstore/csharp/generichost -type d -not -path "*Manual*" -exec rm -rf {} +
+          # List all directories in generichost, filter out Manual directories, and remove the rest
+          cd samples/client/petstore/csharp/generichost
+          for version_dir in */ ; do
+            if [ -d "$version_dir" ]; then
+              cd "$version_dir"
+              for dir in */ ; do
+                if [ -d "$dir" ] && [[ ! "$dir" =~ Manual ]]; then
+                  rm -rf "$dir"
+                fi
+              done
+              cd ..
+            fi
+          done
       - name: Generate samples
         run: |
           bash bin/generate-samples.sh
