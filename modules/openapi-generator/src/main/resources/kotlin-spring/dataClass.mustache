@@ -39,7 +39,8 @@
             @JvmStatic
             @JsonCreator
             fun forValue(value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}): {{{nameInPascalCase}}} {
-                return values().first{it -> it.value == value}
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{classname}}'")
             }
         }
     }
