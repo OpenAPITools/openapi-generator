@@ -1066,7 +1066,7 @@ public class CodeGenMojo extends AbstractMojo {
         String name = inputSpecFile.getName();
 
         URL url = inputSpecRemoteUrl();
-        if (inputSpecFile.exists() && url != null) {
+        if (url != null) {
             String[] segments = url.getPath().split("/");
             name = Files.getNameWithoutExtension(segments[segments.length - 1]);
         }
