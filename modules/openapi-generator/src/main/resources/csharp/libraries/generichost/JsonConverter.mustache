@@ -398,7 +398,8 @@
                 {{^isPrimitiveType}}
             {
                 {{datatypeWithEnum}}JsonConverter {{datatypeWithEnum}}JsonConverter = ({{datatypeWithEnum}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}}.GetType()));
-                {{datatypeWithEnum}}JsonConverter.WriteProperties(writer, {{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}}, jsonSerializerOptions); //here {{isEnum}}
+                {{datatypeWithEnum}}JsonConverter.Write{{^isEnumRef}}Properties{{/isEnumRef}}(writer, {{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#isNullable}}.Value{{/isNullable}}{{/required}}, jsonSerializerOptions); // isEnumRef: {{isEnumRef}} x-is-reference-type: {{vendorExtensions.x-is-reference-type}} isNullable: {{isNullable}}
+                {{! what if it is an inner enum? }}
             }
                 {{/isPrimitiveType}}
 
