@@ -751,33 +751,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     protected void patchPropertyIsInherited(CodegenModel model, CodegenProperty property) {
     }
 
-    protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
-        if (enumRefs.containsKey(property.dataType)) {
-            // Handle any enum properties referred to by $ref.
-            // This is different in C# than most other generators, because enums in C# are compiled to integral types,
-            // while enums in many other languages are true objects.
-            CodegenModel refModel = enumRefs.get(property.dataType);
-            property.allowableValues = refModel.allowableValues;
-            property.isEnum = true;
-
-            // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
-            property.isPrimitiveType = true;
-        }
-
-        this.patchPropertyIsInherited(model, property);
-
-        patchPropertyVendorExtensions(property);
-
-        property.name = patchPropertyName(model, property.name, null);
-
-        patchNestedMaps(property);
-
-        // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
-        if (property.datatypeWithEnum.equals("decimal")) {
-            property.isDecimal = true;
-        }
-    }
-
     private void patchNestedMaps(CodegenProperty property) {
         // Process nested types before making any replacements to ensure we have the correct inner type
         if (property.items != null) {
@@ -806,6 +779,33 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             if (!originalType.equals(property.datatypeWithEnum)) {
                 property.dataType = property.datatypeWithEnum;
             }
+        }
+    }
+
+    protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
+        if (enumRefs.containsKey(property.dataType)) {
+            // Handle any enum properties referred to by $ref.
+            // This is different in C# than most other generators, because enums in C# are compiled to integral types,
+            // while enums in many other languages are true objects.
+            CodegenModel refModel = enumRefs.get(property.dataType);
+            property.allowableValues = refModel.allowableValues;
+            property.isEnum = true;
+
+            // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+            property.isPrimitiveType = true;
+        }
+
+        this.patchPropertyIsInherited(model, property);
+
+        patchPropertyVendorExtensions(property);
+
+        property.name = patchPropertyName(model, property.name, null);
+
+        patchNestedMaps(property);
+
+        // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
+        if (property.datatypeWithEnum.equals("decimal")) {
+            property.isDecimal = true;
         }
     }
 
