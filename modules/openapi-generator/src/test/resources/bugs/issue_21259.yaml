@@ -44,16 +44,15 @@ components:
             type: number
         - type: array
           items:
-            - type: object
+            type: object
         - type: array
           items:
-            - type: string
-              enum:
+            type: string
+            enum:
               # It seems enums within arrays don't work. Leaving this here, though
-                - "oneof-array-enum-a"
-                - "oneof-array-enum-b"
-                - "oneof-array-enum-c"
-        - type:
+              - "oneof-array-enum-a"
+              - "oneof-array-enum-b"
+              - "oneof-array-enum-c"
       description: A value that can be a number or a specific string.
     TestPayload:
       type: object
