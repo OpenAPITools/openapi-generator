@@ -33,13 +33,15 @@ int main() {
 	strcpy(phone, PHONE);
 
 	user_t *newuser = user_create(USER_ID,
-	                              username,
-	                              firstname,
-	                              lastname,
-	                              email,
-	                              password,
-	                              phone,
-	                              USER_STATUS);
+                                  username,
+                                  firstname,
+                                  lastname,
+                                  email,
+                                  password,
+                                  phone,
+	                              USER_STATUS,
+                                  NULL,
+                                  openapi_petstore_preference__cats);
 
 	UserAPI_createUser(apiClient, newuser);
 	user_free(newuser);
@@ -82,7 +84,9 @@ int main() {
 		                               email,
 		                               password,
 		                               phone,
-		                               USER_STATUS);
+		                               USER_STATUS,
+		                               NULL,
+		                               openapi_petstore_preference__cats);
 
 		UserAPI_updateUser(apiClient2, username1, newuser1);
 		user_free(newuser1);
