@@ -357,7 +357,7 @@ public interface PetApi {
     default Mono<ResponseEntity<ModelApiResponse>> uploadFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
-        @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) Flux<Part> file,
+        @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) Part file,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().uploadFile(petId, additionalMetadata, file, exchange);
