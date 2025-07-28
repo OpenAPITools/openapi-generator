@@ -41,15 +41,12 @@ class PetApiTest extends TestCase
 
         $newPet->setTags(array($tag));
         $newPet->setCategory($category);
-
-        $config = new Configuration();
-        $petApi = new Api\PetApi(null, $config);
-
     }
 
     public function setUp(): void
     {
-        $this->api = new Api\PetApi();
+        $config = (new Configuration())->setHost('http://localhost/v2');
+        $this->api = new Api\PetApi(null, $config);
     }
 
     public function testGetPetById()
