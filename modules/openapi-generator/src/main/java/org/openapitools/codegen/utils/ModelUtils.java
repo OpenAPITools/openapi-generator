@@ -20,6 +20,7 @@ package org.openapitools.codegen.utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.AnnotationsUtils;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -1346,9 +1347,13 @@ public class ModelUtils {
     }
 
     /**
-     * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
+     * Get the actual schema from aliases. If the provided schema is not an alias,
+     * the schema itself will be returned. Sibling fields (title, description,
+     * example, etc.) are merged onto any aliased-as-model definitions. Only
+     * primitive/array/map aliases are fully unwrapped (and have their $ref
+     * cleared).
      *
-     * @param openAPI        OpenAPI document containing the schemas.
+     * @param openAPI        OpenAPI document containing the schemas
      * @param schema         schema (alias or direct reference)
      * @param schemaMappings mappings of external types to be omitted by unaliasing
      * @return actual schema
@@ -1374,46 +1379,205 @@ public class ModelUtils {
                 if (!isRefToSchemaWithProperties(schema.get$ref())) {
                     once(LOGGER).warn("{} is not defined", schema.get$ref());
                 }
-                return schema;
-            } else if (isEnumSchema(ref)) {
-                // top-level enum class
+                return schema; // missing definition → leave as is
+            }
+
+            if (isEnumSchema(ref)) {
+                // top-level enum class → leave wrapped
                 return schema;
             } else if (isArraySchema(ref)) {
                 if (isGenerateAliasAsModel(ref)) {
-                    return schema; // generate a model extending array
+                    // generate a model extending array ← leave wrapped
+                    return schema;
                 } else {
-                    return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            schemaMappings);
+                    // ↳ unwrap into the array’s item type
+                    Schema itemSchema = ModelUtils.getSchemaItems(ref);
+                    Schema copyItem = deepCopy(itemSchema);              // deep-copy the inner schema to prevent mutation on wrong component
+                    copyItem.set$ref(null);                                // clear $ref so we don’t loop on the same ref
+                    Schema unwrapped = unaliasSchema(openAPI, copyItem, schemaMappings);
+                    return mergeSiblingFields(schema, unwrapped);          // merge wrapper’s siblings
                 }
             } else if (isComposedSchema(ref)) {
                 return schema;
             } else if (isMapSchema(ref)) {
-                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
-                    return schema; // treat it as model
-                else {
-                    if (isGenerateAliasAsModel(ref)) {
-                        return schema; // generate a model extending map
-                    } else {
-                        // treat it as a typical map
-                        return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                                schemaMappings);
-                    }
+                boolean hasProps = ref.getProperties() != null && !ref.getProperties().isEmpty();
+                if (hasProps || isGenerateAliasAsModel(ref)) {
+                    // treat as model OR generate a model extending map ← leave wrapped
+                    return schema;
+                } else {
+                    // ↳ unwrap into the “additionalProperties” value
+                    Schema addProp = (Schema) ref.getAdditionalProperties();
+                    Schema copyValue = deepCopy(addProp);                 // deep-copy the inner map-value schema
+                    copyValue.set$ref(null);                               // clear $ref for this inlined type
+                    Schema unwrapped = unaliasSchema(openAPI, copyValue, schemaMappings);
+                    return mergeSiblingFields(schema, unwrapped);          // merge wrapper’s siblings
                 }
-            } else if (isObjectSchema(ref)) { // model
-                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
+            } else if (isObjectSchema(ref)) {
+                boolean hasProps = ref.getProperties() != null && !ref.getProperties().isEmpty();
+                if (hasProps) {
                     // TODO we may need to check `hasSelfReference(openAPI, ref)` as a special/edge case:
                     // TODO we may also need to revise below to return `ref` instead of schema
                     // which is the last reference to the actual model/object
+                    // hier this is real object model ← leave wrapped
                     return schema;
-                } else { // free form object (type: object)
-                    return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            schemaMappings);
+                } else {
+                    // ↳ free-form object (type: object) : same as map-fallback
+                    Schema copyObj = deepCopy(ref);                       // deep-copy free-form object
+                    copyObj.set$ref(null);                                // clear lingering $ref
+                    Schema unwrapped = unaliasSchema(openAPI, copyObj, schemaMappings);
+                    return mergeSiblingFields(schema, unwrapped);          // merge wrapper metadata
                 }
-            } else {
-                return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), schemaMappings);
+            }
+
+            // Priimitive fallback alias
+            {
+                // ↳ fully unwrap a simple/primitive alias
+                Schema copyPrim = deepCopy(ref);                        // deep-copy primitive definition
+                copyPrim.set$ref(null);                                 // must clear $ref to avoid recursion
+                Schema unwrapped = unaliasSchema(openAPI, copyPrim, schemaMappings);
+                return mergeSiblingFields(schema, unwrapped);           // and copy siblings
             }
         }
+
+        // no $ref → nothing to unwrap
         return schema;
+    }
+
+    /**
+     * Copy any non-null “sibling” fields from the original $ref-wrapper onto the actual definition.
+     */
+    /**
+     * Copy any non-null “sibling” fields from the original $ref-wrapper
+     * onto the actual definition.  This now handles the full OAS 3.1 set of
+     * keywords that may appear alongside a $ref.
+     */
+    private static Schema mergeSiblingFields(Schema original, Schema actual) {
+        //--- core title/description/example/default → exactly as before
+        if (original.getTitle() != null) actual.setTitle(original.getTitle());
+        if (original.getDescription() != null) actual.setDescription(original.getDescription());
+        if (original.getExample() != null) actual.setExample(original.getExample());
+        if (original.getDefault() != null) actual.setDefault(original.getDefault());
+
+        //--- readOnly/writeOnly/deprecated/nullable → preserve access flags
+        if (original.getReadOnly() != null) actual.setReadOnly(original.getReadOnly());
+        if (original.getWriteOnly() != null) actual.setWriteOnly(original.getWriteOnly());
+        if (original.getDeprecated() != null) actual.setDeprecated(original.getDeprecated());
+        if (original.getNullable() != null) actual.setNullable(original.getNullable());
+
+        //--- numeric intervals
+        if (original.getMaximum() != null)
+            actual.setMaximum(original.getMaximum());                                 // preserve max
+
+        if (original.getExclusiveMaximum() != null)
+            actual.setExclusiveMaximum(original.getExclusiveMaximum());               // preserve exclusiveMax
+        if (original.getMinimum() != null) {
+            actual.setMinimum(original.getMinimum());                                 // preserve min
+        }
+        if (original.getExclusiveMinimum() != null)
+            actual.setExclusiveMinimum(original.getExclusiveMinimum());               // preserve exclusiveMin
+        if (original.getMultipleOf() != null) actual.setMultipleOf(original.getMultipleOf()); // preserve multipleOf
+
+        //--- string/array length constraints
+        if (original.getMaxLength() != null) actual.setMaxLength(original.getMaxLength()); // preserve maxLength
+        if (original.getMinLength() != null) actual.setMinLength(original.getMinLength()); // preserve minLength
+        if (original.getMaxItems() != null) actual.setMaxItems(original.getMaxItems());   // preserve maxItems
+        if (original.getMinItems() != null) actual.setMinItems(original.getMinItems());   // preserve minItems
+
+        //--- uniqueItems, maxProperties/minProperties → JSON-schema siblings
+        if (original.getUniqueItems() != null) actual.setUniqueItems(original.getUniqueItems()); // preserve uniqueItems
+        if (original.getMaxProperties() != null)
+            actual.setMaxProperties(original.getMaxProperties()); // preserve maxProperties
+        if (original.getMinProperties() != null)
+            actual.setMinProperties(original.getMinProperties()); // preserve minProperties
+
+        //--- pattern, enum → constrain values
+        if (original.getPattern() != null) actual.setPattern(original.getPattern());     // preserve pattern
+        if (original.getEnum() != null) {
+            actual.setEnum(new ArrayList<>(original.getEnum()));                     // preserve enum list
+        }
+
+        //--- required (object-only) → keep required array if present
+        if (original.getRequired() != null) {
+            actual.setRequired(new ArrayList<>(original.getRequired()));             // preserve required props
+        }
+
+        //--- prefixItems & patternProperties (OAS 3.1)
+        if (original.getPrefixItems() != null) {
+            actual.setPrefixItems(new ArrayList<>(original.getPrefixItems()));       // preserve tuple-style items
+        }
+        if (original.getPatternProperties() != null) {
+            actual.setPatternProperties(new LinkedHashMap<>(original.getPatternProperties())); // preserve patternProperties
+        }
+
+        //--- content-encoding/mediaType/schema (OAS 3.1 media-type siblings)
+        if (original.getContentEncoding() != null)
+            actual.setContentEncoding(original.getContentEncoding()); // preserve content-encoding
+        if (original.getContentMediaType() != null)
+            actual.setContentMediaType(original.getContentMediaType()); // preserve contentMediaType
+        if (original.getContentSchema() != null)
+            actual.setContentSchema(deepCopy(original.getContentSchema())); // preserve contentSchema
+
+        //--- additionalItems / unevaluatedItems (OAS 3.1 array siblings)
+        if (original.getAdditionalItems() != null)
+            actual.setAdditionalItems(deepCopy(original.getAdditionalItems())); // preserve additionalItems
+        if (original.getUnevaluatedItems() != null)
+            actual.setUnevaluatedItems(deepCopy(original.getUnevaluatedItems())); // preserve unevaluatedItems
+
+        //--- propertyNames / unevaluatedProperties (OAS 3.1 object siblings)
+        if (original.getPropertyNames() != null)
+            actual.setPropertyNames(deepCopy(original.getPropertyNames())); // preserve propertyNames
+        if (original.getUnevaluatedProperties() != null)
+            actual.setUnevaluatedProperties(deepCopy(original.getUnevaluatedProperties())); // preserve unevaluatedProperties
+
+        //--- contains / if / then / else (OAS 3.1 conditional siblings)
+        if (original.getContains() != null)
+            actual.setContains(deepCopy(original.getContains()));       // preserve contains
+        if (original.getIf() != null) actual.setIf(deepCopy(original.getIf()));                   // preserve if
+        if (original.getThen() != null) actual.setThen(deepCopy(original.getThen()));               // preserve then
+        if (original.getElse() != null) actual.setElse(deepCopy(original.getElse()));               // preserve else
+
+        //--- dependentSchemas / dependentRequired (OAS 3.1 dependency siblings)
+        if (original.getDependentSchemas() != null)
+            actual.setDependentSchemas(new LinkedHashMap<>(original.getDependentSchemas())); // preserve dependentSchemas
+        if (original.getDependentRequired() != null)
+            actual.setDependentRequired(new LinkedHashMap<>(original.getDependentRequired())); // preserve dependentRequired
+
+        //--- types (OAS 3.1 JSON-schema `type` as array of strings)
+        if (original.getTypes() != null)
+            actual.setTypes(new LinkedHashSet<>(original.getTypes())); // preserve type array
+
+        //--- examples (OAS 3.1 multiple examples)
+        if (original.getExamples() != null)
+            actual.setExamples(new ArrayList<>(original.getExamples())); // preserve examples
+
+        //--- booleanSchemaValue (3.1 “boolean” schemas)
+        if (original.getBooleanSchemaValue() != null)
+            actual.setBooleanSchemaValue(original.getBooleanSchemaValue()); // preserve boolean contents
+
+        //--- xml / externalDocs / discriminator – these are always siblings of any Schema
+        if (original.getXml() != null)
+            actual.setXml(original.getXml());                             // preserve xml config
+        if (original.getExternalDocs() != null)
+            actual.setExternalDocs(original.getExternalDocs());           // preserve externalDocs
+        if (original.getDiscriminator() != null)
+            actual.setDiscriminator(original.getDiscriminator());         // preserve discriminator
+
+        //--- extensions (x-*)
+        if (original.getExtensions() != null && !original.getExtensions().isEmpty()) {
+            if (actual.getExtensions() == null) {
+                actual.setExtensions(new LinkedHashMap<>());   // ensure extensions map exists
+            }
+            actual.getExtensions().putAll(original.getExtensions()); // copy custom x-extensions
+        }
+
+        return actual;
+    }
+
+    /**
+     * Deep-copy via Jackson so we never touch the registry’s original Schema.
+     */
+    private static Schema deepCopy(Schema schema) {
+        return Json.mapper().convertValue(schema, Schema.class);
     }
 
     /**
@@ -2222,8 +2386,8 @@ public class ModelUtils {
     /**
      * Simplifies the schema by removing the oneOfAnyOf if the oneOfAnyOf only contains a single non-null sub-schema
      *
-     * @param openAPI OpenAPI
-     * @param schema Schema
+     * @param openAPI    OpenAPI
+     * @param schema     Schema
      * @param subSchemas The oneOf or AnyOf schemas
      * @return The simplified schema
      */
@@ -2356,8 +2520,8 @@ public class ModelUtils {
     /**
      * Copy meta data (e.g. description, default, examples, etc) from one schema to another.
      *
-     * @param from  From schema
-     * @param to    To schema
+     * @param from From schema
+     * @param to   To schema
      */
     public static void copyMetadata(Schema from, Schema to) {
         if (from.getDescription() != null) {
@@ -2415,7 +2579,7 @@ public class ModelUtils {
      * For example, a schema that only has a `description` without any `properties` or `$ref` defined.
      *
      * @param schema the schema
-     * @return       if the schema is only metadata and not an actual type
+     * @return if the schema is only metadata and not an actual type
      */
     public static boolean isMetadataOnlySchema(Schema schema) {
         return !(schema.get$ref() != null ||
@@ -2437,8 +2601,9 @@ public class ModelUtils {
 
     /**
      * Returns true if the OpenAPI specification contains any schemas which are enums.
-     * @param openAPI   OpenAPI specification
-     * @return          true if the OpenAPI specification contains any schemas which are enums.
+     *
+     * @param openAPI OpenAPI specification
+     * @return true if the OpenAPI specification contains any schemas which are enums.
      */
     public static boolean containsEnums(OpenAPI openAPI) {
         Map<String, Schema> schemaMap = getSchemas(openAPI);

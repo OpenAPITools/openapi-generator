@@ -5006,4 +5006,41 @@ public class DefaultCodegenTest {
         // When & Then
         assertThat(codegenOperation.getHasSingleParam()).isTrue();
     }
+
+    @Test
+    public void testRefSiblingMergingOnAllAliasForms() {
+        // 1) load & flatten
+        OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_1/issue_20304.yaml"
+        );
+        new InlineModelResolver().flatten(openAPI);
+
+        // 2) prepare codegen
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        // 3) grab all five wrapper props
+        Map<String, Schema> props = openAPI.getComponents()
+                .getSchemas()
+                .get("ModelWithTitledProperties")
+                .getProperties();
+
+        // 4) for each case: [propertyName, expectedTitle, expectedDescription]
+        String[][] cases = {
+                {"simpleProperty", "Simple-Property-Title", "Simple-Property-Description"},
+                {"allOfRefProperty", "All-Of-Ref-Property-Title", "All-Of-Ref-Property-Description"},
+                {"arrayRefProperty", "Array-Ref-Property-Title", "Array-Ref-Property-Description"},
+                {"mapRefProperty", "Map-Ref-Property-Title", "Map-Ref-Property-Description"},
+                {"objectRefProperty", "Object-Ref-Property-Title", "Object-Ref-Property-Description"}
+        };
+
+        for (String[] c : cases) {
+            // required flag is irrelevant for merging siblings
+            CodegenProperty cp = codegen.fromProperty(c[0], props.get(c[0]), true);
+
+            // assert that our override‐siblings came through
+            assertEquals(c[1], cp.getTitle(), c[0] + " → title");
+            assertEquals(c[2], cp.getDescription(), c[0] + " → description");
+        }
+    }
 }
