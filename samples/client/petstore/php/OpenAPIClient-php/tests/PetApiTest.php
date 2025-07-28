@@ -42,7 +42,7 @@ class PetApiTest extends TestCase
         $newPet->setTags(array($tag));
         $newPet->setCategory($category);
 
-        $config = new Configuration();
+        $config = (new Configuration())->setHost('http://localhost/v2');
         $petApi = new Api\PetApi(null, $config);
 
     }
