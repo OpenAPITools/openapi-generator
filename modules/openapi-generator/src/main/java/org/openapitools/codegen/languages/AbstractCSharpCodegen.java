@@ -751,6 +751,37 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     protected void patchPropertyIsInherited(CodegenModel model, CodegenProperty property) {
     }
 
+    private void patchNestedMaps(CodegenProperty property) {
+        // Process nested types before making any replacements to ensure we have the correct inner type
+        if (property.items != null) {
+            patchNestedMaps(property.items);
+        }
+
+        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
+        
+        if (property.datatypeWithEnum != null) {
+            String originalType = property.datatypeWithEnum;
+            
+            for (String nestedType : nestedTypes) {
+                // fix incorrect data types for maps of maps
+                if (property.items != null) {
+                    if (property.datatypeWithEnum.contains(", " + nestedType + ">")) {
+                        property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + nestedType + ">", ", " + property.items.datatypeWithEnum + ">");
+                    }
+
+                    if (property.datatypeWithEnum.contains("<" + nestedType + ">")) {
+                        property.datatypeWithEnum = property.datatypeWithEnum.replace("<" + nestedType + ">", "<" + property.items.datatypeWithEnum + ">");
+                    }
+                }
+            }
+
+            // Only update dataType if we actually made changes
+            if (!originalType.equals(property.datatypeWithEnum)) {
+                property.dataType = property.datatypeWithEnum;
+            }
+        }
+    }
+
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
         if (enumRefs.containsKey(property.dataType)) {
             // Handle any enum properties referred to by $ref.
@@ -770,20 +801,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         property.name = patchPropertyName(model, property.name, null);
 
-        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
-
-        Arrays.stream(nestedTypes).forEach(nestedType -> {
-            // fix incorrect data types for maps of maps
-            if (property.datatypeWithEnum.contains(", " + nestedType + ">") && property.items != null) {
-                property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + nestedType + ">", ", " + property.items.datatypeWithEnum + ">");
-                property.dataType = property.datatypeWithEnum;
-            }
-
-            if (property.datatypeWithEnum.contains("<" + nestedType + ">") && property.items != null) {
-                property.datatypeWithEnum = property.datatypeWithEnum.replace("<" + nestedType + ">", "<" + property.items.datatypeWithEnum + ">");
-                property.dataType = property.datatypeWithEnum;
-            }
-        });
+        patchNestedMaps(property);
 
         // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
         if (property.datatypeWithEnum.equals("decimal")) {
