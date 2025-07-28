@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Descendant1
     /// </summary>
-    public partial class Descendant1 : TestDescendants, IValidatableObject
+    public partial class Descendant1 : TestDescendants, IEquatable<Descendant1?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Descendant1" /> class.
@@ -64,6 +64,43 @@ namespace Org.OpenAPITools.Model
             sb.Append("  DescendantName: ").Append(DescendantName).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Descendant1).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if Descendant1 instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Descendant1 to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Descendant1? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = base.GetHashCode();
+                hashCode = (hashCode * 59) + AlternativeName.GetHashCode();
+                hashCode = (hashCode * 59) + DescendantName.GetHashCode();
+                hashCode = (hashCode * 59) + ObjectType.GetHashCode();
+
+                return hashCode;
+            }
         }
     }
 

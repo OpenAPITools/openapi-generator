@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// AdditionalPropertiesClass
     /// </summary>
-    public partial class AdditionalPropertiesClass : IValidatableObject
+    public partial class AdditionalPropertiesClass : IEquatable<AdditionalPropertiesClass?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalPropertiesClass" /> class.
@@ -189,6 +189,65 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as AdditionalPropertiesClass).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if AdditionalPropertiesClass instances are equal
+        /// </summary>
+        /// <param name="input">Instance of AdditionalPropertiesClass to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(AdditionalPropertiesClass? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (Anytype1 != null)
+                    hashCode = (hashCode * 59) + Anytype1.GetHashCode();
+
+                if (EmptyMap != null)
+                    hashCode = (hashCode * 59) + EmptyMap.GetHashCode();
+
+                if (MapOfMapProperty != null)
+                    hashCode = (hashCode * 59) + MapOfMapProperty.GetHashCode();
+
+                if (MapProperty != null)
+                    hashCode = (hashCode * 59) + MapProperty.GetHashCode();
+
+                if (MapWithUndeclaredPropertiesAnytype1 != null)
+                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype1.GetHashCode();
+
+                if (MapWithUndeclaredPropertiesAnytype2 != null)
+                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype2.GetHashCode();
+
+                if (MapWithUndeclaredPropertiesAnytype3 != null)
+                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype3.GetHashCode();
+
+                if (MapWithUndeclaredPropertiesString != null)
+                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesString.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

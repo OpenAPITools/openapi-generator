@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// RequiredClass
     /// </summary>
-    public partial class RequiredClass : IValidatableObject
+    public partial class RequiredClass : IEquatable<RequiredClass?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RequiredClass" /> class.
@@ -1692,6 +1692,151 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as RequiredClass).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if RequiredClass instances are equal
+        /// </summary>
+        /// <param name="input">Instance of RequiredClass to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(RequiredClass? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = (hashCode * 59) + RequiredNotNullableDateProp.GetHashCode();
+                hashCode = (hashCode * 59) + RequiredNotnullableArrayOfString.GetHashCode();
+                hashCode = (hashCode * 59) + RequiredNotnullableBooleanProp.GetHashCode();
+                hashCode = (hashCode * 59) + RequiredNotnullableDatetimeProp.GetHashCode();
+                hashCode = (hashCode * 59) + RequiredNotnullableEnumInteger.GetHashCode();
+                hashCode = (hashCode * 59) + RequiredNotnullableEnumIntegerOnly.GetHashCode();
+                hashCode = (hashCode * 59) + RequiredNotnullableEnumString.GetHashCode();
+                hashCode = (hashCode * 59) + RequiredNotnullableOuterEnumDefaultValue.GetHashCode();
+                hashCode = (hashCode * 59) + RequiredNotnullableStringProp.GetHashCode();
+                hashCode = (hashCode * 59) + RequiredNotnullableUuid.GetHashCode();
+                hashCode = (hashCode * 59) + RequiredNotnullableintegerProp.GetHashCode();
+                if (NotRequiredNotnullableDateProp != null)
+                    hashCode = (hashCode * 59) + NotRequiredNotnullableDateProp.GetHashCode();
+
+                if (NotRequiredNotnullableintegerProp != null)
+                    hashCode = (hashCode * 59) + NotRequiredNotnullableintegerProp.GetHashCode();
+
+                if (NotRequiredNullableDateProp != null)
+                    hashCode = (hashCode * 59) + NotRequiredNullableDateProp.GetHashCode();
+
+                if (NotRequiredNullableIntegerProp != null)
+                    hashCode = (hashCode * 59) + NotRequiredNullableIntegerProp.GetHashCode();
+
+                if (NotrequiredNotnullableArrayOfString != null)
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableArrayOfString.GetHashCode();
+
+                if (NotrequiredNotnullableBooleanProp != null)
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableBooleanProp.GetHashCode();
+
+                if (NotrequiredNotnullableDatetimeProp != null)
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableDatetimeProp.GetHashCode();
+
+                if (NotrequiredNotnullableEnumInteger != null)
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableEnumInteger.GetHashCode();
+
+                if (NotrequiredNotnullableEnumIntegerOnly != null)
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableEnumIntegerOnly.GetHashCode();
+
+                if (NotrequiredNotnullableEnumString != null)
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableEnumString.GetHashCode();
+
+                if (NotrequiredNotnullableOuterEnumDefaultValue != null)
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableOuterEnumDefaultValue.GetHashCode();
+
+                if (NotrequiredNotnullableStringProp != null)
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableStringProp.GetHashCode();
+
+                if (NotrequiredNotnullableUuid != null)
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableUuid.GetHashCode();
+
+                if (NotrequiredNullableArrayOfString != null)
+                    hashCode = (hashCode * 59) + NotrequiredNullableArrayOfString.GetHashCode();
+
+                if (NotrequiredNullableBooleanProp != null)
+                    hashCode = (hashCode * 59) + NotrequiredNullableBooleanProp.GetHashCode();
+
+                if (NotrequiredNullableDatetimeProp != null)
+                    hashCode = (hashCode * 59) + NotrequiredNullableDatetimeProp.GetHashCode();
+
+                if (NotrequiredNullableEnumInteger != null)
+                    hashCode = (hashCode * 59) + NotrequiredNullableEnumInteger.GetHashCode();
+
+                if (NotrequiredNullableEnumIntegerOnly != null)
+                    hashCode = (hashCode * 59) + NotrequiredNullableEnumIntegerOnly.GetHashCode();
+
+                if (NotrequiredNullableEnumString != null)
+                    hashCode = (hashCode * 59) + NotrequiredNullableEnumString.GetHashCode();
+
+                if (NotrequiredNullableOuterEnumDefaultValue != null)
+                    hashCode = (hashCode * 59) + NotrequiredNullableOuterEnumDefaultValue.GetHashCode();
+
+                if (NotrequiredNullableStringProp != null)
+                    hashCode = (hashCode * 59) + NotrequiredNullableStringProp.GetHashCode();
+
+                if (NotrequiredNullableUuid != null)
+                    hashCode = (hashCode * 59) + NotrequiredNullableUuid.GetHashCode();
+
+                if (RequiredNullableArrayOfString != null)
+                    hashCode = (hashCode * 59) + RequiredNullableArrayOfString.GetHashCode();
+
+                if (RequiredNullableBooleanProp != null)
+                    hashCode = (hashCode * 59) + RequiredNullableBooleanProp.GetHashCode();
+
+                if (RequiredNullableDateProp != null)
+                    hashCode = (hashCode * 59) + RequiredNullableDateProp.GetHashCode();
+
+                if (RequiredNullableDatetimeProp != null)
+                    hashCode = (hashCode * 59) + RequiredNullableDatetimeProp.GetHashCode();
+
+                if (RequiredNullableEnumInteger != null)
+                    hashCode = (hashCode * 59) + RequiredNullableEnumInteger.GetHashCode();
+
+                if (RequiredNullableEnumIntegerOnly != null)
+                    hashCode = (hashCode * 59) + RequiredNullableEnumIntegerOnly.GetHashCode();
+
+                if (RequiredNullableEnumString != null)
+                    hashCode = (hashCode * 59) + RequiredNullableEnumString.GetHashCode();
+
+                if (RequiredNullableIntegerProp != null)
+                    hashCode = (hashCode * 59) + RequiredNullableIntegerProp.GetHashCode();
+
+                if (RequiredNullableOuterEnumDefaultValue != null)
+                    hashCode = (hashCode * 59) + RequiredNullableOuterEnumDefaultValue.GetHashCode();
+
+                if (RequiredNullableStringProp != null)
+                    hashCode = (hashCode * 59) + RequiredNullableStringProp.GetHashCode();
+
+                if (RequiredNullableUuid != null)
+                    hashCode = (hashCode * 59) + RequiredNullableUuid.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

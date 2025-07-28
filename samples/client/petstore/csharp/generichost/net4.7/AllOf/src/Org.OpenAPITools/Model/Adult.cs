@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A representation of an adult
     /// </summary>
-    public partial class Adult : Person, IValidatableObject
+    public partial class Adult : Person, IEquatable<Adult>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Adult" /> class.
@@ -69,6 +69,52 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Children: ").Append(Children).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Adult).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if Adult instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Adult to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Adult input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = base.GetHashCode();
+                if (Children != null)
+                    hashCode = (hashCode * 59) + Children.GetHashCode();
+
+                if (FirstName != null)
+                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
+
+                if (LastName != null)
+                    hashCode = (hashCode * 59) + LastName.GetHashCode();
+
+                if (Type != null)
+                    hashCode = (hashCode * 59) + Type.GetHashCode();
+
+
+                return hashCode;
+            }
         }
     }
 

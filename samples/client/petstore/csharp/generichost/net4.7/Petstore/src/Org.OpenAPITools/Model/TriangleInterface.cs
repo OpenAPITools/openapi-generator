@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// TriangleInterface
     /// </summary>
-    public partial class TriangleInterface : IValidatableObject
+    public partial class TriangleInterface : IEquatable<TriangleInterface>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TriangleInterface" /> class.
@@ -66,6 +66,42 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as TriangleInterface).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if TriangleInterface instances are equal
+        /// </summary>
+        /// <param name="input">Instance of TriangleInterface to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TriangleInterface input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = (hashCode * 59) + TriangleType.GetHashCode();
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// LiteralStringClass
     /// </summary>
-    public partial class LiteralStringClass : IValidatableObject
+    public partial class LiteralStringClass : IEquatable<LiteralStringClass?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LiteralStringClass" /> class.
@@ -91,6 +91,47 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as LiteralStringClass).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if LiteralStringClass instances are equal
+        /// </summary>
+        /// <param name="input">Instance of LiteralStringClass to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(LiteralStringClass? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (EscapedLiteralString != null)
+                    hashCode = (hashCode * 59) + EscapedLiteralString.GetHashCode();
+
+                if (UnescapedLiteralString != null)
+                    hashCode = (hashCode * 59) + UnescapedLiteralString.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

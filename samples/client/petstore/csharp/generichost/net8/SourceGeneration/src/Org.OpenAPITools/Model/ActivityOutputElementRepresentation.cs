@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ActivityOutputElementRepresentation
     /// </summary>
-    public partial class ActivityOutputElementRepresentation : IValidatableObject
+    public partial class ActivityOutputElementRepresentation : IEquatable<ActivityOutputElementRepresentation?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ActivityOutputElementRepresentation" /> class.
@@ -92,6 +92,47 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as ActivityOutputElementRepresentation).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if ActivityOutputElementRepresentation instances are equal
+        /// </summary>
+        /// <param name="input">Instance of ActivityOutputElementRepresentation to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(ActivityOutputElementRepresentation? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (Prop1 != null)
+                    hashCode = (hashCode * 59) + Prop1.GetHashCode();
+
+                if (Prop2 != null)
+                    hashCode = (hashCode * 59) + Prop2.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

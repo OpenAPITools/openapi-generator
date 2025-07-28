@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// FormatTest
     /// </summary>
-    public partial class FormatTest : IValidatableObject
+    public partial class FormatTest : IEquatable<FormatTest?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
@@ -446,6 +446,109 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as FormatTest).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if FormatTest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of FormatTest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(FormatTest? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = (hashCode * 59) + Byte.GetHashCode();
+                hashCode = (hashCode * 59) + Date.GetHashCode();
+                hashCode = (hashCode * 59) + Number.GetHashCode();
+                hashCode = (hashCode * 59) + Password.GetHashCode();
+                hashCode = (hashCode * 59) + StringFormattedAsDecimalRequired.GetHashCode();
+                if (Binary != null)
+                    hashCode = (hashCode * 59) + Binary.GetHashCode();
+
+                if (DateTime != null)
+                    hashCode = (hashCode * 59) + DateTime.GetHashCode();
+
+                if (Decimal != null)
+                    hashCode = (hashCode * 59) + Decimal.GetHashCode();
+
+                if (Double != null)
+                    hashCode = (hashCode * 59) + Double.GetHashCode();
+
+                if (Float != null)
+                    hashCode = (hashCode * 59) + Float.GetHashCode();
+
+                if (Int32 != null)
+                    hashCode = (hashCode * 59) + Int32.GetHashCode();
+
+                if (Int32Range != null)
+                    hashCode = (hashCode * 59) + Int32Range.GetHashCode();
+
+                if (Int64 != null)
+                    hashCode = (hashCode * 59) + Int64.GetHashCode();
+
+                if (Int64Negative != null)
+                    hashCode = (hashCode * 59) + Int64Negative.GetHashCode();
+
+                if (Int64NegativeExclusive != null)
+                    hashCode = (hashCode * 59) + Int64NegativeExclusive.GetHashCode();
+
+                if (Int64Positive != null)
+                    hashCode = (hashCode * 59) + Int64Positive.GetHashCode();
+
+                if (Int64PositiveExclusive != null)
+                    hashCode = (hashCode * 59) + Int64PositiveExclusive.GetHashCode();
+
+                if (Integer != null)
+                    hashCode = (hashCode * 59) + Integer.GetHashCode();
+
+                if (PatternWithBackslash != null)
+                    hashCode = (hashCode * 59) + PatternWithBackslash.GetHashCode();
+
+                if (PatternWithDigits != null)
+                    hashCode = (hashCode * 59) + PatternWithDigits.GetHashCode();
+
+                if (PatternWithDigitsAndDelimiter != null)
+                    hashCode = (hashCode * 59) + PatternWithDigitsAndDelimiter.GetHashCode();
+
+                if (String != null)
+                    hashCode = (hashCode * 59) + String.GetHashCode();
+
+                if (StringFormattedAsDecimal != null)
+                    hashCode = (hashCode * 59) + StringFormattedAsDecimal.GetHashCode();
+
+                if (UnsignedInteger != null)
+                    hashCode = (hashCode * 59) + UnsignedInteger.GetHashCode();
+
+                if (UnsignedLong != null)
+                    hashCode = (hashCode * 59) + UnsignedLong.GetHashCode();
+
+                if (Uuid != null)
+                    hashCode = (hashCode * 59) + Uuid.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

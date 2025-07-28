@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
     /// </summary>
-    public partial class HealthCheckResult : IValidatableObject
+    public partial class HealthCheckResult : IEquatable<HealthCheckResult?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HealthCheckResult" /> class.
@@ -75,6 +75,44 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as HealthCheckResult).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if HealthCheckResult instances are equal
+        /// </summary>
+        /// <param name="input">Instance of HealthCheckResult to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(HealthCheckResult? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (NullableMessage != null)
+                    hashCode = (hashCode * 59) + NullableMessage.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

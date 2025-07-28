@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// CopyActivity
     /// </summary>
-    public partial class CopyActivity : EntityBase, IValidatableObject
+    public partial class CopyActivity : EntityBase, IEquatable<CopyActivity>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CopyActivity" /> class.
@@ -120,6 +120,42 @@ namespace Org.OpenAPITools.Model
             sb.Append("  CopyActivitytt: ").Append(CopyActivitytt).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as CopyActivity).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if CopyActivity instances are equal
+        /// </summary>
+        /// <param name="input">Instance of CopyActivity to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(CopyActivity input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = base.GetHashCode();
+                hashCode = (hashCode * 59) + Schema.GetHashCode();
+                hashCode = (hashCode * 59) + CopyActivitytt.GetHashCode();
+
+                return hashCode;
+            }
         }
     }
 

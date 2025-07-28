@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A representation of a child
     /// </summary>
-    public partial class Child : Person, IValidatableObject
+    public partial class Child : Person, IEquatable<Child>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Child" /> class.
@@ -85,6 +85,55 @@ namespace Org.OpenAPITools.Model
             sb.Append("  BoosterSeat: ").Append(BoosterSeat).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Child).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if Child instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Child to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Child input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = base.GetHashCode();
+                if (Age != null)
+                    hashCode = (hashCode * 59) + Age.GetHashCode();
+
+                if (FirstName != null)
+                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
+
+                if (LastName != null)
+                    hashCode = (hashCode * 59) + LastName.GetHashCode();
+
+                if (Type != null)
+                    hashCode = (hashCode * 59) + Type.GetHashCode();
+
+                if (BoosterSeat != null)
+                    hashCode = (hashCode * 59) + BoosterSeat.GetHashCode();
+
+
+                return hashCode;
+            }
         }
     }
 

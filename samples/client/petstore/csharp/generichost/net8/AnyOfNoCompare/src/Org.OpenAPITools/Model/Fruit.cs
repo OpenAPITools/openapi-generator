@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Fruit
     /// </summary>
-    public partial class Fruit : IValidatableObject
+    public partial class Fruit : IEquatable<Fruit?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
@@ -101,6 +101,53 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return this.Equals(input as Fruit);
+        }
+
+        /// <summary>
+        /// Returns true if Fruit instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Fruit to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Fruit? input)
+        {
+            if (input == null)
+                return false;
+
+            return 
+                (
+                    Color == input.Color ||
+                    (Color != null &&
+                    Color.Equals(input.Color))
+                )
+                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (Color != null)
+                    hashCode = (hashCode * 59) + Color.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>
