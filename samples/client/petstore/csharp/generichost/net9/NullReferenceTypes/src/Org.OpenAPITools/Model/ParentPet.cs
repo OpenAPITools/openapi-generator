@@ -84,7 +84,6 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 59) + PetType.GetHashCode();
 
                 return hashCode;
             }

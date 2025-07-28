@@ -153,8 +153,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 59) + Schema.GetHashCode();
                 hashCode = (hashCode * 59) + CopyActivitytt.GetHashCode();
+                hashCode = (hashCode * 59) + Schema.GetHashCode();
 
                 return hashCode;
             }

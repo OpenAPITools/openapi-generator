@@ -121,15 +121,16 @@ namespace Org.OpenAPITools.Model
         public bool Equals(Fruit? input)
         {
             if (input == null)
+            {
                 return false;
-
+            }
             return 
                 (
-                    Color == input.Color ||
-                    (Color != null &&
-                    Color.Equals(input.Color))
+                    this.Color == input.Color ||
+                    (this.Color != null &&
+                    this.Color.Equals(input.Color))
                 )
-                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>

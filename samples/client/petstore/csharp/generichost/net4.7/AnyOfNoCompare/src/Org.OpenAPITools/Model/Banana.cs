@@ -92,14 +92,15 @@ namespace Org.OpenAPITools.Model
         public bool Equals(Banana input)
         {
             if (input == null)
+            {
                 return false;
-
+            }
             return 
                 (
-                    Count == input.Count ||
-                    Count.Equals(input.Count)
+                    this.Count == input.Count ||
+                    this.Count.Equals(input.Count)
                 )
-                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>

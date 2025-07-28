@@ -105,15 +105,6 @@ namespace Org.OpenAPITools.Model
                 if (Children != null)
                     hashCode = (hashCode * 59) + Children.GetHashCode();
 
-                if (FirstName != null)
-                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
-
-                if (LastName != null)
-                    hashCode = (hashCode * 59) + LastName.GetHashCode();
-
-                if (Type != null)
-                    hashCode = (hashCode * 59) + Type.GetHashCode();
-
 
                 return hashCode;
             }

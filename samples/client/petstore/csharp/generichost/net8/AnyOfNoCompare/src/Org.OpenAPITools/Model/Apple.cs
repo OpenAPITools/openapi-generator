@@ -94,15 +94,16 @@ namespace Org.OpenAPITools.Model
         public bool Equals(Apple? input)
         {
             if (input == null)
+            {
                 return false;
-
+            }
             return 
                 (
-                    Kind == input.Kind ||
-                    (Kind != null &&
-                    Kind.Equals(input.Kind))
+                    this.Kind == input.Kind ||
+                    (this.Kind != null &&
+                    this.Kind.Equals(input.Kind))
                 )
-                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>

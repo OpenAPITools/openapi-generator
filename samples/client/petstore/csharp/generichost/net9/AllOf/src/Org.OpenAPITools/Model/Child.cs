@@ -121,15 +121,6 @@ namespace Org.OpenAPITools.Model
                 if (Age != null)
                     hashCode = (hashCode * 59) + Age.GetHashCode();
 
-                if (FirstName != null)
-                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
-
-                if (LastName != null)
-                    hashCode = (hashCode * 59) + LastName.GetHashCode();
-
-                if (Type != null)
-                    hashCode = (hashCode * 59) + Type.GetHashCode();
-
                 if (BoosterSeat != null)
                     hashCode = (hashCode * 59) + BoosterSeat.GetHashCode();
 

@@ -94,9 +94,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 59) + AlternativeName.GetHashCode();
                 hashCode = (hashCode * 59) + DescendantName.GetHashCode();
-                hashCode = (hashCode * 59) + ObjectType.GetHashCode();
 
                 return hashCode;
             }

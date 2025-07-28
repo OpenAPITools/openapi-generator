@@ -101,10 +101,6 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 59) + ClassName.GetHashCode();
-                if (Color != null)
-                    hashCode = (hashCode * 59) + Color.GetHashCode();
-
                 if (Declawed != null)
                     hashCode = (hashCode * 59) + Declawed.GetHashCode();
 
