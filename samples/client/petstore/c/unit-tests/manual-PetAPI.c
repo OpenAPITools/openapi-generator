@@ -55,14 +55,13 @@ int main() {
 	list_addElement(tags, exampleTag2);
 
 
-	status_e status = available;
 	pet_t *pet =
 		pet_create(EXAMPLE_PET_ID,
 		           category,
 		           petName,
 		           photoUrls,
 		           tags,
-		           status);
+		           openapi_petstore_pet_STATUS_available);
 
 	PetAPI_addPet(apiClient, pet);
 	cJSON *JSONR_local = pet_convertToJSON(pet);
@@ -95,9 +94,9 @@ int main() {
 	assert(mypet->id == EXAMPLE_PET_ID);
 	assert(strcmp(mypet->category->name, EXAMPLE_CATEGORY_NAME) == 0);
 	assert(mypet->category->id == EXAMPLE_CATEGORY_ID);
-	assert(strcmp(list_getElementAt(mypet->photoUrls,
+	assert(strcmp(list_getElementAt(mypet->photo_urls,
 	                                0)->data, EXAMPLE_URL_1) == 0);
-	assert(strcmp(list_getElementAt(mypet->photoUrls,
+	assert(strcmp(list_getElementAt(mypet->photo_urls,
 	                                1)->data, EXAMPLE_URL_2) == 0);
 	assert(((tag_t *) list_getElementAt(mypet->tags,
 	                                    0)->data)->id == EXAMPLE_TAG_1_ID);
