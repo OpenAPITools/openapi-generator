@@ -311,7 +311,7 @@
             if (input == null)
                 return false;
 
-            return {{#parent}}base.Equals(input) && {{/parent}}{{#readOnlyVars}}{{^isInherited}}{{^isContainer}}
+            return {{#parent}}base.Equals(input) && {{/parent}}{{#allVars}}{{^isInherited}}{{^isContainer}}
                 (
                     {{name}} == input.{{name}} ||
                     {{^vendorExtensions.x-is-value-type}}
@@ -327,7 +327,7 @@
                     {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
                     input.{{name}} != null &&
                     {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(input.{{name}})
-                ){{^-last}} && {{/-last}}{{/isContainer}}{{/isInherited}}{{/readOnlyVars}}{{^readOnlyVars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/readOnlyVars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/isInherited}}{{/allVars}}{{^allVars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/allVars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
                 {{#isAdditionalPropertiesTrue}}
                 {{^parentModel}}
                 && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
@@ -350,14 +350,14 @@
                 {{^parent}}
                 int hashCode = 41;
                 {{/parent}}
-                {{#readOnlyVars}}
+                {{#allVars}}
                 {{#required}}
                 {{^isNullable}}
                 hashCode = (hashCode * 59) + {{name}}.GetHashCode();
                 {{/isNullable}}
                 {{/required}}
-                {{/readOnlyVars}}
-                {{#readOnlyVars}}
+                {{/allVars}}
+                {{#allVars}}
                 {{#lambda.copy}}
                 if ({{name}} != null)
                     hashCode = (hashCode * 59) + {{name}}.GetHashCode();
@@ -371,7 +371,7 @@
                 {{#lambda.pasteOnce}}
                 {{/lambda.pasteOnce}}
                 {{/required}}
-                {{/readOnlyVars}}
+                {{/allVars}}
                 {{#isAdditionalPropertiesTrue}}
                 {{^parentModel}}
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
