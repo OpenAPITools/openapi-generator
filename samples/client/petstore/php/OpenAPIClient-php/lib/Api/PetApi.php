@@ -1,7 +1,3 @@
-fklasdjf;klas;f;
-
-skldfj;aslkfjdl;as;j;
-
 <?php
 /**
  * PetApi
