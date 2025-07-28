@@ -1231,7 +1231,7 @@ class StoreApi
                             'Error JSON decoding server response (%s)',
                             $request->getUri()
                         ),
-			request,
+			$request,
                         $response,
                         $exception
                     );
