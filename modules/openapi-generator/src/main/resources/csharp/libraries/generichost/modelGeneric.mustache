@@ -311,7 +311,7 @@
             if (input == null)
                 return false;
 
-            return {{#parent}}base.Equals(input) && {{/parent}}{{#allVars}}{{^isInherited}}{{^isContainer}}
+            return {{#parent}}base.Equals(input){{#allVars}}{{^isInherited}}{{#-first}} && {{/-first}}{{/isInherited}}{{/allVars}}{{/parent}}{{#allVars}}{{^isInherited}}{{^isContainer}}
                 (
                     {{name}} == input.{{name}} ||
                     {{^vendorExtensions.x-is-value-type}}
