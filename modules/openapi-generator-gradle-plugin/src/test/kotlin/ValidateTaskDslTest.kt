@@ -309,6 +309,48 @@ class ValidateTaskDslTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
+    fun `openApiValidate should fail with treatWarningsAsErrors on valid spec with warnings`(gradleVersion: String?) {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-recommend.yaml")
+        )
+
+        withProject(
+            """
+            | plugins {
+            |   id 'org.openapi.generator'
+            | }
+            |
+            | openApiValidate {
+            |   inputSpec = file("spec.yaml").absolutePath
+            |   treatWarningsAsErrors = true
+            | }
+        """.trimMargin(), projectFiles
+        )
+
+        // Act
+        val result = getGradleRunner(gradleVersion)
+            .withProjectDir(temp)
+            .withArguments("openApiValidate")
+            .withPluginClasspath()
+            .buildAndFail()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Spec has issues or recommendations."),
+            "Unexpected/no message presented to the user for a valid spec."
+        )
+        assertTrue(
+            result.output.contains("Failing validation."),
+            "Expected validation to fail due to warnings, but no failure message was found."
+        )
+        assertEquals(
+            FAILED, result.task(":openApiValidate")?.outcome,
+            "Expected a failed run, but found ${result.task(":openApiValidate")?.outcome}"
+        )
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
     fun `openApiValidate should succeed without recommendations on valid spec`(gradleVersion: String?) {
         // Arrange
         val projectFiles = mapOf(
