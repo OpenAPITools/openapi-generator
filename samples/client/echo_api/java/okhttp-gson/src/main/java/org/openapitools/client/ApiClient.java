@@ -719,7 +719,7 @@ public class ApiClient {
      * @param value The value of the parameter.
      * @return A list of {@code Pair} objects.
      */
-    public List<Pair> parameterToPairs(String collectionFormat, String name, Collection value) {
+    public List<Pair> parameterToPairs(String collectionFormat, String name, Collection<?> value) {
         List<Pair> params = new ArrayList<Pair>();
 
         // preconditions
