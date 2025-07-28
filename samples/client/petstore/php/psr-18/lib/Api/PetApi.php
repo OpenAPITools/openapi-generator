@@ -722,9 +722,8 @@ class PetApi
                         $statusCode,
                         (string) $request->getUri()
                     ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
+                    $request,
+                    $response
                 );
             }
 
@@ -983,9 +982,8 @@ class PetApi
                         $statusCode,
                         (string) $request->getUri()
                     ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
+                    $request,
+                    $response
                 );
             }
 
@@ -1245,9 +1243,8 @@ class PetApi
                         $statusCode,
                         (string) $request->getUri()
                     ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
+                    $request,
+                    $response
                 );
             }
 
@@ -1994,9 +1991,8 @@ class PetApi
                         $statusCode,
                         (string) $request->getUri()
                     ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
+                    $request,
+                    $response
                 );
             }
 
@@ -2276,9 +2272,8 @@ class PetApi
                         $statusCode,
                         (string) $request->getUri()
                     ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
+                    $request,
+                    $response
                 );
             }
 
@@ -2576,9 +2571,8 @@ class PetApi
                         $statusCode,
                         (string) $request->getUri()
                     ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
+                    $request,
+                    $response
                 );
             }
 
@@ -2893,9 +2887,8 @@ class PetApi
                         $statusCode,
                         (string) $request->getUri()
                     ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
+                    $request,
+                    $response
                 );
             }
 
@@ -3174,9 +3167,9 @@ class PetApi
                             'Error JSON decoding server response (%s)',
                             $request->getUri()
                         ),
-                        $response->getStatusCode(),
-                        $response->getHeaders(),
-                        $content
+			request,
+                        $response,
+                        $exception
                     );
                 }
             }
