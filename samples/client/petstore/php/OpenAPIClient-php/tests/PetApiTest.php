@@ -49,7 +49,7 @@ class PetApiTest extends TestCase
 
     public function setUp(): void
     {
-        $this->api = new Api\PetApi();
+        $this->api = $petApi;
     }
 
     public function testGetPetById()
