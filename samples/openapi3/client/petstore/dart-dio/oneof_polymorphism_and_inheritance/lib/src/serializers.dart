@@ -15,12 +15,15 @@ import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
 import 'package:openapi/src/model/addressable.dart';
+import 'package:openapi/src/model/animal.dart';
 import 'package:openapi/src/model/apple.dart';
 import 'package:openapi/src/model/banana.dart';
 import 'package:openapi/src/model/bar.dart';
 import 'package:openapi/src/model/bar_create.dart';
 import 'package:openapi/src/model/bar_ref.dart';
 import 'package:openapi/src/model/bar_ref_or_value.dart';
+import 'package:openapi/src/model/cat.dart';
+import 'package:openapi/src/model/dog.dart';
 import 'package:openapi/src/model/entity.dart';
 import 'package:openapi/src/model/entity_ref.dart';
 import 'package:openapi/src/model/extensible.dart';
@@ -37,12 +40,15 @@ part 'serializers.g.dart';
 
 @SerializersFor([
   Addressable,$Addressable,
+  Animal,
   Apple,
   Banana,
   Bar,
   BarCreate,
   BarRef,
   BarRefOrValue,
+  Cat,
+  Dog,
   Entity,$Entity,
   EntityRef,$EntityRef,
   Extensible,$Extensible,
