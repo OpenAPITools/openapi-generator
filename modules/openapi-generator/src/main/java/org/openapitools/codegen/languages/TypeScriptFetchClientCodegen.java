@@ -799,6 +799,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(TreeSet::new));
 
+        cm.oneOfPrimitives = oneOfsList.stream()
+                .filter(CodegenProperty::getIsPrimitiveType)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(HashSet::new));
+
         if (!cm.oneOf.isEmpty()) {
             // For oneOfs only import $refs within the oneOf
             cm.imports = cm.imports.stream()
@@ -1484,6 +1489,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public Set<String> oneOfModels = new TreeSet<>();
         @Getter @Setter
         public Set<String> oneOfArrays = new TreeSet<>();
+        @Getter @Setter
+        public Set<CodegenProperty> oneOfPrimitives = new HashSet<>();
 
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;

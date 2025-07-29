@@ -35,17 +35,16 @@ class Tag : public oatpp::DTO {
 
   DTO_INIT(Tag, DTO /* Extends */)
 
-  DTO_FIELD(oatpp::Int64, Id);
-  DTO_FIELD(oatpp::Boolean, IdIsSet);
-  DTO_FIELD(oatpp::String, Name);
-  DTO_FIELD(oatpp::Boolean, NameIsSet);
+  DTO_FIELD(oatpp::Int64, id);
+  DTO_FIELD(oatpp::Boolean, idIsSet);
+  DTO_FIELD(oatpp::String, name);
+  DTO_FIELD(oatpp::Boolean, nameIsSet);
 
-  
-  
 };
 
 /* End DTO code-generation */
 #include OATPP_CODEGEN_END(DTO)
+
 
 } // namespace org::openapitools::server::model
 

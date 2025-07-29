@@ -67,8 +67,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.openapitools.codegen.CodegenConstants.*;
-import static org.openapitools.codegen.TestUtils.newTempFolder;
-import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
 import static org.testng.Assert.*;
 
@@ -1435,7 +1434,7 @@ public class JavaClientCodegenTest {
 
         validateJavaSourceFiles(files);
         assertThat(files).hasSize(37);
-        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+        assertFileContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
                 "public static String urlEncode(String s) { return URLEncoder.encode(s,"
                         + " UTF_8).replaceAll(\"\\\\+\", \"%20\"); }"
         );
@@ -1758,7 +1757,7 @@ public class JavaClientCodegenTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileContains(
+        assertFileContains(
                 Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
                 "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"multi\", \"values\","
                         + " queryObject.getValues()));");
@@ -2082,7 +2081,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
                 "@Deprecated\n public BigDog declawed(@javax.annotation.Nullable Boolean declawed) {", // deprecated builder method
                 "@Deprecated\n @javax.annotation.Nullable\n\n public Boolean getDeclawed() {", // deprecated getter
@@ -2102,7 +2101,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
                 "@Deprecated\n public BigDog declawed(@jakarta.annotation.Nullable Boolean declawed) {", // deprecated builder method
                 "@Deprecated\n @jakarta.annotation.Nullable\n @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
@@ -2174,8 +2173,8 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"), "@Component");
-        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"), "@Component");
+        assertFileContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"), "@Component");
+        assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"), "@Component");
     }
 
     @Test
@@ -2192,8 +2191,8 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(output.resolve("pom.xml"), "<artifactId>jakarta.validation-api</artifactId>");
-        TestUtils.assertFileContains(output.resolve("src/main/java/org/openapitools/client/model/Pet.java"), "@Valid");
+        assertFileContains(output.resolve("pom.xml"), "<artifactId>jakarta.validation-api</artifactId>");
+        assertFileContains(output.resolve("src/main/java/org/openapitools/client/model/Pet.java"), "@Valid");
     }
 
     @Test
@@ -2228,7 +2227,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(output.resolve("pom.xml"), "<artifactId>hibernate-validator</artifactId>");
+        assertFileContains(output.resolve("pom.xml"), "<artifactId>hibernate-validator</artifactId>");
         TestUtils.assertFileExists(output.resolve("src/main/java/xyz/abcdef/BeanValidationException.java"));
     }
 
@@ -2357,7 +2356,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/ResourceApi.java"),
+        assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/ResourceApi.java"),
                 "Mono<org.springframework.core.io.Resource> resourceInResponse()",
                 "Mono<ResponseEntity<org.springframework.core.io.Resource>> resourceInResponseWithHttpInfo()",
                 "ParameterizedTypeReference<org.springframework.core.io.Resource> localVarReturnType = new ParameterizedTypeReference<org.springframework.core.io.Resource>()"
@@ -2535,7 +2534,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/DepartmentApi.java"), "if (filter != null) {");
+        assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/DepartmentApi.java"), "if (filter != null) {");
     }
 
     @Test
@@ -2612,7 +2611,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java"),
                 // multiple files
                 "multipartArray(@jakarta.annotation.Nullable List<File> files)",
@@ -2643,7 +2642,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java"),
                 // multiple files
                 "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
@@ -2671,7 +2670,7 @@ public class JavaClientCodegenTest {
         final List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"), "value instanceof Map");
+        assertFileContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"), "value instanceof Map");
     }
 
     @Test
@@ -2711,7 +2710,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/UsersApi.java"),
                 // set of string
                 "ParameterizedTypeReference<Set<String>> localVarReturnType = new"
@@ -2738,7 +2737,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/ResourceApi.java"),
                 "org.springframework.core.io.Resource resourceInResponse()",
                 "ResponseEntity<org.springframework.core.io.Resource> resourceInResponseWithHttpInfo()",
@@ -3179,7 +3178,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
                 "import com.fasterxml.jackson.dataformat.xml.XmlMapper;",
                 "import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;"
@@ -3201,7 +3200,7 @@ public class JavaClientCodegenTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public record DeletePetRequest(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey){}",
                 "public void deletePet(DeletePetRequest requestParameters) throws RestClientResponseException {",
@@ -3228,7 +3227,7 @@ public class JavaClientCodegenTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public static class DeletePetRequest {",
                 "DeletePetRequest(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey)",
@@ -3264,12 +3263,12 @@ public class JavaClientCodegenTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 " void getObject("
         );
 
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/UserApi.java"),
                 " void getObject("
         );
@@ -3300,7 +3299,7 @@ public class JavaClientCodegenTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public class DeletePetRequest {",
                 "DeletePetRequest(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey)",
@@ -3330,7 +3329,7 @@ public class JavaClientCodegenTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public static class DeletePetRequest {",
                 "DeletePetRequest(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey)",
@@ -3360,7 +3359,7 @@ public class JavaClientCodegenTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public static class DeletePetRequest {",
                 "DeletePetRequest(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey)",
@@ -3391,7 +3390,7 @@ public class JavaClientCodegenTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/ATagApi.java"),
                 " getCall(@javax.annotation.Nonnull String pathParameter, @javax.annotation.Nullable Integer queryParameter, final ApiCallback _callback)"
         );
@@ -3682,7 +3681,7 @@ public class JavaClientCodegenTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileContains(
+        assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public static final class APIDeletePetRequest {",
                 "private APIDeletePetRequest(Builder builder) {",
@@ -3723,5 +3722,87 @@ public class JavaClientCodegenTest {
         String fileContent = Files.readString(testModel.toPath());
         TestUtils.assertValidJavaSourceCode(fileContent);
         TestUtils.assertFileNotContains(testModel.toPath(), "com.fasterxml.jackson");
+    }
+
+    @DataProvider(name = "sealedInterfaceScenarios")
+    public static Object[][] sealedInterfaceScenarios() {
+        return new Object[][]{
+                {"oneof_polymorphism_and_inheritance.yaml", Map.of(
+                        "Foo.java", "public final class Foo extends Entity implements FooRefOrValue",
+                        "FooRef.java", "public final class FooRef extends EntityRef implements FooRefOrValue",
+                        "FooRefOrValue.java", "public sealed interface FooRefOrValue permits Foo, FooRef {")},
+                {"oneOf_additionalProperties.yaml", Map.of(
+                        "SchemaA.java", "public final class SchemaA implements PostRequest  {",
+                        "PostRequest.java", "public sealed interface PostRequest permits SchemaA {")},
+                {"oneOf_array.yaml", Map.of(
+                        "MyExampleGet200Response.java", "public sealed interface MyExampleGet200Response",
+                        "OneOf1.java", "public final class OneOf1 implements MyExampleGet200Response  {")},
+                {"oneOf_duplicateArray.yaml", Map.of(
+                        "Example.java", "public interface Example  {")},
+                {"oneOf_nonPrimitive.yaml", Map.of(
+                        "Example.java", "public interface Example  {")},
+                {"oneOf_primitive.yaml", Map.of(
+                        "Child.java", "public final class Child implements Example  {",
+                        "Example.java", "public sealed interface Example permits Child {")},
+                {"oneOf_primitiveAndArray.yaml", Map.of(
+                        "Example.java", "public interface Example  {")},
+                {"oneOf_reuseRef.yaml", Map.of(
+                        "Fruit.java", "public sealed interface Fruit permits Apple, Banana {",
+                        "Banana.java", "public final class Banana implements Fruit  {",
+                        "Apple.java", "public final class Apple implements Fruit  {")},
+                {"oneOf_twoPrimitives.yaml", Map.of(
+                        "MyExamplePostRequest.java", "public interface MyExamplePostRequest  {")},
+                {"oneOfArrayMapImport.yaml", Map.of(
+                        "Fruit.java", "public interface Fruit  {",
+                        "Grape.java", "public class Grape  {",
+                        "Apple.java", "public class Apple  {")},
+                {"oneOfDiscriminator.yaml", Map.of(
+                        "FruitAllOfDisc.java", "public sealed interface FruitAllOfDisc permits AppleAllOfDisc, BananaAllOfDisc {",
+                        "AppleAllOfDisc.java", "public final class AppleAllOfDisc implements FruitAllOfDisc  {",
+                        "BananaAllOfDisc.java", "public final class BananaAllOfDisc implements FruitAllOfDisc  {",
+                        "FruitReqDisc.java", "public sealed interface FruitReqDisc permits AppleReqDisc, BananaReqDisc {",
+                        "AppleReqDisc.java", "public final class AppleReqDisc implements FruitReqDisc  {",
+                        "BananaReqDisc.java", "public final class BananaReqDisc implements FruitReqDisc  {")}
+        };
+    }
+
+    @Test(dataProvider = "sealedInterfaceScenarios")
+    public void sealedInterfaceScenariosRestClient(String apiFile, Map<String, String> definitions) {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        USE_ONE_OF_INTERFACES, "true",
+                        USE_SEALED_ONE_OF_INTERFACES, "true"
+                ))
+                .setInputSpec("src/test/resources/3_0/" + apiFile)
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        definitions.forEach((file, check) ->
+                assertFileContains(output.resolve("src/main/java/org/openapitools/client/model/" + file), check));
+    }
+
+    @Test(dataProvider = "sealedInterfaceScenarios")
+    public void sealedInterfaceScenariosWebClient(String apiFile, Map<String, String> definitions) {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(WEBCLIENT)
+                .setAdditionalProperties(Map.of(
+                        USE_ONE_OF_INTERFACES, "true",
+                        USE_SEALED_ONE_OF_INTERFACES, "true"
+                ))
+                .setInputSpec("src/test/resources/3_0/" + apiFile)
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        definitions.forEach((file, check) ->
+                assertFileContains(output.resolve("src/main/java/org/openapitools/client/model/" + file), check));
+        assertFileContains(output.resolve("pom.xml"), "<source>17</source>");
+        assertFileNotContains(output.resolve("pom.xml"), "<source>1.8</source>");
     }
 }

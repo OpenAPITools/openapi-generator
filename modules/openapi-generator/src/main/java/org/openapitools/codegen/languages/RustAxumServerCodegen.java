@@ -61,6 +61,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private Boolean allowBlockingValidator = false;
     private Boolean allowBlockingResponseSerialize = false;
     private String externCrateName;
+    private Boolean basicAuthorization = false;
+    private Boolean basicAnalytic = false;
+    private Boolean ownedRequest = false;
 
     // Types
     private static final String uuidType = "uuid::Uuid";
@@ -286,7 +289,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             LOGGER.info("Warning: Environment variable 'RUST_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
+        if (!ModelUtils.isGenerateAliasAsModel()) {
             LOGGER.warn("generateAliasAsModel is set to false, which means array/map will be generated as model instead and the resulting code may have issues. Please enable `generateAliasAsModel` to address the issue.");
         }
 
@@ -315,6 +318,24 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             allowBlockingResponseSerialize = convertPropertyToBooleanAndWriteBack("allowBlockingResponseSerialize");
         } else {
             additionalProperties.put("allowBlockingResponseSerialize", allowBlockingResponseSerialize);
+        }
+
+        if (additionalProperties.containsKey("basicAuthorization")) {
+            basicAuthorization = convertPropertyToBooleanAndWriteBack("basicAuthorization");
+        } else {
+            additionalProperties.put("basicAuthorization", basicAuthorization);
+        }
+
+        if (additionalProperties.containsKey("basicAnalytic")) {
+            basicAnalytic = convertPropertyToBooleanAndWriteBack("basicAnalytic");
+        } else {
+            additionalProperties.put("basicAnalytic", basicAnalytic);
+        }
+
+        if (additionalProperties.containsKey("ownedRequest")) {
+            ownedRequest = convertPropertyToBooleanAndWriteBack("ownedRequest");
+        } else {
+            additionalProperties.put("ownedRequest", ownedRequest);
         }
     }
 
@@ -722,6 +743,21 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             operations.put("havingAuthMethod", true);
             operations.getOperation().forEach(op -> op.vendorExtensions.put("havingAuthMethod", true));
             this.havingAuthMethods = true;
+
+            if (basicAuthorization) {
+                operations.put("basicAuthorization", true);
+                operations.getOperation().forEach(op -> op.vendorExtensions.put("basicAuthorization", true));
+            }
+        }
+
+        if (basicAnalytic) {
+            operations.put("basicAnalytic", true);
+            operations.getOperation().forEach(op -> op.vendorExtensions.put("basicAnalytic", true));
+        }
+
+        if (ownedRequest) {
+            operations.put("ownedRequest", true);
+            operations.getOperation().forEach(op -> op.vendorExtensions.put("ownedRequest", true));
         }
 
         return operationsMap;
@@ -981,6 +1017,22 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         if (isObjectType(property.baseType)) {
             property.dataType = objectType;
             property.isNullable = false;
+        }
+
+        if (property.dataType.startsWith(vecType + "<String")) {
+            property.vendorExtensions.put("is-vec-string", true);
+        } else if (property.dataType.startsWith(vecType + "<models::")) {
+            property.vendorExtensions.put("is-vec-nested", true);
+        } else if (property.dataType.startsWith(mapType + "<String, String")) {
+            property.vendorExtensions.put("is-map-string", true);
+        } else if (property.dataType.startsWith(mapType + "<String, models::")) {
+            property.vendorExtensions.put("is-map-nested", true);
+        } else if (property.dataType.startsWith(mapType + "<String")) {
+            property.vendorExtensions.put("is-map", true);
+        } else if (property.dataType.startsWith("models::")) {
+            property.vendorExtensions.put("is-nested", true);
+        } else if (stringType.equals(property.dataType)) {
+            property.vendorExtensions.put("is-string", true);
         }
     }
 
