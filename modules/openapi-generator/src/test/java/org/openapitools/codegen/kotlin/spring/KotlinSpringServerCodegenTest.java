@@ -41,10 +41,6 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.KotlinSpringServerCodegen.REACTIVE;
-import static org.openapitools.codegen.languages.KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION;
-import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 
@@ -214,7 +210,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(codegen.getServiceInterface());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
         Assert.assertTrue(codegen.getServiceImplementation());
-        Assert.assertEquals(codegen.additionalProperties().get(SERVICE_IMPLEMENTATION), true);
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
         Assert.assertFalse(codegen.getUseBeanValidation());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
         Assert.assertFalse(codegen.isReactive());
@@ -233,7 +229,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.EXCEPTION_HANDLER, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.GRADLE_BUILD_FILE, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_INTERFACE, true);
-        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
         codegen.processOpts();
@@ -259,7 +255,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(codegen.getServiceInterface());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
         Assert.assertTrue(codegen.getServiceImplementation());
-        Assert.assertEquals(codegen.additionalProperties().get(SERVICE_IMPLEMENTATION), true);
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
         Assert.assertFalse(codegen.getUseBeanValidation());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
         Assert.assertFalse(codegen.isReactive());
@@ -797,8 +793,8 @@ public class KotlinSpringServerCodegenTest {
     @Test
     public void givenNonRequiredMultipartFileArray_whenGenerateDelegateAndService_thenParameterIsCreatedAsNullableListOfMultipartFile() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(DELEGATE_PATTERN, true);
-        additionalProperties.put(SERVICE_IMPLEMENTATION, true);
+        additionalProperties.put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
+        additionalProperties.put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
 
         Map<String, String> generatorPropertyDefaults = new HashMap<>();
         generatorPropertyDefaults.put(CodegenConstants.MODELS, "false");
@@ -824,8 +820,8 @@ public class KotlinSpringServerCodegenTest {
     @Test
     public void givenMultipartBinaryArray_whenGenerateDelegateAndService_correctMultipartFileIsCreated() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(DELEGATE_PATTERN, true);
-        additionalProperties.put(SERVICE_IMPLEMENTATION, true);
+        additionalProperties.put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
+        additionalProperties.put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
 
         Map<String, String> generatorPropertyDefaults = new HashMap<>();
         generatorPropertyDefaults.put(CodegenConstants.MODELS, "false");
@@ -864,9 +860,9 @@ public class KotlinSpringServerCodegenTest {
     @Test
     public void givenMultipartBinaryArray_whenGenerateReactiveDelegateAndService_correctPartIsCreated() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(DELEGATE_PATTERN, true);
-        additionalProperties.put(SERVICE_IMPLEMENTATION, true);
-        additionalProperties.put(REACTIVE, true);
+        additionalProperties.put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
+        additionalProperties.put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
+        additionalProperties.put(KotlinSpringServerCodegen.REACTIVE, true);
 
         Map<String, String> generatorPropertyDefaults = new HashMap<>();
         generatorPropertyDefaults.put(CodegenConstants.MODELS, "false");
@@ -1062,7 +1058,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
-        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
@@ -1107,7 +1103,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
-        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
@@ -1153,7 +1149,7 @@ public class KotlinSpringServerCodegenTest {
         // should use default 'true' instead
         // codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
-        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
@@ -1198,7 +1194,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
-        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
@@ -1243,7 +1239,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
-        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
@@ -1371,7 +1367,7 @@ public class KotlinSpringServerCodegenTest {
             .setAdditionalProperties(additionalProperties)
             .setValidateSpec(false)
             .setInputSpec(url)
-            .setLibrary(SPRING_BOOT)
+            .setLibrary(KotlinSpringServerCodegen.SPRING_BOOT)
             .setOutputDir(output.getAbsolutePath());
 
         consumer.accept(configurator);
