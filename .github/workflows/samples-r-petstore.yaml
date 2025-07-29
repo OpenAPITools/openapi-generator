@@ -31,7 +31,6 @@ jobs:
         with:
           r-version: 3.6.1
       - uses: r-lib/actions/setup-r-dependencies@v2
-        working-directory: ${{ matrix.sample }}
         with:
           cache-version: 2
       - name: Install curl
