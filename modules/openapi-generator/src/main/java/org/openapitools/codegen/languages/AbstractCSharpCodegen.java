@@ -653,14 +653,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                         property.isNullable = true;
                         patchPropertyVendorExtensions(property);
                         property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
-
-                        if (!property.isEnum) {
-                            CodegenModel composedOf = ModelUtils.getModelByName(property.name, processed);
-                            if (composedOf != null) {
-                                property.isEnum = composedOf.isEnum;
-                                patchPropertyVendorExtensions(property);
-                            }
-                        }
                     }
                 }
             }
