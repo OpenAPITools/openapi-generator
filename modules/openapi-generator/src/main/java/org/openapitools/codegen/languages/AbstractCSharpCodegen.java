@@ -762,6 +762,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         return value;
     }
 
+    /** 
+     * Fixes nested maps so the generic type is defined
+     * Convertes List<List>> to List<List<T>>
+     */
     private String patchPropertyName(CodegenModel model, CodegenProperty property, String value, Set<String> composedPropertyNames) {
         value = setUniquePropertyName(model, property, value);
 
@@ -854,37 +858,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
         if (property.datatypeWithEnum.equals("decimal")) {
             property.isDecimal = true;
-        }
-    }
-
-    private void patchNestedMaps(CodegenProperty property) {
-        // Process nested types before making any replacements to ensure we have the correct inner type
-        if (property.items != null) {
-            patchNestedMaps(property.items);
-        }
-
-        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
-        
-        if (property.datatypeWithEnum != null) {
-            String originalType = property.datatypeWithEnum;
-            
-            for (String nestedType : nestedTypes) {
-                // fix incorrect data types for maps of maps
-                if (property.items != null) {
-                    if (property.datatypeWithEnum.contains(", " + nestedType + ">")) {
-                        property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + nestedType + ">", ", " + property.items.datatypeWithEnum + ">");
-                    }
-
-                    if (property.datatypeWithEnum.contains("<" + nestedType + ">")) {
-                        property.datatypeWithEnum = property.datatypeWithEnum.replace("<" + nestedType + ">", "<" + property.items.datatypeWithEnum + ">");
-                    }
-                }
-            }
-
-            // Only update dataType if we actually made changes
-            if (!originalType.equals(property.datatypeWithEnum)) {
-                property.dataType = property.datatypeWithEnum;
-            }
         }
     }
 
