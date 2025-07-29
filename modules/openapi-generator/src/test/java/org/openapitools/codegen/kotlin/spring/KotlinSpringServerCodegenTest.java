@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
@@ -40,6 +41,9 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.KotlinSpringServerCodegen.REACTIVE;
+import static org.openapitools.codegen.languages.KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION;
+import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
 import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
@@ -210,7 +214,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(codegen.getServiceInterface());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
         Assert.assertTrue(codegen.getServiceImplementation());
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
+        Assert.assertEquals(codegen.additionalProperties().get(SERVICE_IMPLEMENTATION), true);
         Assert.assertFalse(codegen.getUseBeanValidation());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
         Assert.assertFalse(codegen.isReactive());
@@ -229,7 +233,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.EXCEPTION_HANDLER, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.GRADLE_BUILD_FILE, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_INTERFACE, true);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
         codegen.processOpts();
@@ -255,7 +259,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(codegen.getServiceInterface());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
         Assert.assertTrue(codegen.getServiceImplementation());
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
+        Assert.assertEquals(codegen.additionalProperties().get(SERVICE_IMPLEMENTATION), true);
         Assert.assertFalse(codegen.getUseBeanValidation());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
         Assert.assertFalse(codegen.isReactive());
@@ -792,143 +796,118 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void givenNonRequiredMultipartFileArray_whenGenerateDelegateAndService_thenParameterIsCreatedAsNullableListOfMultipartFile() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(DELEGATE_PATTERN, true);
+        additionalProperties.put(SERVICE_IMPLEMENTATION, true);
 
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/petstore-with-tags.yaml");
-        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.setDelegatePattern(true);
-        // this will generate the service interface & implementation files
-        codegen.setServiceImplementation(true);
+        Map<String, String> generatorPropertyDefaults = new HashMap<>();
+        generatorPropertyDefaults.put(CodegenConstants.MODELS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_TESTS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_DOCS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.APIS, "true");
+        generatorPropertyDefaults.put(CodegenConstants.SUPPORTING_FILES, "false");
 
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/kotlin/petstore-with-tags.yaml",
+            additionalProperties,
+            generatorPropertyDefaults
+        );
 
-        DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-
-        generator.opts(input).generate();
-
-        Path delegateFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiDelegate.kt");
-        assertFileContains(delegateFile, "additionalMetadata: kotlin.String?");
-        assertFileContains(delegateFile, "images: Array<org.springframework.web.multipart.MultipartFile>?)");
-
-        Path controllerFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApi.kt");
-        assertFileContains(controllerFile, "additionalMetadata: kotlin.String?");
-        assertFileContains(controllerFile, "images: Array<org.springframework.web.multipart.MultipartFile>?)");
-
-        Path serviceFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiService.kt");
-        assertFileContains(serviceFile, "additionalMetadata: kotlin.String?");
-        assertFileContains(serviceFile, "images: Array<org.springframework.web.multipart.MultipartFile>?)");
-
-        Path serviceImplFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiServiceImpl.kt");
-        assertFileContains(serviceImplFile, "additionalMetadata: kotlin.String?");
-        assertFileContains(serviceImplFile, "images: Array<org.springframework.web.multipart.MultipartFile>?)");
+        validateMultipartFiles(
+            files,
+            "Pet",
+            "additionalMetadata: kotlin.String?",
+            "images: Array<org.springframework.web.multipart.MultipartFile>?)"
+        );
     }
 
     @Test
     public void givenMultipartBinaryArray_whenGenerateDelegateAndService_correctMultipartFileIsCreated() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(DELEGATE_PATTERN, true);
+        additionalProperties.put(SERVICE_IMPLEMENTATION, true);
 
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/form-multipart-binary-array.yaml");
-        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.setDelegatePattern(true);
-        // this will generate the service interface & implementation files
-        codegen.setServiceImplementation(true);
+        Map<String, String> generatorPropertyDefaults = new HashMap<>();
+        generatorPropertyDefaults.put(CodegenConstants.MODELS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_TESTS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_DOCS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.APIS, "true");
+        generatorPropertyDefaults.put(CodegenConstants.SUPPORTING_FILES, "false");
 
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-
-        generator.opts(input).generate();
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/form-multipart-binary-array.yaml",
+            additionalProperties,
+            generatorPropertyDefaults
+        );
 
         validateMultipartFiles(
-            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartArray",
+            files,
+            "MultipartArray",
             "files: Array<org.springframework.web.multipart.MultipartFile>?)"
         );
 
         validateMultipartFiles(
-            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartMixed",
+            files,
+            "MultipartMixed",
             "file: org.springframework.web.multipart.MultipartFile,",
             "marker: MultipartMixedRequestMarker?",
             "statusArray: kotlin.collections.List<MultipartMixedStatus>?"
         );
 
         validateMultipartFiles(
-            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartSingle",
+            files,
+            "MultipartSingle",
             "file: org.springframework.web.multipart.MultipartFile?"
         );
     }
 
     @Test
     public void givenMultipartBinaryArray_whenGenerateReactiveDelegateAndService_correctPartIsCreated() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(DELEGATE_PATTERN, true);
+        additionalProperties.put(SERVICE_IMPLEMENTATION, true);
+        additionalProperties.put(REACTIVE, true);
 
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/form-multipart-binary-array.yaml");
-        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.setDelegatePattern(true);
-        // this will generate the service interface & implementation files
-        codegen.setServiceImplementation(true);
-        codegen.setReactive(true);
+        Map<String, String> generatorPropertyDefaults = new HashMap<>();
+        generatorPropertyDefaults.put(CodegenConstants.MODELS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_TESTS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_DOCS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.APIS, "true");
+        generatorPropertyDefaults.put(CodegenConstants.SUPPORTING_FILES, "false");
 
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-//        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-
-        generator.opts(input).generate();
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/form-multipart-binary-array.yaml",
+            additionalProperties,
+            generatorPropertyDefaults
+        );
 
         validateMultipartFiles(
-            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartArray",
+            files,
+            "MultipartArray",
             "files: Flux<org.springframework.http.codec.multipart.Part>?)"
         );
 
         validateMultipartFiles(
-            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartMixed",
+            files,
+            "MultipartMixed",
             "file: org.springframework.http.codec.multipart.Part,",
             "marker: MultipartMixedRequestMarker?",
             "statusArray: kotlin.collections.List<MultipartMixedStatus>?"
         );
 
         validateMultipartFiles(
-            outputPath + "/src/main/kotlin/org/openapitools/api/MultipartSingle",
+            files,
+            "MultipartSingle",
             "file: org.springframework.http.codec.multipart.Part?"
         );
     }
 
+    /**
+     * Utility function to help validate that all delegate, service & api code generated for
+     * schemas with multipart-form-data have the same lines.
+     */
     private void validateMultipartFiles(
+        Map<String, File> files,
         String filePrefix,
         String... lines
     ) {
@@ -938,23 +917,16 @@ public class KotlinSpringServerCodegenTest {
                 filePrefix + "ApiServiceImpl.kt",
                 filePrefix + "Api.kt"
             )
-            .map(Paths::get)
+            .map(files::get)
+            .map(Objects::requireNonNull)
+            .map(File::toPath)
             .forEach(path -> {
                 try {
-                    validateMultipartFile(path, lines);
+                    TestUtils.assertFileContains(path, lines);
                 } catch (AssertionError e) {
                     throw new AssertionError(path.toString() + " does not contain a line", e);
                 }
             });
-    }
-
-    private void validateMultipartFile(
-        Path filePath,
-        String... lines
-    ) {
-        for(String line : lines) {
-            assertFileContains(filePath, line);
-        }
     }
 
     @Test
@@ -1090,7 +1062,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
@@ -1135,7 +1107,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
@@ -1181,7 +1153,7 @@ public class KotlinSpringServerCodegenTest {
         // should use default 'true' instead
         // codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
@@ -1226,7 +1198,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
@@ -1271,7 +1243,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
