@@ -206,8 +206,21 @@
 
       {{/requiredParams}}
       {{#allParams}}
+      {{^isNullable}}
+      if (!missing(`{{paramName}}`) && is.null(`{{paramName}}`)) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, `{{paramName}}` is not nullable")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, `{{paramName}}` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, `{{paramName}}` is not nullable"))
+        {{/useRlangExceptionHandling}}
+      }
+      {{/isNullable}}
       {{#maxLength}}
-      if (nchar(`{{paramName}}`) > {{maxLength}}) {
+      if (!is.null(`{{paramName}}`) && nchar(`{{paramName}}`) > {{maxLength}}) {
         {{#useDefaultExceptionHandling}}
         stop("Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, must be smaller than or equal to {{maxLength}}.")
         {{/useDefaultExceptionHandling}}
@@ -220,7 +233,7 @@
       }
       {{/maxLength}}
       {{#minLength}}
-      if (nchar(`{{paramName}}`) < {{minLength}}) {
+      if (!is.null(`{{paramName}}`) && nchar(`{{paramName}}`) < {{minLength}}) {
         {{#useDefaultExceptionHandling}}
         stop("Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, must be bigger than or equal to {{minLength}}.")
         {{/useDefaultExceptionHandling}}
@@ -233,7 +246,7 @@
       }
       {{/minLength}}
       {{#maximum}}
-      if (`{{paramName}}` >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
+      if (!is.null(`{{paramName}}`) && `{{paramName}}` > {{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
         {{#useDefaultExceptionHandling}}
         stop("Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.")
         {{/useDefaultExceptionHandling}}
@@ -246,7 +259,7 @@
       }
       {{/maximum}}
       {{#minimum}}
-      if (`{{paramName}}` <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
+      if (!is.null(`{{paramName}}`) && `{{paramName}}` < {{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
         {{#useDefaultExceptionHandling}}
         stop("Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.")
         {{/useDefaultExceptionHandling}}
@@ -259,7 +272,7 @@
       }
       {{/minimum}}
       {{#pattern}}
-      if (!str_detect(`{{paramName}}`, "{{{pattern}}}")) {
+      if (!is.null(`{{paramName}}`) && !stringr::str_detect(`{{paramName}}`, "{{{pattern}}}")) {
         {{#useDefaultExceptionHandling}}
         stop("Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must conform to the pattern {{{pattern}}}.")
         {{/useDefaultExceptionHandling}}
@@ -272,7 +285,7 @@
       }
       {{/pattern}}
       {{#maxItems}}
-      if (length(`{{paramName}}`) > {{maxItems}}) {
+      if (!is.null(`{{paramName}}`) && length(`{{paramName}}`) > {{maxItems}}) {
         {{#useDefaultExceptionHandling}}
         stop("Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, number of items must be less than or equal to {{maxItems}}.")
         {{/useDefaultExceptionHandling}}
@@ -285,7 +298,7 @@
       }
       {{/maxItems}}
       {{#minItems}}
-      if (length(`{{paramName}}`) < {{minItems}}) {
+      if (!is.null(`{{paramName}}`) && length(`{{paramName}}`) < {{minItems}}) {
         {{#useDefaultExceptionHandling}}
         stop("Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, number of items must be greater than or equal to {{minItems}}.")
         {{/useDefaultExceptionHandling}}
@@ -307,7 +320,7 @@
       {{#isArray}}
       {{#uniqueItems}}
       # check if items are unique
-      if (!identical(`{{{paramName}}}`, unique(`{{{paramName}}}`))) {
+      if (!is.null(`{{paramName}}`) && !identical(`{{{paramName}}}`, unique(`{{{paramName}}}`))) {
         {{#useDefaultExceptionHandling}}
         stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Items must be unique.")
         {{/useDefaultExceptionHandling}}
