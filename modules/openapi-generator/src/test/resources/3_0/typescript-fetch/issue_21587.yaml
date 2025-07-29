@@ -20,6 +20,9 @@ paths:
                 oneOf:
                   - $ref: '#/components/schemas/OptionOne'
                   - $ref: '#/components/schemas/OptionTwo'
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/OptionThree'
                   - type: string
                     enum:
                       - "fixed-value-a"
@@ -67,3 +70,10 @@ components:
       properties:
         propTwo:
           type: string
+    OptionThree:
+      type: object
+      title: OptionThree
+      properties:
+        propThree:
+          type: boolean
+      additionalProperties: true

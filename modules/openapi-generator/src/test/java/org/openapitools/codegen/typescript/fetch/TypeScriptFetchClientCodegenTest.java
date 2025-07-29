@@ -441,6 +441,7 @@ public class TypeScriptFetchClientCodegenTest {
         );
         TestUtils.assertFileContains(testResponse, "import type { OptionOne } from './OptionOne'");
         TestUtils.assertFileContains(testResponse, "import type { OptionTwo } from './OptionTwo'");
+        TestUtils.assertFileContains(testResponse, "import type { OptionThree } from './OptionThree'");
     }
 
     private static File generate(
