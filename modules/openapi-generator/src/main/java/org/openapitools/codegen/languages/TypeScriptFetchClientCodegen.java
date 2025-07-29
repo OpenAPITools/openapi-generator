@@ -787,10 +787,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 .map(CodegenComposedSchemas::getOneOf)
                 .orElse(Collections.emptyList());
 
-        // create a set of any non-primitive types used in the oneOf schemas which will need to
-        // be imported.
+        // create a set of any non-primitive, non-array types used in the oneOf schemas which will
+        // need to be imported.
         cm.oneOfModels = oneOfsList.stream()
-                .filter(cp -> !cp.getIsPrimitiveType())
+                .filter(cp -> !cp.getIsPrimitiveType() && !cp.getIsArray())
                 .map(CodegenProperty::getBaseType)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(TreeSet::new));
