@@ -49,7 +49,6 @@ components:
           items:
             type: string
             enum:
-              # It seems enums within arrays don't work. Leaving this here, though
               - "oneof-array-enum-a"
               - "oneof-array-enum-b"
               - "oneof-array-enum-c"
