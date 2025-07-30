@@ -1100,7 +1100,8 @@ components:
         ref_array_prefix_items:
           description: |
             An item that was added to the queue.
-          items: {}
+          items:
+            type: object
           maxItems: 5
           minItems: 3
           type: array
