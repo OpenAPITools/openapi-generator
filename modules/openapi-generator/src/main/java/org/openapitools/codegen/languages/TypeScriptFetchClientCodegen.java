@@ -787,21 +787,26 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 .map(CodegenComposedSchemas::getOneOf)
                 .orElse(Collections.emptyList());
 
+        // create a set of any non-primitive, non-array types used in the oneOf schemas which will
+        // need to be imported.
         cm.oneOfModels = oneOfsList.stream()
-                .filter(CodegenProperty::getIsModel)
+                .filter(cp -> !cp.getIsPrimitiveType() && !cp.getIsArray())
                 .map(CodegenProperty::getBaseType)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(TreeSet::new));
 
+        // create a set of any complex, inner types used by arrays in the oneOf schema (e.g. if
+        // the oneOf uses Array<Foo>, Foo needs to be imported).
         cm.oneOfArrays = oneOfsList.stream()
                 .filter(CodegenProperty::getIsArray)
                 .map(CodegenProperty::getComplexType)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(TreeSet::new));
 
+        // create a set of primitive types used in the oneOf schemas for use in the to & from
+        // typed JSON methods.
         cm.oneOfPrimitives = oneOfsList.stream()
                 .filter(CodegenProperty::getIsPrimitiveType)
-                .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(HashSet::new));
 
         if (!cm.oneOf.isEmpty()) {
@@ -1485,6 +1490,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         @Getter @Setter
         public Set<String> modelImports = new TreeSet<String>();
 
+        // oneOfModels, oneOfArrays & oneOfPrimitives contain a list of types used in schemas
+        // composed with oneOf and are used to define the import list and the to & from
+        // 'TypedJSON' conversion methods in the composed model classes.
         @Getter @Setter
         public Set<String> oneOfModels = new TreeSet<>();
         @Getter @Setter

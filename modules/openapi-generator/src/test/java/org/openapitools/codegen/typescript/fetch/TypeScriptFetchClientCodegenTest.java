@@ -7,6 +7,8 @@ import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import java.util.Collections;
+import java.util.Locale;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -402,6 +404,44 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testDiscriminatorResponse, "import type { OptionOne } from './OptionOne'");
         TestUtils.assertFileContains(testDiscriminatorResponse, "import type { OptionTwo } from './OptionTwo'");
         TestUtils.assertFileContains(testDiscriminatorResponse, "export type TestDiscriminatorResponse = { discriminatorField: 'optionOne' } & OptionOne | { discriminatorField: 'optionTwo' } & OptionTwo");
+    }
+
+    /**
+     * Issue #21587
+     * When using oneOf, the Typescript Fetch generator should import modelled types except for
+     * types built-in primitive types, even those marked with additional properties.
+     */
+    @Test()
+    public void testOneOfModelsImportNonPrimitiveTypes() throws IOException {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/issue_21587.yaml"
+        );
+
+        Path testResponse = Paths.get(output + "/models/OneOfResponse.ts");
+        TestUtils.assertFileExists(testResponse);
+
+        // Primitive built-in types should not be included. This list is based off the type mappings
+        // and language specific primitive keywords established in the AbstractTypeScriptClientCodegen
+        Stream.of(
+            "Set",
+            "Array",
+            "boolean",
+            "string",
+            "number",
+            "object",
+            "any",
+            "Date",
+            "Error"
+        ).forEach(primitiveType ->
+            TestUtils.assertFileNotContains(
+                testResponse,
+                String.format(Locale.ROOT, "import type { %s } from './%s'", primitiveType, primitiveType)
+            )
+        );
+        TestUtils.assertFileContains(testResponse, "import type { OptionOne } from './OptionOne'");
+        TestUtils.assertFileContains(testResponse, "import type { OptionTwo } from './OptionTwo'");
+        TestUtils.assertFileContains(testResponse, "import type { OptionThree } from './OptionThree'");
     }
 
     private static File generate(
