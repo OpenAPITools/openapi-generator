@@ -3,10 +3,10 @@ name: Samples Go Clients
 on:
   push:
     paths:
-      - 'samples/openapi3/client/petstore/go-petstore-aws-signature/**'
+      - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
   pull_request:
     paths:
-      - 'samples/openapi3/client/petstore/go-petstore-aws-signature/**'
+      - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          - 'samples/openapi3/client/petstore/go-petstore-aws-signature/**'
+          - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
