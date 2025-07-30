@@ -1440,15 +1440,24 @@ public class ModelUtils {
                     Schema<?> unwrapped = unaliasSchema(openAPI, copyObj, schemaMappings);
                     return mergeSiblingFields(schema, unwrapped);
                 }
-            }
+            } else {
+                boolean isFreeFormAny =
+                        !isArraySchema(ref) &&
+                                !isMapSchema(ref) &&
+                                !isEnumSchema(ref) &&
+                                !isComposedSchema(ref) &&
+                                (ref.getProperties() == null || ref.getProperties().isEmpty()) &&
+                                ref.getDefault() == null &&
+                                ref.getExample() == null &&
+                                !isGenerateAliasAsModel(ref);
 
-            // Primitive fallback alias
-            {
-                // ↳ fully unwrap a simple/primitive alias
-                Schema copyPrim = deepCopy(ref);        // deep-copy primitive definition
+                if (isFreeFormAny) {
+                    return unaliasSchema(openAPI, ref, schemaMappings);
+                }
+                Schema<?> copyPrim = deepCopy(ref);
                 if (copyPrim == null) return ref;
-                copyPrim.set$ref(null);                 // clear its $ref to avoid recursion
-                Schema unwrapped = unaliasSchema(openAPI, copyPrim, schemaMappings);
+                copyPrim.set$ref(null);  // clear its $ref to avoid recursion
+                Schema<?> unwrapped = unaliasSchema(openAPI, copyPrim, schemaMappings);
                 return mergeSiblingFields(schema, unwrapped);
             }
         }
