@@ -20,8 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
-        with:
-          go-version: "stable"
       - run: go version
       - name: Install Dependencies
         working-directory: ${{ matrix.sample }}
