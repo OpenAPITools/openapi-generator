@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.config;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -120,5 +122,15 @@ public class CodegenConfiguratorTest {
         // test custom properties
         want(props, "foo", "bar");
         want(props, "baz", "quux");
+    }
+
+    @Test
+    public void resolvesResponses() {
+        @SuppressWarnings("unchecked") Context<OpenAPI> context = (Context<OpenAPI>) new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_0/response-ref.yaml")
+                .setGeneratorName("java")
+                .toContext();
+
+        Assertions.assertNotNull(context.getSpecDocument().getPaths().get("/hello").getGet().getResponses().get("200").getContent());
     }
 }

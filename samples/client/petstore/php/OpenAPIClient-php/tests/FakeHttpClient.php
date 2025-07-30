@@ -27,7 +27,7 @@ class FakeHttpClient implements ClientInterface
     /**
      * @param null|ResponseInterface $response
      */
-    public function setResponse(ResponseInterface $response = null)
+    public function setResponse(?ResponseInterface $response = null)
     {
         $this->response = $response;
     }

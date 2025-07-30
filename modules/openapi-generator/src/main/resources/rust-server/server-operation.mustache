@@ -6,7 +6,7 @@
                         Some(ref authorization) => authorization,
                         None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
-                                                .body(Body::from("Unauthenticated"))
+                                                .body(body_from_str("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
                     };
                     {{#authMethods}}
@@ -24,9 +24,9 @@
                             let missing_scopes = required_scopes.difference(scopes);
                             return Ok(Response::builder()
                                 .status(StatusCode::FORBIDDEN)
-                                .body(Body::from(missing_scopes.fold(
+                                .body(BoxBody::new(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope))
+                                    |s, scope| format!("{s} {scope}"))
                                 ))
                                 .expect("Unable to create Authentication Insufficient response")
                             );
@@ -56,12 +56,12 @@
                         Ok(param_{{{paramName}}}) => param_{{{paramName}}},
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter {{{baseName}}}: {}", e)))
+                                        .body(body_from_string(format!("Couldn't parse path parameter {{{baseName}}}: {e}")))
                                         .expect("Unable to create Bad Request response for invalid path parameter")),
                     },
                     Err(_) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["{{{baseName}}}"])))
+                                        .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["{{{baseName}}}"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode"))
                 };
 
@@ -89,7 +89,7 @@
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Invalid header {{{baseName}}} - {}", err)))
+                                        .body(body_from_string(format!("Invalid header {{{baseName}}} - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header {{{baseName}}}"));
 
                         },
@@ -98,7 +98,7 @@
 {{#required}}
                         return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from("Missing required header {{{baseName}}}"))
+                                        .body(body_from_str("Missing required header {{{baseName}}}"))
                                         .expect("Unable to create Bad Request response for missing required header {{{baseName}}}"));
 {{/required}}
 {{^required}}
@@ -139,7 +139,7 @@
                             Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
-                                .body(Body::from(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {}", e)))
+                                .body(body_from_string(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter {{{baseName}}}")),
                         }
                     },
@@ -150,7 +150,7 @@
                     Some(param_{{{paramName}}}) => param_{{{paramName}}},
                     None => return Ok(Response::builder()
                         .status(StatusCode::BAD_REQUEST)
-                        .body(Body::from("Missing required query parameter {{{baseName}}}"))
+                        .body(body_from_str("Missing required query parameter {{{baseName}}}"))
                         .expect("Unable to create Bad Request response for missing query parameter {{{baseName}}}")),
                 };
       {{/required}}
@@ -172,7 +172,7 @@
                             Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
                             Err(e) => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
-                                .body(Body::from(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {}", e)))
+                                .body(body_from_string(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {e}")))
                                 .expect("Unable to create Bad Request response for invalid query parameter {{{baseName}}}")),
                         }
                     },
@@ -183,7 +183,7 @@
                     Some(param_{{{paramName}}}) => param_{{{paramName}}},
                     None => return Ok(Response::builder()
                         .status(StatusCode::BAD_REQUEST)
-                        .body(Body::from("Missing required query parameter {{{baseName}}}"))
+                        .body(body_from_str("Missing required query parameter {{{baseName}}}"))
                         .expect("Unable to create Bad Request response for missing query parameter {{{baseName}}}")),
                 };
     {{/required}}
@@ -196,7 +196,7 @@
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.into_raw().await;
+                let result = http_body_util::BodyExt::collect(body).await.map(|f| f.to_bytes().to_vec());
                 match result {
                      Ok(body) => {
   {{^vendorExtensions.x-consumes-multipart-form}}
@@ -207,6 +207,7 @@
     {{/vendorExtensions.x-consumes-form}}
   {{/vendorExtensions.x-consumes-multipart-form}}
 {{>server-request-body-instance}}
+
 {{/vendorExtensions.x-has-request-body}}
                                 let result = api_impl.{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
                                         {{#vendorExtensions}}
@@ -219,7 +220,7 @@
                                         {{/allParams}}
                                         &context
                                     ).await;
-                                let mut response = Response::new(Body::empty());
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
@@ -232,7 +233,7 @@
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
-                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
       {{/bodyParam.vendorExtensions.x-consumes-plain-text}}
@@ -281,7 +282,7 @@
                                                         Err(e) => {
                                                             return Ok(Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling {{name}} header - {}", e)))
+                                                                    .body(body_from_string(format!("An internal server error occurred handling {{name}} header - {e}")))
                                                                     .expect("Unable to create Internal Server Error for invalid response header"))
                                                         }
                                                     };
@@ -295,6 +296,7 @@
   {{/required}}
 {{/headers}}
 {{>server-response-body-instance}}
+
                                                 },
 {{/responses}}
                                             },
@@ -302,7 +304,7 @@
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
+                                                *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
 
@@ -311,7 +313,7 @@
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
 {{/vendorExtensions.x-has-request-body}}

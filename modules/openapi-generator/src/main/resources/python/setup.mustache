@@ -2,6 +2,7 @@
 
 {{>partial_header}}
 
+
 from setuptools import setup, find_packages  # noqa: H301
 
 # To install the library, run the following
@@ -29,6 +30,7 @@ REQUIRES = [
 {{/hasHttpSignatureMethods}}
     "pydantic >= 2",
     "typing-extensions >= 4.7.1",
+    "lazy-imports >= 1, < 2",
 ]
 
 setup(

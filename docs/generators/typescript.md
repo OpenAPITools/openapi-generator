@@ -42,6 +42,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
+|useErasableSyntax|Use erasable syntax for the generated code. This is a temporary feature and will be removed in the future.| |false|
 |useInversify|Enable this to generate decorators and service identifiers for the InversifyJS inversion of control container. If you set 'deno' as 'platform', the generator will process this value as 'disable'.| |false|
 |useObjectParameters|Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.| |false|
 |useRxJS|Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.| |false|
@@ -63,19 +64,41 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>Array</li>
+<li>Awaited</li>
 <li>Boolean</li>
+<li>Capitalize</li>
+<li>ConstructorParameters</li>
 <li>Date</li>
 <li>Double</li>
 <li>Error</li>
+<li>Exclude</li>
+<li>Extract</li>
 <li>File</li>
 <li>Float</li>
+<li>InstanceType</li>
 <li>Integer</li>
 <li>Long</li>
+<li>Lowercase</li>
 <li>Map</li>
+<li>NoInfer</li>
+<li>NonNullable</li>
 <li>Object</li>
+<li>Omit</li>
+<li>OmitThisParameter</li>
+<li>Parameters</li>
+<li>Partial</li>
+<li>Pick</li>
+<li>Readonly</li>
 <li>ReadonlyArray</li>
+<li>Record</li>
+<li>Required</li>
+<li>ReturnType</li>
 <li>Set</li>
 <li>String</li>
+<li>ThisParameterType</li>
+<li>ThisType</li>
+<li>Uncapitalize</li>
+<li>Uppercase</li>
 <li>any</li>
 <li>boolean</li>
 <li>number</li>

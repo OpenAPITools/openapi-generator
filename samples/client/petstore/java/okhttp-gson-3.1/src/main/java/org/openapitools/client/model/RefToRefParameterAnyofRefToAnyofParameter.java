@@ -187,7 +187,7 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
 
         if (instance instanceof List<?>) {
             List<?> list = (List<?>) instance;
-            if (list.get(0) instanceof String) {
+            if (!list.isEmpty() && list.get(0) instanceof String) {
                 super.setActualInstance(instance);
                 return;
             }

@@ -1,6 +1,11 @@
 # For future versions...
 # Get typescript and rxjs version here: https://angular.dev/reference/versions
 # Get zone.js version here: https://github.com/angular/angular/blob/main/packages/core/package.json
+20.0.0:
+  tsVersion: '>=5.8.0 <5.9.0'
+  rxjsVersion: 7.4.0
+  ngPackagrVersion: 20.0.0
+  zonejsVersion: 0.15.0
 19.0.0:
   tsVersion: '>=5.5.0 <5.7.0'
   rxjsVersion: 7.4.0

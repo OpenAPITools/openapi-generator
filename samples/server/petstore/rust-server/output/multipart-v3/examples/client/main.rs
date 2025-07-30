@@ -9,7 +9,7 @@ use multipart_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       MultipartRequestPostResponse,
                       MultipleIdenticalMimeTypesPostResponse,
                      };
-use clap::{App, Arg};
+use clap::{Command, Arg};
 
 // NOTE: Set environment variable RUST_LOG to the name of the executable (or "cargo run") to activate console logging for all loglevels.
 //     See https://docs.rs/env_logger/latest/env_logger/  for more details
@@ -32,27 +32,25 @@ use client_auth::build_token;
 fn main() {
     env_logger::init();
 
-    let matches = App::new("client")
-        .arg(Arg::with_name("operation")
+    let matches = Command::new("client")
+        .arg(Arg::new("operation")
             .help("Sets the operation to run")
-            .possible_values(&[
+            .value_parser([
                 "MultipartRelatedRequestPost",
                 "MultipartRequestPost",
                 "MultipleIdenticalMimeTypesPost",
             ])
             .required(true)
             .index(1))
-        .arg(Arg::with_name("https")
+        .arg(Arg::new("https")
             .long("https")
             .help("Whether to use HTTPS or not"))
-        .arg(Arg::with_name("host")
+        .arg(Arg::new("host")
             .long("host")
-            .takes_value(true)
             .default_value("localhost")
             .help("Hostname to contact"))
-        .arg(Arg::with_name("port")
+        .arg(Arg::new("port")
             .long("port")
-            .takes_value(true)
             .default_value("8080")
             .help("Port to contact"))
         .get_matches();
@@ -76,22 +74,22 @@ fn main() {
             b"secret").unwrap();
 
     let auth_data = if !auth_token.is_empty() {
-        Some(AuthData::Bearer(swagger::auth::Bearer { token: auth_token}))
+        Some(AuthData::Bearer(auth_token))
     } else {
         // No Bearer-token available, so return None
         None
     };
 
-    let is_https = matches.is_present("https");
+    let is_https = matches.contains_id("https");
     let base_url = format!("{}://{}:{}",
         if is_https { "https" } else { "http" },
-        matches.value_of("host").unwrap(),
-        matches.value_of("port").unwrap());
+        matches.get_one::<String>("host").unwrap(),
+        matches.get_one::<u16>("port").unwrap());
 
     let context: ClientContext =
         swagger::make_context!(ContextBuilder, EmptyContext, auth_data, XSpanIdString::default());
 
-    let mut client : Box<dyn ApiNoContext<ClientContext>> = if matches.is_present("https") {
+    let mut client : Box<dyn ApiNoContext<ClientContext>> = if is_https {
         // Using Simple HTTPS
         let client = Box::new(Client::try_new_https(&base_url)
             .expect("Failed to create HTTPS client"));
@@ -106,7 +104,7 @@ fn main() {
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    match matches.value_of("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
         Some("MultipartRelatedRequestPost") => {
             let result = rt.block_on(client.multipart_related_request_post(
                   swagger::ByteArray(Vec::from("BINARY_DATA_HERE")),

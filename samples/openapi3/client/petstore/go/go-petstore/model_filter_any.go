@@ -66,38 +66,6 @@ func (dst *FilterAny) UnmarshalJSON(data []byte) error {
 		}
 	}
 
-	// check if the discriminator value is 'FilterTypeRange'
-	if jsonDict["type"] == "FilterTypeRange" {
-		// try to unmarshal JSON data into FilterTypeRange
-		err = json.Unmarshal(data, &dst.FilterTypeRange);
-		if err == nil {
-			jsonFilterTypeRange, _ := json.Marshal(dst.FilterTypeRange)
-			if string(jsonFilterTypeRange) == "{}" { // empty struct
-				dst.FilterTypeRange = nil
-			} else {
-				return nil // data stored in dst.FilterTypeRange, return on the first match
-			}
-		} else {
-			dst.FilterTypeRange = nil
-		}
-	}
-
-	// check if the discriminator value is 'FilterTypeRegex'
-	if jsonDict["type"] == "FilterTypeRegex" {
-		// try to unmarshal JSON data into FilterTypeRegex
-		err = json.Unmarshal(data, &dst.FilterTypeRegex);
-		if err == nil {
-			jsonFilterTypeRegex, _ := json.Marshal(dst.FilterTypeRegex)
-			if string(jsonFilterTypeRegex) == "{}" { // empty struct
-				dst.FilterTypeRegex = nil
-			} else {
-				return nil // data stored in dst.FilterTypeRegex, return on the first match
-			}
-		} else {
-			dst.FilterTypeRegex = nil
-		}
-	}
-
 	// try to unmarshal JSON data into FilterTypeRange
 	err = json.Unmarshal(data, &dst.FilterTypeRange);
 	if err == nil {

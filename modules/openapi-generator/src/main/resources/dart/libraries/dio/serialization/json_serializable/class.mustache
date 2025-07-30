@@ -26,6 +26,7 @@ part '{{classFilename}}.g.dart';
 class {{{classname}}} {
 {{>serialization/json_serializable/dart_constructor}}
 
+
 {{#vars}}
   {{#description}}
       /// {{{description}}}
@@ -129,11 +130,13 @@ class {{{classname}}} {
         {{^isContainer}}
 
 {{>serialization/json_serializable/enum_inline}}
+
         {{/isContainer}}
         {{#isContainer}}
             {{#mostInnerItems}}
 
 {{>serialization/json_serializable/enum_inline}}
+
             {{/mostInnerItems}}
         {{/isContainer}}
     {{/isEnum}}

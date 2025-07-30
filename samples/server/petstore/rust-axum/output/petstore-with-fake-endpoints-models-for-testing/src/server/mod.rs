@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use axum::{body::Body, extract::*, response::Response, routing::*};
 use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
 use bytes::Bytes;
-use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
+use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
@@ -986,10 +986,7 @@ where
         .await;
     let claims = None.or(claims_in_auth_header);
     let Some(claims) = claims else {
-        return Response::builder()
-            .status(StatusCode::UNAUTHORIZED)
-            .body(Body::empty())
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+        return response_with_status_code_only(StatusCode::UNAUTHORIZED);
     };
 
     #[allow(clippy::redundant_closure)]
@@ -1095,8 +1092,7 @@ where
                     return Response::builder()
                         .status(StatusCode::BAD_REQUEST)
                         .body(Body::from(format!(
-                            "Invalid header enum_header_string_array - {}",
-                            err
+                            "Invalid header enum_header_string_array - {err}"
                         )))
                         .map_err(|e| {
                             error!(error = ?e);
@@ -1115,8 +1111,7 @@ where
                     return Response::builder()
                         .status(StatusCode::BAD_REQUEST)
                         .body(Body::from(format!(
-                            "Invalid header enum_header_string - {}",
-                            err
+                            "Invalid header enum_header_string - {err}"
                         )))
                         .map_err(|e| {
                             error!(error = ?e);
@@ -1533,7 +1528,7 @@ where
                 Err(err) => {
                     return Response::builder()
                         .status(StatusCode::BAD_REQUEST)
-                        .body(Body::from(format!("Invalid header api_key - {}", err)))
+                        .body(Body::from(format!("Invalid header api_key - {err}")))
                         .map_err(|e| {
                             error!(error = ?e);
                             StatusCode::INTERNAL_SERVER_ERROR
@@ -1783,10 +1778,7 @@ where
         .await;
     let claims = None.or(claims_in_header);
     let Some(claims) = claims else {
-        return Response::builder()
-            .status(StatusCode::UNAUTHORIZED)
-            .body(Body::empty())
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+        return response_with_status_code_only(StatusCode::UNAUTHORIZED);
     };
 
     #[allow(clippy::redundant_closure)]
@@ -2192,10 +2184,7 @@ where
         .await;
     let claims = None.or(claims_in_header);
     let Some(claims) = claims else {
-        return Response::builder()
-            .status(StatusCode::UNAUTHORIZED)
-            .body(Body::empty())
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+        return response_with_status_code_only(StatusCode::UNAUTHORIZED);
     };
 
     #[allow(clippy::redundant_closure)]
@@ -2855,7 +2844,7 @@ where
                         Err(e) => {
                             return Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling x_rate_limit header - {}", e))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                                                    .body(Body::from(format!("An internal server error occurred handling x_rate_limit header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
@@ -2872,7 +2861,7 @@ where
                         Err(e) => {
                             return Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling x_expires_after header - {}", e))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                                                    .body(Body::from(format!("An internal server error occurred handling x_expires_after header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
@@ -3054,4 +3043,13 @@ where
         error!(error = ?e);
         StatusCode::INTERNAL_SERVER_ERROR
     })
+}
+
+#[allow(dead_code)]
+#[inline]
+fn response_with_status_code_only(code: StatusCode) -> Result<Response, StatusCode> {
+    Response::builder()
+        .status(code)
+        .body(Body::empty())
+        .map_err(|_| code)
 }
