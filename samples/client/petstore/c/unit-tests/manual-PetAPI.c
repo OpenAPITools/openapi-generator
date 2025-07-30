@@ -2,8 +2,10 @@
     #include <stdlib.h>
     #include <string.h>
     #include <assert.h>
+    #include <curl/curl.h>
     #include "../api/PetAPI.h"
 
+    void preInvokeFunc(CURL *curl);
 
     #define EXAMPLE_CATEGORY_NAME "Example Category"
     #define EXAMPLE_CATEGORY_ID 5
@@ -16,10 +18,15 @@
     #define EXAMPLE_TAG_2_ID 542353
     #define EXAMPLE_PET_ID 1234 // Set to 0 to generate a new pet
 
+void preInvokeFunc(CURL *curl) {
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+    printf("CURL pre-invoke function called - verbose mode enabled\n");
+}
 
 int main() {
 // Add pet test
 	apiClient_t *apiClient = apiClient_create();
+	apiClient->curl_pre_invoke_func = preInvokeFunc;
 
 	char *categoryName = malloc(strlen(EXAMPLE_CATEGORY_NAME) + 1);
 	strcpy(categoryName, EXAMPLE_CATEGORY_NAME);
