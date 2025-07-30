@@ -29,7 +29,6 @@ jobs:
       - name: Install
         working-directory: ${{ matrix.sample }}
         run: |
-          npm run preinstall
           npm i
 
       - name: Test
