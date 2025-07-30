@@ -17,6 +17,7 @@ part '{{classFilename}}.g.dart';
 {{#isDeprecated}}
 @Deprecated('{{{classname}}} has been deprecated')
 {{/isDeprecated}}
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
