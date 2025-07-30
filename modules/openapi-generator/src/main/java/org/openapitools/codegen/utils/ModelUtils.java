@@ -1420,17 +1420,24 @@ public class ModelUtils {
                 }
             } else if (isObjectSchema(ref)) {
                 boolean hasProps = ref.getProperties() != null && !ref.getProperties().isEmpty();
-                if (hasProps) {
+                if (!hasProps && (ref.getDefault() != null || ref.getExample() != null)) {
+                    // Free‐form object WITH default/example → keep the $ref but copy defaults up
+
+                    // clone the wrapper ($ref-only)…
+                    Schema<?> wrapperCopy = (Schema<?>) deepCopy(schema);
+                    // …then merge all the siblings from the component onto it
+                    return mergeSiblingFields(ref, wrapperCopy);
+                } else if (hasProps) {
                     // TODO we may need to check `hasSelfReference(openAPI, ref)` as a special/edge case:
                     // TODO we may also need to revise below to return `ref` instead of schema
                     // which is the last reference to the actual model/object
                     // hier this is real object model ← leave wrapped
                     return schema;
                 } else {
-                    // ↳ free-form object (type: object) : same as map-fallback
-                    Schema copyObj = deepCopy(ref);       // deep-copy free-form object
-                    copyObj.set$ref(null);                // clear lingering $ref so we don’t recurse
-                    Schema unwrapped = unaliasSchema(openAPI, copyObj, schemaMappings);
+                    // Free‐form object WITHOUT default/example → unwrap into inline free-form
+                    Schema<?> copyObj = deepCopy(ref);
+                    copyObj.set$ref(null);
+                    Schema<?> unwrapped = unaliasSchema(openAPI, copyObj, schemaMappings);
                     return mergeSiblingFields(schema, unwrapped);
                 }
             }
@@ -1465,6 +1472,8 @@ public class ModelUtils {
         if (original.getDescription() != null) actual.setDescription(original.getDescription());
         if (original.getExample() != null) actual.setExample(original.getExample());
         if (original.getDefault() != null) actual.setDefault(original.getDefault());
+        if (original.getType() != null) actual.setType(original.getType());
+        if (original.getFormat() != null) actual.setFormat(original.getFormat());
 
         // --- read/write flags & deprecation
         if (original.getReadOnly() != null) actual.setReadOnly(original.getReadOnly());
@@ -1584,7 +1593,7 @@ public class ModelUtils {
         // restore the original on the source
         schema.setAdditionalProperties(addl);
 
-        // 5) put it back on the clone, deep-copying if it's itself a Schema
+        // put it back on the clone, deep-copying if it's itself a Schema
         if (addl instanceof Schema) {
             copy.setAdditionalProperties(deepCopy((Schema) addl));
         } else if (addl != null) {
