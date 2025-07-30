@@ -11,6 +11,7 @@ apiClient_t *apiClient_create() {
     apiClient->basePath = strdup("http://petstore.swagger.io/v2");
     apiClient->sslConfig = NULL;
     apiClient->curlConfig = NULL;
+    apiClient->curl_pre_invoke_func = NULL;
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
     apiClient->data_callback_func = NULL;
@@ -46,6 +47,7 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     apiClient->curlConfig->keepidle = 120;
     apiClient->curlConfig->keepintvl = 60;
 
+    apiClient->curl_pre_invoke_func = NULL;
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
     apiClient->data_callback_func = NULL;
@@ -97,6 +99,8 @@ void apiClient_free(apiClient_t *apiClient) {
         free(apiClient->curlConfig);
         apiClient->curlConfig = NULL;
     }
+
+    apiClient->curl_pre_invoke_func = NULL;
 
     free(apiClient);
 }
@@ -454,6 +458,10 @@ void apiClient_invoke(apiClient_t    *apiClient,
                 curl_easy_setopt(handle, CURLOPT_TCP_KEEPINTVL, apiClient->curlConfig->keepintvl);
             }
             curl_easy_setopt(handle, CURLOPT_VERBOSE, apiClient->curlConfig->verbose);
+        }
+
+        if(apiClient->curl_pre_invoke_func) {
+            apiClient->curl_pre_invoke_func(handle);
         }
 
         res = curl_easy_perform(handle);

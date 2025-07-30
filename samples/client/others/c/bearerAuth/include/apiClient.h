@@ -32,6 +32,7 @@ typedef struct apiClient_t {
     char *basePath;
     sslConfig_t *sslConfig;
     curlConfig_t *curlConfig;
+    void (*curl_pre_invoke_func)(CURL *);
     void *dataReceived;
     long dataReceivedLen;
     void (*data_callback_func)(void **, long *);
