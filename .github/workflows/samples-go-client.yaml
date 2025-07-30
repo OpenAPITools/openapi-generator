@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     name: Build Go
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
