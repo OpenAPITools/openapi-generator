@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
+          - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
