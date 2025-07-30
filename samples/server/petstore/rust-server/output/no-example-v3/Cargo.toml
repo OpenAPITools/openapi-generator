@@ -44,7 +44,6 @@ validator = { version = "0.20", features = ["derive"] }
 
 # Crates included if required by the API definition
 
-
 # Common between server and client features
 bytes = "1.10.1"
 http-body-util = "0.1.3"

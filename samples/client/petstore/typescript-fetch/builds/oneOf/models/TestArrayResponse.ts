@@ -57,7 +57,7 @@ export function TestArrayResponseFromJSONTyped(json: any, ignoreDiscriminator: b
         if (json.every(item => typeof item === 'string')) {
             return json;
         }
-     }
+    }
     return {} as any;
 }
 
@@ -81,7 +81,7 @@ export function TestArrayResponseToJSONTyped(value?: TestArrayResponse | null, i
         return value;
     }
     if (Array.isArray(value)) {
-        if (value.every(item => typeof item === 'string') {
+        if (value.every(item => typeof item === 'string')) {
             return value;
         }
     }

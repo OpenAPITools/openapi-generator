@@ -47,7 +47,6 @@ serde_json = "1.0"
 validator = { version = "0.20", features = ["derive"] }
 
 # Crates included if required by the API definition
-
 multipart = { version = "0.18", default-features = false, optional = true }
 
 # Common between server and client features
