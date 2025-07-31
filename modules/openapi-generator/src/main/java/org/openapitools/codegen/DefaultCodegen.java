@@ -6024,10 +6024,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (properties != null) {
             for (String key : properties.keySet()) {
                 properties.put(key, unaliasSchema(properties.get(key)));
-
             }
         }
-
         return properties;
     }
 

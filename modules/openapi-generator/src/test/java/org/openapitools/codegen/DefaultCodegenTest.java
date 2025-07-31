@@ -1799,15 +1799,6 @@ public class DefaultCodegenTest {
         assertEquals(getRequiredVars(personForUpdateModel), Collections.emptyList());
     }
 
-    private List<String> getRequiredVars(CodegenModel model) {
-        return getNames(model.getRequiredVars());
-    }
-
-    private List<String> getNames(List<CodegenProperty> props) {
-        if (props == null) return null;
-        return props.stream().map(v -> v.name).collect(Collectors.toList());
-    }
-
     @Test
     public void testCallbacks() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/callbacks.yaml");
@@ -5005,5 +4996,14 @@ public class DefaultCodegenTest {
 
         // When & Then
         assertThat(codegenOperation.getHasSingleParam()).isTrue();
+    }
+
+    private List<String> getRequiredVars(CodegenModel model) {
+        return getNames(model.getRequiredVars());
+    }
+
+    private List<String> getNames(List<CodegenProperty> props) {
+        if (props == null) return null;
+        return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
 }
