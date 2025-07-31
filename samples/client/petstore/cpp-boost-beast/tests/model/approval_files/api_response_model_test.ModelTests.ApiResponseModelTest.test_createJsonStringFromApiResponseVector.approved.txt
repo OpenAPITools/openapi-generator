@@ -1,0 +1,3 @@
+[{"code":"200","type":"Ok","message":"Nice!"}
+, {"code":"404","type":"error","message":"bad!"}
+]
