@@ -9,6 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'all_of_with_single_ref.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

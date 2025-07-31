@@ -9,6 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'array_test.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

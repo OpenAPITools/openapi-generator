@@ -9,6 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'outer_object_with_enum_property.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

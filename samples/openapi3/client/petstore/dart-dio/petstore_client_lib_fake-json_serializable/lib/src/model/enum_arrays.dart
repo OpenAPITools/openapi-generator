@@ -8,6 +8,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'enum_arrays.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

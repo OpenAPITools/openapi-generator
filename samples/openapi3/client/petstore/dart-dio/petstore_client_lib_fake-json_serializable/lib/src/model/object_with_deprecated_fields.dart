@@ -9,6 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'object_with_deprecated_fields.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

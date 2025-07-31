@@ -9,6 +9,7 @@ part 'deprecated_object.g.dart';
 
 
 @Deprecated('DeprecatedObject has been deprecated')
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
