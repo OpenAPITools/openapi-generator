@@ -66,7 +66,7 @@ export function TestDiscriminatorResponseToJSONTyped(value?: TestDiscriminatorRe
         case 'optionTwo':
             return Object.assign({}, OptionTwoToJSON(value), { discriminatorField: 'optionTwo' } as const);
         default:
-            return json;
+            return value;
     }
 }
 
