@@ -33,6 +33,11 @@ namespace {{packageName}}.{{clientPackage}}
         /// The raw content of this response.
         /// </summary>
         string RawContent { get; }
+        
+        /// <summary>
+        /// The raw binary stream (only set for binary responses)
+        /// </summary>
+        public System.IO.Stream? ContentStream { get; }
 
         /// <summary>
         /// The DateTime when the request was retrieved.
@@ -80,6 +85,11 @@ namespace {{packageName}}.{{clientPackage}}
         /// The raw data
         /// </summary>
         public string RawContent { get; protected set; }
+
+        /// <summary>
+        /// The raw binary stream (only set for binary responses)
+        /// </summary>
+        public System.IO.Stream? ContentStream { get; protected set; }
 
         /// <summary>
         /// The IsSuccessStatusCode from the api response
