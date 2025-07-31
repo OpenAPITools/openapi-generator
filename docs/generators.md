@@ -152,6 +152,7 @@ The following generators are available:
 * [scala-play-server](generators/scala-play-server.md)  
 * [scalatra](generators/scalatra.md)  
 * [spring](generators/spring.md)  
+* [typescript-nestjs-server (beta)](generators/typescript-nestjs-server.md)  
 
 
 ## DOCUMENTATION generators
