@@ -1748,11 +1748,10 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         HeaderValue::from_str("text/xml")
                                                             .expect("Unable to create Content-Type header for text/xml"));
                                                     // XML Body
-                                                    let mut namespaces = std::collections::BTreeMap::new();
-
                                                     // An empty string is used to indicate a global namespace in xmltree.
-                                                    namespaces.insert("".to_string(), models::AnotherXmlObject::NAMESPACE.to_string());
-                                                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
+                                                    let config = serde_xml_rs::SerdeXml::new()
+                                                        .namespace("", models::AnotherXmlObject::NAMESPACE);
+                                                    let body = config.to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
 
                                                 },
