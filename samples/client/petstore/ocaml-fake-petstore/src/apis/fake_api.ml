@@ -27,7 +27,11 @@ let fake_http_signature_test ~pet_t ?query_1 ?header_1 () =
  header_1 in
     let uri = Request.maybe_add_query_param uri "query_1" (fun x -> x)
  query_1 in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -43,7 +47,11 @@ let fake_outer_boolean_serialize ~body () =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/outer/boolean" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -58,7 +66,11 @@ let fake_outer_composite_serialize ~outer_composite_t () =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/outer/composite" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -74,7 +86,11 @@ let fake_outer_number_serialize ~body () =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/outer/number" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -89,7 +105,11 @@ let fake_outer_string_serialize ~body () =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/outer/string" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body JsonSupport.of_string
+    let body = Request.
+        
+        
+        write_as_json_body
+    JsonSupport.of_string
 
 
 
@@ -104,7 +124,11 @@ let fake_property_enum_integer_serialize ~outer_object_with_enum_property_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/property/enum-int" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -120,7 +144,11 @@ let test_additional_properties_reference ~request_body =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/additionalProperties-reference" in
     let headers = Request.default_headers in
-    let body = Request.write_json_body         (JsonSupport.of_map_of 
+    let body = Request.
+        write_json_body
+        
+        
+            (JsonSupport.of_map_of 
 
 
 
@@ -143,7 +171,11 @@ let test_body_with_binary ~body =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/body-with-binary" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -158,7 +190,11 @@ let test_body_with_file_schema ~file_schema_test_class_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/body-with-file-schema" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -176,7 +212,11 @@ let test_body_with_query_params ~query ~user_t =
     let headers = Request.default_headers in
     let uri = Request.add_query_param uri "query" (fun x -> x)
  query in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -192,7 +232,11 @@ let test_client_model ~client_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -295,7 +339,11 @@ let test_inline_additional_properties ~request_body =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/inline-additionalProperties" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body         (JsonSupport.of_map_of JsonSupport.of_string
+    let body = Request.
+        
+        
+        write_as_json_body
+            (JsonSupport.of_map_of JsonSupport.of_string
 
 
 
@@ -318,7 +366,11 @@ let test_inline_freeform_additional_properties ~test_inline_freeform_additional_
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/inline-freeform-additionalProperties" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -347,7 +399,11 @@ let test_nullable ~child_with_nullable_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/nullable" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -390,7 +446,11 @@ let test_string_map_reference ~request_body =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/stringMap-reference" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body         (JsonSupport.of_map_of JsonSupport.of_string
+    let body = Request.
+        
+        
+        write_as_json_body
+            (JsonSupport.of_map_of JsonSupport.of_string
 
 
 
