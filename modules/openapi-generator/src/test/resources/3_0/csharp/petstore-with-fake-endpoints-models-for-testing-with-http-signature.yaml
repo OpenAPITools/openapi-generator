@@ -1754,6 +1754,7 @@ components:
           format: date-time
           example: '2007-12-03T10:15:30+01:00'
         uuid:
+
           type: string
           format: uuid
           example: 72f98069-206d-4f12-9f12-3d1e525a8e84
