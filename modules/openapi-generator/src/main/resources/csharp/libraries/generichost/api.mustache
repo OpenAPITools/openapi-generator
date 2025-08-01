@@ -291,7 +291,6 @@ namespace {{packageName}}.{{apiPackage}}
             bool suppressDefaultLog = false;
             After{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 {{>AfterOperationDefaultImplementation}}
-
         }
 
         /// <summary>
