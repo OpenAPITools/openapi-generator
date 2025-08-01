@@ -21,6 +21,7 @@ let test_classname ~client_t =
 
 
             Client.to_yojson
+
  client_t
     in
     Cohttp_lwt_unix.Client.call `PATCH uri ~headers ~body >>= fun (resp, body) ->

@@ -20,6 +20,7 @@ let call_123_test_special_tags ~client_t =
 
 
             Client.to_yojson
+
  client_t
     in
     Cohttp_lwt_unix.Client.call `PATCH uri ~headers ~body >>= fun (resp, body) ->
