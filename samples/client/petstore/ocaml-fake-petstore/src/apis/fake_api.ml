@@ -23,9 +23,33 @@ let fake_http_signature_test ~pet_t ?query_1 ?header_1 () =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/http-signature-test" in
     let headers = Request.default_headers in
-    let headers = Request.maybe_add_header headers "header_1" (fun x -> x)
+    let headers = Request.maybe_add_header headers "header_1"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
  header_1 in
-    let uri = Request.maybe_add_query_param uri "query_1" (fun x -> x)
+    let uri = Request.maybe_add_query_param uri "query_1"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
  query_1 in
     let body = Request.
         
@@ -203,7 +227,19 @@ let test_body_with_query_params ~query ~user_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/body-with-query-params" in
     let headers = Request.default_headers in
-    let uri = Request.add_query_param uri "query" (fun x -> x)
+    let uri = Request.add_query_param uri "query"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
  query in
     let body = Request.
         
@@ -248,33 +284,201 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     let uri = Request.build_uri "/fake" in
     let headers = Request.default_headers in
     let body = Request.init_form_encoded_body () in
-    let body = Request.maybe_add_form_encoded_body_param body "integer" Int32.to_string
+    let body = Request.maybe_add_form_encoded_body_param body "integer"     
+    Int32.to_string
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
  integer in
-    let body = Request.maybe_add_form_encoded_body_param body "int32" Int32.to_string
+    let body = Request.maybe_add_form_encoded_body_param body "int32"     
+    Int32.to_string
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
  int32 in
-    let body = Request.maybe_add_form_encoded_body_param body "int64" Int64.to_string
+    let body = Request.maybe_add_form_encoded_body_param body "int64"     Int64.to_string
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
  int64 in
-    let body = Request.add_form_encoded_body_param body "number" string_of_float
+    let body = Request.add_form_encoded_body_param body "number"     
+    
+    
+    string_of_float
+    
+    
+    
+    
+    
+    
+    
+    
+        
  number in
-    let body = Request.maybe_add_form_encoded_body_param body "float" string_of_float
+    let body = Request.maybe_add_form_encoded_body_param body "float"     
+    
+    string_of_float
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
  float in
-    let body = Request.add_form_encoded_body_param body "double" string_of_float
+    let body = Request.add_form_encoded_body_param body "double"     
+    
+    
+    
+    string_of_float
+    
+    
+    
+    
+    
+    
+    
+        
  double in
-    let body = Request.maybe_add_form_encoded_body_param body "string" (fun x -> x)
+    let body = Request.maybe_add_form_encoded_body_param body "string"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
  string in
-    let body = Request.add_form_encoded_body_param body "pattern_without_delimiter" (fun x -> x)
+    let body = Request.add_form_encoded_body_param body "pattern_without_delimiter"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
  pattern_without_delimiter in
-    let body = Request.add_form_encoded_body_param body "byte" (fun x -> x)
+    let body = Request.add_form_encoded_body_param body "byte"     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+        
  byte in
-    let body = Request.maybe_add_form_encoded_body_param body "binary" (fun x -> x)
+    let body = Request.maybe_add_form_encoded_body_param body "binary"     
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+    
+    
+    
+        
  binary in
-    let body = Request.maybe_add_form_encoded_body_param body "date" (fun x -> x)
+    let body = Request.maybe_add_form_encoded_body_param body "date"     
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+    
+    
+        
  date in
-    let body = Request.maybe_add_form_encoded_body_param body "date_time" (fun x -> x)
+    let body = Request.maybe_add_form_encoded_body_param body "date_time"     
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+    
+        
  date_time in
-    let body = Request.maybe_add_form_encoded_body_param body "password" (fun x -> x)
+    let body = Request.maybe_add_form_encoded_body_param body "password"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
  password in
-    let body = Request.maybe_add_form_encoded_body_param body "callback" (fun x -> x)
+    let body = Request.maybe_add_form_encoded_body_param body "callback"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
  callback in
     let body = Request.finalize_form_encoded_body body in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
@@ -284,28 +488,52 @@ let test_enum_parameters ?(enum_header_string_array = []) ?(enum_header_string =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake" in
     let headers = Request.default_headers in
-    let headers = Request.add_header_multi headers "enum_header_string_array" (Stdlib.List.map Enums.show_enum_form_string_array
+    let headers = Request.add_header_multi headers "enum_header_string_array"     (Stdlib.List.map         Enums.show_enum_form_string_array
 )
  enum_header_string_array in
-    let headers = Request.add_header headers "enum_header_string" Enums.show_enumclass
+    let headers = Request.add_header headers "enum_header_string"         Enums.show_enumclass
  enum_header_string in
-    let uri = Request.add_query_param_list uri "enum_query_string_array" (Stdlib.List.map Enums.show_enum_form_string_array
+    let uri = Request.add_query_param_list uri "enum_query_string_array"     (Stdlib.List.map         Enums.show_enum_form_string_array
 )
  enum_query_string_array in
-    let uri = Request.add_query_param uri "enum_query_string" Enums.show_enumclass
+    let uri = Request.add_query_param uri "enum_query_string"         Enums.show_enumclass
  enum_query_string in
-    let uri = Request.maybe_add_query_param uri "enum_query_integer" Enums.show_enum_query_integer
+    let uri = Request.maybe_add_query_param uri "enum_query_integer"         Enums.show_enum_query_integer
  enum_query_integer in
-    let uri = Request.maybe_add_query_param uri "enum_query_double" Enums.show_enum_number
+    let uri = Request.maybe_add_query_param uri "enum_query_double"         Enums.show_enum_number
  enum_query_double in
-    let uri = Request.add_query_param_list uri "enum_query_model_array" (Stdlib.List.map 
+    let uri = Request.add_query_param_list uri "enum_query_model_array"     (Stdlib.List.map     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
 )
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
  enum_query_model_array in
     let body = Request.init_form_encoded_body () in
-    let body = Request.add_form_encoded_body_param_list body "enum_form_string_array" (Stdlib.List.map Enums.show_enum_form_string_array
+    let body = Request.add_form_encoded_body_param_list body "enum_form_string_array"     (Stdlib.List.map         Enums.show_enum_form_string_array
 )
  enum_form_string_array in
-    let body = Request.add_form_encoded_body_param body "enum_form_string" Enums.show_enumclass
+    let body = Request.add_form_encoded_body_param body "enum_form_string"         Enums.show_enumclass
  enum_form_string in
     let body = Request.finalize_form_encoded_body body in
     Cohttp_lwt_unix.Client.call `GET uri ~headers ~body >>= fun (resp, body) ->
@@ -315,17 +543,89 @@ let test_group_parameters ~required_string_group ~required_boolean_group ~requir
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake" in
     let headers = Request.default_headers in
-    let headers = Request.add_header headers "required_boolean_group" string_of_bool
+    let headers = Request.add_header headers "required_boolean_group"     
+    
+    
+    
+    
+    string_of_bool
+    
+    
+    
+    
+    
+    
+        
  required_boolean_group in
-    let headers = Request.maybe_add_header headers "boolean_group" string_of_bool
+    let headers = Request.maybe_add_header headers "boolean_group"     
+    
+    
+    
+    
+    string_of_bool
+    
+    
+    
+    
+    
+    
+        
  boolean_group in
-    let uri = Request.add_query_param uri "required_string_group" Int32.to_string
+    let uri = Request.add_query_param uri "required_string_group"     
+    Int32.to_string
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
  required_string_group in
-    let uri = Request.add_query_param uri "required_int64_group" Int64.to_string
+    let uri = Request.add_query_param uri "required_int64_group"     Int64.to_string
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
  required_int64_group in
-    let uri = Request.maybe_add_query_param uri "string_group" Int32.to_string
+    let uri = Request.maybe_add_query_param uri "string_group"     
+    Int32.to_string
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
  string_group in
-    let uri = Request.maybe_add_query_param uri "int64_group" Int64.to_string
+    let uri = Request.maybe_add_query_param uri "int64_group"     Int64.to_string
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
  int64_group in
     Cohttp_lwt_unix.Client.call `DELETE uri ~headers >>= fun (resp, body) ->
     Request.handle_unit_response resp
@@ -385,9 +685,33 @@ let test_json_form_data ~param ~param2 =
     let uri = Request.build_uri "/fake/jsonFormData" in
     let headers = Request.default_headers in
     let body = Request.init_form_encoded_body () in
-    let body = Request.add_form_encoded_body_param body "param" (fun x -> x)
+    let body = Request.add_form_encoded_body_param body "param"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
  param in
-    let body = Request.add_form_encoded_body_param body "param2" (fun x -> x)
+    let body = Request.add_form_encoded_body_param body "param2"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
  param2 in
     let body = Request.finalize_form_encoded_body body in
     Cohttp_lwt_unix.Client.call `GET uri ~headers ~body >>= fun (resp, body) ->
@@ -418,25 +742,181 @@ let test_query_parameter_collection_format ~pipe ~ioutil ~http ~url ~context ~al
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/test-query-parameters" in
     let headers = Request.default_headers in
-    let uri = Request.add_query_param_list uri "pipe" (Stdlib.List.map (fun x -> x)
+    let uri = Request.add_query_param_list uri "pipe"     (Stdlib.List.map     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
 )
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
  pipe in
-    let uri = Request.add_query_param_list uri "ioutil" (Stdlib.List.map (fun x -> x)
+    let uri = Request.add_query_param_list uri "ioutil"     (Stdlib.List.map     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
 )
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
  ioutil in
-    let uri = Request.add_query_param_list uri "http" (Stdlib.List.map (fun x -> x)
+    let uri = Request.add_query_param_list uri "http"     (Stdlib.List.map     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
 )
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
  http in
-    let uri = Request.add_query_param_list uri "url" (Stdlib.List.map (fun x -> x)
+    let uri = Request.add_query_param_list uri "url"     (Stdlib.List.map     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
 )
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
  url in
-    let uri = Request.add_query_param_list uri "context" (Stdlib.List.map (fun x -> x)
+    let uri = Request.add_query_param_list uri "context"     (Stdlib.List.map     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
 )
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
  context in
-    let uri = Request.add_query_param uri "language" (Stdlib.List.map (fun x -> x)
+    let uri = Request.add_query_param uri "language"     (Stdlib.List.map     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
 )
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
  language in
-    let uri = Request.add_query_param uri "allowEmpty" (fun x -> x)
+    let uri = Request.add_query_param uri "allowEmpty"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
  allow_empty in
     Cohttp_lwt_unix.Client.call `PUT uri ~headers >>= fun (resp, body) ->
     Request.handle_unit_response resp

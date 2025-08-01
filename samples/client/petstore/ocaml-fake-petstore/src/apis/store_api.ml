@@ -9,7 +9,19 @@ let delete_order ~order_id =
     let open Lwt.Infix in
     let uri = Request.build_uri "/store/order/{order_id}" in
     let headers = Request.default_headers in
-    let uri = Request.replace_path_param uri "order_id" (fun x -> x)
+    let uri = Request.replace_path_param uri "order_id"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
  order_id in
     Cohttp_lwt_unix.Client.call `DELETE uri ~headers >>= fun (resp, body) ->
     Request.handle_unit_response resp
@@ -26,7 +38,19 @@ let get_order_by_id ~order_id =
     let open Lwt.Infix in
     let uri = Request.build_uri "/store/order/{order_id}" in
     let headers = Request.default_headers in
-    let uri = Request.replace_path_param uri "order_id" Int64.to_string
+    let uri = Request.replace_path_param uri "order_id"     Int64.to_string
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
  order_id in
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
     Request.read_json_body_as (JsonSupport.unwrap Order.of_yojson) resp body
