@@ -64,13 +64,8 @@ class DefaultController extends Controller
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        try {
-            $apiResult = $this->api->fooGet();
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->fooGet();
 
         if ($apiResult instanceof \OpenAPI\Server\Model\FooGetDefaultResponse) {
             return response()->json($this->serde->serialize($apiResult, format: 'array'), 0);
