@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - samples/client/petstore/php/OpenAPIClient-php/**
+      - samples/client/petstore/php-nextgen/OpenAPIClient-php/**
   pull_request:
     paths:
       - samples/client/petstore/php/OpenAPIClient-php/**
+      - samples/client/petstore/php-nextgen/OpenAPIClient-php/**
 jobs:
   build:
     name: Build PHP projects
@@ -22,6 +24,7 @@ jobs:
         sample:
           # clients
           - samples/client/petstore/php/OpenAPIClient-php/
+          - samples/client/petstore/php-nextgen/OpenAPIClient-php/
     services:
       petstore-api:
         image: swaggerapi/petstore
