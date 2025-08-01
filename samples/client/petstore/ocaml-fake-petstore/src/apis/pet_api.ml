@@ -9,7 +9,15 @@ let add_pet ~pet_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/pet" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body Pet.to_yojson pet_t in
+    let body = Request.write_as_json_body 
+
+
+
+
+
+
+            Pet.to_yojson
+ pet_t in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -58,7 +66,15 @@ let update_pet ~pet_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/pet" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body Pet.to_yojson pet_t in
+    let body = Request.write_as_json_body 
+
+
+
+
+
+
+            Pet.to_yojson
+ pet_t in
     Cohttp_lwt_unix.Client.call `PUT uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
