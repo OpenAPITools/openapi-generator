@@ -52,13 +52,13 @@ let read_json_body_as_list resp body =
   Lwt.(read_json_body resp body >|= Yojson.Safe.Util.to_list)
 
 let read_json_body_as_list_of of_json resp body =
-  Lwt.(read_json_body_as_list resp body >|= List.map of_json)
+  Lwt.(read_json_body_as_list resp body >|= Stdlib.List.map of_json)
 
 let read_json_body_as_map resp body =
   Lwt.(read_json_body resp body >|= Yojson.Safe.Util.to_assoc)
 
 let read_json_body_as_map_of of_json resp body =
-  Lwt.(read_json_body_as_map resp body >|= List.map (fun (s, v) -> (s, of_json v)))
+  Lwt.(read_json_body_as_map resp body >|= Stdlib.List.map (fun (s, v) -> (s, of_json v)))
 
 let replace_string_path_param uri param_name param_value =
   let regexp = Str.regexp (Str.quote ("{" ^ param_name ^ "}")) in
