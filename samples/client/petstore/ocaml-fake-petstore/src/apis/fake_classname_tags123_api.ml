@@ -10,7 +10,11 @@ let test_classname ~client_t =
     let uri = Request.build_uri "/fake_classname_test" in
     let headers = Request.default_headers in
     let uri = Uri.add_query_param' uri ("api_key_query", Request.api_key) in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 

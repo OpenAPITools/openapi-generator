@@ -9,7 +9,11 @@ let create_user ~user_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/user" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -25,7 +29,11 @@ let create_users_with_array_input ~user =
     let open Lwt.Infix in
     let uri = Request.build_uri "/user/createWithArray" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body         (JsonSupport.of_list_of 
+    let body = Request.
+        
+        
+        write_as_json_body
+            (JsonSupport.of_list_of 
 
 
 
@@ -49,7 +57,11 @@ let create_users_with_list_input ~user =
     let open Lwt.Infix in
     let uri = Request.build_uri "/user/createWithList" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body         (JsonSupport.of_list_of 
+    let body = Request.
+        
+        
+        write_as_json_body
+            (JsonSupport.of_list_of 
 
 
 
@@ -111,7 +123,11 @@ let update_user ~username ~user_t =
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "username" (fun x -> x)
  username in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 

@@ -9,7 +9,11 @@ let add_pet ~pet_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/pet" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
@@ -66,7 +70,11 @@ let update_pet ~pet_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/pet" in
     let headers = Request.default_headers in
-    let body = Request.write_as_json_body 
+    let body = Request.
+        
+        
+        write_as_json_body
+    
 
 
 
