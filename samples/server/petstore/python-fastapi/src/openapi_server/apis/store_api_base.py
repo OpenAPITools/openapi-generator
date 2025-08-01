@@ -14,6 +14,8 @@ class BaseStoreApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseStoreApi.subclasses = BaseStoreApi.subclasses + (cls,)
+
+
     async def delete_order(
         self,
         orderId: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
@@ -43,3 +45,4 @@ class BaseStoreApi:
     ) -> Order:
         """"""
         ...
+

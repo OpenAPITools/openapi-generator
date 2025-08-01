@@ -1,0 +1,6 @@
+class Base{{name}}(ABC):
+    subclasses: ClassVar[Tuple] = ()
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        Base{{name}}.subclasses = Base{{name}}.subclasses + (cls,)
