@@ -87,13 +87,8 @@ class {{controllerName}} extends Controller
         {{/isPathParam}}
 
         {{/allParams}}
-        try {
-            $apiResult = $this->api->{{operationId}}({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->{{operationId}}({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
         {{#responses}}
         {{#isArray}}
