@@ -12,8 +12,7 @@ let add_pet ~pet_t =
     let body = Request.
         
         
-        write_as_json_body
-    
+        write_as_json_body 
 
 
 
@@ -21,7 +20,8 @@ let add_pet ~pet_t =
 
 
             Pet.to_yojson
- pet_t in
+ pet_t
+    in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -73,8 +73,7 @@ let update_pet ~pet_t =
     let body = Request.
         
         
-        write_as_json_body
-    
+        write_as_json_body 
 
 
 
@@ -82,7 +81,8 @@ let update_pet ~pet_t =
 
 
             Pet.to_yojson
- pet_t in
+ pet_t
+    in
     Cohttp_lwt_unix.Client.call `PUT uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 

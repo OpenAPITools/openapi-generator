@@ -13,8 +13,7 @@ let create_user ~user_t =
     let body = Request.
         
         
-        write_as_json_body
-    
+        write_as_json_body 
 
 
 
@@ -22,7 +21,8 @@ let create_user ~user_t =
 
 
             User.to_yojson
- user_t in
+ user_t
+    in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -34,8 +34,7 @@ let create_users_with_array_input ~user =
     let body = Request.
         
         
-        write_as_json_body
-            (JsonSupport.of_list_of 
+        write_as_json_body         (JsonSupport.of_list_of 
 
 
 
@@ -51,7 +50,8 @@ let create_users_with_array_input ~user =
 
 
 
- user in
+ user
+    in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -63,8 +63,7 @@ let create_users_with_list_input ~user =
     let body = Request.
         
         
-        write_as_json_body
-            (JsonSupport.of_list_of 
+        write_as_json_body         (JsonSupport.of_list_of 
 
 
 
@@ -80,7 +79,8 @@ let create_users_with_list_input ~user =
 
 
 
- user in
+ user
+    in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -132,8 +132,7 @@ let update_user ~username ~user_t =
     let body = Request.
         
         
-        write_as_json_body
-    
+        write_as_json_body 
 
 
 
@@ -141,7 +140,8 @@ let update_user ~username ~user_t =
 
 
             User.to_yojson
- user_t in
+ user_t
+    in
     Cohttp_lwt_unix.Client.call `PUT uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
