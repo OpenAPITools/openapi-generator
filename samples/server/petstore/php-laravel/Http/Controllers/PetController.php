@@ -66,13 +66,8 @@ class PetController extends Controller
 
         $pet = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\Pet::class);
 
-        try {
-            $apiResult = $this->api->addPet($pet);
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->addPet($pet);
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
             return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
@@ -119,13 +114,8 @@ class PetController extends Controller
 
         $apiKey = $request->string('apiKey')->value();
 
-        try {
-            $apiResult = $this->api->deletePet($petId, $apiKey);
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->deletePet($petId, $apiKey);
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
             return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
@@ -168,13 +158,8 @@ class PetController extends Controller
 
         $status = $request->get('status');
 
-        try {
-            $apiResult = $this->api->findPetsByStatus($status);
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->findPetsByStatus($status);
 
         if (is_array($apiResult)) {
             $serialized = array_map(fn ($item) => $this->serde->serialize($item, format: 'array'), $apiResult);
@@ -219,13 +204,8 @@ class PetController extends Controller
 
         $tags = $request->get('tags');
 
-        try {
-            $apiResult = $this->api->findPetsByTags($tags);
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->findPetsByTags($tags);
 
         if (is_array($apiResult)) {
             $serialized = array_map(fn ($item) => $this->serde->serialize($item, format: 'array'), $apiResult);
@@ -268,13 +248,8 @@ class PetController extends Controller
         }
 
 
-        try {
-            $apiResult = $this->api->getPetById($petId);
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->getPetById($petId);
 
         if ($apiResult instanceof \OpenAPI\Server\Model\Pet) {
             return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
@@ -317,13 +292,8 @@ class PetController extends Controller
 
         $pet = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\Pet::class);
 
-        try {
-            $apiResult = $this->api->updatePet($pet);
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->updatePet($pet);
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
             return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
@@ -383,13 +353,8 @@ class PetController extends Controller
 
         $status = $request->string('status')->value();
 
-        try {
-            $apiResult = $this->api->updatePetWithForm($petId, $name, $status);
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->updatePetWithForm($petId, $name, $status);
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
             return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
@@ -441,13 +406,8 @@ class PetController extends Controller
 
         $file = $request->file('file');
 
-        try {
-            $apiResult = $this->api->uploadFile($petId, $additionalMetadata, $file);
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->uploadFile($petId, $additionalMetadata, $file);
 
         if ($apiResult instanceof \OpenAPI\Server\Model\ApiResponse) {
             return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
@@ -496,13 +456,8 @@ class PetController extends Controller
 
         $additionalMetadata = $request->string('additionalMetadata')->value();
 
-        try {
-            $apiResult = $this->api->uploadFileWithRequiredFile($petId, $requiredFile, $additionalMetadata);
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->uploadFileWithRequiredFile($petId, $requiredFile, $additionalMetadata);
 
         if ($apiResult instanceof \OpenAPI\Server\Model\ApiResponse) {
             return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
