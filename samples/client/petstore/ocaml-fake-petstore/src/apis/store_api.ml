@@ -38,8 +38,7 @@ let place_order ~order_t =
     let body = Request.
         
         
-        write_as_json_body
-    
+        write_as_json_body 
 
 
 
@@ -47,7 +46,8 @@ let place_order ~order_t =
 
 
             Order.to_yojson
- order_t in
+ order_t
+    in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.read_json_body_as (JsonSupport.unwrap Order.of_yojson) resp body
 

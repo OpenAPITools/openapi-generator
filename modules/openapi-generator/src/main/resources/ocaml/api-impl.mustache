@@ -43,10 +43,10 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}
 {{/hasAuthMethods}}
 {{#bodyParams}}
     let body = Request.
-        {{#isFreeFormObject}}write_json_body{{/isFreeFormObject}}
-        {{#isByteArray}}write_string_body{{/isByteArray}}
-        {{^isFreeFormObject}}{{^isByteArray}}write_as_json_body{{/isByteArray}}{{/isFreeFormObject}}
-    {{> to_json}} {{{paramName}}} in
+        {{#isFreeFormObject}}write_json_body {{{paramName}}}{{/isFreeFormObject}}
+        {{#isByteArray}}write_string_body {{{paramName}}}{{/isByteArray}}
+        {{^isFreeFormObject}}{{^isByteArray}}write_as_json_body {{> to_json}} {{{paramName}}}{{/isByteArray}}{{/isFreeFormObject}}
+    in
 {{/bodyParams}}
 {{^hasBodyParam}}
     {{#hasFormParams}}

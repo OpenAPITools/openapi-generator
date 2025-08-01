@@ -13,8 +13,7 @@ let test_classname ~client_t =
     let body = Request.
         
         
-        write_as_json_body
-    
+        write_as_json_body 
 
 
 
@@ -22,7 +21,8 @@ let test_classname ~client_t =
 
 
             Client.to_yojson
- client_t in
+ client_t
+    in
     Cohttp_lwt_unix.Client.call `PATCH uri ~headers ~body >>= fun (resp, body) ->
     Request.read_json_body_as (JsonSupport.unwrap Client.of_yojson) resp body
 
