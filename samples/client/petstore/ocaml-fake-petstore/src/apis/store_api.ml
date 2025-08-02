@@ -7,9 +7,9 @@
 
 let delete_order ~order_id =
     let open Lwt.Infix in
-    let uri = Request.build_uri "/store/order/{orderId}" in
+    let uri = Request.build_uri "/store/order/{order_id}" in
     let headers = Request.default_headers in
-    let uri = Request.replace_path_param uri "orderId"     
+    let uri = Request.replace_path_param uri "order_id"     
     
     
     
@@ -36,9 +36,9 @@ let get_inventory () =
 
 let get_order_by_id ~order_id =
     let open Lwt.Infix in
-    let uri = Request.build_uri "/store/order/{orderId}" in
+    let uri = Request.build_uri "/store/order/{order_id}" in
     let headers = Request.default_headers in
-    let uri = Request.replace_path_param uri "orderId"     Int64.to_string
+    let uri = Request.replace_path_param uri "order_id"     Int64.to_string
     
     
     
