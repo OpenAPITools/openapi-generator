@@ -6,12 +6,14 @@ client.go
 configuration.go
 docs/AdditionalData.md
 docs/BaseItem.md
+docs/BaseItemType.md
 docs/FinalItem.md
 git_push.sh
 go.mod
 go.sum
 model_additional_data.go
 model_base_item.go
+model_base_item_type.go
 model_final_item.go
 response.go
 utils.go

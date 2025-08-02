@@ -32,7 +32,7 @@ func main() {
 	integerHeader := int32(56) // int32 |  (optional)
 	booleanHeader := true // bool |  (optional)
 	stringHeader := "stringHeader_example" // string |  (optional)
-	enumNonrefStringHeader := "enumNonrefStringHeader_example" // string |  (optional)
+	enumNonrefStringHeader := openapiclient.tests_path_string__path_string__integer__path_integer___enum_nonref_string_path___enum_ref_string_path__enum_nonref_string_path_parameter("success") // TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter |  (optional)
 	enumRefStringHeader := openapiclient.StringEnumRef("success") // StringEnumRef |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
@@ -61,7 +61,7 @@ Name | Type | Description  | Notes
  **integerHeader** | **int32** |  | 
  **booleanHeader** | **bool** |  | 
  **stringHeader** | **string** |  | 
- **enumNonrefStringHeader** | **string** |  | 
+ **enumNonrefStringHeader** | [**TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter**](TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter.md) |  | 
  **enumRefStringHeader** | [**StringEnumRef**](StringEnumRef.md) |  | 
 
 ### Return type

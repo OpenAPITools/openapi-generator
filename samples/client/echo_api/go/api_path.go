@@ -29,7 +29,7 @@ type ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefSt
 	ApiService *PathAPIService
 	pathString string
 	pathInteger int32
-	enumNonrefStringPath string
+	enumNonrefStringPath TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter
 	enumRefStringPath StringEnumRef
 }
 
@@ -49,7 +49,7 @@ Test path parameter(s)
  @param enumRefStringPath
  @return ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest
 */
-func (a *PathAPIService) TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(ctx context.Context, pathString string, pathInteger int32, enumNonrefStringPath string, enumRefStringPath StringEnumRef) ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest {
+func (a *PathAPIService) TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(ctx context.Context, pathString string, pathInteger int32, enumNonrefStringPath TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter, enumRefStringPath StringEnumRef) ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest {
 	return ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest{
 		ApiService: a,
 		ctx: ctx,

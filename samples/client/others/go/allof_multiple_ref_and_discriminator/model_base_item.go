@@ -22,7 +22,7 @@ var _ MappedNullable = &BaseItem{}
 // BaseItem struct for BaseItem
 type BaseItem struct {
 	Title string `json:"title"`
-	Type string `json:"type"`
+	Type BaseItemType `json:"type"`
 }
 
 type _BaseItem BaseItem
@@ -31,7 +31,7 @@ type _BaseItem BaseItem
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewBaseItem(title string, type_ string) *BaseItem {
+func NewBaseItem(title string, type_ BaseItemType) *BaseItem {
 	this := BaseItem{}
 	this.Title = title
 	this.Type = type_
@@ -71,9 +71,9 @@ func (o *BaseItem) SetTitle(v string) {
 }
 
 // GetType returns the Type field value
-func (o *BaseItem) GetType() string {
+func (o *BaseItem) GetType() BaseItemType {
 	if o == nil {
-		var ret string
+		var ret BaseItemType
 		return ret
 	}
 
@@ -82,7 +82,7 @@ func (o *BaseItem) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *BaseItem) GetTypeOk() (*string, bool) {
+func (o *BaseItem) GetTypeOk() (*BaseItemType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -90,7 +90,7 @@ func (o *BaseItem) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *BaseItem) SetType(v string) {
+func (o *BaseItem) SetType(v BaseItemType) {
 	o.Type = v
 }
 
