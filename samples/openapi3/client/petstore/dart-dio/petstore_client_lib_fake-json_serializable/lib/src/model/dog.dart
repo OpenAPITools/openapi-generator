@@ -11,6 +11,7 @@ part 'dog.g.dart';
 // ignore_for_file: unused_import
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

@@ -12,6 +12,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'enum_test.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

@@ -8,6 +8,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'has_only_read_only.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

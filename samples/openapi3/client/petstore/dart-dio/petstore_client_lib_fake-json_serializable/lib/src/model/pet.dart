@@ -10,6 +10,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'pet.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

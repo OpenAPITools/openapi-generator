@@ -9,6 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'mixed_properties_and_additional_properties_class.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
