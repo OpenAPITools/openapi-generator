@@ -41,7 +41,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// The raw binary stream (only set for binary responses)
         /// </summary>
-        public System.IO.Stream? ContentStream { get; }
+        System.IO.Stream? ContentStream { get; }
 
         /// <summary>
         /// The DateTime when the request was retrieved.
