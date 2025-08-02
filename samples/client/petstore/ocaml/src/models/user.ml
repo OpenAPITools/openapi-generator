@@ -48,7 +48,7 @@ type t = {
            option [@default None]
         
         ; [@key "userStatus"]
-} [@@deriving yojson { strict = false }, show ];;
+} [@@deriving yojson { strict = false }, show, eq ];;
 
 (** A User who is purchasing from the pet store *)
 let create () : t = {
