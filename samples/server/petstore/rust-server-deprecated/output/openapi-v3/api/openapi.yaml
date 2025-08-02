@@ -749,6 +749,7 @@ components:
         requiredObjectHeader:
           type: boolean
         optionalObjectHeader:
+          format: int32
           type: integer
       required:
       - requiredObjectHeader
