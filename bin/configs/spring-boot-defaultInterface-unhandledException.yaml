@@ -9,3 +9,4 @@ additionalProperties:
   interfaceOnly: true
   skipDefaultInterface: true
   unhandledException: true
+  disallowAdditionalPropertiesIfNotPresent: true

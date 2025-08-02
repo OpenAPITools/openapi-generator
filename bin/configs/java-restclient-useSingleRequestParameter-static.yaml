@@ -7,3 +7,4 @@ additionalProperties:
   artifactId: singleparam-restclient-static
   hideGenerationTimestamp: "true"
   useSingleRequestParameter: static
+  disallowAdditionalPropertiesIfNotPresent: true
