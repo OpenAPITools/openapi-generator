@@ -612,6 +612,19 @@ paths:
         - api_key_query: []
       requestBody:
         $ref: '#/components/requestBodies/Client'
+  /redirectOrDefault:
+    get:
+      operationId: redirectOrDefault
+      responses:
+        '301':
+          description: redirect
+          # response that does not provide any content
+        default:
+          description: default
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bar'
   /fake:
     patch:
       tags:
