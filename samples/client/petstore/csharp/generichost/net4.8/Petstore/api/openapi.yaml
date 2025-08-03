@@ -1726,6 +1726,10 @@ components:
         string_formatted_as_decimal_required:
           format: decimal
           type: string
+        duplicate_property_name:
+          type: string
+        '@duplicate_property_name':
+          type: string
       required:
       - byte
       - date

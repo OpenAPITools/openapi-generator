@@ -64,7 +64,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithBackslash">None.</param>
         /// <param name="stringFormattedAsDecimal">stringFormattedAsDecimal.</param>
         /// <param name="stringFormattedAsDecimalRequired">stringFormattedAsDecimalRequired (required).</param>
-        public FormatTest(int integer = default, int int32 = default, int int32Range = default, int int64Positive = default, int int64Negative = default, int int64PositiveExclusive = default, int int64NegativeExclusive = default, uint unsignedInteger = default, long int64 = default, ulong unsignedLong = default, decimal number = default, float varFloat = default, double varDouble = default, decimal varDecimal = default, string varString = default, byte[] varByte = default, System.IO.Stream binary = default, DateTime date = default, DateTime dateTime = default, Guid uuid = default, string password = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default, string patternWithBackslash = default, decimal stringFormattedAsDecimal = default, decimal stringFormattedAsDecimalRequired = default)
+        /// <param name="duplicatePropertyName2">duplicatePropertyName2.</param>
+        /// <param name="duplicatePropertyName">duplicatePropertyName.</param>
+        public FormatTest(int integer = default, int int32 = default, int int32Range = default, int int64Positive = default, int int64Negative = default, int int64PositiveExclusive = default, int int64NegativeExclusive = default, uint unsignedInteger = default, long int64 = default, ulong unsignedLong = default, decimal number = default, float varFloat = default, double varDouble = default, decimal varDecimal = default, string varString = default, byte[] varByte = default, System.IO.Stream binary = default, DateTime date = default, DateTime dateTime = default, Guid uuid = default, string password = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default, string patternWithBackslash = default, decimal stringFormattedAsDecimal = default, decimal stringFormattedAsDecimalRequired = default, string duplicatePropertyName2 = default, string duplicatePropertyName = default)
         {
             this.Number = number;
             // to ensure "varByte" is required (not null)
@@ -102,6 +104,8 @@ namespace Org.OpenAPITools.Model
             this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
             this.PatternWithBackslash = patternWithBackslash;
             this.StringFormattedAsDecimal = stringFormattedAsDecimal;
+            this.DuplicatePropertyName2 = duplicatePropertyName2;
+            this.DuplicatePropertyName = duplicatePropertyName;
         }
 
         /// <summary>
@@ -274,6 +278,18 @@ namespace Org.OpenAPITools.Model
         public decimal StringFormattedAsDecimalRequired { get; set; }
 
         /// <summary>
+        /// Gets or Sets DuplicatePropertyName2
+        /// </summary>
+        [DataMember(Name = "duplicate_property_name", EmitDefaultValue = false)]
+        public string DuplicatePropertyName2 { get; set; }
+
+        /// <summary>
+        /// Gets or Sets DuplicatePropertyName
+        /// </summary>
+        [DataMember(Name = "@duplicate_property_name", EmitDefaultValue = false)]
+        public string DuplicatePropertyName { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -307,6 +323,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
             sb.Append("  StringFormattedAsDecimal: ").Append(StringFormattedAsDecimal).Append("\n");
             sb.Append("  StringFormattedAsDecimalRequired: ").Append(StringFormattedAsDecimalRequired).Append("\n");
+            sb.Append("  DuplicatePropertyName2: ").Append(DuplicatePropertyName2).Append("\n");
+            sb.Append("  DuplicatePropertyName: ").Append(DuplicatePropertyName).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -455,6 +473,16 @@ namespace Org.OpenAPITools.Model
                 (
                     this.StringFormattedAsDecimalRequired == input.StringFormattedAsDecimalRequired ||
                     this.StringFormattedAsDecimalRequired.Equals(input.StringFormattedAsDecimalRequired)
+                ) && 
+                (
+                    this.DuplicatePropertyName2 == input.DuplicatePropertyName2 ||
+                    (this.DuplicatePropertyName2 != null &&
+                    this.DuplicatePropertyName2.Equals(input.DuplicatePropertyName2))
+                ) && 
+                (
+                    this.DuplicatePropertyName == input.DuplicatePropertyName ||
+                    (this.DuplicatePropertyName != null &&
+                    this.DuplicatePropertyName.Equals(input.DuplicatePropertyName))
                 );
         }
 
@@ -523,6 +551,14 @@ namespace Org.OpenAPITools.Model
                 }
                 hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
                 hashCode = (hashCode * 59) + this.StringFormattedAsDecimalRequired.GetHashCode();
+                if (this.DuplicatePropertyName2 != null)
+                {
+                    hashCode = (hashCode * 59) + this.DuplicatePropertyName2.GetHashCode();
+                }
+                if (this.DuplicatePropertyName != null)
+                {
+                    hashCode = (hashCode * 59) + this.DuplicatePropertyName.GetHashCode();
+                }
                 return hashCode;
             }
         }
