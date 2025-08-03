@@ -7,6 +7,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**FooGet**](DefaultApi.md#fooget) | **GET** /foo |  |
 | [**GetCountry**](DefaultApi.md#getcountry) | **POST** /country |  |
 | [**Hello**](DefaultApi.md#hello) | **GET** /hello | Hello |
+| [**RedirectOrDefault**](DefaultApi.md#redirectordefault) | **GET** /redirectOrDefault |  |
 | [**RolesReportGet**](DefaultApi.md#rolesreportget) | **GET** /roles/report |  |
 | [**Test**](DefaultApi.md#test) | **GET** /test | Retrieve an existing Notificationtest&#39;s Elements |
 
@@ -103,6 +104,37 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | UUIDs |  -  |
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+<a id="redirectordefault"></a>
+# **RedirectOrDefault**
+> string RedirectOrDefault ()
+
+
+
+
+### Parameters
+This endpoint does not need any parameter.
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **301** | redirect |  -  |
+| **0** | default |  -  |
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

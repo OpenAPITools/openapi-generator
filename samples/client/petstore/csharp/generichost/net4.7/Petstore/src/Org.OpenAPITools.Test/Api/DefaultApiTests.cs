@@ -83,6 +83,15 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
+        /// Test RedirectOrDefault
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task RedirectOrDefaultAsyncTest()
+        {
+            await _instance.RedirectOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Test RolesReportGet
         /// </summary>
         [Fact (Skip = "not implemented")]
@@ -90,7 +99,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             var response = await _instance.RolesReportGetAsync();
             var model = response.Ok();
-            Assert.IsType<List<List<RolesReportsHash>>>(model);
+            Assert.IsType<List<List>>(model);
         }
 
         /// <summary>

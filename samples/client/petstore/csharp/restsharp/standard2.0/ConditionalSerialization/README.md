@@ -108,6 +108,7 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
 *DefaultApi* | [**GetCountry**](docs/DefaultApi.md#getcountry) | **POST** /country | 
 *DefaultApi* | [**Hello**](docs/DefaultApi.md#hello) | **GET** /hello | Hello
+*DefaultApi* | [**RedirectOrDefault**](docs/DefaultApi.md#redirectordefault) | **GET** /redirectOrDefault | 
 *DefaultApi* | [**RolesReportGet**](docs/DefaultApi.md#rolesreportget) | **GET** /roles/report | 
 *DefaultApi* | [**Test**](docs/DefaultApi.md#test) | **GET** /test | Retrieve an existing Notificationtest's Elements
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
