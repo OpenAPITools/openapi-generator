@@ -3,8 +3,7 @@
     {{^x-produces-multipart-related}}
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str("{{{x-mime-type}}}")
-                                                            .expect("Unable to create Content-Type header for {{{x-mime-type}}}"));
+                                                        HeaderValue::from_static("{{{x-mime-type}}}"));
     {{/x-produces-multipart-related}}
     {{#x-produces-xml}}
                                                     // XML Body
