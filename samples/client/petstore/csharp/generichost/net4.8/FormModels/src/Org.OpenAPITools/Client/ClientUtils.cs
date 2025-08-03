@@ -176,6 +176,8 @@ namespace Org.OpenAPITools.Client
                 return FindPetsByStatusStatusParameterInnerValueConverter.ToJsonValue(findPetsByStatusStatusParameterInner);
             if (obj is MapTestMapOfEnumStringValue mapTestMapOfEnumStringValue)
                 return MapTestMapOfEnumStringValueValueConverter.ToJsonValue(mapTestMapOfEnumStringValue);
+            if (obj is MarineAreaCode marineAreaCode)
+                return MarineAreaCodeValueConverter.ToJsonValue(marineAreaCode);
             if (obj is OrderStatus orderStatus)
                 return OrderStatusValueConverter.ToJsonValue(orderStatus);
             if (obj is OuterEnum outerEnum)
@@ -202,6 +204,8 @@ namespace Org.OpenAPITools.Client
                 return RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.ToJsonValue(requiredClassRequiredNullableEnumIntegerOnly).ToString();
             if (obj is RequiredClassRequiredNullableEnumString requiredClassRequiredNullableEnumString)
                 return RequiredClassRequiredNullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNullableEnumString);
+            if (obj is StateTerritoryCode stateTerritoryCode)
+                return StateTerritoryCodeValueConverter.ToJsonValue(stateTerritoryCode);
             if (obj is TestDescendantsObjectType testDescendantsObjectType)
                 return TestDescendantsObjectTypeValueConverter.ToJsonValue(testDescendantsObjectType);
             if (obj is TestEnumParametersEnumHeaderStringParameter testEnumParametersEnumHeaderStringParameter)

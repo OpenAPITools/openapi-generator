@@ -179,6 +179,8 @@ namespace Org.OpenAPITools.Client
                 return EnumTest.EnumStringEnumToJsonValue(enumTestEnumStringEnum);
             if (obj is MapTest.InnerEnum mapTestInnerEnum)
                 return MapTest.InnerEnumToJsonValue(mapTestInnerEnum);
+            if (obj is MarineAreaCode marineAreaCode)
+                return MarineAreaCodeValueConverter.ToJsonValue(marineAreaCode);
             if (obj is Order.StatusEnum orderStatusEnum)
                 return Order.StatusEnumToJsonValue(orderStatusEnum);
             if (obj is OuterEnum outerEnum)
@@ -217,6 +219,8 @@ namespace Org.OpenAPITools.Client
                 return RequiredClass.RequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNullableEnumIntegerOnlyEnum).ToString();
             if (obj is RequiredClass.RequiredNullableEnumStringEnum requiredClassRequiredNullableEnumStringEnum)
                 return RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClassRequiredNullableEnumStringEnum);
+            if (obj is StateTerritoryCode stateTerritoryCode)
+                return StateTerritoryCodeValueConverter.ToJsonValue(stateTerritoryCode);
             if (obj is TestDescendants.ObjectTypeEnum testDescendantsObjectTypeEnum)
                 return TestDescendants.ObjectTypeEnumToJsonValue(testDescendantsObjectTypeEnum);
             if (obj is TestResultCode testResultCode)

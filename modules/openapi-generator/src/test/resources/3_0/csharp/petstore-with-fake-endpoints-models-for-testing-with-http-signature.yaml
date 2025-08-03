@@ -2948,3 +2948,17 @@ components:
       enum:
         - APPROVED
         - MANUAL_APPROVAL_REQUIRED
+    AreaCode:
+      oneOf:
+        - $ref: '#/components/schemas/StateTerritoryCode'
+        - $ref: '#/components/schemas/MarineAreaCode'
+    StateTerritoryCode:
+        enum:
+          - AL
+          - AK
+        type: string
+    MarineAreaCode:
+      enum:
+        - AM
+        - AN
+      type: string
