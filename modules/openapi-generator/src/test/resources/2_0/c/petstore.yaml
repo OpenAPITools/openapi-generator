@@ -727,6 +727,40 @@ paths:
       responses:
         '200':
           description: successful operation
+  '/user/test_int32_int64_float_double':
+    get:
+      tags:
+        - user
+      summary: test int32, int64 float and double query parameters in API
+      description: This can test int32, int64 float and double query parameters in API.
+      operationId: test_int32_int64_float_double
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: floatnum
+          in: query
+          description: A float number
+          type: number
+          format: float
+        - name: doublenum
+          in: query
+          description: A double number
+          type: number
+          format: double
+        - name: int32num
+          in: query
+          description: An int32 number
+          type: integer
+          format: int32
+        - name: int64num
+          in: query
+          description: An int64 number
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
 securityDefinitions:
   petstore_auth:
     type: oauth2
