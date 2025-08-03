@@ -17,7 +17,7 @@ part 'object_with_inline_enum.g.dart';
 abstract class ObjectWithInlineEnum implements Built<ObjectWithInlineEnum, ObjectWithInlineEnumBuilder> {
   /// Object one attribute enum
   @BuiltValueField(wireName: r'attribute')
-  BuiltSet<ObjectWithInlineEnumAttributeEnum>? get attribute;
+  BuiltSet<ObjectWithDuplicateInlineEnumAttributeEnum>? get attribute;
   // enum attributeEnum {  value_one,  value_two,  };
 
   ObjectWithInlineEnum._();
@@ -47,7 +47,7 @@ class _$ObjectWithInlineEnumSerializer implements PrimitiveSerializer<ObjectWith
       yield r'attribute';
       yield serializers.serialize(
         object.attribute,
-        specifiedType: const FullType(BuiltSet, [FullType(ObjectWithInlineEnumAttributeEnum)]),
+        specifiedType: const FullType(BuiltSet, [FullType(ObjectWithDuplicateInlineEnumAttributeEnum)]),
       );
     }
   }
@@ -76,8 +76,8 @@ class _$ObjectWithInlineEnumSerializer implements PrimitiveSerializer<ObjectWith
         case r'attribute':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltSet, [FullType(ObjectWithInlineEnumAttributeEnum)]),
-          ) as BuiltSet<ObjectWithInlineEnumAttributeEnum>;
+            specifiedType: const FullType(BuiltSet, [FullType(ObjectWithDuplicateInlineEnumAttributeEnum)]),
+          ) as BuiltSet<ObjectWithDuplicateInlineEnumAttributeEnum>;
           result.attribute.replace(valueDes);
           break;
         default:
@@ -109,20 +109,20 @@ class _$ObjectWithInlineEnumSerializer implements PrimitiveSerializer<ObjectWith
   }
 }
 
-class ObjectWithInlineEnumAttributeEnum extends EnumClass {
+class ObjectWithDuplicateInlineEnumAttributeEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'value_one')
-  static const ObjectWithInlineEnumAttributeEnum valueOne = _$objectWithInlineEnumAttributeEnum_valueOne;
+  static const ObjectWithDuplicateInlineEnumAttributeEnum valueOne = _$objectWithDuplicateInlineEnumAttributeEnum_valueOne;
   @BuiltValueEnumConst(wireName: r'value_two')
-  static const ObjectWithInlineEnumAttributeEnum valueTwo = _$objectWithInlineEnumAttributeEnum_valueTwo;
+  static const ObjectWithDuplicateInlineEnumAttributeEnum valueTwo = _$objectWithDuplicateInlineEnumAttributeEnum_valueTwo;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const ObjectWithInlineEnumAttributeEnum unknownDefaultOpenApi = _$objectWithInlineEnumAttributeEnum_unknownDefaultOpenApi;
+  static const ObjectWithDuplicateInlineEnumAttributeEnum unknownDefaultOpenApi = _$objectWithDuplicateInlineEnumAttributeEnum_unknownDefaultOpenApi;
 
-  static Serializer<ObjectWithInlineEnumAttributeEnum> get serializer => _$objectWithInlineEnumAttributeEnumSerializer;
+  static Serializer<ObjectWithDuplicateInlineEnumAttributeEnum> get serializer => _$objectWithDuplicateInlineEnumAttributeEnumSerializer;
 
-  const ObjectWithInlineEnumAttributeEnum._(String name): super(name);
+  const ObjectWithDuplicateInlineEnumAttributeEnum._(String name): super(name);
 
-  static BuiltSet<ObjectWithInlineEnumAttributeEnum> get values => _$objectWithInlineEnumAttributeEnumValues;
-  static ObjectWithInlineEnumAttributeEnum valueOf(String name) => _$objectWithInlineEnumAttributeEnumValueOf(name);
+  static BuiltSet<ObjectWithDuplicateInlineEnumAttributeEnum> get values => _$objectWithDuplicateInlineEnumAttributeEnumValues;
+  static ObjectWithDuplicateInlineEnumAttributeEnum valueOf(String name) => _$objectWithDuplicateInlineEnumAttributeEnumValueOf(name);
 }
 
