@@ -17,7 +17,6 @@ docs/models/Animal.md
 docs/models/ApiResponse.md
 docs/models/Apple.md
 docs/models/AppleReq.md
-docs/models/AreaCode.md
 docs/models/ArrayOfArrayOfNumberOnly.md
 docs/models/ArrayOfNumberOnly.md
 docs/models/ArrayTest.md
@@ -59,7 +58,6 @@ docs/models/List.md
 docs/models/LiteralStringClass.md
 docs/models/Mammal.md
 docs/models/MapTest.md
-docs/models/MarineAreaCode.md
 docs/models/MixedAnyOf.md
 docs/models/MixedAnyOfContent.md
 docs/models/MixedOneOf.md
@@ -101,7 +99,6 @@ docs/models/ShapeInterface.md
 docs/models/ShapeOrNull.md
 docs/models/SimpleQuadrilateral.md
 docs/models/SpecialModelName.md
-docs/models/StateTerritoryCode.md
 docs/models/Tag.md
 docs/models/TestCollectionEndingWithWordList.md
 docs/models/TestCollectionEndingWithWordListObject.md
@@ -163,7 +160,6 @@ src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs
 src/Org.OpenAPITools/Model/Apple.cs
 src/Org.OpenAPITools/Model/AppleReq.cs
-src/Org.OpenAPITools/Model/AreaCode.cs
 src/Org.OpenAPITools/Model/ArrayOfArrayOfNumberOnly.cs
 src/Org.OpenAPITools/Model/ArrayOfNumberOnly.cs
 src/Org.OpenAPITools/Model/ArrayTest.cs
@@ -205,7 +201,6 @@ src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
-src/Org.OpenAPITools/Model/MarineAreaCode.cs
 src/Org.OpenAPITools/Model/MixedAnyOf.cs
 src/Org.OpenAPITools/Model/MixedAnyOfContent.cs
 src/Org.OpenAPITools/Model/MixedOneOf.cs
@@ -247,7 +242,6 @@ src/Org.OpenAPITools/Model/ShapeInterface.cs
 src/Org.OpenAPITools/Model/ShapeOrNull.cs
 src/Org.OpenAPITools/Model/SimpleQuadrilateral.cs
 src/Org.OpenAPITools/Model/SpecialModelName.cs
-src/Org.OpenAPITools/Model/StateTerritoryCode.cs
 src/Org.OpenAPITools/Model/Tag.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs

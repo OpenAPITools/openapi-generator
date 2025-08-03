@@ -9,7 +9,6 @@ docs/AnotherFakeApi.md
 docs/ApiResponse.md
 docs/Apple.md
 docs/AppleReq.md
-docs/AreaCode.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
@@ -54,7 +53,6 @@ docs/List.md
 docs/LiteralStringClass.md
 docs/Mammal.md
 docs/MapTest.md
-docs/MarineAreaCode.md
 docs/MixedAnyOf.md
 docs/MixedAnyOfContent.md
 docs/MixedOneOf.md
@@ -97,7 +95,6 @@ docs/ShapeInterface.md
 docs/ShapeOrNull.md
 docs/SimpleQuadrilateral.md
 docs/SpecialModelName.md
-docs/StateTerritoryCode.md
 docs/StoreApi.md
 docs/Tag.md
 docs/TestCollectionEndingWithWordList.md
@@ -115,9 +112,6 @@ docs/Zebra.md
 docs/ZeroBasedEnum.md
 docs/ZeroBasedEnumClass.md
 git_push.sh
-src/Org.OpenAPITools.Test/Model/AreaCodeTests.cs
-src/Org.OpenAPITools.Test/Model/MarineAreaCodeTests.cs
-src/Org.OpenAPITools.Test/Model/StateTerritoryCodeTests.cs
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.asmdef
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
 src/Org.OpenAPITools/Api/DefaultApi.cs
@@ -153,7 +147,6 @@ src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs
 src/Org.OpenAPITools/Model/Apple.cs
 src/Org.OpenAPITools/Model/AppleReq.cs
-src/Org.OpenAPITools/Model/AreaCode.cs
 src/Org.OpenAPITools/Model/ArrayOfArrayOfNumberOnly.cs
 src/Org.OpenAPITools/Model/ArrayOfNumberOnly.cs
 src/Org.OpenAPITools/Model/ArrayTest.cs
@@ -195,7 +188,6 @@ src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
-src/Org.OpenAPITools/Model/MarineAreaCode.cs
 src/Org.OpenAPITools/Model/MixedAnyOf.cs
 src/Org.OpenAPITools/Model/MixedAnyOfContent.cs
 src/Org.OpenAPITools/Model/MixedOneOf.cs
@@ -237,7 +229,6 @@ src/Org.OpenAPITools/Model/ShapeInterface.cs
 src/Org.OpenAPITools/Model/ShapeOrNull.cs
 src/Org.OpenAPITools/Model/SimpleQuadrilateral.cs
 src/Org.OpenAPITools/Model/SpecialModelName.cs
-src/Org.OpenAPITools/Model/StateTerritoryCode.cs
 src/Org.OpenAPITools/Model/Tag.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs

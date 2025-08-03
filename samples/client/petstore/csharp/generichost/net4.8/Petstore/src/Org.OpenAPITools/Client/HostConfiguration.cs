@@ -46,7 +46,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new ApiResponseJsonConverter());
             _jsonOptions.Converters.Add(new AppleJsonConverter());
             _jsonOptions.Converters.Add(new AppleReqJsonConverter());
-            _jsonOptions.Converters.Add(new AreaCodeJsonConverter());
             _jsonOptions.Converters.Add(new ArrayOfArrayOfNumberOnlyJsonConverter());
             _jsonOptions.Converters.Add(new ArrayOfNumberOnlyJsonConverter());
             _jsonOptions.Converters.Add(new ArrayTestJsonConverter());
@@ -89,8 +88,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new LiteralStringClassJsonConverter());
             _jsonOptions.Converters.Add(new MammalJsonConverter());
             _jsonOptions.Converters.Add(new MapTestJsonConverter());
-            _jsonOptions.Converters.Add(new MarineAreaCodeJsonConverter());
-            _jsonOptions.Converters.Add(new MarineAreaCodeNullableJsonConverter());
             _jsonOptions.Converters.Add(new MixedAnyOfJsonConverter());
             _jsonOptions.Converters.Add(new MixedAnyOfContentJsonConverter());
             _jsonOptions.Converters.Add(new MixedOneOfJsonConverter());
@@ -137,8 +134,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new ShapeOrNullJsonConverter());
             _jsonOptions.Converters.Add(new SimpleQuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new SpecialModelNameJsonConverter());
-            _jsonOptions.Converters.Add(new StateTerritoryCodeJsonConverter());
-            _jsonOptions.Converters.Add(new StateTerritoryCodeNullableJsonConverter());
             _jsonOptions.Converters.Add(new TagJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());

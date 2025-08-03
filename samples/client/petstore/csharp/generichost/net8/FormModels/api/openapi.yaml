@@ -2700,20 +2700,6 @@ components:
       - APPROVED
       - MANUAL_APPROVAL_REQUIRED
       type: string
-    AreaCode:
-      oneOf:
-      - $ref: "#/components/schemas/StateTerritoryCode"
-      - $ref: "#/components/schemas/MarineAreaCode"
-    StateTerritoryCode:
-      enum:
-      - AL
-      - AK
-      type: string
-    MarineAreaCode:
-      enum:
-      - AM
-      - AN
-      type: string
     _foo_get_default_response:
       example:
         string:
