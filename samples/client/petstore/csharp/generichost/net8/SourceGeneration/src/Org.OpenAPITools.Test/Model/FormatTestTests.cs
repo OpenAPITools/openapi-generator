@@ -135,6 +135,24 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'DuplicatePropertyName2'
+        /// </summary>
+        [Fact]
+        public void DuplicatePropertyName2Test()
+        {
+            // TODO unit test for the property 'DuplicatePropertyName2'
+        }
+
+        /// <summary>
+        /// Test the property 'DuplicatePropertyName'
+        /// </summary>
+        [Fact]
+        public void DuplicatePropertyNameTest()
+        {
+            // TODO unit test for the property 'DuplicatePropertyName'
+        }
+
+        /// <summary>
         /// Test the property 'Float'
         /// </summary>
         [Fact]

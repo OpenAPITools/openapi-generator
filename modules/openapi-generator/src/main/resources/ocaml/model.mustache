@@ -43,7 +43,7 @@ type t = {
         ; [@key "{{{baseName}}}"]
     {{/isEnum}}
 {{/vars}}
-} [@@deriving yojson { strict = false }, show ];;
+} [@@deriving yojson { strict = false }, show, eq ];;
 
 {{#description}}
 (** {{{.}}} *)

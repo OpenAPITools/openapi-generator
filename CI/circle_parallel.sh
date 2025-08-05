@@ -115,6 +115,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/javascript-flowtyped && mvn integration-test)
   (cd samples/client/petstore/javascript-es6 && mvn integration-test)
   (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)
+  (cd samples/server/petstore/typescript-nestjs-server && mvn integration-test)
 
 else
   echo "Running node $NODE_INDEX ..."
