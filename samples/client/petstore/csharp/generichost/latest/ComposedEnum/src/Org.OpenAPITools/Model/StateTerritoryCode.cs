@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, StateTerritoryCode stateTerritoryCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(stateTerritoryCode.ToString());
+            writer.WriteStringValue(StateTerritoryCodeValueConverter.ToJsonValue(stateTerritoryCode).ToString());
         }
     }
 
@@ -162,14 +162,14 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the StateTerritoryCode to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="stateTerritoryCode"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, StateTerritoryCode? stateTerritoryCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(stateTerritoryCode?.ToString() ?? "null");
+            writer.WriteStringValue(stateTerritoryCode.HasValue ? StateTerritoryCodeValueConverter.ToJsonValue(stateTerritoryCode.Value).ToString() : "null");
         }
     }
 }
