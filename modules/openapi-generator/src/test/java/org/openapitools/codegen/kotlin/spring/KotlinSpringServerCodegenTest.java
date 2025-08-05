@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import java.util.HashMap;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
@@ -18,10 +19,13 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -1230,6 +1234,57 @@ public class KotlinSpringServerCodegenTest {
                 "@NotNull", "@Valid");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApi.kt"),
                 "@NotNull", "@Valid", "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$\")");
+    }
+
+    @DataProvider
+    public Object[][] issue17997DocumentationProviders() {
+        return new Object[][]{
+            {DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name()},
+            {DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name()},
+        };
+    }
+
+    @Test(dataProvider = "issue17997DocumentationProviders")
+    public void testDocumentationAnnotationInPathParams_Issue17997(String documentProvider) throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(DOCUMENTATION_PROVIDER, documentProvider);
+
+        Map<String, String> generatorPropertyDefaults = new HashMap<>();
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_TESTS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_DOCS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/issue_6762.yaml",
+            additionalProperties,
+            generatorPropertyDefaults
+        );
+
+        Stream.of(
+            "ZebrasApiController.kt",
+            "GiraffesApiController.kt"
+        ).forEach(filename -> {
+            File file = files.get(filename);
+            assertThat(file).isNotNull();
+            assertFileContains(
+                file.toPath(),
+                "allowableValues = [\"0\", \"1\"], defaultValue = \"0\"",
+                "@PathVariable"
+            );
+        });
+
+        Stream.of(
+            "BearsApiController.kt",
+            "CamelsApiController.kt"
+        ).forEach(filename -> {
+            File file = files.get(filename);
+            assertThat(file).isNotNull();
+            assertFileContains(
+                file.toPath(),
+                "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
+                "@PathVariable"
+            );
+        });
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {
