@@ -1237,13 +1237,43 @@ public class KotlinSpringServerCodegenTest {
     @DataProvider
     public Object[][] issue17997DocumentationProviders() {
         return new Object[][]{
-            {DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name()},
-            {DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name()},
+            {DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = [\"0\", \"1\"], defaultValue = \"0\"",
+                        "@PathVariable"
+                    ),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
+                        "@PathVariable"
+                    )
+            },
+            {DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = \"0, 1\", defaultValue = \"0\"",
+                        "@PathVariable"
+                    ),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = \"sleeping, awake\"", "@PathVariable",
+                        "@PathVariable"
+                    )
+            }
         };
     }
 
     @Test(dataProvider = "issue17997DocumentationProviders")
-    public void testDocumentationAnnotationInPathParams_Issue17997(String documentProvider) throws IOException {
+    public void testDocumentationAnnotationInPathParams_Issue17997(
+        String documentProvider,
+        Consumer<Path> intEnumAssertFunction,
+        Consumer<Path> stringEnumAssertFunction
+    ) throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(DOCUMENTATION_PROVIDER, documentProvider);
 
@@ -1264,11 +1294,7 @@ public class KotlinSpringServerCodegenTest {
         ).forEach(filename -> {
             File file = files.get(filename);
             assertThat(file).isNotNull();
-            assertFileContains(
-                file.toPath(),
-                "allowableValues = [\"0\", \"1\"], defaultValue = \"0\"",
-                "@PathVariable"
-            );
+            intEnumAssertFunction.accept(file.toPath());
         });
 
         Stream.of(
@@ -1277,11 +1303,7 @@ public class KotlinSpringServerCodegenTest {
         ).forEach(filename -> {
             File file = files.get(filename);
             assertThat(file).isNotNull();
-            assertFileContains(
-                file.toPath(),
-                "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
-                "@PathVariable"
-            );
+            stringEnumAssertFunction.accept(file.toPath());
         });
     }
 
