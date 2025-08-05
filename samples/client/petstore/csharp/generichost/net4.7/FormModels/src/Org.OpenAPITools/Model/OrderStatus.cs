@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OrderStatus orderStatus, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(OrderStatusValueConverter.ToJsonValue(orderStatus));
+            writer.WriteStringValue(OrderStatusValueConverter.ToJsonValue(orderStatus).ToString());
         }
     }
 
@@ -183,7 +183,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OrderStatus? orderStatus, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(orderStatus.HasValue ? OrderStatusValueConverter.ToJsonValue(orderStatus.Value) : "null");
+            writer.WriteStringValue(orderStatus.HasValue ? OrderStatusValueConverter.ToJsonValue(orderStatus.Value).ToString() : "null");
         }
     }
 }

@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, MapTestMapOfEnumStringValue mapTestMapOfEnumStringValue, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(MapTestMapOfEnumStringValueValueConverter.ToJsonValue(mapTestMapOfEnumStringValue));
+            writer.WriteStringValue(MapTestMapOfEnumStringValueValueConverter.ToJsonValue(mapTestMapOfEnumStringValue).ToString());
         }
     }
 
@@ -168,7 +168,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, MapTestMapOfEnumStringValue? mapTestMapOfEnumStringValue, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(mapTestMapOfEnumStringValue.HasValue ? MapTestMapOfEnumStringValueValueConverter.ToJsonValue(mapTestMapOfEnumStringValue.Value) : "null");
+            writer.WriteStringValue(mapTestMapOfEnumStringValue.HasValue ? MapTestMapOfEnumStringValueValueConverter.ToJsonValue(mapTestMapOfEnumStringValue.Value).ToString() : "null");
         }
     }
 }

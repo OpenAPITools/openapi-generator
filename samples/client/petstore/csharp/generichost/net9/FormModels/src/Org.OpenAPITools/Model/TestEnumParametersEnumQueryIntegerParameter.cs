@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersEnumQueryIntegerParameter testEnumParametersEnumQueryIntegerParameter, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(TestEnumParametersEnumQueryIntegerParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryIntegerParameter));
+            writer.WriteStringValue(TestEnumParametersEnumQueryIntegerParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryIntegerParameter).ToString());
         }
     }
 
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersEnumQueryIntegerParameter? testEnumParametersEnumQueryIntegerParameter, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersEnumQueryIntegerParameter.HasValue ? TestEnumParametersEnumQueryIntegerParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryIntegerParameter.Value) : "null");
+            writer.WriteStringValue(testEnumParametersEnumQueryIntegerParameter.HasValue ? TestEnumParametersEnumQueryIntegerParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryIntegerParameter.Value).ToString() : "null");
         }
     }
 }

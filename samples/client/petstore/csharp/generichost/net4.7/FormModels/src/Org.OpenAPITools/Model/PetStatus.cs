@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, PetStatus petStatus, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(PetStatusValueConverter.ToJsonValue(petStatus));
+            writer.WriteStringValue(PetStatusValueConverter.ToJsonValue(petStatus).ToString());
         }
     }
 
@@ -183,7 +183,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, PetStatus? petStatus, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(petStatus.HasValue ? PetStatusValueConverter.ToJsonValue(petStatus.Value) : "null");
+            writer.WriteStringValue(petStatus.HasValue ? PetStatusValueConverter.ToJsonValue(petStatus.Value).ToString() : "null");
         }
     }
 }

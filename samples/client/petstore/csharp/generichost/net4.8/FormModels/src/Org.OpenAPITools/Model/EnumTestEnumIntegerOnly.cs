@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, EnumTestEnumIntegerOnly enumTestEnumIntegerOnly, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(EnumTestEnumIntegerOnlyValueConverter.ToJsonValue(enumTestEnumIntegerOnly));
+            writer.WriteStringValue(EnumTestEnumIntegerOnlyValueConverter.ToJsonValue(enumTestEnumIntegerOnly).ToString());
         }
     }
 
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, EnumTestEnumIntegerOnly? enumTestEnumIntegerOnly, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(enumTestEnumIntegerOnly.HasValue ? EnumTestEnumIntegerOnlyValueConverter.ToJsonValue(enumTestEnumIntegerOnly.Value) : "null");
+            writer.WriteStringValue(enumTestEnumIntegerOnly.HasValue ? EnumTestEnumIntegerOnlyValueConverter.ToJsonValue(enumTestEnumIntegerOnly.Value).ToString() : "null");
         }
     }
 }

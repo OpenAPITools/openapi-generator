@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, EnumArraysJustSymbol enumArraysJustSymbol, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(EnumArraysJustSymbolValueConverter.ToJsonValue(enumArraysJustSymbol));
+            writer.WriteStringValue(EnumArraysJustSymbolValueConverter.ToJsonValue(enumArraysJustSymbol).ToString());
         }
     }
 
@@ -168,7 +168,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, EnumArraysJustSymbol? enumArraysJustSymbol, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(enumArraysJustSymbol.HasValue ? EnumArraysJustSymbolValueConverter.ToJsonValue(enumArraysJustSymbol.Value) : "null");
+            writer.WriteStringValue(enumArraysJustSymbol.HasValue ? EnumArraysJustSymbolValueConverter.ToJsonValue(enumArraysJustSymbol.Value).ToString() : "null");
         }
     }
 }

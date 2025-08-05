@@ -144,7 +144,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, FindPetsByStatusStatusParameterInner findPetsByStatusStatusParameterInner, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(FindPetsByStatusStatusParameterInnerValueConverter.ToJsonValue(findPetsByStatusStatusParameterInner));
+            writer.WriteStringValue(FindPetsByStatusStatusParameterInnerValueConverter.ToJsonValue(findPetsByStatusStatusParameterInner).ToString());
         }
     }
 
@@ -182,7 +182,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, FindPetsByStatusStatusParameterInner? findPetsByStatusStatusParameterInner, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(findPetsByStatusStatusParameterInner.HasValue ? FindPetsByStatusStatusParameterInnerValueConverter.ToJsonValue(findPetsByStatusStatusParameterInner.Value) : "null");
+            writer.WriteStringValue(findPetsByStatusStatusParameterInner.HasValue ? FindPetsByStatusStatusParameterInnerValueConverter.ToJsonValue(findPetsByStatusStatusParameterInner.Value).ToString() : "null");
         }
     }
 }

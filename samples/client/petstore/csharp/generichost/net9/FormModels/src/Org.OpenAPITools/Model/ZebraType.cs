@@ -144,7 +144,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ZebraType zebraType, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(ZebraTypeValueConverter.ToJsonValue(zebraType));
+            writer.WriteStringValue(ZebraTypeValueConverter.ToJsonValue(zebraType).ToString());
         }
     }
 
@@ -182,7 +182,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ZebraType? zebraType, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(zebraType.HasValue ? ZebraTypeValueConverter.ToJsonValue(zebraType.Value) : "null");
+            writer.WriteStringValue(zebraType.HasValue ? ZebraTypeValueConverter.ToJsonValue(zebraType.Value).ToString() : "null");
         }
     }
 }

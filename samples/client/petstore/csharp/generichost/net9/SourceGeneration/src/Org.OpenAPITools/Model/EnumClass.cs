@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, EnumClass enumClass, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(EnumClassValueConverter.ToJsonValue(enumClass));
+            writer.WriteStringValue(EnumClassValueConverter.ToJsonValue(enumClass).ToString());
         }
     }
 
@@ -185,7 +185,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, EnumClass? enumClass, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(enumClass.HasValue ? EnumClassValueConverter.ToJsonValue(enumClass.Value) : "null");
+            writer.WriteStringValue(enumClass.HasValue ? EnumClassValueConverter.ToJsonValue(enumClass.Value).ToString() : "null");
         }
     }
 

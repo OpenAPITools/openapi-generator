@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestResultCode testResultCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(TestResultCodeValueConverter.ToJsonValue(testResultCode));
+            writer.WriteStringValue(TestResultCodeValueConverter.ToJsonValue(testResultCode).ToString());
         }
     }
 
@@ -171,7 +171,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestResultCode? testResultCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testResultCode.HasValue ? TestResultCodeValueConverter.ToJsonValue(testResultCode.Value) : "null");
+            writer.WriteStringValue(testResultCode.HasValue ? TestResultCodeValueConverter.ToJsonValue(testResultCode.Value).ToString() : "null");
         }
     }
 }

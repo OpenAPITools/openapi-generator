@@ -214,7 +214,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, RequiredClassRequiredNotnullableEnumString requiredClassRequiredNotnullableEnumString, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(RequiredClassRequiredNotnullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNotnullableEnumString));
+            writer.WriteStringValue(RequiredClassRequiredNotnullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNotnullableEnumString).ToString());
         }
     }
 
@@ -252,7 +252,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, RequiredClassRequiredNotnullableEnumString? requiredClassRequiredNotnullableEnumString, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(requiredClassRequiredNotnullableEnumString.HasValue ? RequiredClassRequiredNotnullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNotnullableEnumString.Value) : "null");
+            writer.WriteStringValue(requiredClassRequiredNotnullableEnumString.HasValue ? RequiredClassRequiredNotnullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNotnullableEnumString.Value).ToString() : "null");
         }
     }
 }

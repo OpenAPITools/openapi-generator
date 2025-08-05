@@ -132,7 +132,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ZeroBasedEnum zeroBasedEnum, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(ZeroBasedEnumValueConverter.ToJsonValue(zeroBasedEnum));
+            writer.WriteStringValue(ZeroBasedEnumValueConverter.ToJsonValue(zeroBasedEnum).ToString());
         }
     }
 
@@ -170,7 +170,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ZeroBasedEnum? zeroBasedEnum, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(zeroBasedEnum.HasValue ? ZeroBasedEnumValueConverter.ToJsonValue(zeroBasedEnum.Value) : "null");
+            writer.WriteStringValue(zeroBasedEnum.HasValue ? ZeroBasedEnumValueConverter.ToJsonValue(zeroBasedEnum.Value).ToString() : "null");
         }
     }
 }

@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumDefaultValue outerEnumDefaultValue, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(OuterEnumDefaultValueValueConverter.ToJsonValue(outerEnumDefaultValue));
+            writer.WriteStringValue(OuterEnumDefaultValueValueConverter.ToJsonValue(outerEnumDefaultValue).ToString());
         }
     }
 
@@ -184,7 +184,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumDefaultValue? outerEnumDefaultValue, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(outerEnumDefaultValue.HasValue ? OuterEnumDefaultValueValueConverter.ToJsonValue(outerEnumDefaultValue.Value) : "null");
+            writer.WriteStringValue(outerEnumDefaultValue.HasValue ? OuterEnumDefaultValueValueConverter.ToJsonValue(outerEnumDefaultValue.Value).ToString() : "null");
         }
     }
 }

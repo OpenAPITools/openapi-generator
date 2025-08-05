@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestDescendantsObjectType testDescendantsObjectType, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(TestDescendantsObjectTypeValueConverter.ToJsonValue(testDescendantsObjectType));
+            writer.WriteStringValue(TestDescendantsObjectTypeValueConverter.ToJsonValue(testDescendantsObjectType).ToString());
         }
     }
 
@@ -168,7 +168,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestDescendantsObjectType? testDescendantsObjectType, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testDescendantsObjectType.HasValue ? TestDescendantsObjectTypeValueConverter.ToJsonValue(testDescendantsObjectType.Value) : "null");
+            writer.WriteStringValue(testDescendantsObjectType.HasValue ? TestDescendantsObjectTypeValueConverter.ToJsonValue(testDescendantsObjectType.Value).ToString() : "null");
         }
     }
 }

@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersRequestEnumFormString testEnumParametersRequestEnumFormString, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString));
+            writer.WriteStringValue(TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString).ToString());
         }
     }
 
@@ -183,7 +183,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersRequestEnumFormString? testEnumParametersRequestEnumFormString, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersRequestEnumFormString.HasValue ? TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString.Value) : "null");
+            writer.WriteStringValue(testEnumParametersRequestEnumFormString.HasValue ? TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString.Value).ToString() : "null");
         }
     }
 }
