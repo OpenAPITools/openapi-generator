@@ -142,7 +142,7 @@ impl std::str::FromStr for FooANullableContainer {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing FooANullableContainer".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -355,7 +355,7 @@ impl std::str::FromStr for FooAllOfObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing FooAllOfObject".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -373,7 +373,7 @@ impl std::str::FromStr for FooAllOfObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FooAllOfObject".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -456,17 +456,16 @@ impl FooBaseAllOf {
 impl std::fmt::Display for FooBaseAllOf {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> =
-            vec![
-                self.sample_base_property
-                    .as_ref()
-                    .map(|sample_base_property| {
-                        [
-                            "sampleBaseProperty".to_string(),
-                            sample_base_property.to_string(),
-                        ]
-                        .join(",")
-                    }),
-            ];
+            vec![self
+                .sample_base_property
+                .as_ref()
+                .map(|sample_base_property| {
+                    [
+                        "sampleBaseProperty".to_string(),
+                        sample_base_property.to_string(),
+                    ]
+                    .join(",")
+                })];
 
         write!(
             f,
@@ -502,7 +501,7 @@ impl std::str::FromStr for FooBaseAllOf {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing FooBaseAllOf".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -516,7 +515,7 @@ impl std::str::FromStr for FooBaseAllOf {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FooBaseAllOf".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -642,7 +641,7 @@ impl std::str::FromStr for FooDummyPutRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing FooDummyPutRequest".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -660,7 +659,7 @@ impl std::str::FromStr for FooDummyPutRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FooDummyPutRequest".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -746,11 +745,10 @@ impl FooGetYamlResponse {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for FooGetYamlResponse {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![
-            self.value
-                .as_ref()
-                .map(|value| ["value".to_string(), value.to_string()].join(",")),
-        ];
+        let params: Vec<Option<String>> = vec![self
+            .value
+            .as_ref()
+            .map(|value| ["value".to_string(), value.to_string()].join(","))];
 
         write!(
             f,
@@ -786,7 +784,7 @@ impl std::str::FromStr for FooGetYamlResponse {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing FooGetYamlResponse".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -800,7 +798,7 @@ impl std::str::FromStr for FooGetYamlResponse {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FooGetYamlResponse".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -919,7 +917,7 @@ impl std::str::FromStr for FooObjectOfObjects {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing FooObjectOfObjects".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -934,7 +932,7 @@ impl std::str::FromStr for FooObjectOfObjects {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FooObjectOfObjects".to_string(),
-                        );
+                        )
                     }
                 }
             }
@@ -1062,7 +1060,7 @@ impl std::str::FromStr for FooObjectOfObjectsInner {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing FooObjectOfObjectsInner".to_string(),
-                    );
+                    )
                 }
             };
 
@@ -1080,7 +1078,7 @@ impl std::str::FromStr for FooObjectOfObjectsInner {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FooObjectOfObjectsInner".to_string(),
-                        );
+                        )
                     }
                 }
             }
