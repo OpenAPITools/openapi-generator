@@ -43,6 +43,7 @@ build_script:
   #- dotnet build samples\client\petstore\csharp\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
 
 test_script:
+  - dotnet test samples\client\petstore\csharp\generichost\latest\ComposedEnum\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\latest\Tags\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\latest\HelloWorld\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\latest\OneOfList\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
