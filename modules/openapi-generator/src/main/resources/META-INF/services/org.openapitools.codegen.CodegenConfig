@@ -14,6 +14,7 @@ org.openapitools.codegen.languages.ClojureClientCodegen
 org.openapitools.codegen.languages.ConfluenceWikiCodegen
 org.openapitools.codegen.languages.CppQtClientCodegen
 org.openapitools.codegen.languages.CppQtQHttpEngineServerCodegen
+org.openapitools.codegen.languages.CppOatppClientCodegen
 org.openapitools.codegen.languages.CppOatppServerCodegen
 org.openapitools.codegen.languages.CppPistacheServerCodegen
 org.openapitools.codegen.languages.CppRestbedServerCodegen
