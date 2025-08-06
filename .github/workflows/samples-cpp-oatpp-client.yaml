@@ -1,23 +1,23 @@
-name: Samples cpp oat++ server
+name: Samples cpp oat++ client
 
 on:
   push:
     branches:
-      - "samples/server/petstore/cpp-oatpp/**"
+      - "samples/client/petstore/cpp-oatpp/**"
   pull_request:
     paths:
-      - "samples/server/petstore/cpp-oatpp/**"
+      - "samples/client/petstore/cpp-oatpp/**"
 
 env:
   GRADLE_VERSION: 6.9
 
 jobs:
   build:
-    name: Build cpp oat++ server
+    name: Build cpp oat++ client
     strategy:
       matrix:
         sample:
-          - samples/server/petstore/cpp-oatpp
+          - samples/client/petstore/cpp-oatpp
         os:
           - ubuntu-latest
           - macOS-latest
