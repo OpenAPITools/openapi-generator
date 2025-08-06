@@ -22,7 +22,7 @@ var _ MappedNullable = &Query{}
 type Query struct {
 	// Query
 	Id *int64 `json:"id,omitempty"`
-	Outcomes []string `json:"outcomes,omitempty"`
+	Outcomes []QueryOutcomesInner `json:"outcomes,omitempty"`
 }
 
 // NewQuery instantiates a new Query object
@@ -75,9 +75,9 @@ func (o *Query) SetId(v int64) {
 }
 
 // GetOutcomes returns the Outcomes field value if set, zero value otherwise.
-func (o *Query) GetOutcomes() []string {
+func (o *Query) GetOutcomes() []QueryOutcomesInner {
 	if o == nil || IsNil(o.Outcomes) {
-		var ret []string
+		var ret []QueryOutcomesInner
 		return ret
 	}
 	return o.Outcomes
@@ -85,7 +85,7 @@ func (o *Query) GetOutcomes() []string {
 
 // GetOutcomesOk returns a tuple with the Outcomes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Query) GetOutcomesOk() ([]string, bool) {
+func (o *Query) GetOutcomesOk() ([]QueryOutcomesInner, bool) {
 	if o == nil || IsNil(o.Outcomes) {
 		return nil, false
 	}
@@ -101,8 +101,8 @@ func (o *Query) HasOutcomes() bool {
 	return false
 }
 
-// SetOutcomes gets a reference to the given []string and assigns it to the Outcomes field.
-func (o *Query) SetOutcomes(v []string) {
+// SetOutcomes gets a reference to the given []QueryOutcomesInner and assigns it to the Outcomes field.
+func (o *Query) SetOutcomes(v []QueryOutcomesInner) {
 	o.Outcomes = v
 }
 

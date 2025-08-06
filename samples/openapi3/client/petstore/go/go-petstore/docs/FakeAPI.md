@@ -789,14 +789,14 @@ import (
 )
 
 func main() {
-	enumHeaderStringArray := []string{"EnumHeaderStringArray_example"} // []string | Header parameter enum test (string array) (optional)
-	enumHeaderString := "enumHeaderString_example" // string | Header parameter enum test (string) (optional) (default to "-efg")
-	enumQueryStringArray := []string{"EnumQueryStringArray_example"} // []string | Query parameter enum test (string array) (optional)
-	enumQueryString := "enumQueryString_example" // string | Query parameter enum test (string) (optional) (default to "-efg")
-	enumQueryInteger := int32(56) // int32 | Query parameter enum test (double) (optional)
-	enumQueryDouble := float64(1.2) // float64 | Query parameter enum test (double) (optional)
-	enumFormStringArray := []string{"Inner_example"} // []string | Form parameter enum test (string array) (optional) (default to "$")
-	enumFormString := "enumFormString_example" // string | Form parameter enum test (string) (optional) (default to "-efg")
+	enumHeaderStringArray := []openapiclient.TestEnumParametersRequestEnumFormStringArrayInner{openapiclient.testEnumParameters_request_enum_form_string_array_inner(">")} // []TestEnumParametersRequestEnumFormStringArrayInner | Header parameter enum test (string array) (optional)
+	enumHeaderString := openapiclient.testEnumParameters_enum_header_string_parameter("_abc") // TestEnumParametersEnumHeaderStringParameter | Header parameter enum test (string) (optional) (default to "-efg")
+	enumQueryStringArray := []openapiclient.TestEnumParametersRequestEnumFormStringArrayInner{openapiclient.testEnumParameters_request_enum_form_string_array_inner(">")} // []TestEnumParametersRequestEnumFormStringArrayInner | Query parameter enum test (string array) (optional)
+	enumQueryString := openapiclient.testEnumParameters_enum_header_string_parameter("_abc") // TestEnumParametersEnumHeaderStringParameter | Query parameter enum test (string) (optional) (default to "-efg")
+	enumQueryInteger := openapiclient.testEnumParameters_enum_query_integer_parameter(1) // TestEnumParametersEnumQueryIntegerParameter | Query parameter enum test (double) (optional)
+	enumQueryDouble := openapiclient.testEnumParameters_enum_query_double_parameter(1.1) // TestEnumParametersEnumQueryDoubleParameter | Query parameter enum test (double) (optional)
+	enumFormStringArray := []openapiclient.TestEnumParametersRequestEnumFormStringArrayInner{openapiclient.testEnumParameters_request_enum_form_string_array_inner(">")} // []TestEnumParametersRequestEnumFormStringArrayInner | Form parameter enum test (string array) (optional) (default to "$")
+	enumFormString := openapiclient.testEnumParameters_request_enum_form_string("_abc") // TestEnumParametersRequestEnumFormString |  (optional) (default to "-efg")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -819,14 +819,14 @@ Other parameters are passed through a pointer to a apiTestEnumParametersRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | **[]string** | Header parameter enum test (string array) | 
- **enumHeaderString** | **string** | Header parameter enum test (string) | [default to &quot;-efg&quot;]
- **enumQueryStringArray** | **[]string** | Query parameter enum test (string array) | 
- **enumQueryString** | **string** | Query parameter enum test (string) | [default to &quot;-efg&quot;]
- **enumQueryInteger** | **int32** | Query parameter enum test (double) | 
- **enumQueryDouble** | **float64** | Query parameter enum test (double) | 
- **enumFormStringArray** | **[]string** | Form parameter enum test (string array) | [default to &quot;$&quot;]
- **enumFormString** | **string** | Form parameter enum test (string) | [default to &quot;-efg&quot;]
+ **enumHeaderStringArray** | [**[]TestEnumParametersRequestEnumFormStringArrayInner**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Header parameter enum test (string array) | 
+ **enumHeaderString** | [**TestEnumParametersEnumHeaderStringParameter**](TestEnumParametersEnumHeaderStringParameter.md) | Header parameter enum test (string) | [default to &quot;-efg&quot;]
+ **enumQueryStringArray** | [**[]TestEnumParametersRequestEnumFormStringArrayInner**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Query parameter enum test (string array) | 
+ **enumQueryString** | [**TestEnumParametersEnumHeaderStringParameter**](TestEnumParametersEnumHeaderStringParameter.md) | Query parameter enum test (string) | [default to &quot;-efg&quot;]
+ **enumQueryInteger** | [**TestEnumParametersEnumQueryIntegerParameter**](TestEnumParametersEnumQueryIntegerParameter.md) | Query parameter enum test (double) | 
+ **enumQueryDouble** | [**TestEnumParametersEnumQueryDoubleParameter**](TestEnumParametersEnumQueryDoubleParameter.md) | Query parameter enum test (double) | 
+ **enumFormStringArray** | [**[]TestEnumParametersRequestEnumFormStringArrayInner**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Form parameter enum test (string array) | [default to &quot;$&quot;]
+ **enumFormString** | [**TestEnumParametersRequestEnumFormString**](TestEnumParametersRequestEnumFormString.md) |  | [default to &quot;-efg&quot;]
 
 ### Return type
 

@@ -21,10 +21,7 @@ components:
         title:
           type: string
         type:
-          enum:
-          - FINAL
-          example: FINAL
-          type: string
+          $ref: "#/components/schemas/base_item_type"
       required:
       - title
       - type
@@ -54,3 +51,8 @@ components:
       - totalPrice
       - unitPrice
       type: object
+    base_item_type:
+      enum:
+      - FINAL
+      example: FINAL
+      type: string
