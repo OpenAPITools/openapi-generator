@@ -92,7 +92,7 @@ jobs:
           java-version: 11
           maven-version: 3.8.8
       - name: Download build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: artifact
       - name: Run Ensures Script
