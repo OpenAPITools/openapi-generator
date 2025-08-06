@@ -102,16 +102,16 @@ public class CppOatppClientCodegen extends AbstractCppCodegen {
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
-                    "oatpp::String",
-                    "oatpp::Boolean",
-                    "oatpp::Int32",
-                    "oatpp::Int64",
-                    "oatpp::Vector",
-                    "oatpp::Fields",
-                    "oatpp::UnorderedSet",
-                    "oatpp::Object",
-                    "oatpp::Float64",
-                    "oatpp::Any"
+                        "oatpp::String",
+                        "oatpp::Boolean",
+                        "oatpp::Int32",
+                        "oatpp::Int64",
+                        "oatpp::Vector",
+                        "oatpp::Fields",
+                        "oatpp::UnorderedSet",
+                        "oatpp::Object",
+                        "oatpp::Float64",
+                        "oatpp::Any"
                 ));
 
         typeMapping = new HashMap<>();
@@ -332,7 +332,7 @@ public class CppOatppClientCodegen extends AbstractCppCodegen {
             return toModelName(openAPIType);
         }
 
-        String namespace = (String)additionalProperties.get("modelNamespace");
+        String namespace = (String) additionalProperties.get("modelNamespace");
         return namespace + "::" + openAPIType;
     }
 
