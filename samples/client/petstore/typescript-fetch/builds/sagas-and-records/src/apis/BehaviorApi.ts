@@ -39,9 +39,9 @@ export interface GetBehaviorTypeRequest {
 export class BehaviorApi extends runtime.BaseAPI {
 
     /**
-     * Get permissions for the behavior
+     * Creates request configuration for getBehaviorPermissions without sending the request
      */
-    async getBehaviorPermissionsRaw(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorPermissionsResponse>> {
+    async getBehaviorPermissionsRequestConfig(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['behaviorId'] == null) {
             throw new runtime.RequiredError(
                 'behaviorId',
@@ -57,12 +57,21 @@ export class BehaviorApi extends runtime.BaseAPI {
         let urlPath = `/fake_behavior/{behavior-id}/permissions`;
         urlPath = urlPath.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId'])));
 
-        const response = await this.request({
+        const requestOpts: runtime.RequestOpts = {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+        return requestOpts;
+    }
+
+    /**
+     * Get permissions for the behavior
+     */
+    async getBehaviorPermissionsRaw(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorPermissionsResponse>> {
+        const requestConfig = await this.getBehaviorPermissionsRequestConfig(requestParameters, initOverrides);
+        const response = await this.request(requestConfig, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetBehaviorPermissionsResponseFromJSON(jsonValue));
     }
@@ -76,9 +85,9 @@ export class BehaviorApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the type of behavior
+     * Creates request configuration for getBehaviorType without sending the request
      */
-    async getBehaviorTypeRaw(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorTypeResponse>> {
+    async getBehaviorTypeRequestConfig(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['behaviorId'] == null) {
             throw new runtime.RequiredError(
                 'behaviorId',
@@ -94,12 +103,21 @@ export class BehaviorApi extends runtime.BaseAPI {
         let urlPath = `/fake_behavior/{behavior-id}/type`;
         urlPath = urlPath.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId'])));
 
-        const response = await this.request({
+        const requestOpts: runtime.RequestOpts = {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+        return requestOpts;
+    }
+
+    /**
+     * Get the type of behavior
+     */
+    async getBehaviorTypeRaw(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorTypeResponse>> {
+        const requestConfig = await this.getBehaviorTypeRequestConfig(requestParameters, initOverrides);
+        const response = await this.request(requestConfig, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetBehaviorTypeResponseFromJSON(jsonValue));
     }
