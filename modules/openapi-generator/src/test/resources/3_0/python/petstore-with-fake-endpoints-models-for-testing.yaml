@@ -2910,3 +2910,18 @@ components:
         - 1.0
         - 0.5
         - 0.25
+    ModelWithArrayAndMapDefaults:
+      type: object
+      properties:
+        array:
+          type: array
+          items:
+            type: number
+          default: [1, 2]
+        map:
+          type: object
+          additionalProperties:
+            type: string
+          default:
+            key1: "value1"
+            key2: "value2"

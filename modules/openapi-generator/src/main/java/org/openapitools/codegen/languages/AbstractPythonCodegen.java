@@ -2160,13 +2160,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 if (cp.defaultValue == null) {
                     pt.setDefaultValue("None");
                 } else {
-                    if (cp.isArray || cp.isMap) {
-                        // TODO handle default value for array/map
-                        pt.setDefaultValue("None");
-                    } else {
-                        //defaultValue = ;
-                        pt.setDefaultValue(cp.defaultValue);
-                    }
+                    //defaultValue = ;
+                    pt.setDefaultValue(cp.defaultValue);
                 }
             }
 

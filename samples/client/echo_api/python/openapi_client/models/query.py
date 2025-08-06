@@ -28,7 +28,7 @@ class Query(BaseModel):
     Query
     """ # noqa: E501
     id: Optional[StrictInt] = Field(default=None, description="Query")
-    outcomes: Optional[List[StrictStr]] = None
+    outcomes: Optional[List[StrictStr]] = ["SUCCESS","FAILURE"]
     __properties: ClassVar[List[str]] = ["id", "outcomes"]
 
     @field_validator('outcomes')

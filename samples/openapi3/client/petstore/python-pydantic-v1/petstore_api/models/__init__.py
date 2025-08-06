@@ -75,6 +75,7 @@ from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_return import ModelReturn
+from petstore_api.models.model_with_array_and_map_defaults import ModelWithArrayAndMapDefaults
 from petstore_api.models.multi_arrays import MultiArrays
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass

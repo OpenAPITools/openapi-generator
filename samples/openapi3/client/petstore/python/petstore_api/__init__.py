@@ -97,6 +97,7 @@ __all__ = [
     "ModelApiResponse",
     "ModelField",
     "ModelReturn",
+    "ModelWithArrayAndMapDefaults",
     "MultiArrays",
     "Name",
     "NullableClass",
@@ -233,6 +234,7 @@ if __import__("typing").TYPE_CHECKING:
     from petstore_api.models.model_api_response import ModelApiResponse as ModelApiResponse
     from petstore_api.models.model_field import ModelField as ModelField
     from petstore_api.models.model_return import ModelReturn as ModelReturn
+    from petstore_api.models.model_with_array_and_map_defaults import ModelWithArrayAndMapDefaults as ModelWithArrayAndMapDefaults
     from petstore_api.models.multi_arrays import MultiArrays as MultiArrays
     from petstore_api.models.name import Name as Name
     from petstore_api.models.nullable_class import NullableClass as NullableClass
@@ -375,6 +377,7 @@ from petstore_api.models.model200_response import Model200Response as Model200Re
 from petstore_api.models.model_api_response import ModelApiResponse as ModelApiResponse
 from petstore_api.models.model_field import ModelField as ModelField
 from petstore_api.models.model_return import ModelReturn as ModelReturn
+from petstore_api.models.model_with_array_and_map_defaults import ModelWithArrayAndMapDefaults as ModelWithArrayAndMapDefaults
 from petstore_api.models.multi_arrays import MultiArrays as MultiArrays
 from petstore_api.models.name import Name as Name
 from petstore_api.models.nullable_class import NullableClass as NullableClass
