@@ -11,3 +11,4 @@ additionalProperties:
   artifactId: spring-boot-beanvalidation-no-nullable
   hideGenerationTimestamp: "true"
   openApiNullable: "false"
+  disallowAdditionalPropertiesIfNotPresent: true

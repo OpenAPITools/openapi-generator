@@ -6,7 +6,7 @@ templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   artifactId: echo-api-native
   hideGenerationTimestamp: "true"
-
+  disallowAdditionalPropertiesIfNotPresent: true
 typeMappings:
   OffsetDateTime: "Instant"
 importMappings:
