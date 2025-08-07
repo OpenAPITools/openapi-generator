@@ -1025,6 +1025,7 @@ Here is a list of template creators:
    * Apex: @asnelling
    * Bash: @bkryza
    * C: @PowerOfCreation @zhemant [:heart:](https://www.patreon.com/zhemant)
+   * C++ Oat++: @Kraust
    * C++ REST: @Danielku15
    * C++ Tiny: @AndersSpringborg @kaareHH @michelealbano @mkakbas
    * C++ UE4: @Kahncode

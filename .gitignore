@@ -92,6 +92,12 @@ samples/client/petstore/cpp-restsdk/client/cmake_install.cmake
 samples/client/petstore/cpp-restsdk/client/CppRestPetstoreClientConfig.cmake
 samples/client/petstore/cpp-restsdk/client/CMakeCache.txt
 
+# cpp-oatpp
+samples/client/petstore/cpp-oatpp/build
+samples/client/petstore/cpp-oatpp/external
+samples/server/petstore/cpp-oatpp/build
+samples/server/petstore/cpp-oatpp/external
+
 #Java/Android
 **/.gradle
 samples/client/petstore/java/hello.txt
