@@ -6,6 +6,7 @@ generateAliasAsModel: true
 additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: ping-bearer-auth
+  homePageUrl: https://github.com/openapitools/openapi-generator
 globalProperties:
   skipFormModel: false
 enablePostProcessFile: true
