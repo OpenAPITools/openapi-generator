@@ -291,10 +291,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return ApiClient this client
      */
     public ApiClient addDefaultHeader(String name, String value) {
-        if (defaultHeaders.containsKey(name)) {
-            defaultHeaders.remove(name);
-        }
-        defaultHeaders.add(name, value);
+        defaultHeaders.set(name, value);
         return this;
     }
 

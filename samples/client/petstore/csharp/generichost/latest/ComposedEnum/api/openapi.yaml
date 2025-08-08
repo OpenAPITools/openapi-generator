@@ -1,0 +1,24 @@
+openapi: 3.0.0
+info:
+  description: OpenAPI
+  title: OpenAPI
+  version: 0.0.1
+servers:
+- url: /
+components:
+  schemas:
+    AreaCode:
+      oneOf:
+      - $ref: "#/components/schemas/StateTerritoryCode"
+      - $ref: "#/components/schemas/MarineAreaCode"
+    StateTerritoryCode:
+      enum:
+      - AL
+      - AK
+      type: string
+    MarineAreaCode:
+      enum:
+      - AM
+      - AN
+      type: string
+

@@ -38,10 +38,12 @@ import java.util.Optional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -77,6 +79,58 @@ public class ApiClient extends JavaTimeFormatter {
     protected final MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<>();
 
     protected String basePath = "http://petstore.swagger.io:80/v2";
+    protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
+        new ServerConfiguration(
+            "http://{server}.swagger.io:{port}/v2",
+            "petstore server",
+            new HashMap<String, ServerVariable>() {{
+                put("server", new ServerVariable(
+                    "No description provided",
+                    "petstore",
+                    new HashSet<String>(
+                        Arrays.asList(
+                            "petstore",
+                            "qa-petstore",
+                            "dev-petstore"
+                        )
+                    )
+                ));
+                put("port", new ServerVariable(
+                    "No description provided",
+                    "80",
+                    new HashSet<String>(
+                        Arrays.asList(
+                            "80",
+                            "8080"
+                        )
+                    )
+                ));
+            }}
+        ),
+        new ServerConfiguration(
+            "https://localhost:8080/{version}",
+            "The local server",
+            new HashMap<String, ServerVariable>() {{
+                put("version", new ServerVariable(
+                    "No description provided",
+                    "v2",
+                    new HashSet<String>(
+                        Arrays.asList(
+                            "v1",
+                            "v2"
+                        )
+                    )
+                ));
+            }}
+        ),
+        new ServerConfiguration(
+            "https://127.0.0.1/no_varaible",
+            "The local server without variables",
+            new HashMap<String, ServerVariable>()
+        )
+    ));
+    protected Integer serverIndex = 0;
+    protected Map<String, String> serverVariables = null;
 
     protected final RestClient restClient;
     protected final DateFormat dateFormat;
@@ -192,6 +246,34 @@ public class ApiClient extends JavaTimeFormatter {
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
+        this.serverIndex = null;
+        return this;
+    }
+
+    public List<ServerConfiguration> getServers() {
+        return servers;
+    }
+
+    public ApiClient setServers(List<ServerConfiguration> servers) {
+        this.servers = servers;
+        return this;
+    }
+
+    public Integer getServerIndex() {
+        return serverIndex;
+    }
+
+    public ApiClient setServerIndex(Integer serverIndex) {
+        this.serverIndex = serverIndex;
+        return this;
+    }
+
+    public Map<String, String> getServerVariables() {
+        return serverVariables;
+    }
+
+    public ApiClient setServerVariables(Map<String, String> serverVariables) {
+        this.serverVariables = serverVariables;
         return this;
     }
 
@@ -330,10 +412,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return ApiClient this client
      */
     public ApiClient addDefaultHeader(String name, String value) {
-        if (defaultHeaders.containsKey(name)) {
-            defaultHeaders.remove(name);
-        }
-        defaultHeaders.add(name, value);
+        defaultHeaders.set(name, value);
         return this;
     }
 
@@ -630,7 +709,19 @@ public class ApiClient extends JavaTimeFormatter {
         MediaType contentType, String[] authNames) {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-        final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(basePath).path(path);
+        String baseUrl = basePath;
+        if (serverIndex != null) {
+            if (serverIndex < 0 || serverIndex >= servers.size()) {
+                throw new ArrayIndexOutOfBoundsException(String.format(
+                    "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
+                ));
+            }
+            baseUrl = servers.get(serverIndex).URL(serverVariables);
+        }
+
+        final UriComponentsBuilder builder = UriComponentsBuilder
+                    .fromUriString(baseUrl)
+                    .path(path);
 
         String finalUri = builder.build(false).toUriString();
         Map<String, Object> uriParams = new HashMap<>();
@@ -683,7 +774,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @param requestBuilder The current request
      */
     protected void addHeadersToRequest(HttpHeaders headers, RestClient.RequestBodySpec requestBuilder) {
-        for (Entry<String, List<String>> entry : headers.entrySet()) {
+        for (Entry<String, List<String>> entry : headers.headerSet()) {
             List<String> values = entry.getValue();
             for(String value : values) {
                 if (value != null) {

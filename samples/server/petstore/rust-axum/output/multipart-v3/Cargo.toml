@@ -4,6 +4,7 @@ version = "1.0.7"
 authors = ["OpenAPI Generator team and contributors"]
 description = "API under test"
 edition = "2024"
+homepage = "https://github.com/openapitools/openapi-generator"
 
 [features]
 default = ["server"]

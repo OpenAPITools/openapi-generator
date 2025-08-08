@@ -5,6 +5,7 @@ authors = ["OpenAPI Generator team and contributors"]
 description = "This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters."
 license = "Apache-2.0"
 edition = "2024"
+homepage = "https://github.com/openapitools/openapi-generator"
 
 [features]
 default = ["server"]

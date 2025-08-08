@@ -7,6 +7,7 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: rust-axum-validation-test
   disableValidator: "true"
+  homePageUrl: https://github.com/openapitools/openapi-generator
 globalProperties:
   skipFormModel: false
 enablePostProcessFile: true

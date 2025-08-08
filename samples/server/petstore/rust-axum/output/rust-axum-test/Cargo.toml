@@ -4,6 +4,7 @@ version = "2.3.4"
 authors = ["OpenAPI Generator team and contributors"]
 description = "This spec is for testing rust-server-specific things"
 edition = "2024"
+homepage = "https://github.com/openapitools/openapi-generator"
 
 [features]
 default = ["server"]
