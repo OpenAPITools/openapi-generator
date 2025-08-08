@@ -1291,6 +1291,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                                     }
                                 })
                                 .collect(Collectors.joining(", "));
+                    } else if (cp.items.isContainer) {
+                        // TODO nested array/set/map is not supported at the moment so defaulting to null
+                        defaultValue = null;
                     } else { // array item is non-string, e.g. integer
                         defaultValue = StringUtils.join(_values, ", ");
                     }
