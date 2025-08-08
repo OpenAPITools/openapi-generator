@@ -271,7 +271,7 @@ pub async fn add_pet(configuration: &configuration::Configuration, params: AddPe
     let token = configuration.token_source.token().await.map_err(Error::TokenSource)?;
     // The token format is the responsibility of the provider, thus we just set the authorization header with whatever is given.
     req_builder = req_builder.header(reqwest::header::AUTHORIZATION, token);
-    req_builder = req_builder.json(&params.pet);
+    req_builder = req_builder.json(&params.body_pet);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -292,13 +292,13 @@ pub async fn add_pet(configuration: &configuration::Configuration, params: AddPe
 /// 
 pub async fn delete_pet(configuration: &configuration::Configuration, params: DeletePetParams) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>> {
 
-    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=params.pet_id);
+    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=params.path_pet_id);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = params.api_key {
+    if let Some(param_value) = params.header_api_key {
         req_builder = req_builder.header("api_key", param_value.to_string());
     }
     // Obtain a token from source provider.
@@ -330,10 +330,10 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     req_builder = match "csv" {
-        "multi" => req_builder.query(&params.status.into_iter().map(|p| ("status".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-        _ => req_builder.query(&[("status", &params.status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        "multi" => req_builder.query(&params.query_status.into_iter().map(|p| ("status".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => req_builder.query(&[("status", &params.query_status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
-    if let Some(ref param_value) = params.r#type {
+    if let Some(ref param_value) = params.query_r#type {
         req_builder = match "csv" {
             "multi" => req_builder.query(&param_value.into_iter().map(|p| ("type".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
             _ => req_builder.query(&[("type", &param_value.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
@@ -371,8 +371,8 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, par
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     req_builder = match "csv" {
-        "multi" => req_builder.query(&params.tags.into_iter().map(|p| ("tags".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-        _ => req_builder.query(&[("tags", &params.tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        "multi" => req_builder.query(&params.query_tags.into_iter().map(|p| ("tags".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => req_builder.query(&[("tags", &params.query_tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -402,7 +402,7 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, par
 /// Returns a single pet
 pub async fn get_pet_by_id(configuration: &configuration::Configuration, params: GetPetByIdParams) -> Result<ResponseContent<GetPetByIdSuccess>, Error<GetPetByIdError>> {
 
-    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=params.pet_id);
+    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=params.path_pet_id);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -436,7 +436,7 @@ pub async fn pets_explode_post(configuration: &configuration::Configuration, par
     let uri_str = format!("{}/pets/explode", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
-    if let Some(ref param_value) = params.page_explode {
+    if let Some(ref param_value) = params.query_page_explode {
         req_builder = req_builder.query(&param_value);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -465,7 +465,7 @@ pub async fn pets_post(configuration: &configuration::Configuration, params: Pet
     let uri_str = format!("{}/pets", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
-    if let Some(ref param_value) = params.page {
+    if let Some(ref param_value) = params.query_page {
         req_builder = req_builder.query(&[("page", &serde_json::to_string(param_value)?)]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -502,7 +502,7 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
     let token = configuration.token_source.token().await.map_err(Error::TokenSource)?;
     // The token format is the responsibility of the provider, thus we just set the authorization header with whatever is given.
     req_builder = req_builder.header(reqwest::header::AUTHORIZATION, token);
-    req_builder = req_builder.json(&params.pet);
+    req_builder = req_builder.json(&params.body_pet);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -523,7 +523,7 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
 /// 
 pub async fn update_pet_with_form(configuration: &configuration::Configuration, params: UpdatePetWithFormParams) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
 
-    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=params.pet_id);
+    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=params.path_pet_id);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -535,10 +535,10 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
     // The token format is the responsibility of the provider, thus we just set the authorization header with whatever is given.
     req_builder = req_builder.header(reqwest::header::AUTHORIZATION, token);
     let mut multipart_form_params = std::collections::HashMap::new();
-    if let Some(param_value) = params.name {
+    if let Some(param_value) = params.form_name {
         multipart_form_params.insert("name", param_value.to_string());
     }
-    if let Some(param_value) = params.status {
+    if let Some(param_value) = params.form_status {
         multipart_form_params.insert("status", param_value.to_string());
     }
     req_builder = req_builder.form(&multipart_form_params);
@@ -562,7 +562,7 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
 /// 
 pub async fn upload_file(configuration: &configuration::Configuration, params: UploadFileParams) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>> {
 
-    let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=params.pet_id);
+    let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=params.path_pet_id);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -574,7 +574,7 @@ pub async fn upload_file(configuration: &configuration::Configuration, params: U
     // The token format is the responsibility of the provider, thus we just set the authorization header with whatever is given.
     req_builder = req_builder.header(reqwest::header::AUTHORIZATION, token);
     let mut multipart_form = reqwest::multipart::Form::new();
-    if let Some(param_value) = params.additional_metadata {
+    if let Some(param_value) = params.form_additional_metadata {
         multipart_form = multipart_form.text("additionalMetadata", param_value.to_string());
     }
     // TODO: support file upload for 'file' parameter
