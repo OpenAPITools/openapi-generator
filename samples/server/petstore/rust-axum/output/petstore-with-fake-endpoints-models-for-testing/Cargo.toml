@@ -6,6 +6,7 @@ description = "This spec is mainly for testing Petstore server and contains fake
 license = "Apache-2.0"
 edition = "2024"
 publish = ["crates-io"]
+homepage = "https://github.com/openapitools/openapi-generator"
 
 [features]
 default = ["server"]
