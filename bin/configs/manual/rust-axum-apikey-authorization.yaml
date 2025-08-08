@@ -9,6 +9,7 @@ additionalProperties:
   basicAuthorization: true
   basicAnalytic: true
   ownedRequest: true
+  homePageUrl: https://github.com/openapitools/openapi-generator
 globalProperties:
   skipFormModel: false
 enablePostProcessFile: true
