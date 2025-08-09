@@ -313,7 +313,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
-        setGenerateValidationAttributes(convertPropertyToBooleanAndWriteBack(VALIDATION_ATTRIBUTES));
+        convertPropertyToBooleanAndWriteBack(VALIDATION_ATTRIBUTES, this::setGenerateValidationAttributes);
     }
 
     @Override
