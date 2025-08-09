@@ -28,10 +28,10 @@ class DefaultValue(BaseModel):
     """
     to test the default value of properties
     """ # noqa: E501
-    array_string_enum_ref_default: Optional[List[StringEnumRef]] = None
-    array_string_enum_default: Optional[List[StrictStr]] = None
-    array_string_default: Optional[List[StrictStr]] = None
-    array_integer_default: Optional[List[StrictInt]] = None
+    array_string_enum_ref_default: Optional[List[StringEnumRef]] = ["success","failure"]
+    array_string_enum_default: Optional[List[StrictStr]] = ["success","failure"]
+    array_string_default: Optional[List[StrictStr]] = ["failure","skipped"]
+    array_integer_default: Optional[List[StrictInt]] = [1,3]
     array_string: Optional[List[StrictStr]] = None
     array_string_nullable: Optional[List[StrictStr]] = None
     array_string_extension_nullable: Optional[List[StrictStr]] = None

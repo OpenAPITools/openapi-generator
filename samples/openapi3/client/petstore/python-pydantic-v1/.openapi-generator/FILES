@@ -69,6 +69,7 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelReturn.md
+docs/ModelWithArrayAndMapDefaults.md
 docs/MultiArrays.md
 docs/Name.md
 docs/NullableClass.md
@@ -198,6 +199,7 @@ petstore_api/models/map_test.py
 petstore_api/models/mixed_properties_and_additional_properties_class.py
 petstore_api/models/model200_response.py
 petstore_api/models/model_return.py
+petstore_api/models/model_with_array_and_map_defaults.py
 petstore_api/models/multi_arrays.py
 petstore_api/models/name.py
 petstore_api/models/nullable_class.py

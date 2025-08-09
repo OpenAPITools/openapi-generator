@@ -76,6 +76,7 @@ if __import__("typing").TYPE_CHECKING:
     from petstore_api.models.model_api_response import ModelApiResponse
     from petstore_api.models.model_field import ModelField
     from petstore_api.models.model_return import ModelReturn
+    from petstore_api.models.model_with_array_and_map_defaults import ModelWithArrayAndMapDefaults
     from petstore_api.models.multi_arrays import MultiArrays
     from petstore_api.models.name import Name
     from petstore_api.models.nullable_class import NullableClass
@@ -194,6 +195,7 @@ from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_api_response import ModelApiResponse
 from petstore_api.models.model_field import ModelField
 from petstore_api.models.model_return import ModelReturn
+from petstore_api.models.model_with_array_and_map_defaults import ModelWithArrayAndMapDefaults
 from petstore_api.models.multi_arrays import MultiArrays
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass

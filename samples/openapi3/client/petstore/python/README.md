@@ -212,6 +212,7 @@ Class | Method | HTTP request | Description
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [ModelField](docs/ModelField.md)
  - [ModelReturn](docs/ModelReturn.md)
+ - [ModelWithArrayAndMapDefaults](docs/ModelWithArrayAndMapDefaults.md)
  - [MultiArrays](docs/MultiArrays.md)
  - [Name](docs/Name.md)
  - [NullableClass](docs/NullableClass.md)
