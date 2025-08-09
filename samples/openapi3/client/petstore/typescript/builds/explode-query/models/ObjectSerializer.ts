@@ -296,6 +296,9 @@ export class ObjectSerializer {
             }
             return transformedData;
         } else if (type === "Date") {
+            if (!(data instanceof Date)) {
+                return data;
+            }
             if (format == "date") {
                 let month = data.getMonth()+1
                 month = month < 10 ? "0" + month.toString() : month.toString()
