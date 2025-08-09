@@ -1,0 +1,31 @@
+openapi: 3.0.0
+info:
+  title: License Format Test API
+  version: 1.0.0
+  description: Simple API for testing pyproject.toml license format changes
+paths:
+  /test:
+    get:
+      operationId: getTest
+      summary: Simple test endpoint
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Hello World"
+components:
+  schemas:
+    TestModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
