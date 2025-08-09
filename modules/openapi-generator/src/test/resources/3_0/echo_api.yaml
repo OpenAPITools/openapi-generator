@@ -457,8 +457,8 @@ paths:
         explode: true #default
         schema:
           allOf:
-            - $ref: '#/components/schemas/Bird'
-            - $ref: '#/components/schemas/Category'
+          - $ref: '#/components/schemas/Bird'
+          - $ref: '#/components/schemas/Category'
       responses:
         '200':
           description: Successful operation
