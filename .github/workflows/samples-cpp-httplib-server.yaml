@@ -1,0 +1,53 @@
+name: Samples cpp httplib server
+
+on:
+  push:
+    branches:
+      - "samples/server/petstore/cpp-httplib/**"
+  pull_request:
+    paths:
+      - "samples/server/petstore/cpp-httplib/**"
+
+env:
+  GRADLE_VERSION: 6.9
+
+jobs:
+  build:
+    name: Build cpp httplib server
+    strategy:
+      matrix:
+        sample:
+          - samples/server/petstore/cpp-httplib
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nlohmann-json3-dev libssl-dev
+          # Install httplib from source since it's not in Ubuntu repos
+          git clone https://github.com/yhirose/cpp-httplib.git
+          cd cpp-httplib
+          mkdir build && cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          make -j$(nproc)
+          sudo make install
+      - name: Install dependencies
+        if: matrix.os == 'macOS-latest'
+        run: |
+          brew install nlohmann-json openssl
+          # Install httplib via Homebrew
+          brew install cpp-httplib
+      - name: Install dependencies
+        if: matrix.os == 'windows-latest'
+        run: |
+          vcpkg install nlohmann-json:x64-windows openssl:x64-windows cpp-httplib:x64-windows
+        shell: cmd
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: cmake -B build && cmake --build build --verbose
