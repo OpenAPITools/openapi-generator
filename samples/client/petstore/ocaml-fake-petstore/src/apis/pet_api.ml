@@ -24,7 +24,7 @@ let add_pet ~pet_t =
  pet_t
     in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
-    Request.read_json_body_as (JsonSupport.unwrap Pet.of_yojson) resp body
+    Request.handle_unit_response resp
 
 let delete_pet ~pet_id ?api_key () =
     let open Lwt.Infix in
@@ -65,7 +65,7 @@ let find_pets_by_status ~status =
     let open Lwt.Infix in
     let uri = Request.build_uri "/pet/findByStatus" in
     let headers = Request.default_headers in
-    let uri = Request.add_query_param_list uri "status"     (Stdlib.List.map         Enums.show_pet_status
+    let uri = Request.add_query_param_list uri "status"     (Stdlib.List.map         Enums.show_status
 )
  status in
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
@@ -146,7 +146,7 @@ let update_pet ~pet_t =
  pet_t
     in
     Cohttp_lwt_unix.Client.call `PUT uri ~headers ~body >>= fun (resp, body) ->
-    Request.read_json_body_as (JsonSupport.unwrap Pet.of_yojson) resp body
+    Request.handle_unit_response resp
 
 let update_pet_with_form ~pet_id ?name ?status () =
     let open Lwt.Infix in
@@ -246,6 +246,57 @@ let upload_file ~pet_id ?additional_metadata ?file () =
     
         
  file in
+    let body = Request.finalize_form_encoded_body body in
+    Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
+    Request.read_json_body_as (JsonSupport.unwrap Api_response.of_yojson) resp body
+
+let upload_file_with_required_file ~pet_id ~required_file ?additional_metadata () =
+    let open Lwt.Infix in
+    let uri = Request.build_uri "/fake/{petId}/uploadImageWithRequiredFile" in
+    let headers = Request.default_headers in
+    let uri = Request.replace_path_param uri "petId"     Int64.to_string
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+ pet_id in
+    let body = Request.init_form_encoded_body () in
+    let body = Request.maybe_add_form_encoded_body_param body "additional_metadata"     
+    
+    
+    
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+        
+ additional_metadata in
+    let body = Request.add_form_encoded_body_param body "required_file"     
+    
+    
+    
+    
+    
+    (fun x -> x)
+    
+    
+    
+    
+    
+        
+ required_file in
     let body = Request.finalize_form_encoded_body body in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.read_json_body_as (JsonSupport.unwrap Api_response.of_yojson) resp body

@@ -9,7 +9,6 @@ let create_user ~user_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/user" in
     let headers = Request.default_headers in
-    let headers = Cohttp.Header.add headers "api_key" Request.api_key in
     let body = Request.
         
         
@@ -31,7 +30,6 @@ let create_users_with_array_input ~user =
     let open Lwt.Infix in
     let uri = Request.build_uri "/user/createWithArray" in
     let headers = Request.default_headers in
-    let headers = Cohttp.Header.add headers "api_key" Request.api_key in
     let body = Request.
         
         
@@ -62,7 +60,6 @@ let create_users_with_list_input ~user =
     let open Lwt.Infix in
     let uri = Request.build_uri "/user/createWithList" in
     let headers = Request.default_headers in
-    let headers = Cohttp.Header.add headers "api_key" Request.api_key in
     let body = Request.
         
         
@@ -93,7 +90,6 @@ let delete_user ~username =
     let open Lwt.Infix in
     let uri = Request.build_uri "/user/{username}" in
     let headers = Request.default_headers in
-    let headers = Cohttp.Header.add headers "api_key" Request.api_key in
     let uri = Request.replace_path_param uri "username"     
     
     
@@ -171,7 +167,6 @@ let logout_user () =
     let open Lwt.Infix in
     let uri = Request.build_uri "/user/logout" in
     let headers = Request.default_headers in
-    let headers = Cohttp.Header.add headers "api_key" Request.api_key in
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
     Request.handle_unit_response resp
 
@@ -179,7 +174,6 @@ let update_user ~username ~user_t =
     let open Lwt.Infix in
     let uri = Request.build_uri "/user/{username}" in
     let headers = Request.default_headers in
-    let headers = Cohttp.Header.add headers "api_key" Request.api_key in
     let uri = Request.replace_path_param uri "username"     
     
     
