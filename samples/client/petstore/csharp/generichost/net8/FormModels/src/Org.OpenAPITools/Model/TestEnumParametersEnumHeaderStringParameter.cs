@@ -144,7 +144,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersEnumHeaderStringParameter testEnumParametersEnumHeaderStringParameter, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersEnumHeaderStringParameter.ToString());
+            writer.WriteStringValue(TestEnumParametersEnumHeaderStringParameterValueConverter.ToJsonValue(testEnumParametersEnumHeaderStringParameter).ToString());
         }
     }
 
@@ -175,14 +175,14 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the TestEnumParametersEnumHeaderStringParameter to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="testEnumParametersEnumHeaderStringParameter"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersEnumHeaderStringParameter? testEnumParametersEnumHeaderStringParameter, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersEnumHeaderStringParameter?.ToString() ?? "null");
+            writer.WriteStringValue(testEnumParametersEnumHeaderStringParameter.HasValue ? TestEnumParametersEnumHeaderStringParameterValueConverter.ToJsonValue(testEnumParametersEnumHeaderStringParameter.Value).ToString() : "null");
         }
     }
 }

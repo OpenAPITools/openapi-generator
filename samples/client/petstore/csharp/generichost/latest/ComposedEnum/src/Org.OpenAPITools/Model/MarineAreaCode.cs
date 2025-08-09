@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, MarineAreaCode marineAreaCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(marineAreaCode.ToString());
+            writer.WriteStringValue(MarineAreaCodeValueConverter.ToJsonValue(marineAreaCode).ToString());
         }
     }
 
@@ -162,14 +162,14 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the MarineAreaCode to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="marineAreaCode"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, MarineAreaCode? marineAreaCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(marineAreaCode?.ToString() ?? "null");
+            writer.WriteStringValue(marineAreaCode.HasValue ? MarineAreaCodeValueConverter.ToJsonValue(marineAreaCode.Value).ToString() : "null");
         }
     }
 }

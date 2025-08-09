@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ChildCatAllOfPetType childCatAllOfPetType, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(childCatAllOfPetType.ToString());
+            writer.WriteStringValue(ChildCatAllOfPetTypeValueConverter.ToJsonValue(childCatAllOfPetType).ToString());
         }
     }
 
@@ -147,14 +147,14 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the ChildCatAllOfPetType to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="childCatAllOfPetType"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ChildCatAllOfPetType? childCatAllOfPetType, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(childCatAllOfPetType?.ToString() ?? "null");
+            writer.WriteStringValue(childCatAllOfPetType.HasValue ? ChildCatAllOfPetTypeValueConverter.ToJsonValue(childCatAllOfPetType.Value).ToString() : "null");
         }
     }
 }
