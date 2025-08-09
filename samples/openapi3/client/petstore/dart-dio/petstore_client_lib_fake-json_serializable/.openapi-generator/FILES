@@ -135,6 +135,3 @@ lib/src/model/test_inline_freeform_additional_properties_request.dart
 lib/src/model/test_item.dart
 lib/src/model/user.dart
 pubspec.yaml
-test/object_that_references_objects_with_duplicate_inline_enums_test.dart
-test/object_with_duplicate_inline_enum_test.dart
-test/object_with_inline_enum_test.dart
