@@ -62,6 +62,7 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**call123testSpecialTags**](doc//AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](doc//DefaultApi.md#fooget) | **GET** /foo | 
 *FakeApi* | [**fakeBigDecimalMap**](doc//FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
+*FakeApi* | [**fakeDuplicateInlineEnum**](doc//FakeApi.md#fakeduplicateinlineenum) | **GET** /fake/duplicate-inline-enums | test objects with duplicate inline enums see issue# 21582
 *FakeApi* | [**fakeHealthGet**](doc//FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHttpSignatureTest**](doc//FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](doc//FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -143,7 +144,10 @@ Class | Method | HTTP request | Description
  - [Name](doc//Name.md)
  - [NullableClass](doc//NullableClass.md)
  - [NumberOnly](doc//NumberOnly.md)
+ - [ObjectThatReferencesObjectsWithDuplicateInlineEnums](doc//ObjectThatReferencesObjectsWithDuplicateInlineEnums.md)
  - [ObjectWithDeprecatedFields](doc//ObjectWithDeprecatedFields.md)
+ - [ObjectWithDuplicateInlineEnum](doc//ObjectWithDuplicateInlineEnum.md)
+ - [ObjectWithInlineEnum](doc//ObjectWithInlineEnum.md)
  - [Order](doc//Order.md)
  - [OuterComposite](doc//OuterComposite.md)
  - [OuterEnum](doc//OuterEnum.md)

@@ -40,7 +40,10 @@ doc/ModelReturn.md
 doc/Name.md
 doc/NullableClass.md
 doc/NumberOnly.md
+doc/ObjectThatReferencesObjectsWithDuplicateInlineEnums.md
 doc/ObjectWithDeprecatedFields.md
+doc/ObjectWithDuplicateInlineEnum.md
+doc/ObjectWithInlineEnum.md
 doc/Order.md
 doc/OuterComposite.md
 doc/OuterEnum.md
@@ -110,7 +113,10 @@ lib/src/model/model_return.dart
 lib/src/model/name.dart
 lib/src/model/nullable_class.dart
 lib/src/model/number_only.dart
+lib/src/model/object_that_references_objects_with_duplicate_inline_enums.dart
 lib/src/model/object_with_deprecated_fields.dart
+lib/src/model/object_with_duplicate_inline_enum.dart
+lib/src/model/object_with_inline_enum.dart
 lib/src/model/order.dart
 lib/src/model/outer_composite.dart
 lib/src/model/outer_enum.dart
