@@ -122,6 +122,7 @@ Class | Method | HTTP request | Description
 *QueryApi* | [**test_query_style_form_explode_true_array_string**](docs/QueryApi.md#test_query_style_form_explode_true_array_string) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**test_query_style_form_explode_true_object**](docs/QueryApi.md#test_query_style_form_explode_true_object) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 *QueryApi* | [**test_query_style_form_explode_true_object_all_of**](docs/QueryApi.md#test_query_style_form_explode_true_object_all_of) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
+*QueryApi* | [**test_query_style_json_serialization_object**](docs/QueryApi.md#test_query_style_json_serialization_object) | **GET** /query/style_jsonSerialization/object | Test query parameter(s)
 
 
 ## Documentation For Models

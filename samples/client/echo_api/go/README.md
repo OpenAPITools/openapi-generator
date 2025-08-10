@@ -105,6 +105,7 @@ Class | Method | HTTP request | Description
 *QueryAPI* | [**TestQueryStyleFormExplodeTrueArrayString**](docs/QueryAPI.md#testquerystyleformexplodetruearraystring) | **Get** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryAPI* | [**TestQueryStyleFormExplodeTrueObject**](docs/QueryAPI.md#testquerystyleformexplodetrueobject) | **Get** /query/style_form/explode_true/object | Test query parameter(s)
 *QueryAPI* | [**TestQueryStyleFormExplodeTrueObjectAllOf**](docs/QueryAPI.md#testquerystyleformexplodetrueobjectallof) | **Get** /query/style_form/explode_true/object/allOf | Test query parameter(s)
+*QueryAPI* | [**TestQueryStyleJsonSerializationObject**](docs/QueryAPI.md#testquerystylejsonserializationobject) | **Get** /query/style_jsonSerialization/object | Test query parameter(s)
 
 
 ## Documentation For Models
