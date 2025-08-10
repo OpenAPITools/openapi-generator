@@ -267,6 +267,31 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
         ApiResponse<string> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(DataQuery? queryObject = default, int operationIndex = 0);
+        /// <summary>
+        /// Test query parameter(s)
+        /// </summary>
+        /// <remarks>
+        /// Test query parameter(s)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="jsonSerializedObjectRefStringQuery"> (optional)</param>
+        /// <param name="jsonSerializedObjectArrayRefStringQuery"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>string</returns>
+        string TestQueryStyleJsonSerializationObject(Pet? jsonSerializedObjectRefStringQuery = default, List<Pet>? jsonSerializedObjectArrayRefStringQuery = default, int operationIndex = 0);
+
+        /// <summary>
+        /// Test query parameter(s)
+        /// </summary>
+        /// <remarks>
+        /// Test query parameter(s)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="jsonSerializedObjectRefStringQuery"> (optional)</param>
+        /// <param name="jsonSerializedObjectArrayRefStringQuery"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of string</returns>
+        ApiResponse<string> TestQueryStyleJsonSerializationObjectWithHttpInfo(Pet? jsonSerializedObjectRefStringQuery = default, List<Pet>? jsonSerializedObjectArrayRefStringQuery = default, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -536,6 +561,33 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
         System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfoAsync(DataQuery? queryObject = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Test query parameter(s)
+        /// </summary>
+        /// <remarks>
+        /// Test query parameter(s)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="jsonSerializedObjectRefStringQuery"> (optional)</param>
+        /// <param name="jsonSerializedObjectArrayRefStringQuery"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of string</returns>
+        System.Threading.Tasks.Task<string> TestQueryStyleJsonSerializationObjectAsync(Pet? jsonSerializedObjectRefStringQuery = default, List<Pet>? jsonSerializedObjectArrayRefStringQuery = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Test query parameter(s)
+        /// </summary>
+        /// <remarks>
+        /// Test query parameter(s)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="jsonSerializedObjectRefStringQuery"> (optional)</param>
+        /// <param name="jsonSerializedObjectArrayRefStringQuery"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (string)</returns>
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleJsonSerializationObjectWithHttpInfoAsync(Pet? jsonSerializedObjectRefStringQuery = default, List<Pet>? jsonSerializedObjectArrayRefStringQuery = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -2141,6 +2193,157 @@ namespace Org.OpenAPITools.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestQueryStyleFormExplodeTrueObjectAllOf", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Test query parameter(s) Test query parameter(s)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="jsonSerializedObjectRefStringQuery"> (optional)</param>
+        /// <param name="jsonSerializedObjectArrayRefStringQuery"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>string</returns>
+        public string TestQueryStyleJsonSerializationObject(Pet? jsonSerializedObjectRefStringQuery = default, List<Pet>? jsonSerializedObjectArrayRefStringQuery = default, int operationIndex = 0)
+        {
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestQueryStyleJsonSerializationObjectWithHttpInfo(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Test query parameter(s) Test query parameter(s)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="jsonSerializedObjectRefStringQuery"> (optional)</param>
+        /// <param name="jsonSerializedObjectArrayRefStringQuery"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of string</returns>
+        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleJsonSerializationObjectWithHttpInfo(Pet? jsonSerializedObjectRefStringQuery = default, List<Pet>? jsonSerializedObjectArrayRefStringQuery = default, int operationIndex = 0)
+        {
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "text/plain"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            if (jsonSerializedObjectRefStringQuery != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
+            }
+            if (jsonSerializedObjectArrayRefStringQuery != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
+            }
+
+            localVarRequestOptions.Operation = "QueryApi.TestQueryStyleJsonSerializationObject";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<string>("/query/style_jsonSerialization/object", localVarRequestOptions, this.Configuration);
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestQueryStyleJsonSerializationObject", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Test query parameter(s) Test query parameter(s)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="jsonSerializedObjectRefStringQuery"> (optional)</param>
+        /// <param name="jsonSerializedObjectArrayRefStringQuery"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of string</returns>
+        public async System.Threading.Tasks.Task<string> TestQueryStyleJsonSerializationObjectAsync(Pet? jsonSerializedObjectRefStringQuery = default, List<Pet>? jsonSerializedObjectArrayRefStringQuery = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleJsonSerializationObjectWithHttpInfoAsync(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery, operationIndex, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Test query parameter(s) Test query parameter(s)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="jsonSerializedObjectRefStringQuery"> (optional)</param>
+        /// <param name="jsonSerializedObjectArrayRefStringQuery"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (string)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleJsonSerializationObjectWithHttpInfoAsync(Pet? jsonSerializedObjectRefStringQuery = default, List<Pet>? jsonSerializedObjectArrayRefStringQuery = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
+        {
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "text/plain"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            if (jsonSerializedObjectRefStringQuery != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
+            }
+            if (jsonSerializedObjectArrayRefStringQuery != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
+            }
+
+            localVarRequestOptions.Operation = "QueryApi.TestQueryStyleJsonSerializationObject";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.GetAsync<string>("/query/style_jsonSerialization/object", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestQueryStyleJsonSerializationObject", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;

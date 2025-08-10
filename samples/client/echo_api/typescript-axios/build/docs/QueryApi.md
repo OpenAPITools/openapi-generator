@@ -14,6 +14,7 @@ All URIs are relative to *http://localhost:3000*
 |[**testQueryStyleFormExplodeTrueArrayString**](#testquerystyleformexplodetruearraystring) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)|
 |[**testQueryStyleFormExplodeTrueObject**](#testquerystyleformexplodetrueobject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)|
 |[**testQueryStyleFormExplodeTrueObjectAllOf**](#testquerystyleformexplodetrueobjectallof) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)|
+|[**testQueryStyleJsonSerializationObject**](#testquerystylejsonserializationobject) | **GET** /query/style_jsonSerialization/object | Test query parameter(s)|
 
 # **testEnumRefString**
 > string testEnumRefString()
@@ -522,6 +523,61 @@ const { status, data } = await apiInstance.testQueryStyleFormExplodeTrueObjectAl
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **queryObject** | **DataQuery** |  | (optional) defaults to undefined|
+
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **testQueryStyleJsonSerializationObject**
+> string testQueryStyleJsonSerializationObject()
+
+Test query parameter(s)
+
+### Example
+
+```typescript
+import {
+    QueryApi,
+    Configuration,
+    Pet
+} from '@openapitools/typescript-axios-echo-api';
+
+const configuration = new Configuration();
+const apiInstance = new QueryApi(configuration);
+
+let jsonSerializedObjectRefStringQuery: Pet; // (optional) (default to undefined)
+let jsonSerializedObjectArrayRefStringQuery: Array<Pet>; // (optional) (default to undefined)
+
+const { status, data } = await apiInstance.testQueryStyleJsonSerializationObject(
+    jsonSerializedObjectRefStringQuery,
+    jsonSerializedObjectArrayRefStringQuery
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **jsonSerializedObjectRefStringQuery** | **Pet** |  | (optional) defaults to undefined|
+| **jsonSerializedObjectArrayRefStringQuery** | **Array&lt;Pet&gt;** |  | (optional) defaults to undefined|
 
 
 ### Return type

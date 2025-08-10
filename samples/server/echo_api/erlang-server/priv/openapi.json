@@ -582,6 +582,52 @@
         "tags" : [ "query" ]
       }
     },
+    "/query/style_jsonSerialization/object" : {
+      "get" : {
+        "description" : "Test query parameter(s)",
+        "operationId" : "test/query/style_jsonSerialization/object",
+        "parameters" : [ {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Pet"
+              }
+            }
+          },
+          "in" : "query",
+          "name" : "json_serialized_object_ref_string_query",
+          "required" : false
+        }, {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "items" : {
+                  "$ref" : "#/components/schemas/Pet"
+                },
+                "type" : "array"
+              }
+            }
+          },
+          "in" : "query",
+          "name" : "json_serialized_object_array_ref_string_query",
+          "required" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "text/plain" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "Successful operation"
+          }
+        },
+        "summary" : "Test query parameter(s)",
+        "tags" : [ "query" ]
+      }
+    },
     "/body/application/octetstream/binary" : {
       "post" : {
         "description" : "Test body parameter(s)",

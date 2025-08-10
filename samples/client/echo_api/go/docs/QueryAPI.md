@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**TestQueryStyleFormExplodeTrueArrayString**](QueryAPI.md#TestQueryStyleFormExplodeTrueArrayString) | **Get** /query/style_form/explode_true/array_string | Test query parameter(s)
 [**TestQueryStyleFormExplodeTrueObject**](QueryAPI.md#TestQueryStyleFormExplodeTrueObject) | **Get** /query/style_form/explode_true/object | Test query parameter(s)
 [**TestQueryStyleFormExplodeTrueObjectAllOf**](QueryAPI.md#TestQueryStyleFormExplodeTrueObjectAllOf) | **Get** /query/style_form/explode_true/object/allOf | Test query parameter(s)
+[**TestQueryStyleJsonSerializationObject**](QueryAPI.md#TestQueryStyleJsonSerializationObject) | **Get** /query/style_jsonSerialization/object | Test query parameter(s)
 
 
 
@@ -669,6 +670,74 @@ Other parameters are passed through a pointer to a apiTestQueryStyleFormExplodeT
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **queryObject** | [**DataQuery**](DataQuery.md) |  | 
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestQueryStyleJsonSerializationObject
+
+> string TestQueryStyleJsonSerializationObject(ctx).JsonSerializedObjectRefStringQuery(jsonSerializedObjectRefStringQuery).JsonSerializedObjectArrayRefStringQuery(jsonSerializedObjectArrayRefStringQuery).Execute()
+
+Test query parameter(s)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	jsonSerializedObjectRefStringQuery := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet |  (optional)
+	jsonSerializedObjectArrayRefStringQuery := []openapiclient.Pet{*openapiclient.NewPet("doggie", []string{"PhotoUrls_example"})} // []Pet |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.QueryAPI.TestQueryStyleJsonSerializationObject(context.Background()).JsonSerializedObjectRefStringQuery(jsonSerializedObjectRefStringQuery).JsonSerializedObjectArrayRefStringQuery(jsonSerializedObjectArrayRefStringQuery).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleJsonSerializationObject``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestQueryStyleJsonSerializationObject`: string
+	fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleJsonSerializationObject`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestQueryStyleJsonSerializationObjectRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **jsonSerializedObjectRefStringQuery** | [**Pet**](Pet.md) |  | 
+ **jsonSerializedObjectArrayRefStringQuery** | [**[]Pet**](Pet.md) |  | 
 
 ### Return type
 

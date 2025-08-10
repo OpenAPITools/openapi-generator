@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**Test-QueryStyleFormExplodeTrueArrayString**](QueryApi.md#Test-QueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 [**Test-QueryStyleFormExplodeTrueObject**](QueryApi.md#Test-QueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 [**Test-QueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#Test-QueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
+[**Test-QueryStyleJsonSerializationObject**](QueryApi.md#Test-QueryStyleJsonSerializationObject) | **GET** /query/style_jsonSerialization/object | Test query parameter(s)
 
 
 <a id="Test-EnumRefString"></a>
@@ -449,6 +450,54 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **QueryObject** | [**DataQuery**](DataQuery.md)|  | [optional] 
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="Test-QueryStyleJsonSerializationObject"></a>
+# **Test-QueryStyleJsonSerializationObject**
+> String Test-QueryStyleJsonSerializationObject<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-JsonSerializedObjectRefStringQuery] <PSCustomObject><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-JsonSerializedObjectArrayRefStringQuery] <PSCustomObject[]><br>
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+```powershell
+$Category = Initialize-Category -Id 1 -Name "Dogs"
+$Tag = Initialize-Tag -Id 0 -Name "MyName"
+$Pet = Initialize-Pet -Id 10 -Name "doggie" -Category $Category -PhotoUrls "MyPhotoUrls" -Tags $Tag -Status "available" # Pet |  (optional)
+ # Pet[] |  (optional)
+
+# Test query parameter(s)
+try {
+    $Result = Test-QueryStyleJsonSerializationObject -JsonSerializedObjectRefStringQuery $JsonSerializedObjectRefStringQuery -JsonSerializedObjectArrayRefStringQuery $JsonSerializedObjectArrayRefStringQuery
+} catch {
+    Write-Host ("Exception occurred when calling Test-QueryStyleJsonSerializationObject: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **JsonSerializedObjectRefStringQuery** | [**Pet**](Pet.md)|  | [optional] 
+ **JsonSerializedObjectArrayRefStringQuery** | [**Pet[]**](Pet.md)|  | [optional] 
 
 ### Return type
 
