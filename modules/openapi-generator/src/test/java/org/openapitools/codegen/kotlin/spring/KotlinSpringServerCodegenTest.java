@@ -5,6 +5,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import java.util.HashMap;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
@@ -12,12 +15,15 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -31,8 +37,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 
@@ -749,6 +757,40 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void contractWithoutEnumDoesNotContainEnumConverter() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/generic.yaml");
+
+        assertThat(output).doesNotContainKey("EnumConverterConfiguration.kt");
+    }
+
+    @Test
+    public void contractWithEnumContainsEnumConverter() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/enum.yaml");
+
+        File enumConverterFile = output.get("EnumConverterConfiguration.kt");
+        assertThat(enumConverterFile).isNotNull();
+        assertFileContains(enumConverterFile.toPath(), "fun typeConverter(): Converter<kotlin.String, Type> {");
+        assertFileContains(enumConverterFile.toPath(), "return object: Converter<kotlin.String, Type> {");
+        assertFileContains(enumConverterFile.toPath(), "override fun convert(source: kotlin.String): Type = Type.forValue(source)");
+    }
+
+    @Test
+    public void contractWithResolvedInnerEnumContainsEnumConverter() throws IOException {
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/inner_enum.yaml",
+            new HashMap<>(),
+            new HashMap<>(),
+            configurator -> configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
+        );
+
+        File enumConverterFile = files.get("EnumConverterConfiguration.kt");
+        assertThat(enumConverterFile).isNotNull();
+        assertFileContains(enumConverterFile.toPath(), "fun ponyTypeConverter(): Converter<kotlin.String, PonyType> {");
+        assertFileContains(enumConverterFile.toPath(), "return object: Converter<kotlin.String, PonyType> {");
+        assertFileContains(enumConverterFile.toPath(), "override fun convert(source: kotlin.String): PonyType = PonyType.forValue(source)");
+    }
+
+    @Test
     public void givenMultipartFormArray_whenGenerateDelegateAndService_thenParameterIsCreatedAsListOfMultipartFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -1192,4 +1234,127 @@ public class KotlinSpringServerCodegenTest {
                 "@NotNull", "@Valid", "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$\")");
     }
 
+    @DataProvider
+    public Object[][] issue17997DocumentationProviders() {
+        return new Object[][]{
+            {DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = [\"0\", \"1\"], defaultValue = \"0\"",
+                        "@PathVariable"
+                    ),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
+                        "@PathVariable"
+                    )
+            },
+            {DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = \"0, 1\", defaultValue = \"0\"",
+                        "@PathVariable"
+                    ),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = \"sleeping, awake\"", "@PathVariable",
+                        "@PathVariable"
+                    )
+            }
+        };
+    }
+
+    @Test(dataProvider = "issue17997DocumentationProviders")
+    public void testDocumentationAnnotationInPathParams_Issue17997(
+        String documentProvider,
+        Consumer<Path> intEnumAssertFunction,
+        Consumer<Path> stringEnumAssertFunction
+    ) throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(DOCUMENTATION_PROVIDER, documentProvider);
+
+        Map<String, String> generatorPropertyDefaults = new HashMap<>();
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_TESTS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_DOCS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/issue_6762.yaml",
+            additionalProperties,
+            generatorPropertyDefaults
+        );
+
+        Stream.of(
+            "ZebrasApiController.kt",
+            "GiraffesApiController.kt"
+        ).forEach(filename -> {
+            File file = files.get(filename);
+            assertThat(file).isNotNull();
+            intEnumAssertFunction.accept(file.toPath());
+        });
+
+        Stream.of(
+            "BearsApiController.kt",
+            "CamelsApiController.kt"
+        ).forEach(filename -> {
+            File file = files.get(filename);
+            assertThat(file).isNotNull();
+            stringEnumAssertFunction.accept(file.toPath());
+        });
+    }
+
+    private Map<String, File> generateFromContract(String url) throws IOException {
+        return generateFromContract(url, new HashMap<>(), new HashMap<>());
+    }
+
+    private Map<String, File> generateFromContract(String url, Map<String, Object> additionalProperties) throws IOException {
+        return generateFromContract(url, additionalProperties, new HashMap<>());
+    }
+
+    private Map<String, File> generateFromContract(
+        String url,
+        Map<String, Object> additionalProperties,
+        Map<String, String> generatorPropertyDefaults
+    ) throws IOException {
+        return generateFromContract(url, additionalProperties, generatorPropertyDefaults, codegen -> {
+        });
+    }
+
+    /**
+     * Generate the contract with additional configuration.
+     * <p>
+     * use CodegenConfigurator instead of CodegenConfig for easier configuration like in JavaClientCodeGenTest
+     */
+    private Map<String, File> generateFromContract(
+        String url,
+        Map<String, Object> additionalProperties,
+        Map<String, String> generatorPropertyDefaults,
+        Consumer<CodegenConfigurator> consumer
+    ) throws IOException {
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("kotlin-spring")
+            .setAdditionalProperties(additionalProperties)
+            .setValidateSpec(false)
+            .setInputSpec(url)
+            .setLibrary(SPRING_BOOT)
+            .setOutputDir(output.getAbsolutePath());
+
+        consumer.accept(configurator);
+
+        ClientOptInput input = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generatorPropertyDefaults.forEach(generator::setGeneratorPropertyDefault);
+
+        return generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+    }
 }

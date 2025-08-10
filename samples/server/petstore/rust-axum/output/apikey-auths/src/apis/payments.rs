@@ -48,6 +48,7 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     /// GetPaymentMethodById - GET /v71/paymentMethods/{id}
     async fn get_payment_method_by_id(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -60,6 +61,7 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     /// GetPaymentMethods - GET /v71/paymentMethods
     async fn get_payment_methods(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -71,6 +73,7 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     /// PostMakePayment - POST /v71/payments
     async fn post_make_payment(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,

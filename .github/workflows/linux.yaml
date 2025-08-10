@@ -10,6 +10,9 @@ on:
       - master
       - '[5-9]+.[0-9]+.x'
 
+env:
+  GRADLE_VERSION: '8.14.3'
+
 jobs:
   build:
     name: 'Build: JDK ${{ matrix.java }} (${{ matrix.os }})'
@@ -65,7 +68,9 @@ jobs:
 
       - name: Test Gradle plugin usage
         shell: bash
-        run: gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
+        run: gradle --project-dir modules/openapi-generator-gradle-plugin/samples/local-spec buildGoSdk --stacktrace
+        with:
+          gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Test Maven plugin integration
         if: matrix.java == '11'
@@ -92,7 +97,7 @@ jobs:
           java-version: 11
           maven-version: 3.8.8
       - name: Download build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: artifact
       - name: Run Ensures Script

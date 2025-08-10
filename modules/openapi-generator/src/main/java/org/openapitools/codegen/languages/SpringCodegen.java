@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -40,6 +39,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -648,20 +648,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportsAdditionalPropertiesWithComposedSchema = true;
     }
 
-    private boolean containsEnums() {
-        if (openAPI == null) {
-            return false;
-        }
-
-        Components components = this.openAPI.getComponents();
-        if (components == null || components.getSchemas() == null) {
-            return false;
-        }
-
-        return components.getSchemas().values().stream()
-                .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty());
-    }
-
     private boolean supportLibraryUseTags() {
         return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
     }
@@ -696,7 +682,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
 
-        if (SPRING_BOOT.equals(library) && containsEnums()) {
+        if (SPRING_BOOT.equals(library) && ModelUtils.containsEnums(this.openAPI)) {
             supportingFiles.add(new SupportingFile("converter.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.java"));
         }

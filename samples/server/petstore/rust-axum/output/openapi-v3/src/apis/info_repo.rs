@@ -24,6 +24,7 @@ pub trait InfoRepo<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     /// GetRepoInfo - GET /repos/{repoId}
     async fn get_repo_info(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,

@@ -35,29 +35,28 @@ class User : public oatpp::DTO {
 
   DTO_INIT(User, DTO /* Extends */)
 
-  DTO_FIELD(oatpp::Int64, Id);
-  DTO_FIELD(oatpp::Boolean, IdIsSet);
-  DTO_FIELD(oatpp::String, Username);
-  DTO_FIELD(oatpp::Boolean, UsernameIsSet);
-  DTO_FIELD(oatpp::String, FirstName);
-  DTO_FIELD(oatpp::Boolean, FirstNameIsSet);
-  DTO_FIELD(oatpp::String, LastName);
-  DTO_FIELD(oatpp::Boolean, LastNameIsSet);
-  DTO_FIELD(oatpp::String, Email);
-  DTO_FIELD(oatpp::Boolean, EmailIsSet);
-  DTO_FIELD(oatpp::String, Password);
-  DTO_FIELD(oatpp::Boolean, PasswordIsSet);
-  DTO_FIELD(oatpp::String, Phone);
-  DTO_FIELD(oatpp::Boolean, PhoneIsSet);
-  DTO_FIELD(oatpp::Int32, UserStatus);
-  DTO_FIELD(oatpp::Boolean, UserStatusIsSet);
+  DTO_FIELD(oatpp::Int64, id);
+  DTO_FIELD(oatpp::Boolean, idIsSet);
+  DTO_FIELD(oatpp::String, username);
+  DTO_FIELD(oatpp::Boolean, usernameIsSet);
+  DTO_FIELD(oatpp::String, firstName);
+  DTO_FIELD(oatpp::Boolean, firstNameIsSet);
+  DTO_FIELD(oatpp::String, lastName);
+  DTO_FIELD(oatpp::Boolean, lastNameIsSet);
+  DTO_FIELD(oatpp::String, email);
+  DTO_FIELD(oatpp::Boolean, emailIsSet);
+  DTO_FIELD(oatpp::String, password);
+  DTO_FIELD(oatpp::Boolean, passwordIsSet);
+  DTO_FIELD(oatpp::String, phone);
+  DTO_FIELD(oatpp::Boolean, phoneIsSet);
+  DTO_FIELD(oatpp::Int32, userStatus);
+  DTO_FIELD(oatpp::Boolean, userStatusIsSet);
 
-  
-  
 };
 
 /* End DTO code-generation */
 #include OATPP_CODEGEN_END(DTO)
+
 
 } // namespace org::openapitools::server::model
 

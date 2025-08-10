@@ -2132,3 +2132,12 @@ where
         StatusCode::INTERNAL_SERVER_ERROR
     })
 }
+
+#[allow(dead_code)]
+#[inline]
+fn response_with_status_code_only(code: StatusCode) -> Result<Response, StatusCode> {
+    Response::builder()
+        .status(code)
+        .body(Body::empty())
+        .map_err(|_| code)
+}

@@ -68,6 +68,10 @@ public class CodeGenMojoTest extends BaseTestCase {
         testCommonConfiguration("jar");
     }
 
+    public void testCommonConfigurationWithRemoteInputSpec() throws Exception {
+        testCommonConfiguration("remote");
+    }
+
     @SuppressWarnings("unchecked")
     private void testCommonConfiguration(String profile) throws Exception {
         CodeGenMojo mojo = loadMojo(newTempFolder(), "src/test/resources/default", profile);

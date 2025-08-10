@@ -71,6 +71,7 @@ docs/ModelList.md
 docs/ModelReturn.md
 docs/ModelWithOneOfAnyOfProperties.md
 docs/Name.md
+docs/NestedArrayWithDefaultValues.md
 docs/NewPet.md
 docs/NewPetCategoryInlineAllof.md
 docs/NewPetCategoryInlineAllofAllOfCategoryTag.md
@@ -216,6 +217,7 @@ src/main/java/org/openapitools/client/model/ModelList.java
 src/main/java/org/openapitools/client/model/ModelReturn.java
 src/main/java/org/openapitools/client/model/ModelWithOneOfAnyOfProperties.java
 src/main/java/org/openapitools/client/model/Name.java
+src/main/java/org/openapitools/client/model/NestedArrayWithDefaultValues.java
 src/main/java/org/openapitools/client/model/NewPet.java
 src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllof.java
 src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllofAllOfCategoryTag.java

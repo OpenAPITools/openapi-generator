@@ -3,7 +3,8 @@ name = "multipart-v3"
 version = "1.0.7"
 authors = ["OpenAPI Generator team and contributors"]
 description = "API under test"
-edition = "2021"
+edition = "2024"
+homepage = "https://github.com/openapitools/openapi-generator"
 
 [features]
 default = ["server"]
@@ -17,6 +18,7 @@ conversion = [
 ]
 
 [dependencies]
+ammonia = "4"
 async-trait = "0.1"
 axum = { version = "0.8", features = ["multipart"] }
 axum-extra = { version = "0.10", features = ["cookie", "query"] }
