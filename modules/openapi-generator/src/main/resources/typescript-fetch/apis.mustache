@@ -43,7 +43,7 @@ export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterIn
 export interface {{classname}}Interface {
 {{#operation}}
     /**
-     * Creates request configuration for {{nickname}} without sending the request
+     * Creates request options for {{nickname}} without sending the request
      {{#allParams}}
      * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
      {{/allParams}}
@@ -54,7 +54,7 @@ export interface {{classname}}Interface {
      * @throws {RequiredError}
      * @memberof {{classname}}Interface
      */
-    {{nickname}}RequestConfig({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts>;
+    {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts>;
 
     /**
      * {{&notes}}
@@ -109,12 +109,12 @@ export class {{classname}} extends runtime.BaseAPI {
 
     {{#operation}}
     /**
-     * Creates request configuration for {{nickname}} without sending the request
+     * Creates request options for {{nickname}} without sending the request
      {{#isDeprecated}}
      * @deprecated
      {{/isDeprecated}}
      */
-    async {{nickname}}RequestConfig({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         {{#allParams}}
         {{#required}}
         if (requestParameters['{{paramName}}'] == null) {
@@ -311,7 +311,7 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isDateTimeType}}
         {{/pathParams}}
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: '{{httpMethod}}',
             headers: headerParameters,
@@ -345,7 +345,6 @@ export class {{classname}} extends runtime.BaseAPI {
             body: formParams,
             {{/hasFormParams}}
         };
-        return requestOpts;
     }
 
     /**
