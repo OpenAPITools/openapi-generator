@@ -39,9 +39,9 @@ export interface GetBehaviorTypeRequest {
 export class BehaviorApi extends runtime.BaseAPI {
 
     /**
-     * Creates request configuration for getBehaviorPermissions without sending the request
+     * Creates request options for getBehaviorPermissions without sending the request
      */
-    async getBehaviorPermissionsRequestConfig(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async getBehaviorPermissionsRequestOpts(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['behaviorId'] == null) {
             throw new runtime.RequiredError(
                 'behaviorId',
@@ -57,13 +57,12 @@ export class BehaviorApi extends runtime.BaseAPI {
         let urlPath = `/fake_behavior/{behavior-id}/permissions`;
         urlPath = urlPath.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId'])));
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -85,9 +84,9 @@ export class BehaviorApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for getBehaviorType without sending the request
+     * Creates request options for getBehaviorType without sending the request
      */
-    async getBehaviorTypeRequestConfig(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async getBehaviorTypeRequestOpts(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['behaviorId'] == null) {
             throw new runtime.RequiredError(
                 'behaviorId',
@@ -103,13 +102,12 @@ export class BehaviorApi extends runtime.BaseAPI {
         let urlPath = `/fake_behavior/{behavior-id}/type`;
         urlPath = urlPath.replace(`{${"behavior-id"}}`, encodeURIComponent(String(requestParameters['behaviorId'])));
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**

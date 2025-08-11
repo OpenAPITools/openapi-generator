@@ -28,9 +28,9 @@ import {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
-     * Creates request configuration for fooGet without sending the request
+     * Creates request options for fooGet without sending the request
      */
-    async fooGetRequestConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fooGetRequestOpts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -38,13 +38,12 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/foo`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**

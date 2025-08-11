@@ -44,9 +44,9 @@ export interface GetMatchingPartsRequest {
 export class PetPartApi extends runtime.BaseAPI {
 
     /**
-     * Creates request configuration for getFakePetPartType without sending the request
+     * Creates request options for getFakePetPartType without sending the request
      */
-    async getFakePetPartTypeRequestConfig(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async getFakePetPartTypeRequestOpts(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['fakePetPartId'] == null) {
             throw new runtime.RequiredError(
                 'fakePetPartId',
@@ -62,13 +62,12 @@ export class PetPartApi extends runtime.BaseAPI {
         let urlPath = `/fake_petParts/{fake_petPart-id}/part-type`;
         urlPath = urlPath.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId'])));
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -90,9 +89,9 @@ export class PetPartApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for getMatchingParts without sending the request
+     * Creates request options for getMatchingParts without sending the request
      */
-    async getMatchingPartsRequestConfig(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async getMatchingPartsRequestOpts(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['fakePetPartId'] == null) {
             throw new runtime.RequiredError(
                 'fakePetPartId',
@@ -149,13 +148,12 @@ export class PetPartApi extends runtime.BaseAPI {
         let urlPath = `/fake_petParts/{fake_petPart-id}/matching-parts`;
         urlPath = urlPath.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId'])));
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**

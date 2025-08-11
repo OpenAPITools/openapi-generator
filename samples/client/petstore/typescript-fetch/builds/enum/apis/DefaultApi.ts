@@ -59,9 +59,9 @@ export interface FakeEnumRequestPostRefRequest {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
-     * Creates request configuration for fakeEnumRequestGetInline without sending the request
+     * Creates request options for fakeEnumRequestGetInline without sending the request
      */
-    async fakeEnumRequestGetInlineRequestConfig(requestParameters: FakeEnumRequestGetInlineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeEnumRequestGetInlineRequestOpts(requestParameters: FakeEnumRequestGetInlineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['stringEnum'] != null) {
@@ -85,13 +85,12 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/enum-request-inline`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -111,9 +110,9 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for fakeEnumRequestGetRef without sending the request
+     * Creates request options for fakeEnumRequestGetRef without sending the request
      */
-    async fakeEnumRequestGetRefRequestConfig(requestParameters: FakeEnumRequestGetRefRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeEnumRequestGetRefRequestOpts(requestParameters: FakeEnumRequestGetRefRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['stringEnum'] != null) {
@@ -137,13 +136,12 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/enum-request-ref`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -163,9 +161,9 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for fakeEnumRequestPostInline without sending the request
+     * Creates request options for fakeEnumRequestPostInline without sending the request
      */
-    async fakeEnumRequestPostInlineRequestConfig(requestParameters: FakeEnumRequestPostInlineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeEnumRequestPostInlineRequestOpts(requestParameters: FakeEnumRequestPostInlineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -175,14 +173,13 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/enum-request-inline`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: FakeEnumRequestGetInline200ResponseToJSON(requestParameters['fakeEnumRequestGetInline200Response']),
         };
-        return requestOpts;
     }
 
     /**
@@ -202,9 +199,9 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for fakeEnumRequestPostRef without sending the request
+     * Creates request options for fakeEnumRequestPostRef without sending the request
      */
-    async fakeEnumRequestPostRefRequestConfig(requestParameters: FakeEnumRequestPostRefRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeEnumRequestPostRefRequestOpts(requestParameters: FakeEnumRequestPostRefRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -214,14 +211,13 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/enum-request-ref`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: EnumPatternObjectToJSON(requestParameters['enumPatternObject']),
         };
-        return requestOpts;
     }
 
     /**

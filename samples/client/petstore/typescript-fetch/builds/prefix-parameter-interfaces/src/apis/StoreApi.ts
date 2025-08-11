@@ -40,9 +40,9 @@ export interface StoreApiPlaceOrderRequest {
 export class StoreApi extends runtime.BaseAPI {
 
     /**
-     * Creates request configuration for deleteOrder without sending the request
+     * Creates request options for deleteOrder without sending the request
      */
-    async deleteOrderRequestConfig(requestParameters: StoreApiDeleteOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async deleteOrderRequestOpts(requestParameters: StoreApiDeleteOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
@@ -58,13 +58,12 @@ export class StoreApi extends runtime.BaseAPI {
         let urlPath = `/store/order/{orderId}`;
         urlPath = urlPath.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters['orderId'])));
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -87,9 +86,9 @@ export class StoreApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for getInventory without sending the request
+     * Creates request options for getInventory without sending the request
      */
-    async getInventoryRequestConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async getInventoryRequestOpts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -101,13 +100,12 @@ export class StoreApi extends runtime.BaseAPI {
 
         let urlPath = `/store/inventory`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -131,9 +129,9 @@ export class StoreApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for getOrderById without sending the request
+     * Creates request options for getOrderById without sending the request
      */
-    async getOrderByIdRequestConfig(requestParameters: StoreApiGetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async getOrderByIdRequestOpts(requestParameters: StoreApiGetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
@@ -149,13 +147,12 @@ export class StoreApi extends runtime.BaseAPI {
         let urlPath = `/store/order/{orderId}`;
         urlPath = urlPath.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters['orderId'])));
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -179,9 +176,9 @@ export class StoreApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for placeOrder without sending the request
+     * Creates request options for placeOrder without sending the request
      */
-    async placeOrderRequestConfig(requestParameters: StoreApiPlaceOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async placeOrderRequestOpts(requestParameters: StoreApiPlaceOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -198,14 +195,13 @@ export class StoreApi extends runtime.BaseAPI {
 
         let urlPath = `/store/order`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: OrderToJSON(requestParameters['body']),
         };
-        return requestOpts;
     }
 
     /**

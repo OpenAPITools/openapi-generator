@@ -32,9 +32,9 @@ export interface 123testSpecialTagsRequest {
 export class AnotherFakeApi extends runtime.BaseAPI {
 
     /**
-     * Creates request configuration for _123testSpecialTags without sending the request
+     * Creates request options for _123testSpecialTags without sending the request
      */
-    async _123testSpecialTagsRequestConfig(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async _123testSpecialTagsRequestOpts(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['client'] == null) {
             throw new runtime.RequiredError(
                 'client',
@@ -51,14 +51,13 @@ export class AnotherFakeApi extends runtime.BaseAPI {
 
         let urlPath = `/another-fake/dummy`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: ClientToJSON(requestParameters['client']),
         };
-        return requestOpts;
     }
 
     /**

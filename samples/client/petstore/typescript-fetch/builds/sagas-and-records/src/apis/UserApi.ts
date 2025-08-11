@@ -61,9 +61,9 @@ export interface UpdateUserRequest {
 export class UserApi extends runtime.BaseAPI {
 
     /**
-     * Creates request configuration for createUser without sending the request
+     * Creates request options for createUser without sending the request
      */
-    async createUserRequestConfig(requestParameters: CreateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async createUserRequestOpts(requestParameters: CreateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -80,14 +80,13 @@ export class UserApi extends runtime.BaseAPI {
 
         let urlPath = `/user`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: UserToJSON(requestParameters['body']),
         };
-        return requestOpts;
     }
 
     /**
@@ -110,9 +109,9 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for createUsersWithArrayInput without sending the request
+     * Creates request options for createUsersWithArrayInput without sending the request
      */
-    async createUsersWithArrayInputRequestConfig(requestParameters: CreateUsersWithArrayInputRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async createUsersWithArrayInputRequestOpts(requestParameters: CreateUsersWithArrayInputRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -129,14 +128,13 @@ export class UserApi extends runtime.BaseAPI {
 
         let urlPath = `/user/createWithArray`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body']!.map(UserToJSON),
         };
-        return requestOpts;
     }
 
     /**
@@ -157,9 +155,9 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for createUsersWithListInput without sending the request
+     * Creates request options for createUsersWithListInput without sending the request
      */
-    async createUsersWithListInputRequestConfig(requestParameters: CreateUsersWithListInputRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async createUsersWithListInputRequestOpts(requestParameters: CreateUsersWithListInputRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -176,14 +174,13 @@ export class UserApi extends runtime.BaseAPI {
 
         let urlPath = `/user/createWithList`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body']!.map(UserToJSON),
         };
-        return requestOpts;
     }
 
     /**
@@ -204,9 +201,9 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for deleteUser without sending the request
+     * Creates request options for deleteUser without sending the request
      */
-    async deleteUserRequestConfig(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async deleteUserRequestOpts(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['username'] == null) {
             throw new runtime.RequiredError(
                 'username',
@@ -222,13 +219,12 @@ export class UserApi extends runtime.BaseAPI {
         let urlPath = `/user/{username}`;
         urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -251,9 +247,9 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for getUserByName without sending the request
+     * Creates request options for getUserByName without sending the request
      */
-    async getUserByNameRequestConfig(requestParameters: GetUserByNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async getUserByNameRequestOpts(requestParameters: GetUserByNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['username'] == null) {
             throw new runtime.RequiredError(
                 'username',
@@ -269,13 +265,12 @@ export class UserApi extends runtime.BaseAPI {
         let urlPath = `/user/{username}`;
         urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -297,9 +292,9 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for loginUser without sending the request
+     * Creates request options for loginUser without sending the request
      */
-    async loginUserRequestConfig(requestParameters: LoginUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async loginUserRequestOpts(requestParameters: LoginUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['username'] == null) {
             throw new runtime.RequiredError(
                 'username',
@@ -329,13 +324,12 @@ export class UserApi extends runtime.BaseAPI {
 
         let urlPath = `/user/login`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -361,9 +355,9 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for logoutUser without sending the request
+     * Creates request options for logoutUser without sending the request
      */
-    async logoutUserRequestConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async logoutUserRequestOpts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -371,13 +365,12 @@ export class UserApi extends runtime.BaseAPI {
 
         let urlPath = `/user/logout`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -398,9 +391,9 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for updateUser without sending the request
+     * Creates request options for updateUser without sending the request
      */
-    async updateUserRequestConfig(requestParameters: UpdateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async updateUserRequestOpts(requestParameters: UpdateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['username'] == null) {
             throw new runtime.RequiredError(
                 'username',
@@ -425,14 +418,13 @@ export class UserApi extends runtime.BaseAPI {
         let urlPath = `/user/{username}`;
         urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: UserToJSON(requestParameters['body']),
         };
-        return requestOpts;
     }
 
     /**

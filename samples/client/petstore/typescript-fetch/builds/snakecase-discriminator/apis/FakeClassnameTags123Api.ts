@@ -32,9 +32,9 @@ export interface TestClassnameRequest {
 export class FakeClassnameTags123Api extends runtime.BaseAPI {
 
     /**
-     * Creates request configuration for testClassname without sending the request
+     * Creates request options for testClassname without sending the request
      */
-    async testClassnameRequestConfig(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testClassnameRequestOpts(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['client'] == null) {
             throw new runtime.RequiredError(
                 'client',
@@ -55,14 +55,13 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
 
         let urlPath = `/fake_classname_test`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: ClientToJSON(requestParameters['client']),
         };
-        return requestOpts;
     }
 
     /**

@@ -34,9 +34,9 @@ import {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
-     * Creates request configuration for test without sending the request
+     * Creates request options for test without sending the request
      */
-    async testRequestConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testRequestOpts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -44,13 +44,12 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/test`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -70,9 +69,9 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for testArray without sending the request
+     * Creates request options for testArray without sending the request
      */
-    async testArrayRequestConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testArrayRequestOpts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -80,13 +79,12 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/test-array`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
@@ -106,9 +104,9 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request configuration for testDiscriminator without sending the request
+     * Creates request options for testDiscriminator without sending the request
      */
-    async testDiscriminatorRequestConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testDiscriminatorRequestOpts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -116,13 +114,12 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/test-discriminator`;
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**

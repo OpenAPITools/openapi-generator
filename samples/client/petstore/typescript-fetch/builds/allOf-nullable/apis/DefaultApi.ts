@@ -32,9 +32,9 @@ export interface ListRequest {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
-     * Creates request configuration for list without sending the request
+     * Creates request options for list without sending the request
      */
-    async listRequestConfig(requestParameters: ListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async listRequestOpts(requestParameters: ListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         if (requestParameters['personId'] == null) {
             throw new runtime.RequiredError(
                 'personId',
@@ -50,13 +50,12 @@ export class DefaultApi extends runtime.BaseAPI {
         let urlPath = `/person/display/{personId}`;
         urlPath = urlPath.replace(`{${"personId"}}`, encodeURIComponent(String(requestParameters['personId'])));
 
-        const requestOpts: runtime.RequestOpts = {
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
-        return requestOpts;
     }
 
     /**
