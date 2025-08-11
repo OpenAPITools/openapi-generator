@@ -210,7 +210,7 @@ public interface PetApiDelegate {
      */
     default Mono<ResponseEntity<ModelApiResponse>> uploadFile(Long petId,
         String additionalMetadata,
-        Flux<Part> file,
+        Part file,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

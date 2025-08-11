@@ -356,7 +356,7 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
                                                     let mut response_headers = response.headers_mut().unwrap();
                                                     response_headers.insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str("{{{x-mime-type}}}").map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR })?);
+                                                        HeaderValue::from_static("{{{x-mime-type}}}"));
                                                   }
 
 {{/vendorExtensions}}

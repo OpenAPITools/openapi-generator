@@ -50,7 +50,7 @@ jobs:
         working-directory: ${{ matrix.sample }}
         run: |
           set -e
-          # Skip samples/client/petstore/rust/ as it's tests are failing.
+          # Skip samples/client/petstore/rust/ as its tests are failing.
           if [[ "${{ matrix.sample }}" == "samples/client/petstore/rust/" ]]; then
             echo "Skipping tests for samples/client/petstore/rust/"
             exit 0

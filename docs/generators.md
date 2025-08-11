@@ -12,6 +12,7 @@ The following generators are available:
 * [bash](generators/bash.md)  
 * [c](generators/c.md)  
 * [clojure](generators/clojure.md)  
+* [cpp-oatpp-client](generators/cpp-oatpp-client.md)  
 * [cpp-qt-client](generators/cpp-qt-client.md)  
 * [cpp-restsdk](generators/cpp-restsdk.md)  
 * [cpp-tiny (beta)](generators/cpp-tiny.md)  
@@ -152,6 +153,7 @@ The following generators are available:
 * [scala-play-server](generators/scala-play-server.md)  
 * [scalatra](generators/scalatra.md)  
 * [spring](generators/spring.md)  
+* [typescript-nestjs-server (beta)](generators/typescript-nestjs-server.md)  
 
 
 ## DOCUMENTATION generators

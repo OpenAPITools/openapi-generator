@@ -158,11 +158,18 @@ impl ::std::str::FromStr for {{{classname}}} {
 {{#arrayModelType}}
 {{#vendorExtensions}}{{#x-item-xml-name}}// Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
-fn wrap_in_{{{x-item-xml-name}}}<S>(item: &Vec<{{{arrayModelType}}}>, serializer: S) -> std::result::Result<S::Ok, S::Error>
+fn wrap_in_{{{x-item-xml-name}}}<S>(items: &Vec<{{{arrayModelType}}}>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
     S: serde::ser::Serializer,
 {
-    serde_xml_rs::wrap_primitives(item, serializer, "{{{x-item-xml-name}}}")
+    use serde::ser::SerializeMap;
+
+    let mut map = serializer.serialize_map(None)?;
+    for ref item in items {
+        map.serialize_key("{{{x-item-xml-name}}}")?;
+        map.serialize_value(item)?;
+    }
+    map.end()
 }
 
 {{/x-item-xml-name}}
@@ -632,10 +639,10 @@ impl {{{classname}}} {
     #[allow(dead_code)]
     pub(crate) fn as_xml(&self) -> String {
         {{#xmlNamespace}}
-        let mut namespaces = std::collections::BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
-        namespaces.insert("".to_string(), Self::NAMESPACE.to_string());
-        serde_xml_rs::to_string_with_namespaces(&self, namespaces).expect("impossible to fail to serialize")
+        let config = serde_xml_rs::SerdeXml::new()
+            .namespace("", Self::NAMESPACE);
+        config.to_string(&self).expect("impossible to fail to serialize")
         {{/xmlNamespace}}
         {{^xmlNamespace}}
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")

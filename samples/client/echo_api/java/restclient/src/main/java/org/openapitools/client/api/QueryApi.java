@@ -794,4 +794,80 @@ public class QueryApi {
     public ResponseSpec testQueryStyleFormExplodeTrueObjectAllOfWithResponseSpec(@jakarta.annotation.Nullable DataQuery queryObject) throws RestClientResponseException {
         return testQueryStyleFormExplodeTrueObjectAllOfRequestCreation(queryObject);
     }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param jsonSerializedObjectRefStringQuery The jsonSerializedObjectRefStringQuery parameter
+     * @param jsonSerializedObjectArrayRefStringQuery The jsonSerializedObjectArrayRefStringQuery parameter
+     * @return String
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec testQueryStyleJsonSerializationObjectRequestCreation(@jakarta.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @jakarta.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientResponseException {
+        Object postBody = null;
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
+
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
+        
+        final String[] localVarAccepts = { 
+            "text/plain"
+        };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/query/style_jsonSerialization/object", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param jsonSerializedObjectRefStringQuery The jsonSerializedObjectRefStringQuery parameter
+     * @param jsonSerializedObjectArrayRefStringQuery The jsonSerializedObjectArrayRefStringQuery parameter
+     * @return String
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public String testQueryStyleJsonSerializationObject(@jakarta.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @jakarta.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientResponseException {
+        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return testQueryStyleJsonSerializationObjectRequestCreation(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery).body(localVarReturnType);
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param jsonSerializedObjectRefStringQuery The jsonSerializedObjectRefStringQuery parameter
+     * @param jsonSerializedObjectArrayRefStringQuery The jsonSerializedObjectArrayRefStringQuery parameter
+     * @return ResponseEntity&lt;String&gt;
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<String> testQueryStyleJsonSerializationObjectWithHttpInfo(@jakarta.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @jakarta.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientResponseException {
+        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return testQueryStyleJsonSerializationObjectRequestCreation(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param jsonSerializedObjectRefStringQuery The jsonSerializedObjectRefStringQuery parameter
+     * @param jsonSerializedObjectArrayRefStringQuery The jsonSerializedObjectArrayRefStringQuery parameter
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testQueryStyleJsonSerializationObjectWithResponseSpec(@jakarta.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @jakarta.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientResponseException {
+        return testQueryStyleJsonSerializationObjectRequestCreation(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery);
+    }
 }
