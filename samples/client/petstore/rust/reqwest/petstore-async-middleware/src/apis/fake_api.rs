@@ -50,21 +50,21 @@ pub enum TestNullableRequiredParamError {
 /// 
 pub async fn test_nullable_required_param(configuration: &configuration::Configuration, params: TestNullableRequiredParamParams) -> Result<ResponseContent<TestNullableRequiredParamSuccess>, Error<TestNullableRequiredParamError>> {
 
-    let uri_str = format!("{}/fake/user/{user_name}", configuration.base_path, user_name=crate::apis::urlencode(params.path_user_name));
+    let uri_str = format!("{}/fake/user/{user_name}", configuration.base_path, user_name=crate::apis::urlencode(params.user_name));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = params.query_content {
+    if let Some(ref param_value) = params.content {
         req_builder = req_builder.query(&[("content", &param_value.to_string())]);
     }
-    req_builder = req_builder.query(&[("anyType", &params.query_any_type.to_string())]);
+    req_builder = req_builder.query(&[("anyType", &params.any_type.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    match params.header_dummy_required_nullable_param {
+    match params.dummy_required_nullable_param {
         Some(param_value) => { req_builder = req_builder.header("dummy_required_nullable_param", param_value.to_string()); },
         None => { req_builder = req_builder.header("dummy_required_nullable_param", ""); },
     }
-    if let Some(param_value) = params.header_uppercase {
+    if let Some(param_value) = params.uppercase {
         req_builder = req_builder.header("UPPERCASE", param_value.to_string());
     }
 

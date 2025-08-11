@@ -104,7 +104,7 @@ pub enum PlaceOrderError {
 /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 pub async fn delete_order(configuration: &configuration::Configuration, params: DeleteOrderParams) -> Result<ResponseContent<DeleteOrderSuccess>, Error<DeleteOrderError>> {
 
-    let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(params.path_order_id));
+    let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(params.order_id));
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -161,7 +161,7 @@ pub async fn get_inventory(configuration: &configuration::Configuration) -> Resu
 /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 pub async fn get_order_by_id(configuration: &configuration::Configuration, params: GetOrderByIdParams) -> Result<ResponseContent<GetOrderByIdSuccess>, Error<GetOrderByIdError>> {
 
-    let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=params.path_order_id);
+    let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=params.order_id);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -193,7 +193,7 @@ pub async fn place_order(configuration: &configuration::Configuration, params: P
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    req_builder = req_builder.json(&params.body_order);
+    req_builder = req_builder.json(&params.order);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

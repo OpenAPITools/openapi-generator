@@ -75,7 +75,7 @@ pub async fn tests_all_of_with_one_model_get(configuration: &configuration::Conf
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    req_builder = req_builder.json(&params.body_person);
+    req_builder = req_builder.json(&params.person);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

@@ -208,7 +208,7 @@ pub async fn create_user(configuration: &configuration::Configuration, params: C
     let token = configuration.token_source.token().await.map_err(Error::TokenSource)?;
     // The token format is the responsibility of the provider, thus we just set the authorization header with whatever is given.
     req_builder = req_builder.header(reqwest::header::AUTHORIZATION, token);
-    req_builder = req_builder.json(&params.body_user);
+    req_builder = req_builder.json(&params.user);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -240,7 +240,7 @@ pub async fn create_users_with_array_input(configuration: &configuration::Config
     let token = configuration.token_source.token().await.map_err(Error::TokenSource)?;
     // The token format is the responsibility of the provider, thus we just set the authorization header with whatever is given.
     req_builder = req_builder.header(reqwest::header::AUTHORIZATION, token);
-    req_builder = req_builder.json(&params.body_user);
+    req_builder = req_builder.json(&params.user);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -272,7 +272,7 @@ pub async fn create_users_with_list_input(configuration: &configuration::Configu
     let token = configuration.token_source.token().await.map_err(Error::TokenSource)?;
     // The token format is the responsibility of the provider, thus we just set the authorization header with whatever is given.
     req_builder = req_builder.header(reqwest::header::AUTHORIZATION, token);
-    req_builder = req_builder.json(&params.body_user);
+    req_builder = req_builder.json(&params.user);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -293,7 +293,7 @@ pub async fn create_users_with_list_input(configuration: &configuration::Configu
 /// This can only be done by the logged in user.
 pub async fn delete_user(configuration: &configuration::Configuration, params: DeleteUserParams) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
 
-    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(params.path_username));
+    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(params.username));
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -324,7 +324,7 @@ pub async fn delete_user(configuration: &configuration::Configuration, params: D
 /// 
 pub async fn get_user_by_name(configuration: &configuration::Configuration, params: GetUserByNameParams) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
 
-    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(params.path_username));
+    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(params.username));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -353,8 +353,8 @@ pub async fn login_user(configuration: &configuration::Configuration, params: Lo
     let uri_str = format!("{}/user/login", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("username", &params.query_username.to_string())]);
-    req_builder = req_builder.query(&[("password", &params.query_password.to_string())]);
+    req_builder = req_builder.query(&[("username", &params.username.to_string())]);
+    req_builder = req_builder.query(&[("password", &params.password.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -409,7 +409,7 @@ pub async fn logout_user(configuration: &configuration::Configuration) -> Result
 /// This can only be done by the logged in user.
 pub async fn update_user(configuration: &configuration::Configuration, params: UpdateUserParams) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
 
-    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(params.path_username));
+    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(params.username));
     let mut req_builder = configuration.client.request(reqwest::Method::PUT, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -420,7 +420,7 @@ pub async fn update_user(configuration: &configuration::Configuration, params: U
     let token = configuration.token_source.token().await.map_err(Error::TokenSource)?;
     // The token format is the responsibility of the provider, thus we just set the authorization header with whatever is given.
     req_builder = req_builder.header(reqwest::header::AUTHORIZATION, token);
-    req_builder = req_builder.json(&params.body_user);
+    req_builder = req_builder.json(&params.user);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

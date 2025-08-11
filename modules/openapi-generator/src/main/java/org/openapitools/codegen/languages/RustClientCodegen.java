@@ -656,7 +656,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             locationSuffix = "form_";
         }
         if (this.useSingleRequestParameter) {
-            inFunctionIdentifier = "params." + locationSuffix + parameter.paramName;
+            inFunctionIdentifier = "params." + parameter.paramName;
         } else {
             if (parameter.paramName.startsWith("r#")) {
                 inFunctionIdentifier = "p_" + locationSuffix + parameter.paramName.substring(2);
