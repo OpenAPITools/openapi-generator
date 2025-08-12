@@ -39,7 +39,7 @@ pub enum TestsTypeTestingGetError {
 
 pub fn tests_all_of_with_one_model_get(configuration: &configuration::Configuration, foo_person: models::FooPerson) -> Result<String, Error<TestsAllOfWithOneModelGetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_foo_person = foo_person;
+    let p_body_foo_person = foo_person;
 
     let uri_str = format!("{}/tests/allOfWithOneModel", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -47,7 +47,7 @@ pub fn tests_all_of_with_one_model_get(configuration: &configuration::Configurat
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    req_builder = req_builder.json(&p_foo_person);
+    req_builder = req_builder.json(&p_body_foo_person);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;
