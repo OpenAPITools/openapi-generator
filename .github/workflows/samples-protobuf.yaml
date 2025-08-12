@@ -22,7 +22,7 @@ jobs:
           - 'samples/config/petstore/protobuf-schema-config/'
           - 'samples/config/petstore/protobuf-schema-config-complex/'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install Protocol Buffers Compiler
         run: |
           sudo apt-get update

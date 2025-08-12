@@ -27,7 +27,7 @@ jobs:
           - samples/server/others/haskell-servant-ping/
           - samples/client/petstore/haskell-http-client/
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: haskell/actions/setup@v2
         with:
           # ghc-version: '8.8.4' # Exact version of ghc to use

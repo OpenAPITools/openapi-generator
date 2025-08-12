@@ -27,7 +27,7 @@ jobs:
           - samples/server/petstore/go-chi-server/
           - samples/server/others/go-server/no-body-path-params/
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-go@v5
         with:
           go-version: "stable"
@@ -47,7 +47,7 @@ jobs:
         go-version:
           - "1.18"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
