@@ -814,8 +814,8 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"
