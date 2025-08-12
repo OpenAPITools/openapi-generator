@@ -71,7 +71,7 @@ public class QueryApi {
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_nonref_string_query", enumNonrefStringQuery));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_ref_string_query", enumRefStringQuery));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -149,7 +149,7 @@ public class QueryApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "datetime_query", datetimeQuery));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "date_query", dateQuery));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -230,7 +230,7 @@ public class QueryApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "integer_query", integerQuery));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "boolean_query", booleanQuery));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -312,7 +312,7 @@ public class QueryApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -383,7 +383,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -454,7 +454,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -525,7 +525,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -596,7 +596,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "values", queryObject.getValues()));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -672,7 +672,7 @@ public class QueryApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -743,7 +743,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -814,9 +814,9 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
-        
+        queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
