@@ -48,6 +48,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
 
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-zero-based-enum|When used on an enum, the index will not be generated and the default numbering will be used, zero-based|MODEL|false
+
+
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |
