@@ -32,7 +32,7 @@ pub enum GetAllFoosError {
 
 pub fn create_foo(configuration: &configuration::Configuration, foo: Option<models::Foo>) -> Result<models::FooRefOrValue, Error<CreateFooError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_foo = foo;
+    let p_body_foo = foo;
 
     let uri_str = format!("{}/foo", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -40,7 +40,7 @@ pub fn create_foo(configuration: &configuration::Configuration, foo: Option<mode
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    req_builder = req_builder.json(&p_foo);
+    req_builder = req_builder.json(&p_body_foo);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;
