@@ -87,6 +87,7 @@ namespace Org.OpenAPITools.Models
             SoldEnum = 3
         }
 
+
         /// <summary>
         /// pet status in the store
         /// </summary>

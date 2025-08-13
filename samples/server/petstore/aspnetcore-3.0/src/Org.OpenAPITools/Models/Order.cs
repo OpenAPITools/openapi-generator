@@ -79,6 +79,7 @@ namespace Org.OpenAPITools.Models
             DeliveredEnum = 3
         }
 
+
         /// <summary>
         /// Order Status
         /// </summary>
