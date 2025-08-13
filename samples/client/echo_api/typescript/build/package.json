@@ -31,9 +31,9 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "node-fetch": "^2.6.0",
-    "@types/node-fetch": "^2.5.7",
-    "@types/node": "*",
+    "node-fetch": "^2.7.0",
+    "@types/node-fetch": "^2.6.13",
+    "@types/node": "^16.18.126",
     "form-data": "^2.5.0",
     "es6-promise": "^4.2.4"
   },
