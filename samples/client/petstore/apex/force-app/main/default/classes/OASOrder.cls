@@ -47,7 +47,6 @@ public class OASOrder {
         DELIVERED
     }
 
-
     /**
      * Order Status
      * @return status

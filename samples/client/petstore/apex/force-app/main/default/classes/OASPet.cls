@@ -53,7 +53,6 @@ public class OASPet {
         SOLD
     }
 
-
     /**
      * pet status in the store
      * @return status
