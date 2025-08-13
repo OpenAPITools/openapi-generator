@@ -26,7 +26,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
     """
     Minimal object
     """ # noqa: E501
-    var_property: Optional[StrictBool] = Field(default=False, description="Property", alias="property")
+    var_property: Optional[StrictBool] = Field(default=None, description="Property", alias="property")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["property"]
 
@@ -88,7 +88,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "property": obj.get("property") if obj.get("property") is not None else False
+            "property": obj.get("property")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
