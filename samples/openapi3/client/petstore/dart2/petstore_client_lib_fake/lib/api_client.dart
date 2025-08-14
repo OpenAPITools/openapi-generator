@@ -250,8 +250,14 @@ class ApiClient {
           return NullableClass.fromJson(value);
         case 'NumberOnly':
           return NumberOnly.fromJson(value);
+        case 'ObjectThatReferencesObjectsWithDuplicateInlineEnums':
+          return ObjectThatReferencesObjectsWithDuplicateInlineEnums.fromJson(value);
         case 'ObjectWithDeprecatedFields':
           return ObjectWithDeprecatedFields.fromJson(value);
+        case 'ObjectWithDuplicateInlineEnum':
+          return ObjectWithDuplicateInlineEnum.fromJson(value);
+        case 'ObjectWithInlineEnum':
+          return ObjectWithInlineEnum.fromJson(value);
         case 'Order':
           return Order.fromJson(value);
         case 'OuterComposite':
