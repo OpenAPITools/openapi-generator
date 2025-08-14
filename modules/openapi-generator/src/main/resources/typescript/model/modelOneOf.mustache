@@ -9,14 +9,14 @@ import {
 /**
  * @type {{classname}}
  * Type
- * @export
+ * @exports
  */
 export type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};
 
 /**
 * @type {{classname}}Class{{#description}}
     * {{{.}}}{{/description}}
-* @export
+* @exports
 */
 export class {{classname}}Class {
     {{#discriminator}}
