@@ -369,3 +369,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |XML|✓|OAS2,OAS3
 |PROTOBUF|✗|ToolingExtension
 |Custom|✗|OAS2,OAS3
+
+## 🔧 Example: Using Maven CLI to view generator version
+
+To check which version of the OpenAPI Generator Maven plugin is configured in your project, use:
+
+```bash
+mvn openapi-generator:version
