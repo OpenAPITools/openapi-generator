@@ -10,9 +10,6 @@ on:
       - master
       - '[5-9]+.[0-9]+.x'
 
-env:
-  GRADLE_VERSION: '8.14.3'
-
 jobs:
   build:
     name: 'Build: JDK ${{ matrix.java }} (${{ matrix.os }})'
@@ -46,6 +43,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('modules/openapi-generator-gradle-plugin/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.14.3'
 
       - name: Setup Maven
         uses: s4u/setup-maven-action@v1.18.0
