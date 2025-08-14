@@ -113,6 +113,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
         outputFolder = "generated-code/go";
         embeddedTemplateDir = templateDir = "go";
 
+        // We need inline enums to be resolved to a separate model
+        inlineSchemaOption.put("RESOLVE_INLINE_ENUMS", "true");
+
         apiTemplateFiles.put("api.mustache", ".go");
         modelTemplateFiles.put("model.mustache", ".go");
         apiTestTemplateFiles.put("api_test.mustache", ".go");

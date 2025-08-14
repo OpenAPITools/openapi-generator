@@ -86,6 +86,7 @@ Class | Method | HTTP request | Description
 
  - [Category](docs/Category.md)
  - [Pet](docs/Pet.md)
+ - [PetStatus](docs/PetStatus.md)
  - [Tag](docs/Tag.md)
 
 

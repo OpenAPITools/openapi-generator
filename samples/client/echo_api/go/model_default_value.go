@@ -21,7 +21,7 @@ var _ MappedNullable = &DefaultValue{}
 // DefaultValue to test the default value of properties
 type DefaultValue struct {
 	ArrayStringEnumRefDefault []StringEnumRef `json:"array_string_enum_ref_default,omitempty"`
-	ArrayStringEnumDefault []string `json:"array_string_enum_default,omitempty"`
+	ArrayStringEnumDefault []TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter `json:"array_string_enum_default,omitempty"`
 	ArrayStringDefault []string `json:"array_string_default,omitempty"`
 	ArrayIntegerDefault []int32 `json:"array_integer_default,omitempty"`
 	ArrayString []string `json:"array_string,omitempty"`
@@ -80,9 +80,9 @@ func (o *DefaultValue) SetArrayStringEnumRefDefault(v []StringEnumRef) {
 }
 
 // GetArrayStringEnumDefault returns the ArrayStringEnumDefault field value if set, zero value otherwise.
-func (o *DefaultValue) GetArrayStringEnumDefault() []string {
+func (o *DefaultValue) GetArrayStringEnumDefault() []TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter {
 	if o == nil || IsNil(o.ArrayStringEnumDefault) {
-		var ret []string
+		var ret []TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter
 		return ret
 	}
 	return o.ArrayStringEnumDefault
@@ -90,7 +90,7 @@ func (o *DefaultValue) GetArrayStringEnumDefault() []string {
 
 // GetArrayStringEnumDefaultOk returns a tuple with the ArrayStringEnumDefault field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DefaultValue) GetArrayStringEnumDefaultOk() ([]string, bool) {
+func (o *DefaultValue) GetArrayStringEnumDefaultOk() ([]TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter, bool) {
 	if o == nil || IsNil(o.ArrayStringEnumDefault) {
 		return nil, false
 	}
@@ -106,8 +106,8 @@ func (o *DefaultValue) HasArrayStringEnumDefault() bool {
 	return false
 }
 
-// SetArrayStringEnumDefault gets a reference to the given []string and assigns it to the ArrayStringEnumDefault field.
-func (o *DefaultValue) SetArrayStringEnumDefault(v []string) {
+// SetArrayStringEnumDefault gets a reference to the given []TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter and assigns it to the ArrayStringEnumDefault field.
+func (o *DefaultValue) SetArrayStringEnumDefault(v []TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter) {
 	o.ArrayStringEnumDefault = v
 }
 

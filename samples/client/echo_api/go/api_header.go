@@ -29,7 +29,7 @@ type ApiTestHeaderIntegerBooleanStringEnumsRequest struct {
 	integerHeader *int32
 	booleanHeader *bool
 	stringHeader *string
-	enumNonrefStringHeader *string
+	enumNonrefStringHeader *TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter
 	enumRefStringHeader *StringEnumRef
 }
 
@@ -48,7 +48,7 @@ func (r ApiTestHeaderIntegerBooleanStringEnumsRequest) StringHeader(stringHeader
 	return r
 }
 
-func (r ApiTestHeaderIntegerBooleanStringEnumsRequest) EnumNonrefStringHeader(enumNonrefStringHeader string) ApiTestHeaderIntegerBooleanStringEnumsRequest {
+func (r ApiTestHeaderIntegerBooleanStringEnumsRequest) EnumNonrefStringHeader(enumNonrefStringHeader TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter) ApiTestHeaderIntegerBooleanStringEnumsRequest {
 	r.enumNonrefStringHeader = &enumNonrefStringHeader
 	return r
 }
