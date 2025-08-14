@@ -69,8 +69,6 @@ jobs:
       - name: Test Gradle plugin usage
         shell: bash
         run: gradle --project-dir modules/openapi-generator-gradle-plugin/samples/local-spec buildGoSdk --stacktrace
-        with:
-          gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Test Maven plugin integration
         if: matrix.java == '11'
