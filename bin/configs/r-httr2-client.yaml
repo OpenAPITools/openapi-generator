@@ -17,4 +17,4 @@ additionalProperties:
   returnExceptionOnFailure: true
   errorObjectType: "ModelApiResponse"
   operationIdNaming: snake_case
-
+  disallowAdditionalPropertiesIfNotPresent: true
