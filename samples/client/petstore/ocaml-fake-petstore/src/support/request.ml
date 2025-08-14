@@ -1,5 +1,5 @@
 let api_key = ""
-let base_url = "http://petstore.swagger.io/v2"
+let base_url = "http://petstore.swagger.io:80/v2"
 let default_headers = Cohttp.Header.init_with "Content-Type" "application/json"
 
 let option_fold f default o =

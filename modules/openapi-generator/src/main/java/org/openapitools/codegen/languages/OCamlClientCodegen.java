@@ -171,6 +171,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("short", "int");
         typeMapping.put("char", "char");
         typeMapping.put("float", "float");
+        typeMapping.put("decimal", "string");
         typeMapping.put("double", "float");
         typeMapping.put("integer", "int32");
         typeMapping.put("number", "float");
@@ -179,6 +180,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("any", "Yojson.Safe.t");
         typeMapping.put("file", "string");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("AnyType", "Yojson.Safe.t");
         // lib
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
