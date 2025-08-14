@@ -64,7 +64,7 @@ import kotlinx.serialization.*
     {{#jackson}}
     @JsonProperty(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}}){{#enumUnknownDefaultCase}}{{#-last}} @JsonEnumDefaultValue{{/-last}}{{/enumUnknownDefaultCase}}
     {{/jackson}}
-    {{#kotlinx_serialization}}{{^isString}}
+    {{#kotlinx_serialization}}{{#isString}}
     @SerialName(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
     {{/isString}}{{/kotlinx_serialization}}
     {{/multiplatform}}
