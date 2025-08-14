@@ -48,7 +48,10 @@ import 'package:openapi/src/model/model_return.dart';
 import 'package:openapi/src/model/name.dart';
 import 'package:openapi/src/model/nullable_class.dart';
 import 'package:openapi/src/model/number_only.dart';
+import 'package:openapi/src/model/object_that_references_objects_with_duplicate_inline_enums.dart';
 import 'package:openapi/src/model/object_with_deprecated_fields.dart';
+import 'package:openapi/src/model/object_with_duplicate_inline_enum.dart';
+import 'package:openapi/src/model/object_with_inline_enum.dart';
 import 'package:openapi/src/model/order.dart';
 import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_enum.dart';
@@ -104,7 +107,10 @@ part 'serializers.g.dart';
   Name,
   NullableClass,
   NumberOnly,
+  ObjectThatReferencesObjectsWithDuplicateInlineEnums,
   ObjectWithDeprecatedFields,
+  ObjectWithDuplicateInlineEnum,
+  ObjectWithInlineEnum,
   Order,
   OuterComposite,
   OuterEnum,
