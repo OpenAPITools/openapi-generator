@@ -17,7 +17,7 @@ class ObjectWithDuplicateInlineEnum {
   });
 
   /// Object two attribute enum
-  Set<AttributeEnum> attribute;
+  Set<ObjectWithDuplicateInlineEnumAttributeEnum> attribute;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ObjectWithDuplicateInlineEnum &&

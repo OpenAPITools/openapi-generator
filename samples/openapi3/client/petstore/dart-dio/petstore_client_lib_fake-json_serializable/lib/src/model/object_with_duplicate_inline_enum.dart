@@ -29,11 +29,11 @@ class ObjectWithDuplicateInlineEnum {
     name: r'attribute',
     required: false,
     includeIfNull: false,
-  unknownEnumValue: Set<AttributeEnum>.unknownDefaultOpenApi,
+  unknownEnumValue: Set<ObjectWithDuplicateInlineEnumAttributeEnum>.unknownDefaultOpenApi,
   )
 
 
-  final Set<AttributeEnum>? attribute;
+  final Set<ObjectWithDuplicateInlineEnumAttributeEnum>? attribute;
 
 
 

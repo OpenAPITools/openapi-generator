@@ -59,7 +59,7 @@ class ObjectWithInlineEnum {
 }
 
 
-enum ObjectWithDuplicateInlineEnumAttributeEnum {
+enum ObjectWithInlineEnumAttributeEnum {
 @JsonValue(r'value_one')
 valueOne(r'value_one'),
 @JsonValue(r'value_two')
@@ -67,7 +67,7 @@ valueTwo(r'value_two'),
 @JsonValue(r'unknown_default_open_api')
 unknownDefaultOpenApi(r'unknown_default_open_api');
 
-const ObjectWithDuplicateInlineEnumAttributeEnum(this.value);
+const ObjectWithInlineEnumAttributeEnum(this.value);
 
 final String value;
 
