@@ -7,23 +7,23 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'fruit_type.g.dart';
+part 'order_by.g.dart';
 
-class FruitType extends EnumClass {
+class OrderBy extends EnumClass {
 
-  @BuiltValueEnumConst(wireName: r'APPLE')
-  static const FruitType APPLEAttr = _$APPLE;
-  @BuiltValueEnumConst(wireName: r'BANANA')
-  static const FruitType BANANAAttr = _$BANANA;
+  @BuiltValueEnumConst(wireName: r'name')
+  static const OrderBy nameAttr = _$name;
+  @BuiltValueEnumConst(wireName: r'username')
+  static const OrderBy usernameAttr = _$username;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const FruitType unknownDefaultOpenApiAttr = _$unknownDefaultOpenApi;
+  static const OrderBy unknownDefaultOpenApiAttr = _$unknownDefaultOpenApi;
 
-  static Serializer<FruitType> get serializer => _$fruitTypeSerializer;
+  static Serializer<OrderBy> get serializer => _$orderBySerializer;
 
-  const FruitType._(String name): super(name);
+  const OrderBy._(String name): super(name);
 
-  static BuiltSet<FruitType> get values => _$values;
-  static FruitType valueOf(String name) => _$valueOf(name);
+  static BuiltSet<OrderBy> get values => _$values;
+  static OrderBy valueOf(String name) => _$valueOf(name);
 }
 
 /// Optionally, enum_class can generate a mixin to go with your enum for use
@@ -32,5 +32,5 @@ class FruitType extends EnumClass {
 /// corresponding Angular template.
 ///
 /// Trigger mixin generation by writing a line like this one next to your enum.
-abstract class FruitTypeMixin = Object with _$FruitTypeMixin;
+abstract class OrderByMixin = Object with _$OrderByMixin;
 
