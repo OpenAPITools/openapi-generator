@@ -1,0 +1,96 @@
+[default]
+extend-ignore-identifiers-re = [
+    # java packages
+    "[a-z][a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)+[0-9a-zA-Z_]+",
+    # short commit hashes
+    "\\b[0-9a-f]{5,40}\\b"
+]
+
+[default.extend-identifiers]
+UE4 = "UE4"
+cpp-ue4 = "cpp-ue4"
+DEACTIVE = "DEACTIVATE"
+xdescribe = "xdescribe"
+inout = "inout"
+woo-noo = "woo-noo"
+
+
+[default.extend-words]
+testng = "testng"
+robocorp = "robocorp"
+freee = "freee"
+verticle = "verticle"
+commitish = "commitish"
+cpp-ue4 = "cpp-ue4"
+woo-noo = "woo-noo"
+inout = "inout"
+UE = "UE"
+BA = "BA"
+ND = "ND"
+ist = "ist"
+EDE = "EDE"
+dota = "dota"
+ser = "ser"
+creater = "create"
+claus = "claus"
+2nd_place_medal = "2nd_place_medal"
+fo = "fo"
+Laso = "Laso"
+patten = "pattern"
+DEFFERED = "DEFERRED"
+add-ons = "add-ons"
+Paket = "Paket"
+MKE = "MKE"
+Informations = "Informations"
+mvNiOIS = "mvNiOIS"
+thess = "these"
+Interal = "Internal"
+sie = "sie"
+NWE = "NWE"
+womens = "womens"
+noo = "noo"
+vertx = "vertx"
+
+[files]
+extend-exclude = [
+    "samples/documentation/**/*.html",
+    "samples/documentation/**/*.js",
+    "modules/openapi-generator-online/src/main/resources/static/**/*",
+    "modules/openapi-generator/src/main/resources/htmlDocs2/**/*",
+    "modules/openapi-generator/src/main/resources/openapi-static/assets/js/*.js",
+    "modules/openapi-generator/src/test/resources/3_0/jetbrains/github.json",
+    # contains a fixed typo
+    "docs/3.0.0-release-note.md"
+]
+
+
+[type.pbxproj]
+extend-glob = [
+    "**/*.pbxproj"
+]
+check-file = false
+
+[type.swift]
+extend-glob = [
+    "*.swift",
+    "docs/generators/swift*.md",
+    "docs/generators/swift5.md",
+    "docs/generators/swift*/**/*.md",
+    "samples/client/**/swift*/**/*.md",
+    "samples/client/petstore/swift6/**/*.md"
+]
+# check-file = false
+
+[type.swift.extend-words]
+    inout = "inout"
+
+# [type.java.extend-identifiers]
+# com.fasterxml.jackson.databind.ser = "com.fasterxml.jackson.databind.ser"
+
+[type.cert]
+extend-glob = ["*.cert"]
+check-file = false
+
+[type.http]
+extend-glob = ["*.http"]
+check-file = false
