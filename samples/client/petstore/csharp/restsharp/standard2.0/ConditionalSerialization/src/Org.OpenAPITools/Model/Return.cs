@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarReturn
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
-        public int VarReturn
+        public int? VarReturn
         {
             get{ return _VarReturn;}
             set
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Model
                 _flagVarReturn = true;
             }
         }
-        private int _VarReturn;
+        private int? _VarReturn;
         private bool _flagVarReturn;
 
         /// <summary>
@@ -231,7 +231,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
+                if (this.VarReturn != null)
+                {
+                    hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
+                }
                 if (this.Lock != null)
                 {
                     hashCode = (hashCode * 59) + this.Lock.GetHashCode();

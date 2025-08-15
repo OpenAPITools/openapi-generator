@@ -112,61 +112,61 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [DataMember(Name = "integer", EmitDefaultValue = false)]
-        public int Integer { get; set; }
+        public int? Integer { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [DataMember(Name = "int32", EmitDefaultValue = false)]
-        public int Int32 { get; set; }
+        public int? Int32 { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32Range
         /// </summary>
         [DataMember(Name = "int32Range", EmitDefaultValue = false)]
-        public int Int32Range { get; set; }
+        public int? Int32Range { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64Positive
         /// </summary>
         [DataMember(Name = "int64Positive", EmitDefaultValue = false)]
-        public long Int64Positive { get; set; }
+        public long? Int64Positive { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64Negative
         /// </summary>
         [DataMember(Name = "int64Negative", EmitDefaultValue = false)]
-        public long Int64Negative { get; set; }
+        public long? Int64Negative { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64PositiveExclusive
         /// </summary>
         [DataMember(Name = "int64PositiveExclusive", EmitDefaultValue = false)]
-        public long Int64PositiveExclusive { get; set; }
+        public long? Int64PositiveExclusive { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64NegativeExclusive
         /// </summary>
         [DataMember(Name = "int64NegativeExclusive", EmitDefaultValue = false)]
-        public long Int64NegativeExclusive { get; set; }
+        public long? Int64NegativeExclusive { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedInteger
         /// </summary>
         [DataMember(Name = "unsigned_integer", EmitDefaultValue = false)]
-        public uint UnsignedInteger { get; set; }
+        public uint? UnsignedInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
-        public long Int64 { get; set; }
+        public long? Int64 { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedLong
         /// </summary>
         [DataMember(Name = "unsigned_long", EmitDefaultValue = false)]
-        public ulong UnsignedLong { get; set; }
+        public ulong? UnsignedLong { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
@@ -178,19 +178,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float Float { get; set; }
+        public float? Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double Double { get; set; }
+        public double? Double { get; set; }
 
         /// <summary>
         /// Gets or Sets Decimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
-        public decimal Decimal { get; set; }
+        public decimal? Decimal { get; set; }
 
         /// <summary>
         /// Gets or Sets String
@@ -269,7 +269,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StringFormattedAsDecimal
         /// </summary>
         [DataMember(Name = "string_formatted_as_decimal", EmitDefaultValue = false)]
-        public decimal StringFormattedAsDecimal { get; set; }
+        public decimal? StringFormattedAsDecimal { get; set; }
 
         /// <summary>
         /// Gets or Sets StringFormattedAsDecimalRequired
@@ -362,43 +362,53 @@ namespace Org.OpenAPITools.Model
             return 
                 (
                     this.Integer == input.Integer ||
-                    this.Integer.Equals(input.Integer)
+                    (this.Integer != null &&
+                    this.Integer.Equals(input.Integer))
                 ) && 
                 (
                     this.Int32 == input.Int32 ||
-                    this.Int32.Equals(input.Int32)
+                    (this.Int32 != null &&
+                    this.Int32.Equals(input.Int32))
                 ) && 
                 (
                     this.Int32Range == input.Int32Range ||
-                    this.Int32Range.Equals(input.Int32Range)
+                    (this.Int32Range != null &&
+                    this.Int32Range.Equals(input.Int32Range))
                 ) && 
                 (
                     this.Int64Positive == input.Int64Positive ||
-                    this.Int64Positive.Equals(input.Int64Positive)
+                    (this.Int64Positive != null &&
+                    this.Int64Positive.Equals(input.Int64Positive))
                 ) && 
                 (
                     this.Int64Negative == input.Int64Negative ||
-                    this.Int64Negative.Equals(input.Int64Negative)
+                    (this.Int64Negative != null &&
+                    this.Int64Negative.Equals(input.Int64Negative))
                 ) && 
                 (
                     this.Int64PositiveExclusive == input.Int64PositiveExclusive ||
-                    this.Int64PositiveExclusive.Equals(input.Int64PositiveExclusive)
+                    (this.Int64PositiveExclusive != null &&
+                    this.Int64PositiveExclusive.Equals(input.Int64PositiveExclusive))
                 ) && 
                 (
                     this.Int64NegativeExclusive == input.Int64NegativeExclusive ||
-                    this.Int64NegativeExclusive.Equals(input.Int64NegativeExclusive)
+                    (this.Int64NegativeExclusive != null &&
+                    this.Int64NegativeExclusive.Equals(input.Int64NegativeExclusive))
                 ) && 
                 (
                     this.UnsignedInteger == input.UnsignedInteger ||
-                    this.UnsignedInteger.Equals(input.UnsignedInteger)
+                    (this.UnsignedInteger != null &&
+                    this.UnsignedInteger.Equals(input.UnsignedInteger))
                 ) && 
                 (
                     this.Int64 == input.Int64 ||
-                    this.Int64.Equals(input.Int64)
+                    (this.Int64 != null &&
+                    this.Int64.Equals(input.Int64))
                 ) && 
                 (
                     this.UnsignedLong == input.UnsignedLong ||
-                    this.UnsignedLong.Equals(input.UnsignedLong)
+                    (this.UnsignedLong != null &&
+                    this.UnsignedLong.Equals(input.UnsignedLong))
                 ) && 
                 (
                     this.Number == input.Number ||
@@ -406,15 +416,18 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.Float == input.Float ||
-                    this.Float.Equals(input.Float)
+                    (this.Float != null &&
+                    this.Float.Equals(input.Float))
                 ) && 
                 (
                     this.Double == input.Double ||
-                    this.Double.Equals(input.Double)
+                    (this.Double != null &&
+                    this.Double.Equals(input.Double))
                 ) && 
                 (
                     this.Decimal == input.Decimal ||
-                    this.Decimal.Equals(input.Decimal)
+                    (this.Decimal != null &&
+                    this.Decimal.Equals(input.Decimal))
                 ) && 
                 (
                     this.String == input.String ||
@@ -468,7 +481,8 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.StringFormattedAsDecimal == input.StringFormattedAsDecimal ||
-                    this.StringFormattedAsDecimal.Equals(input.StringFormattedAsDecimal)
+                    (this.StringFormattedAsDecimal != null &&
+                    this.StringFormattedAsDecimal.Equals(input.StringFormattedAsDecimal))
                 ) && 
                 (
                     this.StringFormattedAsDecimalRequired == input.StringFormattedAsDecimalRequired ||
@@ -495,20 +509,59 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Integer.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int32.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int32Range.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64Positive.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64Negative.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64PositiveExclusive.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64NegativeExclusive.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
+                if (this.Integer != null)
+                {
+                    hashCode = (hashCode * 59) + this.Integer.GetHashCode();
+                }
+                if (this.Int32 != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int32.GetHashCode();
+                }
+                if (this.Int32Range != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int32Range.GetHashCode();
+                }
+                if (this.Int64Positive != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64Positive.GetHashCode();
+                }
+                if (this.Int64Negative != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64Negative.GetHashCode();
+                }
+                if (this.Int64PositiveExclusive != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64PositiveExclusive.GetHashCode();
+                }
+                if (this.Int64NegativeExclusive != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64NegativeExclusive.GetHashCode();
+                }
+                if (this.UnsignedInteger != null)
+                {
+                    hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
+                }
+                if (this.Int64 != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64.GetHashCode();
+                }
+                if (this.UnsignedLong != null)
+                {
+                    hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.Float.GetHashCode();
-                hashCode = (hashCode * 59) + this.Double.GetHashCode();
-                hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
+                if (this.Float != null)
+                {
+                    hashCode = (hashCode * 59) + this.Float.GetHashCode();
+                }
+                if (this.Double != null)
+                {
+                    hashCode = (hashCode * 59) + this.Double.GetHashCode();
+                }
+                if (this.Decimal != null)
+                {
+                    hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
+                }
                 if (this.String != null)
                 {
                     hashCode = (hashCode * 59) + this.String.GetHashCode();
@@ -549,7 +602,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
+                if (this.StringFormattedAsDecimal != null)
+                {
+                    hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.StringFormattedAsDecimalRequired.GetHashCode();
                 if (this.DuplicatePropertyName2 != null)
                 {

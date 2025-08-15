@@ -47,19 +47,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyNumber
         /// </summary>
         [DataMember(Name = "my_number", EmitDefaultValue = false)]
-        public decimal MyNumber { get; set; }
+        public decimal? MyNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets MyString
         /// </summary>
         [DataMember(Name = "my_string", EmitDefaultValue = false)]
-        public string MyString { get; set; }
+        public string? MyString { get; set; }
 
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
         [DataMember(Name = "my_boolean", EmitDefaultValue = true)]
-        public bool MyBoolean { get; set; }
+        public bool? MyBoolean { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -109,7 +109,8 @@ namespace Org.OpenAPITools.Model
             return 
                 (
                     this.MyNumber == input.MyNumber ||
-                    this.MyNumber.Equals(input.MyNumber)
+                    (this.MyNumber != null &&
+                    this.MyNumber.Equals(input.MyNumber))
                 ) && 
                 (
                     this.MyString == input.MyString ||
@@ -118,7 +119,8 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.MyBoolean == input.MyBoolean ||
-                    this.MyBoolean.Equals(input.MyBoolean)
+                    (this.MyBoolean != null &&
+                    this.MyBoolean.Equals(input.MyBoolean))
                 );
         }
 
@@ -131,12 +133,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.MyNumber.GetHashCode();
+                if (this.MyNumber != null)
+                {
+                    hashCode = (hashCode * 59) + this.MyNumber.GetHashCode();
+                }
                 if (this.MyString != null)
                 {
                     hashCode = (hashCode * 59) + this.MyString.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
+                if (this.MyBoolean != null)
+                {
+                    hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
+                }
                 return hashCode;
             }
         }
