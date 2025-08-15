@@ -559,7 +559,9 @@ public class ModelUtils {
         }
 
         // additionalProperties explicitly set to false
-        if (schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) {
+        if ((schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) ||
+            (schema.getAdditionalProperties() instanceof Schema && Boolean.FALSE.equals(((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue()))
+        ) {
             return false;
         }
 

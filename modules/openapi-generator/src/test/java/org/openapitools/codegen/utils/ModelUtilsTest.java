@@ -353,6 +353,9 @@ public class ModelUtilsTest {
         Assert.assertNull(anyof1Property.getType());
         Assert.assertTrue(ModelUtils.hasAnyOf(anyof1Property));
         Assert.assertTrue(ModelUtils.isAnyOf(anyof1Property));
+
+        Schema objectSchema = ModelUtils.getSchema(openAPI, "ObjectSchema");
+        Assert.assertFalse(ModelUtils.isMapSchema(objectSchema));
     }
 
     // 3.1 spec tests
@@ -392,7 +395,7 @@ public class ModelUtilsTest {
         Assert.assertTrue(ModelUtils.isAnyOf(anyof2));
 
         Schema objectSchema = ModelUtils.getSchema(openAPI, "ObjectSchema");
-        Assert.assertTrue(ModelUtils.isMapSchema(objectSchema));
+        Assert.assertFalse(ModelUtils.isMapSchema(objectSchema));
 
         Schema complexComposedSchema = ModelUtils.getSchema(openAPI, "ComplexComposedSchema");
         Assert.assertTrue(ModelUtils.isComplexComposedSchema(complexComposedSchema));
