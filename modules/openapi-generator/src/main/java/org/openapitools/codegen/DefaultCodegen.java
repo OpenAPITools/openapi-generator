@@ -436,7 +436,10 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("indented", new IndentedLambda())
                 .put("indented_8", new IndentedLambda(8, " ", false, false))
                 .put("indented_12", new IndentedLambda(12, " ", false, false))
-                .put("indented_16", new IndentedLambda(16, " ", false, false));
+                .put("indented_16", new IndentedLambda(16, " ", false, false))
+                .put("tidy", new TidyLambda())
+                .put("tidyForDocs", new TidyLambda(true))
+                .put("make-single-line", new MakeSingleLineLambda());
 
     }
 
