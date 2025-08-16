@@ -263,8 +263,8 @@ namespace Org.OpenAPITools.Model
 
             if (mixedAnyOfContent.MixedSubIdOption.IsSet && mixedAnyOfContent.MixedSubIdOption.Value != null)
             {
-                MixedSubIdJsonConverter MixedSubIdJsonConverter = (MixedSubIdJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mixedAnyOfContent.MixedSubIdOption.Value.GetType()));
-                MixedSubIdJsonConverter.WriteProperties(writer, mixedAnyOfContent.MixedSubIdOption.Value, jsonSerializerOptions);
+                MixedSubIdJsonConverter mixedSubIdJsonConverter = (MixedSubIdJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mixedAnyOfContent.MixedSubIdOption.Value.GetType()));
+                mixedSubIdJsonConverter.WriteProperties(writer, mixedAnyOfContent.MixedSubIdOption.Value, jsonSerializerOptions);
             }
 
             WriteProperties(writer, mixedAnyOfContent, jsonSerializerOptions);
