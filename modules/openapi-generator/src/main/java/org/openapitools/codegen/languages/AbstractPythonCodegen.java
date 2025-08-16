@@ -2157,17 +2157,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             //String defaultValue = null;
             if (!cp.required) { //optional
-                if (cp.defaultValue == null) {
-                    pt.setDefaultValue("None");
-                } else {
-                    if (cp.isArray || cp.isMap) {
-                        // TODO handle default value for array/map
-                        pt.setDefaultValue("None");
-                    } else {
-                        //defaultValue = ;
-                        pt.setDefaultValue(cp.defaultValue);
-                    }
-                }
+                pt.setDefaultValue("None");
             }
 
             String typeConstraint = pt.asTypeConstraint(moduleImports);

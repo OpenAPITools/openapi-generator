@@ -33,7 +33,7 @@ class Animal(BaseModel):
     Animal
     """ # noqa: E501
     class_name: StrictStr = Field(alias="className")
-    color: Optional[StrictStr] = 'red'
+    color: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["className", "color"]
 
     model_config = ConfigDict(
