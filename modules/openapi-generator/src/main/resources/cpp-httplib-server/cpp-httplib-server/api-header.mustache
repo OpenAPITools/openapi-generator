@@ -1,0 +1,63 @@
+{{>License}}
+
+#pragma once
+#include <httplib.h>
+#include <variant>
+{{#modelsUsed}}
+#include "models/{{.}}.h"
+{{/modelsUsed}}
+
+namespace {{apiNamespace}} {
+
+class {{apiClassnameInPascalCase}} {
+public:
+    {{apiClassnameInPascalCase}}() = default;
+    virtual ~{{apiClassnameInPascalCase}}() = default;
+    void registerRoutes(httplib::Server& svr);
+    {{#operations}}
+    {{#operation}}
+    {{#vendorExtensions}}
+    {{#hasAnyResponseSchema}}
+    /**
+     * @brief Response type for {{handlerFunctionName}}.
+     */
+    using {{handlerFunctionResponse}} = std::variant<
+        {{#successType}}
+                        {{successType}}{{#errorTypes}}{{#-first}},{{/-first}}{{/errorTypes}}{{^errorTypes}}>;{{/errorTypes}}//success type
+        {{/successType}}
+    {{#errorTypes}}
+                        {{.}}{{#-last}}>;{{/-last}}{{^-last}},{{/-last}}{{#-first}}// error types{{/-first}}
+    {{/errorTypes}}
+
+    /**
+     * @brief Handler function for processing API requests.
+     *
+     * {{handlerFunctionName}} is a pure virtual function that must be implemented by derived classes to handle.
+     {{#requestModel}}
+     * @param request model containing the input data for the API endpoint.
+     {{/requestModel}}
+     * @return {{handlerFunctionResponse}} The response type returned by the handler.
+     */
+    virtual {{handlerFunctionResponse}} {{handlerFunctionName}}({{^requestModel}})=0;{{/requestModel}}
+{{#requestModel}}                         const {{requestModel}}& request) = 0;{{/requestModel}}
+    {{/hasAnyResponseSchema}}
+    {{^hasAnyResponseSchema}}
+
+    /**
+     * @brief {{handlerFunctionName}} is a Pure virtual handler function for API endpoint.
+     *
+     * This function must be implemented by derived classes to handle the corresponding API request.
+     {{#requestModel}}
+     * @param "{{requestModel}}" The request model containing the input data for the API endpoint.
+     {{/requestModel}}
+     */
+    virtual void {{handlerFunctionName}}({{^requestModel}})=0;{{/requestModel}}
+{{#requestModel}}       const {{requestModel}}& request) = 0;{{/requestModel}}
+    {{/hasAnyResponseSchema}}
+
+    {{/vendorExtensions}}
+    {{/operation}}
+    {{/operations}}
+};
+
+} // namespace {{apiNamespace}}

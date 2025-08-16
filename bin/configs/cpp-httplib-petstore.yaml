@@ -1,0 +1,8 @@
+generatorName: cpp-httplib
+outputDir: samples/server/petstore/cpp-httplib-server
+inputSpec: modules/openapi-generator/src/test/resources/3_0/cpp-httplib-server/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-httplib
+additionalProperties:
+  apiNamespace: "sample::openapi::api"
+  modelNamespace: "sample::openapi::model"
+  projectName: "SampleProject"
