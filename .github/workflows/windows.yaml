@@ -54,6 +54,8 @@ jobs:
           java -jar ./openapi-generator-cli.jar author template --verbose  -g jaxrs-spec --library quarkus
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: '8.14.3'
       - name: Gradle tests
         run: |
           gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
