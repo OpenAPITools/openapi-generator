@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, IconsSizeParameterAnyOf iconsSizeParameterAnyOf, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(iconsSizeParameterAnyOf.ToString());
+            writer.WriteStringValue(IconsSizeParameterAnyOfValueConverter.ToJsonValue(iconsSizeParameterAnyOf).ToString());
         }
     }
 
@@ -176,14 +176,14 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the IconsSizeParameterAnyOf to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="iconsSizeParameterAnyOf"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, IconsSizeParameterAnyOf? iconsSizeParameterAnyOf, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(iconsSizeParameterAnyOf?.ToString() ?? "null");
+            writer.WriteStringValue(iconsSizeParameterAnyOf.HasValue ? IconsSizeParameterAnyOfValueConverter.ToJsonValue(iconsSizeParameterAnyOf.Value).ToString() : "null");
         }
     }
 }
