@@ -2601,12 +2601,16 @@ components:
       description: Values of scalar type
       oneOf:
         - type: string
+          format: uuid
+        - type: string
           maxLength: 1089
         - type: number
         - type: boolean
     ScalarAnyOf:
       description: Values of scalar type using anyOf
       anyOf:
+        - type: string
+          format: uuid
         - type: string
           maxLength: 1089
         - type: number
