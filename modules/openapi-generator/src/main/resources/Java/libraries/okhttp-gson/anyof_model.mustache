@@ -134,7 +134,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{/isNumber}}
                     {{^isNumber}}
                     {{^isPrimitiveType}}
+                    {{#isUuid}}
+                        UUID.fromString(jsonElement.getAsString());
+                    {{/isUuid}}
+                    {{^isUuid}}
                         {{{dataType}}}.validateJsonElement(jsonElement);
+                    {{/isUuid}}
                         actualAdapter = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}};
                     {{/isPrimitiveType}}
                     {{/isNumber}}
@@ -328,7 +333,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/isNumber}}
         {{^isNumber}}
         {{^isPrimitiveType}}
+        {{#isUuid}}
+            UUID.fromString(jsonElement.getAsString());
+        {{/isUuid}}
+        {{^isUuid}}
             {{{dataType}}}.validateJsonElement(jsonElement);
+        {{/isUuid}}
         {{/isPrimitiveType}}
         {{/isNumber}}
         {{/isArray}}
