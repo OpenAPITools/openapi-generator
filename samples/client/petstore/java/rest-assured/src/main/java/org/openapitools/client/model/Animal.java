@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.*;
 public class Animal {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  @javax.annotation.Nonnull
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
   protected String className;
 
   public static final String SERIALIZED_NAME_COLOR = "color";

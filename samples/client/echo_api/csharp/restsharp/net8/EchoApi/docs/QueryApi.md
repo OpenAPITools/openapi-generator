@@ -14,6 +14,7 @@ All URIs are relative to *http://localhost:3000*
 | [**TestQueryStyleFormExplodeTrueArrayString**](QueryApi.md#testquerystyleformexplodetruearraystring) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s) |
 | [**TestQueryStyleFormExplodeTrueObject**](QueryApi.md#testquerystyleformexplodetrueobject) | **GET** /query/style_form/explode_true/object | Test query parameter(s) |
 | [**TestQueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#testquerystyleformexplodetrueobjectallof) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
+| [**TestQueryStyleJsonSerializationObject**](QueryApi.md#testquerystylejsonserializationobject) | **GET** /query/style_jsonSerialization/object | Test query parameter(s) |
 
 <a id="testenumrefstring"></a>
 # **TestEnumRefString**
@@ -913,6 +914,99 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **queryObject** | [**DataQuery?**](DataQuery?.md) |  | [optional]  |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="testquerystylejsonserializationobject"></a>
+# **TestQueryStyleJsonSerializationObject**
+> string TestQueryStyleJsonSerializationObject (Pet? jsonSerializedObjectRefStringQuery = null, List<Pet>? jsonSerializedObjectArrayRefStringQuery = null)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestQueryStyleJsonSerializationObjectExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost:3000";
+            var apiInstance = new QueryApi(config);
+            var jsonSerializedObjectRefStringQuery = new Pet?(); // Pet? |  (optional) 
+            var jsonSerializedObjectArrayRefStringQuery = new List<Pet>?(); // List<Pet>? |  (optional) 
+
+            try
+            {
+                // Test query parameter(s)
+                string result = apiInstance.TestQueryStyleJsonSerializationObject(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling QueryApi.TestQueryStyleJsonSerializationObject: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the TestQueryStyleJsonSerializationObjectWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Test query parameter(s)
+    ApiResponse<string> response = apiInstance.TestQueryStyleJsonSerializationObjectWithHttpInfo(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling QueryApi.TestQueryStyleJsonSerializationObjectWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **jsonSerializedObjectRefStringQuery** | [**Pet?**](Pet?.md) |  | [optional]  |
+| **jsonSerializedObjectArrayRefStringQuery** | [**List&lt;Pet&gt;?**](Pet.md) |  | [optional]  |
 
 ### Return type
 

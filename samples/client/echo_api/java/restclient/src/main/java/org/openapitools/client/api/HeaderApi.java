@@ -66,7 +66,6 @@ public class HeaderApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-
         if (integerHeader != null)
         headerParams.add("integer_header", apiClient.parameterToString(integerHeader));
         if (booleanHeader != null)

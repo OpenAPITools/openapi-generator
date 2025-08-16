@@ -25,9 +25,9 @@ pub enum DemoColorGetError {
 
 pub async fn demo_color_get(configuration: &configuration::Configuration, color: models::Color) -> Result<(), Error<DemoColorGetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_color = color;
+    let p_path_color = color;
 
-    let uri_str = format!("{}/demo/{color}", configuration.base_path, color=p_color.to_string());
+    let uri_str = format!("{}/demo/{color}", configuration.base_path, color=p_path_color.to_string());
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

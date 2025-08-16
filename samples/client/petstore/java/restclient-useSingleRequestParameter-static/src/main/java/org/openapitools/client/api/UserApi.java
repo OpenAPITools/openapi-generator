@@ -527,7 +527,7 @@ public class UserApi {
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
-        
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };

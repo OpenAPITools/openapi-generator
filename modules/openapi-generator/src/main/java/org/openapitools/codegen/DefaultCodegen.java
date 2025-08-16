@@ -436,8 +436,11 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("indented", new IndentedLambda())
                 .put("indented_8", new IndentedLambda(8, " ", false, false))
                 .put("indented_12", new IndentedLambda(12, " ", false, false))
-                .put("indented_16", new IndentedLambda(16, " ", false, false));
-
+                .put("indented_16", new IndentedLambda(16, " ", false, false))
+                .put("trimLineBreaks", new TrimLineBreaksLambda())
+                .put("trimWhitespace", new TrimWhitespaceLambda())
+                .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
+                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false));
     }
 
     private void registerMustacheLambdas() {
@@ -5359,6 +5362,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isQueryParam = true;
             codegenParameter.isAllowEmptyValue = parameter.getAllowEmptyValue() != null && parameter.getAllowEmptyValue();
+            codegenParameter.queryIsJsonMimeType = isJsonMimeType(codegenParameter.contentType);
         } else if (parameter instanceof PathParameter || "path".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.required = true;
             codegenParameter.isPathParam = true;
@@ -6024,10 +6028,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (properties != null) {
             for (String key : properties.keySet()) {
                 properties.put(key, unaliasSchema(properties.get(key)));
-
             }
         }
-
         return properties;
     }
 
@@ -7093,7 +7095,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (booleanValue instanceof String) {
             result = Boolean.parseBoolean((String) booleanValue);
         } else {
-            LOGGER.warn("The value (generator's option) must be either boolean or string. Default to `false`.");
+            LOGGER.warn("The generator's option \"{}\" must be either boolean or string. Default to `false`.", propertyKey);
         }
         return result;
     }

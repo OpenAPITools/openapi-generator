@@ -5006,4 +5006,15 @@ public class DefaultCodegenTest {
         // When & Then
         assertThat(codegenOperation.getHasSingleParam()).isTrue();
     }
+
+    @Test
+    public void testQueryIsJsonMimeType() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/echo_api.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/query/style_jsonSerialization/object";
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+
+        assertTrue(codegenOperation.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType));
+    }
 }

@@ -232,7 +232,6 @@ public class PetApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-
         if (apiKey != null)
         headerParams.add("api_key", apiClient.parameterToString(apiKey));
         final String[] localVarAccepts = { };
@@ -312,7 +311,7 @@ public class PetApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "status", status));
-        
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };
@@ -393,7 +392,7 @@ public class PetApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "tags", tags));
-        
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };

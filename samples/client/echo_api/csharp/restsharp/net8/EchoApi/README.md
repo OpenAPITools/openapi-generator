@@ -144,6 +144,7 @@ Class | Method | HTTP request | Description
 *QueryApi* | [**TestQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#testquerystyleformexplodetruearraystring) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**TestQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#testquerystyleformexplodetrueobject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 *QueryApi* | [**TestQueryStyleFormExplodeTrueObjectAllOf**](docs/QueryApi.md#testquerystyleformexplodetrueobjectallof) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
+*QueryApi* | [**TestQueryStyleJsonSerializationObject**](docs/QueryApi.md#testquerystylejsonserializationobject) | **GET** /query/style_jsonSerialization/object | Test query parameter(s)
 
 
 <a id="documentation-for-models"></a>

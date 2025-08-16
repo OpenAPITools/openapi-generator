@@ -13,7 +13,7 @@ env:
 
 jobs:
   build:
-    name: Build cpp qt client
+    name: Build cpp oat++ server
     strategy:
       matrix:
         sample:
@@ -24,7 +24,7 @@ jobs:
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: cmake -B build && cmake --build build --verbose

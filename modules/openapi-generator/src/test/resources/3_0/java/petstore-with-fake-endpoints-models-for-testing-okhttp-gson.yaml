@@ -2601,12 +2601,16 @@ components:
       description: Values of scalar type
       oneOf:
         - type: string
+          format: uuid
+        - type: string
           maxLength: 1089
         - type: number
         - type: boolean
     ScalarAnyOf:
       description: Values of scalar type using anyOf
       anyOf:
+        - type: string
+          format: uuid
         - type: string
           maxLength: 1089
         - type: number
@@ -2809,3 +2813,20 @@ components:
           $ref: '#/components/schemas/ArrayOneOf'
         anyof_prop:
           $ref: '#/components/schemas/ArrayAnyOf'
+    NestedArrayWithDefaultValues:
+      type: object
+      properties:
+        nestedArray:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+            default: ["value1", "value2"]
+          default:
+            [
+              [ "h1", "Header 1" ],
+              [ "h2", "Header 2" ],
+              [ "h3", "Header 3" ],
+              [ "h4", "Header 4" ]
+            ]

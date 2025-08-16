@@ -105,7 +105,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     protected boolean supportNullable = Boolean.FALSE;
 
     @Setter protected Boolean zeroBasedEnums = null;
-    protected static final String zeroBasedEnumVendorExtension = "x-zero-based-enum";
+    protected static final String zeroBasedEnumVendorExtension = VendorExtension.X_ZERO_BASED_ENUM.getName();
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
@@ -439,9 +439,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 .put("joinWithAmpersand", new JoinWithCommaLambda(true, "  ", " && "))
                 .put("joinLinesWithComma", new JoinWithCommaLambda(false, "\n", ",\n"))
                 .put("joinConditions", new JoinWithCommaLambda(true, "  ", " && "))
-                .put("trimLineBreaks", new TrimLineBreaksLambda())
-                .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
-                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
                 .put("indent1", new IndentedLambda(4, " ", false, true))
@@ -2093,6 +2090,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Deprecated
     protected Set<String> getNullableTypes() {
         throw new RuntimeException("This method should no longer be used.");
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_ZERO_BASED_ENUM);
+        return extensions;
     }
 
     protected Set<String> getValueTypes() {

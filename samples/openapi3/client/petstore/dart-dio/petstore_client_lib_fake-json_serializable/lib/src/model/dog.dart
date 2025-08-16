@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/animal.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'dog.g.dart';
@@ -11,6 +12,7 @@ part 'dog.g.dart';
 // ignore_for_file: unused_import
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
