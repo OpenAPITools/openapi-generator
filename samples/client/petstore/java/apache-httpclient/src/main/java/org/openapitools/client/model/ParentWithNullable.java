@@ -85,6 +85,7 @@ public class ParentWithNullable {
   }
 
   public static final String JSON_PROPERTY_TYPE = "type";
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
   protected TypeEnum type;
 
   public static final String JSON_PROPERTY_NULLABLE_PROPERTY = "nullableProperty";
