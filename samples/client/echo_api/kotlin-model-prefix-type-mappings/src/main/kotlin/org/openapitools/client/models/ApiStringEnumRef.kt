@@ -27,12 +27,15 @@ import com.google.gson.annotations.SerializedName
 enum class ApiStringEnumRef(val value: kotlin.String) {
 
     @SerializedName(value = "success")
+    
     SUCCESS("success"),
 
     @SerializedName(value = "failure")
+    
     FAILURE("failure"),
 
     @SerializedName(value = "unclassified")
+    
     UNCLASSIFIED("unclassified");
 
     /**
