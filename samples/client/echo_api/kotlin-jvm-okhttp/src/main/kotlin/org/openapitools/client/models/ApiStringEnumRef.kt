@@ -29,15 +29,12 @@ import com.squareup.moshi.JsonClass
 enum class ApiStringEnumRef(val value: kotlin.String) {
 
     @Json(name = "success")
-    
     success("success"),
 
     @Json(name = "failure")
-    
     failure("failure"),
 
     @Json(name = "unclassified")
-    
     unclassified("unclassified");
 
     /**

@@ -33,19 +33,13 @@ import kotlinx.serialization.encoding.Encoder
 @Serializable(with = PetEnumSerializer::class)
 enum class PetEnum(val value: kotlin.String) {
 
-    
     @SerialName(value = "myFirstValue")
-    
     MY_FIRST_VALUE("myFirstValue"),
 
-    
     @SerialName(value = "MY_SECOND_VALUE")
-    
     MY_SECOND_VALUE("MY_SECOND_VALUE"),
 
-    
     @SerialName(value = "unknown_default_open_api")
-    
     UNKNOWN_DEFAULT_OPEN_API("unknown_default_open_api");
 
     /**
