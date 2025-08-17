@@ -1,0 +1,41 @@
+{{>licenseInfo}}
+/*
+ * {{classname}}Impl.hpp
+ *
+ * {{appName}} - Implementation
+ * {{appDescription}}
+ */
+
+#ifndef BEAUTY_{{classname}}_IMPL_HPP_
+#define BEAUTY_{{classname}}_IMPL_HPP_
+
+#include "{{classname}}.hpp"
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+class {{classname}}Impl : public {{classname}} {
+public:
+    {{classname}}Impl();
+    virtual ~{{classname}}Impl();
+
+{{#operations}}
+{{#operation}}
+    // Implementation for {{httpMethod}} {{path}} - {{summary}}
+{{#returnType}}
+    {{returnType}} {{operationIdCamelCase}}Implementation({{#allParams}}const {{dataType}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) override;
+{{/returnType}}
+{{^returnType}}
+    void {{operationIdCamelCase}}Implementation({{#allParams}}const {{dataType}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) override;
+{{/returnType}}
+
+{{/operation}}
+{{/operations}}
+};
+
+{{#apiNamespaceDeclarations}}
+} // namespace {{this}}
+{{/apiNamespaceDeclarations}}
+
+#endif // BEAUTY_{{classname}}_IMPL_HPP_

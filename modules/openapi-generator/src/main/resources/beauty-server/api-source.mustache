@@ -1,0 +1,182 @@
+{{>licenseInfo}}
+/*
+ * {{classname}}.cpp
+ *
+ * {{appName}}
+ * {{appDescription}}
+ * {{#models}}{{#model}}{{#isEnum}}{{>model-header}}{{/isEnum}}{{/model}}{{/models}}
+ */
+
+#include "{{classname}}.hpp"
+#include "ApiBase.hpp"
+#include "BeautyValidation.hpp"
+#include <memory>
+#include <stdexcept>
+#include <iostream>
+#include <cjson/cJSON.h>
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+{{classname}}::{{classname}}() {
+    // Initialize your Beauty server here
+}
+
+{{classname}}::~{{classname}}() = default;
+
+void {{classname}}::setupRoutes() {
+{{#apiDocumentationUrl}}
+    // {{apiDocumentationUrl}}
+{{/apiDocumentationUrl}}
+
+{{#operations}}
+{{#operation}}
+    // {{httpMethod}} {{path}} - {{summary}}
+    router_.add_route(beauty::http::{{httpMethod}}, "{{path}}", 
+        [this](beauty::Request& req, beauty::Reply& reply) {
+            this->{{operationIdCamelCase}}(req, reply);
+        });
+
+{{/operation}}
+{{/operations}}
+}
+
+{{#operations}}
+{{#operation}}
+void {{classname}}::{{operationIdCamelCase}}(beauty::Request& request, beauty::Reply& reply) {
+    // Validation
+    beauty::validation::RequestValidator validator;
+    
+{{#allParams}}
+{{#isPathParam}}
+    // Extract and validate path parameter: {{paramName}}
+    std::string {{paramName}} = getPathParameter(request, "{{paramName}}");
+    validator.validatePathParameter({{paramName}}, "{{paramName}}");
+{{#hasValidation}}
+    validator.validateParameter({{paramName}}, "{{paramName}}", "{{dataType}}", {{required}}{{#minLength}}, {{minLength}}{{/minLength}}{{^minLength}}, -1{{/minLength}}{{#maxLength}}, {{maxLength}}{{/maxLength}}{{^maxLength}}, -1{{/maxLength}}{{#pattern}}, "{{pattern}}"{{/pattern}}{{^pattern}}, ""{{/pattern}}{{#hasValidEnum}}, {{{allowableValues}}}{{/hasValidEnum}});
+{{/hasValidation}}
+
+{{/isPathParam}}
+{{#isQueryParam}}
+    // Extract and validate query parameter: {{paramName}}
+    std::string {{paramName}} = getQueryParameter(request, "{{paramName}}");
+{{#hasValidation}}
+    validator.validateParameter({{paramName}}, "{{paramName}}", "{{dataType}}", {{required}}{{#minLength}}, {{minLength}}{{/minLength}}{{^minLength}}, -1{{/minLength}}{{#maxLength}}, {{maxLength}}{{/maxLength}}{{^maxLength}}, -1{{/maxLength}}{{#pattern}}, "{{pattern}}"{{/pattern}}{{^pattern}}, ""{{/pattern}}{{#hasValidEnum}}, {{{allowableValues}}}{{/hasValidEnum}});
+{{/hasValidation}}
+
+{{/isQueryParam}}
+{{#isHeaderParam}}
+    // Extract and validate header parameter: {{paramName}}
+    std::string {{paramName}} = getHeaderParameter(request, "{{paramName}}");
+{{#hasValidation}}
+    validator.validateParameter({{paramName}}, "{{paramName}}", "{{dataType}}", {{required}}{{#minLength}}, {{minLength}}{{/minLength}}{{^minLength}}, -1{{/minLength}}{{#maxLength}}, {{maxLength}}{{/maxLength}}{{^maxLength}}, -1{{/maxLength}}{{#pattern}}, "{{pattern}}"{{/pattern}}{{^pattern}}, ""{{/pattern}}{{#hasValidEnum}}, {{{allowableValues}}}{{/hasValidEnum}});
+{{/hasValidation}}
+
+{{/isHeaderParam}}
+{{/allParams}}
+
+{{#hasBodyParam}}
+    // Validate request body
+    std::string requestBody = request.body();
+    std::string contentType = request.get_header("Content-Type");
+    validator.validateRequestBody(requestBody, contentType);
+    
+{{#bodyParam}}
+    // Parse {{paramName}} from request body
+    if (contentType.find("application/json") != std::string::npos) {
+        cJSON* json = cJSON_Parse(requestBody.c_str());
+        if (json == nullptr) {
+            reply.set_status(400);
+            reply.set_header("Content-Type", "application/json");
+            reply.set_body("{\"error\": \"Invalid JSON in request body\"}");
+            return;
+        }
+        
+        // TODO: Parse and validate {{dataType}} from JSON
+        // {{dataType}} {{paramName}} = parse{{dataType}}FromJson(json);
+        
+        cJSON_Delete(json);
+    }
+{{/bodyParam}}
+
+{{/hasBodyParam}}
+
+    // Check validation result
+    try {
+        validator.throwIfInvalid();
+    } catch (const beauty::validation::ValidationException& e) {
+        reply.set_status(400);
+        reply.set_header("Content-Type", "application/json");
+        cJSON* errorJson = cJSON_CreateObject();
+        cJSON* errorMessage = cJSON_CreateString(e.what());
+        cJSON_AddItemToObject(errorJson, "error", errorMessage);
+        char* errorJsonString = cJSON_Print(errorJson);
+        reply.set_body(errorJsonString);
+        free(errorJsonString);
+        cJSON_Delete(errorJson);
+        return;
+    }
+
+    // TODO: Implement {{operationIdCamelCase}} logic here
+    
+{{#returnType}}
+    // Return {{returnType}}
+    {{returnType}} result = {{operationIdCamelCase}}Implementation({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    
+    // Convert result to JSON and set response
+    reply.set_status({{#responses}}{{#-first}}{{code}}{{/-first}}{{/responses}});
+    reply.set_header("Content-Type", "application/json");
+    
+    // TODO: Convert {{returnType}} to JSON string
+    std::string jsonResponse = "{}"; // Replace with actual JSON conversion
+    reply.set_body(jsonResponse);
+{{/returnType}}
+{{^returnType}}
+    // No return type specified
+    {{operationIdCamelCase}}Implementation({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    
+    reply.set_status({{#responses}}{{#-first}}{{code}}{{/-first}}{{/responses}});
+{{/returnType}}
+}
+
+{{#returnType}}
+{{returnType}} {{classname}}::{{operationIdCamelCase}}Implementation({{#allParams}}const {{dataType}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    // TODO: Implement your business logic here
+    // For example, for a 32-character string validation:
+    {{#allParams}}
+    {{#isString}}
+    {{#hasMaxLength}}
+    if ({{paramName}}.length() != {{maxLength}}) {
+        throw std::invalid_argument("{{paramName}} must be exactly {{maxLength}} characters");
+    }
+    {{/hasMaxLength}}
+    {{/isString}}
+    {{/allParams}}
+    
+    {{returnType}} result{};
+    return result;
+}
+{{/returnType}}
+{{^returnType}}
+void {{classname}}::{{operationIdCamelCase}}Implementation({{#allParams}}const {{dataType}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    // TODO: Implement your business logic here
+    // For example, for a 32-character string validation:
+    {{#allParams}}
+    {{#isString}}
+    {{#hasMaxLength}}
+    if ({{paramName}}.length() != {{maxLength}}) {
+        throw std::invalid_argument("{{paramName}} must be exactly {{maxLength}} characters");
+    }
+    {{/hasMaxLength}}
+    {{/isString}}
+    {{/allParams}}
+}
+{{/returnType}}
+
+{{/operation}}
+{{/operations}}
+
+{{#apiNamespaceDeclarations}}
+} // namespace {{this}}
+{{/apiNamespaceDeclarations}}

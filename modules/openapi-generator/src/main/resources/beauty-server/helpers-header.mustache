@@ -1,0 +1,43 @@
+{{>licenseInfo}}
+/*
+ * BeautyHelpers.hpp
+ *
+ * Helper utilities for Beauty web server
+ */
+
+#ifndef BEAUTY_HELPERS_HPP_
+#define BEAUTY_HELPERS_HPP_
+
+#include <string>
+#include <vector>
+#include <map>
+
+{{#helpersNamespaceDeclarations}}
+namespace {{this}} {
+{{/helpersNamespaceDeclarations}}
+
+class BeautyHelpers {
+public:
+    // URL encoding/decoding
+    static std::string urlEncode(const std::string& str);
+    static std::string urlDecode(const std::string& str);
+
+    // String utilities
+    static std::vector<std::string> split(const std::string& str, char delimiter);
+    static std::string join(const std::vector<std::string>& parts, const std::string& delimiter);
+    static std::string trim(const std::string& str);
+
+    // HTTP utilities
+    static std::map<std::string, std::string> parseQueryString(const std::string& query);
+    static std::string buildQueryString(const std::map<std::string, std::string>& params);
+
+    // JSON utilities
+    static bool isValidJson(const std::string& json);
+    static std::string escapeJsonString(const std::string& str);
+};
+
+{{#helpersNamespaceDeclarations}}
+} // namespace {{this}}
+{{/helpersNamespaceDeclarations}}
+
+#endif // BEAUTY_HELPERS_HPP_

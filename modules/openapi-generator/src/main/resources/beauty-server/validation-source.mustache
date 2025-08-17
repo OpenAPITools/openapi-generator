@@ -1,0 +1,260 @@
+{{>licenseInfo}}
+/*
+ * BeautyValidation.cpp
+ * 
+ * Implementation of validation utilities for Beauty web server
+ */
+
+#include "BeautyValidation.hpp"
+#include <regex>
+#include <algorithm>
+#include <iomanip>
+#include <sstream>
+#include <set>
+
+namespace beauty {
+namespace validation {
+
+    ValidationResult validateString(const std::string& value, 
+                                  const std::string& fieldName,
+                                  int minLength, 
+                                  int maxLength,
+                                  const std::string& pattern) {
+        ValidationResult result;
+        
+        if (minLength >= 0 && static_cast<int>(value.length()) < minLength) {
+            result.addError(fieldName + " must be at least " + std::to_string(minLength) + " characters long");
+        }
+        
+        if (maxLength >= 0 && static_cast<int>(value.length()) > maxLength) {
+            result.addError(fieldName + " must be at most " + std::to_string(maxLength) + " characters long");
+        }
+        
+        if (!pattern.empty()) {
+            try {
+                std::regex regex_pattern(pattern);
+                if (!std::regex_match(value, regex_pattern)) {
+                    result.addError(fieldName + " does not match required pattern");
+                }
+            } catch (const std::regex_error& e) {
+                result.addError(fieldName + " pattern validation failed");
+            }
+        }
+        
+        return result;
+    }
+
+    ValidationResult validateStringLength(const std::string& value, 
+                                        const std::string& fieldName,
+                                        int length) {
+        ValidationResult result;
+        
+        if (static_cast<int>(value.length()) != length) {
+            result.addError(fieldName + " must be exactly " + std::to_string(length) + " characters long");
+        }
+        
+        return result;
+    }
+
+    ValidationResult validateEnum(const std::string& value,
+                                const std::string& fieldName,
+                                const std::vector<std::string>& allowedValues) {
+        ValidationResult result;
+        
+        if (std::find(allowedValues.begin(), allowedValues.end(), value) == allowedValues.end()) {
+            std::stringstream ss;
+            ss << fieldName << " must be one of: ";
+            for (size_t i = 0; i < allowedValues.size(); ++i) {
+                if (i > 0) ss << ", ";
+                ss << allowedValues[i];
+            }
+            result.addError(ss.str());
+        }
+        
+        return result;
+    }
+
+    ValidationResult validateInteger(int value, 
+                                   const std::string& fieldName,
+                                   int minimum, 
+                                   int maximum,
+                                   bool exclusiveMinimum,
+                                   bool exclusiveMaximum) {
+        ValidationResult result;
+        
+        if (exclusiveMinimum && value <= minimum) {
+            result.addError(fieldName + " must be greater than " + std::to_string(minimum));
+        } else if (!exclusiveMinimum && value < minimum) {
+            result.addError(fieldName + " must be greater than or equal to " + std::to_string(minimum));
+        }
+        
+        if (exclusiveMaximum && value >= maximum) {
+            result.addError(fieldName + " must be less than " + std::to_string(maximum));
+        } else if (!exclusiveMaximum && value > maximum) {
+            result.addError(fieldName + " must be less than or equal to " + std::to_string(maximum));
+        }
+        
+        return result;
+    }
+
+    ValidationResult validateLong(int64_t value, 
+                                const std::string& fieldName,
+                                int64_t minimum, 
+                                int64_t maximum,
+                                bool exclusiveMinimum,
+                                bool exclusiveMaximum) {
+        ValidationResult result;
+        
+        if (exclusiveMinimum && value <= minimum) {
+            result.addError(fieldName + " must be greater than " + std::to_string(minimum));
+        } else if (!exclusiveMinimum && value < minimum) {
+            result.addError(fieldName + " must be greater than or equal to " + std::to_string(minimum));
+        }
+        
+        if (exclusiveMaximum && value >= maximum) {
+            result.addError(fieldName + " must be less than " + std::to_string(maximum));
+        } else if (!exclusiveMaximum && value > maximum) {
+            result.addError(fieldName + " must be less than or equal to " + std::to_string(maximum));
+        }
+        
+        return result;
+    }
+
+    ValidationResult validateDouble(double value, 
+                                  const std::string& fieldName,
+                                  double minimum, 
+                                  double maximum,
+                                  bool exclusiveMinimum,
+                                  bool exclusiveMaximum) {
+        ValidationResult result;
+        
+        if (exclusiveMinimum && value <= minimum) {
+            result.addError(fieldName + " must be greater than " + std::to_string(minimum));
+        } else if (!exclusiveMinimum && value < minimum) {
+            result.addError(fieldName + " must be greater than or equal to " + std::to_string(minimum));
+        }
+        
+        if (exclusiveMaximum && value >= maximum) {
+            result.addError(fieldName + " must be less than " + std::to_string(maximum));
+        } else if (!exclusiveMaximum && value > maximum) {
+            result.addError(fieldName + " must be less than or equal to " + std::to_string(maximum));
+        }
+        
+        return result;
+    }
+
+    ValidationResult validateDate(const std::string& value, const std::string& fieldName) {
+        ValidationResult result;
+        
+        // Basic ISO 8601 date format validation (YYYY-MM-DD)
+        std::regex datePattern(R"(\d{4}-\d{2}-\d{2})");
+        if (!std::regex_match(value, datePattern)) {
+            result.addError(fieldName + " must be a valid date in YYYY-MM-DD format");
+        }
+        
+        return result;
+    }
+
+    ValidationResult validateDateTime(const std::string& value, const std::string& fieldName) {
+        ValidationResult result;
+        
+        // Basic ISO 8601 datetime format validation
+        std::regex datetimePattern(R"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?)");
+        if (!std::regex_match(value, datetimePattern)) {
+            result.addError(fieldName + " must be a valid datetime in ISO 8601 format");
+        }
+        
+        return result;
+    }
+
+    ValidationResult validateJson(const std::string& jsonStr, const std::string& fieldName) {
+        ValidationResult result;
+        
+        cJSON* json = cJSON_Parse(jsonStr.c_str());
+        if (json == nullptr) {
+            result.addError(fieldName + " must be valid JSON");
+        } else {
+            cJSON_Delete(json);
+        }
+        
+        return result;
+    }
+
+    void RequestValidator::validateParameter(const std::string& value, 
+                                           const std::string& paramName,
+                                           const std::string& dataType,
+                                           bool required,
+                                           int minLength,
+                                           int maxLength,
+                                           const std::string& pattern,
+                                           const std::vector<std::string>& enumValues) {
+        if (required && value.empty()) {
+            result.addError("Required parameter '" + paramName + "' is missing");
+            return;
+        }
+        
+        if (value.empty()) {
+            return; // Optional parameter not provided
+        }
+        
+        if (dataType == "string") {
+            auto stringResult = validateString(value, paramName, minLength, maxLength, pattern);
+            if (!stringResult.valid) {
+                for (const auto& error : stringResult.errors) {
+                    result.addError(error);
+                }
+            }
+        } else if (dataType == "integer") {
+            try {
+                int intValue = std::stoi(value);
+                // Additional integer validation could be added here
+            } catch (const std::exception&) {
+                result.addError("Parameter '" + paramName + "' must be a valid integer");
+            }
+        } else if (dataType == "number" || dataType == "double") {
+            try {
+                double doubleValue = std::stod(value);
+                // Additional number validation could be added here
+            } catch (const std::exception&) {
+                result.addError("Parameter '" + paramName + "' must be a valid number");
+            }
+        } else if (dataType == "boolean") {
+            if (value != "true" && value != "false" && value != "0" && value != "1") {
+                result.addError("Parameter '" + paramName + "' must be a valid boolean");
+            }
+        }
+        
+        if (!enumValues.empty()) {
+            auto enumResult = validateEnum(value, paramName, enumValues);
+            if (!enumResult.valid) {
+                for (const auto& error : enumResult.errors) {
+                    result.addError(error);
+                }
+            }
+        }
+    }
+
+    void RequestValidator::validatePathParameter(const std::string& value, const std::string& paramName) {
+        if (value.empty()) {
+            result.addError("Path parameter '" + paramName + "' cannot be empty");
+        }
+    }
+
+    void RequestValidator::validateQueryParameter(const std::string& value, const std::string& paramName) {
+        // Query parameters can be empty in some cases
+        // Additional validation logic can be added here
+    }
+
+    void RequestValidator::validateRequestBody(const std::string& body, const std::string& contentType) {
+        if (contentType.find("application/json") != std::string::npos) {
+            auto jsonResult = validateJson(body, "request body");
+            if (!jsonResult.valid) {
+                for (const auto& error : jsonResult.errors) {
+                    result.addError(error);
+                }
+            }
+        }
+    }
+
+} // namespace validation
+} // namespace beauty

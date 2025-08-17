@@ -1,0 +1,90 @@
+{{>licenseInfo}}
+/*
+ * {{classname}}.hpp
+ *
+ * {{description}}
+ */
+
+#ifndef BEAUTY_{{classname}}_HPP_
+#define BEAUTY_{{classname}}_HPP_
+
+#include <string>
+#include <vector>
+#include <map>
+#include <memory>
+#include <cjson/cJSON.h>
+{{#models}}
+{{#model}}
+{{#imports}}
+#include "{{import}}"
+{{/imports}}
+{{/model}}
+{{/models}}
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{#models}}
+{{#model}}
+{{#isEnum}}
+enum class {{classname}} {
+{{#allowableValues}}
+{{#enumVars}}
+    {{name}}{{#hasMore}},{{/hasMore}}
+{{/enumVars}}
+{{/allowableValues}}
+};
+
+std::string {{classname}}_to_string({{classname}} value);
+{{classname}} {{classname}}_from_string(const std::string& str);
+
+{{/isEnum}}
+{{^isEnum}}
+class {{classname}} {
+public:
+    {{classname}}();
+    {{classname}}(const {{classname}}& other);
+    {{classname}}& operator=(const {{classname}}& other);
+    virtual ~{{classname}}();
+
+    // JSON serialization
+    cJSON* toJson() const;
+    void fromJson(const cJSON* json);
+    std::string toJsonString() const;
+    void fromJsonString(const std::string& jsonStr);
+
+    // Validation
+    bool validate() const;
+    std::vector<std::string> getValidationErrors() const;
+
+{{#vars}}
+    // {{description}}
+    {{dataType}} get{{nameInPascalCase}}() const;
+    void set{{nameInPascalCase}}(const {{dataType}}& value);
+{{#hasMore}}
+
+{{/hasMore}}
+{{/vars}}
+
+private:
+{{#vars}}
+    {{dataType}} {{name}};
+{{#hasDefault}}
+    bool {{name}}_is_set = false;
+{{/hasDefault}}
+{{^hasDefault}}
+    bool {{name}}_is_set = {{required}};
+{{/hasDefault}}
+{{/vars}}
+};
+
+{{/isEnum}}
+{{/model}}
+{{/models}}
+
+{{#modelNamespaceDeclarations}}
+} // namespace {{this}}
+{{/modelNamespaceDeclarations}}
+
+#endif // BEAUTY_{{classname}}_HPP_

@@ -1,0 +1,152 @@
+{{>licenseInfo}}
+/*
+ * BeautyValidation.hpp
+ *
+ * Validation utilities for Beauty web server
+ */
+
+#ifndef BEAUTY_VALIDATION_HPP_
+#define BEAUTY_VALIDATION_HPP_
+
+#include <string>
+#include <vector>
+#include <map>
+#include <regex>
+#include <stdexcept>
+#include <sstream>
+#include <cjson/cJSON.h>
+
+namespace beauty {
+namespace validation {
+
+    class ValidationException : public std::runtime_error {
+    public:
+        explicit ValidationException(const std::string& what)
+            : std::runtime_error(what) {}
+        ~ValidationException() override = default;
+    };
+
+    class ValidationResult {
+    public:
+        bool valid = true;
+        std::vector<std::string> errors;
+        
+        void addError(const std::string& error) {
+            valid = false;
+            errors.push_back(error);
+        }
+        
+        std::string getErrorsAsString() const {
+            std::stringstream ss;
+            for (size_t i = 0; i < errors.size(); ++i) {
+                if (i > 0) ss << "; ";
+                ss << errors[i];
+            }
+            return ss.str();
+        }
+    };
+
+    // String validation functions
+    ValidationResult validateString(const std::string& value, 
+                                  const std::string& fieldName,
+                                  int minLength = -1, 
+                                  int maxLength = -1,
+                                  const std::string& pattern = "");
+
+    ValidationResult validateStringLength(const std::string& value, 
+                                        const std::string& fieldName,
+                                        int length);
+
+    ValidationResult validateEnum(const std::string& value,
+                                const std::string& fieldName,
+                                const std::vector<std::string>& allowedValues);
+
+    // Numeric validation functions
+    ValidationResult validateInteger(int value, 
+                                   const std::string& fieldName,
+                                   int minimum = INT_MIN, 
+                                   int maximum = INT_MAX,
+                                   bool exclusiveMinimum = false,
+                                   bool exclusiveMaximum = false);
+
+    ValidationResult validateLong(int64_t value, 
+                                const std::string& fieldName,
+                                int64_t minimum = LLONG_MIN, 
+                                int64_t maximum = LLONG_MAX,
+                                bool exclusiveMinimum = false,
+                                bool exclusiveMaximum = false);
+
+    ValidationResult validateDouble(double value, 
+                                  const std::string& fieldName,
+                                  double minimum = -std::numeric_limits<double>::max(), 
+                                  double maximum = std::numeric_limits<double>::max(),
+                                  bool exclusiveMinimum = false,
+                                  bool exclusiveMaximum = false);
+
+    // Array validation functions
+    template<typename T>
+    ValidationResult validateArray(const std::vector<T>& value,
+                                 const std::string& fieldName,
+                                 int minItems = -1,
+                                 int maxItems = -1,
+                                 bool uniqueItems = false) {
+        ValidationResult result;
+        
+        if (minItems >= 0 && static_cast<int>(value.size()) < minItems) {
+            result.addError(fieldName + " must have at least " + std::to_string(minItems) + " items");
+        }
+        
+        if (maxItems >= 0 && static_cast<int>(value.size()) > maxItems) {
+            result.addError(fieldName + " must have at most " + std::to_string(maxItems) + " items");
+        }
+        
+        if (uniqueItems) {
+            std::set<T> uniqueSet(value.begin(), value.end());
+            if (uniqueSet.size() != value.size()) {
+                result.addError(fieldName + " must contain unique items only");
+            }
+        }
+        
+        return result;
+    }
+
+    // Date/time validation
+    ValidationResult validateDate(const std::string& value, const std::string& fieldName);
+    ValidationResult validateDateTime(const std::string& value, const std::string& fieldName);
+
+    // JSON validation
+    ValidationResult validateJson(const std::string& jsonStr, const std::string& fieldName);
+
+    // Request validation wrapper
+    class RequestValidator {
+    public:
+        void validateParameter(const std::string& value, 
+                             const std::string& paramName,
+                             const std::string& dataType,
+                             bool required = false,
+                             int minLength = -1,
+                             int maxLength = -1,
+                             const std::string& pattern = "",
+                             const std::vector<std::string>& enumValues = {});
+
+        void validatePathParameter(const std::string& value, const std::string& paramName);
+        void validateQueryParameter(const std::string& value, const std::string& paramName);
+        void validateRequestBody(const std::string& body, const std::string& contentType);
+
+        ValidationResult getValidationResult() const { return result; }
+        bool isValid() const { return result.valid; }
+        
+        void throwIfInvalid() const {
+            if (!result.valid) {
+                throw ValidationException("Validation failed: " + result.getErrorsAsString());
+            }
+        }
+
+    private:
+        ValidationResult result;
+    };
+
+} // namespace validation
+} // namespace beauty
+
+#endif // BEAUTY_VALIDATION_HPP_

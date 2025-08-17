@@ -1,0 +1,76 @@
+cmake_minimum_required(VERSION 3.10)
+project({{packageName}})
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Find required packages
+find_package(PkgConfig REQUIRED)
+
+# Find Beauty framework
+# You may need to adjust this based on your Beauty installation
+find_path(BEAUTY_INCLUDE_DIR beauty/beauty.hpp
+    PATHS 
+        /usr/local/include
+        /usr/include
+        ${CMAKE_SOURCE_DIR}/../beauty/include
+)
+
+find_library(BEAUTY_LIBRARY NAMES beauty libbeauty
+    PATHS
+        /usr/local/lib
+        /usr/lib
+        ${CMAKE_SOURCE_DIR}/../beauty/lib
+)
+
+# Find cJSON
+pkg_check_modules(CJSON REQUIRED libcjson)
+
+# Include directories
+include_directories(${BEAUTY_INCLUDE_DIR})
+include_directories(${CJSON_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+# Collect source files
+file(GLOB_RECURSE SOURCES 
+    "src/*.cpp"
+    "include/*.hpp"
+)
+
+# Create executable
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+# Link libraries
+target_link_libraries(${PROJECT_NAME} 
+    ${BEAUTY_LIBRARY}
+    ${CJSON_LIBRARIES}
+    pthread
+)
+
+# Compiler flags
+target_compile_options(${PROJECT_NAME} PRIVATE ${CJSON_CFLAGS_OTHER})
+
+# Set output directory
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+# Installation rules
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION bin
+)
+
+# Print configuration info
+message(STATUS "Beauty include dir: ${BEAUTY_INCLUDE_DIR}")
+message(STATUS "Beauty library: ${BEAUTY_LIBRARY}")
+message(STATUS "cJSON flags: ${CJSON_CFLAGS}")
+message(STATUS "cJSON libraries: ${CJSON_LIBRARIES}")
+
+# Optional: Add a custom target for generating API documentation
+# add_custom_target(docs
+#     COMMAND doxygen Doxyfile
+#     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+#     COMMENT "Generating API documentation with Doxygen"
+#     VERBATIM
+# )

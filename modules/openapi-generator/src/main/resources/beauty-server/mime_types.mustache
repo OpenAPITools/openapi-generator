@@ -1,0 +1,33 @@
+/*
+ * mime_types.hpp
+ *
+ * MIME type definitions for Beauty server
+ */
+
+#ifndef BEAUTY_MIME_TYPES_HPP_
+#define BEAUTY_MIME_TYPES_HPP_
+
+#include <string>
+#include <map>
+
+namespace beauty {
+namespace mime {
+
+const std::string APPLICATION_JSON = "application/json";
+const std::string APPLICATION_XML = "application/xml";
+const std::string TEXT_HTML = "text/html";
+const std::string TEXT_PLAIN = "text/plain";
+const std::string APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
+const std::string MULTIPART_FORM_DATA = "multipart/form-data";
+const std::string APPLICATION_OCTET_STREAM = "application/octet-stream";
+
+// Helper function to get MIME type from file extension
+std::string get_mime_type(const std::string& extension);
+
+// Map of file extensions to MIME types
+extern const std::map<std::string, std::string> EXTENSION_TO_MIME;
+
+} // namespace mime
+} // namespace beauty
+
+#endif // BEAUTY_MIME_TYPES_HPP_

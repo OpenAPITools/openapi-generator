@@ -1,0 +1,56 @@
+{{>licenseInfo}}
+/*
+ * {{classname}}Impl.cpp
+ *
+ * {{appName}} - Implementation
+ * {{appDescription}}
+ */
+
+#include "{{classname}}Impl.hpp"
+#include <iostream>
+#include <stdexcept>
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+{{classname}}Impl::{{classname}}Impl() = default;
+
+{{classname}}Impl::~{{classname}}Impl() = default;
+
+{{#operations}}
+{{#operation}}
+{{#returnType}}
+{{returnType}} {{classname}}Impl::{{operationIdCamelCase}}Implementation({{#allParams}}const {{dataType}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+{{/returnType}}
+{{^returnType}}
+void {{classname}}Impl::{{operationIdCamelCase}}Implementation({{#allParams}}const {{dataType}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+{{/returnType}}
+    // TODO: Implement {{summary}}
+    std::cout << "{{classname}}Impl::{{operationIdCamelCase}}Implementation called" << std::endl;
+    
+{{#allParams}}
+    // Parameter: {{paramName}} ({{dataType}})
+    std::cout << "  {{paramName}}: " << {{paramName}} << std::endl;
+{{/allParams}}
+
+    // Your business logic goes here
+    // This is where you would:
+    // 1. Validate business rules
+    // 2. Interact with databases
+    // 3. Call external services
+    // 4. Process the request
+    
+{{#returnType}}
+    // Return appropriate response
+    {{returnType}} result{};
+    return result;
+{{/returnType}}
+}
+
+{{/operation}}
+{{/operations}}
+
+{{#apiNamespaceDeclarations}}
+} // namespace {{this}}
+{{/apiNamespaceDeclarations}}

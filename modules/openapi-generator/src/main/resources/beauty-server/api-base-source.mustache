@@ -1,0 +1,118 @@
+{{>licenseInfo}}
+/*
+ * ApiBase.cpp
+ *
+ * {{appName}}
+ * {{appDescription}}
+ */
+
+#include "ApiBase.hpp"
+#include <cjson/cJSON.h>
+#include <algorithm>
+#include <sstream>
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+void ApiBase::sendJsonResponse(beauty::Reply& reply, int status, const std::string& json) {
+    reply.set_status(status);
+    reply.set_header("Content-Type", "application/json");
+    reply.set_body(json);
+}
+
+void ApiBase::sendErrorResponse(beauty::Reply& reply, int status, const std::string& message) {
+    cJSON* errorJson = cJSON_CreateObject();
+    cJSON* errorMessage = cJSON_CreateString(message.c_str());
+    cJSON_AddItemToObject(errorJson, "error", errorMessage);
+    
+    char* jsonString = cJSON_Print(errorJson);
+    sendJsonResponse(reply, status, jsonString);
+    
+    free(jsonString);
+    cJSON_Delete(errorJson);
+}
+
+std::string ApiBase::getPathParameter(beauty::Request& request, const std::string& name) {
+    // Extract path parameter from Beauty request
+    // This assumes Beauty provides access to path parameters
+    // You may need to adapt this based on Beauty's actual API
+    
+    // For now, let's parse from the path manually
+    std::string path = request.get_path();
+    
+    // Simple implementation - you might need a more sophisticated router
+    // This is a placeholder that should be adapted to Beauty's actual parameter extraction
+    
+    // Example: if path is "/users/123" and name is "userId", extract "123"
+    // This is a simplified implementation
+    size_t pos = path.find_last_of('/');
+    if (pos != std::string::npos && name == "userId") {
+        return path.substr(pos + 1);
+    }
+    
+    return "";
+}
+
+std::string ApiBase::getQueryParameter(beauty::Request& request, const std::string& name) {
+    // Extract query parameter from Beauty request
+    // This needs to be adapted based on Beauty's actual API
+    
+    std::string query = request.get_query_string();
+    if (query.empty()) return "";
+    
+    // Parse query string manually
+    std::stringstream ss(query);
+    std::string item;
+    
+    while (std::getline(ss, item, '&')) {
+        size_t pos = item.find('=');
+        if (pos != std::string::npos) {
+            std::string key = item.substr(0, pos);
+            std::string value = item.substr(pos + 1);
+            if (key == name) {
+                return value;
+            }
+        }
+    }
+    
+    return "";
+}
+
+std::string ApiBase::getHeaderParameter(beauty::Request& request, const std::string& name) {
+    // Extract header from Beauty request
+    return request.get_header(name);
+}
+
+bool ApiBase::isValidJson(const std::string& json) {
+    cJSON* parsed = cJSON_Parse(json.c_str());
+    if (parsed) {
+        cJSON_Delete(parsed);
+        return true;
+    }
+    return false;
+}
+
+std::string ApiBase::escapeJsonString(const std::string& str) {
+    std::string escaped;
+    escaped.reserve(str.length() * 2);
+    
+    for (char c : str) {
+        switch (c) {
+            case '"': escaped += "\\\""; break;
+            case '\\': escaped += "\\\\"; break;
+            case '\b': escaped += "\\b"; break;
+            case '\f': escaped += "\\f"; break;
+            case '\n': escaped += "\\n"; break;
+            case '\r': escaped += "\\r"; break;
+            case '\t': escaped += "\\t"; break;
+            default: escaped += c; break;
+        }
+    }
+    
+    return escaped;
+}
+
+{{#apiNamespaceDeclarations}}
+} // namespace {{this}}
+{{/apiNamespaceDeclarations}}

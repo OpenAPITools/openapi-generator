@@ -1,0 +1,238 @@
+{{>licenseInfo}}
+/*
+ * {{classname}}.cpp
+ *
+ * {{description}}
+ */
+
+#include "{{classname}}.hpp"
+#include <stdexcept>
+#include <algorithm>
+#include <sstream>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{#models}}
+{{#model}}
+{{#isEnum}}
+std::string {{classname}}_to_string({{classname}} value) {
+    switch (value) {
+{{#allowableValues}}
+{{#enumVars}}
+        case {{classname}}::{{name}}: return "{{value}}";
+{{/enumVars}}
+{{/allowableValues}}
+        default: throw std::invalid_argument("Invalid {{classname}} value");
+    }
+}
+
+{{classname}} {{classname}}_from_string(const std::string& str) {
+{{#allowableValues}}
+{{#enumVars}}
+    if (str == "{{value}}") return {{classname}}::{{name}};
+{{/enumVars}}
+{{/allowableValues}}
+    throw std::invalid_argument("Invalid {{classname}} string: " + str);
+}
+
+{{/isEnum}}
+{{^isEnum}}
+{{classname}}::{{classname}}() {
+{{#vars}}
+{{#hasDefault}}
+    {{name}} = {{defaultValue}};
+    {{name}}_is_set = true;
+{{/hasDefault}}
+{{/vars}}
+}
+
+{{classname}}::{{classname}}(const {{classname}}& other) {
+{{#vars}}
+    {{name}} = other.{{name}};
+    {{name}}_is_set = other.{{name}}_is_set;
+{{/vars}}
+}
+
+{{classname}}& {{classname}}::operator=(const {{classname}}& other) {
+    if (this != &other) {
+{{#vars}}
+        {{name}} = other.{{name}};
+        {{name}}_is_set = other.{{name}}_is_set;
+{{/vars}}
+    }
+    return *this;
+}
+
+{{classname}}::~{{classname}}() = default;
+
+{{#vars}}
+{{dataType}} {{classname}}::get{{nameInPascalCase}}() const {
+    return {{name}};
+}
+
+void {{classname}}::set{{nameInPascalCase}}(const {{dataType}}& value) {
+    {{name}} = value;
+    {{name}}_is_set = true;
+}
+
+{{/vars}}
+
+cJSON* {{classname}}::toJson() const {
+    cJSON* json = cJSON_CreateObject();
+    
+{{#vars}}
+    if ({{name}}_is_set) {
+{{#isString}}
+        cJSON_AddStringToObject(json, "{{baseName}}", {{name}}.c_str());
+{{/isString}}
+{{#isInteger}}
+        cJSON_AddNumberToObject(json, "{{baseName}}", {{name}});
+{{/isInteger}}
+{{#isLong}}
+        cJSON_AddNumberToObject(json, "{{baseName}}", {{name}});
+{{/isLong}}
+{{#isFloat}}
+        cJSON_AddNumberToObject(json, "{{baseName}}", {{name}});
+{{/isFloat}}
+{{#isDouble}}
+        cJSON_AddNumberToObject(json, "{{baseName}}", {{name}});
+{{/isDouble}}
+{{#isBoolean}}
+        cJSON_AddBoolToObject(json, "{{baseName}}", {{name}});
+{{/isBoolean}}
+{{#isArray}}
+        cJSON* {{name}}_array = cJSON_CreateArray();
+        for (const auto& item : {{name}}) {
+            // TODO: Handle array item serialization based on item type
+        }
+        cJSON_AddItemToObject(json, "{{baseName}}", {{name}}_array);
+{{/isArray}}
+    }
+{{/vars}}
+    
+    return json;
+}
+
+void {{classname}}::fromJson(const cJSON* json) {
+    if (!json) return;
+    
+{{#vars}}
+    cJSON* {{name}}_json = cJSON_GetObjectItem(json, "{{baseName}}");
+    if ({{name}}_json) {
+{{#isString}}
+        if (cJSON_IsString({{name}}_json)) {
+            {{name}} = {{name}}_json->valuestring;
+            {{name}}_is_set = true;
+        }
+{{/isString}}
+{{#isInteger}}
+        if (cJSON_IsNumber({{name}}_json)) {
+            {{name}} = static_cast<int32_t>({{name}}_json->valueint);
+            {{name}}_is_set = true;
+        }
+{{/isInteger}}
+{{#isLong}}
+        if (cJSON_IsNumber({{name}}_json)) {
+            {{name}} = static_cast<int64_t>({{name}}_json->valuedouble);
+            {{name}}_is_set = true;
+        }
+{{/isLong}}
+{{#isFloat}}
+        if (cJSON_IsNumber({{name}}_json)) {
+            {{name}} = static_cast<float>({{name}}_json->valuedouble);
+            {{name}}_is_set = true;
+        }
+{{/isFloat}}
+{{#isDouble}}
+        if (cJSON_IsNumber({{name}}_json)) {
+            {{name}} = {{name}}_json->valuedouble;
+            {{name}}_is_set = true;
+        }
+{{/isDouble}}
+{{#isBoolean}}
+        if (cJSON_IsBool({{name}}_json)) {
+            {{name}} = cJSON_IsTrue({{name}}_json);
+            {{name}}_is_set = true;
+        }
+{{/isBoolean}}
+    }
+{{/vars}}
+}
+
+std::string {{classname}}::toJsonString() const {
+    cJSON* json = toJson();
+    char* jsonString = cJSON_Print(json);
+    std::string result(jsonString);
+    free(jsonString);
+    cJSON_Delete(json);
+    return result;
+}
+
+void {{classname}}::fromJsonString(const std::string& jsonStr) {
+    cJSON* json = cJSON_Parse(jsonStr.c_str());
+    if (json) {
+        fromJson(json);
+        cJSON_Delete(json);
+    } else {
+        throw std::invalid_argument("Invalid JSON string");
+    }
+}
+
+bool {{classname}}::validate() const {
+    return getValidationErrors().empty();
+}
+
+std::vector<std::string> {{classname}}::getValidationErrors() const {
+    std::vector<std::string> errors;
+    
+{{#vars}}
+{{#required}}
+    if (!{{name}}_is_set) {
+        errors.push_back("Required field '{{baseName}}' is missing");
+    }
+{{/required}}
+{{#hasValidation}}
+    if ({{name}}_is_set) {
+{{#isString}}
+{{#minLength}}
+        if ({{name}}.length() < {{minLength}}) {
+            errors.push_back("Field '{{baseName}}' must be at least {{minLength}} characters long");
+        }
+{{/minLength}}
+{{#maxLength}}
+        if ({{name}}.length() > {{maxLength}}) {
+            errors.push_back("Field '{{baseName}}' must be at most {{maxLength}} characters long");
+        }
+{{/maxLength}}
+{{#pattern}}
+        // TODO: Add regex pattern validation for {{pattern}}
+{{/pattern}}
+{{/isString}}
+{{#isNumeric}}
+{{#minimum}}
+        if ({{name}} < {{minimum}}) {
+            errors.push_back("Field '{{baseName}}' must be at least {{minimum}}");
+        }
+{{/minimum}}
+{{#maximum}}
+        if ({{name}} > {{maximum}}) {
+            errors.push_back("Field '{{baseName}}' must be at most {{maximum}}");
+        }
+{{/maximum}}
+{{/isNumeric}}
+    }
+{{/hasValidation}}
+{{/vars}}
+    
+    return errors;
+}
+
+{{/isEnum}}
+{{/model}}
+{{/models}}
+
+{{#modelNamespaceDeclarations}}
+} // namespace {{this}}
+{{/modelNamespaceDeclarations}}

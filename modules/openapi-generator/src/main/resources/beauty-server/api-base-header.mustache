@@ -1,0 +1,42 @@
+{{>licenseInfo}}
+/*
+ * ApiBase.hpp
+ *
+ * Base class for Beauty API handlers
+ */
+
+#ifndef BEAUTY_API_BASE_HPP_
+#define BEAUTY_API_BASE_HPP_
+
+#include <beauty/beauty.hpp>
+#include <string>
+#include <vector>
+#include <memory>
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+class ApiBase {
+public:
+    ApiBase() = default;
+    virtual ~ApiBase() = default;
+
+    // Helper methods for common operations
+    virtual void sendJsonResponse(beauty::Reply& reply, int status, const std::string& json);
+    virtual void sendErrorResponse(beauty::Reply& reply, int status, const std::string& message);
+    virtual std::string getPathParameter(beauty::Request& request, const std::string& name);
+    virtual std::string getQueryParameter(beauty::Request& request, const std::string& name);
+    virtual std::string getHeaderParameter(beauty::Request& request, const std::string& name);
+
+protected:
+    // Utility methods for derived classes
+    bool isValidJson(const std::string& json);
+    std::string escapeJsonString(const std::string& str);
+};
+
+{{#apiNamespaceDeclarations}}
+} // namespace {{this}}
+{{/apiNamespaceDeclarations}}
+
+#endif // BEAUTY_API_BASE_HPP_

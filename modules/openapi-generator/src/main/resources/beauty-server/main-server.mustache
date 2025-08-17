@@ -1,0 +1,72 @@
+{{>licenseInfo}}
+/*
+ * main.cpp
+ *
+ * {{appName}} - Beauty Server
+ * {{appDescription}}
+ */
+
+#include <iostream>
+#include <memory>
+#include <beauty/beauty.hpp>
+{{#apiDocumentationUrl}}
+// API Documentation: {{apiDocumentationUrl}}
+{{/apiDocumentationUrl}}
+
+{{#imports}}
+#include "{{import}}"
+{{/imports}}
+
+int main() {
+    try {
+        // Create Beauty server
+        auto server = beauty::create_server();
+        
+        // Set server configuration
+        server->set_port({{serverPort}}{{^serverPort}}8080{{/serverPort}});
+        server->set_host("{{serverHost}}{{^serverHost}}0.0.0.0{{/serverHost}}");
+        
+        // Create API handlers
+{{#apiDocumentationUrl}}
+        // Initialize API classes
+{{/apiDocumentationUrl}}
+{{#operations}}
+        auto {{classname}}Handler = std::make_shared<{{package}}::{{classname}}>();
+        {{classname}}Handler->setupRoutes();
+{{/operations}}
+
+        // Setup global error handling
+        server->set_error_handler([](beauty::Request& req, beauty::Reply& reply, const std::exception& e) {
+            std::cerr << "Error handling request: " << e.what() << std::endl;
+            reply.set_status(500);
+            reply.set_header("Content-Type", "application/json");
+            reply.set_body("{\"error\": \"Internal server error\"}");
+        });
+
+        // Add CORS headers if needed
+        server->add_middleware([](beauty::Request& req, beauty::Reply& reply, std::function<void()> next) {
+            reply.set_header("Access-Control-Allow-Origin", "*");
+            reply.set_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            reply.set_header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+            
+            if (req.method() == beauty::http::OPTIONS) {
+                reply.set_status(200);
+                return;
+            }
+            
+            next();
+        });
+
+        std::cout << "Starting {{appName}} server on {{serverHost}}{{^serverHost}}0.0.0.0{{/serverHost}}:{{serverPort}}{{^serverPort}}8080{{/serverPort}}" << std::endl;
+        std::cout << "Press Ctrl+C to stop the server" << std::endl;
+        
+        // Start the server
+        server->run();
+        
+    } catch (const std::exception& e) {
+        std::cerr << "Failed to start server: " << e.what() << std::endl;
+        return 1;
+    }
+    
+    return 0;
+}

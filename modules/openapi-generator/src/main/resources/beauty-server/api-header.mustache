@@ -1,0 +1,57 @@
+{{>licenseInfo}}
+/*
+ * {{classname}}.hpp
+ *
+ * {{appName}}
+ * {{appDescription}}
+ */
+
+#ifndef BEAUTY_{{classname}}_HPP_
+#define BEAUTY_{{classname}}_HPP_
+
+#include <beauty/beauty.hpp>
+#include "ApiBase.hpp"
+#include <string>
+#include <vector>
+#include <memory>
+{{#models}}
+{{#model}}
+#include "{{classname}}.hpp"
+{{/model}}
+{{/models}}
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+class {{classname}} : public ApiBase {
+public:
+    {{classname}}();
+    virtual ~{{classname}}();
+
+    void setupRoutes();
+
+{{#operations}}
+{{#operation}}
+    // {{httpMethod}} {{path}} - {{summary}}
+    virtual void {{operationIdCamelCase}}(beauty::Request& request, beauty::Reply& reply);
+    
+{{#returnType}}
+    virtual {{returnType}} {{operationIdCamelCase}}Implementation({{#allParams}}const {{dataType}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+{{/returnType}}
+{{^returnType}}
+    virtual void {{operationIdCamelCase}}Implementation({{#allParams}}const {{dataType}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+{{/returnType}}
+
+{{/operation}}
+{{/operations}}
+
+private:
+    beauty::Router router_;
+};
+
+{{#apiNamespaceDeclarations}}
+} // namespace {{this}}
+{{/apiNamespaceDeclarations}}
+
+#endif // BEAUTY_{{classname}}_HPP_
