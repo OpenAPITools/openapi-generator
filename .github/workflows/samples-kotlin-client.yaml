@@ -5,10 +5,12 @@ on:
     branches:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
+      - samples/client/others/kotlin-integer-enum/**
   pull_request:
     paths:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
+      - samples/client/others/kotlin-integer-enum/**
 
 jobs:
   build:
