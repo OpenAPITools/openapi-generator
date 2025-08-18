@@ -35,7 +35,7 @@ let write_json_body payload =
 let write_as_json_body to_json payload = write_json_body (to_json payload)
 
 let handle_response resp on_success_handler =
-  match Cohttp_lwt.Response.status resp with
+  match Cohttp.Response.status resp with
   | #Cohttp.Code.success_status -> on_success_handler ()
   | s -> failwith ("Server responded with status " ^ Cohttp.Code.(reason_phrase_of_code (code_of_status s)))
 
