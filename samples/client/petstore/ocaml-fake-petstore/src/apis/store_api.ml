@@ -22,6 +22,7 @@ let delete_order ~order_id =
     
     
         
+        
  order_id in
     Cohttp_lwt_unix.Client.call `DELETE uri ~headers >>= fun (resp, body) ->
     Request.handle_unit_response resp
@@ -50,6 +51,7 @@ let get_order_by_id ~order_id =
     
     
     
+        
         
  order_id in
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->

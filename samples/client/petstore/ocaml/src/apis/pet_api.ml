@@ -43,6 +43,7 @@ let delete_pet ~pet_id ?api_key () =
     
     
         
+        
  api_key in
     let uri = Request.replace_path_param uri "petId"     Int64.to_string
     
@@ -57,6 +58,7 @@ let delete_pet ~pet_id ?api_key () =
     
     
         
+        
  pet_id in
     Cohttp_lwt_unix.Client.call `DELETE uri ~headers >>= fun (resp, body) ->
     Request.handle_unit_response resp
@@ -66,6 +68,7 @@ let find_pets_by_status ~status =
     let uri = Request.build_uri "/pet/findByStatus" in
     let headers = Request.default_headers in
     let uri = Request.add_query_param_list uri "status"     (Stdlib.List.map         Enums.show_pet_status
+        
 )
  status in
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
@@ -87,6 +90,7 @@ let find_pets_by_tags ~tags =
     (fun x -> x)
     
     
+        
         
 )
     
@@ -122,6 +126,7 @@ let get_pet_by_id ~pet_id =
     
     
     
+        
         
  pet_id in
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
@@ -165,6 +170,7 @@ let update_pet_with_form ~pet_id ?name ?status () =
     
     
         
+        
  pet_id in
     let body = Request.init_form_encoded_body () in
     let body = Request.maybe_add_form_encoded_body_param body "name"     
@@ -180,6 +186,7 @@ let update_pet_with_form ~pet_id ?name ?status () =
     
     
         
+        
  name in
     let body = Request.maybe_add_form_encoded_body_param body "status"     
     
@@ -193,6 +200,7 @@ let update_pet_with_form ~pet_id ?name ?status () =
     (fun x -> x)
     
     
+        
         
  status in
     let body = Request.finalize_form_encoded_body body in
@@ -216,6 +224,7 @@ let upload_file ~pet_id ?additional_metadata ?file () =
     
     
         
+        
  pet_id in
     let body = Request.init_form_encoded_body () in
     let body = Request.maybe_add_form_encoded_body_param body "additional_metadata"     
@@ -231,6 +240,7 @@ let upload_file ~pet_id ?additional_metadata ?file () =
     
     
         
+        
  additional_metadata in
     let body = Request.maybe_add_form_encoded_body_param body "file"     
     
@@ -244,6 +254,7 @@ let upload_file ~pet_id ?additional_metadata ?file () =
     
     
     
+        
         
  file in
     let body = Request.finalize_form_encoded_body body in

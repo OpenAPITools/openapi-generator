@@ -36,6 +36,7 @@ let fake_http_signature_test ~pet_t ?query_1 ?header_1 () =
     
     
         
+        
  header_1 in
     let uri = Request.maybe_add_query_param uri "query_1"     
     
@@ -49,6 +50,7 @@ let fake_http_signature_test ~pet_t ?query_1 ?header_1 () =
     (fun x -> x)
     
     
+        
         
  query_1 in
     let body = Request.
@@ -240,6 +242,7 @@ let test_body_with_query_params ~query ~user_t =
     
     
         
+        
  query in
     let body = Request.
         
@@ -297,6 +300,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
         
+        
  integer in
     let body = Request.maybe_add_form_encoded_body_param body "int32"     
     Int32.to_string
@@ -310,6 +314,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
     
+        
         
  int32 in
     let body = Request.maybe_add_form_encoded_body_param body "int64"     Int64.to_string
@@ -325,6 +330,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
         
+        
  int64 in
     let body = Request.add_form_encoded_body_param body "number"     
     
@@ -338,6 +344,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
     
+        
         
  number in
     let body = Request.maybe_add_form_encoded_body_param body "float"     
@@ -353,6 +360,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
         
+        
  float in
     let body = Request.add_form_encoded_body_param body "double"     
     
@@ -366,6 +374,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
     
+        
         
  double in
     let body = Request.maybe_add_form_encoded_body_param body "string"     
@@ -381,6 +390,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
         
+        
  string in
     let body = Request.add_form_encoded_body_param body "pattern_without_delimiter"     
     
@@ -394,6 +404,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     (fun x -> x)
     
     
+        
         
  pattern_without_delimiter in
     let body = Request.add_form_encoded_body_param body "byte"     
@@ -409,6 +420,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     (fun x -> x)
     
         
+        
  byte in
     let body = Request.maybe_add_form_encoded_body_param body "binary"     
     
@@ -422,6 +434,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
     
+        
         
  binary in
     let body = Request.maybe_add_form_encoded_body_param body "date"     
@@ -437,6 +450,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
         
+        
  date in
     let body = Request.maybe_add_form_encoded_body_param body "date_time"     
     
@@ -450,6 +464,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
     
+        
         
  date_time in
     let body = Request.maybe_add_form_encoded_body_param body "password"     
@@ -465,6 +480,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
         
+        
  password in
     let body = Request.maybe_add_form_encoded_body_param body "callback"     
     
@@ -479,6 +495,7 @@ let test_endpoint_parameters ~number ~double ~pattern_without_delimiter ~byte ?i
     
     
         
+        
  callback in
     let body = Request.finalize_form_encoded_body body in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
@@ -489,18 +506,24 @@ let test_enum_parameters ?(enum_header_string_array = []) ?(enum_header_string =
     let uri = Request.build_uri "/fake" in
     let headers = Request.default_headers in
     let headers = Request.add_header_multi headers "enum_header_string_array"     (Stdlib.List.map         Enums.show_enum_form_string_array
+        
 )
  enum_header_string_array in
     let headers = Request.add_header headers "enum_header_string"         Enums.show_enumclass
+        
  enum_header_string in
     let uri = Request.add_query_param_list uri "enum_query_string_array"     (Stdlib.List.map         Enums.show_enum_form_string_array
+        
 )
  enum_query_string_array in
     let uri = Request.add_query_param uri "enum_query_string"         Enums.show_enumclass
+        
  enum_query_string in
     let uri = Request.maybe_add_query_param uri "enum_query_integer"         Enums.show_enum_query_integer
+        
  enum_query_integer in
     let uri = Request.maybe_add_query_param uri "enum_query_double"         Enums.show_enum_number
+        
  enum_query_double in
     let uri = Request.add_query_param_list uri "enum_query_model_array"     (Stdlib.List.map     
     
@@ -515,6 +538,7 @@ let test_enum_parameters ?(enum_header_string_array = []) ?(enum_header_string =
     
     
         
+        (failwith "Unsupported: enum reference")
 )
     
     
@@ -531,9 +555,11 @@ let test_enum_parameters ?(enum_header_string_array = []) ?(enum_header_string =
  enum_query_model_array in
     let body = Request.init_form_encoded_body () in
     let body = Request.add_form_encoded_body_param_list body "enum_form_string_array"     (Stdlib.List.map         Enums.show_enum_form_string_array
+        
 )
  enum_form_string_array in
     let body = Request.add_form_encoded_body_param body "enum_form_string"         Enums.show_enumclass
+        
  enum_form_string in
     let body = Request.finalize_form_encoded_body body in
     Cohttp_lwt_unix.Client.call `GET uri ~headers ~body >>= fun (resp, body) ->
@@ -556,6 +582,7 @@ let test_group_parameters ~required_string_group ~required_boolean_group ~requir
     
     
         
+        
  required_boolean_group in
     let headers = Request.maybe_add_header headers "boolean_group"     
     
@@ -569,6 +596,7 @@ let test_group_parameters ~required_string_group ~required_boolean_group ~requir
     
     
     
+        
         
  boolean_group in
     let uri = Request.add_query_param uri "required_string_group"     
@@ -584,6 +612,7 @@ let test_group_parameters ~required_string_group ~required_boolean_group ~requir
     
     
         
+        
  required_string_group in
     let uri = Request.add_query_param uri "required_int64_group"     Int64.to_string
     
@@ -597,6 +626,7 @@ let test_group_parameters ~required_string_group ~required_boolean_group ~requir
     
     
     
+        
         
  required_int64_group in
     let uri = Request.maybe_add_query_param uri "string_group"     
@@ -612,6 +642,7 @@ let test_group_parameters ~required_string_group ~required_boolean_group ~requir
     
     
         
+        
  string_group in
     let uri = Request.maybe_add_query_param uri "int64_group"     Int64.to_string
     
@@ -625,6 +656,7 @@ let test_group_parameters ~required_string_group ~required_boolean_group ~requir
     
     
     
+        
         
  int64_group in
     Cohttp_lwt_unix.Client.call `DELETE uri ~headers >>= fun (resp, body) ->
@@ -698,6 +730,7 @@ let test_json_form_data ~param ~param2 =
     
     
         
+        
  param in
     let body = Request.add_form_encoded_body_param body "param2"     
     
@@ -711,6 +744,7 @@ let test_json_form_data ~param ~param2 =
     (fun x -> x)
     
     
+        
         
  param2 in
     let body = Request.finalize_form_encoded_body body in
@@ -755,6 +789,7 @@ let test_query_parameter_collection_format ~pipe ~ioutil ~http ~url ~context ~al
     
     
         
+        
 )
     
     
@@ -781,6 +816,7 @@ let test_query_parameter_collection_format ~pipe ~ioutil ~http ~url ~context ~al
     (fun x -> x)
     
     
+        
         
 )
     
@@ -809,6 +845,7 @@ let test_query_parameter_collection_format ~pipe ~ioutil ~http ~url ~context ~al
     
     
         
+        
 )
     
     
@@ -835,6 +872,7 @@ let test_query_parameter_collection_format ~pipe ~ioutil ~http ~url ~context ~al
     (fun x -> x)
     
     
+        
         
 )
     
@@ -863,6 +901,7 @@ let test_query_parameter_collection_format ~pipe ~ioutil ~http ~url ~context ~al
     
     
         
+        
 )
     
     
@@ -877,7 +916,8 @@ let test_query_parameter_collection_format ~pipe ~ioutil ~http ~url ~context ~al
     
     
  context in
-    let uri = Request.add_query_param uri "language"     (Stdlib.List.map     
+    let uri = Request.add_query_param_exploded_form_object uri "language" 
+        
     
     
     
@@ -890,7 +930,8 @@ let test_query_parameter_collection_format ~pipe ~ioutil ~http ~url ~context ~al
     
     
         
-)
+        
+
     
     
     
@@ -916,6 +957,7 @@ let test_query_parameter_collection_format ~pipe ~ioutil ~http ~url ~context ~al
     (fun x -> x)
     
     
+        
         
  allow_empty in
     Cohttp_lwt_unix.Client.call `PUT uri ~headers >>= fun (resp, body) ->

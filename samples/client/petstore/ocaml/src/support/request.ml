@@ -80,6 +80,19 @@ let add_query_param_list uri param_name to_string param_value =
 let maybe_add_query_param uri param_name to_string param_value =
   option_fold (add_query_param uri param_name to_string) uri param_value
 
+(** Corresponds to:
+    - [style = form]
+    - [explode = true]
+    - type [object]
+
+    See https://swagger.io/docs/specification/v3_0/serialization/#query-parameters
+*)
+let add_query_param_exploded_form_object uri _param_name to_string param_value =
+Stdlib.List.fold_left
+  (fun uri (param_name, param_value) -> add_query_param uri param_name to_string param_value)
+  uri
+  param_value
+
 let init_form_encoded_body () = ""
 
 let add_form_encoded_body_param params param_name to_string param_value =

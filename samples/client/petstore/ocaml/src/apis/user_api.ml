@@ -107,6 +107,7 @@ let delete_user ~username =
     
     
         
+        
  username in
     Cohttp_lwt_unix.Client.call `DELETE uri ~headers >>= fun (resp, body) ->
     Request.handle_unit_response resp
@@ -127,6 +128,7 @@ let get_user_by_name ~username =
     (fun x -> x)
     
     
+        
         
  username in
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
@@ -149,6 +151,7 @@ let login_user ~username ~password =
     
     
         
+        
  username in
     let uri = Request.add_query_param uri "password"     
     
@@ -162,6 +165,7 @@ let login_user ~username ~password =
     (fun x -> x)
     
     
+        
         
  password in
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
@@ -192,6 +196,7 @@ let update_user ~username ~user_t =
     (fun x -> x)
     
     
+        
         
  username in
     let body = Request.

@@ -1,6 +1,9 @@
-{{#isContainer}}
+{{#isArray}}
     {{#items}}(Stdlib.List.map {{> to_string}}){{/items}}
-{{/isContainer}}
+{{/isArray}}
+{{#isMap}}{{! For maps, only transform the value, the call site will take care of properly transforming the key-value pairs since it depends on the context. }}
+    {{#items}}{{> to_string}}{{/items}}
+{{/isMap}}
 {{^isEnum}}
     {{#isLong}}Int64.to_string{{/isLong}}
     {{#isInteger}}Int32.to_string{{/isInteger}}
@@ -18,5 +21,6 @@
 {{^isModel}}
     {{^isContainer}}
         {{#isEnum}}Enums.show_{{{datatypeWithEnum}}}{{/isEnum}}
+        {{#isEnumRef}}(failwith "Unsupported: enum reference"){{/isEnumRef}}
     {{/isContainer}}
 {{/isModel}}
