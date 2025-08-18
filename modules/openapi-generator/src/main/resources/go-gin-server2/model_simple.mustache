@@ -6,6 +6,6 @@ type {{classname}} struct {
 	{{#deprecated}}
 	// Deprecated
 	{{/deprecated}}
-	{{name}} {{#isNullable}}*{{/isNullable}}{{dataType}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#required}}{{/required}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{^required}}{{#isNullable}}*{{/isNullable}}{{/required}}{{#required}}{{^isPrimitiveType}}*{{/isPrimitiveType}}{{/required}}{{dataType}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#required}}{{/required}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 }
