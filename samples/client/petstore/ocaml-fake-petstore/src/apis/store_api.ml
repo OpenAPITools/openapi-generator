@@ -63,7 +63,6 @@ let place_order ~order_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -72,6 +71,7 @@ let place_order ~order_t =
 
 
             Order.to_yojson
+
 
  order_t
     in

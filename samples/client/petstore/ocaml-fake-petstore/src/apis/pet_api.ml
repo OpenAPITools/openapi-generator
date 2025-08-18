@@ -11,7 +11,6 @@ let add_pet ~pet_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -20,6 +19,7 @@ let add_pet ~pet_t =
 
 
             Pet.to_yojson
+
 
  pet_t
     in
@@ -138,7 +138,6 @@ let update_pet ~pet_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -147,6 +146,7 @@ let update_pet ~pet_t =
 
 
             Pet.to_yojson
+
 
  pet_t
     in

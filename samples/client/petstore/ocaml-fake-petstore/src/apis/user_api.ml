@@ -11,7 +11,6 @@ let create_user ~user_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -20,6 +19,7 @@ let create_user ~user_t =
 
 
             User.to_yojson
+
 
  user_t
     in
@@ -32,7 +32,6 @@ let create_users_with_array_input ~user =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body         (JsonSupport.of_list_of 
 
 
@@ -42,7 +41,9 @@ let create_users_with_array_input ~user =
 
             User.to_yojson
 
+
 )
+
 
 
 
@@ -62,7 +63,6 @@ let create_users_with_list_input ~user =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body         (JsonSupport.of_list_of 
 
 
@@ -72,7 +72,9 @@ let create_users_with_list_input ~user =
 
             User.to_yojson
 
+
 )
+
 
 
 
@@ -195,7 +197,6 @@ let update_user ~username ~user_t =
  username in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -204,6 +205,7 @@ let update_user ~username ~user_t =
 
 
             User.to_yojson
+
 
  user_t
     in

@@ -11,7 +11,6 @@ let call_123_test_special_tags ~client_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -20,6 +19,7 @@ let call_123_test_special_tags ~client_t =
 
 
             Client.to_yojson
+
 
  client_t
     in

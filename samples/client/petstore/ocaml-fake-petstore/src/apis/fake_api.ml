@@ -55,7 +55,6 @@ let fake_http_signature_test ~pet_t ?query_1 ?header_1 () =
  query_1 in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -64,6 +63,7 @@ let fake_http_signature_test ~pet_t ?query_1 ?header_1 () =
 
 
             Pet.to_yojson
+
 
  pet_t
     in
@@ -76,7 +76,6 @@ let fake_outer_boolean_serialize ~body () =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -84,6 +83,7 @@ let fake_outer_boolean_serialize ~body () =
 
 
 JsonSupport.of_bool
+
 
  body
     in
@@ -96,7 +96,6 @@ let fake_outer_composite_serialize ~outer_composite_t () =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -105,6 +104,7 @@ let fake_outer_composite_serialize ~outer_composite_t () =
 
 
             Outer_composite.to_yojson
+
 
  outer_composite_t
     in
@@ -117,12 +117,12 @@ let fake_outer_number_serialize ~body () =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
 
 JsonSupport.of_float
+
 
 
 
@@ -137,8 +137,8 @@ let fake_outer_string_serialize ~body () =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body JsonSupport.of_string
+
 
 
 
@@ -157,7 +157,6 @@ let fake_property_enum_integer_serialize ~outer_object_with_enum_property_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -166,6 +165,7 @@ let fake_property_enum_integer_serialize ~outer_object_with_enum_property_t =
 
 
             Outer_object_with_enum_property.to_yojson
+
 
  outer_object_with_enum_property_t
     in
@@ -177,9 +177,27 @@ let test_additional_properties_reference ~request_body =
     let uri = Request.build_uri "/fake/additionalProperties-reference" in
     let headers = Request.default_headers in
     let body = Request.
-        write_json_body request_body
         
-        
+        write_as_json_body         (JsonSupport.of_map_of 
+
+
+
+
+
+
+
+(fun x -> x)
+)
+
+
+
+
+
+
+
+
+
+ request_body
     in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.handle_unit_response resp
@@ -190,7 +208,6 @@ let test_body_with_binary ~body =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -199,6 +216,7 @@ let test_body_with_binary ~body =
 
 
 JsonSupport.of_string
+
  body
     in
     Cohttp_lwt_unix.Client.call `PUT uri ~headers ~body >>= fun (resp, body) ->
@@ -210,7 +228,6 @@ let test_body_with_file_schema ~file_schema_test_class_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -219,6 +236,7 @@ let test_body_with_file_schema ~file_schema_test_class_t =
 
 
             File_schema_test_class.to_yojson
+
 
  file_schema_test_class_t
     in
@@ -246,7 +264,6 @@ let test_body_with_query_params ~query ~user_t =
  query in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -255,6 +272,7 @@ let test_body_with_query_params ~query ~user_t =
 
 
             User.to_yojson
+
 
  user_t
     in
@@ -267,7 +285,6 @@ let test_client_model ~client_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -276,6 +293,7 @@ let test_client_model ~client_t =
 
 
             Client.to_yojson
+
 
  client_t
     in
@@ -668,7 +686,6 @@ let test_inline_additional_properties ~request_body =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body         (JsonSupport.of_map_of JsonSupport.of_string
 
 
@@ -677,7 +694,9 @@ let test_inline_additional_properties ~request_body =
 
 
 
+
 )
+
 
 
 
@@ -697,7 +716,6 @@ let test_inline_freeform_additional_properties ~test_inline_freeform_additional_
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -706,6 +724,7 @@ let test_inline_freeform_additional_properties ~test_inline_freeform_additional_
 
 
             Test_inline_freeform_additional_properties_request.to_yojson
+
 
  test_inline_freeform_additional_properties_request_t
     in
@@ -757,7 +776,6 @@ let test_nullable ~child_with_nullable_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body 
 
 
@@ -766,6 +784,7 @@ let test_nullable ~child_with_nullable_t =
 
 
             Child_with_nullable.to_yojson
+
 
  child_with_nullable_t
     in
@@ -969,7 +988,6 @@ let test_string_map_reference ~request_body =
     let headers = Request.default_headers in
     let body = Request.
         
-        
         write_as_json_body         (JsonSupport.of_map_of JsonSupport.of_string
 
 
@@ -978,7 +996,9 @@ let test_string_map_reference ~request_body =
 
 
 
+
 )
+
 
 
 
