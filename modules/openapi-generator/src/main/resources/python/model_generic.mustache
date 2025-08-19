@@ -31,7 +31,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{name}}: {{{vendorExtensions.x-py-typing}}}
 {{/vars}}
 {{#isAdditionalPropertiesTrue}}
-    additional_properties: Dict[str, Any] = {}
+    @property
+    def additional_properties(self) -> Dict[str, Any]:
+        return self.__pydantic_extra__
 {{/isAdditionalPropertiesTrue}}
     __properties: ClassVar[List[str]] = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
 {{#vars}}
@@ -97,6 +99,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         populate_by_name=True,
         validate_assignment=True,
         protected_namespaces=(),
+        {{#isAdditionalPropertiesTrue}}
+        extra="allow",
+        {{/isAdditionalPropertiesTrue}}
     )
 
 
@@ -288,109 +293,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         {{/isAdditionalPropertiesTrue}}
         {{/disallowAdditionalPropertiesIfNotPresent}}
-        _obj = cls.model_validate({
-            {{#allVars}}
-            {{#isContainer}}
-            {{#isArray}}
-            {{#items.isArray}}
-            {{#items.items.isPrimitiveType}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
-            {{/items.items.isPrimitiveType}}
-            {{^items.items.isPrimitiveType}}
-            "{{{baseName}}}": [
-                    [{{{items.items.dataType}}}.from_dict(_inner_item) for _inner_item in _item]
-                    for _item in obj["{{{baseName}}}"]
-                ] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
-            {{/items.items.isPrimitiveType}}
-            {{/items.isArray}}
-            {{^items.isArray}}
-            {{^items.isPrimitiveType}}
-            {{#items.isEnumOrRef}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
-            {{/items.isEnumOrRef}}
-            {{^items.isEnumOrRef}}
-            "{{{baseName}}}": [{{{items.dataType}}}.from_dict(_item) for _item in obj["{{{baseName}}}"]] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
-            {{/items.isEnumOrRef}}
-            {{/items.isPrimitiveType}}
-            {{#items.isPrimitiveType}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
-            {{/items.isPrimitiveType}}
-            {{/items.isArray}}
-            {{/isArray}}
-            {{#isMap}}
-            {{^items.isPrimitiveType}}
-            {{^items.isEnumOrRef}}
-            {{#items.isContainer}}
-            {{#items.isMap}}
-            "{{{baseName}}}": dict(
-                (_k, dict(
-                    (_ik, {{{items.items.dataType}}}.from_dict(_iv))
-                        for _ik, _iv in _v.items()
-                    )
-                    if _v is not None
-                    else None
-                )
-                for _k, _v in obj.get("{{{baseName}}}").items()
-            )
-            if obj.get("{{{baseName}}}") is not None
-            else None{{^-last}},{{/-last}}
-            {{/items.isMap}}
-            {{#items.isArray}}
-            "{{{baseName}}}": dict(
-                (_k,
-                        [{{{items.items.dataType}}}.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("{{{baseName}}}", {}).items()
-            ){{^-last}},{{/-last}}
-            {{/items.isArray}}
-            {{/items.isContainer}}
-            {{^items.isContainer}}
-            "{{{baseName}}}": dict(
-                (_k, {{{items.dataType}}}.from_dict(_v))
-                for _k, _v in obj["{{{baseName}}}"].items()
-            )
-            if obj.get("{{{baseName}}}") is not None
-            else None{{^-last}},{{/-last}}
-            {{/items.isContainer}}
-            {{/items.isEnumOrRef}}
-            {{#items.isEnumOrRef}}
-            "{{{baseName}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
-            {{/items.isEnumOrRef}}
-            {{/items.isPrimitiveType}}
-            {{#items.isPrimitiveType}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
-            {{/items.isPrimitiveType}}
-            {{/isMap}}
-            {{/isContainer}}
-            {{^isContainer}}
-            {{^isPrimitiveType}}
-            {{^isEnumOrRef}}
-            "{{{baseName}}}": {{{dataType}}}.from_dict(obj["{{{baseName}}}"]) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
-            {{/isEnumOrRef}}
-            {{#isEnumOrRef}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{#defaultValue}} if obj.get("{{baseName}}") is not None else {{defaultValue}}{{/defaultValue}}{{^-last}},{{/-last}}
-            {{/isEnumOrRef}}
-            {{/isPrimitiveType}}
-            {{#isPrimitiveType}}
-            {{#defaultValue}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}") if obj.get("{{{baseName}}}") is not None else {{{defaultValue}}}{{^-last}},{{/-last}}
-            {{/defaultValue}}
-            {{^defaultValue}}
-            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
-            {{/defaultValue}}
-            {{/isPrimitiveType}}
-            {{/isContainer}}
-            {{/allVars}}
-        })
-        {{#isAdditionalPropertiesTrue}}
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
-        {{/isAdditionalPropertiesTrue}}
+        _obj = cls.model_validate(obj)
         return _obj
     {{/hasChildren}}
 
