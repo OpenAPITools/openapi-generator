@@ -6,6 +6,6 @@ package {{modelPackage}}
 
 {{#models}}
 {{#model}}
-{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{>data_class}}{{/isEnum}}
+{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{>oneof_model}}{{/oneOf}}{{^oneOf}}{{>data_class}}{{/oneOf}}{{/isEnum}}
 {{/model}}
 {{/models}}

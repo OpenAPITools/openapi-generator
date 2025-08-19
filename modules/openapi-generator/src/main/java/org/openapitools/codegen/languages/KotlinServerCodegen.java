@@ -106,6 +106,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     public KotlinServerCodegen() {
         super();
 
+        useOneOfInterfaces = true;
+        addOneOfInterfaceImports = true;
+
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
