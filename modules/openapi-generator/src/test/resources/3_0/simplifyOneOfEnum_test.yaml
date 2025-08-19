@@ -1,0 +1,74 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /test:
+    get:
+      operationId: test
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnumWithObjectTest"
+components:
+  schemas:
+    EnumWithObjectTest:
+      description: Schema with oneOf containing both enums and objects
+      oneOf:
+        - type: string
+          enum:
+            - option1
+            - option2
+        - type: string
+          enum:
+            - option3
+            - option4
+        - $ref: "#/components/schemas/OptionObject"
+    
+    # Test mixed cases of string enums and objects
+    MixedTest:
+      description: Schema with oneOf containing both enums and objects
+      oneOf:
+        - type: string
+          enum:
+            - red
+            - blue
+        - $ref: "#/components/schemas/ColorObject"
+    
+    # Test with multiple string enums only
+    StringEnumsOnly:
+      description: Schema with oneOf containing only string enums
+      oneOf:
+        - type: string
+          enum:
+            - north
+            - south
+        - type: string
+          enum:
+            - east
+            - west
+    
+    # Object to be referenced in oneOf
+    OptionObject:
+      type: object
+      title: CustomOption
+      properties:
+        code:
+          type: string
+        data:
+          type: object
+    
+    ColorObject:
+      type: object
+      properties:
+        colorCode:
+          type: string
+        shade:
+          type: integer
