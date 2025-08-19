@@ -45,6 +45,7 @@ import java.util.Map;
 import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 import static org.openapitools.codegen.languages.ProtobufSchemaCodegen.USE_SIMPLIFIED_ENUM_NAMES;
 import static org.testng.Assert.assertEquals;
+import static org.openapitools.codegen.languages.ProtobufSchemaCodegen.START_ENUMS_WITH_UNSPECIFIED;
 
 public class ProtobufSchemaCodegenTest {
 
@@ -212,5 +213,87 @@ public class ProtobufSchemaCodegenTest {
         Assert.assertEquals(enumVars2.get(1).get("name"), simpleEnumValue ? "_2" : "TEST_INT_ENUM__2");
         Assert.assertEquals(enumVars2.get(1).get("value"), simpleEnumValue ? "_2" : "\"TEST_INT_ENUM__2\"");
         Assert.assertEquals(enumVars2.get(1).get("isString"), false);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(description = "Validate that unspecified enum values are added when the option is selected")
+    public void unspecifiedEnumValuesAreAdded() {
+        String enumKey = "aValidEnumWithoutUnspecifiedValues";
+
+        final Schema<?> model = new Schema<>()
+                .description("a sample model")
+                .addProperty(enumKey, new StringSchema()._enum(Arrays.asList("foo", "bar")));
+
+        final ProtobufSchemaCodegen codegen = new ProtobufSchemaCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+        codegen.additionalProperties().put(USE_SIMPLIFIED_ENUM_NAMES, true);
+        codegen.additionalProperties().put(START_ENUMS_WITH_UNSPECIFIED, true);
+
+        codegen.processOpts();
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, enumKey);
+        Assert.assertEquals(property1.dataType, "string");
+        Assert.assertEquals(property1.baseType, "string");
+        Assert.assertEquals(property1.datatypeWithEnum, "A_valid_enum_without_unspecified_values");
+        Assert.assertEquals(property1.name, "a_valid_enum_without_unspecified_values");
+        Assert.assertTrue(property1.isEnum);
+        Assert.assertEquals(property1.allowableValues.size(), 2);
+        List<Map<String, Object>> enumVars1 = (List<Map<String, Object>>) property1.allowableValues.get("enumVars");
+        Assert.assertEquals(enumVars1.size(), 3);
+
+        Assert.assertEquals(enumVars1.get(0).get("name"), "UNSPECIFIED");
+        Assert.assertEquals(enumVars1.get(0).get("value"), "UNSPECIFIED");
+        Assert.assertEquals(Boolean.valueOf((String) enumVars1.get(0).get("isString")), false);
+
+        Assert.assertEquals(enumVars1.get(1).get("name"), "FOO");
+        Assert.assertEquals(enumVars1.get(1).get("value"), "FOO");
+        Assert.assertEquals(enumVars1.get(1).get("isString"), false);
+
+        Assert.assertEquals(enumVars1.get(2).get("name"), "BAR");
+        Assert.assertEquals(enumVars1.get(2).get("value"), "BAR");
+        Assert.assertEquals(enumVars1.get(2).get("isString"), false);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(description = "Validate that unspecified enum values are NOT added when the option is selected if they are already present")
+    public void unspecifiedEnumValuesIgnoredIfAlreadyPresent() {
+        String enumKey = "aValidEnumWithUnspecifiedValues";
+
+        final Schema<?> model = new Schema<>()
+                .description("a sample model")
+                .addProperty(enumKey, new StringSchema()._enum(Arrays.asList( "UNSPECIFIED", "foo")));
+
+        final ProtobufSchemaCodegen codegen = new ProtobufSchemaCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+        codegen.additionalProperties().put(USE_SIMPLIFIED_ENUM_NAMES, true);
+        codegen.additionalProperties().put(START_ENUMS_WITH_UNSPECIFIED, true);
+
+        codegen.processOpts();
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, enumKey);
+        Assert.assertEquals(property1.dataType, "string");
+        Assert.assertEquals(property1.baseType, "string");
+        Assert.assertEquals(property1.datatypeWithEnum, "A_valid_enum_with_unspecified_values");
+        Assert.assertEquals(property1.name, "a_valid_enum_with_unspecified_values");
+        Assert.assertTrue(property1.isEnum);
+        Assert.assertEquals(property1.allowableValues.size(), 2);
+        List<Map<String, Object>> enumVars1 = (List<Map<String, Object>>) property1.allowableValues.get("enumVars");
+        Assert.assertEquals(enumVars1.size(), 2);
+
+        Assert.assertEquals(enumVars1.get(0).get("name"), "UNSPECIFIED");
+        Assert.assertEquals(enumVars1.get(0).get("value"), "UNSPECIFIED");
+        Assert.assertEquals(enumVars1.get(0).get("isString"), false);
+
+        Assert.assertEquals(enumVars1.get(1).get("name"), "FOO");
+        Assert.assertEquals(enumVars1.get(1).get("value"), "FOO");
+        Assert.assertEquals(enumVars1.get(1).get("isString"), false);
     }
 }
