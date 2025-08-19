@@ -33,6 +33,7 @@ jobs:
           - samples/client/petstore/kotlin-moshi-codegen
           - samples/client/petstore/kotlin-multiplatform
           - samples/client/petstore/kotlin-multiplatform-kotlinx-datetime
+          - samples/client/petstore/kotlin-multiplatform-allOf-discriminator
           - samples/client/petstore/kotlin-nonpublic
           - samples/client/petstore/kotlin-nullable
           - samples/client/petstore/kotlin-retrofit2
