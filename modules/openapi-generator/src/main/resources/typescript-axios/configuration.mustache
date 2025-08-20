@@ -22,14 +22,10 @@ export class Configuration {
     apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
     /**
      * parameter for basic security
-     *
-     * @type {string}
      */
     username?: string;
     /**
      * parameter for basic security
-     *
-     * @type {string}
      */
     password?: string;
     /**
@@ -40,20 +36,14 @@ export class Configuration {
     accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string) | ((name?: string, scopes?: string[]) => Promise<string>);
     /**
      * override base path
-     *
-     * @type {string}
      */
     basePath?: string;
     /**
      * override server index
-     *
-     * @type {number}
      */
     serverIndex?: number;
     /**
      * base options for axios calls
-     *
-     * @type {any}
      */
     baseOptions?: any;
     /**
