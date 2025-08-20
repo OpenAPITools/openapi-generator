@@ -31,7 +31,6 @@ import type { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}{{imp
 /**
  * {{classname}} - axios parameter creator{{#description}}
  * {{&description}}{{/description}}
- * @export
  */
 export const {{classname}}AxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -246,7 +245,6 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
 /**
  * {{classname}} - functional programming interface{{#description}}
  * {{{.}}}{{/description}}
- * @export
  */
 export const {{classname}}Fp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = {{classname}}AxiosParamCreator(configuration)
@@ -277,7 +275,6 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
 /**
  * {{classname}} - factory interface{{#description}}
  * {{&description}}{{/description}}
- * @export
  */
 export const {{classname}}Factory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = {{classname}}Fp(configuration)
@@ -320,8 +317,6 @@ export const {{classname}}Factory = function (configuration?: Configuration, bas
 /**
  * {{classname}} - interface{{#description}}
  * {{&description}}{{/description}}
- * @export
- * @interface {{classname}}
  */
 export interface {{classname}}Interface {
 {{#operation}}
@@ -361,8 +356,6 @@ export interface {{classname}}Interface {
 {{#allParams.0}}
 /**
  * Request parameters for {{nickname}} operation in {{classname}}.
- * @export
- * @interface {{classname}}{{operationIdCamelCase}}Request
  */
 export interface {{classname}}{{operationIdCamelCase}}Request {
     {{#allParams}}
@@ -384,9 +377,6 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
 /**
  * {{classname}} - object-oriented interface{{#description}}
  * {{{.}}}{{/description}}
- * @export
- * @class {{classname}}
- * @extends {BaseAPI}
  */
 {{#withInterfaces}}
 export class {{classname}} extends BaseAPI implements {{classname}}Interface {
@@ -437,10 +427,6 @@ export class {{classname}} extends BaseAPI {
 {{#allParams}}
 {{#isEnum}}
 {{#stringEnums}}
-/**
-  * @export
-  * @enum {string}
-  */
 export enum {{operationIdCamelCase}}{{enumName}} {
 {{#allowableValues}}
     {{#enumVars}}
@@ -450,9 +436,6 @@ export enum {{operationIdCamelCase}}{{enumName}} {
 }
 {{/stringEnums}}
 {{^stringEnums}}
-/**
- * @export
- */
 export const {{operationIdCamelCase}}{{enumName}} = {
 {{#allowableValues}}
     {{#enumVars}}

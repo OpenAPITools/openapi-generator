@@ -1,8 +1,8 @@
+{{#description}}
 /**
  * {{{description}}}
- * @export
- * @interface {{classname}}
  */
+{{/description}}
 export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#additionalPropertiesType}}
     [key: string]: {{{additionalPropertiesType}}}{{#additionalPropertiesIsAnyType}}{{#hasVars}} | any{{/hasVars}}{{/additionalPropertiesIsAnyType}};
@@ -24,10 +24,6 @@ export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#isEnum}}
 {{#stringEnums}}
-/**
-    * @export
-    * @enum {string}
-    */
 export enum {{enumName}} {
 {{#allowableValues}}
     {{#enumVars}}
