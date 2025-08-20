@@ -1,0 +1,33 @@
+openapi: 3.0.1
+info:
+  title: Test Issue #11696
+  version: v1
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MyType'
+components:
+  schemas:
+    MyType:
+      required:
+        - category
+      type: object
+      properties:
+        category:
+          type: object
+          description: |-
+            <strong>Type:</strong> Category<br/>
+            The category
+          allOf:
+            - $ref: '#/components/schemas/Category'
+    Category:
+      type: object
+      properties:
+        name:
+          type: string
