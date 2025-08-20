@@ -358,10 +358,11 @@ export interface {{classname}}Interface {
  */
 export interface {{classname}}{{operationIdCamelCase}}Request {
     {{#allParams}}
+    {{#description}}
     /**
      * {{description}}
-     * @type {{=<% %>=}}{<%&dataType%>}<%={{ }}=%>
      */
+    {{/description}}
     readonly {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}
     {{^-last}}
 
