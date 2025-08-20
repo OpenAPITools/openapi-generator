@@ -54,6 +54,9 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
+{{#discriminator}}
+import kotlinx.serialization.json.JsonClassDiscriminator
+{{/discriminator}}
 {{/multiplatform}}
 {{#serializableModel}}
 import java.io.Serializable
