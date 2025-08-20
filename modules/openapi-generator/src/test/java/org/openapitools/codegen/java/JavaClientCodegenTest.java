@@ -40,12 +40,14 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -67,6 +69,8 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
@@ -3836,5 +3840,50 @@ public class JavaClientCodegenTest {
     @DataProvider(name = "springClients")
     public static Object[] springClients() {
         return new Object[]{RESTCLIENT, WEBCLIENT};
+    }
+
+    @Test(description = "test oneOf (OAS3)")
+    public void oneOfTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf.yaml");
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("fruit");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel fruit = codegen.fromModel("Fruit", schema);
+
+        Set<String> oneOf = new TreeSet<String>();
+        oneOf.add("Apple");
+        oneOf.add("Banana");
+        oneOf.add("Orange");
+        Assert.assertEquals(fruit.oneOf, oneOf);
+
+        assertEquals(4, fruit.optionalVars.size());
+        assertEquals(4, fruit.vars.size());
+    }
+
+    @Test
+    public void oneOfInheritanceArrayFieldTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_inheritance.yaml");
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("RandomAnimalsResponse_animals_inner");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel randomAnimalsResponseInner = codegen.fromModel("RandomAnimalsResponse_animals_inner", schema);
+
+        Set<String> oneOf = new TreeSet<>();
+        oneOf.add("Mouse");
+        oneOf.add("Cat");
+        oneOf.add("Dog");
+        assertEquals(oneOf, randomAnimalsResponseInner.oneOf);
+        assertEquals(4, randomAnimalsResponseInner.vars.size());
+        // make sure that RandomAnimalsResponseInner has the property species
+        boolean speciesSeen = false;
+        for (CodegenProperty cp : randomAnimalsResponseInner.vars) {
+            if ("species".equals(cp.name)) {
+                speciesSeen = true;
+                break;
+            }
+        }
+        assertTrue(speciesSeen);
     }
 }
