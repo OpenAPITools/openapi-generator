@@ -31,8 +31,8 @@ export interface AdditionalPropertiesClass {
     'map_with_undeclared_properties_anytype_2'?: object;
     'map_with_undeclared_properties_anytype_3'?: { [key: string]: any; };
     /**
-    * an object with no declared properties and no undeclared properties, hence it\'s an empty map.
-    */
+     * an object with no declared properties and no undeclared properties, hence it\'s an empty map.
+     */
     'empty_map'?: object;
     'map_with_undeclared_properties_string'?: { [key: string]: string; };
 }
@@ -81,8 +81,8 @@ export interface Capitalization {
     'Capital_Snake'?: string;
     'SCA_ETH_Flow_Points'?: string;
     /**
-    * Name of the pet 
-    */
+     * Name of the pet 
+     */
     'ATT_NAME'?: string;
 }
 export interface Cat extends Animal {
@@ -236,12 +236,12 @@ export interface FormatTest {
     'uuid'?: string;
     'password': string;
     /**
-    * A string that is a 10 digit number. Can have leading zeros.
-    */
+     * A string that is a 10 digit number. Can have leading zeros.
+     */
     'pattern_with_digits'?: string;
     /**
-    * A string starting with \'image_\' (case insensitive) and one to three digits following i.e. Image_01.
-    */
+     * A string starting with \'image_\' (case insensitive) and one to three digits following i.e. Image_01.
+     */
     'pattern_with_digits_and_delimiter'?: string;
 }
 /**
@@ -331,8 +331,8 @@ export interface Model200Response {
  */
 export interface ModelFile {
     /**
-    * Test capitalization
-    */
+     * Test capitalization
+     */
     'sourceURI'?: string;
 }
 /**
@@ -372,19 +372,16 @@ export interface NumberOnly {
 export interface ObjectWithDeprecatedFields {
     'uuid'?: string;
     /**
-    *
-    * @deprecated
-    */
+     * @deprecated
+     */
     'id'?: number;
     /**
-    *
-    * @deprecated
-    */
+     * @deprecated
+     */
     'deprecatedRef'?: DeprecatedObject;
     /**
-    *
-    * @deprecated
-    */
+     * @deprecated
+     */
     'bars'?: Array<string>;
 }
 export interface Order {
@@ -393,8 +390,8 @@ export interface Order {
     'quantity'?: number;
     'shipDate'?: string;
     /**
-    * Order Status
-    */
+     * Order Status
+     */
     'status'?: OrderStatusEnum;
     'complete'?: boolean;
 }
@@ -461,8 +458,8 @@ export interface Pet {
     'photoUrls': Array<string>;
     'tags'?: Array<Tag>;
     /**
-    * pet status in the store
-    */
+     * pet status in the store
+     */
     'status'?: PetStatusEnum;
 }
 
@@ -549,24 +546,24 @@ export interface User {
     'password'?: string;
     'phone'?: string;
     /**
-    * User Status
-    */
+     * User Status
+     */
     'userStatus'?: number;
     /**
-    * test code generation for objects Value must be a map of strings to values. It cannot be the \'null\' value.
-    */
+     * test code generation for objects Value must be a map of strings to values. It cannot be the \'null\' value.
+     */
     'objectWithNoDeclaredProps'?: object;
     /**
-    * test code generation for nullable objects. Value must be a map of strings to values or the \'null\' value.
-    */
+     * test code generation for nullable objects. Value must be a map of strings to values or the \'null\' value.
+     */
     'objectWithNoDeclaredPropsNullable'?: object | null;
     /**
-    * test code generation for any type Here the \'type\' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
-    */
+     * test code generation for any type Here the \'type\' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
+     */
     'anyTypeProp'?: any;
     /**
-    * test code generation for any type Here the \'type\' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The \'nullable\' attribute does not change the allowed values.
-    */
+     * test code generation for any type Here the \'type\' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The \'nullable\' attribute does not change the allowed values.
+     */
     'anyTypePropNullable'?: any | null;
 }
 export interface Whale {

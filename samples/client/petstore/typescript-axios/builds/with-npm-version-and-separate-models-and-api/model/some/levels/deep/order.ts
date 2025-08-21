@@ -23,8 +23,8 @@ export interface Order {
     'quantity'?: number;
     'shipDate'?: string;
     /**
-    * Order Status
-    */
+     * Order Status
+     */
     'status'?: OrderStatusEnum;
     'complete'?: boolean;
 }

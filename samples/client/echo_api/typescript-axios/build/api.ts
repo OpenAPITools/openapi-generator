@@ -33,16 +33,16 @@ export interface Category {
 }
 export interface DataQuery extends Query {
     /**
-    * test suffix
-    */
+     * test suffix
+     */
     'suffix'?: string;
     /**
-    * Some text containing white spaces
-    */
+     * Some text containing white spaces
+     */
     'text'?: string;
     /**
-    * A date
-    */
+     * A date
+     */
     'date'?: string;
 }
 
@@ -81,8 +81,8 @@ export interface Pet {
     'photoUrls': Array<string>;
     'tags'?: Array<Tag>;
     /**
-    * pet status in the store
-    */
+     * pet status in the store
+     */
     'status'?: PetStatusEnum;
 }
 
@@ -96,8 +96,8 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 export interface Query {
     /**
-    * Query
-    */
+     * Query
+     */
     'id'?: number;
     'outcomes'?: Array<QueryOutcomesEnum>;
 }
