@@ -1,7 +1,6 @@
-name: Make release
+name: Release to Maven Central (snapshot, stable)
 
 on:
-  pull_request:
   push:
     branches:
       - master
@@ -28,7 +27,7 @@ jobs:
         run: ./mvnw clean install -DskipTests=true
         #run: ./mvnw clean install
 
-  publish-OSSRH:
+  publish:
     runs-on: ubuntu-latest
     name: Publish to Maven Central
     needs: build
@@ -60,4 +59,3 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ secrets.OSS_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSS_PASSWORD }}
-
