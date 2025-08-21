@@ -56,8 +56,8 @@ export interface Order {
     'quantity'?: number;
     'shipDate'?: string;
     /**
-    * Order Status
-    */
+     * Order Status
+     */
     'status'?: OrderStatusEnum;
     'complete'?: boolean;
 }
@@ -80,8 +80,8 @@ export interface Pet {
     'photoUrls': Array<string>;
     'tags'?: Array<Tag>;
     /**
-    * pet status in the store
-    */
+     * pet status in the store
+     */
     'status'?: PetStatusEnum;
 }
 
@@ -112,8 +112,8 @@ export interface User {
     'password'?: string;
     'phone'?: string;
     /**
-    * User Status
-    */
+     * User Status
+     */
     'userStatus'?: number;
 }
 
