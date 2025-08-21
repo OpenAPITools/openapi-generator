@@ -1,0 +1,40 @@
+name: Release to DockerHub (snapshot, stable)
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+jobs:
+  docker:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.releaseVersion }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3 
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Setup variables
+        run: |
+          export cli_version=$(\./mvnw -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
+          export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
+          export DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online
+          export DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli
+      - name: Publish openapi-generator-online snapshot version
+        if: github.ref_type != 'tag' # not tag (release)
+        run: |
+          docker buildx create --use
+          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$GITHUB_SHA --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
+      - name: Publish openapi-generator-online stable version
+        if: github.ref_type == 'tag' # tagged (release)
+        run: |
+          docker buildx create --use
+          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$GITHUB_SHA --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME:latest -t $DOCKER_GENERATOR_IMAGE_NAME:${{ github.ref_name }} -t $DOCKER_GENERATOR_IMAGE_NAME -t $DOCKER_GENERATOR_IMAGE_NAME:latest-release ./modules/openapi-generator-online;
