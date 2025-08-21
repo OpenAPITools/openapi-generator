@@ -52,11 +52,13 @@ jobs:
 
       - name: Publish openapi-generator-online snapshot version
         if: github.ref_type != 'tag' # not tag (release)
+        working-directory: ./modules/openapi-generator-online
         run: |
           docker buildx create --use
-          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=${{ env.build_date }} --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$GITHUB_SHA --label=org.opencontainers.image.version=${{ env.cli_version }} -t ${{ env.DOCKER_GENERATOR_IMAGE_NAME }} ./modules/openapi-generator-online
+          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=${{ env.build_date }} --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$GITHUB_SHA --label=org.opencontainers.image.version=${{ env.cli_version }} -t ${{ env.DOCKER_GENERATOR_IMAGE_NAME }} .
       - name: Publish openapi-generator-online stable version
         if: github.ref_type == 'tag' # tagged (release)
+        working-directory: ./modules/openapi-generator-online
         run: |
           docker buildx create --use
           docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=${{ env.build_date }} --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$GITHUB_SHA --label=org.opencontainers.image.version=${{ env.cli_version }} -t ${{ env.DOCKER_GENERATOR_IMAGE_NAME }}:latest -t ${{ env.DOCKER_GENERATOR_IMAGE_NAME }}:${{ github.ref_name }} -t ${{ env.DOCKER_GENERATOR_IMAGE_NAME }} -t ${{ env.DOCKER_GENERATOR_IMAGE_NAME }}:latest-release ./modules/openapi-generator-online
