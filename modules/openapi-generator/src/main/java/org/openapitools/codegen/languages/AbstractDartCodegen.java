@@ -45,6 +45,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public static final String PUB_REPOSITORY = "pubRepository";
     public static final String PUB_PUBLISH_TO = "pubPublishTo";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
+    public static final String USE_LOWER_CAMEL_CASE = "useLowerCamelCase";
 
     @Setter protected String pubLibrary = "openapi.api";
     @Setter protected String pubName = "openapi";
@@ -56,6 +57,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Setter protected String pubRepository = null;
     @Setter protected String pubPublishTo = null;
     @Setter protected boolean useEnumExtension = false;
+    @Setter protected boolean useLowerCamelCase = false;
     @Setter protected String sourceFolder = "src";
     protected String libPath = "lib" + File.separator;
     protected String apiDocPath = "doc/";
@@ -195,6 +197,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         addOption(PUB_REPOSITORY, "Repository in generated pubspec", pubRepository);
         addOption(PUB_PUBLISH_TO, "Publish_to in generated pubspec", pubPublishTo);
         addOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums", String.valueOf(useEnumExtension));
+        addOption(USE_LOWER_CAMEL_CASE, "Use lower camel case", String.valueOf(useLowerCamelCase));
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
     }
 
@@ -301,6 +304,12 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             additionalProperties.put(USE_ENUM_EXTENSION, useEnumExtension);
         }
 
+        if (additionalProperties.containsKey(USE_LOWER_CAMEL_CASE)) {
+            this.setUseLowerCamelCase(convertPropertyToBooleanAndWriteBack(USE_LOWER_CAMEL_CASE));
+        } else {
+            additionalProperties.put(USE_LOWER_CAMEL_CASE, useLowerCamelCase);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             String srcFolder = (String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER);
             this.setSourceFolder(srcFolder.replace('/', File.separatorChar));
@@ -385,7 +394,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
         name = name.replaceAll("^_", "");
 
-        // if it's all upper case, do nothing
+        // if it's all upper case and more than two letters
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -399,7 +408,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         name = sanitizeName(name);
 
         // camelize (lower first character) the variable name
-        // pet_id => petId
+        // pet_id => petI
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         if (name.matches("^\\d.*")) {
@@ -737,9 +746,14 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             return enumNameMapping.get(value);
         }
 
-        if (value.length() == 0) {
+        if (value.isEmpty()) {
             return "empty";
         }
+
+        if (useLowerCamelCase && value.matches("^[A-Z_]*$")) {
+            value = value.toLowerCase();
+        }
+
         if (("number".equalsIgnoreCase(datatype) ||
                 "double".equalsIgnoreCase(datatype) ||
                 "int".equalsIgnoreCase(datatype)) &&
