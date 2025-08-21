@@ -46,6 +46,7 @@ jobs:
           echo "DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online" >> $GITHUB_ENV
           echo "build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
 
+      # online images
       - name: Publish openapi-generator-online snapshot version
         if: github.ref_type != 'tag' # not tag (release)
         run: |
@@ -56,3 +57,18 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=${{ env.build_date }} --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$GITHUB_SHA --label=org.opencontainers.image.version=${{ env.cli_version }} -t ${{ env.DOCKER_GENERATOR_IMAGE_NAME }}:latest -t ${{ env.DOCKER_GENERATOR_IMAGE_NAME }}:${{ github.ref_name }} -t ${{ env.DOCKER_GENERATOR_IMAGE_NAME }} -t ${{ env.DOCKER_GENERATOR_IMAGE_NAME }}:latest-release ./modules/openapi-generator-online
+
+      # cli images
+      - name: Publish openapi-generator-cli snapshot version
+        if: github.ref_type != 'tag' # not tag (release)
+        run: |
+          cp docker-entrypoint.sh ./modules/openapi-generator-cli
+          docker buildx create --use
+          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=${{ env.build_date }} --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$GITHUB_SHA --label=org.opencontainers.image.version=${{ env.cli_version }} -t ${{ env.DOCKER_CODEGEN_CLI_IMAGE_NAME }}:latest -t ${{ env.DOCKER_CODEGEN_CLI_IMAGE_NAME }}:${{ github.ref_name }} -t ${{ env.DOCKER_CODEGEN_CLI_IMAGE_NAME }} -t ${{ env.DOCKER_CODEGEN_CLI_IMAGE_NAME }}:latest-release ./modules/openapi-generator-cli
+
+      - name: Publish openapi-generator-cli stable version
+        if: github.ref_type != 'tag' # tagged (release)
+        run: |
+          cp docker-entrypoint.sh ./modules/openapi-generator-cli
+          docker buildx create --use
+          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=${{ env.build_date }} --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$GITHUB_SHA --label=org.opencontainers.image.version=${{ env.cli_version }} -t ${{ env.DOCKER_CODEGEN_CLI_IMAGE_NAME }} ./modules/openapi-generator-cli
