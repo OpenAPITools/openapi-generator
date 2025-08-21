@@ -3,31 +3,32 @@
 package errorutil
 
 import (
-    "errors"
+	"errors"
 
-    "github.com/go-playground/validator/v10"
+	"github.com/go-playground/validator/v10"
 )
 
 type FieldError struct {
-    Field            string `json:"field"`
-    Location         string `json:"location"`
-    FailedValidation string `json:"failed_validation"`
+	Field            string `json:"field"`
+	Value            any    `json:"value"`
+	Location         string `json:"location"`
+	FailedValidation string `json:"failed_validation"`
 }
 
 type InvalidRequest struct {
-    Message *string       `json:"message,omitempty"`
-    Errors  []*FieldError `json:"errors,omitempty"`
+	Message *string       `json:"message,omitempty"`
+	Errors  []*FieldError `json:"errors,omitempty"`
 }
 
 func InvalidRequestError(location string, err error) *InvalidRequest {
-    var errs validator.ValidationErrors
-    if errors.As(err, &errs) {
-        e := make([]*FieldError, len(errs))
-        for i, fe := range errs {
-            e[i] = &FieldError{fe.Field(), location, fe.Tag()}
-        }
-        return &InvalidRequest{Errors: e}
-    }
-    e := err.Error()
-    return &InvalidRequest{Message: &e}
+	var errs validator.ValidationErrors
+	if errors.As(err, &errs) {
+		e := make([]*FieldError, len(errs))
+		for i, fe := range errs {
+			e[i] = &FieldError{fe.Field(), fe.Value(), location, fe.Tag()}
+		}
+		return &InvalidRequest{Errors: e}
+	}
+	e := err.Error()
+	return &InvalidRequest{Message: &e}
 }

@@ -21,7 +21,7 @@ type {{operationId}}{{#hasPathParams}}Query{{/hasPathParams}}Params struct {
 {{#queryParams}}
 
     // {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{description}}
-    {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{#isNullable}}*{{/isNullable}}{{dataType}} `form:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+    {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{#goRemovePointer}}{{^isRequired}}*{{dataType}}{{/isRequired}}{{/goRemovePointer}} `json:"{{baseName}}{{^required}},omitempty{{/required}}" form:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/queryParams}}
 }
 {{/hasQueryParams}}
@@ -31,7 +31,7 @@ type {{operationId}}Params struct {
 {{#pathParams}}
 
     // {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{description}}
-    {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{dataType}} `uri:"{{baseName}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+    {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{dataType}} `json:"{{baseName}}{{^required}},omitempty{{/required}}" uri:"{{baseName}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/pathParams}}
 {{#hasQueryParams}}
 
@@ -41,7 +41,7 @@ type {{operationId}}Params struct {
 {{#bodyParam}}
 
     // {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} request body
-    {{^isArray}}models.{{dataType}}{{/isArray}}{{#isArray}}[]*models.{{baseType}}{{/isArray}}
+    {{^isArray}}models.{{dataType}}{{/isArray}}{{#isArray}}[]models.{{baseType}}{{/isArray}}
 {{/bodyParam}}
 }
 {{/hasPathParams}}
@@ -52,7 +52,7 @@ type API interface {
     // {{nickname}}{{#summary}} - {{summary}}{{/summary}}
     // path: {{path}}
     // method: {{httpMethod}}
-    {{operationId}}(ctx *gin.Context{{^hasPathParams}}{{#bodyParam}}, request {{^isArray}}*models.{{dataType}}{{/isArray}}{{#isArray}}[]*models.{{baseType}}{{/isArray}}{{/bodyParam}}{{/hasPathParams}}{{#hasQueryParams}}, params *{{nickname}}Params{{/hasQueryParams}}{{^hasQueryParams}}{{#hasPathParams}}, params *{{nickname}}Params{{/hasPathParams}}{{/hasQueryParams}}) (response interface{}, code int)
+    {{operationId}}(ctx *gin.Context{{^hasPathParams}}{{#bodyParam}}, request {{^isArray}}*models.{{dataType}}{{/isArray}}{{#isArray}}[]models.{{baseType}}{{/isArray}}{{/bodyParam}}{{/hasPathParams}}{{#hasQueryParams}}, params *{{nickname}}Params{{/hasQueryParams}}{{^hasQueryParams}}{{#hasPathParams}}, params *{{nickname}}Params{{/hasPathParams}}{{/hasQueryParams}}) (response interface{}, code int)
 {{/operation}}
 }
 

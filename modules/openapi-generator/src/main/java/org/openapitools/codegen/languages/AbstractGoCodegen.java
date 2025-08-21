@@ -17,12 +17,16 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.*;
+import org.openapitools.codegen.templating.mustache.GoHttpStatusLambda;
+import org.openapitools.codegen.templating.mustache.GoRemovePointerLambda;
+import org.openapitools.codegen.templating.mustache.HttpStatusNameLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,9 +120,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "complex64",
                         "complex128",
                         "rune",
-                        "byte",
-                        "map[string]interface{}",
-                        "interface{}"
+                        "byte"
                 )
         );
 
@@ -150,14 +152,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // A 'type: object' OAS schema without any declared property is
         // (per JSON schema specification) "an unordered set of properties
         // mapping a string to an instance".
-        // Hence map[string]interface{} is the proper implementation in golang.
+        // Hence map[string]any is the proper implementation in golang.
         // Note: OpenAPITools uses the same token 'object' for free-form objects
         // and arbitrary types. A free form object is implemented in golang as
-        // map[string]interface{}, whereas an arbitrary type is implemented
-        // in golang as interface{}.
+        // map[string]any, whereas an arbitrary type is implemented
+        // in golang as any.
         // See issue #5387 for more details.
-        typeMapping.put("object", "map[string]interface{}");
-        typeMapping.put("AnyType", "interface{}");
+        typeMapping.put("object", "map[string]any");
+        typeMapping.put("AnyType", "any");
 
         numberTypes = new HashSet<>(
                 Arrays.asList(
@@ -187,6 +189,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         } else if (!this.isEnablePostProcessFile()) {
             LOGGER.info("Warning: Environment variable 'GO_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
+        additionalProperties.put("lambda.append-package", (Mustache.Lambda) (fragment, writer) -> writer.write(appendPackage(fragment.execute())));
+        additionalProperties.put("goHttpStatus", new GoHttpStatusLambda());
+        additionalProperties.put("goHttpStatusName", new HttpStatusNameLambda());
+        additionalProperties.put("goRemovePointer", new GoRemovePointerLambda());
+    }
+
+    private String appendPackage(String content) {
+        return content.trim().replace("[]", "[]models.");
     }
 
     /**
@@ -412,7 +422,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             if (inner != null) {
                 typDecl = getTypeDeclaration(inner);
             } else {
-                typDecl = "interface{}";
+                typDecl = "any";
             }
             if (inner != null && Boolean.TRUE.equals(inner.getNullable())) {
                 typDecl = "*" + typDecl;
@@ -474,7 +484,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             type = toModelName(openAPIType);
         } else if ("object".equals(openAPIType) && ModelUtils.isAnyType(p)) {
             // Arbitrary type. Note this is not the same thing as free-form object.
-            type = "interface{}";
+            type = "any";
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
@@ -754,7 +764,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         // The 'go-experimental/model.mustache' template conditionally generates accessor methods.
-        // For primitive types and custom types (e.g. interface{}, map[string]interface{}...),
+        // For primitive types and custom types (e.g. any, map[string]any...),
         // the generated code has a wrapper type and a Get() function to access the underlying type.
         // For containers (e.g. Array, Map), the generated code returns the type directly.
         if (property.isContainer || property.isFreeFormObject

@@ -6,7 +6,7 @@ type {{classname}} struct {
 	{{#deprecated}}
 	// Deprecated
 	{{/deprecated}}
-	{{name}} {{^required}}{{^defaultValue}}{{^isArray}}*{{/isArray}}{{/defaultValue}}{{/required}}{{#required}}{{#isModel}}{{^isArray}}*{{/isArray}}{{/isModel}}{{/required}}{{dataType}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#required}}{{/required}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+    {{name}} {{#goRemovePointer}}{{^required}}{{^defaultValue}}*{{/defaultValue}}{{/required}}{{#required}}{{#isModel}}*{{/isModel}}{{/required}}{{dataType}}{{/goRemovePointer}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 }
 
