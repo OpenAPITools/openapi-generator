@@ -44,7 +44,7 @@ jobs:
           echo "cli_version=$(\./mvnw -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[')" >> $GITHUB_ENV
           echo "build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
           echo "DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online" >> $GITHUB_ENV
-          echo "build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+          echo "DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli" >> $GITHUB_ENV
 
       # online images
       - name: Publish openapi-generator-online snapshot version
