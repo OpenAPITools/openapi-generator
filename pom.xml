@@ -68,7 +68,7 @@
         </license>
     </licenses>
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
+        <sourceDirectory>samples/client/petstore/kotlin-generateModelBuilders/src</sourceDirectory>
         <outputDirectory>target/classes</outputDirectory>
         <extensions>
             <extension>
@@ -343,6 +343,30 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin.version}</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <jvmTarget>${maven.compiler.target}</jvmTarget>
+                </configuration>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -1215,6 +1239,22 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
     <repositories>
         <repository>
             <id>sonatype-snapshots</id>
@@ -1244,7 +1284,7 @@
         <jacoco.version>0.8.12</jacoco.version>
         <jmustache.version>1.16</jmustache.version>
         <junit.version>5.10.2</junit.version>
-        <kotlin.version>1.6.21</kotlin.version>
+        <kotlin.version>2.2.0</kotlin.version>
         <kotlin-compiler-embeddable.version>1.6.21</kotlin-compiler-embeddable.version>
         <lombok.version>1.18.38</lombok.version>
         <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>

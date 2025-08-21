@@ -128,7 +128,7 @@ import kotlin.properties.Delegates
 
         internal fun build(): {{classname}} = {{classname}}(
     {{#allVars}}
-        {{{name}}} = {{{name}}}{{^-last}},{{/-last}}
+            {{{name}}} = {{{name}}}{{^-last}},{{/-last}}
     {{/allVars}}
         )
     }

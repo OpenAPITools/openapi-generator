@@ -1,0 +1,6 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-generateModelBuilders
+inputSpec: modules/openapi-generator/src/test/resources/3_1/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  generateModelBuilders: "true"
