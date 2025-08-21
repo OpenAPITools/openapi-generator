@@ -61,7 +61,7 @@ components:
         - catId
     Mouse:
       allOf:
-        - $ref: '#/components/schemas/Mouse'
+        - $ref: '#/components/schemas/Animal'
         - type: object
           properties:
             mouseId:
