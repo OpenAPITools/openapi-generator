@@ -26,8 +26,8 @@ export interface User {
     'password'?: string;
     'phone'?: string;
     /**
-    * User Status
-    */
+     * User Status
+     */
     'userStatus'?: number;
 }
 

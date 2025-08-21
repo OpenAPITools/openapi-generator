@@ -70,8 +70,8 @@ export interface Capitalization {
     'Capital_Snake'?: string;
     'SCA_ETH_Flow_Points'?: string;
     /**
-    * Name of the pet 
-    */
+     * Name of the pet 
+     */
     'ATT_NAME'?: string;
 }
 export interface Cat extends Animal {
@@ -184,12 +184,12 @@ export interface FormatTest {
     'uuid'?: string;
     'password': string;
     /**
-    * A string that is a 10 digit number. Can have leading zeros.
-    */
+     * A string that is a 10 digit number. Can have leading zeros.
+     */
     'pattern_with_digits'?: string;
     /**
-    * A string starting with \'image_\' (case insensitive) and one to three digits following i.e. Image_01.
-    */
+     * A string starting with \'image_\' (case insensitive) and one to three digits following i.e. Image_01.
+     */
     'pattern_with_digits_and_delimiter'?: string;
 }
 /**
@@ -256,8 +256,8 @@ export interface Model200Response {
  */
 export interface ModelFile {
     /**
-    * Test capitalization
-    */
+     * Test capitalization
+     */
     'sourceURI'?: string;
 }
 /**
@@ -294,8 +294,8 @@ export interface Order {
     'quantity'?: number;
     'shipDate'?: string;
     /**
-    * Order Status
-    */
+     * Order Status
+     */
     'status'?: OrderStatusEnum;
     'complete'?: boolean;
 }
@@ -360,9 +360,9 @@ export interface Pet {
     'photoUrls': Array<string>;
     'tags'?: Array<Tag>;
     /**
-    * pet status in the store
-    * @deprecated
-    */
+     * pet status in the store
+     * @deprecated
+     */
     'status'?: PetStatusEnum;
 }
 
@@ -414,24 +414,24 @@ export interface User {
     'password'?: string;
     'phone'?: string;
     /**
-    * User Status
-    */
+     * User Status
+     */
     'userStatus'?: number;
     /**
-    * test code generation for objects Value must be a map of strings to values. It cannot be the \'null\' value.
-    */
+     * test code generation for objects Value must be a map of strings to values. It cannot be the \'null\' value.
+     */
     'arbitraryObject'?: object;
     /**
-    * test code generation for nullable objects. Value must be a map of strings to values or the \'null\' value.
-    */
+     * test code generation for nullable objects. Value must be a map of strings to values or the \'null\' value.
+     */
     'arbitraryNullableObject'?: object | null;
     /**
-    * test code generation for any type Value can be any type - string, number, boolean, array or object.
-    */
+     * test code generation for any type Value can be any type - string, number, boolean, array or object.
+     */
     'arbitraryTypeValue'?: any;
     /**
-    * test code generation for any type Value can be any type - string, number, boolean, array, object or the \'null\' value.
-    */
+     * test code generation for any type Value can be any type - string, number, boolean, array, object or the \'null\' value.
+     */
     'arbitraryNullableTypeValue'?: any | null;
 }
 export interface Whale {
