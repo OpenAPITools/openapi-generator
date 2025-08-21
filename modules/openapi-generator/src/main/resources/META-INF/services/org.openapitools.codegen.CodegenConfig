@@ -148,12 +148,6 @@ org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.WsdlSchemaCodegen
 org.openapitools.codegen.languages.XojoClientCodegen
 org.openapitools.codegen.languages.ZapierClientCodegen
-<<<<<<< HEAD
-||||||| parent of 848ed0eb39 (add go resty client generator)
-
 org.openapitools.codegen.languages.GoGinServer2Codegen
-=======
-
 org.openapitools.codegen.languages.GoGinServer2Codegen
 org.openapitools.codegen.languages.GoRestyClient
->>>>>>> 848ed0eb39 (add go resty client generator)

@@ -39,6 +39,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     /**
      * The value of the 'description' attribute in the OpenAPI schema.
      */
+    /**
+     * The value of the 'description' attribute in the OpenAPI schema.
+     */
     @Getter @Setter
     public String description;
     /**

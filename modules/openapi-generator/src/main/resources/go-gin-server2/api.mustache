@@ -49,7 +49,7 @@ type {{operationId}}Params struct {
 
 type API interface {
 {{#operation}}
-    // {{nickname}} - {{{summary}}}
+    // {{nickname}}{{#summary}} - {{summary}}{{/summary}}
     // path: {{path}}
     // method: {{httpMethod}}
     {{operationId}}(ctx *gin.Context{{^hasPathParams}}{{#bodyParam}}, request {{^isArray}}*models.{{dataType}}{{/isArray}}{{#isArray}}[]*models.{{baseType}}{{/isArray}}{{/bodyParam}}{{/hasPathParams}}{{#hasQueryParams}}, params *{{nickname}}Params{{/hasQueryParams}}{{^hasQueryParams}}{{#hasPathParams}}, params *{{nickname}}Params{{/hasPathParams}}{{/hasQueryParams}}) (response interface{}, code int)
@@ -71,7 +71,7 @@ func NewApiHandler(api API, securer {{packageName}}.Securer, logger errorutil.Lo
 }
 
 {{#operation}}
-// {{nickname}} - {{{summary}}}
+// {{nickname}}{{#summary}} - {{summary}}{{/summary}}
 // path: {{path}}
 // method: {{httpMethod}}
 {{#isDeprecated}}
@@ -80,7 +80,12 @@ func NewApiHandler(api API, securer {{packageName}}.Securer, logger errorutil.Lo
 func (h *ApiHandler) {{nickname}}(c *gin.Context) {
 {{#hasBodyParam}}
 {{#bodyParam}}
-    req := {{^isArray}}{{^primitiveType}}models.{{/primitiveType}}{{dataType}}{{/isArray}}{{#isArray}}{{^isPrimitive}}[]*models.{{/isPrimitive}}{{baseType}}{{/isArray}}{}
+{{#isModel}}
+    req := models.New{{baseType}}WithDefaults()
+{{/isModel}}
+{{^isModel}}
+    req := {{#isArray}}[]{{/isArray}}{{baseType}}{}
+{{/isModel}}
     if err := c.ShouldBind(&req); err != nil {
         errorutil.SetErrorResponse("body", c, err, h.logger)
         return
@@ -100,7 +105,7 @@ func (h *ApiHandler) {{nickname}}(c *gin.Context) {
     params.{{operationId}}QueryParams = q
 {{/hasQueryParams}}
 {{#hasBodyParam}}
-    {{#bodyParam}}params.{{dataType}} = req{{/bodyParam}}
+    {{#bodyParam}}params.{{dataType}} = {{#isModel}}*{{/isModel}}req{{/bodyParam}}
 {{/hasBodyParam}}
     if err := c.ShouldBindUri(params); err != nil {
         errorutil.SetErrorResponse("path/uri", c, err, h.logger)
@@ -108,7 +113,7 @@ func (h *ApiHandler) {{nickname}}(c *gin.Context) {
     }
 {{/hasPathParams}}
 
-    res, code := h.api.{{nickname}}(c{{^hasPathParams}}{{#bodyParam}}, {{^isArray}}&{{/isArray}}req{{/bodyParam}}{{#hasQueryParams}}, &q{{/hasQueryParams}}{{/hasPathParams}}{{#hasPathParams}}, params{{/hasPathParams}})
+    res, code := h.api.{{nickname}}(c{{^hasPathParams}}{{#bodyParam}}, {{^isModel}}&{{/isModel}}req{{/bodyParam}}{{#hasQueryParams}}, &q{{/hasQueryParams}}{{/hasPathParams}}{{#hasPathParams}}, params{{/hasPathParams}})
     if res == nil {
         c.Status(code)
         return
@@ -117,12 +122,17 @@ func (h *ApiHandler) {{nickname}}(c *gin.Context) {
     switch code {
 {{#responses}}
     case {{code}}:
-    {{^baseType}}
+{{^baseType}}
         c.Status({{code}})
-    {{/baseType}}
-    {{#baseType}}
-        c.JSON({{code}}, res.({{^isArray}}{{^primitiveType}}{{^isMap}}*models.{{/isMap}}{{/primitiveType}}{{dataType}}{{/isArray}}{{#isArray}}{{^isPrimitive}}{{^isMap}}[]models.{{/isMap}}{{/isPrimitive}}{{baseType}}{{/isArray}}))
-    {{/baseType}}
+{{/baseType}}
+{{#baseType}}
+    {{#isArray}}
+        c.JSON({{code}}, res.([]{{#items.isModel}}models.{{/items.isModel}}{{baseType}}))
+    {{/isArray}}
+    {{^isArray}}
+        c.JSON({{code}}, res.({{#isModel}}*models.{{/isModel}}{{baseType}}))
+    {{/isArray}}
+{{/baseType}}
 {{/responses}}
     default:
         message := fmt.Sprintf("unsupported response code: %d, res: %+v", code, res)

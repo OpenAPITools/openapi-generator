@@ -2,10 +2,30 @@
 {{/description}}
 type {{classname}} struct {
 {{#vars}}{{#description}}
-	// {{{.}}}{{/description}}
+	// {{description}}{{/description}}
 	{{#deprecated}}
 	// Deprecated
 	{{/deprecated}}
-	{{name}} {{^required}}{{#isNullable}}*{{/isNullable}}{{/required}}{{#required}}{{^isPrimitiveType}}*{{/isPrimitiveType}}{{/required}}{{dataType}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#required}}{{/required}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{^required}}{{^defaultValue}}{{^isArray}}*{{/isArray}}{{/defaultValue}}{{/required}}{{#required}}{{#isModel}}{{^isArray}}*{{/isArray}}{{/isModel}}{{/required}}{{dataType}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#required}}{{/required}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
+}
+
+// New{{classname}} creates a new {{classname}} instance with required fields
+func New{{classname}}WithDefaults() *{{classname}} {
+	return &{{classname}}{
+{{#vars}}
+{{^required}}
+{{^isEnumRef}}
+{{#defaultValue}}
+        {{name}}: {{defaultValue}},
+{{/defaultValue}}
+{{/isEnumRef}}
+{{#isEnumRef}}
+{{#defaultValue}}
+        {{name}}: {{dataType}}("{{defaultValue}}"),
+{{/defaultValue}}
+{{/isEnumRef}}
+{{/required}}
+{{/vars}}
+	}
 }

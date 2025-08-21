@@ -133,6 +133,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("float", "float32");
         typeMapping.put("double", "float64");
         typeMapping.put("decimal", "float64");
+        typeMapping.put("UnsignedLong", "uint64");
+        typeMapping.put("UnsignedInteger", "uint32");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");

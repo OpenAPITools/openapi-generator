@@ -249,7 +249,7 @@ public class GoGinServer2Codegen extends AbstractGoCodegen {
                 }
 
                 List<CodegenProperty> codegenProperties = new ArrayList<>();
-                if(model.getIsModel() || model.getComposedSchemas() == null) {
+                if  (model.getIsModel() || model.getComposedSchemas() == null) {
                     // If the model is a model, use model.vars as it only
                     // contains properties the generated struct will own itself.
                     // If model is no model and it has no composed schemas use
