@@ -66,7 +66,7 @@ jobs:
           docker buildx create --use
           docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=${{ env.build_date }} --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$GITHUB_SHA --label=org.opencontainers.image.version=${{ env.cli_version }} -t ${{ env.DOCKER_CODEGEN_CLI_IMAGE_NAME }} ./modules/openapi-generator-cli
       - name: Publish openapi-generator-cli stable version
-        if: github.ref_type != 'tag' # tagged (release)
+        if: github.ref_type == 'tag' # tagged (release)
         run: |
           cp docker-entrypoint.sh ./modules/openapi-generator-cli
           docker buildx create --use
