@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # build the JARs
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Set up JDK 11
