@@ -13,15 +13,18 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "code"]
                                               _type: string
                   
                    option [@default None]
                 
+                
                 ; [@key "type"]
                                               message: string
                   
                    option [@default None]
+                
                 
                 ; [@key "message"]
                 } [@@deriving yojson { strict = false }, show, eq ];;

@@ -19,6 +19,7 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "nullableProperty"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         

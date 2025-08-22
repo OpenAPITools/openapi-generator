@@ -13,14 +13,17 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "uuid"]
                                               date_time: string
                   
                    option [@default None]
                 
+                
                 ; [@key "dateTime"]
                                               map: (string * Animal.t) list
                 
+                 [@default []]
                 ; [@key "map"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         

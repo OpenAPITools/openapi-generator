@@ -13,22 +13,27 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "id"]
                                               category: Category.t
                   
                    option [@default None]
+                
                 
                 ; [@key "category"]
                                               name: string
                   
                   
                 
+                
                 ; [@key "name"]
                                               photo_urls: string list
+                
                 
                 ; [@key "photoUrls"]
                                               tags: Tag.t list
                  [@default []]
+                
                 ; [@key "tags"]
                             (* pet status in the store *)
                       status: Enums.status

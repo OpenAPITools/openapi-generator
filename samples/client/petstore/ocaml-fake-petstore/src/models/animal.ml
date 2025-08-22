@@ -13,10 +13,12 @@
                   
                   
                 
+                
                 ; [@key "className"]
                                               color: string
                   
                    option [@default None]
+                
                 
                 ; [@key "color"]
                 } [@@deriving yojson { strict = false }, show, eq ];;

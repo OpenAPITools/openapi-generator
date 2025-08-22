@@ -13,10 +13,12 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "username"]
                                               single_ref_type: Enums.singlereftype
                   
                    option [@default None]
+                
                 
                 ; [@key "SingleRefType"]
                 } [@@deriving yojson { strict = false }, show, eq ];;

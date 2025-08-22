@@ -13,15 +13,18 @@
                   
                   
                 
+                
                 ; [@key "className"]
                                               color: string
                   
                    option [@default None]
                 
+                
                 ; [@key "color"]
                                               declawed: bool
                   
                    option [@default None]
+                
                 
                 ; [@key "declawed"]
                 } [@@deriving yojson { strict = false }, show, eq ];;

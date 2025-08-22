@@ -13,10 +13,12 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "bar"]
                                               foo: string
                   
                    option [@default None]
+                
                 
                 ; [@key "foo"]
                 } [@@deriving yojson { strict = false }, show, eq ];;

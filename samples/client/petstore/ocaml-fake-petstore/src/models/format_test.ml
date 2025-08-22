@@ -13,70 +13,84 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "integer"]
                                               int32: int32
                   
                    option [@default None]
+                
                 
                 ; [@key "int32"]
                                               int64: int64
                   
                    option [@default None]
                 
+                
                 ; [@key "int64"]
                                               number: float
                   
                   
+                
                 
                 ; [@key "number"]
                                               float: float
                   
                    option [@default None]
                 
+                
                 ; [@key "float"]
                                               double: float
                   
                    option [@default None]
+                
                 
                 ; [@key "double"]
                                               decimal: string
                   
                    option [@default None]
                 
+                
                 ; [@key "decimal"]
                                               string: string
                   
                    option [@default None]
+                
                 
                 ; [@key "string"]
                                               byte: string
                   
                   
                 
+                
                 ; [@key "byte"]
                                               binary: string
                   
                    option [@default None]
+                
                 
                 ; [@key "binary"]
                                               date: string
                   
                   
                 
+                
                 ; [@key "date"]
                                               date_time: string
                   
                    option [@default None]
+                
                 
                 ; [@key "dateTime"]
                                               uuid: string
                   
                    option [@default None]
                 
+                
                 ; [@key "uuid"]
                                               password: string
                   
                   
+                
                 
                 ; [@key "password"]
                             (* A string that is a 10 digit number. Can have leading zeros. *)
@@ -84,11 +98,13 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "pattern_with_digits"]
                             (* A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01. *)
                               pattern_with_digits_and_delimiter: string
                   
                    option [@default None]
+                
                 
                 ; [@key "pattern_with_digits_and_delimiter"]
                 } [@@deriving yojson { strict = false }, show, eq ];;

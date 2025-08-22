@@ -13,19 +13,23 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "uuid"]
                                               id: float
                   
                    option [@default None]
+                
                 
                 ; [@key "id"]
                                               deprecated_ref: Deprecated_object.t
                   
                    option [@default None]
                 
+                
                 ; [@key "deprecatedRef"]
                                               bars: string list
                  [@default []]
+                
                 ; [@key "bars"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         

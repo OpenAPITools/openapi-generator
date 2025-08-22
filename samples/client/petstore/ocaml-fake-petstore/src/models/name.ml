@@ -14,20 +14,24 @@
                   
                   
                 
+                
                 ; [@key "name"]
                                               snake_case: int32
                   
                    option [@default None]
+                
                 
                 ; [@key "snake_case"]
                                               property: string
                   
                    option [@default None]
                 
+                
                 ; [@key "property"]
                                               var_123_number: int32
                   
                    option [@default None]
+                
                 
                 ; [@key "123Number"]
                 } [@@deriving yojson { strict = false }, show, eq ];;

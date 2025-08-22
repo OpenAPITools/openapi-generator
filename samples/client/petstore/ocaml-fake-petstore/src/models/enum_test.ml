@@ -34,20 +34,24 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "outerEnum"]
                                               outer_enum_integer: Enums.outerenuminteger
                   
                    option [@default None]
+                
                 
                 ; [@key "outerEnumInteger"]
                                               outer_enum_default_value: Enums.order_status
                   
                    option [@default None]
                 
+                
                 ; [@key "outerEnumDefaultValue"]
                                               outer_enum_integer_default_value: Enums.outerenuminteger
                   
                    option [@default None]
+                
                 
                 ; [@key "outerEnumIntegerDefaultValue"]
                 } [@@deriving yojson { strict = false }, show, eq ];;

@@ -14,10 +14,12 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "name"]
                                               _class: string
                   
                    option [@default None]
+                
                 
                 ; [@key "class"]
                 } [@@deriving yojson { strict = false }, show, eq ];;

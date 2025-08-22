@@ -11,9 +11,11 @@
         type t = {
                                       map_property: (string * string) list
                 
+                 [@default []]
                 ; [@key "map_property"]
                                               map_of_map_property: (string * (string * string) list) list
                 
+                 [@default []]
                 ; [@key "map_of_map_property"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         

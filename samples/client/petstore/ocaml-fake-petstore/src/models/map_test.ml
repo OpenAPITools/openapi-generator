@@ -11,14 +11,17 @@
         type t = {
                                       map_map_of_string: (string * (string * string) list) list
                 
+                 [@default []]
                 ; [@key "map_map_of_string"]
                                       map_of_enum_string: (string * Enums.map_of_enum_string) list
 ; [@key "map_of_enum_string"]
                                                       direct_map: (string * bool) list
                 
+                 [@default []]
                 ; [@key "direct_map"]
                                               indirect_map: (string * bool) list
                 
+                 [@default []]
                 ; [@key "indirect_map"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         

@@ -13,6 +13,7 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "someProperty"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         

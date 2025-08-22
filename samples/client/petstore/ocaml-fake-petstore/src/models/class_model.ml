@@ -14,6 +14,7 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "_class"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         

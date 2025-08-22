@@ -13,15 +13,18 @@
                   
                   
                 
+                
                 ; [@key "className"]
                                               color: string
                   
                    option [@default None]
                 
+                
                 ; [@key "color"]
                                               breed: string
                   
                    option [@default None]
+                
                 
                 ; [@key "breed"]
                 } [@@deriving yojson { strict = false }, show, eq ];;

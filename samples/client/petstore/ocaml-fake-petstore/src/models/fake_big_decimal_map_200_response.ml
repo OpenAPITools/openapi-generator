@@ -13,9 +13,11 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "someId"]
                                               some_map: (string * float) list
                 
+                 [@default []]
                 ; [@key "someMap"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         

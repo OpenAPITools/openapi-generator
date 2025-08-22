@@ -13,49 +13,61 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "integer_prop"]
                                               number_prop: float
                   
                    option [@default None]
+                
                 
                 ; [@key "number_prop"]
                                               boolean_prop: bool
                   
                    option [@default None]
                 
+                
                 ; [@key "boolean_prop"]
                                               string_prop: string
                   
                    option [@default None]
+                
                 
                 ; [@key "string_prop"]
                                               date_prop: string
                   
                    option [@default None]
                 
+                
                 ; [@key "date_prop"]
                                               datetime_prop: string
                   
                    option [@default None]
                 
+                
                 ; [@key "datetime_prop"]
                                               array_nullable_prop: Yojson.Safe.t list
                  [@default []]
+                
                 ; [@key "array_nullable_prop"]
                                               array_and_items_nullable_prop: Yojson.Safe.t list
                  [@default []]
+                
                 ; [@key "array_and_items_nullable_prop"]
                                               array_items_nullable: Yojson.Safe.t list
                  [@default []]
+                
                 ; [@key "array_items_nullable"]
                                               object_nullable_prop: (string * Yojson.Safe.t) list
                 
+                 [@default []]
                 ; [@key "object_nullable_prop"]
                                               object_and_items_nullable_prop: (string * Yojson.Safe.t) list
                 
+                 [@default []]
                 ; [@key "object_and_items_nullable_prop"]
                                               object_items_nullable: (string * Yojson.Safe.t) list
                 
+                 [@default []]
                 ; [@key "object_items_nullable"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         

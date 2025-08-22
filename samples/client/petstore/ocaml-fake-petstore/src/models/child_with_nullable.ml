@@ -19,10 +19,12 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "nullableProperty"]
                                               other_property: string
                   
                    option [@default None]
+                
                 
                 ; [@key "otherProperty"]
                 } [@@deriving yojson { strict = false }, show, eq ];;

@@ -28,6 +28,7 @@ type t = {
           {{^required}} option [@default None]{{/required}}
         {{/isContainer}}
         {{#isArray}}{{^required}} [@default []]{{/required}}{{/isArray}}
+        {{#isMap}}{{^required}} [@default []]{{/required}}{{/isMap}}
         ; [@key "{{{baseName}}}"]
     {{/isEnum}}
 {{/vars}}

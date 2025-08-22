@@ -13,15 +13,18 @@
                   
                    option [@default None]
                 
+                
                 ; [@key "my_number"]
                                               my_string: string
                   
                    option [@default None]
                 
+                
                 ; [@key "my_string"]
                                               my_boolean: bool
                   
                    option [@default None]
+                
                 
                 ; [@key "my_boolean"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
