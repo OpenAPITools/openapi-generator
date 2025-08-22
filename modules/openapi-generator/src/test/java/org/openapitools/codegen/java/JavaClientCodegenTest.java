@@ -3862,8 +3862,8 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void oneOfInheritanceArrayFieldTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_inheritance.yaml");
+    public void oneOfWithInnerModelTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_innerModel.yaml");
         final JavaClientCodegen codegen = new JavaClientCodegen();
 
         final Schema schema = openAPI.getComponents().getSchemas().get("RandomAnimalsResponse_animals_inner");
