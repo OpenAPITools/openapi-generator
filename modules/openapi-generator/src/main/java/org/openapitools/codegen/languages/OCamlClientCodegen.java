@@ -95,11 +95,14 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf
+                )
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
         );
-
 
         outputFolder = "generated-code/ocaml";
         modelTemplateFiles.put("model.mustache", ".ml");
@@ -193,7 +196,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         List<String> toRemove = new ArrayList<>();
 
         for (Map.Entry<String, ModelsMap> modelEntry : superobjs.entrySet()) {
-            // process enum in models
             List<ModelMap> models = modelEntry.getValue().getModels();
             for (ModelMap mo : models) {
                 CodegenModel cm = mo.getModel();
@@ -209,6 +211,15 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     enrichPropertiesWithEnumDefaultValues(cm.getOptionalVars());
                     enrichPropertiesWithEnumDefaultValues(cm.getVars());
                     enrichPropertiesWithEnumDefaultValues(cm.getParentVars());
+                }
+
+                if (!cm.oneOf.isEmpty()) {
+                    // Add a boolean if it is a `oneOf`, because Mustache does not let us check if a list is non-empty
+                    cm.getVendorExtensions().put("x-ocaml-isOneOf", true);
+                }
+                if (!cm.anyOf.isEmpty()) {
+                    // Add a boolean if it is a `anyOf`, because Mustache does not let us check if a list is non-empty
+                    cm.getVendorExtensions().put("x-ocaml-isAnyOf", true);
                 }
             }
         }

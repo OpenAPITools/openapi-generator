@@ -10,7 +10,17 @@
 {{/description}}
 
 {{^isEnum}}
-    {{>model-record}}
+    {{#vendorExtensions.x-ocaml-isOneOf}}
+        {{>model-one-of}}
+    {{/vendorExtensions.x-ocaml-isOneOf}}
+
+    {{#vendorExtensions.x-ocaml-isAnyOf}}
+        {{>model-any-of}}
+    {{/vendorExtensions.x-ocaml-isAnyOf}}
+
+    {{^vendorExtensions.x-ocaml-isOneOf}}{{^vendorExtensions.x-ocaml-isAnyOf}}
+        {{>model-record}}
+    {{/vendorExtensions.x-ocaml-isAnyOf}}{{/vendorExtensions.x-ocaml-isOneOf}}
 {{/isEnum}}
 
 {{/model}}
