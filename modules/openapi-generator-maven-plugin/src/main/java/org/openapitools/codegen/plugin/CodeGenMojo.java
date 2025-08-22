@@ -567,7 +567,7 @@ public class CodeGenMojo extends AbstractMojo {
             inputSpecRootDirectory = inputSpecRootDirectory.replaceAll("\\\\", "/");
 
             inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
-                    mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion)
+                    mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
                     .buildMergedSpec();
             LOGGER.info("Merge input spec would be used - {}", inputSpec);
         }
