@@ -1,0 +1,12 @@
+# for csharp generichost
+generatorName: csharp
+outputDir: samples/client/petstore/csharp/generichost/latest/InlineEnumAnyOf
+inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/inline-enum-any-of.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp
+additionalProperties:
+  packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
+  modelPropertySorting: alphabetical
+  operationParameterSorting: alphabetical
+validateSpec: false
+inlineSchemaOptions:
+  RESOLVE_INLINE_ENUMS: true
