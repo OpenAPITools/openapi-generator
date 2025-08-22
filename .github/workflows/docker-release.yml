@@ -1,7 +1,6 @@
 name: Release to DockerHub (snapshot, stable)
 
 on:
-  pull_request:
   push:
     branches:
       - master
