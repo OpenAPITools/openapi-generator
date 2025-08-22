@@ -790,8 +790,8 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testComposedSchemaOneOfAllOf() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_inheritance.yaml");
+    public void testComposedSchemaOneOfWithInnerModel() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_innerModel.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         final Schema schema = openAPI.getComponents().getSchemas().get("RandomAnimalsResponse_animals_inner");
