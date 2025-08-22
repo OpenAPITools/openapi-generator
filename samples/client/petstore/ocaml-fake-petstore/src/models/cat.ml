@@ -5,27 +5,31 @@
  *
  *)
 
-type t = {
-      class_name: string
-          
-          
-        
-        ; [@key "className"]
-      color: string
-          
-           option [@default None]
-        
-        ; [@key "color"]
-      declawed: bool
-          
-           option [@default None]
-        
-        ; [@key "declawed"]
-} [@@deriving yojson { strict = false }, show, eq ];;
 
-let create (class_name : string) : t = {
-    class_name = class_name;
-    color = None;
-    declawed = None;
-}
+
+    
+        type t = {
+                                      class_name: string
+                  
+                  
+                
+                ; [@key "className"]
+                                              color: string
+                  
+                   option [@default None]
+                
+                ; [@key "color"]
+                                              declawed: bool
+                  
+                   option [@default None]
+                
+                ; [@key "declawed"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create (class_name : string) : t = {
+            class_name = class_name;
+            color = None;
+            declawed = None;
+        }
+    
 

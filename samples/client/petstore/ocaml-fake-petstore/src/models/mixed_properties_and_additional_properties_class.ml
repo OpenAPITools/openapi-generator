@@ -5,25 +5,29 @@
  *
  *)
 
-type t = {
-      uuid: string
-          
-           option [@default None]
-        
-        ; [@key "uuid"]
-      date_time: string
-          
-           option [@default None]
-        
-        ; [@key "dateTime"]
-      map: (string * Animal.t) list
-        
-        ; [@key "map"]
-} [@@deriving yojson { strict = false }, show, eq ];;
 
-let create () : t = {
-    uuid = None;
-    date_time = None;
-    map = [];
-}
+
+    
+        type t = {
+                                      uuid: string
+                  
+                   option [@default None]
+                
+                ; [@key "uuid"]
+                                              date_time: string
+                  
+                   option [@default None]
+                
+                ; [@key "dateTime"]
+                                              map: (string * Animal.t) list
+                
+                ; [@key "map"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create () : t = {
+            uuid = None;
+            date_time = None;
+            map = [];
+        }
+    
 

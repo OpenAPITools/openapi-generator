@@ -5,31 +5,35 @@
  *
  *)
 
-type t = {
-      uuid: string
-          
-           option [@default None]
-        
-        ; [@key "uuid"]
-      id: float
-          
-           option [@default None]
-        
-        ; [@key "id"]
-      deprecated_ref: Deprecated_object.t
-          
-           option [@default None]
-        
-        ; [@key "deprecatedRef"]
-      bars: string list
-         [@default []]
-        ; [@key "bars"]
-} [@@deriving yojson { strict = false }, show, eq ];;
 
-let create () : t = {
-    uuid = None;
-    id = None;
-    deprecated_ref = None;
-    bars = [];
-}
+
+    
+        type t = {
+                                      uuid: string
+                  
+                   option [@default None]
+                
+                ; [@key "uuid"]
+                                              id: float
+                  
+                   option [@default None]
+                
+                ; [@key "id"]
+                                              deprecated_ref: Deprecated_object.t
+                  
+                   option [@default None]
+                
+                ; [@key "deprecatedRef"]
+                                              bars: string list
+                 [@default []]
+                ; [@key "bars"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create () : t = {
+            uuid = None;
+            id = None;
+            deprecated_ref = None;
+            bars = [];
+        }
+    
 

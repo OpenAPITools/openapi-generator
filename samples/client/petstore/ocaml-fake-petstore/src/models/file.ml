@@ -6,17 +6,21 @@
  * Schema File.t : Must be named `File` for test.
  *)
 
-type t = {
-    (* Test capitalization *)
-      source_uri: string
-          
-           option [@default None]
-        
-        ; [@key "sourceURI"]
-} [@@deriving yojson { strict = false }, show, eq ];;
 
-(** Must be named `File` for test. *)
-let create () : t = {
-    source_uri = None;
-}
+
+    
+        type t = {
+                    (* Test capitalization *)
+                              source_uri: string
+                  
+                   option [@default None]
+                
+                ; [@key "sourceURI"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        (** Must be named `File` for test. *)
+        let create () : t = {
+            source_uri = None;
+        }
+    
 

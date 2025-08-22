@@ -6,34 +6,38 @@
  * Schema Name.t : Model for testing model name same as property name
  *)
 
-type t = {
-      name: int32
-          
-          
-        
-        ; [@key "name"]
-      snake_case: int32
-          
-           option [@default None]
-        
-        ; [@key "snake_case"]
-      property: string
-          
-           option [@default None]
-        
-        ; [@key "property"]
-      var_123_number: int32
-          
-           option [@default None]
-        
-        ; [@key "123Number"]
-} [@@deriving yojson { strict = false }, show, eq ];;
 
-(** Model for testing model name same as property name *)
-let create (name : int32) : t = {
-    name = name;
-    snake_case = None;
-    property = None;
-    var_123_number = None;
-}
+
+    
+        type t = {
+                                      name: int32
+                  
+                  
+                
+                ; [@key "name"]
+                                              snake_case: int32
+                  
+                   option [@default None]
+                
+                ; [@key "snake_case"]
+                                              property: string
+                  
+                   option [@default None]
+                
+                ; [@key "property"]
+                                              var_123_number: int32
+                  
+                   option [@default None]
+                
+                ; [@key "123Number"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        (** Model for testing model name same as property name *)
+        let create (name : int32) : t = {
+            name = name;
+            snake_case = None;
+            property = None;
+            var_123_number = None;
+        }
+    
 

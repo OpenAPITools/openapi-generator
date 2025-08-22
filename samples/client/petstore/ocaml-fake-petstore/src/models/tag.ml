@@ -5,21 +5,25 @@
  *
  *)
 
-type t = {
-      id: int64
-          
-           option [@default None]
-        
-        ; [@key "id"]
-      name: string
-          
-           option [@default None]
-        
-        ; [@key "name"]
-} [@@deriving yojson { strict = false }, show, eq ];;
 
-let create () : t = {
-    id = None;
-    name = None;
-}
+
+    
+        type t = {
+                                      id: int64
+                  
+                   option [@default None]
+                
+                ; [@key "id"]
+                                              name: string
+                  
+                   option [@default None]
+                
+                ; [@key "name"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create () : t = {
+            id = None;
+            name = None;
+        }
+    
 

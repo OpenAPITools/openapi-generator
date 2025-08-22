@@ -5,17 +5,21 @@
  *
  *)
 
-type t = {
-      map_property: (string * string) list
-        
-        ; [@key "map_property"]
-      map_of_map_property: (string * (string * string) list) list
-        
-        ; [@key "map_of_map_property"]
-} [@@deriving yojson { strict = false }, show, eq ];;
 
-let create () : t = {
-    map_property = [];
-    map_of_map_property = [];
-}
+
+    
+        type t = {
+                                      map_property: (string * string) list
+                
+                ; [@key "map_property"]
+                                              map_of_map_property: (string * (string * string) list) list
+                
+                ; [@key "map_of_map_property"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create () : t = {
+            map_property = [];
+            map_of_map_property = [];
+        }
+    
 

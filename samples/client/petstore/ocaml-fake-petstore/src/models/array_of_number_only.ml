@@ -5,13 +5,17 @@
  *
  *)
 
-type t = {
-      array_number: float list
-         [@default []]
-        ; [@key "ArrayNumber"]
-} [@@deriving yojson { strict = false }, show, eq ];;
 
-let create () : t = {
-    array_number = [];
-}
+
+    
+        type t = {
+                                      array_number: float list
+                 [@default []]
+                ; [@key "ArrayNumber"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create () : t = {
+            array_number = [];
+        }
+    
 

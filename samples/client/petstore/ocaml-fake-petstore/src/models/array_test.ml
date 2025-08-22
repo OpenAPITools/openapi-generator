@@ -5,21 +5,25 @@
  *
  *)
 
-type t = {
-      array_of_string: string list
-         [@default []]
-        ; [@key "array_of_string"]
-      array_array_of_integer: int64 list list
-         [@default []]
-        ; [@key "array_array_of_integer"]
-      array_array_of_model: Read_only_first.t list list
-         [@default []]
-        ; [@key "array_array_of_model"]
-} [@@deriving yojson { strict = false }, show, eq ];;
 
-let create () : t = {
-    array_of_string = [];
-    array_array_of_integer = [];
-    array_array_of_model = [];
-}
+
+    
+        type t = {
+                                      array_of_string: string list
+                 [@default []]
+                ; [@key "array_of_string"]
+                                              array_array_of_integer: int64 list list
+                 [@default []]
+                ; [@key "array_array_of_integer"]
+                                              array_array_of_model: Read_only_first.t list list
+                 [@default []]
+                ; [@key "array_array_of_model"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create () : t = {
+            array_of_string = [];
+            array_array_of_integer = [];
+            array_array_of_model = [];
+        }
+    
 
