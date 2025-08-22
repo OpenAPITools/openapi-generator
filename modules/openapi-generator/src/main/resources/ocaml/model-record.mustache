@@ -28,7 +28,7 @@ type t = {
           {{^required}} option [@default None]{{/required}}
         {{/isContainer}}
         {{#isArray}}{{^required}} [@default []]{{/required}}{{/isArray}}
-        {{#isMap}}{{^required}} [@default []]{{/required}}{{/isMap}}
+        {{#isMap}}{{^required}} [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: {{{items.datatypeWithEnum}}}]] [@of_yojson JsonSupport.to_map_of [%of_yojson: {{{items.datatypeWithEnum}}}]] {{/required}}{{/isMap}}
         ; [@key "{{{baseName}}}"]
     {{/isEnum}}
 {{/vars}}

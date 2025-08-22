@@ -59,15 +59,15 @@
                 ; [@key "array_items_nullable"]
                                               object_nullable_prop: (string * Yojson.Safe.t) list
                 
-                 [@default []]
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]] 
                 ; [@key "object_nullable_prop"]
                                               object_and_items_nullable_prop: (string * Yojson.Safe.t) list
                 
-                 [@default []]
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]] 
                 ; [@key "object_and_items_nullable_prop"]
                                               object_items_nullable: (string * Yojson.Safe.t) list
                 
-                 [@default []]
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]] 
                 ; [@key "object_items_nullable"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         

@@ -11,16 +11,17 @@ let create_user ~user_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        write_as_json_body 
-
-
-
-
-
-
-            User.to_yojson
-
-
+        write_as_json_body     
+    
+    
+    
+    
+    
+    
+                User.to_yojson
+    
+    
+    
  user_t
     in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
@@ -32,26 +33,18 @@ let create_users_with_array_input ~user =
     let headers = Request.default_headers in
     let body = Request.
         
-        write_as_json_body         (JsonSupport.of_list_of 
-
-
-
-
-
-
-            User.to_yojson
-
-
+        write_as_json_body         (JsonSupport.of_list_of     
+    
+    
+    
+    
+    
+    
+                User.to_yojson
+    
+    
+    
 )
-
-
-
-
-
-
-
-
-
  user
     in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
@@ -63,26 +56,18 @@ let create_users_with_list_input ~user =
     let headers = Request.default_headers in
     let body = Request.
         
-        write_as_json_body         (JsonSupport.of_list_of 
-
-
-
-
-
-
-            User.to_yojson
-
-
+        write_as_json_body         (JsonSupport.of_list_of     
+    
+    
+    
+    
+    
+    
+                User.to_yojson
+    
+    
+    
 )
-
-
-
-
-
-
-
-
-
  user
     in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
@@ -197,16 +182,17 @@ let update_user ~username ~user_t =
  username in
     let body = Request.
         
-        write_as_json_body 
-
-
-
-
-
-
-            User.to_yojson
-
-
+        write_as_json_body     
+    
+    
+    
+    
+    
+    
+                User.to_yojson
+    
+    
+    
  user_t
     in
     Cohttp_lwt_unix.Client.call `PUT uri ~headers ~body >>= fun (resp, body) ->

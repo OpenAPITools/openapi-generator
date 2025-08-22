@@ -12,16 +12,17 @@ let test_classname ~client_t =
     let uri = Uri.add_query_param' uri ("api_key_query", Request.api_key) in
     let body = Request.
         
-        write_as_json_body 
-
-
-
-
-
-
-            Client.to_yojson
-
-
+        write_as_json_body     
+    
+    
+    
+    
+    
+    
+                Client.to_yojson
+    
+    
+    
  client_t
     in
     Cohttp_lwt_unix.Client.call `PATCH uri ~headers ~body >>= fun (resp, body) ->

@@ -11,16 +11,17 @@ let add_pet ~pet_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        write_as_json_body 
-
-
-
-
-
-
-            Pet.to_yojson
-
-
+        write_as_json_body     
+    
+    
+    
+    
+    
+    
+                Pet.to_yojson
+    
+    
+    
  pet_t
     in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
@@ -138,16 +139,17 @@ let update_pet ~pet_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        write_as_json_body 
-
-
-
-
-
-
-            Pet.to_yojson
-
-
+        write_as_json_body     
+    
+    
+    
+    
+    
+    
+                Pet.to_yojson
+    
+    
+    
  pet_t
     in
     Cohttp_lwt_unix.Client.call `PUT uri ~headers ~body >>= fun (resp, body) ->

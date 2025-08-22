@@ -63,16 +63,17 @@ let place_order ~order_t =
     let headers = Request.default_headers in
     let body = Request.
         
-        write_as_json_body 
-
-
-
-
-
-
-            Order.to_yojson
-
-
+        write_as_json_body     
+    
+    
+    
+    
+    
+    
+                Order.to_yojson
+    
+    
+    
  order_t
     in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
