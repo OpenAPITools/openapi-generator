@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  description: "This spec is mainly for testing Petstore server and contains fake\
+    \ endpoints, models. Please do not use this for any other purpose. Special characters:\
+    \ \" \\"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: OpenAPI Petstore
+  version: 1.0.0
+servers:
+- description: petstore server
+  url: "http://{server}.swagger.io:{port}/v2"
+  variables:
+    server:
+      default: petstore
+      enum:
+      - petstore
+      - qa-petstore
+      - dev-petstore
+    port:
+      default: "80"
+      enum:
+      - "80"
+      - "8080"
+- description: The local server
+  url: "https://localhost:8080/{version}"
+  variables:
+    version:
+      default: v2
+      enum:
+      - v1
+      - v2
+- description: The local server without variables
+  url: https://127.0.0.1/no_variable
+tags:
+- description: Everything about your Pets
+  name: pet
+- description: Access to Petstore orders
+  name: store
+- description: Operations about user
+  name: user
+paths:
+  /icons:
+    get:
+      description: Returns a forecast icon. Icon services in API are deprecated.
+      operationId: icons
+      parameters:
+      - description: Font size
+        explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          $ref: "#/components/schemas/icons_size_parameter"
+        style: form
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/icons_default_response"
+          description: response
+components:
+  schemas:
+    Foo:
+      example:
+        bar: bar
+      properties:
+        bar:
+          default: bar
+          type: string
+      type: object
+    Bar:
+      default: bar
+      type: string
+    icons_size_parameter_anyOf:
+      enum:
+      - small
+      - medium
+      - large
+      type: string
+    icons_size_parameter:
+      anyOf:
+      - $ref: "#/components/schemas/icons_size_parameter_anyOf"
+      - maximum: 500
+        minimum: 10
+        type: integer
+    icons_default_response:
+      example:
+        string:
+          bar: bar
+      properties:
+        string:
+          $ref: "#/components/schemas/Foo"
+      type: object
+
