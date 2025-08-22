@@ -675,4 +675,12 @@ public class ModelUtilsTest {
         testSchema.setAdditionalProperties(new Schema().type("string"));
         assertFalse(ModelUtils.isModelWithPropertiesOnly(testSchema));
     }
+
+    @Test
+    public void getParentNameMultipleInterfacesTest() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_inheritance.yaml");
+        Map<String, Schema> allSchemas = openAPI.getComponents().getSchemas();
+        Schema composedSchema = allSchemas.get("RandomAnimalsResponse_animals_inner");
+        assertNull(ModelUtils.getParentName(composedSchema, allSchemas));
+    }
 }
