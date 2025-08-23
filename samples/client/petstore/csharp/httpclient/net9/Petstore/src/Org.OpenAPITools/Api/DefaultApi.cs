@@ -112,24 +112,6 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of NotificationtestGetElementsV1ResponseMPayload</returns>
         ApiResponse<NotificationtestGetElementsV1ResponseMPayload> TestWithHttpInfo();
-        /// <summary>
-        /// Upload multiple files
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="files"></param>
-        /// <returns>UploadFiles200Response</returns>
-        UploadFiles200Response UploadFiles(List<FileParameter> files);
-
-        /// <summary>
-        /// Upload multiple files
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="files"></param>
-        /// <returns>ApiResponse of UploadFiles200Response</returns>
-        ApiResponse<UploadFiles200Response> UploadFilesWithHttpInfo(List<FileParameter> files);
         #endregion Synchronous Operations
     }
 
@@ -246,29 +228,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (NotificationtestGetElementsV1ResponseMPayload)</returns>
         System.Threading.Tasks.Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default);
-        /// <summary>
-        /// Upload multiple files
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="files"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of UploadFiles200Response</returns>
-        System.Threading.Tasks.Task<UploadFiles200Response> UploadFilesAsync(List<FileParameter> files, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Upload multiple files
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="files"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (UploadFiles200Response)</returns>
-        System.Threading.Tasks.Task<ApiResponse<UploadFiles200Response>> UploadFilesWithHttpInfoAsync(List<FileParameter> files, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -993,123 +952,6 @@ namespace Org.OpenAPITools.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("Test", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Upload multiple files 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="files"></param>
-        /// <returns>UploadFiles200Response</returns>
-        public UploadFiles200Response UploadFiles(List<FileParameter> files)
-        {
-            Org.OpenAPITools.Client.ApiResponse<UploadFiles200Response> localVarResponse = UploadFilesWithHttpInfo(files);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Upload multiple files 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="files"></param>
-        /// <returns>ApiResponse of UploadFiles200Response</returns>
-        public Org.OpenAPITools.Client.ApiResponse<UploadFiles200Response> UploadFilesWithHttpInfo(List<FileParameter> files)
-        {
-            // verify the required parameter 'files' is set
-            if (files == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'files' when calling DefaultApi->UploadFiles");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.FileParameters.Add("files", files);
-
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Post<UploadFiles200Response>("/upload", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UploadFiles", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Upload multiple files 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="files"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of UploadFiles200Response</returns>
-        public async System.Threading.Tasks.Task<UploadFiles200Response> UploadFilesAsync(List<FileParameter> files, System.Threading.CancellationToken cancellationToken = default)
-        {
-            Org.OpenAPITools.Client.ApiResponse<UploadFiles200Response> localVarResponse = await UploadFilesWithHttpInfoAsync(files, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Upload multiple files 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="files"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (UploadFiles200Response)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<UploadFiles200Response>> UploadFilesWithHttpInfoAsync(List<FileParameter> files, System.Threading.CancellationToken cancellationToken = default)
-        {
-            // verify the required parameter 'files' is set
-            if (files == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'files' when calling DefaultApi->UploadFiles");
-
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.FileParameters.Add("files", files);
-
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.PostAsync<UploadFiles200Response>("/upload", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("UploadFiles", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

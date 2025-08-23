@@ -2202,9 +2202,7 @@ namespace Org.OpenAPITools.Api
 
                     List<KeyValuePair<string, string>> formParameterLocalVars = new List<KeyValuePair<string, string>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
-
-                    if (name.IsSet)
+                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    if (name.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("name", ClientUtils.ParameterToString(name.Value)));
 
                     if (status.IsSet)
@@ -2431,13 +2429,12 @@ namespace Org.OpenAPITools.Api
 
                     List<KeyValuePair<string, string>> formParameterLocalVars = new List<KeyValuePair<string, string>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
-
-                    if (additionalMetadata.IsSet)
+                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    if (additionalMetadata.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata.Value)));
 
                     if (file.IsSet)
                         multipartContentLocalVar.Add(new StreamContent(file.Value));
+
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -2700,9 +2697,7 @@ namespace Org.OpenAPITools.Api
 
                     List<KeyValuePair<string, string>> formParameterLocalVars = new List<KeyValuePair<string, string>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
-
-                    multipartContentLocalVar.Add(new StreamContent(requiredFile));
+                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    multipartContentLocalVar.Add(new StreamContent(requiredFile));
 
                     if (additionalMetadata.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata.Value)));

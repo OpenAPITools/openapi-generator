@@ -41,23 +41,6 @@ tags:
 - description: Operations about user
   name: user
 paths:
-  /upload:
-    post:
-      operationId: uploadFiles
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: "#/components/schemas/uploadFiles_request"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/uploadFiles_200_response"
-          description: Files uploaded successfully
-      summary: Upload multiple files
   /roles/report:
     get:
       responses:
@@ -2882,26 +2865,6 @@ components:
       - APPROVED
       - MANUAL_APPROVAL_REQUIRED
       type: string
-    uploadFiles_request:
-      properties:
-        files:
-          items:
-            format: binary
-            type: string
-          type: array
-      required:
-      - files
-      type: object
-    uploadFiles_200_response:
-      example:
-        message: message
-        fileCount: 0
-      properties:
-        message:
-          type: string
-        fileCount:
-          type: integer
-      type: object
     _foo_get_default_response:
       example:
         string:
