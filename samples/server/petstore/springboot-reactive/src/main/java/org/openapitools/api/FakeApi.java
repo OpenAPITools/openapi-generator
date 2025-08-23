@@ -377,19 +377,19 @@ public interface FakeApi {
     )
     
     default Mono<ResponseEntity<Void>> testEndpointParameters(
-        @ApiParam(value = "None", required = true) @Valid @RequestPart(value = "number", required = true) BigDecimal number,
-        @ApiParam(value = "None", required = true) @Valid @RequestPart(value = "double", required = true) Double _double,
-        @ApiParam(value = "None", required = true) @Valid @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
+        @ApiParam(value = "None", required = true) @DecimalMin("32.1") @DecimalMax("543.2") @Valid @RequestPart(value = "number", required = true) BigDecimal number,
+        @ApiParam(value = "None", required = true) @DecimalMin("67.8") @DecimalMax("123.4") @Valid @RequestPart(value = "double", required = true) Double _double,
+        @ApiParam(value = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
         @ApiParam(value = "None", required = true) @Valid @RequestPart(value = "byte", required = true) byte[] _byte,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "integer", required = false) Integer integer,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "int32", required = false) Integer int32,
+        @ApiParam(value = "None") @Min(10) @Max(100) @Valid @RequestPart(value = "integer", required = false) Integer integer,
+        @ApiParam(value = "None") @Min(20) @Max(200) @Valid @RequestPart(value = "int32", required = false) Integer int32,
         @ApiParam(value = "None") @Valid @RequestPart(value = "int64", required = false) Long int64,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "float", required = false) Float _float,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "string", required = false) String string,
+        @ApiParam(value = "None") @DecimalMax("987.6") @Valid @RequestPart(value = "float", required = false) Float _float,
+        @ApiParam(value = "None") @Pattern(regexp = "/[a-z]/i") @Valid @RequestPart(value = "string", required = false) String string,
         @ApiParam(value = "None") @RequestPart(value = "binary", required = false) Part binary,
         @ApiParam(value = "None") @Valid @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @ApiParam(value = "None") @Valid @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "password", required = false) String password,
+        @ApiParam(value = "None") @Size(min = 10, max = 64) @Valid @RequestPart(value = "password", required = false) String password,
         @ApiParam(value = "None") @Valid @RequestPart(value = "callback", required = false) String paramCallback,
         @ApiIgnore final ServerWebExchange exchange
     ) {
