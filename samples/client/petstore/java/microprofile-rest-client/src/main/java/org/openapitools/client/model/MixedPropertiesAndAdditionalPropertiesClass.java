@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +44,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
 
   @JsonbProperty("map")
   private Map<String, Animal> map = null;
+
 
   /**
    * Get uuid

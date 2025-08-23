@@ -22,8 +22,8 @@ jobs:
           - samples/server/petstore/kotlin-wiremock-responses
           - samples/server/echo_api/kotlin-wiremock
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: 11

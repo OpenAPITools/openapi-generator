@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 
 
@@ -51,7 +52,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class Scalar extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Scalar.class.getName());
 
@@ -63,6 +64,7 @@ public class Scalar extends AbstractOpenApiSchema {
                 return null; // this class only serializes 'Scalar' and its subtypes
             }
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            final TypeAdapter<UUID> adapterUUID = gson.getDelegateAdapter(this, TypeToken.get(UUID.class));
             final TypeAdapter<String> adapterString = gson.getDelegateAdapter(this, TypeToken.get(String.class));
             final TypeAdapter<BigDecimal> adapterBigDecimal = gson.getDelegateAdapter(this, TypeToken.get(BigDecimal.class));
             final TypeAdapter<Boolean> adapterBoolean = gson.getDelegateAdapter(this, TypeToken.get(Boolean.class));
@@ -75,6 +77,12 @@ public class Scalar extends AbstractOpenApiSchema {
                         return;
                     }
 
+                    // check if the actual instance is of the type `UUID`
+                    if (value.getActualInstance() instanceof UUID) {
+                        JsonElement element = adapterUUID.toJsonTree((UUID)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
+                    }
                     // check if the actual instance is of the type `String`
                     if (value.getActualInstance() instanceof String) {
                         JsonPrimitive primitive = adapterString.toJsonTree((String)value.getActualInstance()).getAsJsonPrimitive();
@@ -93,7 +101,7 @@ public class Scalar extends AbstractOpenApiSchema {
                         elementAdapter.write(out, primitive);
                         return;
                     }
-                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: BigDecimal, Boolean, String");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: BigDecimal, Boolean, String, UUID");
                 }
 
                 @Override
@@ -105,6 +113,18 @@ public class Scalar extends AbstractOpenApiSchema {
                     ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
+                    // deserialize UUID
+                    try {
+                        // validate the JSON object to see if any exception is thrown
+                        UUID.fromString(jsonElement.getAsString());
+                        actualAdapter = adapterUUID;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'UUID'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for UUID failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'UUID'", e);
+                    }
                     // deserialize String
                     try {
                         // validate the JSON object to see if any exception is thrown
@@ -173,6 +193,7 @@ public class Scalar extends AbstractOpenApiSchema {
     }
 
     static {
+        schemas.put("UUID", UUID.class);
         schemas.put("String", String.class);
         schemas.put("BigDecimal", BigDecimal.class);
         schemas.put("Boolean", Boolean.class);
@@ -186,12 +207,17 @@ public class Scalar extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * BigDecimal, Boolean, String
+     * BigDecimal, Boolean, String, UUID
      *
      * It could be an instance of the 'oneOf' schemas.
      */
     @Override
     public void setActualInstance(Object instance) {
+        if (instance instanceof UUID) {
+            super.setActualInstance(instance);
+            return;
+        }
+
         if (instance instanceof String) {
             super.setActualInstance(instance);
             return;
@@ -207,19 +233,30 @@ public class Scalar extends AbstractOpenApiSchema {
             return;
         }
 
-        throw new RuntimeException("Invalid instance type. Must be BigDecimal, Boolean, String");
+        throw new RuntimeException("Invalid instance type. Must be BigDecimal, Boolean, String, UUID");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * BigDecimal, Boolean, String
+     * BigDecimal, Boolean, String, UUID
      *
-     * @return The actual instance (BigDecimal, Boolean, String)
+     * @return The actual instance (BigDecimal, Boolean, String, UUID)
      */
     @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `UUID`. If the actual instance is not `UUID`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `UUID`
+     * @throws ClassCastException if the instance is not `UUID`
+     */
+    public UUID getUUID() throws ClassCastException {
+        return (UUID)super.getActualInstance();
     }
 
     /**
@@ -265,6 +302,14 @@ public class Scalar extends AbstractOpenApiSchema {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
+        // validate the json string with UUID
+        try {
+            UUID.fromString(jsonElement.getAsString());
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for UUID failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
         // validate the json string with String
         try {
             if (!jsonElement.getAsJsonPrimitive().isString()) {
@@ -296,7 +341,7 @@ public class Scalar extends AbstractOpenApiSchema {
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for Scalar with oneOf schemas: BigDecimal, Boolean, String. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format("The JSON string is invalid for Scalar with oneOf schemas: BigDecimal, Boolean, String, UUID. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

@@ -55,6 +55,12 @@
                 </dependency>
             </dependencies>
         </profile>
+        <profile>
+            <id>remote</id>
+            <properties>
+                <inputSpec>https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml?meaningless=params&amp;so=it&amp;results=in&amp;illegal=filenames&amp;on=windows</inputSpec>
+            </properties>
+        </profile>
     </profiles>
     <build>
         <finalName>common-maven</finalName>

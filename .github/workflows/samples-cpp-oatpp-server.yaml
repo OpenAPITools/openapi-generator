@@ -1,0 +1,30 @@
+name: Samples cpp oat++ server
+
+on:
+  push:
+    branches:
+      - "samples/server/petstore/cpp-oatpp/**"
+  pull_request:
+    paths:
+      - "samples/server/petstore/cpp-oatpp/**"
+
+env:
+  GRADLE_VERSION: 6.9
+
+jobs:
+  build:
+    name: Build cpp oat++ server
+    strategy:
+      matrix:
+        sample:
+          - samples/server/petstore/cpp-oatpp
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: cmake -B build && cmake --build build --verbose

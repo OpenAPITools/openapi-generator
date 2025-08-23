@@ -7,6 +7,7 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
+import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.JavaMicroprofileServerCodegen;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -127,4 +128,112 @@ public class JavaMicroprofileServerCodegenTest {
                 .assertInnerClass("GetCustomerRequest")
                 .assertMethod("cookieParameter");
     }
+
+    @Test
+    public void testGeneratedApiHasApiExceptionMapperRegisteredWhenUsingDefaultConfiguration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/microprofile_cookie.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        Map<String, File> filesMap = files.stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        validateJavaSourceFiles(files);
+
+        JavaFileAssert.assertThat(filesMap.get("DefaultApi.java"))
+                .assertTypeAnnotations()
+                .containsWithName("RegisterProvider")
+                .containsWithNameAndAttributes("RegisterProvider", Map.of("value", "ApiExceptionMapper.class"));
+    }
+
+    @Test
+    public void testGeneratedApiDoesNotHaveApiExceptionMapperRegisteredWhenDisablingItInConfiguration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/microprofile_cookie.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(JavaClientCodegen.MICROPROFILE_REGISTER_EXCEPTION_MAPPER, "false");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        Map<String, File> filesMap = files.stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        validateJavaSourceFiles(files);
+
+        JavaFileAssert.assertThat(filesMap.get("DefaultApi.java"))
+                .assertTypeAnnotations()
+                .doesNotContainWithName("RegisterProvider");
+    }
+
+    @Test
+    public void testGeneratedApiExceptionMapperHasProviderAnnotationWhenUsingDefaultConfiguration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/microprofile_cookie.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        Map<String, File> filesMap = files.stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        validateJavaSourceFiles(files);
+
+        JavaFileAssert.assertThat(filesMap.get("ApiExceptionMapper.java"))
+                .assertTypeAnnotations()
+                .containsWithName("Provider");
+    }
+
+    @Test
+    public void testGeneratedApiExceptionMapperDoesNotHaveProviderAnnotationWhenDisablingItInConfiguration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/microprofile_cookie.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(JavaClientCodegen.MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, "false");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        Map<String, File> filesMap = files.stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        validateJavaSourceFiles(files);
+
+        JavaFileAssert.assertThat(filesMap.get("ApiExceptionMapper.java"))
+                .assertTypeAnnotations()
+                .doesNotContainWithName("Provider");
+    }
 }
+

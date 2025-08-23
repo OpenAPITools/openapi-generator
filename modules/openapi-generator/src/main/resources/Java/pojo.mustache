@@ -38,10 +38,12 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#isEnum}}
     {{^isContainer}}
 {{>modelInnerEnum}}
+
     {{/isContainer}}
     {{#isContainer}}
     {{#mostInnerItems}}
 {{>modelInnerEnum}}
+
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
@@ -65,7 +67,12 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#gson}}
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
-  {{>nullable_var_annotations}}
+  {{^isDiscriminator}}
+  {{>nullable_var_annotations}}{{! prevent indent}}
+  {{/isDiscriminator}}
+  {{#isDiscriminator}}
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
+  {{/isDiscriminator}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
@@ -211,12 +218,13 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{#deprecated}}
   @Deprecated
 {{/deprecated}}
-  {{>nullable_var_annotations}}
+  {{>nullable_var_annotations}}{{! prevent indent}}
 {{#jsonb}}
   @JsonbProperty("{{baseName}}")
 {{/jsonb}}
 {{#useBeanValidation}}
 {{>beanValidation}}
+
 {{/useBeanValidation}}
 {{#swagger1AnnotationLibrary}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
@@ -248,6 +256,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
 {{> jackson_annotations}}
+
   public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}_JsonNullable() {
     return {{name}};
   }
@@ -609,7 +618,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{/parcelableModel}}
 {{#generateBuilders}}
 
-  {{>javaBuilder}}
+  {{>javaBuilder}}{{! prevent indent}}
 {{/generateBuilders}}
 
 }

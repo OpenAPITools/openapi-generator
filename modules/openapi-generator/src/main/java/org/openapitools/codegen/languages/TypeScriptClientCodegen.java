@@ -78,7 +78,15 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     private static final String USE_OBJECT_PARAMS_SWITCH = "useObjectParameters";
     private static final String USE_OBJECT_PARAMS_DESC = "Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.";
 
+    public static final String USE_ERASABLE_SYNTAX = "useErasableSyntax";
+    public static final String USE_ERASABLE_SYNTAX_DESC = "Use erasable syntax for the generated code. This is a temporary feature and will be removed in the future.";
+
     private final Map<String, String> frameworkToHttpLibMap;
+
+    @Setter
+    private boolean useRxJS;
+    @Setter
+    private boolean useInversify;
 
     // NPM Options
     private static final String NPM_REPOSITORY = "npmRepository";
@@ -122,6 +130,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_OBJECT_PARAMS_SWITCH, TypeScriptClientCodegen.USE_OBJECT_PARAMS_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_INVERSIFY_SWITCH, TypeScriptClientCodegen.USE_INVERSIFY_SWITCH_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH, TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH_DESC));
+        cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_ERASABLE_SYNTAX, TypeScriptClientCodegen.USE_ERASABLE_SYNTAX_DESC).defaultValue("false"));
 
         CliOption frameworkOption = new CliOption(TypeScriptClientCodegen.FRAMEWORK_SWITCH, TypeScriptClientCodegen.FRAMEWORK_SWITCH_DESC);
         for (String option : TypeScriptClientCodegen.FRAMEWORKS) {
@@ -457,12 +466,12 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             additionalProperties.put(IMPORT_FILE_EXTENSION_SWITCH, ".ts");
         }
 
-        final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
+        convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH, this::setUseRxJS);
         if (!useRxJS) {
             supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));
         }
 
-        final boolean useInversify = convertPropertyToBooleanAndWriteBack(USE_INVERSIFY_SWITCH);
+        convertPropertyToBooleanAndWriteBack(USE_INVERSIFY_SWITCH, this::setUseInversify);
         if (useInversify) {
             supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "index.ts"));
             supportingFiles.add(new SupportingFile("services" + File.separator + "configuration.mustache", "services", "configuration.ts"));

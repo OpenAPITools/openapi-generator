@@ -24,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class FormApi {
     private ApiClient apiClient;
 
@@ -129,6 +129,7 @@ public class FormApi {
     public ResponseSpec testFormIntegerBooleanStringWithResponseSpec(@jakarta.annotation.Nullable Integer integerForm, @jakarta.annotation.Nullable Boolean booleanForm, @jakarta.annotation.Nullable String stringForm) throws RestClientResponseException {
         return testFormIntegerBooleanStringRequestCreation(integerForm, booleanForm, stringForm);
     }
+
     /**
      * Test form parameter(s) for multipart schema
      * Test form parameter(s) for multipart schema
@@ -206,6 +207,7 @@ public class FormApi {
     public ResponseSpec testFormObjectMultipartWithResponseSpec(@jakarta.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
         return testFormObjectMultipartRequestCreation(marker);
     }
+
     /**
      * Test form parameter(s) for oneOf schema
      * Test form parameter(s) for oneOf schema

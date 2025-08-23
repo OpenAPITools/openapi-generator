@@ -36,7 +36,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link FakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public interface FakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -239,7 +239,7 @@ public interface FakeApiDelegate {
         Long int64,
         Float _float,
         String string,
-        Flux<Part> binary,
+        Part binary,
         LocalDate date,
         OffsetDateTime dateTime,
         String password,
@@ -412,7 +412,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#uploadFileWithRequiredFile
      */
     default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(Long petId,
-        Flux<Part> requiredFile,
+        Part requiredFile,
         String additionalMetadata,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();

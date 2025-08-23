@@ -57,7 +57,7 @@ where
                 Err(err) => {
                     return Response::builder()
                         .status(StatusCode::BAD_REQUEST)
-                        .body(Body::from(format!("Invalid header some_uid - {}", err)))
+                        .body(Body::from(format!("Invalid header some_uid - {err}")))
                         .map_err(|e| {
                             error!(error = ?e);
                             StatusCode::INTERNAL_SERVER_ERROR
@@ -105,13 +105,8 @@ where
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -139,4 +134,13 @@ where
         error!(error = ?e);
         StatusCode::INTERNAL_SERVER_ERROR
     })
+}
+
+#[allow(dead_code)]
+#[inline]
+fn response_with_status_code_only(code: StatusCode) -> Result<Response, StatusCode> {
+    Response::builder()
+        .status(code)
+        .body(Body::empty())
+        .map_err(|_| code)
 }

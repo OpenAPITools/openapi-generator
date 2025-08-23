@@ -1,0 +1,15 @@
+generatorName: rust-axum
+outputDir: samples/server/petstore/rust-axum/output/apikey-authorization
+inputSpec: modules/openapi-generator/src/test/resources/3_0/jetbrains/CheckoutBasicBearerCookieQueryHeaderBasicBearer.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-axum
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: apikey-authorization
+  basicAuthorization: true
+  basicAnalytic: true
+  ownedRequest: true
+  homePageUrl: https://github.com/openapitools/openapi-generator
+globalProperties:
+  skipFormModel: false
+enablePostProcessFile: true

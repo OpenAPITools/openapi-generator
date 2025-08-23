@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.testng.Assert.*;
 
@@ -175,6 +177,21 @@ public class TestUtils {
         } catch (IOException e) {
             fail("Unable to evaluate file " + path);
         }
+    }
+
+    /**
+     * Count occurrences of the given text
+     * @param content content of the file
+     * @param text text to find
+     * @return
+     */
+    public static int countOccurrences(String content, String text) {
+        Matcher matcher = Pattern.compile(text).matcher(content);
+        int count = 0;
+        while (matcher.find()) {
+            count++;
+        }
+        return count;
     }
 
     public static String linearize(String target) {

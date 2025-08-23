@@ -639,6 +639,18 @@ paths:
       summary: To test class name in snake case
       tags:
       - fake_classname_tags 123#$%^
+  /redirectOrDefault:
+    get:
+      operationId: redirectOrDefault
+      responses:
+        "301":
+          description: redirect
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bar"
+          description: default
   /fake:
     delete:
       description: Fake endpoint to test group parameters (optional)
@@ -1672,6 +1684,10 @@ components:
           type: string
         string_formatted_as_decimal_required:
           format: decimal
+          type: string
+        duplicate_property_name:
+          type: string
+        '@duplicate_property_name':
           type: string
       required:
       - byte

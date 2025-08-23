@@ -61,7 +61,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class MyExampleGet200Response extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(MyExampleGet200Response.class.getName());
 
@@ -89,7 +89,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
                     // check if the actual instance is of the type `List<@Valid OneOf1>`
                     if (value.getActualInstance() instanceof List<?>) {
                         List<?> list = (List<?>) value.getActualInstance();
-                        if (list.get(0) instanceof OneOf1) {
+                        if (!list.isEmpty() && list.get(0) instanceof OneOf1) {
                             JsonArray array = adapterListOneOf1.toJsonTree((List<@Valid OneOf1>)value.getActualInstance()).getAsJsonArray();
                             elementAdapter.write(out, array);
                             return;
@@ -191,7 +191,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
     public void setActualInstance(Object instance) {
         if (instance instanceof List<?>) {
             List<?> list = (List<?>) instance;
-            if (list.get(0) instanceof OneOf1) {
+            if (!list.isEmpty() && list.get(0) instanceof OneOf1) {
                 super.setActualInstance(instance);
                 return;
             }

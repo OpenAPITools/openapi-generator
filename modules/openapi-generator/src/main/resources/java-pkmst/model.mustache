@@ -30,9 +30,11 @@ import {{javaxPackage}}.xml.bind.annotation.*;
 {{#model}}
 {{#isEnum}}
 {{>enumOuterClass}}
+
 {{/isEnum}}
 {{^isEnum}}
 {{>pojo}}
+
 {{/isEnum}}
 {{/model}}
 {{/models}}

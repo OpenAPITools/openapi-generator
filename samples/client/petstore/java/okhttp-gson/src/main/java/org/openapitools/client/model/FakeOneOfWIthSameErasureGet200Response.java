@@ -51,7 +51,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FakeOneOfWIthSameErasureGet200Response.class.getName());
 
@@ -163,7 +163,7 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
     public void setActualInstance(Object instance) {
         if (instance instanceof List<?>) {
             List<?> list = (List<?>) instance;
-            if (list.get(0) instanceof String) {
+            if (!list.isEmpty() && list.get(0) instanceof String) {
                 super.setActualInstance(instance);
                 return;
             }

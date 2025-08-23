@@ -22,7 +22,7 @@ type t = {
            option [@default None]
         
         ; [@key "message"]
-} [@@deriving yojson { strict = false }, show ];;
+} [@@deriving yojson { strict = false }, show, eq ];;
 
 (** Describes the result of uploading an image resource *)
 let create () : t = {

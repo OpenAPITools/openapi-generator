@@ -55,12 +55,14 @@ namespace {{modelPackage}}
         {{#items}}
         {{^complexType}}
 {{>enumClass}}
+
         {{/complexType}}
         {{/items}}
         {{/items.isEnum}}
         {{#isEnum}}
         {{^complexType}}
 {{>enumClass}}
+
         {{/complexType}}
         {{/isEnum}}
         /// <summary>

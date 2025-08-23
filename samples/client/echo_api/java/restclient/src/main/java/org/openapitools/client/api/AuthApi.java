@@ -23,7 +23,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class AuthApi {
     private ApiClient apiClient;
 
@@ -107,6 +107,7 @@ public class AuthApi {
     public ResponseSpec testAuthHttpBasicWithResponseSpec() throws RestClientResponseException {
         return testAuthHttpBasicRequestCreation();
     }
+
     /**
      * To test HTTP bearer authentication
      * To test HTTP bearer authentication

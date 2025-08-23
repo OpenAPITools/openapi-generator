@@ -2227,17 +2227,24 @@ public class ModelUtils {
      * @param subSchemas The oneOf or AnyOf schemas
      * @return The simplified schema
      */
-    public static Schema simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(OpenAPI openAPI, Schema schema, List<Schema> subSchemas) {
+    public static Schema simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(OpenAPI openAPI, Schema schema, List<Schema> subSchemas) {
         if (subSchemas.removeIf(subSchema -> isNullTypeSchema(openAPI, subSchema))) {
             schema.setNullable(true);
         }
 
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
+            Schema<?> subSchema = subSchemas.get(0);
             if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting
-                subSchemas.get(0).setNullable(true);
+                subSchema.setNullable(true);
             }
-            return subSchemas.get(0);
+            if (Boolean.TRUE.equals(schema.getReadOnly())) {
+                subSchema.setReadOnly(true);
+            }
+            if (Boolean.TRUE.equals(schema.getWriteOnly())) {
+                subSchema.setWriteOnly(true);
+            }
+            return subSchema;
         }
 
         return schema;
@@ -2435,6 +2442,19 @@ public class ModelUtils {
                 schema.getContentSchema() != null);
     }
 
+    /**
+     * Returns true if the OpenAPI specification contains any schemas which are enums.
+     * @param openAPI   OpenAPI specification
+     * @return          true if the OpenAPI specification contains any schemas which are enums.
+     */
+    public static boolean containsEnums(OpenAPI openAPI) {
+        Map<String, Schema> schemaMap = getSchemas(openAPI);
+        if (schemaMap.isEmpty()) {
+            return false;
+        }
+
+        return schemaMap.values().stream().anyMatch(ModelUtils::isEnumSchema);
+    }
 
     @FunctionalInterface
     private interface OpenAPISchemaVisitor {

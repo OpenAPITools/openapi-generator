@@ -11,7 +11,7 @@ title: Documentation for the typescript-angular Generator
 | generator type | CLIENT | |
 | generator language | Typescript | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a TypeScript Angular (9.x - 19.x) client library. | |
+| helpTxt | Generates a TypeScript Angular (9.x - 20.x) client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -34,7 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| |original|
 |modelSuffix|The suffix of the generated model.| |null|
 |ngPackagrVersion|The version of ng-packagr compatible with Angular (see ngVersion option).| |null|
-|ngVersion|The version of Angular. (At least 9.0.0)| |19.0.0|
+|ngVersion|The version of Angular. (At least 9.0.0)| |20.0.0|
 |npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 |npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
@@ -75,20 +75,42 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>Array</li>
+<li>Awaited</li>
 <li>Blob</li>
 <li>Boolean</li>
+<li>Capitalize</li>
+<li>ConstructorParameters</li>
 <li>Date</li>
 <li>Double</li>
 <li>Error</li>
+<li>Exclude</li>
+<li>Extract</li>
 <li>File</li>
 <li>Float</li>
+<li>InstanceType</li>
 <li>Integer</li>
 <li>Long</li>
+<li>Lowercase</li>
 <li>Map</li>
+<li>NoInfer</li>
+<li>NonNullable</li>
 <li>Object</li>
+<li>Omit</li>
+<li>OmitThisParameter</li>
+<li>Parameters</li>
+<li>Partial</li>
+<li>Pick</li>
+<li>Readonly</li>
 <li>ReadonlyArray</li>
+<li>Record</li>
+<li>Required</li>
+<li>ReturnType</li>
 <li>Set</li>
 <li>String</li>
+<li>ThisParameterType</li>
+<li>ThisType</li>
+<li>Uncapitalize</li>
+<li>Uppercase</li>
 <li>any</li>
 <li>boolean</li>
 <li>number</li>

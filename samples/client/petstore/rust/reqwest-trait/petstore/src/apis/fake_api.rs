@@ -82,7 +82,7 @@ impl FakeApi for FakeApiClient {
 
 }
 
-/// struct for typed errors of method [`test_nullable_required_param`]
+/// struct for typed errors of method [`FakeApi::test_nullable_required_param`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestNullableRequiredParamError {

@@ -288,7 +288,15 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                         oneOf.setName(modelName);
                         oneOf.setBaseName(refName);
                     }
-                } else {
+                } else if (oneOf.isArray) {
+                    // If the type is an array, extend the name with the inner type to prevent name collisions
+                    // in case multiple arrays with different types are defined. If the user has manually specified
+                    // a name, use that name instead.
+                    String collectionWithTypeName = toModelName(schema.getType()) + oneOf.containerTypeMapped + oneOf.items.dataType;
+                    String oneOfName = Optional.ofNullable(schema.getTitle()).orElse(collectionWithTypeName);
+                    oneOf.setName(oneOfName);
+                }
+                else {
                     // In-placed type (primitive), because there is no mapping or ref for it.
                     // use camelized `title` if present, otherwise use `type`
                     String oneOfName = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
@@ -631,13 +639,29 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         super.postProcessParameter(parameter);
         // in order to avoid name conflicts, we map parameters inside the functions
         String inFunctionIdentifier = "";
+        String locationSuffix = "";
+
+        // Determine parameter location using the boolean flags in case of parameters with the same name but in different locations
+        if (parameter.isPathParam) {
+            locationSuffix = "path_";
+        } else if (parameter.isQueryParam) {
+            locationSuffix = "query_";
+        } else if (parameter.isHeaderParam) {
+            locationSuffix = "header_";
+        } else if (parameter.isBodyParam) {
+            locationSuffix = "body_";
+        } else if (parameter.isCookieParam) {
+            locationSuffix = "cookie_";
+        } else if (parameter.isFormParam) {
+            locationSuffix = "form_";
+        }
         if (this.useSingleRequestParameter) {
             inFunctionIdentifier = "params." + parameter.paramName;
         } else {
             if (parameter.paramName.startsWith("r#")) {
-                inFunctionIdentifier = "p_" + parameter.paramName.substring(2);
+                inFunctionIdentifier = "p_" + locationSuffix + parameter.paramName.substring(2);
             } else {
-                inFunctionIdentifier = "p_" + parameter.paramName;
+                inFunctionIdentifier = "p_" + locationSuffix + parameter.paramName;
             }
         }
         if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENSION_PARAM_IDENTIFIER)) { // allow to overwrite this value
@@ -648,6 +672,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
+        boolean useAsyncFileStream = false;
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
@@ -679,6 +704,17 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             for (var param : operation.allParams) {
                 if (!hasUUIDs && param.isUuid) {
                     hasUUIDs = true;
+                    break;
+                }
+            }
+
+            // If we use a file parameter, we need to include the imports and crates for it
+            // But they should be added only once per file 
+            for (var param: operation.allParams) {
+                if (param.isFile && supportAsync && !useAsyncFileStream) {
+                    useAsyncFileStream = true;
+                    additionalProperties.put("useAsyncFileStream", Boolean.TRUE);
+                    operation.vendorExtensions.put("useAsyncFileStream", Boolean.TRUE);
                     break;
                 }
             }

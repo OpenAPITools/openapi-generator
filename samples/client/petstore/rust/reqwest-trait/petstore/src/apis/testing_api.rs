@@ -167,21 +167,21 @@ impl TestingApi for TestingApiClient {
 
 }
 
-/// struct for typed errors of method [`tests_all_of_with_one_model_get`]
+/// struct for typed errors of method [`TestingApi::tests_all_of_with_one_model_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsAllOfWithOneModelGetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`tests_file_response_get`]
+/// struct for typed errors of method [`TestingApi::tests_file_response_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsFileResponseGetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`tests_type_testing_get`]
+/// struct for typed errors of method [`TestingApi::tests_type_testing_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsTypeTestingGetError {

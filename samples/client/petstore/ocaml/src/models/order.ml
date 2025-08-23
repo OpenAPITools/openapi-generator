@@ -39,7 +39,7 @@ type t = {
            option [@default None]
         
         ; [@key "complete"]
-} [@@deriving yojson { strict = false }, show ];;
+} [@@deriving yojson { strict = false }, show, eq ];;
 
 (** An order for a pets from the pet store *)
 let create () : t = {

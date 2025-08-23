@@ -87,6 +87,14 @@
         "title": "Config Options for clojure",
         "sidebar_label": "clojure"
       },
+      "generators/cpp-oatpp-client": {
+        "title": "Config Options for cpp-oatpp-client",
+        "sidebar_label": "cpp-oatpp-client"
+      },
+      "generators/cpp-oatpp-server": {
+        "title": "Config Options for cpp-oatpp-server",
+        "sidebar_label": "cpp-oatpp-server"
+      },
       "generators/cpp-pistache-server": {
         "title": "Config Options for cpp-pistache-server",
         "sidebar_label": "cpp-pistache-server"
@@ -449,6 +457,10 @@
       "generators/rust-server": {
         "title": "Config Options for rust-server",
         "sidebar_label": "rust-server"
+      },
+      "generators/rust-server-deprecated": {
+        "title": "Config Options for rust-server-deprecated",
+        "sidebar_label": "rust-server-deprecated"
       },
       "generators/rust": {
         "title": "Config Options for rust",

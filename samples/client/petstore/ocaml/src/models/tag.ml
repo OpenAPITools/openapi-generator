@@ -17,7 +17,7 @@ type t = {
            option [@default None]
         
         ; [@key "name"]
-} [@@deriving yojson { strict = false }, show ];;
+} [@@deriving yojson { strict = false }, show, eq ];;
 
 (** A tag for a pet *)
 let create () : t = {

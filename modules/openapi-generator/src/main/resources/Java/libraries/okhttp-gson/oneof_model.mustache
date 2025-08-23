@@ -94,7 +94,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{^isPrimitiveType}}
                     {{#isArray}}
                         List<?> list = (List<?>) value.getActualInstance();
-                        if (list.get(0) instanceof {{{items.dataType}}}) {
+                        if (!list.isEmpty() && list.get(0) instanceof {{{items.dataType}}}) {
                             JsonArray array = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonArray();
                             elementAdapter.write(out, array);
                             return;
@@ -175,7 +175,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{/isNumber}}
                     {{^isNumber}}
                     {{^isPrimitiveType}}
+                    {{#isUuid}}
+                        UUID.fromString(jsonElement.getAsString());
+                    {{/isUuid}}
+                    {{^isUuid}}
                         {{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}.validateJsonElement(jsonElement);
+                    {{/isUuid}}
                         actualAdapter = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}};
                     {{/isPrimitiveType}}
                     {{/isNumber}}
@@ -330,7 +335,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         if (instance instanceof {{#isArray}}List<?>{{/isArray}}{{#isMap}}Map<?, ?>{{/isMap}}{{^isMap}}{{^isArray}}{{{dataType}}}{{/isArray}}{{/isMap}}) {
         {{#isArray}}
             List<?> list = (List<?>) instance;
-            if (list.get(0) instanceof {{{items.dataType}}}) {
+            if (!list.isEmpty() && list.get(0) instanceof {{{items.dataType}}}) {
                 super.setActualInstance(instance);
                 return;
             }
@@ -408,7 +413,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/isNumber}}
         {{^isNumber}}
         {{^isPrimitiveType}}
+        {{#isUuid}}
+            UUID.fromString(jsonElement.getAsString());
+        {{/isUuid}}
+        {{^isUuid}}
             {{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}.validateJsonElement(jsonElement);
+        {{/isUuid}}
         {{/isPrimitiveType}}
         {{/isNumber}}
         {{/isArray}}

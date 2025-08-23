@@ -35,7 +35,7 @@ type t = {
             None
           ]
         ; [@key "status"]
-} [@@deriving yojson { strict = false }, show ];;
+} [@@deriving yojson { strict = false }, show, eq ];;
 
 (** A pet for sale in the pet store *)
 let create (name : string) (photo_urls : string list) : t = {

@@ -31,7 +31,10 @@ import 'package:openapi/src/model/model_return.dart';
 import 'package:openapi/src/model/name.dart';
 import 'package:openapi/src/model/nullable_class.dart';
 import 'package:openapi/src/model/number_only.dart';
+import 'package:openapi/src/model/object_that_references_objects_with_duplicate_inline_enums.dart';
 import 'package:openapi/src/model/object_with_deprecated_fields.dart';
+import 'package:openapi/src/model/object_with_duplicate_inline_enum.dart';
+import 'package:openapi/src/model/object_with_inline_enum.dart';
 import 'package:openapi/src/model/order.dart';
 import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
@@ -41,6 +44,7 @@ import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:openapi/src/model/test_inline_freeform_additional_properties_request.dart';
+import 'package:openapi/src/model/test_item.dart';
 import 'package:openapi/src/model/user.dart';
 
 final _regList = RegExp(r'^List<(.*)>$');
@@ -130,8 +134,14 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return NullableClass.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'NumberOnly':
           return NumberOnly.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ObjectThatReferencesObjectsWithDuplicateInlineEnums':
+          return ObjectThatReferencesObjectsWithDuplicateInlineEnums.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ObjectWithDeprecatedFields':
           return ObjectWithDeprecatedFields.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ObjectWithDuplicateInlineEnum':
+          return ObjectWithDuplicateInlineEnum.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ObjectWithInlineEnum':
+          return ObjectWithInlineEnum.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Order':
           return Order.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'OuterComposite':
@@ -163,8 +173,13 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return SpecialModelName.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Tag':
           return Tag.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'TestEnum':
+          
+          
         case 'TestInlineFreeformAdditionalPropertiesRequest':
           return TestInlineFreeformAdditionalPropertiesRequest.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'TestItem':
+          return TestItem.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'User':
           return User.fromJson(value as Map<String, dynamic>) as ReturnType;
         default:

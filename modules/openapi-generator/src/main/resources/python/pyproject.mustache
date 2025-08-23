@@ -15,7 +15,9 @@ authors = [
   {name = "{{infoName}}{{^infoName}}OpenAPI Generator Community{{/infoName}}",email = "{{infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}"},
 ]
 {{/poetry1}}
-license = "{{{licenseInfo}}}{{^licenseInfo}}NoLicense{{/licenseInfo}}"
+{{#licenseInfo}}
+license = "{{{licenseInfo}}}"
+{{/licenseInfo}}
 readme = "README.md"
 {{#poetry1}}
 repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
@@ -41,6 +43,7 @@ pycryptodome = ">= 3.9.0"
 {{/hasHttpSignatureMethods}}
 pydantic = ">= 2"
 typing-extensions = ">= 4.7.1"
+lazy-imports = ">= 1, < 2"
 {{/poetry1}}
 {{^poetry1}}
 requires-python = ">=3.9"
@@ -60,7 +63,8 @@ dependencies = [
   "pycryptodome (>=3.9.0)",
 {{/hasHttpSignatureMethods}}
   "pydantic (>=2)",
-  "typing-extensions (>=4.7.1)"
+  "typing-extensions (>=4.7.1)",
+  "lazy-imports (>=1,<2)"
 ]
 
 [project.urls]

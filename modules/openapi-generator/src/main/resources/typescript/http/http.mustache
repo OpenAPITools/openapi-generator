@@ -5,7 +5,6 @@ import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
 import { URL, URLSearchParams } from 'url';
 import * as http from 'http';
 import * as https from 'https';
-import { AbortSignal } from "node-fetch/externals";
 {{/node}}
 {{/platforms}}
 import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
@@ -26,6 +25,22 @@ export * from './jquery{{importFileExtension}}';
 /**
  * Represents an HTTP method.
  */
+{{#useErasableSyntax}}
+export const HttpMethod = {
+    GET: "GET",
+    HEAD: "HEAD",
+    POST: "POST",
+    PUT: "PUT",
+    DELETE: "DELETE",
+    CONNECT: "CONNECT",
+    OPTIONS: "OPTIONS",
+    TRACE: "TRACE",
+    PATCH: "PATCH"
+} as const;
+
+export type HttpMethod = typeof HttpMethod[keyof typeof HttpMethod];
+{{/useErasableSyntax}}
+{{^useErasableSyntax}}
 export enum HttpMethod {
     GET = "GET",
     HEAD = "HEAD",
@@ -37,6 +52,7 @@ export enum HttpMethod {
     TRACE = "TRACE",
     PATCH = "PATCH"
 }
+{{/useErasableSyntax}}
 
 /**
  * Represents an HTTP file which will be transferred from or to a server.

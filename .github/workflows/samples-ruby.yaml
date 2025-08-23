@@ -24,7 +24,7 @@ jobs:
           - 'samples/client/echo_api/ruby-faraday/'
           - 'samples/client/echo_api/ruby-typhoeus/'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup node.js
         uses: actions/setup-node@v4
       - name: Run echo server

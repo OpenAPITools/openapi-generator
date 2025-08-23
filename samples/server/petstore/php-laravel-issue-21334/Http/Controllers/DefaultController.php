@@ -79,13 +79,8 @@ class DefaultController extends Controller
 
         $param_withRandomCase = $request->string('param_withRandomCase')->value();
 
-        try {
-            $apiResult = $this->api->getDummy($paramCamelCase, $ParamPascalCase, $param_withRandomCase);
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->getDummy($paramCamelCase, $ParamPascalCase, $param_withRandomCase);
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
             return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);

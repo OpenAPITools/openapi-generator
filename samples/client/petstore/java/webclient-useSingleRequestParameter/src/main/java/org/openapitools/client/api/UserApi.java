@@ -27,7 +27,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -47,7 +47,6 @@ public class UserApi {
         this.apiClient = apiClient;
     }
 
-    
     /**
      * Create user
      * This can only be done by the logged in user.
@@ -497,10 +496,10 @@ public class UserApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec loginUserWithResponseSpec(LoginUserRequest requestParameters) throws WebClientResponseException {
-       return this.loginUserWithResponseSpec(requestParameters.username(), requestParameters.password());
+        return this.loginUserWithResponseSpec(requestParameters.username(), requestParameters.password());
     }
 
-          
+
     /**
      * Logs user into the system
      * 
@@ -531,7 +530,7 @@ public class UserApi {
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
-        
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };
@@ -729,10 +728,10 @@ public class UserApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     public ResponseSpec updateUserWithResponseSpec(UpdateUserRequest requestParameters) throws WebClientResponseException {
-       return this.updateUserWithResponseSpec(requestParameters.username(), requestParameters.user());
+        return this.updateUserWithResponseSpec(requestParameters.username(), requestParameters.user());
     }
 
-          
+
     /**
      * Updated user
      * This can only be done by the logged in user.
