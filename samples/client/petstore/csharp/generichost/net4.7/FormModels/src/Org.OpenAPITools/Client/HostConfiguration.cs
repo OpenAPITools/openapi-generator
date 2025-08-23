@@ -188,7 +188,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TestResultCodeNullableJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
-            _jsonOptions.Converters.Add(new UploadFiles200ResponseJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());
             _jsonOptions.Converters.Add(new WhaleJsonConverter());
             _jsonOptions.Converters.Add(new ZebraJsonConverter());
