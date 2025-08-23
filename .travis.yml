@@ -32,8 +32,8 @@ cache:
   - $HOME/.cache/deno
   - $HOME/.phpenv/versions/8.1.4
 
-services:
-  - docker
+#services:
+#  - docker
 
 # comment out the host table change to use the public petstore server
 addons:
@@ -47,16 +47,16 @@ addons:
     - petstore.swagger.io
 
 before_install:
-  - sudo rm -rf /var/lib/apt/lists/*
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) edge"
-  - sudo apt-get update
-  #- sudo apt-get install -qqy --no-install-recommends google-chrome-stable
-  #- sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-  - mkdir -vp ~/.docker/cli-plugins/
-  - curl --silent -L "https://github.com/docker/buildx/releases/download/v0.3.0/buildx-v0.3.0.linux-amd64" > ~/.docker/cli-plugins/docker-buildx
-  - chmod a+x ~/.docker/cli-plugins/docker-buildx
-  # to run petstore server locally via docker
+#  - sudo rm -rf /var/lib/apt/lists/*
+#  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+#  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) edge"
+#  - sudo apt-get update
+#  #- sudo apt-get install -qqy --no-install-recommends google-chrome-stable
+#  #- sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+#  - mkdir -vp ~/.docker/cli-plugins/
+#  - curl --silent -L "https://github.com/docker/buildx/releases/download/v0.3.0/buildx-v0.3.0.linux-amd64" > ~/.docker/cli-plugins/docker-buildx
+#  - chmod a+x ~/.docker/cli-plugins/docker-buildx
+#  # to run petstore server locally via docker
   #- echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin || true
   #- docker pull swaggerapi/petstore
   #- docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
@@ -133,7 +133,7 @@ script:
   # fail fast
   - set -e
   # show docker buildx version
-  - docker buildx version
+  #- docker buildx version
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   # show "error" only to reduce the log size
@@ -169,39 +169,39 @@ after_success:
         popd;
       fi;
     fi;
-  ## docker: build and push openapi-generator-online to DockerHub
-  - if [ $DOCKER_HUB_USERNAME ]; then
-      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
-      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
-      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
-      docker buildx create --use;
-      if [ ! -z "$TRAVIS_TAG" ]; then
-          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME:latest -t $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_GENERATOR_IMAGE_NAME -t $DOCKER_GENERATOR_IMAGE_NAME:latest-release ./modules/openapi-generator-online;
-          echo "Built and tagged $DOCKER_GENERATOR_IMAGE_NAME";
-      fi;
-      if [ -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
-          echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME for master";
-      fi;
-    fi;
-  ## docker: build cli image and push to Docker Hub
-  - if [ $DOCKER_HUB_USERNAME ]; then
-      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
-      cp docker-entrypoint.sh ./modules/openapi-generator-cli;
-      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
-      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
-      docker buildx create --use;
-      docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
-      if [ ! -z "$TRAVIS_TAG" ]; then
-          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_CODEGEN_CLI_IMAGE_NAME -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest-release ./modules/openapi-generator-cli;
-          echo "Built and tagged $DOCKER_GENERATOR_IMAGE_NAME";
-      fi;
-      if [ -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
-          echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
-      fi;
-    fi;
-  ## NOTE; we will do the followign manually instead as the page doesn't need to be updated in every single travis build
+#  ## docker: build and push openapi-generator-online to DockerHub
+#  - if [ $DOCKER_HUB_USERNAME ]; then
+#      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
+#      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
+#      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
+#      docker buildx create --use;
+#      if [ ! -z "$TRAVIS_TAG" ]; then
+#          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME:latest -t $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_GENERATOR_IMAGE_NAME -t $DOCKER_GENERATOR_IMAGE_NAME:latest-release ./modules/openapi-generator-online;
+#          echo "Built and tagged $DOCKER_GENERATOR_IMAGE_NAME";
+#      fi;
+#      if [ -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+#          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
+#          echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME for master";
+#      fi;
+#    fi;
+##  ## docker: build cli image and push to Docker Hub
+#  - if [ $DOCKER_HUB_USERNAME ]; then
+#      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
+#      cp docker-entrypoint.sh ./modules/openapi-generator-cli;
+#      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
+#      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
+#      docker buildx create --use;
+#      docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
+#      if [ ! -z "$TRAVIS_TAG" ]; then
+#          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_CODEGEN_CLI_IMAGE_NAME -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest-release ./modules/openapi-generator-cli;
+#          echo "Built and tagged $DOCKER_GENERATOR_IMAGE_NAME";
+#      fi;
+#      if [ -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+#          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
+#          echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
+#      fi;
+#    fi;
+#  ## NOTE; we will do the followign manually instead as the page doesn't need to be updated in every single travis build
   ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
   #  - if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   #      sed -i "s/Vector{UInt8}/Vector\&#123;UInt8\&#125;/g" docs/generators/julia-client.md;

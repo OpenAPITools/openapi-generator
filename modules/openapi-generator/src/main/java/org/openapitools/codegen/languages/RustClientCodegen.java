@@ -672,6 +672,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
+        boolean useAsyncFileStream = false;
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
@@ -703,6 +704,17 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             for (var param : operation.allParams) {
                 if (!hasUUIDs && param.isUuid) {
                     hasUUIDs = true;
+                    break;
+                }
+            }
+
+            // If we use a file parameter, we need to include the imports and crates for it
+            // But they should be added only once per file 
+            for (var param: operation.allParams) {
+                if (param.isFile && supportAsync && !useAsyncFileStream) {
+                    useAsyncFileStream = true;
+                    additionalProperties.put("useAsyncFileStream", Boolean.TRUE);
+                    operation.vendorExtensions.put("useAsyncFileStream", Boolean.TRUE);
                     break;
                 }
             }

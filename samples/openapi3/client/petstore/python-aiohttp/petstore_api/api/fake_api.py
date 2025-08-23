@@ -20,6 +20,7 @@ from datetime import date, datetime
 from pydantic import Field, StrictBool, StrictBytes, StrictInt, StrictStr, field_validator
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
+from uuid import UUID
 from petstore_api.models.client import Client
 from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
@@ -4913,7 +4914,7 @@ class FakeApi:
     @validate_call
     async def fake_uuid_example(
         self,
-        uuid_example: Annotated[StrictStr, Field(description="uuid example")],
+        uuid_example: Annotated[UUID, Field(description="uuid example")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4979,7 +4980,7 @@ class FakeApi:
     @validate_call
     async def fake_uuid_example_with_http_info(
         self,
-        uuid_example: Annotated[StrictStr, Field(description="uuid example")],
+        uuid_example: Annotated[UUID, Field(description="uuid example")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5045,7 +5046,7 @@ class FakeApi:
     @validate_call
     async def fake_uuid_example_without_preload_content(
         self,
-        uuid_example: Annotated[StrictStr, Field(description="uuid example")],
+        uuid_example: Annotated[UUID, Field(description="uuid example")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
