@@ -30,7 +30,7 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}
     let uri = Request.{{> to_optional_prefix}}replace_path_param uri "{{{baseName}}}" {{> to_string}} {{{paramName}}} in
 {{/pathParams}}
 {{#queryParams}}
-    let uri = Request.{{> to_optional_prefix}}add_query_param{{#isArray}}_list{{/isArray}} uri "{{{baseName}}}" {{> to_string}} {{{paramName}}} in
+    let uri = Request.{{> to_optional_prefix}}add_query_param{{#isArray}}_list{{/isArray}}{{#isExplode}}{{#isFormStyle}}{{#isMap}}_exploded_form_object{{/isMap}}{{/isFormStyle}}{{/isExplode}} uri "{{{baseName}}}" {{> to_string}} {{{paramName}}} in
 {{/queryParams}}
 {{#hasAuthMethods}}
     {{#authMethods}}
@@ -42,7 +42,10 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}
     {{/authMethods}}
 {{/hasAuthMethods}}
 {{#bodyParams}}
-    let body = Request.{{#isFreeFormObject}}write_json_body{{/isFreeFormObject}}{{#isByteArray}}write_string_body{{/isByteArray}}{{^isFreeFormObject}}{{^isByteArray}}write_as_json_body{{/isByteArray}}{{/isFreeFormObject}} {{> to_json}} {{{paramName}}} in
+    let body = Request.
+        {{#isByteArray}}write_string_body {{{paramName}}}{{/isByteArray}}
+        {{^isByteArray}}write_as_json_body {{> to_json}} {{{paramName}}}{{/isByteArray}}
+    in
 {{/bodyParams}}
 {{^hasBodyParam}}
     {{#hasFormParams}}
