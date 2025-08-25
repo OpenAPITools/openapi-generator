@@ -6,10 +6,25 @@
  *)
 
 let test_classname ~client_t =
-  let open Lwt.Infix in
-  let uri = Request.build_uri "/fake_classname_test" in
-  let headers = Request.default_headers in
-  let uri = Uri.add_query_param' uri ("api_key_query", Request.api_key) in
-  let body = Request.write_as_json_body Client.to_yojson client_t in
-  Cohttp_lwt_unix.Client.call `PATCH uri ~headers ~body >>= fun (resp, body) ->
-  Request.read_json_body_as (JsonSupport.unwrap Client.of_yojson) resp body
+    let open Lwt.Infix in
+    let uri = Request.build_uri "/fake_classname_test" in
+    let headers = Request.default_headers in
+    let uri = Uri.add_query_param' uri ("api_key_query", Request.api_key) in
+    let body = Request.
+        
+        write_as_json_body     
+    
+    
+    
+    
+    
+    
+                Client.to_yojson
+    
+    
+    
+ client_t
+    in
+    Cohttp_lwt_unix.Client.call `PATCH uri ~headers ~body >>= fun (resp, body) ->
+    Request.read_json_body_as (JsonSupport.unwrap Client.of_yojson) resp body
+

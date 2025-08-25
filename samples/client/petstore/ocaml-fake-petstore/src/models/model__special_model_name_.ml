@@ -5,10 +5,20 @@
  *
  *)
 
-type t = {
-  special_property_name : int64 option;
-      [@default None] [@key "$special[property.name]"]
-}
-[@@deriving yojson { strict = false }, show, eq]
 
-let create () : t = { special_property_name = None }
+
+    
+        type t = {
+                                      special_property_name: int64
+                  
+                   option [@default None]
+                
+                
+                ; [@key "$special[property.name]"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create () : t = {
+            special_property_name = None;
+        }
+    
+

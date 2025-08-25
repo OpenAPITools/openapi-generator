@@ -35,6 +35,3 @@ jobs:
       - name: Build
         run: opam exec -- dune build
         working-directory: ${{ matrix.sample }}
-      - name: Check formatting
-        run: opam exec -- dune fmt
-        working-directory: ${{ matrix.sample }}

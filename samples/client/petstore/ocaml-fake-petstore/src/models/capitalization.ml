@@ -5,24 +5,56 @@
  *
  *)
 
-type t = {
-  small_camel : string option; [@default None] [@key "smallCamel"]
-  capital_camel : string option; [@default None] [@key "CapitalCamel"]
-  small_snake : string option; [@default None] [@key "small_Snake"]
-  capital_snake : string option; [@default None] [@key "Capital_Snake"]
-  sca_eth_flow_points : string option;
-      [@default None] [@key "SCA_ETH_Flow_Points"]
-  (* Name of the pet  *)
-  att_name : string option; [@default None] [@key "ATT_NAME"]
-}
-[@@deriving yojson { strict = false }, show, eq]
 
-let create () : t =
-  {
-    small_camel = None;
-    capital_camel = None;
-    small_snake = None;
-    capital_snake = None;
-    sca_eth_flow_points = None;
-    att_name = None;
-  }
+
+    
+        type t = {
+                                      small_camel: string
+                  
+                   option [@default None]
+                
+                
+                ; [@key "smallCamel"]
+                                              capital_camel: string
+                  
+                   option [@default None]
+                
+                
+                ; [@key "CapitalCamel"]
+                                              small_snake: string
+                  
+                   option [@default None]
+                
+                
+                ; [@key "small_Snake"]
+                                              capital_snake: string
+                  
+                   option [@default None]
+                
+                
+                ; [@key "Capital_Snake"]
+                                              sca_eth_flow_points: string
+                  
+                   option [@default None]
+                
+                
+                ; [@key "SCA_ETH_Flow_Points"]
+                            (* Name of the pet  *)
+                              att_name: string
+                  
+                   option [@default None]
+                
+                
+                ; [@key "ATT_NAME"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create () : t = {
+            small_camel = None;
+            capital_camel = None;
+            small_snake = None;
+            capital_snake = None;
+            sca_eth_flow_points = None;
+            att_name = None;
+        }
+    
+

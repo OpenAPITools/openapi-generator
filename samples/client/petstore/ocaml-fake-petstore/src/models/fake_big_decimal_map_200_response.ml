@@ -5,14 +5,25 @@
  *
  *)
 
-type t = {
-  some_id : float option; [@default None] [@key "someId"]
-  some_map : (string * float) list;
-      [@default []]
-      [@to_yojson JsonSupport.of_map_of [%to_yojson: float]]
-      [@of_yojson JsonSupport.to_map_of [%of_yojson: float]]
-      [@key "someMap"]
-}
-[@@deriving yojson { strict = false }, show, eq]
 
-let create () : t = { some_id = None; some_map = [] }
+
+    
+        type t = {
+                                      some_id: float
+                  
+                   option [@default None]
+                
+                
+                ; [@key "someId"]
+                                              some_map: (string * float) list
+                
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: float]] [@of_yojson JsonSupport.to_map_of [%of_yojson: float]] 
+                ; [@key "someMap"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create () : t = {
+            some_id = None;
+            some_map = [];
+        }
+    
+

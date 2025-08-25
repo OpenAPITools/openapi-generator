@@ -5,7 +5,20 @@
  *
  *)
 
-type t = { string : Foo.t option [@default None] [@key "string"] }
-[@@deriving yojson { strict = false }, show, eq]
 
-let create () : t = { string = None }
+
+    
+        type t = {
+                                      string: Foo.t
+                  
+                   option [@default None]
+                
+                
+                ; [@key "string"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create () : t = {
+            string = None;
+        }
+    
+

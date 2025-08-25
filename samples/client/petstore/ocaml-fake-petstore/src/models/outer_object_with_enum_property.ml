@@ -5,7 +5,20 @@
  *
  *)
 
-type t = { value : Enums.outerenuminteger [@key "value"] }
-[@@deriving yojson { strict = false }, show, eq]
 
-let create (value : Enums.outerenuminteger) : t = { value }
+
+    
+        type t = {
+                                      value: Enums.outerenuminteger
+                  
+                  
+                
+                
+                ; [@key "value"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create (value : Enums.outerenuminteger) : t = {
+            value = value;
+        }
+    
+

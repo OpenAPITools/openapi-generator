@@ -5,11 +5,34 @@
  *
  *)
 
-type t = {
-  my_number : float option; [@default None] [@key "my_number"]
-  my_string : string option; [@default None] [@key "my_string"]
-  my_boolean : bool option; [@default None] [@key "my_boolean"]
-}
-[@@deriving yojson { strict = false }, show, eq]
 
-let create () : t = { my_number = None; my_string = None; my_boolean = None }
+
+    
+        type t = {
+                                      my_number: float
+                  
+                   option [@default None]
+                
+                
+                ; [@key "my_number"]
+                                              my_string: string
+                  
+                   option [@default None]
+                
+                
+                ; [@key "my_string"]
+                                              my_boolean: bool
+                  
+                   option [@default None]
+                
+                
+                ; [@key "my_boolean"]
+                } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        let create () : t = {
+            my_number = None;
+            my_string = None;
+            my_boolean = None;
+        }
+    
+
