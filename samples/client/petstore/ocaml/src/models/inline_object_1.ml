@@ -6,14 +6,11 @@
  *)
 
 type t = {
-    (* Additional data to pass to server *)
-    additional_metadata: string option [@default None];
-    (* file to upload *)
-    file: string option [@default None];
-} [@@deriving yojson { strict = false }, show ];;
-
-let create () : t = {
-    additional_metadata = None;
-    file = None;
+  (* Additional data to pass to server *)
+  additional_metadata : string option; [@default None]
+  (* file to upload *)
+  file : string option; [@default None]
 }
+[@@deriving yojson { strict = false }, show]
 
+let create () : t = { additional_metadata = None; file = None }

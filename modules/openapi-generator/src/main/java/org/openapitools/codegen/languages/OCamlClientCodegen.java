@@ -134,6 +134,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         supportingFiles.add(new SupportingFile("dune.mustache", "", "dune"));
         supportingFiles.add(new SupportingFile("dune-project.mustache", "", "dune-project"));
         supportingFiles.add(new SupportingFile("readme.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("ocamlformat.mustache", "", ".ocamlformat"));
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
