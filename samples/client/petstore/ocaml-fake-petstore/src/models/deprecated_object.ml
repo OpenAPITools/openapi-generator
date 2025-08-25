@@ -5,20 +5,7 @@
  *
  *)
 
+type t = { name : string option [@default None] [@key "name"] }
+[@@deriving yojson { strict = false }, show, eq]
 
-
-    
-        type t = {
-                                      name: string
-                  
-                   option [@default None]
-                
-                
-                ; [@key "name"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
-        
-        let create () : t = {
-            name = None;
-        }
-    
-
+let create () : t = { name = None }

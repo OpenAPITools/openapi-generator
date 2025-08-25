@@ -6,28 +6,11 @@
  * Schema Tag.t : A tag for a pet
  *)
 
+type t = {
+  id : int64 option; [@default None] [@key "id"]
+  name : string option; [@default None] [@key "name"]
+}
+[@@deriving yojson { strict = false }, show, eq]
 
-
-    
-        type t = {
-                                      id: int64
-                  
-                   option [@default None]
-                
-                
-                ; [@key "id"]
-                                              name: string
-                  
-                   option [@default None]
-                
-                
-                ; [@key "name"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
-        
-        (** A tag for a pet *)
-        let create () : t = {
-            id = None;
-            name = None;
-        }
-    
-
+(** A tag for a pet *)
+let create () : t = { id = None; name = None }

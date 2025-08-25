@@ -11,6 +11,20 @@ val find_pets_by_status : status:Enums.status list -> Pet.t list Lwt.t
 val find_pets_by_tags : tags:string list -> Pet.t list Lwt.t
 val get_pet_by_id : pet_id:int64 -> Pet.t Lwt.t
 val update_pet : pet_t:Pet.t -> unit Lwt.t
-val update_pet_with_form : pet_id:int64 -> ?name:string -> ?status:string -> unit -> unit Lwt.t
-val upload_file : pet_id:int64 -> ?additional_metadata:string -> ?file:string -> unit -> Api_response.t Lwt.t
-val upload_file_with_required_file : pet_id:int64 -> required_file:string -> ?additional_metadata:string -> unit -> Api_response.t Lwt.t
+
+val update_pet_with_form :
+  pet_id:int64 -> ?name:string -> ?status:string -> unit -> unit Lwt.t
+
+val upload_file :
+  pet_id:int64 ->
+  ?additional_metadata:string ->
+  ?file:string ->
+  unit ->
+  Api_response.t Lwt.t
+
+val upload_file_with_required_file :
+  pet_id:int64 ->
+  required_file:string ->
+  ?additional_metadata:string ->
+  unit ->
+  Api_response.t Lwt.t

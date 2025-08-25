@@ -6,28 +6,11 @@
  * Schema Model_200_response.t : Model for testing model name starting with number
  *)
 
+type t = {
+  name : int32 option; [@default None] [@key "name"]
+  _class : string option; [@default None] [@key "class"]
+}
+[@@deriving yojson { strict = false }, show, eq]
 
-
-    
-        type t = {
-                                      name: int32
-                  
-                   option [@default None]
-                
-                
-                ; [@key "name"]
-                                              _class: string
-                  
-                   option [@default None]
-                
-                
-                ; [@key "class"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
-        
-        (** Model for testing model name starting with number *)
-        let create () : t = {
-            name = None;
-            _class = None;
-        }
-    
-
+(** Model for testing model name starting with number *)
+let create () : t = { name = None; _class = None }

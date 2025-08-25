@@ -5,34 +5,12 @@
  *
  *)
 
+type t = {
+  class_name : string; [@key "className"]
+  color : string option; [@default None] [@key "color"]
+  breed : string option; [@default None] [@key "breed"]
+}
+[@@deriving yojson { strict = false }, show, eq]
 
-
-    
-        type t = {
-                                      class_name: string
-                  
-                  
-                
-                
-                ; [@key "className"]
-                                              color: string
-                  
-                   option [@default None]
-                
-                
-                ; [@key "color"]
-                                              breed: string
-                  
-                   option [@default None]
-                
-                
-                ; [@key "breed"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
-        
-        let create (class_name : string) : t = {
-            class_name = class_name;
-            color = None;
-            breed = None;
-        }
-    
-
+let create (class_name : string) : t =
+  { class_name; color = None; breed = None }

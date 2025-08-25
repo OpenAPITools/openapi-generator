@@ -5,34 +5,13 @@
  *
  *)
 
+type t = {
+  _type : Enums.parentwithnullable_type option;
+      [@default Some `ChildWithNullable] [@key "type"]
+  nullable_property : string option; [@default None] [@key "nullableProperty"]
+  other_property : string option; [@default None] [@key "otherProperty"]
+}
+[@@deriving yojson { strict = false }, show, eq]
 
-
-    
-        type t = {
-                              _type: Enums.parentwithnullable_type
-                           option [@default
-                    Some(`ChildWithNullable)
-                    
-                  ]
-                ; [@key "type"]
-                                                      nullable_property: string
-                  
-                   option [@default None]
-                
-                
-                ; [@key "nullableProperty"]
-                                              other_property: string
-                  
-                   option [@default None]
-                
-                
-                ; [@key "otherProperty"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
-        
-        let create () : t = {
-            _type = None;
-            nullable_property = None;
-            other_property = None;
-        }
-    
-
+let create () : t =
+  { _type = None; nullable_property = None; other_property = None }

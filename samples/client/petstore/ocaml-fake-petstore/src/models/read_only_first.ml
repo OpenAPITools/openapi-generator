@@ -5,27 +5,10 @@
  *
  *)
 
+type t = {
+  bar : string option; [@default None] [@key "bar"]
+  baz : string option; [@default None] [@key "baz"]
+}
+[@@deriving yojson { strict = false }, show, eq]
 
-
-    
-        type t = {
-                                      bar: string
-                  
-                   option [@default None]
-                
-                
-                ; [@key "bar"]
-                                              baz: string
-                  
-                   option [@default None]
-                
-                
-                ; [@key "baz"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
-        
-        let create () : t = {
-            bar = None;
-            baz = None;
-        }
-    
-
+let create () : t = { bar = None; baz = None }

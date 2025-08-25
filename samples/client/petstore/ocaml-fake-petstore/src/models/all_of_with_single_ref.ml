@@ -5,27 +5,11 @@
  *
  *)
 
+type t = {
+  username : string option; [@default None] [@key "username"]
+  single_ref_type : Enums.singlereftype option;
+      [@default None] [@key "SingleRefType"]
+}
+[@@deriving yojson { strict = false }, show, eq]
 
-
-    
-        type t = {
-                                      username: string
-                  
-                   option [@default None]
-                
-                
-                ; [@key "username"]
-                                              single_ref_type: Enums.singlereftype
-                  
-                   option [@default None]
-                
-                
-                ; [@key "SingleRefType"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
-        
-        let create () : t = {
-            username = None;
-            single_ref_type = None;
-        }
-    
-
+let create () : t = { username = None; single_ref_type = None }

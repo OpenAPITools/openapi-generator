@@ -6,14 +6,11 @@
  *)
 
 type t = {
-    (* Updated name of the pet *)
-    name: string option [@default None];
-    (* Updated status of the pet *)
-    status: string option [@default None];
-} [@@deriving yojson { strict = false }, show ];;
-
-let create () : t = {
-    name = None;
-    status = None;
+  (* Updated name of the pet *)
+  name : string option; [@default None]
+  (* Updated status of the pet *)
+  status : string option; [@default None]
 }
+[@@deriving yojson { strict = false }, show]
 
+let create () : t = { name = None; status = None }

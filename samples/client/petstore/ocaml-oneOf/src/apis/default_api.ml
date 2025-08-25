@@ -6,9 +6,8 @@
  *)
 
 let list () =
-    let open Lwt.Infix in
-    let uri = Request.build_uri "/example" in
-    let headers = Request.default_headers in
-    Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
-    Request.read_json_body_as (JsonSupport.unwrap Example.of_yojson) resp body
-
+  let open Lwt.Infix in
+  let uri = Request.build_uri "/example" in
+  let headers = Request.default_headers in
+  Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
+  Request.read_json_body_as (JsonSupport.unwrap Example.of_yojson) resp body

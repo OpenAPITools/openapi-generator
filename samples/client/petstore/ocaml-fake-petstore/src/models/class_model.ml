@@ -6,21 +6,8 @@
  * Schema Class_model.t : Model for testing model with \''_class\'' property
  *)
 
+type t = { _class : string option [@default None] [@key "_class"] }
+[@@deriving yojson { strict = false }, show, eq]
 
-
-    
-        type t = {
-                                      _class: string
-                  
-                   option [@default None]
-                
-                
-                ; [@key "_class"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
-        
-        (** Model for testing model with \''_class\'' property *)
-        let create () : t = {
-            _class = None;
-        }
-    
-
+(** Model for testing model with \''_class\'' property *)
+let create () : t = { _class = None }
