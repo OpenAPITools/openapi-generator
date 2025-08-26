@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      small_camel: string
+                              small_camel: string
                   
                    option [@default None]
                 
@@ -39,13 +39,13 @@
                 
                 
                 ; [@key "SCA_ETH_Flow_Points"]
-                            (* Name of the pet  *)
-                              att_name: string
+                                              att_name: string
                   
                    option [@default None]
                 
                 
                 ; [@key "ATT_NAME"]
+                    (** Name of the pet  *)
                 } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {

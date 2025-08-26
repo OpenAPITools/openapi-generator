@@ -9,7 +9,7 @@
 
     
         type t = {
-                              enum_string: Enums.enum_string
+                      enum_string: Enums.enum_string
                            option [@default
                     
                     None
@@ -54,7 +54,7 @@
                 
                 
                 ; [@key "outerEnumIntegerDefaultValue"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create (enum_string_required : Enums.enum_string) : t = {
             enum_string = None;

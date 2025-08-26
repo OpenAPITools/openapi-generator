@@ -10,13 +10,13 @@
 
     
         type t = {
-                                      nullable_message: string
+                              nullable_message: string
                   
                    option [@default None]
                 
                 
                 ; [@key "NullableMessage"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         (** Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model. *)
         let create () : t = {

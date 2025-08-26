@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      username: string
+                              username: string
                   
                    option [@default None]
                 
@@ -21,7 +21,7 @@
                 
                 
                 ; [@key "SingleRefType"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             username = None;

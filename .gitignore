@@ -297,7 +297,8 @@ samples/openapi3/client/petstore/go/privatekey.pem
 ## OCaml
 samples/client/petstore/ocaml/_build/
 samples/client/petstore/ocaml-fake-petstore/_build/
-samples/client/petstore/ocaml-oneOf/_build/
+samples/client/petstore/ocaml-oneOf-primitive/_build/
+samples/client/petstore/ocaml-additional-properties/_build/
 
 # jetbrain http client
 samples/client/jetbrains/adyen/checkout71/http/client/Apis/http-client.private.env.json

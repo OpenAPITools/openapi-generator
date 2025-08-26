@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      my_number: float
+                              my_number: float
                   
                    option [@default None]
                 
@@ -27,7 +27,7 @@
                 
                 
                 ; [@key "my_boolean"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             my_number = None;

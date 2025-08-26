@@ -9,21 +9,21 @@
 
     
         type t = {
-                                      map_map_of_string: (string * (string * string) list) list
+                              map_map_of_string: (string * (string * string) list) list
                 
-                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: (string * string) list]] [@of_yojson JsonSupport.to_map_of [%of_yojson: (string * string) list]] 
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: (string * string) list]] [@of_yojson JsonSupport.to_map_of [%of_yojson: (string * string) list]]
                 ; [@key "map_map_of_string"]
                                       map_of_enum_string: (string * Enums.map_of_enum_string) list
 ; [@key "map_of_enum_string"]
                                                       direct_map: (string * bool) list
                 
-                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: bool]] [@of_yojson JsonSupport.to_map_of [%of_yojson: bool]] 
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: bool]] [@of_yojson JsonSupport.to_map_of [%of_yojson: bool]]
                 ; [@key "direct_map"]
                                               indirect_map: (string * bool) list
                 
-                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: bool]] [@of_yojson JsonSupport.to_map_of [%of_yojson: bool]] 
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: bool]] [@of_yojson JsonSupport.to_map_of [%of_yojson: bool]]
                 ; [@key "indirect_map"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             map_map_of_string = [];

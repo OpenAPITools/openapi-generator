@@ -9,13 +9,13 @@
 
     
         type t = {
-                                      var_123_list: string
+                              var_123_list: string
                   
                    option [@default None]
                 
                 
                 ; [@key "123-list"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             var_123_list = None;

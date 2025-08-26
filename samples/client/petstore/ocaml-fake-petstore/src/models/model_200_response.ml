@@ -10,7 +10,7 @@
 
     
         type t = {
-                                      name: int32
+                              name: int32
                   
                    option [@default None]
                 
@@ -22,7 +22,7 @@
                 
                 
                 ; [@key "class"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         (** Model for testing model name starting with number *)
         let create () : t = {
