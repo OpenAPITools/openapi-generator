@@ -9,21 +9,23 @@
 
     
         type t = {
-                                      some_id: float
+                                      sub_field1: float
                   
                    option [@default None]
                 
                 
-                ; [@key "someId"]
-                                              some_map: (string * float) list
+                ; [@key "sub_field1"]
+                                              sub_field2: bool
+                  
+                   option [@default None]
                 
-                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: float]] [@of_yojson JsonSupport.to_map_of [%of_yojson: float]]
-                ; [@key "someMap"]
+                
+                ; [@key "sub_field2"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
-            some_id = None;
-            some_map = [];
+            sub_field1 = None;
+            sub_field2 = None;
         }
     
 

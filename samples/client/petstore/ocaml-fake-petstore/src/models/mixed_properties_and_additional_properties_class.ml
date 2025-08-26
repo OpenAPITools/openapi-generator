@@ -23,7 +23,7 @@
                 ; [@key "dateTime"]
                                               map: (string * Animal.t) list
                 
-                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Animal.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Animal.t]] 
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Animal.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Animal.t]]
                 ; [@key "map"]
                 } [@@deriving yojson { strict = false }, show, eq ];;
         
