@@ -5,12 +5,12 @@ on:
     paths:
       - 'samples/client/petstore/ocaml/**'
       - 'samples/client/petstore/ocaml-fake-petstore/**'
-      - 'samples/client/petstore/ocaml-oneOf/**'
+      - 'samples/client/petstore/ocaml-oneOf-primitive/**'
   pull_request:
     paths:
       - 'samples/client/petstore/ocaml/**'
       - 'samples/client/petstore/ocaml-fake-petstore/**'
-      - 'samples/client/petstore/ocaml-oneOf/**'
+      - 'samples/client/petstore/ocaml-oneOf-primitive/**'
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
         sample:
           - 'samples/client/petstore/ocaml/'
           - 'samples/client/petstore/ocaml-fake-petstore/'
-          - 'samples/client/petstore/ocaml-oneOf/'
+          - 'samples/client/petstore/ocaml-oneOf-primitive/'
     steps:
       - uses: actions/checkout@v5
       - name: Set-up OCaml
