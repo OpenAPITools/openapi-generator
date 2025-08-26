@@ -10,7 +10,7 @@
 
     
         type t = {
-                                      id: int64
+                              id: int64
                   
                    option [@default None]
                 
@@ -34,20 +34,20 @@
                 
                 
                 ; [@key "shipDate"]
-                            (* Order Status *)
-                      status: Enums.status
+                                      status: Enums.status
                            option [@default
                     
                     None
                   ]
                 ; [@key "status"]
-                                                      complete: bool
+                            (** Order Status *)
+                                      complete: bool
                   
                    option [@default None]
                 
                 
                 ; [@key "complete"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         (** An order for a pets from the pet store *)
         let create () : t = {

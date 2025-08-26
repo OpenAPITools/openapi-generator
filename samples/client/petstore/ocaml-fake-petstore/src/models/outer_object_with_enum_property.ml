@@ -9,13 +9,13 @@
 
     
         type t = {
-                                      value: Enums.outerenuminteger
+                              value: Enums.outerenuminteger
                   
                   
                 
                 
                 ; [@key "value"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create (value : Enums.outerenuminteger) : t = {
             value = value;

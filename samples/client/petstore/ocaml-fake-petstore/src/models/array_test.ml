@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      array_of_string: string list
+                              array_of_string: string list
                  [@default []]
                 
                 ; [@key "array_of_string"]
@@ -21,7 +21,7 @@
                  [@default []]
                 
                 ; [@key "array_array_of_model"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             array_of_string = [];

@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      id: int64
+                              id: int64
                   
                    option [@default None]
                 
@@ -33,20 +33,20 @@
                 
                 
                 ; [@key "shipDate"]
-                            (* Order Status *)
-                      status: Enums.order_status
+                                      status: Enums.order_status
                            option [@default
                     
                     None
                   ]
                 ; [@key "status"]
-                                                      complete: bool
+                            (** Order Status *)
+                                      complete: bool
                   
                    option [@default None]
                 
                 
                 ; [@key "complete"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             id = None;

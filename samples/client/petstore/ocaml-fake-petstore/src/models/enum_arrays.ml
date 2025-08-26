@@ -9,7 +9,7 @@
 
     
         type t = {
-                              just_symbol: Enums.just_symbol
+                      just_symbol: Enums.just_symbol
                            option [@default
                     
                     None
@@ -17,7 +17,7 @@
                 ; [@key "just_symbol"]
                                               array_enum: Enums.array_enum list
 ; [@key "array_enum"]
-                        } [@@deriving yojson { strict = false }, show, eq ];;
+                                } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             just_symbol = None;

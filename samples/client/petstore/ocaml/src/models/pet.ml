@@ -10,7 +10,7 @@
 
     
         type t = {
-                                      id: int64
+                              id: int64
                   
                    option [@default None]
                 
@@ -36,14 +36,14 @@
                  [@default []]
                 
                 ; [@key "tags"]
-                            (* pet status in the store *)
-                      status: Enums.pet_status
+                                      status: Enums.pet_status
                            option [@default
                     
                     None
                   ]
                 ; [@key "status"]
-                        } [@@deriving yojson { strict = false }, show, eq ];;
+                            (** pet status in the store *)
+                } [@@deriving yojson { strict = false }, show, eq ];;
         
         (** A pet for sale in the pet store *)
         let create (name : string) (photo_urls : string list) : t = {

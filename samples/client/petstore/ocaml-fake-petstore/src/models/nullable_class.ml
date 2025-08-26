@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      integer_prop: int32
+                              integer_prop: int32
                   
                    option [@default None]
                 
@@ -59,17 +59,17 @@
                 ; [@key "array_items_nullable"]
                                               object_nullable_prop: (string * Yojson.Safe.t) list
                 
-                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]] 
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]]
                 ; [@key "object_nullable_prop"]
                                               object_and_items_nullable_prop: (string * Yojson.Safe.t) list
                 
-                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]] 
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]]
                 ; [@key "object_and_items_nullable_prop"]
                                               object_items_nullable: (string * Yojson.Safe.t) list
                 
-                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]] 
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]]
                 ; [@key "object_items_nullable"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             integer_prop = None;

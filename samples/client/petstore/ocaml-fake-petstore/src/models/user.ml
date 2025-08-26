@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      id: int64
+                              id: int64
                   
                    option [@default None]
                 
@@ -51,13 +51,13 @@
                 
                 
                 ; [@key "phone"]
-                            (* User Status *)
-                              user_status: int32
+                                              user_status: int32
                   
                    option [@default None]
                 
                 
                 ; [@key "userStatus"]
+                    (** User Status *)
                 } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {

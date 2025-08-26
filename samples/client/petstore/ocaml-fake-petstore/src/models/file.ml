@@ -10,13 +10,13 @@
 
     
         type t = {
-                    (* Test capitalization *)
                               source_uri: string
                   
                    option [@default None]
                 
                 
                 ; [@key "sourceURI"]
+                    (** Test capitalization *)
                 } [@@deriving yojson { strict = false }, show, eq ];;
         
         (** Must be named `File` for test. *)

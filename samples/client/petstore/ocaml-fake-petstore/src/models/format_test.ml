@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      integer: int32
+                              integer: int32
                   
                    option [@default None]
                 
@@ -93,20 +93,20 @@
                 
                 
                 ; [@key "password"]
-                            (* A string that is a 10 digit number. Can have leading zeros. *)
-                              pattern_with_digits: string
+                                              pattern_with_digits: string
                   
                    option [@default None]
                 
                 
                 ; [@key "pattern_with_digits"]
-                            (* A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01. *)
-                              pattern_with_digits_and_delimiter: string
+                    (** A string that is a 10 digit number. Can have leading zeros. *)
+                                      pattern_with_digits_and_delimiter: string
                   
                    option [@default None]
                 
                 
                 ; [@key "pattern_with_digits_and_delimiter"]
+                    (** A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01. *)
                 } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create (number : float) (byte : string) (date : string) (password : string) : t = {

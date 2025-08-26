@@ -1,5 +1,5 @@
 generatorName: ocaml
-outputDir: samples/client/petstore/ocaml-oneOf
+outputDir: samples/client/petstore/ocaml-oneOf-primitive
 inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf_primitive.yaml
 templateDir: modules/openapi-generator/src/main/resources/ocaml
 additionalProperties:

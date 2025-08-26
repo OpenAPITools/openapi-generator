@@ -9,11 +9,11 @@
 
     
         type t = {
-                                      array_array_number: float list list
+                              array_array_number: float list list
                  [@default []]
                 
                 ; [@key "ArrayArrayNumber"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             array_array_number = [];

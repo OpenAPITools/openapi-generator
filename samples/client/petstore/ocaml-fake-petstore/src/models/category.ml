@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      id: int64
+                              id: int64
                   
                    option [@default None]
                 
@@ -21,7 +21,7 @@
                 
                 
                 ; [@key "name"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create (name : string) : t = {
             id = None;

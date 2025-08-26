@@ -9,13 +9,13 @@
 
     
         type t = {
-                                      just_number: float
+                              just_number: float
                   
                    option [@default None]
                 
                 
                 ; [@key "JustNumber"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             just_number = None;

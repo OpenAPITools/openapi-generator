@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      class_name: string
+                              class_name: string
                   
                   
                 
@@ -27,7 +27,7 @@
                 
                 
                 ; [@key "declawed"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create (class_name : string) : t = {
             class_name = class_name;

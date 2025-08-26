@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      file: File.t
+                              file: File.t
                   
                    option [@default None]
                 
@@ -19,7 +19,7 @@
                  [@default []]
                 
                 ; [@key "files"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             file = None;

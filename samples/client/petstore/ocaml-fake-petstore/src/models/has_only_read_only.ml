@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      bar: string
+                              bar: string
                   
                    option [@default None]
                 
@@ -21,7 +21,7 @@
                 
                 
                 ; [@key "foo"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             bar = None;
