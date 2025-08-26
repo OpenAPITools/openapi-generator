@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      code: int32
+                              code: int32
                   
                    option [@default None]
                 
@@ -27,7 +27,7 @@
                 
                 
                 ; [@key "message"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             code = None;

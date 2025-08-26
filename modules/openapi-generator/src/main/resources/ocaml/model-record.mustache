@@ -1,8 +1,5 @@
 type t = {
 {{#vars}}
-    {{#description}}
-    (* {{{.}}} *)
-    {{/description}}
     {{#isEnum}}
       {{{name}}}: {{^isMap}}Enums.{{/isMap}}{{{datatypeWithEnum}}}
         {{^isContainer}}
@@ -31,6 +28,9 @@ type t = {
         {{#isMap}}{{^required}} [@default []]{{/required}} [@to_yojson JsonSupport.of_map_of [%to_yojson: {{{items.datatypeWithEnum}}}]] [@of_yojson JsonSupport.to_map_of [%of_yojson: {{{items.datatypeWithEnum}}}]]{{/isMap}}
         ; [@key "{{{baseName}}}"]
     {{/isEnum}}
+    {{#description}}
+    (** {{{.}}} *)
+    {{/description}}
 {{/vars}}
 } [@@deriving yojson { strict = false }, show, eq ];;
 

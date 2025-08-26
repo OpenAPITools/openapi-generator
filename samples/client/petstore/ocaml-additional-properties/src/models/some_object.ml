@@ -9,36 +9,36 @@
 
     
         type t = {
-                    (* Required, free-form *)
                               required_field1: (string * Yojson.Safe.t) list
                 
                  [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]]
                 ; [@key "required_field1"]
-                            (* Required, dictionary of strings *)
-                              required_field2: (string * string) list
+                    (** Required, free-form *)
+                                      required_field2: (string * string) list
                 
                  [@to_yojson JsonSupport.of_map_of [%to_yojson: string]] [@of_yojson JsonSupport.to_map_of [%of_yojson: string]]
                 ; [@key "required_field2"]
-                            (* Required, dictionary of objects *)
-                              required_field3: (string * Some_object_required_field3_value.t) list
+                    (** Required, dictionary of strings *)
+                                      required_field3: (string * Some_object_required_field3_value.t) list
                 
                  [@to_yojson JsonSupport.of_map_of [%to_yojson: Some_object_required_field3_value.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Some_object_required_field3_value.t]]
                 ; [@key "required_field3"]
-                            (* Optional, free-form *)
-                              optional_field1: (string * Yojson.Safe.t) list
+                    (** Required, dictionary of objects *)
+                                      optional_field1: (string * Yojson.Safe.t) list
                 
                  [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]]
                 ; [@key "optional_field1"]
-                            (* Optional, dictionary of strings *)
-                              optional_field2: (string * string) list
+                    (** Optional, free-form *)
+                                      optional_field2: (string * string) list
                 
                  [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: string]] [@of_yojson JsonSupport.to_map_of [%of_yojson: string]]
                 ; [@key "optional_field2"]
-                            (* Optional, dictionary of objects *)
-                              optional_field3: (string * Some_object_required_field3_value.t) list
+                    (** Optional, dictionary of strings *)
+                                      optional_field3: (string * Some_object_required_field3_value.t) list
                 
                  [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Some_object_required_field3_value.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Some_object_required_field3_value.t]]
                 ; [@key "optional_field3"]
+                    (** Optional, dictionary of objects *)
                 } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create (required_field1 : (string * Yojson.Safe.t) list) (required_field2 : (string * string) list) (required_field3 : (string * Some_object_required_field3_value.t) list) : t = {

@@ -10,7 +10,7 @@
 
     
         type t = {
-                                      name: int32
+                              name: int32
                   
                   
                 
@@ -34,7 +34,7 @@
                 
                 
                 ; [@key "123Number"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         (** Model for testing model name same as property name *)
         let create (name : int32) : t = {

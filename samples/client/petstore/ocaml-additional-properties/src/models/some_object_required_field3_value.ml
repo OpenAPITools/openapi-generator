@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      sub_field1: float
+                              sub_field1: float
                   
                    option [@default None]
                 
@@ -21,7 +21,7 @@
                 
                 
                 ; [@key "sub_field2"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             sub_field1 = None;

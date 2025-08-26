@@ -10,7 +10,7 @@
 
     
         type t = {
-                                      code: int32
+                              code: int32
                   
                    option [@default None]
                 
@@ -28,7 +28,7 @@
                 
                 
                 ; [@key "message"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         (** Describes the result of uploading an image resource *)
         let create () : t = {

@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      map_map_of_string: (string * (string * string) list) list
+                              map_map_of_string: (string * (string * string) list) list
                 
                  [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: (string * string) list]] [@of_yojson JsonSupport.to_map_of [%of_yojson: (string * string) list]]
                 ; [@key "map_map_of_string"]
@@ -23,7 +23,7 @@
                 
                  [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: bool]] [@of_yojson JsonSupport.to_map_of [%of_yojson: bool]]
                 ; [@key "indirect_map"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             map_map_of_string = [];

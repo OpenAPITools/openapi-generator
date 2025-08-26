@@ -9,7 +9,7 @@
 
     
         type t = {
-                              _type: Enums.parentwithnullable_type
+                      _type: Enums.parentwithnullable_type
                            option [@default
                     Some(`ChildWithNullable)
                     
@@ -21,7 +21,7 @@
                 
                 
                 ; [@key "nullableProperty"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             _type = None;

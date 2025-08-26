@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      uuid: string
+                              uuid: string
                   
                    option [@default None]
                 
@@ -31,7 +31,7 @@
                  [@default []]
                 
                 ; [@key "bars"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             uuid = None;

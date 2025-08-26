@@ -10,13 +10,13 @@
 
     
         type t = {
-                                      _class: string
+                              _class: string
                   
                    option [@default None]
                 
                 
                 ; [@key "_class"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         (** Model for testing model with \''_class\'' property *)
         let create () : t = {

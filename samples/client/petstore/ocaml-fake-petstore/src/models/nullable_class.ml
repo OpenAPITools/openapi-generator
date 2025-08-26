@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      integer_prop: int32
+                              integer_prop: int32
                   
                    option [@default None]
                 
@@ -69,7 +69,7 @@
                 
                  [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Yojson.Safe.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Yojson.Safe.t]]
                 ; [@key "object_items_nullable"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             integer_prop = None;

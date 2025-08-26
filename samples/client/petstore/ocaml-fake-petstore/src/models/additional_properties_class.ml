@@ -9,7 +9,7 @@
 
     
         type t = {
-                                      map_property: (string * string) list
+                              map_property: (string * string) list
                 
                  [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: string]] [@of_yojson JsonSupport.to_map_of [%of_yojson: string]]
                 ; [@key "map_property"]
@@ -17,7 +17,7 @@
                 
                  [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: (string * string) list]] [@of_yojson JsonSupport.to_map_of [%of_yojson: (string * string) list]]
                 ; [@key "map_of_map_property"]
-                } [@@deriving yojson { strict = false }, show, eq ];;
+                        } [@@deriving yojson { strict = false }, show, eq ];;
         
         let create () : t = {
             map_property = [];
