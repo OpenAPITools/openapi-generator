@@ -5053,7 +5053,6 @@ public class DefaultCodegenTest {
         Map<String, File> tsFiles = tsGenerator.opts(tsClientOptInput).generate()
                 .stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
-        System.out.println(Files.readString(tsFiles.get("sampleObjectWithAdditionalFalse.ts").toPath()));
         TestUtils.assertFileContains(tsFiles.get("sampleObjectWithAdditionalFalse.ts").toPath(), "someString?: string");
         assertFalse(tsFiles.containsKey("sampleObjectWithAdditionalFalseSomeString.ts"));
 
