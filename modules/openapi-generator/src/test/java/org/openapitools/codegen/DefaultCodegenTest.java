@@ -40,6 +40,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -55,6 +56,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -5016,5 +5018,59 @@ public class DefaultCodegenTest {
         CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
 
         assertTrue(codegenOperation.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType));
+    }
+
+    @Test(description = "Issue #20213")
+    public void testModelAdditionalPropertiesWithNullableProperty() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+        File spring = new File(output, "spring");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setInputSpec("src/test/resources/3_1/issue_20213.yaml")
+                .setOutputDir(spring.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate()
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SampleObjectWithAdditionalFalse.java"))
+                .assertProperty("someString")
+                .withType("JsonNullable<String>");
+        assertFalse(files.containsKey("SampleObjectWithAdditionalFalseSomeString.java"));
+
+
+        File tsAngular = new File(output, "ts-angular");
+        final CodegenConfigurator tsConfigurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec("src/test/resources/3_1/issue_20213.yaml")
+                .setOutputDir(tsAngular.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput tsClientOptInput = tsConfigurator.toClientOptInput();
+        DefaultGenerator tsGenerator = new DefaultGenerator();
+        Map<String, File> tsFiles = tsGenerator.opts(tsClientOptInput).generate()
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        System.out.println(Files.readString(tsFiles.get("sampleObjectWithAdditionalFalse.ts").toPath()));
+        TestUtils.assertFileContains(tsFiles.get("sampleObjectWithAdditionalFalse.ts").toPath(), "someString?: string");
+        assertFalse(tsFiles.containsKey("sampleObjectWithAdditionalFalseSomeString.ts"));
+
+        File javaClient = new File(output, "java");
+        final CodegenConfigurator javaClientConfigurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_1/issue_20213.yaml")
+                .setOutputDir(javaClient.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput javaClientClientOptInput = javaClientConfigurator.toClientOptInput();
+        DefaultGenerator javaClientGenerator = new DefaultGenerator();
+        Map<String, File> javaClientFiles = javaClientGenerator.opts(javaClientClientOptInput).generate()
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(javaClientFiles.get("SampleObjectWithAdditionalFalse.java"))
+                .assertProperty("someString")
+                .withType("String");
+        assertFalse(javaClientFiles.containsKey("SampleObjectWithAdditionalFalseSomeString.java"));
     }
 }
