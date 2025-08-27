@@ -69,7 +69,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     private static final String DIO_IMPORT = "package:dio/dio.dart";
     public static final String FINAL_PROPERTIES = "finalProperties";
+    public static final String SKIP_COPY_WITH = "skipCopyWith";
     public static final String FINAL_PROPERTIES_DEFAULT_VALUE = "true";
+    public static final String SKIP_COPY_WITH_DEFAULT_VALUE = "false";
 
     private static final String CLIENT_NAME = "clientName";
 
@@ -138,6 +140,11 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
         finalProperties.setDefault("true");
         cliOptions.add(finalProperties);
+
+        // skip CopyWith option
+        final CliOption skipCopyWith = CliOption.newBoolean(SKIP_COPY_WITH, "Skip CopyWith when using Json Serializable for serialization");
+        skipCopyWith.setDefault("false");
+        cliOptions.add(skipCopyWith);
     }
 
     @Override
@@ -180,6 +187,13 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             LOGGER.debug("finalProperties not set, using default {}", FINAL_PROPERTIES_DEFAULT_VALUE);
         } else {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(additionalProperties.get(FINAL_PROPERTIES).toString()));
+        }
+
+        if (!additionalProperties.containsKey(SKIP_COPY_WITH)) {
+            additionalProperties.put(SKIP_COPY_WITH, Boolean.parseBoolean(SKIP_COPY_WITH_DEFAULT_VALUE));
+            LOGGER.debug("skipCopyWith not set, using default {}", SKIP_COPY_WITH_DEFAULT_VALUE);
+        } else {
+            additionalProperties.put(SKIP_COPY_WITH, Boolean.parseBoolean(additionalProperties.get(SKIP_COPY_WITH).toString()));
         }
 
         if (!additionalProperties.containsKey(CLIENT_NAME)) {
