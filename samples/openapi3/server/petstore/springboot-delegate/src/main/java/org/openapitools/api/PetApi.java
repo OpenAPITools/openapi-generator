@@ -6,6 +6,7 @@
 package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
+import org.springframework.lang.Nullable;
 import org.openapitools.model.Pet;
 import java.util.Set;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -20,7 +21,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import org.springframework.lang.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

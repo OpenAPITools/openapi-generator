@@ -6,11 +6,11 @@
 package org.openapitools.api;
 
 import org.openapitools.model.ApiResponseDto;
+import org.springframework.lang.Nullable;
 import org.openapitools.model.PetDto;
 import org.openapitools.model.ResponseObjectWithDifferentFieldNamesDto;
 import java.util.Set;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
