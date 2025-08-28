@@ -1039,6 +1039,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenOperation.imports.addAll(provideArgsClassSet);
         }
 
+        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
+        if (getName().contains("spring")) {
+          codegenOperation.allParams.stream().filter(CodegenParameter::notRequiredOrIsNullable).findAny()
+              .ifPresent(p -> codegenOperation.imports.add("Nullable"));
+        }
+
         if (reactive) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 codegenOperation.imports.add("ApiIgnore");

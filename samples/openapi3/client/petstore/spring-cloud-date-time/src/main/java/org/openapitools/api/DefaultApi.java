@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +23,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.lang.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

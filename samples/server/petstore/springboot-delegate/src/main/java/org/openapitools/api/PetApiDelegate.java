@@ -1,12 +1,12 @@
 package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
+import org.springframework.lang.Nullable;
 import org.openapitools.model.Pet;
 import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 

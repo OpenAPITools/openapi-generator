@@ -2,10 +2,10 @@ package org.openapitools.api;
 
 import org.openapitools.model.Dog;
 import org.openapitools.model.Error;
+import org.springframework.lang.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
