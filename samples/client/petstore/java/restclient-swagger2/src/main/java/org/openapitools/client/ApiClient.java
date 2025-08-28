@@ -61,7 +61,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -386,10 +386,20 @@ public class ApiClient extends JavaTimeFormatter {
      * @param accessToken the access token
      */
     public void setAccessToken(String accessToken) {
+        setAccessToken(() -> accessToken);
+    }
+
+    /**
+     * Helper method to set the supplier of access tokens for OAuth2 authentication.
+     *
+     * @param tokenSupplier The supplier of access tokens
+     * @return ApiClient this client
+     */
+    public ApiClient setAccessToken(Supplier<String> tokenSupplier) {
         for (Authentication auth : authentications.values()) {
             if (auth instanceof OAuth) {
-                ((OAuth) auth).setAccessToken(accessToken);
-                return;
+                ((OAuth) auth).setAccessToken(tokenSupplier);
+                return this;
             }
         }
         throw new RuntimeException("No OAuth2 authentication configured!");

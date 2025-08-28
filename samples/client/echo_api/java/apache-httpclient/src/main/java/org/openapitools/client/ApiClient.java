@@ -56,7 +56,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.function.Supplier;
 import java.util.TimeZone;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,7 +80,7 @@ import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -104,8 +103,8 @@ public class ApiClient extends JavaTimeFormatter {
 
   protected Map<String, Authentication> authentications;
 
-  protected Map<Long, Integer> lastStatusCodeByThread = new ConcurrentHashMap<>();
-  protected Map<Long, Map<String, List<String>>> lastResponseHeadersByThread = new ConcurrentHashMap<>();
+  protected ThreadLocal<Integer> lastStatusCode = new ThreadLocal<>();
+  protected ThreadLocal<Map<String, List<String>>> lastResponseHeaders = new ThreadLocal<>();
 
   protected DateFormat dateFormat;
 
@@ -254,7 +253,7 @@ public class ApiClient extends JavaTimeFormatter {
    */
   @Deprecated
   public int getStatusCode() {
-    return lastStatusCodeByThread.get(Thread.currentThread().getId());
+    return lastStatusCode.get();
   }
 
   /**
@@ -263,7 +262,7 @@ public class ApiClient extends JavaTimeFormatter {
    */
   @Deprecated
   public Map<String, List<String>> getResponseHeaders() {
-    return lastResponseHeadersByThread.get(Thread.currentThread().getId());
+    return lastResponseHeaders.get();
   }
 
   /**
@@ -932,13 +931,13 @@ public class ApiClient extends JavaTimeFormatter {
 
   protected <T> T processResponse(CloseableHttpResponse response, TypeReference<T> returnType) throws ApiException, IOException, ParseException {
     int statusCode = response.getCode();
-    lastStatusCodeByThread.put(Thread.currentThread().getId(), statusCode);
+    lastStatusCode.set(statusCode);
     if (statusCode == HttpStatus.SC_NO_CONTENT) {
       return null;
     }
 
     Map<String, List<String>> responseHeaders = transformResponseHeaders(response.getHeaders());
-    lastResponseHeadersByThread.put(Thread.currentThread().getId(), responseHeaders);
+    lastResponseHeaders.set(responseHeaders);
 
     if (isSuccessfulStatus(statusCode)) {
       return this.deserialize(response, returnType);

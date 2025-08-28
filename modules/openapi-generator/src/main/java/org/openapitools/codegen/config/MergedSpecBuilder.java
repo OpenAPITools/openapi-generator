@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.auth.AuthParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,18 +29,20 @@ public class MergedSpecBuilder {
     private final String mergedFileInfoName;
     private final String mergedFileInfoDescription;
     private final String mergedFileInfoVersion;
+    private final String auth;
 
     public MergedSpecBuilder(final String rootDirectory, final String mergeFileName) {
-        this(rootDirectory, mergeFileName, "merged spec", "merged spec", "1.0.0");
+        this(rootDirectory, mergeFileName, "merged spec", "merged spec", "1.0.0", null);
     }
 
     public MergedSpecBuilder(final String rootDirectory, final String mergeFileName,
-                             final String mergedFileInfoName, final String mergedFileInfoDescription, final String mergedFileInfoVersion) {
+                             final String mergedFileInfoName, final String mergedFileInfoDescription, final String mergedFileInfoVersion, final String auth) {
         this.inputSpecRootDirectory = rootDirectory;
         this.mergeFileName = mergeFileName;
         this.mergedFileInfoName = mergedFileInfoName;
         this.mergedFileInfoDescription = mergedFileInfoDescription;
         this.mergedFileInfoVersion = mergedFileInfoVersion;
+        this.auth = auth;
     }
 
     public String buildMergedSpec() {
@@ -62,7 +65,7 @@ public class MergedSpecBuilder {
                 LOGGER.info("Reading spec: {}", specPath);
 
                 OpenAPI result = new OpenAPIParser()
-                        .readLocation(specPath, new ArrayList<>(), options)
+                        .readLocation(specPath, AuthParser.parse(auth), options)
                         .getOpenAPI();
 
                 if (openapiVersion == null) {

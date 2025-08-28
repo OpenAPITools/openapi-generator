@@ -4,6 +4,14 @@ use reqwest;
 use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions.useAsyncFileStream}}
+use tokio::fs::File as TokioFile;
+use tokio_util::codec::{BytesCodec, FramedRead};
+{{/vendorExtensions.useAsyncFileStream}}
+{{/operation}}
+{{/operations}}
 
 {{#operations}}
 {{#operation}}
@@ -445,7 +453,23 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#hasBodyParam}}
     {{#bodyParams}}
     {{#isFile}}
+    {{#supportAsync}}
+    {{#required}}
+    let file = TokioFile::open({{{vendorExtensions.x-rust-param-identifier}}}).await?;
+    let stream = FramedRead::new(file, BytesCodec::new());
+    req_builder = req_builder.body(reqwest::Body::wrap_stream(stream));
+    {{/required}}
+    {{^required}}
+    if let Some(param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        let file = TokioFile::open(param_value).await?;
+        let stream = FramedRead::new(file, BytesCodec::new());
+        req_builder = req_builder.body(reqwest::Body::wrap_stream(stream));
+    }
+    {{/required}}
+    {{/supportAsync}}
+    {{^supportAsync}}
     req_builder = req_builder.body({{{vendorExtensions.x-rust-param-identifier}}});
+    {{/supportAsync}}
     {{/isFile}}
     {{^isFile}}
     req_builder = req_builder.json(&{{{vendorExtensions.x-rust-param-identifier}}});
