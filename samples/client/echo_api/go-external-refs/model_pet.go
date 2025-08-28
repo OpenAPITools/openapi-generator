@@ -27,8 +27,7 @@ type Pet struct {
 	Category *Category `json:"category,omitempty"`
 	PhotoUrls []string `json:"photoUrls"`
 	Tags []Tag `json:"tags,omitempty"`
-	// pet status in the store
-	Status *string `json:"status,omitempty"`
+	Status *PetStatus `json:"status,omitempty"`
 }
 
 type _Pet Pet
@@ -197,9 +196,9 @@ func (o *Pet) SetTags(v []Tag) {
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *Pet) GetStatus() string {
+func (o *Pet) GetStatus() PetStatus {
 	if o == nil || IsNil(o.Status) {
-		var ret string
+		var ret PetStatus
 		return ret
 	}
 	return *o.Status
@@ -207,7 +206,7 @@ func (o *Pet) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Pet) GetStatusOk() (*string, bool) {
+func (o *Pet) GetStatusOk() (*PetStatus, bool) {
 	if o == nil || IsNil(o.Status) {
 		return nil, false
 	}
@@ -223,8 +222,8 @@ func (o *Pet) HasStatus() bool {
 	return false
 }
 
-// SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *Pet) SetStatus(v string) {
+// SetStatus gets a reference to the given PetStatus and assigns it to the Status field.
+func (o *Pet) SetStatus(v PetStatus) {
 	o.Status = &v
 }
 

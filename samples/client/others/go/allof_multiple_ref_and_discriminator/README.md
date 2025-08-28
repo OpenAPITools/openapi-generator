@@ -84,6 +84,7 @@ Class | Method | HTTP request | Description
 
  - [AdditionalData](docs/AdditionalData.md)
  - [BaseItem](docs/BaseItem.md)
+ - [BaseItemType](docs/BaseItemType.md)
  - [FinalItem](docs/FinalItem.md)
 
 

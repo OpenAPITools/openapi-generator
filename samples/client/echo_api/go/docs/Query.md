@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **int64** | Query | [optional] 
-**Outcomes** | Pointer to **[]string** |  | [optional] [default to ["SUCCESS","FAILURE"]]
+**Outcomes** | Pointer to [**[]QueryOutcomesInner**](QueryOutcomesInner.md) |  | [optional] [default to ["SUCCESS","FAILURE"]]
 
 ## Methods
 
@@ -53,20 +53,20 @@ HasId returns a boolean if a field has been set.
 
 ### GetOutcomes
 
-`func (o *Query) GetOutcomes() []string`
+`func (o *Query) GetOutcomes() []QueryOutcomesInner`
 
 GetOutcomes returns the Outcomes field if non-nil, zero value otherwise.
 
 ### GetOutcomesOk
 
-`func (o *Query) GetOutcomesOk() (*[]string, bool)`
+`func (o *Query) GetOutcomesOk() (*[]QueryOutcomesInner, bool)`
 
 GetOutcomesOk returns a tuple with the Outcomes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOutcomes
 
-`func (o *Query) SetOutcomes(v []string)`
+`func (o *Query) SetOutcomes(v []QueryOutcomesInner)`
 
 SetOutcomes sets Outcomes field to given value.
 

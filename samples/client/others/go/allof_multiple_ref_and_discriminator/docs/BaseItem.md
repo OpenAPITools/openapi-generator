@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Title** | **string** |  | 
-**Type** | **string** |  | 
+**Type** | [**BaseItemType**](BaseItemType.md) |  | 
 
 ## Methods
 
 ### NewBaseItem
 
-`func NewBaseItem(title string, type_ string, ) *BaseItem`
+`func NewBaseItem(title string, type_ BaseItemType, ) *BaseItem`
 
 NewBaseItem instantiates a new BaseItem object
 This constructor will assign default values to properties that have it defined,
@@ -48,20 +48,20 @@ SetTitle sets Title field to given value.
 
 ### GetType
 
-`func (o *BaseItem) GetType() string`
+`func (o *BaseItem) GetType() BaseItemType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *BaseItem) GetTypeOk() (*string, bool)`
+`func (o *BaseItem) GetTypeOk() (*BaseItemType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *BaseItem) SetType(v string)`
+`func (o *BaseItem) SetType(v BaseItemType)`
 
 SetType sets Type field to given value.
 

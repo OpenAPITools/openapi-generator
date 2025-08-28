@@ -39,7 +39,7 @@ import (
 )
 
 func main() {
-	enumNonrefStringQuery := "enumNonrefStringQuery_example" // string |  (optional)
+	enumNonrefStringQuery := openapiclient.tests_path_string__path_string__integer__path_integer___enum_nonref_string_path___enum_ref_string_path__enum_nonref_string_path_parameter("success") // TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter |  (optional)
 	enumRefStringQuery := openapiclient.StringEnumRef("success") // StringEnumRef |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
@@ -65,7 +65,7 @@ Other parameters are passed through a pointer to a apiTestEnumRefStringRequest s
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumNonrefStringQuery** | **string** |  | 
+ **enumNonrefStringQuery** | [**TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter**](TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathParameter.md) |  | 
  **enumRefStringQuery** | [**StringEnumRef**](StringEnumRef.md) |  | 
 
 ### Return type
