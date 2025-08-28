@@ -249,7 +249,7 @@ impl std::str::FromStr for ApiResponse {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ApiResponse".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -271,7 +271,7 @@ impl std::str::FromStr for ApiResponse {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ApiResponse".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -411,7 +411,7 @@ impl std::str::FromStr for Category {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Category".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -429,7 +429,7 @@ impl std::str::FromStr for Category {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Category".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -597,7 +597,7 @@ impl std::str::FromStr for Order {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Order".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -632,7 +632,7 @@ impl std::str::FromStr for Order {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Order".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -804,7 +804,7 @@ impl std::str::FromStr for Pet {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Pet".to_string())
+                    return std::result::Result::Err("Missing value while parsing Pet".to_string());
                 }
             };
 
@@ -827,12 +827,12 @@ impl std::str::FromStr for Pet {
                     "photoUrls" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in Pet".to_string(),
-                        )
+                        );
                     }
                     "tags" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in Pet".to_string(),
-                        )
+                        );
                     }
                     #[allow(clippy::redundant_clone)]
                     "status" => intermediate_rep.status.push(
@@ -841,7 +841,7 @@ impl std::str::FromStr for Pet {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Pet".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -979,7 +979,7 @@ impl std::str::FromStr for Tag {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Tag".to_string())
+                    return std::result::Result::Err("Missing value while parsing Tag".to_string());
                 }
             };
 
@@ -997,7 +997,7 @@ impl std::str::FromStr for Tag {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Tag".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1127,7 +1127,7 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing UpdatePetWithFormRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1145,7 +1145,7 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing UpdatePetWithFormRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1283,7 +1283,7 @@ impl std::str::FromStr for UploadFileRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing UploadFileRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1301,7 +1301,7 @@ impl std::str::FromStr for UploadFileRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing UploadFileRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1491,7 +1491,7 @@ impl std::str::FromStr for User {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing User".to_string())
+                    return std::result::Result::Err("Missing value while parsing User".to_string());
                 }
             };
 
@@ -1533,7 +1533,7 @@ impl std::str::FromStr for User {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing User".to_string(),
-                        )
+                        );
                     }
                 }
             }
