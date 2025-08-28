@@ -3,10 +3,10 @@ name: Samples PHP (Server) Syntax Checker
 on:
   push:
     paths:
-      - https://github.com/OpenAPITools/openapi-generator/tree/master/samples/server/petstore/php-symfony/SymfonyBundle-php/**
+      - samples/server/petstore/php-symfony/SymfonyBundle-php/**
   pull_request:
     paths:
-      - https://github.com/OpenAPITools/openapi-generator/tree/master/samples/server/petstore/php-symfony/SymfonyBundle-php/**
+      - samples/server/petstore/php-symfony/SymfonyBundle-php/**
 jobs:
   build:
     name: Build PHP projects
@@ -21,7 +21,7 @@ jobs:
           - "8.4"
         sample:
           # servers
-          - https://github.com/OpenAPITools/openapi-generator/tree/master/samples/server/petstore/php-symfony/SymfonyBundle-php/**
+          - samples/server/petstore/php-symfony/SymfonyBundle-php/
     steps:
       - uses: actions/checkout@v5
       - name: Setup PHP with tools
