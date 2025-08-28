@@ -4,9 +4,19 @@ on:
   push:
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
+      - samples/server/petstore/php-laravel/**
+      - samples/server/petstore/php-flight/**
+      - samples/server/petstore/php-mezzio-ph-modern/**
+      - samples/server/petstore/php-mezzio-ph/**
+      - samples/server/petstore/php-slim4/**
   pull_request:
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
+      - samples/server/petstore/php-laravel/**
+      - samples/server/petstore/php-flight/**
+      - samples/server/petstore/php-mezzio-ph-modern/**
+      - samples/server/petstore/php-mezzio-ph/**
+      - samples/server/petstore/php-slim4/**
 jobs:
   build:
     name: Build PHP projects
@@ -22,6 +32,11 @@ jobs:
         sample:
           # servers
           - samples/server/petstore/php-symfony/SymfonyBundle-php/
+          - samples/server/petstore/php-laravel/
+          - samples/server/petstore/php-flight/
+          - samples/server/petstore/php-mezzio-ph-modern/
+          - samples/server/petstore/php-mezzio-ph/
+          - samples/server/petstore/php-slim4/
     steps:
       - uses: actions/checkout@v5
       - name: Setup PHP with tools
