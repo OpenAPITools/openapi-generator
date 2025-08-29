@@ -8,7 +8,7 @@ on:
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
       - samples/openapi3/client/petstore/dart-dio/oneof/**
-      - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritancne/**
+      - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
       - samples/openapi3/client/petstore/dart-dio/binary_response/**
   pull_request:
     paths:
@@ -16,7 +16,7 @@ on:
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
       - samples/openapi3/client/petstore/dart-dio/oneof/**
-      - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritancne/**
+      - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
       - samples/openapi3/client/petstore/dart-dio/binary_response/**
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
           #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/
           #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/
           - samples/openapi3/client/petstore/dart-dio/oneof/
-          - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritancne/
+          - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/
           - samples/openapi3/client/petstore/dart-dio/binary_response/
     steps:
       - uses: actions/checkout@v4
