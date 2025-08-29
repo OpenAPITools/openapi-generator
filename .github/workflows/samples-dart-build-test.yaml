@@ -20,9 +20,16 @@ jobs:
           - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/
     steps:
       - uses: actions/checkout@v4
+
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: ${{ matrix.sdk }}
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.19.0
 
       - name: pub get
         working-directory: ${{ matrix.sample }}
