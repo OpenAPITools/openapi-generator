@@ -12,7 +12,7 @@ server, you can easily generate a server stub.
 To see how to make this your own, look here: [README]((https://openapi-generator.tech))
 
 - API version: 1.0.7
-- Generator version: 7.15.0-SNAPSHOT
+- Generator version: 7.16.0-SNAPSHOT
 
 
 

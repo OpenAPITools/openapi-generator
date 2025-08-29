@@ -626,8 +626,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 List<CodegenProperty> allOf = composedSchemas.getAllOf();
                 if (allOf != null) {
                     for (CodegenProperty property : allOf) {
+                        patchProperty(enumRefs, model, property);
                         property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
-                        patchPropertyVendorExtensions(property);
                     }
                 }
 
@@ -635,9 +635,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (anyOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for (CodegenProperty property : anyOf) {
+                        patchProperty(enumRefs, model, property);
                         property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
-                        patchPropertyVendorExtensions(property);
                         property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
                     }
                 }
@@ -646,18 +646,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (oneOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for (CodegenProperty property : oneOf) {
+                        patchProperty(enumRefs, model, property);
                         property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
-                        patchPropertyVendorExtensions(property);
                         property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
-
-                        if (!property.isEnum) {
-                            CodegenModel composedOf = ModelUtils.getModelByName(property.name, processed);
-                            if (composedOf != null) {
-                                property.isEnum = composedOf.isEnum;
-                                patchPropertyVendorExtensions(property);
-                            }
-                        }
                     }
                 }
             }

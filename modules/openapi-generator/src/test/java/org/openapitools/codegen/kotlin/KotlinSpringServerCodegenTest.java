@@ -60,4 +60,45 @@ public class KotlinSpringServerCodegenTest {
         //Different because file is not a text file
         assertTrue(Files.exists(gradleWrapperJarCloud));
     }
+
+    @Test(description = "generate polymorphic jackson model")
+    public void polymorphicJacksonSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen() ;
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(
+                new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/polymorphism.yaml"))
+                        .config(codegen)
+        ).generate();
+
+        final Path animalKt = Paths.get(output + "/src/main/kotlin/org/openapitools/model/Animal.kt");
+        // base has extra jackson imports
+        TestUtils.assertFileContains(animalKt, "import com.fasterxml.jackson.annotation.JsonIgnoreProperties");
+        TestUtils.assertFileContains(animalKt, "import com.fasterxml.jackson.annotation.JsonSubTypes");
+        TestUtils.assertFileContains(animalKt, "import com.fasterxml.jackson.annotation.JsonTypeInfo");
+        // and these are being used
+        TestUtils.assertFileContains(animalKt, "@JsonIgnoreProperties");
+        TestUtils.assertFileContains(animalKt, "@JsonSubTypes");
+        TestUtils.assertFileContains(animalKt, "@JsonTypeInfo");
+        // base is interface
+        TestUtils.assertFileContains(animalKt, "interface Animal");
+        // base properties are present
+        TestUtils.assertFileContains(animalKt, "val id");
+        TestUtils.assertFileContains(animalKt, "val optionalProperty");
+        // base doesn't contain discriminator
+        TestUtils.assertFileNotContains(animalKt, "val discriminator");
+
+        final Path birdKt = Paths.get(output + "/src/main/kotlin/org/openapitools/model/Bird.kt");
+        // derived has serial name set to mapping key
+        TestUtils.assertFileContains(birdKt, "data class Bird");
+        // derived properties are overridden
+        TestUtils.assertFileContains(birdKt, "override val id");
+        TestUtils.assertFileContains(birdKt, "override val optionalProperty");
+        // derived doesn't contain disciminator
+        TestUtils.assertFileNotContains(birdKt, "val discriminator");
+    }
 }
