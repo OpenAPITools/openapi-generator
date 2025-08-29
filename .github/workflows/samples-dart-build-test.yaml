@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        sdk: ["3.2.0", "2.19.0"]
+        sdk: ["3.5.0", "2.19.0"]
         sample:
           - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/
     steps:
