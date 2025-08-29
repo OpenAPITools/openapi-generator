@@ -13,11 +13,11 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
-      sample:
-          - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/
       matrix:
         os: [ubuntu-latest, windows-latest]
         sdk: ["3.1", "2.25.0"]
+        sample:
+          - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/
     steps:
       - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
