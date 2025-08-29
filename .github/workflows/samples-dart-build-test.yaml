@@ -21,7 +21,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
-        working-directory: ${{ matrix.sample }}
         with:
           sdk: ${{ matrix.sdk }}
 
