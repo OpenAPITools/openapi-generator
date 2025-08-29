@@ -353,6 +353,9 @@ public class ModelUtilsTest {
         Assert.assertNull(anyof1Property.getType());
         Assert.assertTrue(ModelUtils.hasAnyOf(anyof1Property));
         Assert.assertTrue(ModelUtils.isAnyOf(anyof1Property));
+
+        Schema objectSchema = ModelUtils.getSchema(openAPI, "ObjectSchema");
+        Assert.assertFalse(ModelUtils.isMapSchema(objectSchema));
     }
 
     // 3.1 spec tests
@@ -392,7 +395,7 @@ public class ModelUtilsTest {
         Assert.assertTrue(ModelUtils.isAnyOf(anyof2));
 
         Schema objectSchema = ModelUtils.getSchema(openAPI, "ObjectSchema");
-        Assert.assertTrue(ModelUtils.isMapSchema(objectSchema));
+        Assert.assertFalse(ModelUtils.isMapSchema(objectSchema));
 
         Schema complexComposedSchema = ModelUtils.getSchema(openAPI, "ComplexComposedSchema");
         Assert.assertTrue(ModelUtils.isComplexComposedSchema(complexComposedSchema));
@@ -640,5 +643,36 @@ public class ModelUtilsTest {
         assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("aBooleanCheck")));
         assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("condition")));
         assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("purpose")));
+    }
+
+    @Test
+    public void testModelWithPropertiesOnly() {
+        // Schema with no properties
+        Schema testSchema = new ObjectSchema().properties(null);
+        assertFalse(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // Schema with properties
+        testSchema.setProperties(Map.of("foo", new Schema()));
+        assertTrue(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // Explicitly no additional properties
+        testSchema.setAdditionalProperties(false);
+        assertTrue(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // With additional properties
+        testSchema.setAdditionalProperties(true);
+        assertFalse(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // Additional properties is a schema set to false
+        testSchema.setAdditionalProperties(new Schema().booleanSchemaValue(false));
+        assertTrue(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // Additional properties is a schema set to true
+        testSchema.setAdditionalProperties(new Schema().booleanSchemaValue(true));
+        assertFalse(ModelUtils.isModelWithPropertiesOnly(testSchema));
+
+        // Additional properties is a custom schema
+        testSchema.setAdditionalProperties(new Schema().type("string"));
+        assertFalse(ModelUtils.isModelWithPropertiesOnly(testSchema));
     }
 }

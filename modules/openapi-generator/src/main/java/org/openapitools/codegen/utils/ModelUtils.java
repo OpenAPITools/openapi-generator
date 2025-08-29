@@ -559,7 +559,9 @@ public class ModelUtils {
         }
 
         // additionalProperties explicitly set to false
-        if (schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) {
+        if ((schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) ||
+            (schema.getAdditionalProperties() instanceof Schema && Boolean.FALSE.equals(((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue()))
+        ) {
             return false;
         }
 
@@ -808,7 +810,13 @@ public class ModelUtils {
                 (null != schema.getProperties() && !schema.getProperties().isEmpty()) &&
                 // no additionalProperties is set
                 (schema.getAdditionalProperties() == null ||
-                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()));
+                // additionalProperties is boolean and set to false
+                (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()) ||
+                // additionalProperties is a schema with its boolean value set to false
+                (schema.getAdditionalProperties() instanceof Schema &&
+                        ((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue() != null &&
+                              !((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue())
+                );
     }
 
     public static boolean hasValidation(Schema sc) {
@@ -2422,7 +2430,7 @@ public class ModelUtils {
      * For example, a schema that only has a `description` without any `properties` or `$ref` defined.
      *
      * @param schema the schema
-     * @return       if the schema is only metadata and not an actual type
+     * @return if the schema is only metadata and not an actual type
      */
     public static boolean isMetadataOnlySchema(Schema schema) {
         return !(schema.get$ref() != null ||
