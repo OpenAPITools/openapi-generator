@@ -1024,6 +1024,8 @@ module Petstore
     # @option opts [Array<EnumClass>] :enum_query_model_array 
     # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array) (default to '$')
     # @option opts [String] :enum_form_string Form parameter enum test (string) (default to '-efg')
+    # @option opts [Integer] :enum_form_integer Form parameter enum test (integer) (default to 1)
+    # @option opts [Float] :enum_form_double Form parameter enum test (double) (default to 1.1)
     # @return [nil]
     def test_enum_parameters(opts = {})
       test_enum_parameters_with_http_info(opts)
@@ -1042,6 +1044,8 @@ module Petstore
     # @option opts [Array<EnumClass>] :enum_query_model_array 
     # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array) (default to '$')
     # @option opts [String] :enum_form_string Form parameter enum test (string) (default to '-efg')
+    # @option opts [Integer] :enum_form_integer Form parameter enum test (integer) (default to 1)
+    # @option opts [Float] :enum_form_double Form parameter enum test (double) (default to 1.1)
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def test_enum_parameters_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -1079,6 +1083,14 @@ module Petstore
       if @api_client.config.client_side_validation && opts[:'enum_form_string'] && !allowable_values.include?(opts[:'enum_form_string'])
         fail ArgumentError, "invalid value for \"enum_form_string\", must be one of #{allowable_values}"
       end
+      allowable_values = [1, -1, 0]
+      if @api_client.config.client_side_validation && opts[:'enum_form_integer'] && !allowable_values.include?(opts[:'enum_form_integer'])
+        fail ArgumentError, "invalid value for \"enum_form_integer\", must be one of #{allowable_values}"
+      end
+      allowable_values = [1.1, -1.1, 0.1, 0.0]
+      if @api_client.config.client_side_validation && opts[:'enum_form_double'] && !allowable_values.include?(opts[:'enum_form_double'])
+        fail ArgumentError, "invalid value for \"enum_form_double\", must be one of #{allowable_values}"
+      end
       # resource path
       local_var_path = '/fake'
 
@@ -1104,6 +1116,8 @@ module Petstore
       form_params = opts[:form_params] || {}
       form_params['enum_form_string_array'] = @api_client.build_collection_param(opts[:'enum_form_string_array'], :csv) if !opts[:'enum_form_string_array'].nil?
       form_params['enum_form_string'] = opts[:'enum_form_string'] if !opts[:'enum_form_string'].nil?
+      form_params['enum_form_integer'] = opts[:'enum_form_integer'] if !opts[:'enum_form_integer'].nil?
+      form_params['enum_form_double'] = opts[:'enum_form_double'] if !opts[:'enum_form_double'].nil?
 
       # http body (model)
       post_body = opts[:debug_body]
