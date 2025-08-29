@@ -939,6 +939,11 @@ public class OpenAPINormalizerTest {
         assertEquals(schema22.getAnyOf(), null);
         assertEquals(schema22.getTypes(), Set.of("string"));
         assertEquals(schema22.getEnum().size(), 2);
+
+        Schema schema23 = openAPI.getComponents().getSchemas().get("AnyOfNullableAdditionalPropertiesTest");
+        assertEquals(((Schema) schema23.getProperties().get("str")).getAnyOf(), null);
+        assertTrue(((Schema) schema23.getProperties().get("str")).getNullable());
+        assertEquals(schema22.getTypes(), Set.of("string"));
     }
 
     @Test
