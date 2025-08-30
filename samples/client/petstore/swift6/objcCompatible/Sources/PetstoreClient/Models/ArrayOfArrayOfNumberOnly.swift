@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class ArrayOfArrayOfNumberOnly: NSObject, Codable, ParameterConvertible {
+@objcMembers public class ArrayOfArrayOfNumberOnly: NSObject, Codable {
 
     public var arrayArrayNumber: [[Double]]?
 
