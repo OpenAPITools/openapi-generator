@@ -26,7 +26,7 @@ class Foo(BaseModel):
     """
     Foo
     """ # noqa: E501
-    bar: Optional[StrictStr] = 'bar'
+    bar: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["bar"]
 
@@ -88,7 +88,7 @@ class Foo(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "bar": obj.get("bar") if obj.get("bar") is not None else 'bar'
+            "bar": obj.get("bar")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
