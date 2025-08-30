@@ -78,15 +78,19 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
-    @Setter protected String packageName = "openapitools";
+    @Setter
+    protected String packageName = "openapitools";
 
-    @Setter protected String aggregateModelsName = null;
+    @Setter
+    protected String aggregateModelsName = null;
 
     @SuppressWarnings("unused")
-    @Setter protected String customOptionsApi = null;
+    @Setter
+    protected String customOptionsApi = null;
 
     @SuppressWarnings("unused")
-    @Setter protected String customOptionsModel = null;
+    @Setter
+    protected String customOptionsModel = null;
 
     private boolean numberedFieldNumberList = false;
 
@@ -131,8 +135,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .includeWireFormatFeatures(WireFormatFeature.PROTOBUF)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.PROTOBUF))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-        );
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class)));
 
         outputFolder = "generated-code/protobuf-schema";
         modelTemplateFiles.put("model.mustache", ".proto");
@@ -146,8 +149,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 Arrays.asList(
                         "map",
                         "set",
-                        "array")
-        );
+                        "array"));
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
@@ -168,13 +170,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         "sfixed32",
                         "sfixed64",
                         "float",
-                        "double")
-        );
+                        "double"));
 
         instantiationTypes.clear();
         instantiationTypes.put("array", "repeat");
         instantiationTypes.put("set", "repeat");
-
 
         // ref: https://developers.google.com/protocol-buffers/docs/proto
         typeMapping.clear();
@@ -207,12 +207,17 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         cliOptions.clear();
 
         addSwitch(NUMBERED_FIELD_NUMBER_LIST, "Field numbers in order.", numberedFieldNumberList);
-        addSwitch(START_ENUMS_WITH_UNSPECIFIED, "Introduces \"UNSPECIFIED\" as the first element of enumerations.", startEnumsWithUnspecified);
-        addSwitch(ADD_JSON_NAME_ANNOTATION, "Append \"json_name\" annotation to message field when the specification name differs from the protobuf field name", addJsonNameAnnotation);
+        addSwitch(START_ENUMS_WITH_UNSPECIFIED, "Introduces \"UNSPECIFIED\" as the first element of enumerations.",
+                startEnumsWithUnspecified);
+        addSwitch(ADD_JSON_NAME_ANNOTATION,
+                "Append \"json_name\" annotation to message field when the specification name differs from the protobuf field name",
+                addJsonNameAnnotation);
         addSwitch(WRAP_COMPLEX_TYPE, "Generate Additional message for complex type", wrapComplexType);
         addSwitch(USE_SIMPLIFIED_ENUM_NAMES, "Use a simple name for enums", useSimplifiedEnumNames);
         addSwitch(SUPPORT_MULTIPLE_RESPONSES, "Support multiple responses", supportMultipleResponses);
-        addOption(AGGREGATE_MODELS_NAME, "Aggregated model filename. If set, all generated models will be combined into this single file.", null);
+        addOption(AGGREGATE_MODELS_NAME,
+                "Aggregated model filename. If set, all generated models will be combined into this single file.",
+                null);
         addOption(CUSTOM_OPTIONS_API, "Custom options for the api files.", null);
         addOption(CUSTOM_OPTIONS_MODEL, "Custom options for the model files.", null);
     }
@@ -221,8 +226,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     public void processOpts() {
         super.processOpts();
 
-        //apiTestTemplateFiles.put("api_test.mustache", ".proto");
-        //modelTestTemplateFiles.put("model_test.mustache", ".proto");
+        // apiTestTemplateFiles.put("api_test.mustache", ".proto");
+        // modelTestTemplateFiles.put("model_test.mustache", ".proto");
 
         apiDocTemplateFiles.clear(); // TODO: add api doc template
         modelDocTemplateFiles.clear(); // TODO: add model doc template
@@ -272,7 +277,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         if (additionalProperties.containsKey(CUSTOM_OPTIONS_MODEL)) {
             this.setCustomOptionsModel((String) additionalProperties.get(CUSTOM_OPTIONS_MODEL));
         }
-          
+
         if (additionalProperties.containsKey(this.SUPPORT_MULTIPLE_RESPONSES)) {
             this.supportMultipleResponses = convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_RESPONSES);
         } else {
@@ -284,14 +289,16 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty (should not occur as an auto-generated method name will be used)
+        // throw exception if method name is empty (should not occur as an
+        // auto-generated method name will be used)
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId,
+                    camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -301,8 +308,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     /**
      * Creates an array schema from the provided object schema.
      *
-     *  @param objectSchema the schema of the object to be wrapped in an array schema
-     *  @return the created array schema
+     * @param objectSchema the schema of the object to be wrapped in an array schema
+     * @return the created array schema
      */
     private Schema createArraySchema(Schema objectSchema) {
         ArraySchema arraySchema = new ArraySchema();
@@ -310,12 +317,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return arraySchema;
     }
 
-
     /**
      * Creates a map schema from the provided object schema.
      *
-     *  @param objectSchema the schema of the object to be wrapped in a map schema
-     *  @return the created map schema
+     * @param objectSchema the schema of the object to be wrapped in a map schema
+     * @return the created map schema
      */
     private Schema createMapSchema(Schema objectSchema) {
         MapSchema mapSchema = new MapSchema();
@@ -326,8 +332,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     /**
      * Adds a new schema to the OpenAPI components.
      *
-     * @param schema the schema to be added
-     * @param schemaName the name of the schema
+     * @param schema        the schema to be added
+     * @param schemaName    the name of the schema
      * @param visitedSchema a set of schemas that have already been visited
      * @return the reference schema
      */
@@ -355,13 +361,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     /**
      * Derive name from schema primitive type
      *
-     *  @param schema the schema to derive the name from
-     *  @return the derived name
+     * @param schema the schema to derive the name from
+     * @return the derived name
      */
     private String getNameFromSchemaPrimitiveType(Schema schema) {
-        if (!ModelUtils.isPrimitiveType(schema)) return "";
-        if(ModelUtils.isNumberSchema(schema)) {
-            if(schema.getFormat() != null) {
+        if (!ModelUtils.isPrimitiveType(schema))
+            return "";
+        if (ModelUtils.isNumberSchema(schema)) {
+            if (schema.getFormat() != null) {
                 return schema.getFormat();
             } else if (typeMapping.get(schema.getType()) != null) {
                 return typeMapping.get(schema.getType());
@@ -372,7 +379,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     /**
      * Recursively generates schemas for nested maps and arrays.
-     * @param schema the schema to be processed
+     * 
+     * @param schema         the schema to be processed
      * @param visitedSchemas a set of schemas that have already been visited
      * @return the processed schema
      */
@@ -382,13 +390,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             return schema;
         }
 
-        if(ModelUtils.isArraySchema(schema)) {
+        if (ModelUtils.isArraySchema(schema)) {
             Schema itemsSchema = ModelUtils.getSchemaItems(schema);
             itemsSchema = ModelUtils.getReferencedSchema(openAPI, itemsSchema);
-            if(ModelUtils.isModel(itemsSchema)) {
-                String newSchemaName = ModelUtils.getSimpleRef(ModelUtils.getSchemaItems(schema).get$ref()) + ARRAY_SUFFIX;
+            if (ModelUtils.isModel(itemsSchema)) {
+                String newSchemaName = ModelUtils.getSimpleRef(ModelUtils.getSchemaItems(schema).get$ref())
+                        + ARRAY_SUFFIX;
                 return addSchemas(schema, newSchemaName, visitedSchemas);
-            }else if (ModelUtils.isPrimitiveType(itemsSchema)){
+            } else if (ModelUtils.isPrimitiveType(itemsSchema)) {
                 String newSchemaName = getNameFromSchemaPrimitiveType(itemsSchema) + ARRAY_SUFFIX;
                 return addSchemas(schema, newSchemaName, visitedSchemas);
             } else {
@@ -397,13 +406,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 Schema arrayModel = createArraySchema(childSchema);
                 return addSchemas(arrayModel, newSchemaName, visitedSchemas);
             }
-        } else if(ModelUtils.isMapSchema(schema)) {
+        } else if (ModelUtils.isMapSchema(schema)) {
             Schema mapValueSchema = ModelUtils.getAdditionalProperties(schema);
             mapValueSchema = ModelUtils.getReferencedSchema(openAPI, mapValueSchema);
-            if(ModelUtils.isModel(mapValueSchema) ) {
-                String newSchemaName = ModelUtils.getSimpleRef(ModelUtils.getAdditionalProperties(schema).get$ref()) + MAP_SUFFIX;
+            if (ModelUtils.isModel(mapValueSchema)) {
+                String newSchemaName = ModelUtils.getSimpleRef(ModelUtils.getAdditionalProperties(schema).get$ref())
+                        + MAP_SUFFIX;
                 return addSchemas(schema, newSchemaName, visitedSchemas);
-            }else if (ModelUtils.isPrimitiveType(mapValueSchema)){
+            } else if (ModelUtils.isPrimitiveType(mapValueSchema)) {
                 String newSchemaName = getNameFromSchemaPrimitiveType(mapValueSchema) + MAP_SUFFIX;
                 return addSchemas(schema, newSchemaName, visitedSchemas);
             } else {
@@ -419,14 +429,15 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     /**
      * Processes nested schemas for complex type(map, array, oneOf)
      *
-     *  @param schema the schema to be processed
-     *  @param visitedSchemas a set of schemas that have already been visited
+     * @param schema         the schema to be processed
+     * @param visitedSchemas a set of schemas that have already been visited
      */
     private void processNestedSchemas(Schema schema, Set<Schema> visitedSchemas) {
         if (ModelUtils.isMapSchema(schema) && ModelUtils.getAdditionalProperties(schema) != null) {
             Schema mapValueSchema = ModelUtils.getAdditionalProperties(schema);
             mapValueSchema = ModelUtils.getReferencedSchema(openAPI, mapValueSchema);
-            if (ModelUtils.isArraySchema(mapValueSchema) || (ModelUtils.isMapSchema(mapValueSchema) && !ModelUtils.isModel(mapValueSchema))) {
+            if (ModelUtils.isArraySchema(mapValueSchema)
+                    || (ModelUtils.isMapSchema(mapValueSchema) && !ModelUtils.isModel(mapValueSchema))) {
                 Schema innerSchema = generateNestedSchema(mapValueSchema, visitedSchemas);
                 schema.setAdditionalProperties(innerSchema);
 
@@ -434,7 +445,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         } else if (ModelUtils.isArraySchema(schema) && ModelUtils.getSchemaItems(schema) != null) {
             Schema arrayItemSchema = ModelUtils.getSchemaItems(schema);
             arrayItemSchema = ModelUtils.getReferencedSchema(openAPI, arrayItemSchema);
-            if ((ModelUtils.isMapSchema(arrayItemSchema) && !ModelUtils.isModel(arrayItemSchema)) || ModelUtils.isArraySchema(arrayItemSchema)) {
+            if ((ModelUtils.isMapSchema(arrayItemSchema) && !ModelUtils.isModel(arrayItemSchema))
+                    || ModelUtils.isArraySchema(arrayItemSchema)) {
                 Schema innerSchema = generateNestedSchema(arrayItemSchema, visitedSchemas);
                 schema.setItems(innerSchema);
             }
@@ -466,7 +478,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         Map<String, Schema> models = openAPI.getComponents().getSchemas();
         Set<Schema> visitedSchema = new HashSet<>();
         List<String> modelNames = new ArrayList<String>(models.keySet());
-        for (String modelName: modelNames) {
+        for (String modelName : modelNames) {
             Schema schema = models.get(modelName);
             processNestedSchemas(schema, visitedSchema);
             if (ModelUtils.isModel(schema) && schema.getProperties() != null) {
@@ -475,7 +487,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     Schema propertySchema = propertyEntry.getValue();
                     processNestedSchemas(propertySchema, visitedSchema);
                 }
-            }  else if (ModelUtils.isAllOf(schema)) {
+            } else if (ModelUtils.isAllOf(schema)) {
                 wrapComposedChildren(schema.getAllOf(), visitedSchema);
             } else if (ModelUtils.isOneOf(schema)) {
                 wrapComposedChildren(schema.getOneOf(), visitedSchema);
@@ -488,18 +500,19 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     /**
      * Traverses a composed schema and its properties to wrap nested schemas.
      *
-     * @param children the list of child schemas to be processed
+     * @param children      the list of child schemas to be processed
      * @param visitedSchema a set of schemas that have already been visited
      */
     private void wrapComposedChildren(List<Schema> children, Set<Schema> visitedSchema) {
         if (children == null || children.isEmpty()) {
             return;
         }
-        for(Schema child: children) {
+        for (Schema child : children) {
             child = ModelUtils.getReferencedSchema(openAPI, child);
             Map<String, Schema> properties = child.getProperties();
-            if(properties == null || properties.isEmpty()) continue;
-            for(Map.Entry<String, Schema> propertyEntry : properties.entrySet()) {
+            if (properties == null || properties.isEmpty())
+                continue;
+            for (Map.Entry<String, Schema> propertyEntry : properties.entrySet()) {
                 Schema propertySchema = propertyEntry.getValue();
                 processNestedSchemas(propertySchema, visitedSchema);
             }
@@ -516,7 +529,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     /**
      * Adds prefix to the enum allowable values
-     * NOTE: Enum values use C++ scoping rules, meaning that enum values are siblings of their type, not children of it. Therefore, enum value must be unique
+     * NOTE: Enum values use C++ scoping rules, meaning that enum values are
+     * siblings of their type, not children of it. Therefore, enum value must be
+     * unique
      *
      * @param allowableValues allowable values
      * @param prefix          added prefix
@@ -546,22 +561,34 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * @param allowableValues allowable values
      */
     public void addUnspecifiedToAllowableValues(Map<String, Object> allowableValues) {
+
+        final String UNSPECIFIED = "UNSPECIFIED";
+
         if (startEnumsWithUnspecified) {
             if (allowableValues.containsKey("enumVars")) {
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
 
-                HashMap<String, Object> unspecified = new HashMap<String, Object>();
-                unspecified.put("name", "UNSPECIFIED");
-                unspecified.put("isString", "false");
-                unspecified.put("value", "\"UNSPECIFIED\"");
-                enumVars.add(0, unspecified);
+                boolean unspecifiedPresent = enumVars.stream()
+                        .anyMatch(e -> {
+
+                            return UNSPECIFIED.equals(e.get("name"));
+                        });
+                if (!unspecifiedPresent) {
+                    HashMap<String, Object> unspecifiedEnum = new HashMap<String, Object>();
+                    unspecifiedEnum.put("name", UNSPECIFIED);
+                    unspecifiedEnum.put("isString", "false");
+                    unspecifiedEnum.put("value", "\"" + UNSPECIFIED + "\"");
+                    enumVars.add(0, unspecifiedEnum);
+                }
             }
 
             if (allowableValues.containsKey("values")) {
                 List<String> values = (List<String>) allowableValues.get("values");
-                List<String> modifiableValues = new ArrayList<>(values);
-                modifiableValues.add(0, "UNSPECIFIED");
-                allowableValues.put("values", modifiableValues);
+                if (!values.contains(UNSPECIFIED)) {
+                    List<String> modifiableValues = new ArrayList<>(values);
+                    modifiableValues.add(0, UNSPECIFIED);
+                    allowableValues.put("values", modifiableValues);
+                }
             }
         }
     }
@@ -580,16 +607,15 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     public List<CodegenProperty> processOneOfAnyOfItems(List<CodegenProperty> composedSchemasProperty) {
-        for(CodegenProperty cd: composedSchemasProperty) {
+        for (CodegenProperty cd : composedSchemasProperty) {
             cd.name = resolveVarName(cd);
             cd.baseName = resolveVarName(cd);
         }
         return composedSchemasProperty;
     }
 
-
     private String resolveVarName(CodegenProperty property) {
-        if(property.getTitle() != null) {
+        if (property.getTitle() != null) {
             return toVarName(property.getTitle());
         } else {
             return getNameFromDataType(property);
@@ -597,7 +623,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     public String getNameFromDataType(CodegenProperty property) {
-        if (Boolean.TRUE.equals(property.getIsArray())){
+        if (Boolean.TRUE.equals(property.getIsArray())) {
             return toVarName(property.mostInnerItems.dataType + ARRAY_SUFFIX);
         } else if (Boolean.TRUE.equals(property.getIsMap())) {
             return toVarName(property.mostInnerItems.dataType + MAP_SUFFIX);
@@ -605,7 +631,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             return toVarName(property.dataType);
         }
     }
-
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
@@ -624,7 +649,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
             }
 
-            if(cm.oneOf != null && !cm.oneOf.isEmpty()){
+            if (cm.oneOf != null && !cm.oneOf.isEmpty()) {
                 cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getOneOf());
             } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
                 cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getAnyOf());
@@ -653,7 +678,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     addEnumValuesPrefix(var.allowableValues, var.getEnumName());
 
                     if (var.allowableValues.containsKey("enumVars")) {
-                        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
+                        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues
+                                .get("enumVars");
                         addEnumIndexes(enumVars);
                     }
                 }
@@ -664,10 +690,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     index++;
                 } else {
                     try {
-                        var.vendorExtensions.putIfAbsent("x-protobuf-index", generateFieldNumberFromString(var.getName()));
+                        var.vendorExtensions.putIfAbsent("x-protobuf-index",
+                                generateFieldNumberFromString(var.getName()));
                     } catch (ProtoBufIndexComputationException e) {
                         LOGGER.error("Exception when assigning a index to a protobuf field", e);
-                        var.vendorExtensions.putIfAbsent("x-protobuf-index", "Generated field number is in reserved range (19000, 19999)");
+                        var.vendorExtensions.putIfAbsent("x-protobuf-index",
+                                "Generated field number is in reserved range (19000, 19999)");
                     }
                 }
 
@@ -689,7 +717,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         Map<String, CodegenModel> allModels = this.getAllModels(objs);
 
         for (CodegenModel cm : allModels.values()) {
-            // Replicate all attributes from children to parents in case of allof, as there is no inheritance
+            // Replicate all attributes from children to parents in case of allof, as there
+            // is no inheritance
             if (!cm.allOf.isEmpty() && cm.getParentModel() != null) {
                 CodegenModel parentCM = cm.getParentModel();
                 for (CodegenProperty var : cm.getVars()) {
@@ -700,7 +729,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 // add all imports from child
                 cm.getImports().stream()
                         // Filter self import && child import
-                        .filter(importFromList -> !parentCM.getClassname().equalsIgnoreCase(importFromList) && !cm.getClassname().equalsIgnoreCase(importFromList))
+                        .filter(importFromList -> !parentCM.getClassname().equalsIgnoreCase(importFromList)
+                                && !cm.getClassname().equalsIgnoreCase(importFromList))
                         .forEach(importFromList -> this.addImport(objs, parentCM, importFromList));
             }
         }
@@ -711,7 +741,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * Aggregates all individual model definitions into a single entry.
      *
      * @param objs the original map of model names to their respective entries
-     * @return a new {@link Map} containing a single entry keyed by {@code aggregateModelsName} with
+     * @return a new {@link Map} containing a single entry keyed by
+     *         {@code aggregateModelsName} with
      *         combined models and imports from all provided entries
      */
     public Map<String, ModelsMap> aggregateModels(Map<String, ModelsMap> objs) {
@@ -862,7 +893,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             return nameMapping.get(name);
         }
         // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods
+                                   // parameters as 'final'.
 
         // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
@@ -891,13 +923,15 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods
+                                   // parameters as 'final'.
         // remove dollar sign
         name = name.replace("$", "");
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -950,7 +984,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 } else if (Boolean.TRUE.equals(p.isNullable && p.isPrimitiveType)) {
                     p.vendorExtensions.put("x-protobuf-type", "optional");
                 } else if (Boolean.TRUE.equals(p.isMap)) {
-                    LOGGER.warn("Map parameter (name: {}, operation ID: {}) not yet supported", p.paramName, op.operationId);
+                    LOGGER.warn("Map parameter (name: {}, operation ID: {}) not yet supported", p.paramName,
+                            op.operationId);
                 }
 
                 // add x-protobuf-data-type
@@ -988,23 +1023,27 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
             }
 
-            if(this.supportMultipleResponses) {
+            if (this.supportMultipleResponses) {
                 int responseIdx = 1;
-                op.vendorExtensions.put("x-grpc-response", op.operationId+"Response");
+                op.vendorExtensions.put("x-grpc-response", op.operationId + "Response");
                 for (CodegenResponse r : op.responses) {
                     if (r.returnProperty == null) {
                         r.vendorExtensions.put("x-oneOf-response-type", "google.protobuf.Empty");
                         r.vendorExtensions.put("x-oneOf-response-name", "empty");
                     } else if (r.isMap && r.additionalProperties != null) {
                         r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.additionalProperties.dataType);
-                        r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty.additionalProperties));
-                        LOGGER.warn("Mapping responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.", op.operationId);
+                        r.vendorExtensions.put("x-oneOf-response-name",
+                                resolveVarName(r.returnProperty.additionalProperties));
+                        LOGGER.warn(
+                                "Mapping responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.",
+                                op.operationId);
                     } else if (r.isArray && r.items != null) {
                         r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.items.dataType);
                         r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty.items));
-                        LOGGER.warn("Array responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.", op.operationId);
-                    }
-                    else {
+                        LOGGER.warn(
+                                "Array responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.",
+                                op.operationId);
+                    } else {
                         r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.dataType);
                         r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty));
                     }
@@ -1048,7 +1087,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     private int generateFieldNumberFromString(String name) throws ProtoBufIndexComputationException {
-        // Max value from developers.google.com/protocol-buffers/docs/proto3#assigning_field_numbers
+        // Max value from
+        // developers.google.com/protocol-buffers/docs/proto3#assigning_field_numbers
         int fieldNumber = Math.abs(name.hashCode() % 536870911);
         if (19000 <= fieldNumber && fieldNumber <= 19999) {
             LOGGER.error("Generated field number is in reserved range (19000, 19999) for %s, %d", name, fieldNumber);
@@ -1058,7 +1098,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     /**
-     * Checks if the var provided is already in the list of the parent's vars, matching the type and the name
+     * Checks if the var provided is already in the list of the parent's vars,
+     * matching the type and the name
      *
      * @param parentVars list of parent's vars
      * @param var        var to compare
@@ -1081,27 +1122,29 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return GeneratorLanguage.PROTOBUF;
     }
 
-
-/**
- * Handles additionalProperties defined in composed schemas (e.g., allOf) by injecting into the model's properties.
- * Example:
- *  components:
- *    schemas:
- *      Dog:
- *        allOf:
- *          - $ref: '#/components/schemas/DogBase'
- *          - type: object
- *            additionalProperties:
- *              title: pet
- *              $ref: '#/components/schemas/Pet'
- * In this case, the second allOf that defines a map with string keys and Pet values will be part of model's property.
- */
+    /**
+     * Handles additionalProperties defined in composed schemas (e.g., allOf) by
+     * injecting into the model's properties.
+     * Example:
+     * components:
+     * schemas:
+     * Dog:
+     * allOf:
+     * - $ref: '#/components/schemas/DogBase'
+     * - type: object
+     * additionalProperties:
+     * title: pet
+     * $ref: '#/components/schemas/Pet'
+     * In this case, the second allOf that defines a map with string keys and Pet
+     * values will be part of model's property.
+     */
     @Override
-    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas){
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema,
+            Set<Schema> visitedSchemas) {
         super.addProperties(properties, required, schema, visitedSchemas);
-        if(schema.getAdditionalProperties() != null) {
+        if (schema.getAdditionalProperties() != null) {
             String addtionalPropertiesName = "default_map";
-            if(schema.getTitle() != null) {
+            if (schema.getTitle() != null) {
                 addtionalPropertiesName = schema.getTitle();
             } else {
                 Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
