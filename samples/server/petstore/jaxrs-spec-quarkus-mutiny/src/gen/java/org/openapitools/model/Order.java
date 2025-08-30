@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -70,6 +71,102 @@ public class Order  implements Serializable {
 
   private StatusEnum status;
   private Boolean complete = false;
+  public enum PaymentMethodEnum {
+
+    NUMBER_1(BigDecimal.valueOf(new BigDecimal("1"))), NUMBER_2(BigDecimal.valueOf(new BigDecimal("2")));
+
+
+    private BigDecimal value;
+
+    PaymentMethodEnum (BigDecimal v) {
+        value = v;
+    }
+
+    public BigDecimal value() {
+        return value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+    /**
+     * Convert a String into BigDecimal, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+    public static PaymentMethodEnum fromString(String s) {
+        for (PaymentMethodEnum b : PaymentMethodEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+    }
+
+    @JsonCreator
+    public static PaymentMethodEnum fromValue(BigDecimal value) {
+        for (PaymentMethodEnum b : PaymentMethodEnum.values()) {
+            if (b.value.equals(value)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+}
+
+  private PaymentMethodEnum paymentMethod = PaymentMethodEnum.NUMBER_1;
+  public enum OrderStatusEnum {
+
+    PENDING(Object.valueOf("PENDING")), PROCESSING(Object.valueOf("PROCESSING"));
+
+
+    private Object value;
+
+    OrderStatusEnum (Object v) {
+        value = v;
+    }
+
+    public Object value() {
+        return value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+    /**
+     * Convert a String into Object, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+    public static OrderStatusEnum fromString(String s) {
+        for (OrderStatusEnum b : OrderStatusEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+    }
+
+    @JsonCreator
+    public static OrderStatusEnum fromValue(Object value) {
+        for (OrderStatusEnum b : OrderStatusEnum.values()) {
+            if (b.value.equals(value)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+}
+
+  private OrderStatusEnum orderStatus;
 
   protected Order(OrderBuilder<?, ?> b) {
     this.id = b.id;
@@ -78,6 +175,8 @@ public class Order  implements Serializable {
     this.shipDate = b.shipDate;
     this.status = b.status;
     this.complete = b.complete;
+    this.paymentMethod = b.paymentMethod;
+    this.orderStatus = b.orderStatus;
   }
 
   public Order() {
@@ -198,6 +297,46 @@ public class Order  implements Serializable {
     this.complete = complete;
   }
 
+  /**
+   * Various payment methods
+   **/
+  public Order paymentMethod(PaymentMethodEnum paymentMethod) {
+    this.paymentMethod = paymentMethod;
+    return this;
+  }
+
+  
+  @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "1", description = "Various payment methods")
+  @JsonProperty("paymentMethod")
+  public PaymentMethodEnum getPaymentMethod() {
+    return paymentMethod;
+  }
+
+  @JsonProperty("paymentMethod")
+  public void setPaymentMethod(PaymentMethodEnum paymentMethod) {
+    this.paymentMethod = paymentMethod;
+  }
+
+  /**
+   * Order status
+   **/
+  public Order orderStatus(OrderStatusEnum orderStatus) {
+    this.orderStatus = orderStatus;
+    return this;
+  }
+
+  
+  @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "Order status")
+  @JsonProperty("OrderStatus")
+  public OrderStatusEnum getOrderStatus() {
+    return orderStatus;
+  }
+
+  @JsonProperty("OrderStatus")
+  public void setOrderStatus(OrderStatusEnum orderStatus) {
+    this.orderStatus = orderStatus;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -213,12 +352,14 @@ public class Order  implements Serializable {
         Objects.equals(this.quantity, order.quantity) &&
         Objects.equals(this.shipDate, order.shipDate) &&
         Objects.equals(this.status, order.status) &&
-        Objects.equals(this.complete, order.complete);
+        Objects.equals(this.complete, order.complete) &&
+        Objects.equals(this.paymentMethod, order.paymentMethod) &&
+        Objects.equals(this.orderStatus, order.orderStatus);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+    return Objects.hash(id, petId, quantity, shipDate, status, complete, paymentMethod, orderStatus);
   }
 
   @Override
@@ -232,6 +373,8 @@ public class Order  implements Serializable {
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+    sb.append("    paymentMethod: ").append(toIndentedString(paymentMethod)).append("\n");
+    sb.append("    orderStatus: ").append(toIndentedString(orderStatus)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -272,6 +415,8 @@ public class Order  implements Serializable {
     private LocalDateTime shipDate;
     private StatusEnum status;
     private Boolean complete = false;
+    private PaymentMethodEnum paymentMethod = PaymentMethodEnum.NUMBER_1;
+    private OrderStatusEnum orderStatus;
     protected abstract B self();
 
     public abstract C build();
@@ -298,6 +443,14 @@ public class Order  implements Serializable {
     }
     public B complete(Boolean complete) {
       this.complete = complete;
+      return self();
+    }
+    public B paymentMethod(PaymentMethodEnum paymentMethod) {
+      this.paymentMethod = paymentMethod;
+      return self();
+    }
+    public B orderStatus(OrderStatusEnum orderStatus) {
+      this.orderStatus = orderStatus;
       return self();
     }
   }

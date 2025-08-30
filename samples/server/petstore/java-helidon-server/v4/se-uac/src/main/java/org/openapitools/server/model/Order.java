@@ -2,6 +2,7 @@ package org.openapitools.server.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
@@ -56,6 +57,82 @@ public class Order   {
     private Boolean complete = false;
 
     /**
+    * Various payment methods
+    */
+    public enum PaymentMethodEnum {
+        NUMBER_1(new BigDecimal("1")),
+        NUMBER_2(new BigDecimal("2"));
+
+        private BigDecimal value;
+
+        PaymentMethodEnum(BigDecimal value) {
+            this.value = value;
+        }
+
+        @JsonValue
+        public BigDecimal getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+
+
+        @JsonCreator
+        public static PaymentMethodEnum fromValue(String text) {
+            for (PaymentMethodEnum b : PaymentMethodEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            throw new IllegalArgumentException("Unexpected value '" + text + "'");
+        }
+    }
+
+
+    private PaymentMethodEnum paymentMethod = PaymentMethodEnum.NUMBER_1;
+
+    /**
+    * Order status
+    */
+    public enum OrderStatusEnum {
+        PENDING("PENDING"),
+        PROCESSING("PROCESSING");
+
+        private Object value;
+
+        OrderStatusEnum(Object value) {
+            this.value = value;
+        }
+
+        @JsonValue
+        public Object getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+
+
+        @JsonCreator
+        public static OrderStatusEnum fromValue(String text) {
+            for (OrderStatusEnum b : OrderStatusEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            throw new IllegalArgumentException("Unexpected value '" + text + "'");
+        }
+    }
+
+
+    private OrderStatusEnum orderStatus;
+
+    /**
      * Default constructor.
      */
     public Order() {
@@ -71,6 +148,8 @@ public class Order   {
      * @param shipDate shipDate
      * @param status Order Status
      * @param complete complete
+     * @param paymentMethod Various payment methods
+     * @param orderStatus Order status
      */
     public Order(
         Long id, 
@@ -78,7 +157,9 @@ public class Order   {
         Integer quantity, 
         OffsetDateTime shipDate, 
         StatusEnum status, 
-        Boolean complete
+        Boolean complete, 
+        PaymentMethodEnum paymentMethod, 
+        OrderStatusEnum orderStatus
     ) {
         this.id = id;
         this.petId = petId;
@@ -86,6 +167,8 @@ public class Order   {
         this.shipDate = shipDate;
         this.status = status;
         this.complete = complete;
+        this.paymentMethod = paymentMethod;
+        this.orderStatus = orderStatus;
     }
 
 
@@ -163,6 +246,30 @@ public class Order   {
     }
 
     /**
+     * Various payment methods
+     * @return paymentMethod
+     */
+    public PaymentMethodEnum getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethodEnum paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    /**
+     * Order status
+     * @return orderStatus
+     */
+    public OrderStatusEnum getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatusEnum orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    /**
       * Create a string representation of this pojo.
     **/
     @Override
@@ -176,6 +283,8 @@ public class Order   {
         sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
         sb.append("    status: ").append(toIndentedString(status)).append("\n");
         sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+        sb.append("    paymentMethod: ").append(toIndentedString(paymentMethod)).append("\n");
+        sb.append("    orderStatus: ").append(toIndentedString(orderStatus)).append("\n");
         sb.append("}");
         return sb.toString();
     }

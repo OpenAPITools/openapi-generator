@@ -681,9 +681,9 @@ public class FakeApiImpl implements FakeApi {
   }
 
   @Override
-  public ApiResponse<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) {
-    WebClientRequestBuilder webClientRequestBuilder = testEnumParametersRequestBuilder(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
-    return testEnumParametersSubmit(webClientRequestBuilder, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+  public ApiResponse<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble) {
+    WebClientRequestBuilder webClientRequestBuilder = testEnumParametersRequestBuilder(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
+    return testEnumParametersSubmit(webClientRequestBuilder, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
   }
 
   /**
@@ -699,9 +699,11 @@ public class FakeApiImpl implements FakeApi {
    * @param enumQueryModelArray  (optional)
    * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+   * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+   * @param enumFormDouble Form parameter enum test (double) (optional, default to 1.1)
    * @return WebClientRequestBuilder for testEnumParameters
    */
-  protected WebClientRequestBuilder testEnumParametersRequestBuilder(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) {
+  protected WebClientRequestBuilder testEnumParametersRequestBuilder(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble) {
     WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
             .method("GET");
 
@@ -742,12 +744,16 @@ public class FakeApiImpl implements FakeApi {
    * @param enumQueryModelArray  (optional)
    * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+   * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+   * @param enumFormDouble Form parameter enum test (double) (optional, default to 1.1)
    * @return {@code ApiResponse<Void>} for the submitted request
    */
-  protected ApiResponse<Void> testEnumParametersSubmit(WebClientRequestBuilder webClientRequestBuilder, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) {
+  protected ApiResponse<Void> testEnumParametersSubmit(WebClientRequestBuilder webClientRequestBuilder, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble) {
     String formParams = new StringJoiner("&")
             .add("enum_form_string_array=" + enumFormStringArray)
             .add("enum_form_string=" + enumFormString)
+            .add("enum_form_integer=" + enumFormInteger)
+            .add("enum_form_double=" + enumFormDouble)
             .toString();
     Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(formParams);
     return ApiResponse.create(RESPONSE_TYPE_testEnumParameters, webClientResponse);

@@ -17,6 +17,17 @@ let outerenuminteger_to_yojson e =
     | `List [json] -> json
     | json -> json
 
+type orderstatus = [
+| `PENDING [@printer fun fmt _ -> Format.pp_print_string fmt "PENDING"] [@name "PENDING"]
+| `PROCESSING [@printer fun fmt _ -> Format.pp_print_string fmt "PROCESSING"] [@name "PROCESSING"]
+] [@@deriving yojson, show { with_path = false }, eq];;
+
+let orderstatus_of_yojson json = orderstatus_of_yojson (`List [json])
+let orderstatus_to_yojson e =
+    match orderstatus_to_yojson e with
+    | `List [json] -> json
+    | json -> json
+
 type map_of_enum_string = [
 | `UPPER [@printer fun fmt _ -> Format.pp_print_string fmt "UPPER"] [@name "UPPER"]
 | `Lower [@printer fun fmt _ -> Format.pp_print_string fmt "lower"] [@name "lower"]
@@ -71,6 +82,19 @@ type status = [
 let status_of_yojson json = status_of_yojson (`List [json])
 let status_to_yojson e =
     match status_to_yojson e with
+    | `List [json] -> json
+    | json -> json
+
+type enum_form_double = [
+| `_1Period1 [@printer fun fmt _ -> Format.pp_print_string fmt "1.1"] [@name "1.1"]
+| `Minus1Period1 [@printer fun fmt _ -> Format.pp_print_string fmt "-1.1"] [@name "-1.1"]
+| `_0Period1 [@printer fun fmt _ -> Format.pp_print_string fmt "0.1"] [@name "0.1"]
+| `_0Period0 [@printer fun fmt _ -> Format.pp_print_string fmt "0.0"] [@name "0.0"]
+] [@@deriving yojson, show { with_path = false }, eq];;
+
+let enum_form_double_of_yojson json = enum_form_double_of_yojson (`List [json])
+let enum_form_double_to_yojson e =
+    match enum_form_double_to_yojson e with
     | `List [json] -> json
     | json -> json
 
@@ -129,6 +153,17 @@ let enum_number_to_yojson e =
     | `List [json] -> json
     | json -> json
 
+type paymentmethod = [
+| `_1 [@printer fun fmt _ -> Format.pp_print_string fmt "1"] [@name "1"]
+| `_2 [@printer fun fmt _ -> Format.pp_print_string fmt "2"] [@name "2"]
+] [@@deriving yojson, show { with_path = false }, eq];;
+
+let paymentmethod_of_yojson json = paymentmethod_of_yojson (`List [json])
+let paymentmethod_to_yojson e =
+    match paymentmethod_to_yojson e with
+    | `List [json] -> json
+    | json -> json
+
 type array_enum = [
 | `Fish [@printer fun fmt _ -> Format.pp_print_string fmt "fish"] [@name "fish"]
 | `Crab [@printer fun fmt _ -> Format.pp_print_string fmt "crab"] [@name "crab"]
@@ -137,6 +172,18 @@ type array_enum = [
 let array_enum_of_yojson json = array_enum_of_yojson (`List [json])
 let array_enum_to_yojson e =
     match array_enum_to_yojson e with
+    | `List [json] -> json
+    | json -> json
+
+type enum_form_integer = [
+| `_1 [@printer fun fmt _ -> Format.pp_print_string fmt "1"] [@name "1"]
+| `Minus1 [@printer fun fmt _ -> Format.pp_print_string fmt "-1"] [@name "-1"]
+| `_0 [@printer fun fmt _ -> Format.pp_print_string fmt "0"] [@name "0"]
+] [@@deriving yojson, show { with_path = false }, eq];;
+
+let enum_form_integer_of_yojson json = enum_form_integer_of_yojson (`List [json])
+let enum_form_integer_to_yojson e =
+    match enum_form_integer_to_yojson e with
     | `List [json] -> json
     | json -> json
 
