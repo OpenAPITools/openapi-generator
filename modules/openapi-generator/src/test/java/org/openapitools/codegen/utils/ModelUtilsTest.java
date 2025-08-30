@@ -641,4 +641,12 @@ public class ModelUtilsTest {
         assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("condition")));
         assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("purpose")));
     }
+
+    @Test
+    public void getParentNameMultipleInterfacesTest() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_innerModel.yaml");
+        Map<String, Schema> allSchemas = openAPI.getComponents().getSchemas();
+        Schema composedSchema = allSchemas.get("RandomAnimalsResponse_animals_inner");
+        assertNull(ModelUtils.getParentName(composedSchema, allSchemas));
+    }
 }

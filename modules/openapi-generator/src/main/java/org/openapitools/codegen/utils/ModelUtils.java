@@ -1565,6 +1565,7 @@ public class ModelUtils {
         List<String> refedWithoutDiscriminator = new ArrayList<>();
 
         if (interfaces != null && !interfaces.isEmpty()) {
+            List<String> parentNameCandidates = new ArrayList<>(interfaces.size());
             for (Schema schema : interfaces) {
                 // get the actual schema
                 if (StringUtils.isNotEmpty(schema.get$ref())) {
@@ -1572,10 +1573,10 @@ public class ModelUtils {
                     Schema s = allSchemas.get(parentName);
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
-                        return "UNKNOWN_PARENT_NAME";
+                        parentNameCandidates.add("UNKNOWN_PARENT_NAME");
                     } else if (hasOrInheritsDiscriminator(s, allSchemas, new ArrayList<Schema>())) {
                         // discriminator.propertyName is used or x-parent is used
-                        return parentName;
+                        parentNameCandidates.add(parentName);
                     } else {
                         // not a parent since discriminator.propertyName or x-parent is not set
                         hasAmbiguousParents = true;
@@ -1591,6 +1592,12 @@ public class ModelUtils {
                         nullSchemaChildrenCount++;
                     }
                 }
+            }
+            if (parentNameCandidates.size() > 1) {
+                // unclear which one should be the parent
+                return null;
+            } else if (parentNameCandidates.size() == 1) {
+                return parentNameCandidates.get(0);
             }
             if (refedWithoutDiscriminator.size() == 1 && nullSchemaChildrenCount == 1) {
                 // One schema is a $ref and the other is the 'null' type, so the parent is obvious.

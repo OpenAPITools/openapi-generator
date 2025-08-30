@@ -766,9 +766,10 @@ public class DefaultCodegenTest {
         Set<String> oneOf = new TreeSet<>();
         oneOf.add("Apple");
         oneOf.add("Banana");
+        oneOf.add("Orange");
         assertEquals(fruit.oneOf, oneOf);
-        assertEquals(3, fruit.optionalVars.size());
-        assertEquals(3, fruit.vars.size());
+        assertEquals(4, fruit.optionalVars.size());
+        assertEquals(4, fruit.vars.size());
         // make sure that fruit has the property color
         boolean colorSeen = false;
         for (CodegenProperty cp : fruit.vars) {
@@ -786,6 +787,32 @@ public class DefaultCodegenTest {
             }
         }
         assertTrue(colorSeen);
+    }
+
+    @Test
+    public void testComposedSchemaOneOfWithInnerModel() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_innerModel.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("RandomAnimalsResponse_animals_inner");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel randomAnimalsResponseInner = codegen.fromModel("RandomAnimalsResponse_animals_inner", schema);
+
+        Set<String> oneOf = new TreeSet<>();
+        oneOf.add("Mouse");
+        oneOf.add("Cat");
+        oneOf.add("Dog");
+        assertEquals(oneOf, randomAnimalsResponseInner.oneOf);
+        assertEquals(4, randomAnimalsResponseInner.vars.size());
+        // make sure that RandomAnimalsResponseInner has the property species
+        boolean speciesSeen = false;
+        for (CodegenProperty cp : randomAnimalsResponseInner.vars) {
+            if ("species".equals(cp.name)) {
+                speciesSeen = true;
+                break;
+            }
+        }
+        assertTrue(speciesSeen);
     }
 
     @Test
