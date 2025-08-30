@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 README.md
 build.gradle.kts
 docs/Animal.md
@@ -26,6 +25,3 @@ src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestConfig.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestMethod.kt
 src/commonMain/kotlin/org/openapitools/client/models/Animal.kt
 src/commonMain/kotlin/org/openapitools/client/models/Bird.kt
-src/test/kotlin/org/openapitools/client/apis/BirdApiTest.kt
-src/test/kotlin/org/openapitools/client/models/AnimalTest.kt
-src/test/kotlin/org/openapitools/client/models/BirdTest.kt
