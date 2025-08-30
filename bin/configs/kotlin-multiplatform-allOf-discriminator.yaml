@@ -1,0 +1,8 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-multiplatform-allOf-discriminator
+library: multiplatform
+dateLibrary: kotlinx-datetime
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/polymorphism.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-multiplatform-allOf-discriminator
