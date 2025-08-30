@@ -1,0 +1,30 @@
+# filename: nullable-properties-with-additional-properties-false.yaml
+openapi: 3.1.0
+info:
+  title: ""
+  version: 1.0.0
+components:
+  schemas:
+    # For reference, an object without additionalProperties: false, but with nullable properties
+    SampleObject:
+      properties:
+        someString:
+          anyOf:
+            - type: string
+            - type: 'null'
+
+    # For reference, an object with additionalProperties: false, but without any nullable properties
+    ReferenceObject:
+      additionalProperties: false
+      properties:
+        someString:
+          type: string
+
+    # The broken case: an object with additionalProperties: false and nullable properties
+    SampleObjectWithAdditionalFalse:
+      additionalProperties: false
+      properties:
+        someString:
+          anyOf:
+            - type: string
+            - type: 'null'

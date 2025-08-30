@@ -138,3 +138,13 @@ components:
       oneOf:
         - $ref: '#/components/schemas/Parent'
         - type: "null"
+    AnyOfNullableAdditionalPropertiesTest:
+      description: to test anyOf with additional properties
+      additionalProperties: false
+      properties:
+        str:
+          anyOf:
+            - type: string
+            - type: 'null'
+            - type: null
+            - $ref: null
