@@ -63,6 +63,9 @@ import java.io.Serializable
 import {{roomModelPackage}}.{{classname}}RoomModel
 import {{packageName}}.infrastructure.ITransformForStorage
 {{/generateRoomModels}}
+{{#generateModelBuilders}}
+import kotlin.properties.Delegates
+{{/generateModelBuilders}}
 
 /**
  * {{{description}}}
@@ -91,13 +94,47 @@ import {{packageName}}.infrastructure.ITransformForStorage
 @SerialName(value = {{#lambda.doublequote}}{{{additionalProperties.discriminatorValue}}}{{/lambda.doublequote}})
 {{/additionalProperties.discriminatorValue}}
 {{/kotlinx_serialization}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}{{#discriminator}}{{#kotlinx_serialization}}sealed class{{/kotlinx_serialization}}{{^kotlinx_serialization}}interface{{/kotlinx_serialization}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class{{/discriminator}} {{classname}}{{^discriminator}} (
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}{{#discriminator}}{{#kotlinx_serialization}}sealed class{{/kotlinx_serialization}}{{^kotlinx_serialization}}interface{{/kotlinx_serialization}}{{/discriminator}}{{^discriminator}}{{#hasVars}}{{^generateModelBuilders}}data {{/generateModelBuilders}}{{/hasVars}}class{{/discriminator}} {{classname}}{{^discriminator}} {{#generateModelBuilders}}internal constructor{{/generateModelBuilders}}(
 
 {{#allVars}}
 {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
 
 {{/allVars}}
 ){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#kotlinx_serialization}}(){{/kotlinx_serialization}}{{#isArray}}(){{/isArray}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#generateRoomModels}}{{#parent}}, {{/parent}}{{^discriminator}}{{^parent}}:{{/parent}} ITransformForStorage<{{classname}}RoomModel>{{/discriminator}}{{/generateRoomModels}}{{#vendorExtensions.x-has-data-class-body}} {
+{{#generateModelBuilders}}
+{{^discriminator}}
+
+    /**
+     * Mutable builder for {{classname}}
+     */
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class Builder internal constructor() {
+    {{#allVars}}
+        {{#required}}
+            {{#isPrimitiveType}}
+            {{#isString}}
+            lateinit var {{{name}}}: {{{dataType}}}
+            {{/isString}}
+            {{^isString}}
+            var {{{name}}}: {{{dataType}}} by Delegates.notNull()
+            {{/isString}}
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            lateinit var {{{name}}}: {{{dataType}}}
+            {{/isPrimitiveType}}
+        {{/required}}
+        {{^required}}
+            var {{{name}}}: {{{dataType}}}? = null
+        {{/required}}
+    {{/allVars}}
+
+        internal fun build(): {{classname}} = {{classname}}(
+    {{#allVars}}
+            {{{name}}} = {{{name}}}{{^-last}},{{/-last}}
+    {{/allVars}}
+        )
+    }
+{{/discriminator}}
+{{/generateModelBuilders}}
 {{/vendorExtensions.x-has-data-class-body}}
 {{#generateRoomModels}}
     companion object { }
@@ -388,4 +425,14 @@ import {{packageName}}.infrastructure.ITransformForStorage
 
 {{#vendorExtensions.x-has-data-class-body}}
 }
+{{^discriminator}}
+{{#generateModelBuilders}}
+
+/**
+ * Kotlin DSL for {{classname}}
+ */
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun {{classname}}(block: {{classname}}.Builder.() -> Unit): {{classname}} =
+    {{classname}}.Builder().apply(block).build()
+{{/generateModelBuilders}}
+{{/discriminator}}
 {{/vendorExtensions.x-has-data-class-body}}
