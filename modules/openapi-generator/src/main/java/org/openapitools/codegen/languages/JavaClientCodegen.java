@@ -70,7 +70,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String MICROPROFILE_MUTINY = "microprofileMutiny";
-    public static final String MICROPROFILE_GLOBAL_EXCEPTION_MAPPER = "microprofileGlobalExceptionMapper";
     public static final String MICROPROFILE_REGISTER_EXCEPTION_MAPPER = "microprofileRegisterExceptionMapper";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
@@ -128,8 +127,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected String microprofileFramework = MICROPROFILE_DEFAULT;
     @Setter protected String microprofileRestClientVersion = MICROPROFILE_REST_CLIENT_DEFAULT_VERSION;
     @Setter protected boolean microprofileMutiny = false;
-    @Setter protected boolean microProfileGlobalExceptionMapper = true;
-    @Setter protected boolean microProfileRegisterExceptionMapper = true;
+    @Setter protected boolean microProfileRegisterExceptionMapper = false;
     @Setter protected String configKey = null;
     @Setter(AccessLevel.PRIVATE) protected boolean configKeyFromClassName = false;
 
@@ -240,8 +238,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newString(MICROPROFILE_MUTINY, "Whether to use async types for microprofile (currently only Smallrye Mutiny is supported)."));
-        cliOptions.add(CliOption.newString(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, "Should generated API Clients be annotated with @RegisterProvider(ApiExceptionMapper.class).").defaultValue("true"));
-        cliOptions.add(CliOption.newString(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, "Should ApiExceptionMapper be annotated with @Provider making it a global exception mapper").defaultValue("true"));
+        cliOptions.add(CliOption.newBoolean(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, "Should generated API Clients be annotated with @RegisterProvider(ApiExceptionMapper.class).", this.microProfileRegisterExceptionMapper));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, restclient, libraries"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
         cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
@@ -363,6 +360,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.jackson = !additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY) ||
                 SERIALIZATION_LIBRARY_JACKSON.equals(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
 
+        // use runtime exceptions for microprofile
+        if (libMicroprofile) {
+            useRuntimeException = true;
+        }
+
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup);
 
         // RxJava
@@ -399,11 +401,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         convertPropertyToStringAndWriteBack(MICROPROFILE_FRAMEWORK, this::setMicroprofileFramework);
 
-        convertPropertyToBooleanAndWriteBack(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, this::setMicroProfileGlobalExceptionMapper);
         convertPropertyToBooleanAndWriteBack(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, this::setMicroProfileRegisterExceptionMapper);
 
         additionalProperties.put(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, microProfileRegisterExceptionMapper);
-        additionalProperties.put(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, microProfileGlobalExceptionMapper);
 
         convertPropertyToBooleanAndWriteBack(MICROPROFILE_MUTINY, this::setMicroprofileMutiny);
 
@@ -709,8 +709,19 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             String pomTemplate = mpRestClientVersions.get(microprofileRestClientVersion).pomTemplate;
             supportingFiles.add(new SupportingFile(pomTemplate, "", "pom.xml"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-            supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
-            supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
+
+            if (useRuntimeException) {
+                if (microProfileRegisterExceptionMapper) {
+                    supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
+                    supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
+                }
+            } else {
+                supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
+                if (microProfileRegisterExceptionMapper) {
+                    supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
+                }
+            }
+
             if (getSerializationLibrary() == null) {
                 LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_JSONB);
                 setSerializationLibrary(SERIALIZATION_LIBRARY_JSONB);
@@ -803,7 +814,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 break;
         }
-        
+
         if (isLibrary(FEIGN)) {
             additionalProperties.put("feign-okhttp", "true");
         } else if (isLibrary(FEIGN_HC5)) {
