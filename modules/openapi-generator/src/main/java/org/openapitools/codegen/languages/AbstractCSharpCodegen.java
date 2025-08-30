@@ -751,9 +751,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         return value;
     }
 
-    /** 
-     * Fixes nested maps so the generic type is defined
-     * Convertes List<List>> to List<List<T>>
+    /**
+     * Ensures property name is unique and not a reserved word.
+     * @param model
+     * @param property
+     * @param value
+     * @param composedPropertyNames
+     * @return
      */
     private String patchPropertyName(CodegenModel model, CodegenProperty property, String value, Set<String> composedPropertyNames) {
         value = setUniquePropertyName(model, property, value);
@@ -792,6 +796,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     protected void patchPropertyIsInherited(CodegenModel model, CodegenProperty property) {
     }
 
+    /** 
+     * Fixes nested maps so the generic type is defined
+     * Convertes List<List>> to List<List<T>>
+     */
     private void patchNestedMaps(CodegenProperty property) {
         // Process nested types before making any replacements to ensure we have the correct inner type
         if (property.items != null) {
@@ -819,6 +827,41 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             // Only update dataType if we actually made changes
             if (!originalType.equals(property.datatypeWithEnum)) {
                 property.dataType = property.datatypeWithEnum;
+            }
+        }
+    }
+
+    /** 
+     * Fixes nested maps so the generic type is defined
+     * Convertes List<List>> to List<List<T>>
+     */
+    private void patchNestedMaps(CodegenResponse response) {
+        // Process nested types before making any replacements to ensure we have the correct inner type
+        if (response.items != null) {
+            patchNestedMaps(response.items);
+        }
+
+        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
+        
+        if (response.dataType != null) {
+            String originalType = response.dataType;
+            
+            for (String nestedType : nestedTypes) {
+                // fix incorrect data types for maps of maps
+                if (response.items != null) {
+                    if (response.dataType.contains(", " + nestedType + ">")) {
+                        response.dataType = response.dataType.replace(", " + nestedType + ">", ", " + response.items.datatypeWithEnum + ">");
+                    }
+
+                    if (response.dataType.contains("<" + nestedType + ">")) {
+                        response.dataType = response.dataType.replace("<" + nestedType + ">", "<" + response.items.datatypeWithEnum + ">");
+                    }
+                }
+            }
+
+            // Only update dataType if we actually made changes
+            if (!originalType.equals(response.dataType)) {
+                response.dataType = response.dataType;
             }
         }
     }
@@ -960,6 +1003,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 }
                 if (operation.responses != null) {
                     for (CodegenResponse response : operation.responses) {
+                        patchNestedMaps(response);
 
                         if (response.returnProperty != null) {
                             Boolean isValueType = isValueType(response.returnProperty);
