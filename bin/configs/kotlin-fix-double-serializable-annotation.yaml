@@ -1,0 +1,10 @@
+generatorName: kotlin
+library: multiplatform
+outputDir: samples/client/petstore/kotlin-fix-double-serializable-annotation
+inputSpec: modules/openapi-generator/src/test/resources/bugs/issue_18904.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  serializationLibrary: kotlinx_serialization
+  dateLibrary: kotlinx-datetime
+  generateOneOfAnyOfWrappers: true
+
