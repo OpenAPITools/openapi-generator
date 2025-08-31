@@ -172,8 +172,8 @@ public class AbstractJavaCodegenTest {
     @Test
     public void convertModelName() {
         Assert.assertEquals(codegen.toModelName("name"), "Name");
-        Assert.assertEquals(codegen.toModelName("$name"), "Name");
-        Assert.assertEquals(codegen.toModelName("nam#e"), "Name");
+        Assert.assertEquals(codegen.toModelName("$name"), "Name0");
+        Assert.assertEquals(codegen.toModelName("nam#e"), "Name1");
         Assert.assertEquals(codegen.toModelName("$another-fake?"), "AnotherFake");
         Assert.assertEquals(codegen.toModelName("1a"), "Model1a");
         Assert.assertEquals(codegen.toModelName("1A"), "Model1A");
@@ -181,11 +181,11 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.toModelName("aBB"), "ABB");
         Assert.assertEquals(codegen.toModelName("AaBBa"), "AaBBa");
         Assert.assertEquals(codegen.toModelName("A_B"), "AB");
-        Assert.assertEquals(codegen.toModelName("A-B"), "AB");
+        Assert.assertEquals(codegen.toModelName("A-B"), "AB0");
         Assert.assertEquals(codegen.toModelName("Aa_Bb"), "AaBb");
-        Assert.assertEquals(codegen.toModelName("Aa-Bb"), "AaBb");
-        Assert.assertEquals(codegen.toModelName("Aa_bb"), "AaBb");
-        Assert.assertEquals(codegen.toModelName("Aa-bb"), "AaBb");
+        Assert.assertEquals(codegen.toModelName("Aa-Bb"), "AaBb0");
+        Assert.assertEquals(codegen.toModelName("Aa_bb"), "AaBb1");
+        Assert.assertEquals(codegen.toModelName("Aa-bb"), "AaBb2");
     }
 
     @Test

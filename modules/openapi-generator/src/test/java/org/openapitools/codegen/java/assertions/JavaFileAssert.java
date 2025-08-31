@@ -201,4 +201,16 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
 
         return this;
     }
+
+    public JavaFileAssert hasNoProperty(final String propertyName) {
+        Optional<FieldDeclaration> fieldOptional = actual.getType(0).getMembers().stream()
+                .filter(FieldDeclaration.class::isInstance)
+                .map(FieldDeclaration.class::cast)
+                .filter(field -> field.getVariables().getFirst().map(var -> var.getNameAsString().equals(propertyName)).orElse(Boolean.FALSE))
+                .findFirst();
+        Assertions.assertThat(fieldOptional)
+                .withFailMessage("Should not have property %s", propertyName)
+                .isNotPresent();
+        return this;
+    }
 }

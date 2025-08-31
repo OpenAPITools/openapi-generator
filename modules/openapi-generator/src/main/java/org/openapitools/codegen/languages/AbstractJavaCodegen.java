@@ -1002,7 +1002,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // camelize the model name
         // phone_number => PhoneNumber
-        final String camelizedName = camelize(nameWithPrefixSuffix);
+        String camelizedName = camelize(nameWithPrefixSuffix);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
@@ -1021,6 +1021,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return modelName;
         }
 
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        if(!camelizedName.equals(origName)) {
+            int count = 0;
+            String augmentedName = camelizedName;
+            while(allDefinitions.containsKey(augmentedName) || schemaKeyToModelNameCache.containsValue(augmentedName)) {
+                augmentedName = camelizedName + count++;
+            }
+            camelizedName = augmentedName;
+        }
         schemaKeyToModelNameCache.put(origName, camelizedName);
 
         return camelizedName;

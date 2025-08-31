@@ -3833,6 +3833,57 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test(description = "Issue #20889")
+    public void givenInlineSchemaConvertedNameClashesWithTopLevelSchemaNameWhenGenerateThenFilesDoNotOverwriteEachOther() throws Exception {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setInputSpec("src/test/resources/bugs/issue_20889.json")
+                .setValidateSpec(false)
+                .setOutputDir(output.toString().replace("\\", "/"));
+        ;
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("OrgAttributes.java"))
+                .assertProperty("createdAt")
+                .withType("OffsetDateTime");
+
+        JavaFileAssert.assertThat(files.get("OrgAttributes0.java"))
+                .hasNoProperty("createdAt");
+
+        JavaFileAssert.assertThat(files.get("Org.java"))
+                .assertProperty("attributes")
+                .withType("OrgAttributes0")
+                .toType()
+                .assertProperty("branch")
+                .withType("OrgBranch0");
+
+        JavaFileAssert.assertThat(files.get("OrgBranch.java"))
+                .assertProperty("attributes")
+                .withType("OrgBranchAttributes0");
+
+        JavaFileAssert.assertThat(files.get("OrgBranch0.java"))
+                .assertProperty("attributes")
+                .withType("OrgBranchAttributes1");
+
+        JavaFileAssert.assertThat(files.get("OrgBranchAttributes1.java"))
+                .assertProperty("basicDescription")
+                .withType("String");
+
+        JavaFileAssert.assertThat(files.get("OrgBranchAttributes0.java"))
+                .assertProperty("uuid")
+                .withType("UUID");
+
+        JavaFileAssert.assertThat(files.get("OrgBranchAttributes.java"))
+                .assertProperty("detailedDescription")
+                .withType("String");
+
+        assertTrue(files.containsKey("OrgBranchAttributes0Test.java"));
+        assertTrue(files.containsKey("OrgBranchAttributes1Test.java"));
+    }
+
     @DataProvider(name = "springClients")
     public static Object[] springClients() {
         return new Object[]{RESTCLIENT, WEBCLIENT};

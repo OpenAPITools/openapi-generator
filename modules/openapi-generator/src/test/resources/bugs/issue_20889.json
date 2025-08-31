@@ -1,0 +1,220 @@
+{
+  "components": {
+    "schemas": {
+      "Org": {
+        "additionalProperties": false,
+        "properties": {
+          "attributes": {
+            "additionalProperties": false,
+            "properties": {
+              "group_id": {
+                "description": "The ID of a Group.",
+                "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+                "format": "uuid",
+                "type": "string"
+              },
+              "is_personal": {
+                "description": "Whether this organization belongs to an individual, rather than a Group.",
+                "example": true,
+                "type": "boolean"
+              },
+              "name": {
+                "description": "Friendly name of the organization.",
+                "example": "My Org",
+                "type": "string"
+              },
+              "slug": {
+                "description": "Unique URL sanitized name of the organization for accessing it in Snyk.",
+                "example": "my-org",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "slug",
+              "is_personal"
+            ],
+            "type": "object"
+          },
+          "id": {
+            "description": "The Snyk ID corresponding to this org",
+            "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+            "format": "uuid",
+            "type": "string"
+          },
+          "type": {
+            "description": "Content type.",
+            "example": "org",
+            "type": "string"
+          },
+          "branch": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "attributes": {
+                "type": "object",
+                "properties": {
+                  "basicDescription": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ],
+        "type": "object"
+      },
+      "Org20230529": {
+        "additionalProperties": false,
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/OrgAttributes20230529"
+          },
+          "id": {
+            "description": "The Snyk ID of the organization.",
+            "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+            "format": "uuid",
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/Types"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "attributes"
+        ],
+        "type": "object"
+      },
+      "OrgAttributes": {
+        "additionalProperties": false,
+        "properties": {
+          "access_requests_enabled": {
+            "description": "Whether the organization permits access requests from users who are not members of the organization.",
+            "example": false,
+            "type": "boolean"
+          },
+          "created_at": {
+            "description": "The time the organization was created.",
+            "example": "2022-03-16T00:00:00Z",
+            "format": "date-time",
+            "type": "string"
+          },
+          "group_id": {
+            "description": "The Snyk ID of the group to which the organization belongs.",
+            "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+            "format": "uuid",
+            "type": "string"
+          },
+          "is_personal": {
+            "description": "Whether the organization is independent (that is, not part of a group).",
+            "example": true,
+            "type": "boolean"
+          },
+          "name": {
+            "description": "The display name of the organization.",
+            "example": "My Org",
+            "type": "string"
+          },
+          "slug": {
+            "description": "The canonical (unique and URL-friendly) name of the organization.",
+            "example": "my-org",
+            "type": "string"
+          },
+          "updated_at": {
+            "description": "The time the organization was last modified.",
+            "example": "2022-03-16T00:00:00Z",
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "slug",
+          "is_personal"
+        ],
+        "type": "object"
+      },
+      "OrgAttributes20230529": {
+        "additionalProperties": false,
+        "properties": {
+          "created_at": {
+            "description": "The time the organization was created.",
+            "example": "2022-03-16T00:00:00Z",
+            "format": "date-time",
+            "type": "string"
+          },
+          "group_id": {
+            "description": "The Snyk ID of the group to which the organization belongs.",
+            "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+            "format": "uuid",
+            "type": "string"
+          },
+          "is_personal": {
+            "description": "Whether the organization is independent (that is, not part of a group).",
+            "example": true,
+            "type": "boolean"
+          },
+          "name": {
+            "description": "The display name of the organization.",
+            "example": "My Org",
+            "type": "string"
+          },
+          "slug": {
+            "description": "The canonical (unique and URL-friendly) name of the organization.",
+            "example": "my-org",
+            "type": "string"
+          },
+          "updated_at": {
+            "description": "The time the organization was last modified.",
+            "example": "2022-03-16T00:00:00Z",
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "slug",
+          "is_personal"
+        ],
+        "type": "object"
+      },
+      "OrgBranch": {
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+              "uuid": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      },
+      "OrgBranchAttributes": {
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "detailedDescription": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "Snyk API",
+    "version": "REST"
+  },
+  "openapi": "3.0.3"
+
+}
