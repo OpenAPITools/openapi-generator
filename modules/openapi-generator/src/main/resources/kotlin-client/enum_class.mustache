@@ -46,7 +46,7 @@ import kotlinx.serialization.*
  *
  * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
  */
-{{#multiplatform}}@Serializable{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
+{{#multiplatform}}@Serializable{{/multiplatform}}{{#kotlinx_serialization}}{{^multiplatform}}@Serializable{{/multiplatform}}{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
 {{^multiplatform}}
 {{#moshi}}
 @JsonClass(generateAdapter = false)

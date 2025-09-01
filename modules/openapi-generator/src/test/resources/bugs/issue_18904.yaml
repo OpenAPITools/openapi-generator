@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info: { title: demo, version: 1.0.0 }
+paths: {}
+components:
+  schemas:
+
+    # data_class + enum_class
+    Pet:
+      type: object
+      required: [id, name, kind]
+      properties:
+        id:   { type: string }
+        name: { type: string }
+        kind: { $ref: '#/components/schemas/PetKind' }
+
+    PetKind:
+      type: string
+      enum: [cat, dog, fish]
+
+    # oneOf no discriminator
+    Animal:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+
+    Cat:
+      type: object
+      required: [kind, meow]
+      properties:
+        kind:
+          type: string
+          enum: [cat]
+        meow:
+          type: string
+
+    Dog:
+      type: object
+      required: [kind, bark]
+      properties:
+        kind:
+          type: string
+          enum: [dog]
+        bark:
+          type: string
+
+    # anyOf no discriminator
+    Device:
+      anyOf:
+        - $ref: '#/components/schemas/Phone'
+        - $ref: '#/components/schemas/Laptop'
+
+    Phone:
+      type: object
+      required: [model, number]
+      properties:
+        model:  { type: string }
+        number: { type: string }
+
+    Laptop:
+      type: object
+      required: [model, ramGb]
+      properties:
+        model: { type: string }
+        ramGb: { type: integer, format: int32 }
