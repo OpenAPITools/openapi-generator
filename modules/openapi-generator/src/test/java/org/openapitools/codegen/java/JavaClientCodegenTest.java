@@ -67,6 +67,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
@@ -3831,6 +3832,30 @@ public class JavaClientCodegenTest {
                 "queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat" +
                 ".valueOf(\"csv\".toUpperCase(Locale.ROOT)), \"json_serialized_object_array_ref_string_query\", jsonSerializedObjectArrayRefStringQuery));"
         );
+    }
+
+    @Test(description = "Issue #20213")
+    public void givenModelHasFalseAdditionalPropertiesAndPropertyHasNullAsAnyOfTypeThenModelIsCorrect() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_1/issue_20213.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator defaultGenerator = new DefaultGenerator();
+        Map<String, File> fileMap = defaultGenerator.opts(clientOptInput).generate()
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(fileMap.get("SampleObjectWithAdditionalFalse.java"))
+                .assertProperty("someString")
+                .withType("String")
+                .assertPropertyAnnotations()
+                .containsWithName("javax.annotation.Nullable");
+        assertFalse(fileMap.containsKey("SampleObjectWithAdditionalFalseSomeString.java"));
+
     }
 
     @DataProvider(name = "springClients")
