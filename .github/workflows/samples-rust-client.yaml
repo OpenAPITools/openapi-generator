@@ -14,6 +14,14 @@ jobs:
   build:
     name: Build Rust
     runs-on: ubuntu-latest
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     strategy:
       fail-fast: false
       matrix:

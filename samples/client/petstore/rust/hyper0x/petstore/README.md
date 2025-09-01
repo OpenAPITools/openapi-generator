@@ -22,7 +22,7 @@ petstore-hyper0x = { path = "./petstore-hyper0x" }
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://localhost/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
