@@ -23,4 +23,3 @@ lib/src/model/fruit.dart
 lib/src/model/orange.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/orange_test.dart
