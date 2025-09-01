@@ -726,9 +726,10 @@ public class OpenAPINormalizer {
             normalizeSchema(result.getItems(), visitedSchemas);
             return result;
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
-            normalizeMapSchema(schema);
-            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
-            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            if(!ModelUtils.isModelWithPropertiesOnly(schema)) {
+                normalizeMapSchema(schema);
+                normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
+            } else {
                 normalizeProperties(schema.getProperties(), visitedSchemas);
             }
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
