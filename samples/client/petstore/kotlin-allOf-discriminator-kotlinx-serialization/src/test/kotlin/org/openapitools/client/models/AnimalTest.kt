@@ -31,5 +31,11 @@ class AnimalTest : ShouldSpec() {
             //modelInstance.id shouldBe ("TODO")
         }
 
+        // to test the property `optionalProperty`
+        should("test optionalProperty") {
+            // uncomment below to test the property
+            //modelInstance.optionalProperty shouldBe ("TODO")
+        }
+
     }
 }
