@@ -22,6 +22,7 @@ components:
       oneOf:
       - $ref: "#/components/schemas/apple"
       - $ref: "#/components/schemas/banana"
+      - $ref: "#/components/schemas/orange"
       properties:
         color:
           type: string
@@ -37,5 +38,11 @@ components:
         count:
           type: number
       title: banana
+      type: object
+    orange:
+      properties:
+        sweet:
+          type: boolean
+      title: orange
       type: object
 
