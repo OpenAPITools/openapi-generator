@@ -6971,11 +6971,27 @@ public class DefaultCodegen implements CodegenConfig {
 
     private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key) {
         if (vendorExtensions.containsKey(extensionKey)) {
-            List<String> values = (List<String>) vendorExtensions.get(extensionKey);
-            int size = Math.min(enumVars.size(), values.size());
-            for (int i = 0; i < size; i++) {
-                enumVars.get(i).put(key, values.get(i));
+            Object undeterminedValues = vendorExtensions.get(extensionKey);
+            if (undeterminedValues instanceof List) {
+                List<String> values = (List<String>) undeterminedValues;
+                int size = Math.min(enumVars.size(), values.size());
+                for (int i = 0; i < size; i++) {
+                    enumVars.get(i).put(key, values.get(i));
+                }
             }
+            if (undeterminedValues instanceof Map) {
+                Map<String, Map<String, String>> values = (Map<String, Map<String, String>>) undeterminedValues;
+                values.forEach((valueKey, descriptionMap) -> {
+                    String description = descriptionMap.get("description");
+                    enumVars
+                            .stream()
+                            .filter(enumVar -> valueKey.equalsIgnoreCase((String) enumVar.get("name")))
+                            .findFirst()
+                            .ifPresent(enumVar -> enumVar.put(key, description));
+                });
+            }
+
+            throw new RuntimeException("Expect List or Map type for extension " + extensionKey +". Found " + undeterminedValues.getClass().getSimpleName());
         }
     }
 

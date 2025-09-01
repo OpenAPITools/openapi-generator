@@ -969,6 +969,25 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void postProcessModelsEnumWithExtensionAsMap() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        ModelsMap objs = codegenModelWithXEnumVarNameMappedDescription();
+        CodegenModel cm = objs.getModels().get(0).getModel();
+
+        codegen.postProcessModelsEnum(objs);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.getAllowableValues().get("enumVars");
+        Assertions.assertNotNull(enumVars);
+        assertEquals("DOG", enumVars.get(0).getOrDefault("name", ""));
+        assertEquals("\"dog\"", enumVars.get(0).getOrDefault("value", ""));
+        assertEquals("This is a dog", enumVars.get(0).getOrDefault("enumDescription", ""));
+        Assertions.assertNotNull(enumVars.get(1));
+        assertEquals("CAT", enumVars.get(1).getOrDefault("name", ""));
+        assertEquals("\"cat\"", enumVars.get(1).getOrDefault("value", ""));
+        assertEquals("This is a cat", enumVars.get(1).getOrDefault("enumDescription", ""));
+    }
+
+    @Test
     public void testExample1() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/examples.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -2232,6 +2251,24 @@ public class DefaultCodegenTest {
         final List<String> descriptions = Arrays.asList("This is a dog", "This is a cat");
         Map<String, Object> extensions = new HashMap<>();
         extensions.put("x-enum-varnames", aliases);
+        extensions.put("x-enum-descriptions", descriptions);
+        cm.setVendorExtensions(extensions);
+        cm.setVars(Collections.emptyList());
+        return TestUtils.createCodegenModelWrapper(cm);
+    }
+
+    private ModelsMap codegenModelWithXEnumVarNameMappedDescription() {
+        final CodegenModel cm = new CodegenModel();
+        cm.isEnum = true;
+        final HashMap<String, Object> allowableValues = new HashMap<>();
+        allowableValues.put("values", Arrays.asList("dog", "cat"));
+        cm.setAllowableValues(allowableValues);
+        cm.dataType = "String";
+        final Map<String, Map<String, String>> descriptions = Map.of(
+                "dog", Map.of("description", "This is a dog"),
+                "cat", Map.of("description", "This is a cat")
+        );
+        Map<String, Object> extensions = new HashMap<>();
         extensions.put("x-enum-descriptions", descriptions);
         cm.setVendorExtensions(extensions);
         cm.setVars(Collections.emptyList());
