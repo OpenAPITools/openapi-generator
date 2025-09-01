@@ -75,7 +75,7 @@ abstract class BaseClient[F[*]: Concurrent](
         request.putHeaders(Header.Raw(CIString(name), value))
     }
     val formBody = formParameters.map { x =>
-      UrlForm(x.groupBy(_._1).map{case (k, v) => (k, v.mkString(","))}.toSeq*)
+      UrlForm(x.groupBy(_._1).map { case (k, v) => (k, v.map(_._2).mkString(",")) }.toSeq*)
     }
 
     import JsonSupports.*

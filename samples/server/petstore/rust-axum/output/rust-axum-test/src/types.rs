@@ -1,6 +1,6 @@
 use std::{mem, str::FromStr};
 
-use base64::{engine::general_purpose, Engine};
+use base64::{Engine, engine::general_purpose};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]

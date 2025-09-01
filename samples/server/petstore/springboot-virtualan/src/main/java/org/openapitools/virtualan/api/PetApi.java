@@ -6,6 +6,7 @@
 package org.openapitools.virtualan.api;
 
 import org.openapitools.virtualan.model.ModelApiResponse;
+import org.springframework.lang.Nullable;
 import org.openapitools.virtualan.model.Pet;
 import java.util.Set;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -24,7 +25,6 @@ import io.virtualan.annotation.ApiVirtual;
 import io.virtualan.annotation.VirtualService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.lang.Nullable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
