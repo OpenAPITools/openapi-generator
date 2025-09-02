@@ -55,9 +55,9 @@ public class EnumStringDiscriminator {
    */
   @JsonAdapter(EnumStrTypeEnum.Adapter.class)
   public enum EnumStrTypeEnum {
-    A("type_a"),
+    A(String.valueOf("type_a")),
     
-    B("type_b");
+    B(String.valueOf("type_b"));
 
     private String value;
 

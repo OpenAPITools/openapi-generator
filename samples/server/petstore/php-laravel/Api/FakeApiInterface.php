@@ -244,6 +244,8 @@ interface FakeApiInterface {
      * @param null | \OpenAPI\Server\Model\EnumClass[] $enumQueryModelArray
      * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumFormStringArray
      * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumFormString
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormInteger $enumFormInteger
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormDouble $enumFormDouble
      * @return \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
      */
     public function testEnumParameters(
@@ -256,6 +258,8 @@ interface FakeApiInterface {
             ?array $enumQueryModelArray,
             ?array $enumFormStringArray,
             ?\OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumFormString,
+            ?\OpenAPI\Server\Model\TestEnumParametersRequestEnumFormInteger $enumFormInteger,
+            ?\OpenAPI\Server\Model\TestEnumParametersRequestEnumFormDouble $enumFormDouble,
     ):
         \OpenAPI\Server\Model\NoContent400 | 
         \OpenAPI\Server\Model\NoContent404
