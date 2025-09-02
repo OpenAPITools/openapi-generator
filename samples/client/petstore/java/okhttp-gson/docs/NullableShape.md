@@ -9,6 +9,7 @@ The value may be a shape or the 'null' value. The 'nullable' attribute was intro
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**shapeType** | **String** |  |  |
+|**triangleType** | **String** |  |  |
 |**quadrilateralType** | **String** |  |  |
 
 

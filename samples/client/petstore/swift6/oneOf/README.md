@@ -34,6 +34,7 @@ Class | Method | HTTP request | Description
  - [Apple](docs/Apple.md)
  - [Banana](docs/Banana.md)
  - [Fruit](docs/Fruit.md)
+ - [Orange](docs/Orange.md)
 
 
 <a id="documentation-for-authorization"></a>
