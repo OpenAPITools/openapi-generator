@@ -26,7 +26,6 @@ import jakarta.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
@@ -37,7 +36,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="petstore")
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("/user")
 public interface UserApi  {
 
@@ -50,7 +48,7 @@ public interface UserApi  {
     @POST
     
     @Consumes({ "application/json" })
-    void createUser(User user) throws ApiException, ProcessingException;
+    void createUser(User user) throws WebApplicationException, ProcessingException;
 
     /**
      * Creates list of users with given input array
@@ -61,7 +59,7 @@ public interface UserApi  {
     @POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
-    void createUsersWithArrayInput(List<User> user) throws ApiException, ProcessingException;
+    void createUsersWithArrayInput(List<User> user) throws WebApplicationException, ProcessingException;
 
     /**
      * Creates list of users with given input array
@@ -72,7 +70,7 @@ public interface UserApi  {
     @POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
-    void createUsersWithListInput(List<User> user) throws ApiException, ProcessingException;
+    void createUsersWithListInput(List<User> user) throws WebApplicationException, ProcessingException;
 
     /**
      * Delete user
@@ -82,7 +80,7 @@ public interface UserApi  {
      */
     @DELETE
     @Path("/{username}")
-    void deleteUser(@BeanParam DeleteUserRequest request) throws ApiException, ProcessingException;
+    void deleteUser(@BeanParam DeleteUserRequest request) throws WebApplicationException, ProcessingException;
     public class DeleteUserRequest {
 
         private @PathParam("username") String username;
@@ -114,7 +112,7 @@ public interface UserApi  {
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    User getUserByName(@BeanParam GetUserByNameRequest request) throws ApiException, ProcessingException;
+    User getUserByName(@BeanParam GetUserByNameRequest request) throws WebApplicationException, ProcessingException;
     public class GetUserByNameRequest {
 
         private @PathParam("username") String username;
@@ -146,7 +144,7 @@ public interface UserApi  {
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    String loginUser(@BeanParam LoginUserRequest request) throws ApiException, ProcessingException;
+    String loginUser(@BeanParam LoginUserRequest request) throws WebApplicationException, ProcessingException;
     public class LoginUserRequest {
 
         private @QueryParam("username") String username;
@@ -187,7 +185,7 @@ public interface UserApi  {
      */
     @GET
     @Path("/logout")
-    void logoutUser() throws ApiException, ProcessingException;
+    void logoutUser() throws WebApplicationException, ProcessingException;
 
     /**
      * Updated user
@@ -198,7 +196,7 @@ public interface UserApi  {
     @PUT
     @Path("/{username}")
     @Consumes({ "application/json" })
-    void updateUser(@BeanParam UpdateUserRequest request, User user) throws ApiException, ProcessingException;
+    void updateUser(@BeanParam UpdateUserRequest request, User user) throws WebApplicationException, ProcessingException;
     public class UpdateUserRequest {
 
         private @PathParam("username") String username;

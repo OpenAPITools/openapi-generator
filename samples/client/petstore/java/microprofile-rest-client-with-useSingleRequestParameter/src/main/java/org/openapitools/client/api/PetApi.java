@@ -27,7 +27,6 @@ import jakarta.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
@@ -38,7 +37,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="petstore")
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("/pet")
 public interface PetApi  {
 
@@ -52,7 +50,7 @@ public interface PetApi  {
     
     @Consumes({ "application/json", "application/xml" })
     @Produces({ "application/xml", "application/json" })
-    Pet addPet(Pet pet) throws ApiException, ProcessingException;
+    Pet addPet(Pet pet) throws WebApplicationException, ProcessingException;
 
     /**
      * Deletes a pet
@@ -62,7 +60,7 @@ public interface PetApi  {
      */
     @DELETE
     @Path("/{petId}")
-    void deletePet(@BeanParam DeletePetRequest request) throws ApiException, ProcessingException;
+    void deletePet(@BeanParam DeletePetRequest request) throws WebApplicationException, ProcessingException;
     public class DeletePetRequest {
 
         private @HeaderParam("api_key")  String apiKey;
@@ -104,7 +102,7 @@ public interface PetApi  {
     @GET
     @Path("/findByStatus")
     @Produces({ "application/xml", "application/json" })
-    List<Pet> findPetsByStatus(@BeanParam FindPetsByStatusRequest request) throws ApiException, ProcessingException;
+    List<Pet> findPetsByStatus(@BeanParam FindPetsByStatusRequest request) throws WebApplicationException, ProcessingException;
     public class FindPetsByStatusRequest {
 
         private @QueryParam("status") List<String> status;
@@ -138,7 +136,7 @@ public interface PetApi  {
     @GET
     @Path("/findByTags")
     @Produces({ "application/xml", "application/json" })
-    List<Pet> findPetsByTags(@BeanParam FindPetsByTagsRequest request) throws ApiException, ProcessingException;
+    List<Pet> findPetsByTags(@BeanParam FindPetsByTagsRequest request) throws WebApplicationException, ProcessingException;
     public class FindPetsByTagsRequest {
 
         private @QueryParam("tags") List<String> tags;
@@ -170,7 +168,7 @@ public interface PetApi  {
     @GET
     @Path("/{petId}")
     @Produces({ "application/xml", "application/json" })
-    Pet getPetById(@BeanParam GetPetByIdRequest request) throws ApiException, ProcessingException;
+    Pet getPetById(@BeanParam GetPetByIdRequest request) throws WebApplicationException, ProcessingException;
     public class GetPetByIdRequest {
 
         private @PathParam("petId") Long petId;
@@ -203,7 +201,7 @@ public interface PetApi  {
     
     @Consumes({ "application/json", "application/xml" })
     @Produces({ "application/xml", "application/json" })
-    Pet updatePet(Pet pet) throws ApiException, ProcessingException;
+    Pet updatePet(Pet pet) throws WebApplicationException, ProcessingException;
 
     /**
      * Updates a pet in the store with form data
@@ -214,7 +212,7 @@ public interface PetApi  {
     @POST
     @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
-    void updatePetWithForm(@BeanParam UpdatePetWithFormRequest request) throws ApiException, ProcessingException;
+    void updatePetWithForm(@BeanParam UpdatePetWithFormRequest request) throws WebApplicationException, ProcessingException;
     public class UpdatePetWithFormRequest {
 
         private @PathParam("petId") Long petId;
@@ -267,7 +265,7 @@ public interface PetApi  {
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    ModelApiResponse uploadFile(@BeanParam UploadFileRequest request) throws ApiException, ProcessingException;
+    ModelApiResponse uploadFile(@BeanParam UploadFileRequest request) throws WebApplicationException, ProcessingException;
     public class UploadFileRequest {
 
         private @PathParam("petId") Long petId;

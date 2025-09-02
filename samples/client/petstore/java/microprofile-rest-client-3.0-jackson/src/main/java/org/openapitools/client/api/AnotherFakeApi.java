@@ -25,7 +25,6 @@ import jakarta.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
@@ -36,7 +35,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="petstore")
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("/another-fake/dummy")
 public interface AnotherFakeApi  {
 
@@ -50,5 +48,5 @@ public interface AnotherFakeApi  {
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    Client call123testSpecialTags(Client client) throws ApiException, ProcessingException;
+    Client call123testSpecialTags(Client client) throws WebApplicationException, ProcessingException;
 }
