@@ -29,6 +29,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Singleton
@@ -123,7 +124,7 @@ public class SecurityAPIUtils {
                 final PublicKey publicKey = jwk.getPublicKey();
 
                 if (!(publicKey instanceof RSAPublicKey)) {
-                    throw new IllegalArgumentException(String.format("Key with ID %s was found in JWKS but is not a RSA-key.", keyId));
+                    throw new IllegalArgumentException(String.format(Locale.ROOT, "Key with ID %s was found in JWKS but is not a RSA-key.", keyId));
                 }
 
                 Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) publicKey, null);

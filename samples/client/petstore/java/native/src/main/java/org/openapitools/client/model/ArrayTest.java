@@ -21,6 +21,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -225,8 +226,8 @@ public class ArrayTest {
     // add `array_of_string` to the URL query string
     if (getArrayOfString() != null) {
       for (int i = 0; i < getArrayOfString().size(); i++) {
-        joiner.add(String.format("%sarray_of_string%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(Locale.ROOT, "%sarray_of_string%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayOfString().get(i)))));
       }
     }
@@ -234,8 +235,8 @@ public class ArrayTest {
     // add `array_array_of_integer` to the URL query string
     if (getArrayArrayOfInteger() != null) {
       for (int i = 0; i < getArrayArrayOfInteger().size(); i++) {
-        joiner.add(String.format("%sarray_array_of_integer%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(Locale.ROOT, "%sarray_array_of_integer%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayArrayOfInteger().get(i)))));
       }
     }
@@ -244,8 +245,8 @@ public class ArrayTest {
     if (getArrayArrayOfModel() != null) {
       for (int i = 0; i < getArrayArrayOfModel().size(); i++) {
         if (getArrayArrayOfModel().get(i) != null) {
-          joiner.add(String.format("%sarray_array_of_model%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%sarray_array_of_model%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               ApiClient.urlEncode(ApiClient.valueToString(getArrayArrayOfModel().get(i)))));
         }
       }
