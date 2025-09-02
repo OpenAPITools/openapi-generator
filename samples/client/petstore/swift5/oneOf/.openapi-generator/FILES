@@ -15,6 +15,7 @@ PetstoreClient/Classes/OpenAPIs/Models.swift
 PetstoreClient/Classes/OpenAPIs/Models/Apple.swift
 PetstoreClient/Classes/OpenAPIs/Models/Banana.swift
 PetstoreClient/Classes/OpenAPIs/Models/Fruit.swift
+PetstoreClient/Classes/OpenAPIs/Models/Orange.swift
 PetstoreClient/Classes/OpenAPIs/OpenISO8601DateFormatter.swift
 PetstoreClient/Classes/OpenAPIs/SynchronizedDictionary.swift
 PetstoreClient/Classes/OpenAPIs/URLSessionImplementations.swift
@@ -24,5 +25,6 @@ docs/Apple.md
 docs/Banana.md
 docs/DefaultAPI.md
 docs/Fruit.md
+docs/Orange.md
 git_push.sh
 project.yml

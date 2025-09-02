@@ -72,6 +72,7 @@ Class | Method | HTTP request | Description
  - [Apple](doc/Apple.md)
  - [Banana](doc/Banana.md)
  - [Fruit](doc/Fruit.md)
+ - [Orange](doc/Orange.md)
 
 
 ## Documentation For Authorization
