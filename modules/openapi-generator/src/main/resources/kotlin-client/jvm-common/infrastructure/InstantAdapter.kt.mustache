@@ -11,7 +11,7 @@ import com.google.gson.stream.JsonWriter
 import com.google.gson.stream.JsonToken.NULL
 import java.io.IOException
 {{/gson}}
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 {{#moshi}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class InstantAdapter {

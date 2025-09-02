@@ -23,7 +23,8 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.OffsetDateTime
 {{/threetenbp}}
 {{#kotlinx-datetime}}
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 {{/kotlinx-datetime}}
 import java.util.UUID
@@ -67,6 +68,7 @@ import java.util.concurrent.atomic.AtomicLong
         .add(OffsetDateTimeAdapter())
         {{#kotlinx-datetime}}
         .add(InstantAdapter())
+        .add(LocalDateAdapter())
         .add(LocalTimeAdapter())
         {{/kotlinx-datetime}}
         .add(LocalDateTimeAdapter())
@@ -94,6 +96,7 @@ import java.util.concurrent.atomic.AtomicLong
         .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         {{#kotlinx-datetime}}
         .registerTypeAdapter(Instant::class.java, InstantAdapter())
+        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(LocalTime::class.java, LocalTimeAdapter())
         {{/kotlinx-datetime}}
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
