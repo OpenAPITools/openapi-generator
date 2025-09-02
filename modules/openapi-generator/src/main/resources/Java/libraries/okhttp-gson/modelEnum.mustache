@@ -2,6 +2,7 @@ import java.io.IOException;
 {{#isUri}}
 import java.net.URI;
 {{/isUri}}
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.JsonAdapter;
@@ -79,7 +80,7 @@ import com.google.gson.stream.JsonWriter;
       prefix = "";
     }
 
-    return String.format("%s=%s", prefix, this.toString());
+    return String.format(Locale.ROOT, "%s=%s", prefix, this.toString());
   }
 {{/supportUrlQuery}}
 }
