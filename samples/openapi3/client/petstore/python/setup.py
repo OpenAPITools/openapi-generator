@@ -30,7 +30,6 @@ REQUIRES = [
     "pycryptodome >= 3.9.0",
     "pydantic >= 2",
     "typing-extensions >= 4.7.1",
-    "lazy-imports >= 1, < 2",
 ]
 
 setup(
