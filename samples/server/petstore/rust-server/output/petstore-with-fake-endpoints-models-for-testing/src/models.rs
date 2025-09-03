@@ -3857,14 +3857,14 @@ impl FindPetsByStatusStatusParameterInner {
 pub struct FormatTest {
     #[serde(rename = "integer")]
     #[validate(
-            range(min = 10, max = 100),
+            range(min = 10u8, max = 100u8),
         )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
     #[validate(
-            range(min = 20, max = 200),
+            range(min = 20u32, max = 200u32),
         )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub int32: Option<u32>,
@@ -3875,20 +3875,20 @@ pub struct FormatTest {
 
     #[serde(rename = "number")]
     #[validate(
-            range(min = 32.1, max = 543.2),
+            range(min = 32.1f64, max = 543.2f64),
         )]
     pub number: f64,
 
     #[serde(rename = "float")]
     #[validate(
-            range(min = 54.3, max = 987.6),
+            range(min = 54.3f32, max = 987.6f32),
         )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub float: Option<f32>,
 
     #[serde(rename = "double")]
     #[validate(
-            range(min = 67.8, max = 123.4),
+            range(min = 67.8f64, max = 123.4f64),
         )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub double: Option<f64>,

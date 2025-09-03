@@ -1941,7 +1941,7 @@ public class ModelUtils {
         if (multipleOf != null) target.setMultipleOf(multipleOf);
         if (minimum != null) {
             if (isIntegerSchema(schema)) {
-                target.setMinimum(String.valueOf(minimum.longValue()));
+                target.setMinimum(String.valueOf(minimum.toBigInteger()));
             } else {
                 target.setMinimum(String.valueOf(minimum));
             }
@@ -1949,7 +1949,7 @@ public class ModelUtils {
         }
         if (maximum != null) {
             if (isIntegerSchema(schema)) {
-                target.setMaximum(String.valueOf(maximum.longValue()));
+                target.setMaximum(String.valueOf(maximum.toBigInteger()));
             } else {
                 target.setMaximum(String.valueOf(maximum));
             }
