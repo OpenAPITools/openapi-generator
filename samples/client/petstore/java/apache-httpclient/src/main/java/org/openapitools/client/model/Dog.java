@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -163,7 +164,7 @@ public class Dog extends Animal {
     // add `className` to the URL query string
     if (getClassName() != null) {
       try {
-        joiner.add(String.format("%sclassName%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getClassName()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%sclassName%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getClassName()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -173,7 +174,7 @@ public class Dog extends Animal {
     // add `color` to the URL query string
     if (getColor() != null) {
       try {
-        joiner.add(String.format("%scolor%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getColor()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%scolor%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getColor()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -183,7 +184,7 @@ public class Dog extends Animal {
     // add `breed` to the URL query string
     if (getBreed() != null) {
       try {
-        joiner.add(String.format("%sbreed%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBreed()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%sbreed%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBreed()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
