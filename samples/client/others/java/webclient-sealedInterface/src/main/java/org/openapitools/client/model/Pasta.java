@@ -61,7 +61,7 @@ public class Pasta extends Entity {
    * @return vendor
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_VENDOR)
+  @JsonProperty(value = JSON_PROPERTY_VENDOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getVendor() {
@@ -69,7 +69,7 @@ public class Pasta extends Entity {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_VENDOR)
+  @JsonProperty(value = JSON_PROPERTY_VENDOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setVendor(@javax.annotation.Nullable String vendor) {
     this.vendor = vendor;

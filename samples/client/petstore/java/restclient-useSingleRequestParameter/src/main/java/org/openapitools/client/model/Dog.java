@@ -61,7 +61,7 @@ public class Dog extends Animal {
    * @return breed
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonProperty(value = JSON_PROPERTY_BREED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBreed() {
@@ -69,7 +69,7 @@ public class Dog extends Animal {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonProperty(value = JSON_PROPERTY_BREED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBreed(@jakarta.annotation.Nullable String breed) {
     this.breed = breed;

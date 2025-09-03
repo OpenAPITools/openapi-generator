@@ -87,7 +87,7 @@ public class Entity {
    * @return href
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_HREF)
+  @JsonProperty(value = JSON_PROPERTY_HREF, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getHref() {
@@ -95,7 +95,7 @@ public class Entity {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_HREF)
+  @JsonProperty(value = JSON_PROPERTY_HREF, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setHref(@javax.annotation.Nullable String href) {
     this.href = href;
@@ -112,7 +112,7 @@ public class Entity {
    * @return id
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getId() {
@@ -120,7 +120,7 @@ public class Entity {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@javax.annotation.Nullable String id) {
     this.id = id;
@@ -137,7 +137,7 @@ public class Entity {
    * @return atSchemaLocation
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_AT_SCHEMA_LOCATION)
+  @JsonProperty(value = JSON_PROPERTY_AT_SCHEMA_LOCATION, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getAtSchemaLocation() {
@@ -145,7 +145,7 @@ public class Entity {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_AT_SCHEMA_LOCATION)
+  @JsonProperty(value = JSON_PROPERTY_AT_SCHEMA_LOCATION, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAtSchemaLocation(@javax.annotation.Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
@@ -162,7 +162,7 @@ public class Entity {
    * @return atBaseType
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_AT_BASE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_BASE_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getAtBaseType() {
@@ -170,7 +170,7 @@ public class Entity {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_AT_BASE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_BASE_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAtBaseType(@javax.annotation.Nullable String atBaseType) {
     this.atBaseType = atBaseType;
@@ -187,7 +187,7 @@ public class Entity {
    * @return atType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_AT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getAtType() {
@@ -195,7 +195,7 @@ public class Entity {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_AT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setAtType(@javax.annotation.Nonnull String atType) {
     this.atType = atType;

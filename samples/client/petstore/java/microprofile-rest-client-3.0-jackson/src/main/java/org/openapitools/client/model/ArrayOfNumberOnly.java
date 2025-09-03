@@ -46,7 +46,7 @@ public class ArrayOfNumberOnly  {
    * Get arrayNumber
    * @return arrayNumber
    **/
-  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
@@ -55,7 +55,7 @@ public class ArrayOfNumberOnly  {
   /**
    * Set arrayNumber
    */
-  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;

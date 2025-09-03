@@ -77,7 +77,7 @@ public final class Bar extends Entity implements BarRefOrValue {
    * @return id
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getId() {
@@ -85,7 +85,7 @@ public final class Bar extends Entity implements BarRefOrValue {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setId(@javax.annotation.Nonnull String id) {
     this.id = id;
@@ -102,7 +102,7 @@ public final class Bar extends Entity implements BarRefOrValue {
    * @return barPropA
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR_PROP_A)
+  @JsonProperty(value = JSON_PROPERTY_BAR_PROP_A, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBarPropA() {
@@ -110,7 +110,7 @@ public final class Bar extends Entity implements BarRefOrValue {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAR_PROP_A)
+  @JsonProperty(value = JSON_PROPERTY_BAR_PROP_A, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBarPropA(@javax.annotation.Nullable String barPropA) {
     this.barPropA = barPropA;
@@ -127,7 +127,7 @@ public final class Bar extends Entity implements BarRefOrValue {
    * @return fooPropB
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FOO_PROP_B)
+  @JsonProperty(value = JSON_PROPERTY_FOO_PROP_B, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getFooPropB() {
@@ -135,7 +135,7 @@ public final class Bar extends Entity implements BarRefOrValue {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FOO_PROP_B)
+  @JsonProperty(value = JSON_PROPERTY_FOO_PROP_B, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFooPropB(@javax.annotation.Nullable String fooPropB) {
     this.fooPropB = fooPropB;
@@ -152,7 +152,7 @@ public final class Bar extends Entity implements BarRefOrValue {
    * @return foo
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public FooRefOrValue getFoo() {
@@ -160,7 +160,7 @@ public final class Bar extends Entity implements BarRefOrValue {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFoo(@javax.annotation.Nullable FooRefOrValue foo) {
     this.foo = foo;

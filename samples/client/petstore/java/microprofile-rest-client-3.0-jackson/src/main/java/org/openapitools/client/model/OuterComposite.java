@@ -53,7 +53,7 @@ public class OuterComposite  {
    * Get myNumber
    * @return myNumber
    **/
-  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_MY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getMyNumber() {
     return myNumber;
@@ -62,7 +62,7 @@ public class OuterComposite  {
   /**
    * Set myNumber
    */
-  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_MY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -77,7 +77,7 @@ public class OuterComposite  {
    * Get myString
    * @return myString
    **/
-  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getMyString() {
     return myString;
@@ -86,7 +86,7 @@ public class OuterComposite  {
   /**
    * Set myString
    */
-  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyString(String myString) {
     this.myString = myString;
@@ -101,7 +101,7 @@ public class OuterComposite  {
    * Get myBoolean
    * @return myBoolean
    **/
-  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getMyBoolean() {
     return myBoolean;
@@ -110,7 +110,7 @@ public class OuterComposite  {
   /**
    * Set myBoolean
    */
-  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;

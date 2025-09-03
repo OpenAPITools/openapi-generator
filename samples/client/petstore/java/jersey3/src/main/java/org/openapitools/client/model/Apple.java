@@ -63,7 +63,7 @@ public class Apple {
    */
   @jakarta.annotation.Nullable
  @Pattern(regexp="^[a-zA-Z\\s]*$")
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getCultivar() {
@@ -71,7 +71,7 @@ public class Apple {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCultivar(@jakarta.annotation.Nullable String cultivar) {
     this.cultivar = cultivar;
@@ -89,7 +89,7 @@ public class Apple {
    */
   @jakarta.annotation.Nullable
  @Pattern(regexp="/^[A-Z\\s]*$/i")
-  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonProperty(value = JSON_PROPERTY_ORIGIN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getOrigin() {
@@ -97,7 +97,7 @@ public class Apple {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonProperty(value = JSON_PROPERTY_ORIGIN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOrigin(@jakarta.annotation.Nullable String origin) {
     this.origin = origin;

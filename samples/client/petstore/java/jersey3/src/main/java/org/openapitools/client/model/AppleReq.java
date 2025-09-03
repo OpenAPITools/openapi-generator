@@ -64,7 +64,7 @@ public class AppleReq {
   @jakarta.annotation.Nonnull
   @NotNull
 
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getCultivar() {
@@ -72,7 +72,7 @@ public class AppleReq {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setCultivar(@jakarta.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
@@ -90,7 +90,7 @@ public class AppleReq {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_MEALY)
+  @JsonProperty(value = JSON_PROPERTY_MEALY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getMealy() {
@@ -98,7 +98,7 @@ public class AppleReq {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MEALY)
+  @JsonProperty(value = JSON_PROPERTY_MEALY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMealy(@jakarta.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;

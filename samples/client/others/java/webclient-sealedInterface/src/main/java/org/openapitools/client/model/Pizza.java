@@ -65,7 +65,7 @@ public class Pizza extends Entity {
    * @return pizzaSize
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PIZZA_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_PIZZA_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getPizzaSize() {
@@ -73,7 +73,7 @@ public class Pizza extends Entity {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PIZZA_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_PIZZA_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPizzaSize(@javax.annotation.Nullable BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;

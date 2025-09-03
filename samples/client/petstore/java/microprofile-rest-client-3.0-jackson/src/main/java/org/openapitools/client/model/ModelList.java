@@ -43,7 +43,7 @@ public class ModelList  {
    * Get _123list
    * @return _123list
    **/
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String get123list() {
     return _123list;
@@ -52,7 +52,7 @@ public class ModelList  {
   /**
    * Set _123list
    */
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void set123list(String _123list) {
     this._123list = _123list;

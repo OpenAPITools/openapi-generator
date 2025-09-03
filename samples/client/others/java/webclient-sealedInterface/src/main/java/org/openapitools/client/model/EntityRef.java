@@ -93,7 +93,7 @@ public class EntityRef {
    * @return name
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
@@ -101,7 +101,7 @@ public class EntityRef {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
@@ -118,7 +118,7 @@ public class EntityRef {
    * @return atReferredType
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_AT_REFERRED_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_REFERRED_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getAtReferredType() {
@@ -126,7 +126,7 @@ public class EntityRef {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_AT_REFERRED_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_REFERRED_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAtReferredType(@javax.annotation.Nullable String atReferredType) {
     this.atReferredType = atReferredType;
@@ -143,7 +143,7 @@ public class EntityRef {
    * @return href
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_HREF)
+  @JsonProperty(value = JSON_PROPERTY_HREF, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getHref() {
@@ -151,7 +151,7 @@ public class EntityRef {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_HREF)
+  @JsonProperty(value = JSON_PROPERTY_HREF, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setHref(@javax.annotation.Nullable String href) {
     this.href = href;
@@ -168,7 +168,7 @@ public class EntityRef {
    * @return id
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getId() {
@@ -176,7 +176,7 @@ public class EntityRef {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@javax.annotation.Nullable String id) {
     this.id = id;
@@ -193,7 +193,7 @@ public class EntityRef {
    * @return atSchemaLocation
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_AT_SCHEMA_LOCATION)
+  @JsonProperty(value = JSON_PROPERTY_AT_SCHEMA_LOCATION, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getAtSchemaLocation() {
@@ -201,7 +201,7 @@ public class EntityRef {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_AT_SCHEMA_LOCATION)
+  @JsonProperty(value = JSON_PROPERTY_AT_SCHEMA_LOCATION, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAtSchemaLocation(@javax.annotation.Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
@@ -218,7 +218,7 @@ public class EntityRef {
    * @return atBaseType
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_AT_BASE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_BASE_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getAtBaseType() {
@@ -226,7 +226,7 @@ public class EntityRef {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_AT_BASE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_BASE_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAtBaseType(@javax.annotation.Nullable String atBaseType) {
     this.atBaseType = atBaseType;
@@ -243,7 +243,7 @@ public class EntityRef {
    * @return atType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_AT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getAtType() {
@@ -251,7 +251,7 @@ public class EntityRef {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_AT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setAtType(@javax.annotation.Nonnull String atType) {
     this.atType = atType;

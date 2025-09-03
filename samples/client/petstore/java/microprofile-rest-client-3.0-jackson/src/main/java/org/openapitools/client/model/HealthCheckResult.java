@@ -45,7 +45,7 @@ public class HealthCheckResult  {
    * Get nullableMessage
    * @return nullableMessage
    **/
-  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getNullableMessage() {
     return nullableMessage;
@@ -54,7 +54,7 @@ public class HealthCheckResult  {
   /**
    * Set nullableMessage
    */
-  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setNullableMessage(String nullableMessage) {
     this.nullableMessage = nullableMessage;
