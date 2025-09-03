@@ -218,7 +218,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// The <see cref="IRolesReportGetApiResponse"/>
     /// </summary>
-    public interface IRolesReportGetApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<List<List>>
+    public interface IRolesReportGetApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<List<List<RolesReportsHash>>>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
@@ -1494,11 +1494,11 @@ namespace Org.OpenAPITools.Api
             /// Deserializes the response if the response is 200 Ok
             /// </summary>
             /// <returns></returns>
-            public List<List> Ok()
+            public List<List<RolesReportsHash>> Ok()
             {
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<List<List>>(RawContent, _jsonSerializerOptions)
+                    ? System.Text.Json.JsonSerializer.Deserialize<List<List<RolesReportsHash>>>(RawContent, _jsonSerializerOptions)
                     : default;
             }
 
@@ -1507,7 +1507,7 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk(out List<List> result)
+            public bool TryOk(out List<List<RolesReportsHash>> result)
             {
                 result = null;
 

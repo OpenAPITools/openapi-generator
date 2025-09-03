@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             var response = await _instance.RolesReportGetAsync();
             var model = response.Ok();
-            Assert.IsType<List<List>>(model);
+            Assert.IsType<List<List<RolesReportsHash>>>(model);
         }
 
         /// <summary>
