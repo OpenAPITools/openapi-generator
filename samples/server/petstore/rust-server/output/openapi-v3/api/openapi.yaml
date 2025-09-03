@@ -735,11 +735,14 @@ components:
     ObjectParam:
       example:
         requiredParam: true
-        optionalParam: 0
+        optionalParam: 100
       properties:
         requiredParam:
           type: boolean
         optionalParam:
+          example: 100
+          maximum: 10000000000000000000
+          minimum: 1
           type: integer
       required:
       - requiredParam
