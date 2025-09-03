@@ -536,7 +536,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.setLibrary(QUARKUS_LIBRARY);
         codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
         codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
-        codegen.additionalProperties().put(RETURN_JBOSS_RESPONSE, true); //And return type is Response
+        codegen.additionalProperties().put(RETURN_JBOSS_RESPONSE, true); //And return type is RestResponse
 
         final ClientOptInput input = new ClientOptInput()
                 .openAPI(openAPI)
@@ -548,9 +548,10 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         //Then the java files are compilable
         validateJavaSourceFiles(files);
 
-        //And the generated interface contains CompletionStage<Response>
+        //And the generated interface contains CompletionStage<RestResponse<Pet>>
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
+            "\nimport org.jboss.resteasy.reactive.RestResponse;\n",
                 "\nimport java.util.concurrent.CompletionStage;\n",
                 "CompletionStage<RestResponse<Pet>> addPet", "CompletionStage<RestResponse<Void>> deletePet");
     }
@@ -1034,9 +1035,9 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         //And the generated interfaces contains RestResponse
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
-                "\nimport org.jboss.resteasy.reactive.RestResponse;\n", "RestResponse<Pet> addPet",
-            "RestResponse<Void> deletePet", "RestResponse<List<Pet>> findPetsByStatus",
-            "RestResponse<Void> updatePetWithForm", "RestResponse<ModelApiResponse> uploadFile");
+                "\nimport org.jboss.resteasy.reactive.RestResponse;\n",
+                "RestResponse<Pet> addPet", "RestResponse<Void> deletePet", "RestResponse<List<Pet>> findPetsByStatus",
+                "RestResponse<Void> updatePetWithForm", "RestResponse<ModelApiResponse> uploadFile");
     }
 
     @Test
