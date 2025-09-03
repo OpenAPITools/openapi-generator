@@ -17,15 +17,21 @@ import * as runtime from '../runtime';
 import type {
   TestArrayResponse,
   TestDiscriminatorResponse,
+  TestPrimitiveResponse,
   TestResponse,
+  TestWithDateResponse,
 } from '../models/index';
 import {
     TestArrayResponseFromJSON,
     TestArrayResponseToJSON,
     TestDiscriminatorResponseFromJSON,
     TestDiscriminatorResponseToJSON,
+    TestPrimitiveResponseFromJSON,
+    TestPrimitiveResponseToJSON,
     TestResponseFromJSON,
     TestResponseToJSON,
+    TestWithDateResponseFromJSON,
+    TestWithDateResponseToJSON,
 } from '../models/index';
 
 /**
@@ -111,6 +117,60 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async testDiscriminator(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestDiscriminatorResponse> {
         const response = await this.testDiscriminatorRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async testPrimitiveRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestPrimitiveResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/test-primitive`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TestPrimitiveResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async testPrimitive(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestPrimitiveResponse> {
+        const response = await this.testPrimitiveRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async testWithDateRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestWithDateResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/test-with-date`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TestWithDateResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async testWithDate(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestWithDateResponse> {
+        const response = await this.testWithDateRaw(initOverrides);
         return await response.value();
     }
 

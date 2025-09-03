@@ -42,19 +42,13 @@ export function TestResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
     if (json == null) {
         return json;
     }
-    if (typeof json !== 'object') {
-        return json;
-    }
-    if (instanceOfTestA(json)) {
+    if (typeof json === 'object' && instanceOfTestA(json)) {
         return TestAFromJSONTyped(json, true);
     }
-    if (instanceOfTestB(json)) {
+    if (typeof json === 'object' && instanceOfTestB(json)) {
         return TestBFromJSONTyped(json, true);
     }
-    if (typeof json === 'string') {
-        return json;
-    }
-    return {} as any;
+    return json;
 }
 
 export function TestResponseToJSON(json: any): any {
@@ -65,18 +59,12 @@ export function TestResponseToJSONTyped(value?: TestResponse | null, ignoreDiscr
     if (value == null) {
         return value;
     }
-    if (typeof value !== 'object') {
-        return value;
-    }
-    if (instanceOfTestA(value)) {
+    if (typeof value === 'object' && instanceOfTestA(value)) {
         return TestAToJSON(value as TestA);
     }
-    if (instanceOfTestB(value)) {
+    if (typeof value === 'object' && instanceOfTestB(value)) {
         return TestBToJSON(value as TestB);
     }
-    if (typeof value === 'string') {
-        return value;
-    }
-    return {};
+    return value;
 }
 

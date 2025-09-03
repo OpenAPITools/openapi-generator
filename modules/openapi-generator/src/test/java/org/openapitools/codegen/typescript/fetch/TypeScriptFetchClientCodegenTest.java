@@ -358,21 +358,41 @@ public class TypeScriptFetchClientCodegenTest {
 
         Path exampleModelPath = Paths.get(outputPath + "/models/MyCustomSpeed.ts");
         //FromJSON
-        TestUtils.assertFileContains(exampleModelPath, "(typeof json !== 'object')");
-        TestUtils.assertFileContains(exampleModelPath, "(instanceOfMyNumericValue(json))");
-        TestUtils.assertFileContains(exampleModelPath, "(typeof json === 'number' && (json === 10 || json === 20 || json === 30))");
-        TestUtils.assertFileContains(exampleModelPath, "(typeof json === 'string' && (json === 'fixed-value-a' || json === 'fixed-value-b' || json === 'fixed-value-c'))");
-        TestUtils.assertFileContains(exampleModelPath, "(isNaN(new Date(json).getTime())");
-        TestUtils.assertFileContains(exampleModelPath, "(json.every(item => typeof item === 'number'))");
-        TestUtils.assertFileContains(exampleModelPath, "(json.every(item => typeof item === 'string' && (item === 'oneof-array-enum-a' || item === 'oneof-array-enum-b' || item === 'oneof-array-enum-c')))");
+        String expectedFromJSON =
+        "export function MyCustomSpeedFromJSONTyped(json: any, ignoreDiscriminator: boolean): MyCustomSpeed {" +
+        "    if (json == null) {" +
+        "        return json;" +
+        "    }" +
+        "    if (typeof json === 'object' && instanceOfMyNumericValue(json)) {" +
+        "        return MyNumericValueFromJSONTyped(json, true);" +
+        "    }" +
+        "    if (!(isNaN(new Date(json).getTime()))) {" +
+        "        return new Date(json);" +
+        "    }" +
+        "    if (!(isNaN(new Date(json).getTime()))) {" +
+        "        return new Date(json);" +
+        "    }" +
+        "    return json;" +
+        "}";
+        TestUtils.assertFileContains(exampleModelPath, expectedFromJSON);
         //ToJSON
-        TestUtils.assertFileContains(exampleModelPath, "(typeof value !== 'object')");
-        TestUtils.assertFileContains(exampleModelPath, "(instanceOfMyNumericValue(value))");
-        TestUtils.assertFileContains(exampleModelPath, "(typeof value === 'number' && (value === 10 || value === 20 || value === 30))");
-        TestUtils.assertFileContains(exampleModelPath, "(typeof value === 'string' && (value === 'fixed-value-a' || value === 'fixed-value-b' || value === 'fixed-value-c'))");
-        TestUtils.assertFileContains(exampleModelPath, "(value instanceof Date)");
-        TestUtils.assertFileContains(exampleModelPath, "(value.every(item => typeof item === 'number'))");
-        TestUtils.assertFileContains(exampleModelPath, "(value.every(item => typeof item === 'string' && (item === 'oneof-array-enum-a' || item === 'oneof-array-enum-b' || item === 'oneof-array-enum-c')))");
+        String expectedToJSON =
+        "export function MyCustomSpeedToJSONTyped(value?: MyCustomSpeed | null, ignoreDiscriminator: boolean = false): any {" +
+        "    if (value == null) {" +
+        "        return value;" +
+        "    }" +
+        "    if (typeof value === 'object' && instanceOfMyNumericValue(value)) {" +
+        "        return MyNumericValueToJSON(value as MyNumericValue);" +
+        "    }" +
+        "    if (value instanceof Date) {" +
+        "        return value.toISOString();" +
+        "    }" +
+        "    if (value instanceof Date) {" +
+        "        return value.toISOString().substring(0,10);" +
+        "    }" +
+        "    return value;" +
+        "}";
+        TestUtils.assertFileContains(exampleModelPath, expectedToJSON);
     }
 
     /**
@@ -397,7 +417,10 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testArrayResponse, "import type { TestA } from './TestA'");
         TestUtils.assertFileContains(testArrayResponse, "import type { TestB } from './TestB'");
         TestUtils.assertFileNotContains(testResponse, "import type { string } from './string'");
-        TestUtils.assertFileContains(testArrayResponse, "export type TestArrayResponse = Array<TestA> | Array<TestB> | Array<string>");
+        TestUtils.assertFileNotContains(testResponse, "import type { boolean } from './boolean'");
+        TestUtils.assertFileNotContains(testResponse, "import type { number } from './number'");
+        TestUtils.assertFileNotContains(testResponse, "import type { object } from './object'");
+        TestUtils.assertFileContains(testArrayResponse, "export type TestArrayResponse =  Array<TestA> | Array<TestB> | Array<boolean> | Array<number> | Array<object> | Array<string>");
 
         Path testDiscriminatorResponse = Paths.get(output + "/models/TestDiscriminatorResponse.ts");
         TestUtils.assertFileExists(testDiscriminatorResponse);
