@@ -139,7 +139,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match 'MammalAnyof'", e);
             }
 
-            throw new IOException(String.format("Failed deserialization for MammalAnyof: no match found"));
+            throw new IOException("Failed deserialization for MammalAnyof: no match found");
         }
 
         /**

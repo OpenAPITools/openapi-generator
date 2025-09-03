@@ -113,7 +113,7 @@ public class GmFruit extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match 'GmFruit'", e);
             }
 
-            throw new IOException(String.format("Failed deserialization for GmFruit: no match found"));
+            throw new IOException("Failed deserialization for GmFruit: no match found");
         }
 
         /**

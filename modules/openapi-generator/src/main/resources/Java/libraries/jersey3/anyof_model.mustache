@@ -95,7 +95,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
             {{/anyOf}}
             {{/composedSchemas}}
-            throw new IOException(String.format("Failed deserialization for {{classname}}: no match found"));
+            throw new IOException("Failed deserialization for {{classname}}: no match found");
         }
 
         /**
