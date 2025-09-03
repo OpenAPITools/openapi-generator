@@ -52,7 +52,7 @@ public class ChildWithNullable extends ParentWithNullable {
    * Get otherProperty
    * @return otherProperty
    **/
-  @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_OTHER_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getOtherProperty() {
     return otherProperty;
@@ -61,7 +61,7 @@ public class ChildWithNullable extends ParentWithNullable {
   /**
    * Set otherProperty
    */
-  @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_OTHER_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOtherProperty(String otherProperty) {
     this.otherProperty = otherProperty;

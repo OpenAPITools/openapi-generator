@@ -52,7 +52,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
    **/
-  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getDeclawed() {
     return declawed;
@@ -61,7 +61,7 @@ public class Cat extends Animal {
   /**
    * Set declawed
    */
-  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;

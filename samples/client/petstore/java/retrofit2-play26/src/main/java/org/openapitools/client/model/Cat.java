@@ -67,7 +67,7 @@ public class Cat extends Animal {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getDeclawed() {
@@ -75,7 +75,7 @@ public class Cat extends Animal {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDeclawed(@jakarta.annotation.Nullable Boolean declawed) {
     this.declawed = declawed;

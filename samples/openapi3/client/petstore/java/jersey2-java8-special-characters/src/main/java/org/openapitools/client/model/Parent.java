@@ -65,7 +65,7 @@ public class Parent {
    * @return objectType
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OBJECT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getObjectType() {
@@ -73,7 +73,7 @@ public class Parent {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OBJECT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setObjectType(@javax.annotation.Nullable String objectType) {
     this.objectType = objectType;

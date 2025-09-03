@@ -68,7 +68,7 @@ public class Whale {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
+  @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getHasBaleen() {
@@ -76,7 +76,7 @@ public class Whale {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
+  @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setHasBaleen(@jakarta.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
@@ -94,7 +94,7 @@ public class Whale {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_HAS_TEETH)
+  @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getHasTeeth() {
@@ -102,7 +102,7 @@ public class Whale {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_HAS_TEETH)
+  @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setHasTeeth(@jakarta.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
@@ -121,7 +121,7 @@ public class Whale {
   @jakarta.annotation.Nonnull
   @NotNull
 
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getClassName() {
@@ -129,7 +129,7 @@ public class Whale {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(@jakarta.annotation.Nonnull String className) {
     this.className = className;

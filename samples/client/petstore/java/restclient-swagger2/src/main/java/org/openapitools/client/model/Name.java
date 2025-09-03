@@ -60,8 +60,8 @@ public class Name {
    */
   @JsonCreator
   public Name(
-    @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
-    @JsonProperty(JSON_PROPERTY_123NUMBER) Integer _123number
+    @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE, required = false) Integer snakeCase, 
+    @JsonProperty(value = JSON_PROPERTY_123NUMBER, required = false) Integer _123number
   ) {
     this();
     this.snakeCase = snakeCase;
@@ -80,7 +80,7 @@ public class Name {
    */
   @jakarta.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getName() {
@@ -88,7 +88,7 @@ public class Name {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(@jakarta.annotation.Nonnull Integer name) {
     this.name = name;
@@ -100,7 +100,7 @@ public class Name {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
+  @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getSnakeCase() {
@@ -121,7 +121,7 @@ public class Name {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getProperty() {
@@ -129,7 +129,7 @@ public class Name {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProperty(@jakarta.annotation.Nullable String property) {
     this.property = property;
@@ -141,7 +141,7 @@ public class Name {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_123NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_123NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer get123number() {

@@ -81,7 +81,7 @@ public class ByteArrayObject {
         return nullableArray.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_NULLABLE_ARRAY)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_ARRAY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<byte[]> getNullableArray_JsonNullable() {
@@ -108,7 +108,7 @@ public class ByteArrayObject {
    * @return normalArray
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NORMAL_ARRAY)
+  @JsonProperty(value = JSON_PROPERTY_NORMAL_ARRAY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public byte[] getNormalArray() {
@@ -116,7 +116,7 @@ public class ByteArrayObject {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NORMAL_ARRAY)
+  @JsonProperty(value = JSON_PROPERTY_NORMAL_ARRAY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setNormalArray(@javax.annotation.Nullable byte[] normalArray) {
     this.normalArray = normalArray;
@@ -139,7 +139,7 @@ public class ByteArrayObject {
         return nullableString.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_NULLABLE_STRING)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<String> getNullableString_JsonNullable() {
@@ -166,7 +166,7 @@ public class ByteArrayObject {
    * @return stringField
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STRING_FIELD)
+  @JsonProperty(value = JSON_PROPERTY_STRING_FIELD, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getStringField() {
@@ -174,7 +174,7 @@ public class ByteArrayObject {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_STRING_FIELD)
+  @JsonProperty(value = JSON_PROPERTY_STRING_FIELD, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStringField(@javax.annotation.Nullable String stringField) {
     this.stringField = stringField;
@@ -191,7 +191,7 @@ public class ByteArrayObject {
    * @return intField
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_INT_FIELD)
+  @JsonProperty(value = JSON_PROPERTY_INT_FIELD, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getIntField() {
@@ -199,7 +199,7 @@ public class ByteArrayObject {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INT_FIELD)
+  @JsonProperty(value = JSON_PROPERTY_INT_FIELD, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setIntField(@javax.annotation.Nullable BigDecimal intField) {
     this.intField = intField;

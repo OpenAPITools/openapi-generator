@@ -147,7 +147,7 @@ public class NullableClass  {
    * Get integerProp
    * @return integerProp
    **/
-  @JsonProperty(JSON_PROPERTY_INTEGER_PROP)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getIntegerProp() {
     return integerProp;
@@ -156,7 +156,7 @@ public class NullableClass  {
   /**
    * Set integerProp
    */
-  @JsonProperty(JSON_PROPERTY_INTEGER_PROP)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setIntegerProp(Integer integerProp) {
     this.integerProp = integerProp;
@@ -171,7 +171,7 @@ public class NullableClass  {
    * Get numberProp
    * @return numberProp
    **/
-  @JsonProperty(JSON_PROPERTY_NUMBER_PROP)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getNumberProp() {
     return numberProp;
@@ -180,7 +180,7 @@ public class NullableClass  {
   /**
    * Set numberProp
    */
-  @JsonProperty(JSON_PROPERTY_NUMBER_PROP)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setNumberProp(BigDecimal numberProp) {
     this.numberProp = numberProp;
@@ -195,7 +195,7 @@ public class NullableClass  {
    * Get booleanProp
    * @return booleanProp
    **/
-  @JsonProperty(JSON_PROPERTY_BOOLEAN_PROP)
+  @JsonProperty(value = JSON_PROPERTY_BOOLEAN_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getBooleanProp() {
     return booleanProp;
@@ -204,7 +204,7 @@ public class NullableClass  {
   /**
    * Set booleanProp
    */
-  @JsonProperty(JSON_PROPERTY_BOOLEAN_PROP)
+  @JsonProperty(value = JSON_PROPERTY_BOOLEAN_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBooleanProp(Boolean booleanProp) {
     this.booleanProp = booleanProp;
@@ -219,7 +219,7 @@ public class NullableClass  {
    * Get stringProp
    * @return stringProp
    **/
-  @JsonProperty(JSON_PROPERTY_STRING_PROP)
+  @JsonProperty(value = JSON_PROPERTY_STRING_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getStringProp() {
     return stringProp;
@@ -228,7 +228,7 @@ public class NullableClass  {
   /**
    * Set stringProp
    */
-  @JsonProperty(JSON_PROPERTY_STRING_PROP)
+  @JsonProperty(value = JSON_PROPERTY_STRING_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStringProp(String stringProp) {
     this.stringProp = stringProp;
@@ -243,7 +243,7 @@ public class NullableClass  {
    * Get dateProp
    * @return dateProp
    **/
-  @JsonProperty(JSON_PROPERTY_DATE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_DATE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Date getDateProp() {
     return dateProp;
@@ -252,7 +252,7 @@ public class NullableClass  {
   /**
    * Set dateProp
    */
-  @JsonProperty(JSON_PROPERTY_DATE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_DATE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDateProp(Date dateProp) {
     this.dateProp = dateProp;
@@ -267,7 +267,7 @@ public class NullableClass  {
    * Get datetimeProp
    * @return datetimeProp
    **/
-  @JsonProperty(JSON_PROPERTY_DATETIME_PROP)
+  @JsonProperty(value = JSON_PROPERTY_DATETIME_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Date getDatetimeProp() {
     return datetimeProp;
@@ -276,7 +276,7 @@ public class NullableClass  {
   /**
    * Set datetimeProp
    */
-  @JsonProperty(JSON_PROPERTY_DATETIME_PROP)
+  @JsonProperty(value = JSON_PROPERTY_DATETIME_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDatetimeProp(Date datetimeProp) {
     this.datetimeProp = datetimeProp;
@@ -291,7 +291,7 @@ public class NullableClass  {
    * Get arrayNullableProp
    * @return arrayNullableProp
    **/
-  @JsonProperty(JSON_PROPERTY_ARRAY_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<Object> getArrayNullableProp() {
     return arrayNullableProp;
@@ -300,7 +300,7 @@ public class NullableClass  {
   /**
    * Set arrayNullableProp
    */
-  @JsonProperty(JSON_PROPERTY_ARRAY_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayNullableProp(List<Object> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
@@ -323,7 +323,7 @@ public class NullableClass  {
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
    **/
-  @JsonProperty(JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<Object> getArrayAndItemsNullableProp() {
     return arrayAndItemsNullableProp;
@@ -332,7 +332,7 @@ public class NullableClass  {
   /**
    * Set arrayAndItemsNullableProp
    */
-  @JsonProperty(JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
@@ -355,7 +355,7 @@ public class NullableClass  {
    * Get arrayItemsNullable
    * @return arrayItemsNullable
    **/
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEMS_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
@@ -364,7 +364,7 @@ public class NullableClass  {
   /**
    * Set arrayItemsNullable
    */
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEMS_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayItemsNullable(List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
@@ -387,7 +387,7 @@ public class NullableClass  {
    * Get objectNullableProp
    * @return objectNullableProp
    **/
-  @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Object> getObjectNullableProp() {
     return objectNullableProp;
@@ -396,7 +396,7 @@ public class NullableClass  {
   /**
    * Set objectNullableProp
    */
-  @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setObjectNullableProp(Map<String, Object> objectNullableProp) {
     this.objectNullableProp = objectNullableProp;
@@ -419,7 +419,7 @@ public class NullableClass  {
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
    **/
-  @JsonProperty(JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Object> getObjectAndItemsNullableProp() {
     return objectAndItemsNullableProp;
@@ -428,7 +428,7 @@ public class NullableClass  {
   /**
    * Set objectAndItemsNullableProp
    */
-  @JsonProperty(JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public void setObjectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = objectAndItemsNullableProp;
@@ -451,7 +451,7 @@ public class NullableClass  {
    * Get objectItemsNullable
    * @return objectItemsNullable
    **/
-  @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_ITEMS_NULLABLE, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
@@ -460,7 +460,7 @@ public class NullableClass  {
   /**
    * Set objectItemsNullable
    */
-  @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_ITEMS_NULLABLE, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public void setObjectItemsNullable(Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;

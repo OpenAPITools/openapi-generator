@@ -57,14 +57,14 @@ public class ModelList {
    * @return _123list
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String get123list() {
     return _123list;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void set123list(@javax.annotation.Nullable String _123list) {
     this._123list = _123list;

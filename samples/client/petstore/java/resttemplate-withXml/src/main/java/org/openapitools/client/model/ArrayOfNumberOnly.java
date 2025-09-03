@@ -70,7 +70,7 @@ public class ArrayOfNumberOnly {
    * @return arrayNumber
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "ArrayNumber")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -80,7 +80,7 @@ public class ArrayOfNumberOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "ArrayNumber")
   @JacksonXmlElementWrapper(useWrapping = false)
