@@ -60,7 +60,7 @@ public class FooGetDefaultResponse {
    * @return string
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "string")
 
@@ -69,7 +69,7 @@ public class FooGetDefaultResponse {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "string")
   public void setString(@javax.annotation.Nullable Foo string) {

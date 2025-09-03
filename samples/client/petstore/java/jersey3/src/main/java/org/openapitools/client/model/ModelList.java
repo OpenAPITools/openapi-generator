@@ -58,7 +58,7 @@ public class ModelList {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String get123list() {
@@ -66,7 +66,7 @@ public class ModelList {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void set123list(@jakarta.annotation.Nullable String _123list) {
     this._123list = _123list;

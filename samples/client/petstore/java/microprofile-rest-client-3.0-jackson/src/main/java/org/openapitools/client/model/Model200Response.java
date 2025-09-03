@@ -51,7 +51,7 @@ public class Model200Response  {
    * Get name
    * @return name
    **/
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getName() {
     return name;
@@ -60,7 +60,7 @@ public class Model200Response  {
   /**
    * Set name
    */
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(Integer name) {
     this.name = name;
@@ -75,7 +75,7 @@ public class Model200Response  {
    * Get propertyClass
    * @return propertyClass
    **/
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPropertyClass() {
     return propertyClass;
@@ -84,7 +84,7 @@ public class Model200Response  {
   /**
    * Set propertyClass
    */
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

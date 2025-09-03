@@ -2113,10 +2113,10 @@ public class JavaClientCodegenTest {
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
                 "@Deprecated\n public BigDog declawed(@jakarta.annotation.Nullable Boolean declawed) {", // deprecated builder method
-                "@Deprecated\n @jakarta.annotation.Nullable\n @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
+                "@Deprecated\n @jakarta.annotation.Nullable\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
                         + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n\n"
                         + " public Boolean getDeclawed() {", // deprecated getter
-                "@Deprecated\n @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
+                "@Deprecated\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
                         + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
                         + " public void setDeclawed(@jakarta.annotation.Nullable Boolean declawed) {" // deprecated setter
         );
