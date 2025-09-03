@@ -87,7 +87,7 @@ where
             post(create_repo::<I, A, E>)
         )
         .route("/repos/{repo_id}",
-            get(get_repo_info::<I, A, E>).get(get_repo_info::<I, A, E>)
+            get(get_repo_info::<I, A, E>)
         )
         .route("/required_octet_stream",
             put(required_octet_stream_put::<I, A, E>)

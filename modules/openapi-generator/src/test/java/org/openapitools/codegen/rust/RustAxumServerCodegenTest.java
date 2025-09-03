@@ -28,6 +28,8 @@ public class RustAxumServerCodegenTest {
         String routerSpec = linearize("Router::new() " +
                 ".route(\"/api/test\", " +
                 "delete(test_delete::<I, A, E, C>).post(test_post::<I, A, E, C>) ) " +
+                ".route(\"/api/test/{test_id}\", " +
+                "get(test_get::<I, A, E, C>) ) " +
                 ".with_state(api_impl)");
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, routerSpec);
