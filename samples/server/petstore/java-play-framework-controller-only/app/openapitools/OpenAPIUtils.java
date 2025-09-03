@@ -29,7 +29,7 @@ public class OpenAPIUtils {
         if (constraintViolations.size() > 0) {
             StringBuilder errors = new StringBuilder();
             for (ConstraintViolation<T> constraints : constraintViolations) {
-                errors.append(String.format("%s.%s %s\n",
+                errors.append(String.format(Locale.ROOT, "%s.%s %s\n",
                 constraints.getRootBeanClass().getSimpleName(),
                 constraints.getPropertyPath(),
                 constraints.getMessage()));

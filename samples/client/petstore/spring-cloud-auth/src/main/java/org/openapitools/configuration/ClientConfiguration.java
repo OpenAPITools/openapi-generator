@@ -18,7 +18,7 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
 import org.springframework.context.annotation.Configuration;
-
+import java.util.Locale;
 
 public class ClientConfiguration {
 
@@ -79,7 +79,7 @@ public class ClientConfiguration {
 
     public String getBearerToken() {
       final OAuth2AccessToken accessToken = getAccessToken();
-      return String.format( "%s %s", accessToken.getTokenType().getValue(), accessToken.getTokenValue() );
+      return String.format( Locale.ROOT, "%s %s", accessToken.getTokenType().getValue(), accessToken.getTokenValue() );
     }
   }
 

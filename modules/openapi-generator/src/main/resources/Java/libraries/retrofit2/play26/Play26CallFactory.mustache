@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Executor;
@@ -80,14 +81,14 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
             rb.addHeader(header.getKey(), header.getValue());
         }
         for (Map.Entry<String, String> cookie : this.extraCookies.entrySet()) {
-            rb.addHeader("Cookie", String.format("%s=%s", cookie.getKey(), cookie.getValue()));
+            rb.addHeader("Cookie", String.format(Locale.ROOT, "%s=%s", cookie.getKey(), cookie.getValue()));
         }
 
         // add extra query params
         if (!this.extraQueryParams.isEmpty()) {
             String newQuery = request.url().uri().getQuery();
             for (Pair queryParam : this.extraQueryParams) {
-                String param = String.format("%s=%s", queryParam.getName(), queryParam.getValue());
+                String param = String.format(Locale.ROOT, "%s=%s", queryParam.getName(), queryParam.getValue());
                 if (newQuery == null) {
                     newQuery = param;
                 } else {
@@ -260,7 +261,7 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
                 }
             }
             for (final WSCookie cookie : r.getCookies()) {
-                builder.addHeader("Cookie", String.format("%s=%s", cookie.getName(), cookie.getValue()));
+                builder.addHeader("Cookie", String.format(Locale.ROOT, "%s=%s", cookie.getName(), cookie.getValue()));
             }
 
             builder.message(r.getStatusText());
