@@ -88,7 +88,7 @@ public class ByteArrayObject {
     return nullableArray;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_NULLABLE_ARRAY, required = false)
+  @JsonProperty(JSON_PROPERTY_NULLABLE_ARRAY)
   public void setNullableArray_JsonNullable(JsonNullable<byte[]> nullableArray) {
     this.nullableArray = nullableArray;
   }
@@ -146,7 +146,7 @@ public class ByteArrayObject {
     return nullableString;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_NULLABLE_STRING, required = false)
+  @JsonProperty(JSON_PROPERTY_NULLABLE_STRING)
   public void setNullableString_JsonNullable(JsonNullable<String> nullableString) {
     this.nullableString = nullableString;
   }

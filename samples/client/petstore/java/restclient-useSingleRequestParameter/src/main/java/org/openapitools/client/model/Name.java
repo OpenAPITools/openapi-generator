@@ -58,8 +58,8 @@ public class Name {
    */
   @JsonCreator
   public Name(
-    @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE, required = false) Integer snakeCase, 
-    @JsonProperty(value = JSON_PROPERTY_123NUMBER, required = false) Integer _123number
+    @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
+    @JsonProperty(JSON_PROPERTY_123NUMBER) Integer _123number
   ) {
     this();
     this.snakeCase = snakeCase;

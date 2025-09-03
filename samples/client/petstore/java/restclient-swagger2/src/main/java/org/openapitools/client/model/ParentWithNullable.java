@@ -145,7 +145,7 @@ public class ParentWithNullable {
     return nullableProperty;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_NULLABLE_PROPERTY, required = false)
+  @JsonProperty(JSON_PROPERTY_NULLABLE_PROPERTY)
   public void setNullableProperty_JsonNullable(JsonNullable<String> nullableProperty) {
     this.nullableProperty = nullableProperty;
   }

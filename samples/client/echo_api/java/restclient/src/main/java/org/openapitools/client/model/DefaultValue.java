@@ -320,7 +320,7 @@ public class DefaultValue {
     return arrayStringNullable;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_NULLABLE, required = false)
+  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_NULLABLE)
   public void setArrayStringNullable_JsonNullable(JsonNullable<List<String>> arrayStringNullable) {
     this.arrayStringNullable = arrayStringNullable;
   }
@@ -365,7 +365,7 @@ public class DefaultValue {
     return arrayStringExtensionNullable;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE, required = false)
+  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE)
   public void setArrayStringExtensionNullable_JsonNullable(JsonNullable<List<String>> arrayStringExtensionNullable) {
     this.arrayStringExtensionNullable = arrayStringExtensionNullable;
   }
@@ -398,7 +398,7 @@ public class DefaultValue {
     return stringNullable;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_STRING_NULLABLE, required = false)
+  @JsonProperty(JSON_PROPERTY_STRING_NULLABLE)
   public void setStringNullable_JsonNullable(JsonNullable<String> stringNullable) {
     this.stringNullable = stringNullable;
   }

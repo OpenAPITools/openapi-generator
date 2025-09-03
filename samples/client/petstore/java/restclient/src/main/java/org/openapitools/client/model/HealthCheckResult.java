@@ -67,7 +67,7 @@ public class HealthCheckResult {
     return nullableMessage;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
+  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
   public void setNullableMessage_JsonNullable(JsonNullable<String> nullableMessage) {
     this.nullableMessage = nullableMessage;
   }

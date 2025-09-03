@@ -357,7 +357,7 @@ public class EnumTest {
     return outerEnum;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM, required = false)
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
   public void setOuterEnum_JsonNullable(JsonNullable<OuterEnum> outerEnum) {
     this.outerEnum = outerEnum;
   }

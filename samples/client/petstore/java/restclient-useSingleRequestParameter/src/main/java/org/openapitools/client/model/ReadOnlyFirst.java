@@ -48,7 +48,7 @@ public class ReadOnlyFirst {
    */
   @JsonCreator
   public ReadOnlyFirst(
-    @JsonProperty(value = JSON_PROPERTY_BAR, required = false) String bar
+    @JsonProperty(JSON_PROPERTY_BAR) String bar
   ) {
     this();
     this.bar = bar;

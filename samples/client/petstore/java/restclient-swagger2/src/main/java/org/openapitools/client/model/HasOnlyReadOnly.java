@@ -50,8 +50,8 @@ public class HasOnlyReadOnly {
    */
   @JsonCreator
   public HasOnlyReadOnly(
-    @JsonProperty(value = JSON_PROPERTY_BAR, required = false) String bar, 
-    @JsonProperty(value = JSON_PROPERTY_FOO, required = false) String foo
+    @JsonProperty(JSON_PROPERTY_BAR) String bar, 
+    @JsonProperty(JSON_PROPERTY_FOO) String foo
   ) {
     this();
     this.bar = bar;

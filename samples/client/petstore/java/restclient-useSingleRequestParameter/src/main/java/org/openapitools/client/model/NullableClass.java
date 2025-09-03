@@ -134,7 +134,7 @@ public class NullableClass {
     return integerProp;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_INTEGER_PROP, required = false)
+  @JsonProperty(JSON_PROPERTY_INTEGER_PROP)
   public void setIntegerProp_JsonNullable(JsonNullable<Integer> integerProp) {
     this.integerProp = integerProp;
   }
@@ -167,7 +167,7 @@ public class NullableClass {
     return numberProp;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_NUMBER_PROP, required = false)
+  @JsonProperty(JSON_PROPERTY_NUMBER_PROP)
   public void setNumberProp_JsonNullable(JsonNullable<BigDecimal> numberProp) {
     this.numberProp = numberProp;
   }
@@ -200,7 +200,7 @@ public class NullableClass {
     return booleanProp;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_BOOLEAN_PROP, required = false)
+  @JsonProperty(JSON_PROPERTY_BOOLEAN_PROP)
   public void setBooleanProp_JsonNullable(JsonNullable<Boolean> booleanProp) {
     this.booleanProp = booleanProp;
   }
@@ -233,7 +233,7 @@ public class NullableClass {
     return stringProp;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_STRING_PROP, required = false)
+  @JsonProperty(JSON_PROPERTY_STRING_PROP)
   public void setStringProp_JsonNullable(JsonNullable<String> stringProp) {
     this.stringProp = stringProp;
   }
@@ -266,7 +266,7 @@ public class NullableClass {
     return dateProp;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_DATE_PROP, required = false)
+  @JsonProperty(JSON_PROPERTY_DATE_PROP)
   public void setDateProp_JsonNullable(JsonNullable<LocalDate> dateProp) {
     this.dateProp = dateProp;
   }
@@ -299,7 +299,7 @@ public class NullableClass {
     return datetimeProp;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_DATETIME_PROP, required = false)
+  @JsonProperty(JSON_PROPERTY_DATETIME_PROP)
   public void setDatetimeProp_JsonNullable(JsonNullable<OffsetDateTime> datetimeProp) {
     this.datetimeProp = datetimeProp;
   }
@@ -344,7 +344,7 @@ public class NullableClass {
     return arrayNullableProp;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_ARRAY_NULLABLE_PROP, required = false)
+  @JsonProperty(JSON_PROPERTY_ARRAY_NULLABLE_PROP)
   public void setArrayNullableProp_JsonNullable(JsonNullable<List<Object>> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
   }
@@ -389,7 +389,7 @@ public class NullableClass {
     return arrayAndItemsNullableProp;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP, required = false)
+  @JsonProperty(JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP)
   public void setArrayAndItemsNullableProp_JsonNullable(JsonNullable<List<Object>> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
   }
@@ -467,7 +467,7 @@ public class NullableClass {
     return objectNullableProp;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_OBJECT_NULLABLE_PROP, required = false)
+  @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP)
   public void setObjectNullableProp_JsonNullable(JsonNullable<Map<String, Object>> objectNullableProp) {
     this.objectNullableProp = objectNullableProp;
   }
@@ -512,7 +512,7 @@ public class NullableClass {
     return objectAndItemsNullableProp;
   }
   
-  @JsonProperty(value = JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP, required = false)
+  @JsonProperty(JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP)
   public void setObjectAndItemsNullableProp_JsonNullable(JsonNullable<Map<String, Object>> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = objectAndItemsNullableProp;
   }

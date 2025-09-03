@@ -58,7 +58,7 @@ public final class Apple implements Fruit {
    * @return seeds
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SEEDS)
+  @JsonProperty(value = JSON_PROPERTY_SEEDS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getSeeds() {
@@ -66,7 +66,7 @@ public final class Apple implements Fruit {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SEEDS)
+  @JsonProperty(value = JSON_PROPERTY_SEEDS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setSeeds(@javax.annotation.Nonnull Integer seeds) {
     this.seeds = seeds;
@@ -83,7 +83,7 @@ public final class Apple implements Fruit {
    * @return fruitType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_FRUIT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_FRUIT_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public FruitType getFruitType() {
@@ -91,7 +91,7 @@ public final class Apple implements Fruit {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FRUIT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_FRUIT_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setFruitType(@javax.annotation.Nonnull FruitType fruitType) {
     this.fruitType = fruitType;
