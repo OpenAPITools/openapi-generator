@@ -376,6 +376,32 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testAdditionalPropertiesPrefixEnums() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_1/enum_collision.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty("enumClassPrefix", "true")
+                .addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path petFile = Paths.get(output + "/model_pet_status.go");
+        TestUtils.assertFileExists(petFile);
+        TestUtils.assertFileContains(petFile, "PETSTATUS_SOLD");
+
+        Path machineFile = Paths.get(output + "/model_machine_status.go");
+        TestUtils.assertFileExists(machineFile);
+        TestUtils.assertFileContains(machineFile, "MACHINESTATUS_SOLD");
+    }
+
+    @Test
     public void testAdditionalPropertiesWithoutGoMod() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
