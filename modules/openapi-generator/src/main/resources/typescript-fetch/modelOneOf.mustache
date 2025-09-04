@@ -56,12 +56,11 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     if (Array.isArray(json)) {
         if (json.every(item => typeof item === 'object')) {
     {{/-first}}
-            if (json.every(item => instanceOf{{{.}}}(item))) {
-                return json.map(value => {{{.}}}FromJSONTyped(value, true));
+            if (json.every(item => instanceOf{{{.}}}(item as object))) {
+                return json.map(item => {{{.}}}FromJSONTyped(item, true));
             }
     {{#-last}}
         }
-        return json;
     }
     {{/-last}}
     {{/oneOfArrays}}
@@ -70,15 +69,15 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{#items}}
     {{#isDateType}}
     if (Array.isArray(json)) {
-        if (json.every(item => !(isNaN(new Date(json).getTime()))) {
-            return json.map(value => new Date(json);
+        if (json.every(item => !(isNaN(new Date(item).getTime())))) {
+            return json.map(item => new Date(item));
         }
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(json)) {
-        if (json.every(item => !(isNaN(new Date(json).getTime()))) {
-            return json.map(value => new Date(json);
+        if (json.every(item => !(isNaN(new Date(item).getTime())))) {
+            return json.map(item => new Date(item));
         }
     }
     {{/isDateTimeType}}
@@ -161,12 +160,11 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     if (Array.isArray(value)) {
         if (value.every(item => typeof item === 'object')) {
     {{/-first}}
-            if (value.every(item => instanceOf{{{.}}}(item))) {
-                return value.map(value => {{{.}}}ToJSON(value as {{{.}}}));
+            if (value.every(item => instanceOf{{{.}}}(item as object))) {
+                return value.map(item => {{{.}}}ToJSON(item as {{{.}}}));
             }
     {{#-last}}
         }
-        return value;
     }
     {{/-last}}
     {{/oneOfArrays}}
@@ -175,15 +173,15 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{#items}}
     {{#isDateType}}
     if (Array.isArray(value)) {
-        if (value.every(item => item instanceof Date) {
-            return value.map(value => value.toISOString().substring(0,10)));
+        if (value.every(item => item instanceof Date)) {
+            return value.map(item => item.toISOString().substring(0,10));
         }
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(value)) {
-        if (value.every(item => item instanceof Date) {
-            return value.map(value => value.toISOString();
+        if (value.every(item => item instanceof Date)) {
+            return value.map(item => item.toISOString());
         }
     }
     {{/isDateTimeType}}
