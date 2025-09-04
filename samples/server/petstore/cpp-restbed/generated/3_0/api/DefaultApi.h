@@ -67,7 +67,7 @@ class  FooResource: public restbed::Resource
 {
 public:
     FooResource(const std::string& context = "/v2");
-    virtual ~FooResource() = default;
+    virtual ~FooResource();
 
     FooResource(
         const FooResource& other) = default; // copy constructor
