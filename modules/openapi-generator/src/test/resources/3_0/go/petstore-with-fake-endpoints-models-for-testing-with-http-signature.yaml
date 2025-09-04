@@ -1887,6 +1887,25 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/ReadOnlyFirst'
+    ArrayTestWithWrapped:
+      type: object
+      properties:
+        array_of_string:
+          type: array
+          items:
+            type: string
+          xml:
+            wrapped: true
+    ArrayTestWithWrappedAndName:
+      type: object
+      properties:
+        array_of_string:
+          type: array
+          items:
+            type: string
+          xml:
+            name: item
+            wrapped: true
     NumberOnly:
       type: object
       properties:

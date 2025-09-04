@@ -800,6 +800,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
                 if (withXml) {
                     goDataTag += " xml:" + "\"" + cp.baseName;
+                    if (cp.isXmlWrapped) {
+                        goDataTag += ">" + ("".equals(cp.xmlName) ? cp.baseName : cp.xmlName);
+                    }
                     if (cp.isXmlAttribute) {
                         goDataTag += ",attr";
                     }
