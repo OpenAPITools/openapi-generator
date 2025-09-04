@@ -139,6 +139,8 @@ Class | Method | HTTP request | Description
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
+ - [ArrayTestWithWrapped](docs/ArrayTestWithWrapped.md)
+ - [ArrayTestWithWrappedAndName](docs/ArrayTestWithWrappedAndName.md)
  - [Banana](docs/Banana.md)
  - [BananaReq](docs/BananaReq.md)
  - [Capitalization](docs/Capitalization.md)
