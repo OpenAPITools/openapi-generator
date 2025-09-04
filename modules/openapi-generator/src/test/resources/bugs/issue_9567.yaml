@@ -1,0 +1,36 @@
+openapi: 3.0.1
+info:
+  title: TEST
+  description: |-
+    ## TEST
+  version: 1.0.0
+
+servers:
+  - url: /v3
+    description: Major version of service
+
+paths:
+  /agreements:
+    get:
+      operationId: readAPet
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      title: a Pet
+      description: A pet for sale in the pet store
+      type: object
+      properties:
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold
