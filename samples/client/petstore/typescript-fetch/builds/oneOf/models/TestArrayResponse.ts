@@ -44,14 +44,13 @@ export function TestArrayResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     if (Array.isArray(json)) {
         if (json.every(item => typeof item === 'object')) {
-            if (json.every(item => instanceOfTestA(item))) {
-                return json.map(value => TestAFromJSONTyped(value, true));
+            if (json.every(item => instanceOfTestA(item as object))) {
+                return json.map(item => TestAFromJSONTyped(item, true));
             }
-            if (json.every(item => instanceOfTestB(item))) {
-                return json.map(value => TestBFromJSONTyped(value, true));
+            if (json.every(item => instanceOfTestB(item as object))) {
+                return json.map(item => TestBFromJSONTyped(item, true));
             }
         }
-        return json;
     }
     if (Array.isArray(json)) {
         if (json.every(item => typeof item === 'string')) {
@@ -71,14 +70,13 @@ export function TestArrayResponseToJSONTyped(value?: TestArrayResponse | null, i
     }
     if (Array.isArray(value)) {
         if (value.every(item => typeof item === 'object')) {
-            if (value.every(item => instanceOfTestA(item))) {
-                return value.map(value => TestAToJSON(value as TestA));
+            if (value.every(item => instanceOfTestA(item as object))) {
+                return value.map(item => TestAToJSON(item as TestA));
             }
-            if (value.every(item => instanceOfTestB(item))) {
-                return value.map(value => TestBToJSON(value as TestB));
+            if (value.every(item => instanceOfTestB(item as object))) {
+                return value.map(item => TestBToJSON(item as TestB));
             }
         }
-        return value;
     }
     if (Array.isArray(value)) {
         if (value.every(item => typeof item === 'string')) {
