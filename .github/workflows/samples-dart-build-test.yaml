@@ -34,7 +34,7 @@ jobs:
           - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/
           - samples/openapi3/client/petstore/dart-dio/binary_response/
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: dart-lang/setup-dart@v1
         with:
