@@ -396,4 +396,25 @@ public class GoClientCodegenTest {
         Path goSumFile = Paths.get(output + "/go.sum");
         TestUtils.assertFileNotExists(goSumFile);
     }
+
+    @Test
+    public void testInlineEnums_issue9567() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/bugs/issue_9567.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
+                .addAdditionalProperty(GoClientCodegen.WITH_GO_MOD, false);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path enumFile = Paths.get(output + "/model_pet_status.go");
+        TestUtils.assertFileExists(enumFile);
+    }
 }
