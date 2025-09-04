@@ -2165,6 +2165,22 @@ public class ModelUtils {
     }
 
     /**
+     * Set schema type.
+     * For 3.1 spec, set as types, for 3.0, type
+     *
+     * @param schema the schema
+     * @return schema type
+     */
+    public static void setType(Schema schema, String type) {
+        if (schema instanceof JsonSchema) {
+            schema.setTypes(null);
+            schema.addType(type);
+        } else {
+            schema.setType(type);
+        }
+    }
+
+    /**
      * Returns true if any of the common attributes of the schema (e.g. readOnly, default, maximum, etc) is defined.
      *
      * @param schema the schema
