@@ -288,8 +288,8 @@ public class RustClientCodegenTest {
         TestUtils.assertFileExists(modelIdentifierPath);
         
         // Should generate an untagged enum
-        String enumDeclaration = linearize("#[serde(untagged)] pub enum ModelIdentifier");
-        TestUtils.assertFileContains(modelIdentifierPath, enumDeclaration);
+        TestUtils.assertFileContains(modelIdentifierPath, "#[serde(untagged)]");
+        TestUtils.assertFileContains(modelIdentifierPath, "pub enum ModelIdentifier");
         
         // Should have String variant (for anyOf with string types)
         TestUtils.assertFileContains(modelIdentifierPath, "String(String)");

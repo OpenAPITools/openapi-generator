@@ -126,7 +126,8 @@ impl Default for {{classname}} {
 {{#-first}}
 {{! Model with composedSchemas.oneOf - generate enum}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(untagged)] pub enum {{classname}} {
+#[serde(untagged)]
+pub enum {{classname}} {
 {{/-first}}
 {{/oneOf}}
 {{/composedSchemas}}
