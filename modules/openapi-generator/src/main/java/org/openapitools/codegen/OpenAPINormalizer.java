@@ -1347,7 +1347,7 @@ public class OpenAPINormalizer {
      * @return Simplified schema
      */
     protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
-        List<Object> enumValues = new ArrayList<>();
+        Map<Object, String> enumValues = new LinkedHashMap<>();
 
         if(schema.getTypes() != null && schema.getTypes().size() > 1) {
             // we cannot handle enums with multiple types
@@ -1387,7 +1387,21 @@ public class OpenAPINormalizer {
                 }
             }
             // Add all enum values from this sub-schema to our collection
-            enumValues.addAll(subSchema.getEnum());
+            if(subSchema.getEnum().size() == 1) {
+                String description = subSchema.getTitle() == null ? "" : subSchema.getTitle();
+                if(subSchema.getDescription() != null) {
+                    if(!description.isEmpty()) {
+                        description += " - ";
+                    }
+                    description += subSchema.getDescription();
+                }
+                enumValues.put(subSchema.getEnum().get(0), description);
+            } else {
+                for(Object e: subSchema.getEnum()) {
+                    enumValues.put(e, "");
+                }
+            }
+
         }
 
         return createSimplifiedEnumSchema(schema, enumValues, schemaType, composedType);
@@ -1403,7 +1417,7 @@ public class OpenAPINormalizer {
      * @param composedType Type of composed schema being simplified
      * @return Simplified enum schema
      */
-    protected Schema createSimplifiedEnumSchema(Schema originalSchema, List<Object> enumValues, String schemaType, String composedType) {
+    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, String schemaType, String composedType) {
         // Clear the composed schema type
         if ("oneOf".equals(composedType)) {
             originalSchema.setOneOf(null);
@@ -1416,9 +1430,11 @@ public class OpenAPINormalizer {
             ModelUtils.setType(originalSchema, schemaType);
         }
 
-        // Set the combined enum values (deduplicated to avoid duplicates)
-        List<Object> uniqueEnumValues = enumValues.stream().distinct().collect(Collectors.toList());
-        originalSchema.setEnum(uniqueEnumValues);
+        originalSchema.setEnum(new ArrayList<>(enumValues.keySet()));
+        if(enumValues.values().stream().anyMatch(e -> !e.isEmpty())) {
+            //set x-enum-descriptions only if there's at least one non-empty description
+            originalSchema.addExtension("x-enum-descriptions", new ArrayList<>(enumValues.values()));
+        }
 
         LOGGER.debug("Simplified {} with enum sub-schemas to single enum: {}", composedType, originalSchema);
 

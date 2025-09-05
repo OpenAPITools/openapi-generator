@@ -186,6 +186,7 @@ public class OpenAPINormalizerTest {
         assertNull(anyOfParam.getSchema().getAnyOf());
         assertEquals(anyOfParam.getSchema().getType(), "string");
         assertEquals(anyOfParam.getSchema().getEnum(), Arrays.asList("anyof 1", "anyof 2"));
+        assertEquals(anyOfParam.getSchema().getExtensions().get("x-enum-descriptions"), Arrays.asList("title 1", "title 2"));
 
         Schema combinedRefsEnum = openAPI.getComponents().getSchemas().get("combinedRefsEnum");
 

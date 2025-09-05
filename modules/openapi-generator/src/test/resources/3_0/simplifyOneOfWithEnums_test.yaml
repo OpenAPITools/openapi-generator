@@ -51,8 +51,10 @@ paths:
           schema:
             type: string
             anyOf:
-              - enum: [ "anyof 1" ]
-              - enum: [ "anyof 2" ]
+              - title: title 1
+                enum: [ "anyof 1" ]
+              - title: title 2
+                enum: [ "anyof 2" ]
       responses:
         '200':
           description: Success
