@@ -26,7 +26,6 @@ import javax.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
@@ -37,7 +36,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="default-api")
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("")
 public interface DefaultApi  {
 
@@ -48,7 +46,7 @@ public interface DefaultApi  {
     @GET
     @Path("/cats")
     @Produces({ "application/json" })
-    List<Cat> listCats() throws ApiException, ProcessingException;
+    List<Cat> listCats() throws WebApplicationException, ProcessingException;
 
     /**
      * List all dogs
@@ -57,5 +55,5 @@ public interface DefaultApi  {
     @GET
     @Path("/dogs")
     @Produces({ "application/json" })
-    List<Dog> listDogs() throws ApiException, ProcessingException;
+    List<Dog> listDogs() throws WebApplicationException, ProcessingException;
 }
