@@ -43,7 +43,7 @@ data class Order (
     val quantity: kotlin.Int? = null,
 
     @Json(name = "shipDate")
-    val shipDate: kotlinx.datetime.Instant? = null,
+    val shipDate: kotlin.time.Instant? = null,
 
     /* Order Status */
     @Json(name = "status")
