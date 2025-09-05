@@ -1353,6 +1353,12 @@ public class OpenAPINormalizer {
             // we cannot handle enums with multiple types
             return schema;
         }
+
+        if(subSchemas.size() < 2) {
+            //do not process if there's less than 2 sub-schemas. It will be normalized later, and this prevents
+            //named enum schemas from being converted to inline enum schemas
+            return schema;
+        }
         String schemaType = ModelUtils.getType(schema);
 
         for (Object item : subSchemas) {
@@ -1360,9 +1366,7 @@ public class OpenAPINormalizer {
                 return schema;
             }
 
-            Schema subSchema = (Schema) item;
-            //processing references is very possible with this code (subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);),
-            // but might lead to reduced reuse in generated code
+            Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
             if(subSchema.get$ref() != null) {
                 return schema;
             }
@@ -1385,7 +1389,6 @@ public class OpenAPINormalizer {
                     return schema;
                 }
             }
-
             // Add all enum values from this sub-schema to our collection
             enumValues.addAll(subSchema.getEnum());
         }
