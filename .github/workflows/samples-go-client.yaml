@@ -19,7 +19,7 @@ jobs:
           - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/'
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
       - run: go version
       - name: Install Dependencies
         working-directory: ${{ matrix.sample }}
