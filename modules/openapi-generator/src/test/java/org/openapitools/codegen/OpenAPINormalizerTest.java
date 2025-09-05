@@ -187,6 +187,13 @@ public class OpenAPINormalizerTest {
         assertEquals(anyOfParam.getSchema().getType(), "string");
         assertEquals(anyOfParam.getSchema().getEnum(), Arrays.asList("anyof 1", "anyof 2"));
 
+        Schema combinedRefsEnum = openAPI.getComponents().getSchemas().get("combinedRefsEnum");
+
+        assertEquals(anyOfParam.getSchema().getType(), "string");
+        assertNull(combinedRefsEnum.get$ref());
+        assertEquals(combinedRefsEnum.getEnum(), Arrays.asList("A", "B", "C", "D"));
+        assertNull(combinedRefsEnum.getOneOf());
+
         // Test with rule disabled
         OpenAPI openAPI2 = TestUtils.parseSpec("src/test/resources/3_0/simplifyoneOfWithEnums_test.yaml");
         Map<String, String> options2 = new HashMap<>();
@@ -208,6 +215,7 @@ public class OpenAPINormalizerTest {
         Parameter anyOfParam2 = openAPI2.getPaths().get("/test").getGet().getParameters().get(1);
         assertNull(anyOfParam2.getSchema().getOneOf());
         assertNull(anyOfParam2.getSchema().getEnum());
+
     }
 
     @Test

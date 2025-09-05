@@ -20,6 +20,20 @@ components:
           enum: [1]
         - title: inactive_pending
           enum: [2, 3]
+    enum1:
+      type: string
+      enum:
+        - A
+        - B
+    enum2:
+      type: string
+      enum:
+        - C
+        - D
+    combinedRefsEnum:
+      oneOf:
+        - $ref: '#/components/schemas/enum1'
+        - $ref: '#/components/schemas/enum2'
 paths:
   /test:
     get:

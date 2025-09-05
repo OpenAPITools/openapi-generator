@@ -1367,9 +1367,6 @@ public class OpenAPINormalizer {
             }
 
             Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
-            if(subSchema.get$ref() != null) {
-                return schema;
-            }
 
             // Check if this sub-schema has an enum (with one or more values)
             if (subSchema.getEnum() == null || subSchema.getEnum().isEmpty()) {
