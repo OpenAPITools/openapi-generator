@@ -24,6 +24,7 @@ jobs:
           - samples/client/petstore/scalaz
           - samples/client/petstore/scala-pekko
           - samples/client/petstore/scala-http4s
+          - samples/client/petstore/scala-sttp4-jsoniter
           #- samples/client/petstore/scala-sttp
           #- samples/client/petstore/scala-sttp-circe
           # servers
