@@ -138,6 +138,7 @@ org.openapitools.codegen.languages.ScalaLagomServerCodegen
 org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen
 org.openapitools.codegen.languages.ScalaSttpClientCodegen
 org.openapitools.codegen.languages.ScalaSttp4ClientCodegen
+org.openapitools.codegen.languages.ScalaSttp4JsoniterClientCodegen
 org.openapitools.codegen.languages.ScalazClientCodegen
 org.openapitools.codegen.languages.SpringCodegen
 org.openapitools.codegen.languages.StaticDocCodegen
