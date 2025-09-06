@@ -3,7 +3,7 @@ package org.openapitools.api;
 import org.openapitools.model.Client;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+
 
 
 

@@ -4,7 +4,7 @@ import org.openapitools.model.Client;
 import java.util.UUID;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+
 
 
 

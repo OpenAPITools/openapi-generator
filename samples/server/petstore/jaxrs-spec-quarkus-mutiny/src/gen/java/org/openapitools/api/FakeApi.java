@@ -19,7 +19,7 @@ import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+
 
 
 

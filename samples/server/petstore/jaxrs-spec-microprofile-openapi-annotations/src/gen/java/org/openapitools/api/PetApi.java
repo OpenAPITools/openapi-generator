@@ -6,7 +6,7 @@ import org.openapitools.model.Pet;
 import java.util.Set;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+
 
 
 
