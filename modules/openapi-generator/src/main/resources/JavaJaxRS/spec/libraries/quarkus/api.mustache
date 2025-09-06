@@ -4,7 +4,7 @@ package {{package}};
 {{/imports}}
 
 import {{javaxPackage}}.ws.rs.*;
-import {{javaxPackage}}.ws.rs.core.Response;
+{{#returnJBossResponse}}import org.jboss.resteasy.reactive.RestResponse;{{/returnJBossResponse}}{{^returnJBossResponse}}{{#returnResponse}}import {{javaxPackage}}.ws.rs.core.Response;{{/returnResponse}}{{/returnJBossResponse}}
 
 {{#useGzipFeature}}
 import org.jboss.resteasy.annotations.GZIP;
