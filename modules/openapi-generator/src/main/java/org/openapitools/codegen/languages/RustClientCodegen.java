@@ -307,6 +307,69 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             mdl.getComposedSchemas().setOneOf(newOneOfs);
         }
 
+        // Handle anyOf schemas similarly to oneOf
+        // This is pragmatic since Rust's untagged enum will deserialize to the first matching variant
+        if (mdl.getComposedSchemas() != null && mdl.getComposedSchemas().getAnyOf() != null
+                && !mdl.getComposedSchemas().getAnyOf().isEmpty()) {
+
+            List<CodegenProperty> newAnyOfs = mdl.getComposedSchemas().getAnyOf().stream()
+                    .map(CodegenProperty::clone)
+                    .collect(Collectors.toList());
+            List<Schema> schemas = ModelUtils.getInterfaces(model);
+            if (newAnyOfs.size() != schemas.size()) {
+                // For safety reasons, this should never happen unless there is an error in the code
+                throw new RuntimeException("anyOf size does not match the model");
+            }
+
+            Map<String, String> refsMapping = Optional.ofNullable(model.getDiscriminator())
+                    .map(Discriminator::getMapping).orElse(Collections.emptyMap());
+
+            // Reverse mapped references to use as baseName for anyOf, but different keys may point to the same $ref.
+            // Thus, we group them by the value
+            Map<String, List<String>> mappedNamesByRef = refsMapping.entrySet().stream()
+                    .collect(Collectors.groupingBy(Map.Entry::getValue,
+                            Collectors.mapping(Map.Entry::getKey, Collectors.toList())
+                    ));
+
+            for (int i = 0; i < newAnyOfs.size(); i++) {
+                CodegenProperty anyOf = newAnyOfs.get(i);
+                Schema schema = schemas.get(i);
+
+                if (mappedNamesByRef.containsKey(schema.get$ref())) {
+                    // prefer mapped names if present
+                    // remove mapping not in order not to reuse for the next occurrence of the ref
+                    List<String> names = mappedNamesByRef.get(schema.get$ref());
+                    String mappedName = names.remove(0);
+                    anyOf.setBaseName(mappedName);
+                    anyOf.setName(toModelName(mappedName));
+                } else if (!org.apache.commons.lang3.StringUtils.isEmpty(schema.get$ref())) {
+                    // use $ref if it's reference
+                    String refName = ModelUtils.getSimpleRef(schema.get$ref());
+                    if (refName != null) {
+                        String modelName = toModelName(refName);
+                        anyOf.setName(modelName);
+                        anyOf.setBaseName(refName);
+                    }
+                } else if (anyOf.isArray) {
+                    // If the type is an array, extend the name with the inner type to prevent name collisions
+                    // in case multiple arrays with different types are defined. If the user has manually specified
+                    // a name, use that name instead.
+                    String collectionWithTypeName = toModelName(schema.getType()) + anyOf.containerTypeMapped + anyOf.items.dataType;
+                    String anyOfName = Optional.ofNullable(schema.getTitle()).orElse(collectionWithTypeName);
+                    anyOf.setName(anyOfName);
+                }
+                else {
+                    // In-placed type (primitive), because there is no mapping or ref for it.
+                    // use camelized `title` if present, otherwise use `type`
+                    String anyOfName = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
+                    anyOf.setName(toModelName(anyOfName));
+                }
+            }
+
+            // Set anyOf as oneOf for template processing since we want the same output
+            mdl.getComposedSchemas().setOneOf(newAnyOfs);
+        }
+
         return mdl;
     }
 
