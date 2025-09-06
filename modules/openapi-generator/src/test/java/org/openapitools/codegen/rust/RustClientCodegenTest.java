@@ -304,4 +304,72 @@ public class RustClientCodegenTest {
         TestUtils.assertFileContains(anotherTestPath, "pub struct AnotherAnyOfTest");
         TestUtils.assertFileContains(anotherTestPath, "pub fn validate_any_of(&self)");
     }
+
+    @Test
+    public void testOneOfVsAnyOfSemantics() throws IOException {
+        Path target = Files.createTempDirectory("test-oneof-anyof");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_0/rust/rust-oneof-anyof-comprehensive-test.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        
+        // Test SimpleOneOf - should generate enum (XOR semantics)
+        Path simpleOneOfPath = Path.of(target.toString(), "/src/models/simple_one_of.rs");
+        TestUtils.assertFileExists(simpleOneOfPath);
+        TestUtils.assertFileContains(simpleOneOfPath, "#[serde(untagged)]");
+        TestUtils.assertFileContains(simpleOneOfPath, "pub enum SimpleOneOf");
+        TestUtils.assertFileNotContains(simpleOneOfPath, "pub struct SimpleOneOf");
+        
+        // Test SimpleAnyOf - should generate struct with optional fields (OR semantics)
+        Path simpleAnyOfPath = Path.of(target.toString(), "/src/models/simple_any_of.rs");
+        TestUtils.assertFileExists(simpleAnyOfPath);
+        TestUtils.assertFileContains(simpleAnyOfPath, "pub struct SimpleAnyOf");
+        TestUtils.assertFileContains(simpleAnyOfPath, "pub fn validate_any_of(&self)");
+        TestUtils.assertFileNotContains(simpleAnyOfPath, "pub enum SimpleAnyOf");
+        
+        // Test PersonOrCompany (oneOf without discriminator) - should generate untagged enum
+        Path personOrCompanyPath = Path.of(target.toString(), "/src/models/person_or_company.rs");
+        TestUtils.assertFileExists(personOrCompanyPath);
+        TestUtils.assertFileContains(personOrCompanyPath, "#[serde(untagged)]");
+        TestUtils.assertFileContains(personOrCompanyPath, "pub enum PersonOrCompany");
+        TestUtils.assertFileContains(personOrCompanyPath, "Person(Box<models::Person>)");
+        TestUtils.assertFileContains(personOrCompanyPath, "Company(Box<models::Company>)");
+        
+        // Test PersonAndOrCompany (anyOf) - should generate struct allowing both
+        Path personAndOrCompanyPath = Path.of(target.toString(), "/src/models/person_and_or_company.rs");
+        TestUtils.assertFileExists(personAndOrCompanyPath);
+        TestUtils.assertFileContains(personAndOrCompanyPath, "pub struct PersonAndOrCompany");
+        TestUtils.assertFileContains(personAndOrCompanyPath, "Option<Box<models::Person>>");
+        TestUtils.assertFileContains(personAndOrCompanyPath, "Option<Box<models::Company>>");
+        TestUtils.assertFileContains(personAndOrCompanyPath, "pub fn validate_any_of(&self)");
+        
+        // Test ComplexOneOf - should generate enum with inline schemas
+        Path complexOneOfPath = Path.of(target.toString(), "/src/models/complex_one_of.rs");
+        TestUtils.assertFileExists(complexOneOfPath);
+        TestUtils.assertFileContains(complexOneOfPath, "pub enum ComplexOneOf");
+        TestUtils.assertFileNotContains(complexOneOfPath, "pub struct ComplexOneOf");
+        
+        // Test ComplexAnyOf - should generate struct with overlapping property support
+        Path complexAnyOfPath = Path.of(target.toString(), "/src/models/complex_any_of.rs");
+        TestUtils.assertFileExists(complexAnyOfPath);
+        TestUtils.assertFileContains(complexAnyOfPath, "pub struct ComplexAnyOf");
+        TestUtils.assertFileContains(complexAnyOfPath, "pub fn validate_any_of(&self)");
+        
+        // Test ShapeOneOfWithDiscriminator - should generate tagged enum
+        Path shapePath = Path.of(target.toString(), "/src/models/shape_one_of_with_discriminator.rs");
+        TestUtils.assertFileExists(shapePath);
+        TestUtils.assertFileContains(shapePath, "pub enum ShapeOneOfWithDiscriminator");
+        // With discriminator, it should NOT be untagged
+        TestUtils.assertFileContains(shapePath, "#[serde(tag = \"shapeType\")]");
+        
+        // Test MixedContent (anyOf) - can have multiple content types simultaneously
+        Path mixedContentPath = Path.of(target.toString(), "/src/models/mixed_content.rs");
+        TestUtils.assertFileExists(mixedContentPath);
+        TestUtils.assertFileContains(mixedContentPath, "pub struct MixedContent");
+        TestUtils.assertFileContains(mixedContentPath, "Option<");  // Should have optional fields
+        TestUtils.assertFileContains(mixedContentPath, "pub fn validate_any_of(&self)");
+    }
 }
