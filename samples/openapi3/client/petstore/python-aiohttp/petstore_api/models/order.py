@@ -32,7 +32,7 @@ class Order(BaseModel):
     quantity: Optional[StrictInt] = None
     ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
     status: Optional[StrictStr] = Field(default=None, description="Order Status")
-    complete: Optional[StrictBool] = False
+    complete: Optional[StrictBool] = None
     __properties: ClassVar[List[str]] = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
     @field_validator('status')
@@ -101,7 +101,7 @@ class Order(BaseModel):
             "quantity": obj.get("quantity"),
             "shipDate": obj.get("shipDate"),
             "status": obj.get("status"),
-            "complete": obj.get("complete") if obj.get("complete") is not None else False
+            "complete": obj.get("complete")
         })
         return _obj
 

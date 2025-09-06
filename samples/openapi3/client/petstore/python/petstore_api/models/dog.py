@@ -90,7 +90,7 @@ class Dog(Animal):
 
         _obj = cls.model_validate({
             "className": obj.get("className"),
-            "color": obj.get("color") if obj.get("color") is not None else 'red',
+            "color": obj.get("color"),
             "breed": obj.get("breed")
         })
         # store additional fields in additional_properties
