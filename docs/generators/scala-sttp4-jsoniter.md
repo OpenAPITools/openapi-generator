@@ -20,7 +20,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
-|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for JDK 1.8+)</dd></dl>|java8|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
@@ -34,7 +33,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |null|
-|sttpClientVersion|The version of sttp client| |4.0.0-M19|
+|sttpClientVersion|The version of sttp client| |4.0.0-RC1|
 
 ## IMPORT MAPPING
 
@@ -42,6 +41,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ---------- | ------- |
 |Array|java.util.List|
 |ArrayList|java.util.ArrayList|
+|BigDecimal|scala.math.BigDecimal|
 |Date|java.util.Date|
 |DateTime|org.joda.time.*|
 |File|java.io.File|
@@ -56,6 +56,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Timestamp|java.sql.Timestamp|
 |URI|java.net.URI|
 |UUID|java.util.UUID|
+|io.circe.Json|com.github.plokhotnyuk.jsoniter_scala.circe.JsoniterScalaCodec.*|
 
 
 ## INSTANTIATION TYPES
@@ -89,6 +90,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>Either</li>
+<li>Method</li>
+<li>Request</li>
 <li>abstract</li>
 <li>case</li>
 <li>catch</li>
@@ -97,12 +101,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>def</li>
 <li>do</li>
 <li>else</li>
+<li>enum</li>
+<li>export</li>
 <li>extends</li>
 <li>false</li>
 <li>final</li>
 <li>finally</li>
 <li>for</li>
 <li>forSome</li>
+<li>given</li>
 <li>if</li>
 <li>implicit</li>
 <li>import</li>
@@ -118,12 +125,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>return</li>
 <li>sealed</li>
 <li>super</li>
+<li>then</li>
 <li>this</li>
 <li>throw</li>
 <li>trait</li>
 <li>true</li>
 <li>try</li>
 <li>type</li>
+<li>using</li>
 <li>val</li>
 <li>var</li>
 <li>while</li>
@@ -214,7 +223,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Body|✓|OAS2
 |FormUnencoded|✓|OAS2
 |FormMultipart|✓|OAS2
-|Cookie|✗|OAS3
+|Cookie|✓|OAS3
 
 ### Schema Support Feature
 | Name | Supported | Defined By |
