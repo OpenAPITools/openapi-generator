@@ -564,6 +564,15 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyAnyOfStringAndEnumString_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING=true
 ```
 
+- `SIMPLIFY_ONEOF_ANYOF_ENUM`: when set to true, oneOf/anyOf with only enum sub-schemas all containing enum values will be converted to a single enum 
+This is enabled by default
+
+Example:
+
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyOneOfWithEnums_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ONEOF_ANYOF_ENUM=true
+```
+
 - `SIMPLIFY_BOOLEAN_ENUM`: when set to `true`, convert boolean enum to just enum.
 
 Example:

@@ -19,6 +19,7 @@ package org.openapitools.codegen;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -132,6 +133,7 @@ public class OpenAPINormalizerTest {
         assertNull(schema.getAnyOf());
     }
 
+
     @Test
     public void testOpenAPINormalizerSimplifyOneOfAnyOfStringAndEnumString() {
         // to test the rule SIMPLIFY_ONEOF_ANYOF_STRING_AND_ENUM_STRING
@@ -149,6 +151,72 @@ public class OpenAPINormalizerTest {
         assertNull(schema3.getAnyOf());
         assertTrue(schema3 instanceof StringSchema);
         assertTrue(schema3.getEnum().size() > 0);
+    }
+
+    @Test
+    public void testSimplifyOneOfAnyOfEnum() throws Exception {
+        // Load OpenAPI spec from external YAML file
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyoneOfWithEnums_test.yaml");
+
+        // Test with rule enabled (default)
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ONEOF_ANYOF_ENUM", "true");
+        OpenAPINormalizer normalizer = new OpenAPINormalizer(openAPI, options);
+        normalizer.normalize();
+
+        // Verify component schema was simplified
+        Schema colorSchema = openAPI.getComponents().getSchemas().get("ColorEnum");
+        assertNull(colorSchema.getOneOf());
+        assertEquals(colorSchema.getType(), "string");
+        assertEquals(colorSchema.getEnum(), Arrays.asList("red", "green", "blue", "yellow", "purple"));
+
+        Schema statusSchema = openAPI.getComponents().getSchemas().get("StatusEnum");
+        assertNull(statusSchema.getOneOf());
+        assertEquals(statusSchema.getType(), "number");
+        assertEquals(statusSchema.getEnum(), Arrays.asList(1, 2, 3));
+
+        // Verify parameter schema was simplified
+        Parameter param = openAPI.getPaths().get("/test").getGet().getParameters().get(0);
+        assertNull(param.getSchema().getOneOf());
+        assertEquals(param.getSchema().getType(), "string");
+        assertEquals(param.getSchema().getEnum(), Arrays.asList("option1", "option2"));
+
+        // Verify parameter schema was simplified
+        Parameter anyOfParam = openAPI.getPaths().get("/test").getGet().getParameters().get(1);
+        assertNull(anyOfParam.getSchema().getAnyOf());
+        assertEquals(anyOfParam.getSchema().getType(), "string");
+        assertEquals(anyOfParam.getSchema().getEnum(), Arrays.asList("anyof 1", "anyof 2"));
+        assertEquals(anyOfParam.getSchema().getExtensions().get("x-enum-descriptions"), Arrays.asList("title 1", "title 2"));
+
+        Schema combinedRefsEnum = openAPI.getComponents().getSchemas().get("combinedRefsEnum");
+
+        assertEquals(anyOfParam.getSchema().getType(), "string");
+        assertNull(combinedRefsEnum.get$ref());
+        assertEquals(combinedRefsEnum.getEnum(), Arrays.asList("A", "B", "C", "D"));
+        assertNull(combinedRefsEnum.getOneOf());
+
+        // Test with rule disabled
+        OpenAPI openAPI2 = TestUtils.parseSpec("src/test/resources/3_0/simplifyoneOfWithEnums_test.yaml");
+        Map<String, String> options2 = new HashMap<>();
+        options2.put("SIMPLIFY_ONEOF_ANYOF_ENUM", "false");
+        OpenAPINormalizer normalizer2 = new OpenAPINormalizer(openAPI2, options2);
+        normalizer2.normalize();
+
+        // oneOf will be removed, as they are in this normalizer if a primitive type has a oneOf
+        Schema colorSchema2 = openAPI2.getComponents().getSchemas().get("ColorEnum");
+        assertNull(colorSchema2.getOneOf());
+        assertNull(colorSchema2.getEnum());
+
+        //If you put string on every subscheme of oneOf, it does not remove it. This might need a fix at some other time
+        Parameter param2 = openAPI2.getPaths().get("/test").getGet().getParameters().get(0);
+        assertNotNull(param2.getSchema().getOneOf());
+        assertNull(param2.getSchema().getEnum());
+
+        //but here it does
+        Parameter anyOfParam2 = openAPI2.getPaths().get("/test").getGet().getParameters().get(1);
+        assertNull(anyOfParam2.getSchema().getOneOf());
+        assertNull(anyOfParam2.getSchema().getEnum());
+
     }
 
     @Test
