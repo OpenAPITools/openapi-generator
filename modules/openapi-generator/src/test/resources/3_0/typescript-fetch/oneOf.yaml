@@ -35,6 +35,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TestDiscriminatorResponse'
+  /test-primitive:
+    get:
+      operationId: testPrimitive
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestPrimitiveResponse'
+  /test-with-date:
+    get:
+      operationId: testWithDate
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestWithDateResponse'
 components:
   schemas:
     TestArrayResponse:
@@ -48,6 +68,15 @@ components:
         - type: array
           items:
             type: string
+        - type: array
+          items:
+            type: number
+        - type: array
+          items:
+            type: boolean
+        - type: array
+          items:
+            type: object
     TestDiscriminatorResponse:
       discriminator:
         propertyName: discriminatorField
@@ -62,6 +91,26 @@ components:
         - $ref: "#/components/schemas/TestA"
         - $ref: "#/components/schemas/TestB"
         - type: string
+    TestPrimitiveResponse:
+      oneOf:
+        - type: string
+        - type: number
+        - type: object
+        - type: boolean
+        - type: array
+          items: {}
+    TestWithDateResponse:
+      oneOf:
+        - type: string
+          format: date
+        - type: number
+        - type: array
+          items:
+            type: string
+            format: date
+        - type: array
+          items:
+            type: number
     TestA:
       type: object
       properties:

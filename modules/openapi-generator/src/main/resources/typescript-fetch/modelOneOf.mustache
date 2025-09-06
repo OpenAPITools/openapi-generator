@@ -42,12 +42,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 {{/discriminator}}
 {{^discriminator}}
     {{#oneOfModels}}
-    {{#-first}}
-    if (typeof json !== 'object') {
-        return json;
-    }
-    {{/-first}}
-    if (instanceOf{{{.}}}(json)) {
+    if (typeof json === 'object' && instanceOf{{{.}}}(json)) {
         return {{{.}}}FromJSONTyped(json, true);
     }
     {{/oneOfModels}}
@@ -61,7 +56,6 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
             }
     {{#-last}}
         }
-        return json;
     }
     {{/-last}}
     {{/oneOfArrays}}
@@ -70,60 +64,36 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{#items}}
     {{#isDateType}}
     if (Array.isArray(json)) {
-        if (json.every(item => !(isNaN(new Date(json).getTime()))) {
-            return json.map(value => new Date(json);
+        if (json.every(item => !(isNaN(new Date(item).getTime())))) {
+            return json.map(item => new Date(item));
         }
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(json)) {
-        if (json.every(item => !(isNaN(new Date(json).getTime()))) {
-            return json.map(value => new Date(json);
+        if (json.every(item => !(isNaN(new Date(item).getTime())))) {
+            return json.map(item => new Date(item));
         }
     }
     {{/isDateTimeType}}
-    {{#isNumeric}}
-    if (Array.isArray(json)) {
-        if (json.every(item => typeof item === 'number'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
-            return json;
-        }
-    }
-    {{/isNumeric}}
-    {{#isString}}
-    if (Array.isArray(json)) {
-        if (json.every(item => typeof item === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
-            return json;
-        }
-    }
-    {{/isString}}
     {{/items}}
     {{/isArray}}
     {{^isArray}}
     {{#isDateType}}
     if (!(isNaN(new Date(json).getTime()))) {
-        return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}new Date(json));
+        return new Date(json);
     }
     {{/isDateType}}
     {{^isDateType}}
     {{#isDateTimeType}}
     if (!(isNaN(new Date(json).getTime()))) {
-        return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}new Date(json));
+        return new Date(json);
     }
     {{/isDateTimeType}}
     {{/isDateType}}
-    {{#isNumeric}}
-    if (typeof json === 'number'{{#isEnum}} && ({{#allowableValues}}{{#values}}json === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
-        return json;
-    }
-    {{/isNumeric}}
-    {{#isString}}
-    if (typeof json === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}json === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
-        return json;
-    }
-    {{/isString}}
     {{/isArray}}
     {{/oneOfPrimitives}}
-    return {} as any;
+    return json;
 {{/discriminator}}
 }
 
@@ -147,12 +117,7 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
 {{/discriminator}}
 {{^discriminator}}
     {{#oneOfModels}}
-    {{#-first}}
-    if (typeof value !== 'object') {
-        return value;
-    }
-    {{/-first}}
-    if (instanceOf{{{.}}}(value)) {
+    if (typeof value === 'object' && instanceOf{{{.}}}(value)) {
         return {{{.}}}ToJSON(value as {{{.}}});
     }
     {{/oneOfModels}}
@@ -166,7 +131,6 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
             }
     {{#-last}}
         }
-        return value;
     }
     {{/-last}}
     {{/oneOfArrays}}
@@ -175,57 +139,33 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{#items}}
     {{#isDateType}}
     if (Array.isArray(value)) {
-        if (value.every(item => item instanceof Date) {
-            return value.map(value => value.toISOString().substring(0,10)));
+        if (value.every(item => item instanceof Date)) {
+            return value.map(value => value.toISOString().substring(0,10));
         }
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(value)) {
-        if (value.every(item => item instanceof Date) {
-            return value.map(value => value.toISOString();
+        if (value.every(item => item instanceof Date)) {
+            return value.map(value => value.toISOString());
         }
     }
     {{/isDateTimeType}}
-    {{#isNumeric}}
-    if (Array.isArray(value)) {
-        if (value.every(item => typeof item === 'number'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
-            return value;
-        }
-    }
-    {{/isNumeric}}
-    {{#isString}}
-    if (Array.isArray(value)) {
-        if (value.every(item => typeof item === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
-            return value;
-        }
-    }
-    {{/isString}}
     {{/items}}
     {{/isArray}}
     {{^isArray}}
     {{#isDateType}}
     if (value instanceof Date) {
-        return ((value{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString().substring(0,10));
+        return value.toISOString().substring(0,10);
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (value instanceof Date) {
-        return {{^required}}{{#isNullable}}value === null ? null : {{/isNullable}}{{^isNullable}}value == null ? undefined : {{/isNullable}}{{/required}}((value{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString());
+        return value.toISOString();
     }
     {{/isDateTimeType}}
-    {{#isNumeric}}
-    if (typeof value === 'number'{{#isEnum}} && ({{#allowableValues}}{{#values}}value === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
-        return value;
-    }
-    {{/isNumeric}}
-    {{#isString}}
-    if (typeof value === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}value === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
-        return value;
-    }
-    {{/isString}}
     {{/isArray}}
     {{/oneOfPrimitives}}
-    return {};
+    return value;
 {{/discriminator}}
 }
