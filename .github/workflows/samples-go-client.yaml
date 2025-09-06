@@ -4,11 +4,11 @@ on:
   push:
     paths:
       - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
-      - 'samples/openapi3/client/petstore/go/go-petstore-withXml/**'
+      - 'samples/openapi3/client/petstore/go-petstore-withXml/**'
   pull_request:
     paths:
       - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
-      - 'samples/openapi3/client/petstore/go/go-petstore-withXml/**'
+      - 'samples/openapi3/client/petstore/go-petstore-withXml/**'
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
       matrix:
         sample:
           - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/'
-          - 'samples/openapi3/client/petstore/go/go-petstore-withXml/'
+          - 'samples/openapi3/client/petstore/go-petstore-withXml/'
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v6
