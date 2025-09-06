@@ -186,7 +186,7 @@ public class TypeHolderExample  implements Serializable {
 
     return this;
   }
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -220,6 +220,7 @@ public class TypeHolderExample  implements Serializable {
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
     sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
     sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

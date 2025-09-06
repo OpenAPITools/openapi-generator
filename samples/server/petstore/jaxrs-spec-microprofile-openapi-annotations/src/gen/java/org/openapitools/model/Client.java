@@ -44,7 +44,7 @@ public class Client  implements Serializable {
     this.client = client;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -68,6 +68,7 @@ public class Client  implements Serializable {
     sb.append("class Client {\n");
     
     sb.append("    client: ").append(toIndentedString(client)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

@@ -325,7 +325,7 @@ public class EnumTest  implements Serializable {
     this.outerEnum = outerEnum;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -357,6 +357,7 @@ public class EnumTest  implements Serializable {
     sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");
     sb.append("    enumNumber: ").append(toIndentedString(enumNumber)).append("\n");
     sb.append("    outerEnum: ").append(toIndentedString(outerEnum)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

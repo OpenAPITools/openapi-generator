@@ -46,7 +46,7 @@ public class DeprecatedObject  implements Serializable {
     this.name = name;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -70,6 +70,7 @@ public class DeprecatedObject  implements Serializable {
     sb.append("class DeprecatedObject {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

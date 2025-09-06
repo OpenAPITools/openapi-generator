@@ -109,7 +109,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
 
     return this;
   }
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -137,6 +137,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    map: ").append(toIndentedString(map)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

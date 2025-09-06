@@ -70,7 +70,7 @@ public class Model200Response  implements Serializable {
     this.propertyClass = propertyClass;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -96,6 +96,7 @@ public class Model200Response  implements Serializable {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

@@ -45,7 +45,7 @@ public class ModelList  implements Serializable {
     this._123list = _123list;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -69,6 +69,7 @@ public class ModelList  implements Serializable {
     sb.append("class ModelList {\n");
     
     sb.append("    _123list: ").append(toIndentedString(_123list)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

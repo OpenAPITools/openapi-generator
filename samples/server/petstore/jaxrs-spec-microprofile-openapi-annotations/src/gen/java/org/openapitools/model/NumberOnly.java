@@ -45,7 +45,7 @@ public class NumberOnly  implements Serializable {
     this.justNumber = justNumber;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -69,6 +69,7 @@ public class NumberOnly  implements Serializable {
     sb.append("class NumberOnly {\n");
     
     sb.append("    justNumber: ").append(toIndentedString(justNumber)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

@@ -134,7 +134,7 @@ public class ArrayTest  implements Serializable {
 
     return this;
   }
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -162,6 +162,7 @@ public class ArrayTest  implements Serializable {
     sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
     sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
     sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

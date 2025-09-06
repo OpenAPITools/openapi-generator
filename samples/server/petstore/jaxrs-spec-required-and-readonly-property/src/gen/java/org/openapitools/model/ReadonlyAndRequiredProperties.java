@@ -118,7 +118,7 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
     this.requiredNoReadonlyNo = requiredNoReadonlyNo;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -148,6 +148,7 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
     sb.append("    requiredYesReadonlyNo: ").append(toIndentedString(requiredYesReadonlyNo)).append("\n");
     sb.append("    requiredNoReadonlyYes: ").append(toIndentedString(requiredNoReadonlyYes)).append("\n");
     sb.append("    requiredNoReadonlyNo: ").append(toIndentedString(requiredNoReadonlyNo)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

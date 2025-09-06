@@ -47,7 +47,7 @@ public class SpecialModelName  implements Serializable {
     this.$specialPropertyName = $specialPropertyName;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -71,6 +71,7 @@ public class SpecialModelName  implements Serializable {
     sb.append("class SpecialModelName {\n");
     
     sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

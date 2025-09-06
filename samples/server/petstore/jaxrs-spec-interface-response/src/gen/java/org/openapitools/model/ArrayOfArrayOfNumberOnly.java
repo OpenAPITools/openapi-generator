@@ -62,7 +62,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
 
     return this;
   }
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -86,6 +86,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
     sb.append("class ArrayOfArrayOfNumberOnly {\n");
     
     sb.append("    arrayArrayNumber: ").append(toIndentedString(arrayArrayNumber)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

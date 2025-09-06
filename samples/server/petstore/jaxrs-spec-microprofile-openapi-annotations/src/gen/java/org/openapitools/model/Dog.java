@@ -55,7 +55,7 @@ public class Dog extends Animal implements Serializable {
     this.breed = breed;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -80,6 +80,7 @@ public class Dog extends Animal implements Serializable {
     sb.append("class Dog {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

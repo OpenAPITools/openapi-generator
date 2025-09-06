@@ -152,7 +152,7 @@ public class Capitalization  implements Serializable {
     this.ATT_NAME = ATT_NAME;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -186,6 +186,7 @@ public class Capitalization  implements Serializable {
     sb.append("    capitalSnake: ").append(toIndentedString(capitalSnake)).append("\n");
     sb.append("    scAETHFlowPoints: ").append(toIndentedString(scAETHFlowPoints)).append("\n");
     sb.append("    ATT_NAME: ").append(toIndentedString(ATT_NAME)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

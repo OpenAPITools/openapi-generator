@@ -68,7 +68,7 @@ public class HasOnlyReadOnly  implements Serializable {
     this.foo = foo;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -94,6 +94,7 @@ public class HasOnlyReadOnly  implements Serializable {
     
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

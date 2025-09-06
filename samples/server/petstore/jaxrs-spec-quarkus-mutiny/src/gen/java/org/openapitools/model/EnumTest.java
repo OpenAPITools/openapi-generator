@@ -392,7 +392,7 @@ public class EnumTest  implements Serializable {
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -430,6 +430,7 @@ public class EnumTest  implements Serializable {
     sb.append("    outerEnumInteger: ").append(toIndentedString(outerEnumInteger)).append("\n");
     sb.append("    outerEnumDefaultValue: ").append(toIndentedString(outerEnumDefaultValue)).append("\n");
     sb.append("    outerEnumIntegerDefaultValue: ").append(toIndentedString(outerEnumIntegerDefaultValue)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }
