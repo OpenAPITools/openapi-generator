@@ -47,7 +47,7 @@ public class ModelReturn  implements Serializable {
     this._return = _return;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -71,6 +71,7 @@ public class ModelReturn  implements Serializable {
     sb.append("class ModelReturn {\n");
     
     sb.append("    _return: ").append(toIndentedString(_return)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

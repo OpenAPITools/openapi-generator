@@ -192,7 +192,7 @@ public class User  implements Serializable {
     this.userStatus = userStatus;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -230,6 +230,7 @@ public class User  implements Serializable {
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    userStatus: ").append(toIndentedString(userStatus)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

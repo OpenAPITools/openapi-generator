@@ -48,7 +48,7 @@ public class ModelFile  implements Serializable {
     this.sourceURI = sourceURI;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -72,6 +72,7 @@ public class ModelFile  implements Serializable {
     sb.append("class ModelFile {\n");
     
     sb.append("    sourceURI: ").append(toIndentedString(sourceURI)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

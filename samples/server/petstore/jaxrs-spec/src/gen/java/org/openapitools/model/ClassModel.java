@@ -48,7 +48,7 @@ public class ClassModel  implements Serializable {
     this.propertyClass = propertyClass;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -72,6 +72,7 @@ public class ClassModel  implements Serializable {
     sb.append("class ClassModel {\n");
     
     sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

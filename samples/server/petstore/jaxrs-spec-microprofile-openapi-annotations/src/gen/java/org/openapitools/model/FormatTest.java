@@ -347,7 +347,7 @@ public class FormatTest  implements Serializable {
     this.bigDecimal = bigDecimal;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -397,6 +397,7 @@ public class FormatTest  implements Serializable {
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append("*").append("\n");
     sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

@@ -180,7 +180,7 @@ public class EnumArrays  implements Serializable {
 
     return this;
   }
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -206,6 +206,7 @@ public class EnumArrays  implements Serializable {
     
     sb.append("    justSymbol: ").append(toIndentedString(justSymbol)).append("\n");
     sb.append("    arrayEnum: ").append(toIndentedString(arrayEnum)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

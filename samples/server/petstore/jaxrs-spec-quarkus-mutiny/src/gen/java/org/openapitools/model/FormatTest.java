@@ -391,7 +391,7 @@ public class FormatTest  implements Serializable {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -445,6 +445,7 @@ public class FormatTest  implements Serializable {
     sb.append("    password: ").append("*").append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
     sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }
