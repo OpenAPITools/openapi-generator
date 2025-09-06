@@ -1,6 +1,9 @@
 # flake8: noqa
 
-if __import__("typing").TYPE_CHECKING:
+{{^lazyImports}}
+{{>exports_api}}
+{{/lazyImports}}
+{{#lazyImports}}if __import__("typing").TYPE_CHECKING:
     {{>exports_api}}
 else:
     from lazy_imports import LazyModule, as_package, load
@@ -13,3 +16,4 @@ else:
             doc=__doc__,
         )
     )
+{{/lazyImports}}

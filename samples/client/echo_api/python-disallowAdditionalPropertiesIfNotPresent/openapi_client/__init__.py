@@ -48,49 +48,7 @@ __all__ = [
     "TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter",
 ]
 
-if __import__("typing").TYPE_CHECKING:
-    # import apis into sdk package
-    from openapi_client.api.auth_api import AuthApi as AuthApi
-    from openapi_client.api.body_api import BodyApi as BodyApi
-    from openapi_client.api.form_api import FormApi as FormApi
-    from openapi_client.api.header_api import HeaderApi as HeaderApi
-    from openapi_client.api.path_api import PathApi as PathApi
-    from openapi_client.api.query_api import QueryApi as QueryApi
-    
-    # import ApiClient
-    from openapi_client.api_response import ApiResponse as ApiResponse
-    from openapi_client.api_client import ApiClient as ApiClient
-    from openapi_client.configuration import Configuration as Configuration
-    from openapi_client.exceptions import OpenApiException as OpenApiException
-    from openapi_client.exceptions import ApiTypeError as ApiTypeError
-    from openapi_client.exceptions import ApiValueError as ApiValueError
-    from openapi_client.exceptions import ApiKeyError as ApiKeyError
-    from openapi_client.exceptions import ApiAttributeError as ApiAttributeError
-    from openapi_client.exceptions import ApiException as ApiException
-    
-    # import models into sdk package
-    from openapi_client.models.bird import Bird as Bird
-    from openapi_client.models.category import Category as Category
-    from openapi_client.models.data_query import DataQuery as DataQuery
-    from openapi_client.models.default_value import DefaultValue as DefaultValue
-    from openapi_client.models.number_properties_only import NumberPropertiesOnly as NumberPropertiesOnly
-    from openapi_client.models.pet import Pet as Pet
-    from openapi_client.models.query import Query as Query
-    from openapi_client.models.string_enum_ref import StringEnumRef as StringEnumRef
-    from openapi_client.models.tag import Tag as Tag
-    from openapi_client.models.test_form_object_multipart_request_marker import TestFormObjectMultipartRequestMarker as TestFormObjectMultipartRequestMarker
-    from openapi_client.models.test_query_style_deep_object_explode_true_object_all_of_query_object_parameter import TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter as TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-    from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter as TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
-    
-else:
-    from lazy_imports import LazyModule, as_package, load
-
-    load(
-        LazyModule(
-            *as_package(__file__),
-            ("__version__", __version__),
-            ("__all__", __all__),
-            """# import apis into sdk package
+# import apis into sdk package
 from openapi_client.api.auth_api import AuthApi as AuthApi
 from openapi_client.api.body_api import BodyApi as BodyApi
 from openapi_client.api.form_api import FormApi as FormApi
@@ -123,8 +81,3 @@ from openapi_client.models.test_form_object_multipart_request_marker import Test
 from openapi_client.models.test_query_style_deep_object_explode_true_object_all_of_query_object_parameter import TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter as TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
 from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter as TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 
-""",
-            name=__name__,
-            doc=__doc__,
-        )
-    )

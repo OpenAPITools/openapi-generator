@@ -3,8 +3,10 @@
 # flake8: noqa
 {{>partial_header}}
 
-
-if __import__("typing").TYPE_CHECKING:
+{{^lazyImports}}
+{{>exports_model}}
+{{/lazyImports}}
+{{#lazyImports}}if __import__("typing").TYPE_CHECKING:
     {{>exports_model}}
 else:
     from lazy_imports import LazyModule, as_package, load
@@ -17,3 +19,4 @@ else:
             doc=__doc__,
         )
     )
+{{/lazyImports}}
