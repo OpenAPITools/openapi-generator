@@ -544,7 +544,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             }
         }
 
-	return escapeReservedWord(identifier);
+        return escapeReservedWord(identifier);
     }
 
     protected String stripPackageName(String input) {
