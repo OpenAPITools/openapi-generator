@@ -271,4 +271,37 @@ public class RustClientCodegenTest {
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, enumSpec);
     }
+
+    @Test
+    public void testAnyOfSupport() throws IOException {
+        Path target = Files.createTempDirectory("test-anyof");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_0/rust/rust-anyof-test.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        
+        // Test that ModelIdentifier generates an untagged enum, not an empty struct
+        Path modelIdentifierPath = Path.of(target.toString(), "/src/models/model_identifier.rs");
+        TestUtils.assertFileExists(modelIdentifierPath);
+        
+        // Should generate an untagged enum
+        TestUtils.assertFileContains(modelIdentifierPath, "#[serde(untagged)]");
+        TestUtils.assertFileContains(modelIdentifierPath, "pub enum ModelIdentifier");
+        
+        // Should have String variant (for anyOf with string types)
+        TestUtils.assertFileContains(modelIdentifierPath, "String(String)");
+        
+        // Should NOT generate an empty struct
+        TestUtils.assertFileNotContains(modelIdentifierPath, "pub struct ModelIdentifier {");
+        TestUtils.assertFileNotContains(modelIdentifierPath, "pub fn new()");
+        
+        // Test AnotherAnyOfTest with mixed types
+        Path anotherTestPath = Path.of(target.toString(), "/src/models/another_any_of_test.rs");
+        TestUtils.assertFileExists(anotherTestPath);
+        TestUtils.assertFileContains(anotherTestPath, "#[serde(untagged)]");
+        TestUtils.assertFileContains(anotherTestPath, "pub enum AnotherAnyOfTest");
+    }
 }
