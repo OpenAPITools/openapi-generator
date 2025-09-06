@@ -530,7 +530,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             return identifier;
         }
 
-	// below code block only for scala-sttp4-jsoniter for backward copmatibility
+        // below code block only for scala-sttp4-jsoniter for backward copmatibility
         if (this instanceof ScalaSttp4JsoniterClientCodegen) {
             if (identifier.matches("[0-9]*")) {
                 return escapeReservedWord(identifier);
