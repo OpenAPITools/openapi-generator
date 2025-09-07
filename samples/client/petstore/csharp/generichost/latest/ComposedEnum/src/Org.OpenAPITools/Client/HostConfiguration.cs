@@ -44,6 +44,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new DateOnlyJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyNullableJsonConverter());
             _jsonOptions.Converters.Add(new AreaCodeJsonConverter());
+            _jsonOptions.Converters.Add(new AreaCodeNullableJsonConverter());
             _jsonOptions.Converters.Add(new MarineAreaCodeJsonConverter());
             _jsonOptions.Converters.Add(new MarineAreaCodeNullableJsonConverter());
             _jsonOptions.Converters.Add(new StateTerritoryCodeJsonConverter());

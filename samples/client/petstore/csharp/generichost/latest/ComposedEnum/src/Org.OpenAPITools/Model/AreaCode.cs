@@ -26,164 +26,178 @@ using Org.OpenAPITools.Client;
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// AreaCode
+    /// Defines AreaCode
     /// </summary>
-    public partial class AreaCode : IValidatableObject
+    public enum AreaCode
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AreaCode" /> class.
+        /// Enum AL for value: AL
         /// </summary>
-        /// <param name="stateTerritoryCode"></param>
-        internal AreaCode(StateTerritoryCode stateTerritoryCode)
+        AL = 1,
+
+        /// <summary>
+        /// Enum AK for value: AK
+        /// </summary>
+        AK = 2,
+
+        /// <summary>
+        /// Enum AM for value: AM
+        /// </summary>
+        AM = 3,
+
+        /// <summary>
+        /// Enum AN for value: AN
+        /// </summary>
+        AN = 4
+    }
+
+    /// <summary>
+    /// Converts <see cref="AreaCode"/> to and from the JSON value
+    /// </summary>
+    public static class AreaCodeValueConverter
+    {
+        /// <summary>
+        /// Parses a given value to <see cref="AreaCode"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static AreaCode FromString(string value)
         {
-            StateTerritoryCode = stateTerritoryCode;
-            OnCreated();
+            if (value.Equals("AL"))
+                return AreaCode.AL;
+
+            if (value.Equals("AK"))
+                return AreaCode.AK;
+
+            if (value.Equals("AM"))
+                return AreaCode.AM;
+
+            if (value.Equals("AN"))
+                return AreaCode.AN;
+
+            throw new NotImplementedException($"Could not convert value to type AreaCode: '{value}'");
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AreaCode" /> class.
+        /// Parses a given value to <see cref="AreaCode"/>
         /// </summary>
-        /// <param name="marineAreaCode"></param>
-        internal AreaCode(MarineAreaCode marineAreaCode)
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static AreaCode? FromStringOrDefault(string value)
         {
-            MarineAreaCode = marineAreaCode;
-            OnCreated();
-        }
+            if (value.Equals("AL"))
+                return AreaCode.AL;
 
-        partial void OnCreated();
+            if (value.Equals("AK"))
+                return AreaCode.AK;
 
-        /// <summary>
-        /// Gets or Sets StateTerritoryCode
-        /// </summary>
-        public StateTerritoryCode? StateTerritoryCode { get; set; }
+            if (value.Equals("AM"))
+                return AreaCode.AM;
 
-        /// <summary>
-        /// Gets or Sets MarineAreaCode
-        /// </summary>
-        public MarineAreaCode? MarineAreaCode { get; set; }
+            if (value.Equals("AN"))
+                return AreaCode.AN;
 
-        /// <summary>
-        /// Returns the string presentation of the object
-        /// </summary>
-        /// <returns>String presentation of the object</returns>
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("class AreaCode {\n");
-            sb.Append("}\n");
-            return sb.ToString();
+            return null;
         }
 
         /// <summary>
-        /// To validate all properties of the instance
+        /// Converts the <see cref="AreaCode"/> to the json value
         /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string ToJsonValue(AreaCode value)
         {
-            yield break;
+            if (value == AreaCode.AL)
+                return "AL";
+
+            if (value == AreaCode.AK)
+                return "AK";
+
+            if (value == AreaCode.AM)
+                return "AM";
+
+            if (value == AreaCode.AN)
+                return "AN";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
     }
 
     /// <summary>
-    /// A Json converter for type <see cref="AreaCode" />
+    /// A Json converter for type <see cref="AreaCode"/>
     /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
     public class AreaCodeJsonConverter : JsonConverter<AreaCode>
     {
         /// <summary>
-        /// Deserializes json to <see cref="AreaCode" />
+        /// Returns a  from the Json object
         /// </summary>
-        /// <param name="utf8JsonReader"></param>
+        /// <param name="reader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="jsonSerializerOptions"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        /// <exception cref="JsonException"></exception>
-        public override AreaCode Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        public override AreaCode Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            int currentDepth = utf8JsonReader.CurrentDepth;
+            string? rawValue = reader.GetString();
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
+            AreaCode? result = rawValue == null
+                ? null
+                : AreaCodeValueConverter.FromStringOrDefault(rawValue);
 
-            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
-
-            StateTerritoryCode? stateTerritoryCode = default;
-            MarineAreaCode? marineAreaCode = default;
-
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (utf8JsonReaderOneOf.Read())
-            {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
-                {
-                    Utf8JsonReader utf8JsonReaderStateTerritoryCode = utf8JsonReader;
-                    ClientUtils.TryDeserialize<StateTerritoryCode?>(ref utf8JsonReaderStateTerritoryCode, jsonSerializerOptions, out stateTerritoryCode);
-
-                    Utf8JsonReader utf8JsonReaderMarineAreaCode = utf8JsonReader;
-                    ClientUtils.TryDeserialize<MarineAreaCode?>(ref utf8JsonReaderMarineAreaCode, jsonSerializerOptions, out marineAreaCode);
-                }
-            }
-
-            while (utf8JsonReader.Read())
-            {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
-                    break;
-
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
-                    break;
-
-                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
-                {
-                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
-                    utf8JsonReader.Read();
-
-                    switch (localVarJsonPropertyName)
-                    {
-                        default:
-                            break;
-                    }
-                }
-            }
-
-            if (stateTerritoryCode != null)
-                return new AreaCode(stateTerritoryCode.Value);
-
-            if (marineAreaCode != null)
-                return new AreaCode(marineAreaCode.Value);
+            if (result != null)
+                return result.Value;
 
             throw new JsonException();
         }
 
         /// <summary>
-        /// Serializes a <see cref="AreaCode" />
+        /// Writes the AreaCode to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="areaCode"></param>
-        /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, AreaCode areaCode, JsonSerializerOptions jsonSerializerOptions)
+        /// <param name="options"></param>
+        public override void Write(Utf8JsonWriter writer, AreaCode areaCode, JsonSerializerOptions options)
         {
-            writer.WriteStartObject();
+            writer.WriteStringValue(AreaCodeValueConverter.ToJsonValue(areaCode).ToString());
+        }
+    }
 
-            WriteProperties(writer, areaCode, jsonSerializerOptions);
-            writer.WriteEndObject();
+    /// <summary>
+    /// A Json converter for type <see cref="AreaCode"/>
+    /// </summary>
+    public class AreaCodeNullableJsonConverter : JsonConverter<AreaCode?>
+    {
+        /// <summary>
+        /// Returns a AreaCode from the Json object
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public override AreaCode? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            string? rawValue = reader.GetString();
+
+            AreaCode? result = rawValue == null
+                ? null
+                : AreaCodeValueConverter.FromStringOrDefault(rawValue);
+
+            if (result != null)
+                return result.Value;
+
+            throw new JsonException();
         }
 
         /// <summary>
-        /// Serializes the properties of <see cref="AreaCode" />
+        /// Writes the AreaCode to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="areaCode"></param>
-        /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(Utf8JsonWriter writer, AreaCode areaCode, JsonSerializerOptions jsonSerializerOptions)
+        /// <param name="options"></param>
+        public override void Write(Utf8JsonWriter writer, AreaCode? areaCode, JsonSerializerOptions options)
         {
-
+            writer.WriteStringValue(areaCode.HasValue ? AreaCodeValueConverter.ToJsonValue(areaCode.Value).ToString() : "null");
         }
     }
 }
