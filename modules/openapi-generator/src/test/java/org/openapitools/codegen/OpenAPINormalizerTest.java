@@ -196,7 +196,7 @@ public class OpenAPINormalizerTest {
         assertNull(combinedRefsEnum.getOneOf());
 
         // Test with rule disabled
-        OpenAPI openAPI2 = TestUtils.parseSpec("src/test/resources/3_0/simplifyoneOfWithEnums_test.yaml");
+        OpenAPI openAPI2 = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfWithEnums_test.yaml");
         Map<String, String> options2 = new HashMap<>();
         options2.put("SIMPLIFY_ONEOF_ANYOF_ENUM", "false");
         OpenAPINormalizer normalizer2 = new OpenAPINormalizer(openAPI2, options2);
