@@ -145,7 +145,7 @@ Employee:
 ```
 
 ```rust
-// What SHOULD be generated (but isn't)
+// Option 1: What SHOULD ideally be generated (flattened struct)
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Employee {
     // Fields from Person
@@ -155,9 +155,28 @@ pub struct Employee {
     pub employee_id: String,
     pub department: String,
 }
+
+// Option 2: Alternative with composition (avoiding property conflicts)
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct Employee {
+    #[serde(flatten)]
+    pub person: Person,
+    
+    #[serde(flatten)]
+    pub object_1: EmployeeObject1,  // Anonymous object gets generated name
+}
+
+// Generated for the anonymous object in allOf
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct EmployeeObject1 {
+    pub employee_id: String,
+    pub department: String,
+}
 ```
 
 **Current behavior**: The generator fails or produces incorrect output for allOf schemas.
+
+**Note**: Option 2 avoids property name conflicts that could occur if multiple schemas in allOf define the same property names. This approach maintains type safety while preserving the composition structure.
 
 ### Nullable Handling
 
@@ -195,7 +214,44 @@ pub struct Node {
 
 ## Alternatives Considered (But Not Implemented)
 
-### Alternative 1: True anyOf Support with Validation Trait
+### Alternative 1: Composition-based allOf Support
+
+For allOf schemas, instead of trying to flatten all properties into a single struct (which can cause naming conflicts), use composition with serde's flatten:
+
+```rust
+// Alternative: Composition approach for allOf
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct Employee {
+    #[serde(flatten)]
+    pub person: Person,
+    
+    #[serde(flatten)]
+    pub additional_props: EmployeeAdditional,
+}
+
+// Benefits:
+// 1. Avoids property name conflicts
+// 2. Maintains clear composition structure
+// 3. Works with serde's existing flatten feature
+// 4. Each component can be validated independently
+
+// Challenges:
+// 1. Generated names for anonymous objects (Object$1, Object$2, etc.)
+// 2. Requires serde flatten support
+// 3. May need special handling for required vs optional fields
+```
+
+**Pros**: 
+- Avoids property naming conflicts
+- Clear composition structure
+- Leverages serde's existing features
+
+**Cons**: 
+- Generated names for anonymous schemas
+- More complex serialization
+- Potential issues with nested flattening
+
+### Alternative 2: True anyOf Support with Validation Trait
 
 Instead of treating anyOf as oneOf, we could generate a validation trait:
 
@@ -341,9 +397,13 @@ The initial implementation chose to convert anyOf to oneOf because:
 ### Why No allOf Support?
 
 1. **Composition Complexity**: Rust doesn't have built-in struct composition/inheritance
-2. **Serde Challenges**: Flattening multiple schemas into one struct is complex
-3. **Conflicting Fields**: Handling field name conflicts is non-trivial
-4. **Priority**: Less commonly used than oneOf in practice
+2. **Serde Challenges**: While serde supports `#[serde(flatten)]`, handling it in code generation is complex
+3. **Conflicting Fields**: When multiple schemas define the same property names, resolution is non-trivial:
+   - Option A: Merge and error on conflicts (strict)
+   - Option B: Last-wins override (loose but surprising)
+   - Option C: Composition with generated names (Object$1, Object$2) - avoids conflicts but less ergonomic
+4. **Anonymous Schema Naming**: allOf often contains inline anonymous schemas that need generated names
+5. **Priority**: Less commonly used than oneOf in practice
 
 ## To-Be: Proposed Changes (PR #21915)
 
