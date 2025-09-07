@@ -7,6 +7,15 @@ The Rust OpenAPI generator properly implements the semantic differences between 
 - **oneOf (XOR)**: Exactly one of the schemas must validate
 - **anyOf (OR)**: One or more of the schemas must validate
 
+### OpenAPI Specification References
+
+From the [OpenAPI 3.1.0 Specification](https://spec.openapis.org/oas/v3.1.0#schema-object):
+
+- **[oneOf](https://spec.openapis.org/oas/v3.1.0#composition-and-inheritance-polymorphism)**: "Validates the value against exactly one of the subschemas"
+- **[anyOf](https://spec.openapis.org/oas/v3.1.0#composition-and-inheritance-polymorphism)**: "Validates the value against any (one or more) of the subschemas"
+
+These keywords come from [JSON Schema](https://json-schema.org/understanding-json-schema/reference/combining.html) and maintain the same semantics.
+
 ## Implementation Details
 
 ### oneOf - Untagged Enums
@@ -161,6 +170,56 @@ pub enum ShapeOneOf {
     Rectangle(Rectangle),
 }
 ```
+
+## How Other Languages Handle oneOf/anyOf
+
+### Java (with Gson)
+- **oneOf**: Uses `AbstractOpenApiSchema` base class with custom type adapters
+- **anyOf**: Similar to oneOf but allows multiple matches in validation
+- **Approach**: Runtime type checking with reflection, tries to deserialize into each type
+- **Untagged Issue**: Handled via custom `TypeAdapter` that attempts each type sequentially
+
+### TypeScript
+- **oneOf**: Simple union types using `|` operator (e.g., `string | number | Person`)
+- **anyOf**: Same as oneOf - TypeScript union types
+- **Approach**: Type unions are natural in TypeScript, runtime validation depends on library
+- **Untagged Issue**: Not an issue - TypeScript's structural typing handles this naturally
+
+### Python (Pydantic)
+- **oneOf**: Uses `Union` types with custom validation
+- **anyOf**: Separate class with `actual_instance` that validates against multiple schemas
+- **Approach**: Runtime validation with explicit checks for which schemas match
+- **Untagged Issue**: Custom deserializer tries each type and keeps track of matches
+
+### Go
+- **oneOf**: Struct with pointer fields for each option, custom `UnmarshalJSON`
+- **anyOf**: Similar structure but allows multiple fields to be non-nil
+- **Approach**: All options as pointers, unmarshal attempts to populate each
+- **Untagged Issue**: Custom unmarshaler tries each type, oneOf ensures only one succeeds
+
+### C#
+- **oneOf**: Uses inheritance with base class and custom JSON converters
+- **anyOf**: Similar to oneOf but validation allows multiple matches
+- **Approach**: Abstract base class with derived types, custom converters handle deserialization
+- **Untagged Issue**: Custom converters attempt deserialization in order
+
+### Comparison with Rust
+
+| Language | oneOf Implementation | anyOf Implementation | Untagged Handling |
+|----------|---------------------|---------------------|-------------------|
+| **Rust** | Untagged enum | Struct with optional fields | Serde's `#[serde(untagged)]` |
+| **Java** | Abstract class + adapters | Abstract class + adapters | Custom TypeAdapter |
+| **TypeScript** | Union type `A \| B` | Union type `A \| B` | Native support |
+| **Python** | Union with validation | Class with multiple validators | Custom validation |
+| **Go** | Struct with pointers | Struct with pointers | Custom UnmarshalJSON |
+| **C#** | Base class + converters | Base class + converters | Custom JsonConverter |
+
+### Key Observations
+
+1. **Type System Limitations**: Languages without union types (Java, C#, Go) use wrapper classes/structs
+2. **Runtime vs Compile Time**: Most languages handle this at runtime, Rust leverages Serde for compile-time generation
+3. **anyOf Semantics**: Only Rust and Python truly differentiate anyOf (multiple matches) from oneOf (single match)
+4. **Deserialization Order**: All implementations try options in order for untagged unions, which can lead to ambiguity
 
 ## Key Differences Summary
 
