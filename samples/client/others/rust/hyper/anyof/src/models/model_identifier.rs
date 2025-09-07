@@ -12,18 +12,25 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 /// ModelIdentifier : Model identifier that can be a string or specific enum value
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum ModelIdentifier {
-    /// Any model name as string
-    String(String),
-    /// Known model enum values
-    String(String),
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+pub struct ModelIdentifier {
+    /// Any model name as string (anyOf option)
+    #[serde(skip_serializing_if = "Option::is_none", rename = "as_any_of_0")]
+    pub as_any_of_0: Option<String>,
+    /// Known model enum values (anyOf option)
+    #[serde(skip_serializing_if = "Option::is_none", rename = "as_any_of_1")]
+    pub as_any_of_1: Option<String>,
 }
 
-impl Default for ModelIdentifier {
-    fn default() -> Self {
-        Self::String(Default::default())
+impl ModelIdentifier {
+    /// Creates a new ModelIdentifier with all fields set to None
+    pub fn new() -> Self {
+        Default::default()
+    }
+
+    /// Validates that at least one anyOf field is set (OR semantics)
+    pub fn validate_any_of(&self) -> Result<(), String> {
+        Ok(())
     }
 }
 

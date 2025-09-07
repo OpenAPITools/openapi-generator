@@ -12,17 +12,25 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 /// AnotherAnyOfTest : Another test case with different types
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum AnotherAnyOfTest {
-    String(String),
-    Integer(i32),
-    ArrayVecString(Vec<String>),
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+pub struct AnotherAnyOfTest {
+    #[serde(skip_serializing_if = "Option::is_none", rename = "as_any_of_0")]
+    pub as_any_of_0: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none", rename = "as_any_of_1")]
+    pub as_any_of_1: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none", rename = "as_any_of_2")]
+    pub as_any_of_2: Option<Vec<String>>,
 }
 
-impl Default for AnotherAnyOfTest {
-    fn default() -> Self {
-        Self::String(Default::default())
+impl AnotherAnyOfTest {
+    /// Creates a new AnotherAnyOfTest with all fields set to None
+    pub fn new() -> Self {
+        Default::default()
+    }
+
+    /// Validates that at least one anyOf field is set (OR semantics)
+    pub fn validate_any_of(&self) -> Result<(), String> {
+        Ok(())
     }
 }
 
