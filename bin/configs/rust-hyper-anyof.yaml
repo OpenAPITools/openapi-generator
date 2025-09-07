@@ -1,0 +1,8 @@
+generatorName: rust
+outputDir: samples/client/others/rust/hyper/anyof
+library: hyper
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/rust-anyof-test.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: false
+  packageName: anyof-hyper
