@@ -16,6 +16,74 @@ From the [OpenAPI 3.1.0 Specification](https://spec.openapis.org/oas/v3.1.0#sche
 
 These keywords come from [JSON Schema](https://json-schema.org/understanding-json-schema/reference/combining.html) and maintain the same semantics.
 
+## Should Untagged Enums Be Allowed? A Spec Analysis
+
+### The Discriminator Dilemma
+
+The OpenAPI specification states:
+
+> "To support polymorphism, the OpenAPI Specification adds the discriminator field. When used, the discriminator will be the name of the property that decides which schema definition validates the structure of the model. As such, the discriminator field MUST be a required field."
+
+However, this raises important questions:
+
+1. **Is discriminator required for all oneOf schemas?** No, the spec says "when used" - it's optional.
+2. **Does oneOf without discriminator violate the spec?** No, but it may violate the intent.
+
+### JSON Schema vs OpenAPI Semantics
+
+**JSON Schema requirement** (which OpenAPI inherits):
+- oneOf: "The given data must be valid against **exactly one** of the given subschemas"
+- This requires checking ALL subschemas to ensure only one matches
+
+**Implementation reality**:
+- Most generators use "first match wins" for untagged unions
+- This violates the strict oneOf semantics unless additional validation is performed
+
+### The Case for Validation Errors
+
+**You're correct that strictly speaking, generators should validate that exactly one schema matches for oneOf.** This means:
+
+1. **Untagged enums are technically non-compliant** if they don't validate exclusivity
+2. **Validation errors should be thrown** when multiple schemas match
+3. **"First match wins" is a pragmatic compromise** that violates the spec
+
+### Current Implementations vs Spec Compliance
+
+| Approach | Spec Compliant? | Used By |
+|----------|----------------|---------|
+| First match wins (no validation) | ❌ No | Rust, Java, C# |
+| Validate exactly one matches | ✅ Yes | Python (Pydantic) |
+| Require discriminator | ✅ Yes (conservative) | None (but recommended) |
+| Generate error for ambiguous schemas | ✅ Yes (conservative) | None currently |
+
+### Implications for Rust Implementation
+
+The current Rust implementation using untagged enums is **pragmatic but not strictly compliant** because:
+
+1. Serde's `#[serde(untagged)]` stops at first match
+2. No validation that other variants wouldn't also match
+3. Could silently accept invalid data that matches multiple schemas
+
+**To be fully compliant**, Rust would need to:
+```rust
+// Validate against all variants
+impl<'de> Deserialize<'de> for OneOfExample {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error> {
+        let value = Value::deserialize(deserializer)?;
+        let mut matches = 0;
+        
+        if let Ok(_) = Type1::deserialize(&value) { matches += 1; }
+        if let Ok(_) = Type2::deserialize(&value) { matches += 1; }
+        
+        if matches != 1 {
+            return Err(Error::custom("Must match exactly one schema"));
+        }
+        
+        // Then do actual deserialization
+    }
+}
+```
+
 ## Implementation Details
 
 ### oneOf - Untagged Enums
