@@ -221,6 +221,100 @@ pub enum ShapeOneOf {
 3. **anyOf Semantics**: Only Rust and Python truly differentiate anyOf (multiple matches) from oneOf (single match)
 4. **Deserialization Order**: All implementations try options in order for untagged unions, which can lead to ambiguity
 
+## Ambiguity Handling Strategies
+
+### Do Any Languages Refuse to Generate?
+
+**No language generator completely refuses to generate code for ambiguous schemas.** All have fallback strategies:
+
+### Language-Specific Ambiguity Handling
+
+#### **Swift**
+- **Strategy**: Provides `oneOfUnknownDefaultCase` option
+- **Behavior**: Can generate an `unknownDefaultOpenApi` case for unmatched values
+- **Without Option**: Throws `DecodingError.typeMismatch` at runtime
+- **Philosophy**: Fail at runtime rather than compile time
+
+#### **Python (Pydantic)**
+- **Strategy**: Generates validation code with `ValidationError`
+- **Behavior**: Validates all options and tracks which ones match
+- **For oneOf**: Ensures exactly one matches, raises `ValidationError` if multiple match
+- **Philosophy**: Strict runtime validation with clear error messages
+
+#### **Java**
+- **Strategy**: Custom TypeAdapters try each type sequentially
+- **Behavior**: First successful deserialization wins
+- **Ambiguity**: No validation that only one matches for oneOf
+- **Philosophy**: Pragmatic "first match wins" approach
+
+#### **TypeScript**
+- **Strategy**: Union types with no runtime validation by default
+- **Behavior**: Structural typing means any matching shape is accepted
+- **Ambiguity**: Completely permissive - type system doesn't enforce exclusivity
+- **Philosophy**: Trust the data or add runtime validation separately
+
+#### **Go**
+- **Strategy**: Custom UnmarshalJSON tries to populate all fields
+- **Behavior**: For oneOf, additional validation ensures only one is non-nil
+- **Ambiguity**: Returns error if multiple match for oneOf
+- **Philosophy**: Explicit validation after unmarshaling
+
+#### **Rust**
+- **Strategy**: Untagged enums for oneOf, struct with options for anyOf
+- **Behavior**: Serde tries variants in order (first match wins for oneOf)
+- **Ambiguity**: No compile-time detection of overlapping variants
+- **Philosophy**: Leverage existing serialization framework
+
+### Common Warnings and Limitations
+
+From the OpenAPI Generator codebase:
+
+1. **Self-referencing schemas**: Detected and removed to prevent infinite loops
+2. **Inline objects in oneOf with discriminator**: Warned and ignored
+3. **Conflicting composition**: Error logged when schema has incorrect anyOf/allOf/oneOf combination
+4. **Missing discriminator**: Most generators work but with "first match wins" semantics
+
+### Best Practices for Avoiding Ambiguity
+
+1. **Use discriminators**: When possible, add a discriminator property for oneOf
+   ```yaml
+   oneOf:
+     - $ref: '#/components/schemas/Cat'
+     - $ref: '#/components/schemas/Dog'
+   discriminator:
+     propertyName: petType
+   ```
+
+2. **Make schemas mutually exclusive**: Design schemas that don't overlap
+   ```yaml
+   oneOf:
+     - type: object
+       required: [foo]
+       properties:
+         foo: {type: string}
+     - type: object
+       required: [bar]
+       properties:
+         bar: {type: number}
+   ```
+
+3. **Order matters**: Place more specific schemas first
+   ```yaml
+   oneOf:
+     - type: object
+       required: [a, b, c]  # More specific
+     - type: object
+       required: [a]        # Less specific
+   ```
+
+### Why Don't Generators Refuse?
+
+1. **Pragmatism**: Real-world APIs often have imperfect schemas
+2. **Backwards compatibility**: Existing APIs shouldn't break
+3. **Runtime nature**: Many ambiguities only manifest with specific data
+4. **User choice**: Developers can add additional validation if needed
+5. **OpenAPI spec**: The spec itself doesn't forbid ambiguous schemas
+
 ## Key Differences Summary
 
 | Aspect | oneOf (XOR) | anyOf (OR) |
