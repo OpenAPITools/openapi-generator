@@ -515,6 +515,252 @@ if let Some(n) = &model_identifier.as_any_of_1 {
 4. **Phase 4**: Add discriminator support for anyOf
 5. **Phase 5**: Consider union type alternatives when Rust supports them
 
+## Cross-Language Comparison: How Other Strongly-Typed Languages Handle oneOf/anyOf/allOf
+
+### Java
+
+**oneOf**: 
+- Generates an interface/abstract class with concrete implementations
+- With discriminator: Uses Jackson's `@JsonTypeInfo` and `@JsonSubTypes` for polymorphic deserialization
+- Without discriminator: Creates wrapper class with multiple typed fields, only one can be set
+- Recent versions support sealed interfaces (Java 17+)
+
+```java
+// oneOf with discriminator
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "petType")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Cat.class, name = "cat"),
+    @JsonSubTypes.Type(value = Dog.class, name = "dog")
+})
+public abstract class Pet { }
+
+// oneOf without discriminator
+public class StringOrNumber {
+    private String stringValue;
+    private Integer numberValue;
+    
+    // Only one setter can be called
+    public void setString(String value) {
+        this.stringValue = value;
+        this.numberValue = null;
+    }
+}
+```
+
+**anyOf**: 
+- Often treated same as oneOf (incorrect)
+- Some implementations generate a class with all possible fields as nullable
+- No true validation that at least one matches
+
+**allOf**: 
+- Uses inheritance when possible (extends base class)
+- Composition with interfaces for multiple inheritance
+- Flattens properties into single class
+
+### TypeScript
+
+**oneOf/anyOf**: 
+- Uses union types naturally: `type Pet = Cat | Dog`
+- Runtime validation required (not enforced by type system)
+- anyOf and oneOf generate identical code (union types)
+
+```typescript
+// Both oneOf and anyOf generate:
+export type StringOrNumber = string | number;
+export type Pet = Cat | Dog;
+
+// With discriminator:
+export type Pet = 
+    | { petType: "cat" } & Cat
+    | { petType: "dog" } & Dog;
+```
+
+**allOf**: 
+- Uses intersection types: `type Employee = Person & { employeeId: string }`
+- Natural composition support in type system
+
+```typescript
+export type Employee = Person & {
+    employeeId: string;
+    department: string;
+};
+```
+
+### Go
+
+**oneOf/anyOf**: 
+- No union types in Go
+- Generates struct with pointers to all possible types
+- Custom marshaling/unmarshaling logic
+- Validation methods to ensure constraints
+
+```go
+// oneOf/anyOf implementation
+type StringOrNumber struct {
+    String *string  `json:"-"`
+    Number *float32 `json:"-"`
+}
+
+func (s *StringOrNumber) UnmarshalJSON(data []byte) error {
+    // Try unmarshaling as each type
+    var str string
+    if err := json.Unmarshal(data, &str); err == nil {
+        s.String = &str
+        return nil
+    }
+    
+    var num float32
+    if err := json.Unmarshal(data, &num); err == nil {
+        s.Number = &num
+        return nil
+    }
+    
+    return errors.New("could not unmarshal as string or number")
+}
+```
+
+**allOf**: 
+- Uses struct embedding (composition)
+- Flattens nested structures
+- Can have field name conflicts
+
+```go
+type Employee struct {
+    Person  // Embedded struct
+    EmployeeId string `json:"employeeId"`
+    Department string `json:"department"`
+}
+```
+
+### C# (.NET)
+
+**oneOf**: 
+- Generates abstract base class with derived types
+- With discriminator: Uses JsonConverter for polymorphic serialization
+- Without discriminator: Wrapper class with nullable properties
+
+```csharp
+// oneOf with discriminator
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "petType")]
+[JsonDerivedType(typeof(Cat), "cat")]
+[JsonDerivedType(typeof(Dog), "dog")]
+public abstract class Pet { }
+
+// oneOf without discriminator
+public class StringOrNumber 
+{
+    public string? AsString { get; set; }
+    public int? AsNumber { get; set; }
+    
+    // Validation ensures only one is set
+}
+```
+
+**anyOf**: 
+- Similar to oneOf but allows multiple properties to be set
+- Often incorrectly treated as oneOf
+
+**allOf**: 
+- Uses inheritance for single parent
+- Composition pattern for multiple schemas
+- Properties flattened into derived class
+
+### Python (with Pydantic)
+
+**oneOf/anyOf**: 
+- Uses `Union` type hint
+- Pydantic validates at runtime
+- First matching schema wins (for both oneOf and anyOf)
+
+```python
+# oneOf/anyOf
+StringOrNumber = Union[str, int]
+
+class Pet(BaseModel):
+    __root__: Union[Cat, Dog]
+    
+    # With discriminator
+    class Config:
+        discriminator = 'petType'
+```
+
+**allOf**: 
+- Multiple inheritance with mixins
+- Pydantic handles field merging
+
+```python
+class Employee(Person, EmployeeFields):
+    pass  # Inherits from both
+```
+
+### Swift
+
+**oneOf**: 
+- Native enum with associated values (perfect fit!)
+- Type-safe and ergonomic
+
+```swift
+enum Pet: Codable {
+    case cat(Cat)
+    case dog(Dog)
+    
+    // Custom coding keys for discriminator
+}
+
+enum StringOrNumber: Codable {
+    case string(String)
+    case number(Int)
+}
+```
+
+**anyOf**: 
+- No native support
+- Usually treated as oneOf (enum)
+
+**allOf**: 
+- Protocol composition
+- Struct with all properties
+
+### Comparison Table
+
+| Language | oneOf | anyOf | allOf |
+|----------|-------|-------|-------|
+| **Rust (current)** | Enum (untagged) | Enum (incorrect) | ❌ Not supported |
+| **Rust (proposed)** | Enum (untagged) | Struct with Option fields | ❌ Not supported |
+| **Java** | Interface + implementations | Same as oneOf (incorrect) | Inheritance/Composition |
+| **TypeScript** | Union type | Union type (same) | Intersection type |
+| **Go** | Struct with pointers | Struct with pointers | Struct embedding |
+| **C#** | Abstract class + derived | Similar to oneOf | Inheritance/Composition |
+| **Python** | Union + validation | Union (same) | Multiple inheritance |
+| **Swift** | Enum with associated values | Enum (incorrect) | Protocol composition |
+
+### Key Observations
+
+1. **No language perfectly handles anyOf**: Most treat it identical to oneOf, missing the "one or more" semantics
+2. **TypeScript has the best model**: Union and intersection types naturally express these concepts
+3. **Swift enums are ideal for oneOf**: Associated values provide perfect type safety
+4. **Go's approach is explicit**: No magic, clear what's happening, verbose but correct
+5. **Dynamic languages rely on runtime validation**: Python/Ruby validate at runtime, not compile time
+
+### Why Rust's Proposed Approach Makes Sense
+
+Given Rust's type system constraints:
+- **No union types**: Can't do TypeScript-style unions
+- **No inheritance**: Can't do Java/C# style class hierarchies  
+- **Strong type safety**: Want compile-time guarantees
+
+The proposed struct-with-optional-fields for anyOf:
+- **Explicit about semantics**: Clear that multiple can be set
+- **Type safe**: Compiler enforces field types
+- **Serde compatible**: Works with existing serialization
+- **Migration path**: Different from enum, so existing code breaks loudly (good!)
+
 ## Conclusion
 
-The current Rust generator makes pragmatic choices favoring simplicity and Rust idioms over strict OpenAPI compliance. The proposed changes in PR #21915 move toward semantic correctness while maintaining reasonable ergonomics. Future work should focus on incremental improvements guided by user needs and Rust ecosystem evolution.
+The current Rust generator makes pragmatic choices favoring simplicity and Rust idioms over strict OpenAPI compliance. The proposed changes in PR #21915 move toward semantic correctness while maintaining reasonable ergonomics. 
+
+Comparing with other languages shows that:
+1. No language has solved anyOf perfectly
+2. Rust's constraints (no unions, no inheritance) require creative solutions
+3. The proposed struct approach for anyOf is reasonable given these constraints
+4. Future work should focus on incremental improvements guided by user needs and Rust ecosystem evolution
