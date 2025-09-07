@@ -404,3 +404,66 @@ To migrate existing code:
 - Replace enum pattern matching with struct field access
 - Use the `validate_any_of()` method to ensure at least one field is set
 - Access individual options via the `as_*` fields
+
+## Real Example: Wing328's Test Case
+
+I merged wing328's PR #21911 which has a perfect test case showing the difference. Let me walk you through what I found:
+
+### The Test Schema
+Wing328 created this anyOf schema:
+```yaml
+ModelIdentifier:
+  description: Model identifier that can be a string or specific enum value
+  anyOf:
+    - type: string
+      description: Any model name as string
+    - type: string
+      enum: [gpt-4, gpt-3.5-turbo, dall-e-3]
+      description: Known model enum values
+```
+
+### What the Old Generator Would Produce
+With the old (wrong) behavior, this would generate:
+```rust
+// OLD: Incorrectly treats anyOf as oneOf
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ModelIdentifier {
+    String(String),  // First string option
+    String(String),  // Second string option - DUPLICATE! This is broken!
+}
+```
+
+See the problem? We'd have duplicate enum variants! The generator would actually produce invalid Rust code. Plus, even if it worked, you could only choose ONE option, not both.
+
+### What Our New Generator Produces
+With the correct anyOf implementation:
+```rust
+// NEW: Correctly treats anyOf as composition
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+pub struct ModelIdentifier {
+    #[serde(skip_serializing_if = "Option::is_none", rename = "as_any_of_0")]
+    pub as_any_of_0: Option<String>,  // Any model name
+    
+    #[serde(skip_serializing_if = "Option::is_none", rename = "as_any_of_1")]
+    pub as_any_of_1: Option<String>,  // Known enum values
+}
+```
+
+Now both fields can be set! This is actually useful - imagine an API that accepts both a freeform model name AND validates against known models. With anyOf, you can validate against both schemas simultaneously.
+
+### Another Example from Wing328's Tests
+He also included this more complex anyOf:
+```yaml
+AnotherAnyOfTest:
+  anyOf:
+    - type: string
+    - type: integer
+    - type: array
+      items:
+        type: string
+```
+
+Old behavior would force you to choose: "Is this a string OR an integer OR an array?"
+
+New behavior lets you have all three! Maybe it's a weird API, but that's what anyOf means - the data can match multiple schemas at once. The generator shouldn't make assumptions about what's "sensible" - it should implement the spec correctly.

@@ -314,6 +314,28 @@ Your understanding is correct:
 - **anyOf** = "You can be ANY combination of these things"
 - **oneOf** = "You must be EXACTLY ONE of these things"
 
+## Real-World Bug Example
+
+Just discovered this while working with wing328's test case. The old Rust generator would literally generate broken code for this anyOf:
+
+```yaml
+ModelIdentifier:
+  anyOf:
+    - type: string
+    - type: string
+      enum: [gpt-4, gpt-3.5-turbo]
+```
+
+Old generator output:
+```rust
+pub enum ModelIdentifier {
+    String(String),  // Variant 1
+    String(String),  // Variant 2 - DUPLICATE NAME! Won't compile!
+}
+```
+
+This is what happens when you treat anyOf (composition) as oneOf (choice) - you get nonsensical code. The correct approach generates a struct where both can coexist.
+
 ## Conclusion
 
 You're absolutely right:
