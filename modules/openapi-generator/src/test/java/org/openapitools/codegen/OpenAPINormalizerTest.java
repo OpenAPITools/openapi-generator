@@ -156,7 +156,7 @@ public class OpenAPINormalizerTest {
     @Test
     public void testSimplifyOneOfAnyOfEnum() throws Exception {
         // Load OpenAPI spec from external YAML file
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyoneOfWithEnums_test.yaml");
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfWithEnums_test.yaml");
 
         // Test with rule enabled (default)
         Map<String, String> options = new HashMap<>();
