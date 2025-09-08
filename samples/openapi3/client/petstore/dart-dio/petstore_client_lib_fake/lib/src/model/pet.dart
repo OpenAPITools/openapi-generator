@@ -201,16 +201,16 @@ class PetStatusEnum extends EnumClass {
 
   /// pet status in the store
   @BuiltValueEnumConst(wireName: r'available')
-  static const PetStatusEnum available = _$petStatusEnum_available;
+  static const PetStatusEnum availableAttr = _$petStatusEnum_available;
   /// pet status in the store
   @BuiltValueEnumConst(wireName: r'pending')
-  static const PetStatusEnum pending = _$petStatusEnum_pending;
+  static const PetStatusEnum pendingAttr = _$petStatusEnum_pending;
   /// pet status in the store
   @BuiltValueEnumConst(wireName: r'sold')
-  static const PetStatusEnum sold = _$petStatusEnum_sold;
+  static const PetStatusEnum soldAttr = _$petStatusEnum_sold;
   /// pet status in the store
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const PetStatusEnum unknownDefaultOpenApi = _$petStatusEnum_unknownDefaultOpenApi;
+  static const PetStatusEnum unknownDefaultOpenApiAttr = _$petStatusEnum_unknownDefaultOpenApi;
 
   static Serializer<PetStatusEnum> get serializer => _$petStatusEnumSerializer;
 

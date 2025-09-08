@@ -12,13 +12,13 @@ part 'model_enum_class.g.dart';
 class ModelEnumClass extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'_abc')
-  static const ModelEnumClass abc = _$abc;
+  static const ModelEnumClass abcAttr = _$abc;
   @BuiltValueEnumConst(wireName: r'-efg')
-  static const ModelEnumClass efg = _$efg;
+  static const ModelEnumClass efgAttr = _$efg;
   @BuiltValueEnumConst(wireName: r'(xyz)')
-  static const ModelEnumClass leftParenthesisXyzRightParenthesis = _$leftParenthesisXyzRightParenthesis;
+  static const ModelEnumClass leftParenthesisXyzRightParenthesisAttr = _$leftParenthesisXyzRightParenthesis;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const ModelEnumClass unknownDefaultOpenApi = _$unknownDefaultOpenApi;
+  static const ModelEnumClass unknownDefaultOpenApiAttr = _$unknownDefaultOpenApi;
 
   static Serializer<ModelEnumClass> get serializer => _$modelEnumClassSerializer;
 

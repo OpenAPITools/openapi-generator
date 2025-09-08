@@ -130,11 +130,11 @@ class _$EnumArraysSerializer implements PrimitiveSerializer<EnumArrays> {
 class EnumArraysJustSymbolEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'>=')
-  static const EnumArraysJustSymbolEnum greaterThanEqual = _$enumArraysJustSymbolEnum_greaterThanEqual;
+  static const EnumArraysJustSymbolEnum greaterThanEqualAttr = _$enumArraysJustSymbolEnum_greaterThanEqual;
   @BuiltValueEnumConst(wireName: r'$')
-  static const EnumArraysJustSymbolEnum dollar = _$enumArraysJustSymbolEnum_dollar;
+  static const EnumArraysJustSymbolEnum dollarAttr = _$enumArraysJustSymbolEnum_dollar;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const EnumArraysJustSymbolEnum unknownDefaultOpenApi = _$enumArraysJustSymbolEnum_unknownDefaultOpenApi;
+  static const EnumArraysJustSymbolEnum unknownDefaultOpenApiAttr = _$enumArraysJustSymbolEnum_unknownDefaultOpenApi;
 
   static Serializer<EnumArraysJustSymbolEnum> get serializer => _$enumArraysJustSymbolEnumSerializer;
 
@@ -147,11 +147,11 @@ class EnumArraysJustSymbolEnum extends EnumClass {
 class EnumArraysArrayEnumEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'fish')
-  static const EnumArraysArrayEnumEnum fish = _$enumArraysArrayEnumEnum_fish;
+  static const EnumArraysArrayEnumEnum fishAttr = _$enumArraysArrayEnumEnum_fish;
   @BuiltValueEnumConst(wireName: r'crab')
-  static const EnumArraysArrayEnumEnum crab = _$enumArraysArrayEnumEnum_crab;
+  static const EnumArraysArrayEnumEnum crabAttr = _$enumArraysArrayEnumEnum_crab;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const EnumArraysArrayEnumEnum unknownDefaultOpenApi = _$enumArraysArrayEnumEnum_unknownDefaultOpenApi;
+  static const EnumArraysArrayEnumEnum unknownDefaultOpenApiAttr = _$enumArraysArrayEnumEnum_unknownDefaultOpenApi;
 
   static Serializer<EnumArraysArrayEnumEnum> get serializer => _$enumArraysArrayEnumEnumSerializer;
 
