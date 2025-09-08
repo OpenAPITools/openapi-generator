@@ -32,7 +32,7 @@ class  Category
 {
 public:
     Category();
-    virtual ~Category() = default;
+    virtual ~Category();
 
 
     /// <summary>

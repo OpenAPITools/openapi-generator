@@ -40,7 +40,7 @@ class  Format_test
 public:
     Format_test() = default;
     explicit Format_test(boost::property_tree::ptree const& pt);
-    virtual ~Format_test() = default;
+    virtual ~Format_test();
 
     Format_test(const Format_test& other) = default; // copy constructor
     Format_test(Format_test&& other) noexcept = default; // move constructor

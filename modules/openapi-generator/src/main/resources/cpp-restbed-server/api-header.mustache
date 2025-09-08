@@ -57,7 +57,7 @@ class {{declspec}} {{vendorExtensions.x-codegen-resource-name}}Resource: public 
 {
 public:
     {{vendorExtensions.x-codegen-resource-name}}Resource(const std::string& context = "{{contextPath}}");
-    virtual ~{{vendorExtensions.x-codegen-resource-name}}Resource() = default;
+    virtual ~{{vendorExtensions.x-codegen-resource-name}}Resource();
 
     {{vendorExtensions.x-codegen-resource-name}}Resource(
         const {{vendorExtensions.x-codegen-resource-name}}Resource& other) = default; // copy constructor

@@ -28,6 +28,8 @@ Tag::Tag()
     
 }
 
+Tag::~Tag() = default;
+
 void Tag::validate() const
 {
     std::stringstream msg;
