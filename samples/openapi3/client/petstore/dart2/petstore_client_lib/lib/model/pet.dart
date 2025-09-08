@@ -117,6 +117,7 @@ class Pet {
             ? (json[r'photoUrls'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         tags: Tag.listFromJson(json[r'tags']),
+                
         status: PetStatusEnum.fromJson(json[r'status']),
       );
     }
@@ -208,6 +209,12 @@ class PetStatusEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is PetStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [PetStatusEnum] to String,

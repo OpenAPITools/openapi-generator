@@ -65,6 +65,7 @@ class EnumArrays {
       }());
 
       return EnumArrays(
+                
         justSymbol: EnumArraysJustSymbolEnum.fromJson(json[r'just_symbol']),
         arrayEnum: EnumArraysArrayEnumEnum.listFromJson(json[r'array_enum']),
       );
@@ -153,6 +154,12 @@ class EnumArraysJustSymbolEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is EnumArraysJustSymbolEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [EnumArraysJustSymbolEnum] to String,
@@ -227,6 +234,12 @@ class EnumArraysArrayEnumEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is EnumArraysArrayEnumEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [EnumArraysArrayEnumEnum] to String,
