@@ -32,10 +32,10 @@ class ModelTests(unittest.TestCase):
     def test_cat(self):
         self.cat = petstore_api.Cat(className="cat")
         self.assertEqual("cat", self.cat.class_name)
-        self.assertEqual("red", self.cat.color)
+        self.assertEqual(None, self.cat.color)
         cat_str = ("{'additional_properties': {},\n"
                   " 'className': 'cat',\n"
-                  " 'color': 'red',\n"
+                  " 'color': None,\n"
                   " 'declawed': None}")
         self.assertEqual(cat_str, self.cat.to_str())
 
@@ -525,7 +525,7 @@ class ModelTests(unittest.TestCase):
 
     def test_inline_enum_default(self):
         enum_test = petstore_api.EnumTest(enum_string_required="lower")
-        self.assertEqual(enum_test.enum_integer_default, 5)
+        self.assertEqual(enum_test.enum_integer_default, None)
 
     def test_object_with_optional_dict(self):
         # for https://github.com/OpenAPITools/openapi-generator/issues/14913

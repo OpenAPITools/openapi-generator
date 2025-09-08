@@ -82,7 +82,7 @@ class Cat(Animal):
 
         _obj = cls.model_validate({
             "className": obj.get("className"),
-            "color": obj.get("color") if obj.get("color") is not None else 'red',
+            "color": obj.get("color"),
             "declawed": obj.get("declawed")
         })
         return _obj

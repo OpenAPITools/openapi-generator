@@ -82,7 +82,7 @@ class Category(BaseModel):
 
         _obj = cls.model_validate({
             "id": obj.get("id"),
-            "name": obj.get("name") if obj.get("name") is not None else 'default-name'
+            "name": obj.get("name")
         })
         return _obj
 
