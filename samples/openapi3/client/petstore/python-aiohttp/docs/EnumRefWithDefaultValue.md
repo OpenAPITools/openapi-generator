@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**report_format** | [**DataOutputFormat**](DataOutputFormat.md) |  | [optional] [default to 'JSON']
+**report_format** | [**DataOutputFormat**](DataOutputFormat.md) |  | [optional] [default to DataOutputFormat.JSON]
 
 ## Example
 

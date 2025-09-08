@@ -27,7 +27,7 @@ class EnumRefWithDefaultValue(BaseModel):
     """
     EnumRefWithDefaultValue
     """ # noqa: E501
-    report_format: Optional[DataOutputFormat] = 'JSON'
+    report_format: Optional[DataOutputFormat] = DataOutputFormat.JSON
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["report_format"]
 
@@ -89,7 +89,7 @@ class EnumRefWithDefaultValue(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "report_format": obj.get("report_format") if obj.get("report_format") is not None else 'JSON'
+            "report_format": obj.get("report_format") if obj.get("report_format") is not None else DataOutputFormat.JSON
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

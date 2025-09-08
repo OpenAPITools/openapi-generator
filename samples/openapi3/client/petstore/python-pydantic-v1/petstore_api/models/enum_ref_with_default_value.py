@@ -26,7 +26,7 @@ class EnumRefWithDefaultValue(BaseModel):
     """
     EnumRefWithDefaultValue
     """
-    report_format: Optional[DataOutputFormat] = 'JSON'
+    report_format: Optional[DataOutputFormat] = None
     additional_properties: Dict[str, Any] = {}
     __properties = ["report_format"]
 
@@ -72,7 +72,7 @@ class EnumRefWithDefaultValue(BaseModel):
             return EnumRefWithDefaultValue.parse_obj(obj)
 
         _obj = EnumRefWithDefaultValue.parse_obj({
-            "report_format": obj.get("report_format") if obj.get("report_format") is not None else 'JSON'
+            "report_format": obj.get("report_format")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

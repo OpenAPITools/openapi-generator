@@ -26,7 +26,7 @@ class EnumRefWithDefaultValue(BaseModel):
     """
     EnumRefWithDefaultValue
     """
-    report_format: Optional[DataOutputFormat] = 'JSON'
+    report_format: Optional[DataOutputFormat] = None
     __properties = ["report_format"]
 
     class Config:
@@ -65,7 +65,7 @@ class EnumRefWithDefaultValue(BaseModel):
             return EnumRefWithDefaultValue.parse_obj(obj)
 
         _obj = EnumRefWithDefaultValue.parse_obj({
-            "report_format": obj.get("report_format") if obj.get("report_format") is not None else 'JSON'
+            "report_format": obj.get("report_format")
         })
         return _obj
 

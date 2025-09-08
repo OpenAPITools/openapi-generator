@@ -2914,10 +2914,7 @@ components:
       type: object
       properties:
         report_format:
-          type: string
-          allOf:
-          - $ref: '#/components/schemas/DataOutputFormat'
-          default: JSON
+          $ref: '#/components/schemas/DataOutputFormat'
     DataOutputFormat:
       type: string
       enum: [JSON, CSV, XML]
