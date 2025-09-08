@@ -86,6 +86,11 @@ async-trait = "^0.1"
 google-cloud-token = "^0.1"
 {{/supportTokenSource}}
 {{/supportAsync}}
+
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls = ["reqwest/rustls-tls"]
 {{/reqwest}}
 {{#reqwestTrait}}
 async-trait = "^0.1"
