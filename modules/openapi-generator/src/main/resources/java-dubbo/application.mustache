@@ -6,15 +6,13 @@ dubbo:
   application:
     name: {{artifactId}}
     logger: slf4j
-  # 注册中心配置
   registry:
     address: {{registryAddress}}
   # 协议配置
   protocol:
-    name: triple
+    name: tri
     port: -1 # auto-increment port
 
-# 日志配置
 logging:
   level:
     root: INFO
