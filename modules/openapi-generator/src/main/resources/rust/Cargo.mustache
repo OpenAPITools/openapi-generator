@@ -90,7 +90,7 @@ google-cloud-token = "^0.1"
 [features]
 default = ["native-tls"]
 native-tls = ["reqwest/native-tls"]
-rustls = ["reqwest/rustls-tls"]
+rustls-tls = ["reqwest/rustls-tls"]
 {{/reqwest}}
 {{#reqwestTrait}}
 async-trait = "^0.1"
@@ -111,7 +111,7 @@ bon = { version = "2.3", optional = true }
 [features]
 default = ["native-tls"]
 native-tls = ["reqwest/native-tls"]
-rustls = ["reqwest/rustls-tls"]
+rustls-tls = ["reqwest/rustls-tls"]
 {{#mockall}}
 mockall = ["dep:mockall"]
 {{/mockall}}
