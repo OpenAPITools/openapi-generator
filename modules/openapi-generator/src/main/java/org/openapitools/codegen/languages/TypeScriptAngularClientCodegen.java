@@ -204,6 +204,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("param.mustache", getIndexDirectory(), "param.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("queryParams.mustache", getIndexDirectory(), "query.params.ts"));
 
         if(ngVersionAtLeast_17) {
             supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));

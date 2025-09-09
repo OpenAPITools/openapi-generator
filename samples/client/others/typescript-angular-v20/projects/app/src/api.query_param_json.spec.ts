@@ -28,9 +28,9 @@ describe('JSON Query Param testing', () => {
     httpTesting.verify();
   });
 
-  it('should serialize the query parameter as URI encoded JSON', async () => {
-    const filter: Filter = {ids: [4, 5], name: 'John+,=}', age: 37};
-    const filterJson = '{"ids":[4,5],"name":"John+,=}","age":37}';
+  it('should serialize the query parameter as URI encoded JSON', () => {
+    const filter: Filter = {ids: [4, 5], name: 'John+,= }', age: 37};
+    const filterJson = '{"ids":[4,5],"name":"John+,= }","age":37}';
     const filterJsonEncoded = encodeURIComponent(filterJson);
 
     service.search(filter).subscribe();
