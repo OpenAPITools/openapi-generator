@@ -7,17 +7,160 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { HttpHeaders, HttpParams, HttpParameterCodec } from '@angular/common/http';
-import { CustomHttpParameterCodec } from './encoder';
+import {HttpHeaders, HttpParams, HttpParameterCodec} from '@angular/common/http';
 import { Configuration } from './configuration';
+import {CustomHttpParameterCodec, NoOpHttpParameterCodec} from './encoder';
+
+export enum QueryParamStyle {
+    Json,
+    Form,
+    DeepObject,
+    SpaceDelimited,
+    PipeDelimited,
+}
+
+export type Delimiter = "," | " " | "|" | "\t";
+
+export interface ParamOptions {
+    /** When true, serialized as multiple repeated key=value pairs. When false, serialized as a single key with joined values using `delimiter`. */
+    explode?: boolean;
+    /** Delimiter used when explode=false. The delimiter itself is inserted unencoded between encoded values. */
+    delimiter?: Delimiter;
+}
+
+interface ParamEntry {
+    values: string[];
+    options: Required<ParamOptions>;
+}
+
+export class OpenApiHttpParams {
+    private params: Map<string, ParamEntry> = new Map();
+    private defaults: Required<ParamOptions>;
+    private encoder: HttpParameterCodec;
+
+    /**
+     * @param encoder  Parameter serializer
+     * @param defaults Global defaults used when a specific parameter has no explicit options.
+     *                 By OpenAPI default, explode is true for query params with style=form.
+     */
+    constructor(encoder?: HttpParameterCodec, defaults?: { explode?: boolean; delimiter?: Delimiter }) {
+        this.encoder = encoder || new CustomHttpParameterCodec();
+        this.defaults = {
+            explode: defaults?.explode ?? true,
+            delimiter: defaults?.delimiter ?? ",",
+        };
+    }
+
+    private resolveOptions(local?: ParamOptions): Required<ParamOptions> {
+        return {
+            explode: local?.explode ?? this.defaults.explode,
+            delimiter: local?.delimiter ?? this.defaults.delimiter,
+        };
+    }
+
+    /**
+     * Replace the parameter's values and (optionally) its options.
+     * Options are stored per-parameter (not global).
+     */
+    set(key: string, values: string[] | string, options?: ParamOptions): this {
+        const arr = Array.isArray(values) ? values.slice() : [values];
+        const opts = this.resolveOptions(options);
+        this.params.set(key, {values: arr, options: opts});
+        return this;
+    }
+
+    /**
+     * Append a single value to the parameter. If the parameter didn't exist it will be created
+     * and use resolved options (global defaults merged with any provided options).
+     */
+    append(key: string, value: string, options?: ParamOptions): this {
+        const entry = this.params.get(key);
+        if (entry) {
+            // If new options provided, override the stored options for subsequent serialization
+            if (options) {
+                entry.options = this.resolveOptions({...entry.options, ...options});
+            }
+            entry.values.push(value);
+        } else {
+            this.set(key, [value], options);
+        }
+        return this;
+    }
+
+    /**
+     * Serialize to a query string according to per-parameter OpenAPI options.
+     * - If explode=true for that parameter → repeated key=value pairs (each value encoded).
+     * - If explode=false for that parameter → single key=value where values are individually encoded
+     *   and joined using the configured delimiter. The delimiter character is inserted AS-IS
+     *   (not percent-encoded).
+     */
+    toString(): string {
+        const records = this.toRecord();
+        const parts: string[] = [];
+
+        for (const key in records) {
+            parts.push(`${key}=${records[key]}`);
+        }
+
+        return parts.join("&");
+    }
+
+    /**
+     * Return parameters as a plain record.
+     * - If a parameter has exactly one value, returns that value directly.
+     * - If a parameter has multiple values, returns a readonly array of values.
+     */
+    toRecord(): Record<string, string | number | boolean | ReadonlyArray<string | number | boolean>> {
+        const parts: Record<string, string | number | boolean | ReadonlyArray<string | number | boolean>> = {};
+
+        for (const [key, entry] of this.params.entries()) {
+            const encodedKey = this.encoder.encodeKey(key);
+
+            if (entry.options.explode) {
+                parts[encodedKey] = entry.values.map((v) => this.encoder.encodeValue(v));
+            } else {
+                const encodedValues = entry.values.map((v) => this.encoder.encodeValue(v));
+
+                // join with the delimiter *unencoded*
+                parts[encodedKey] = encodedValues.join(entry.options.delimiter);
+            }
+        }
+
+        return parts;
+    }
+
+    /**
+     * Return an Angular's HttpParams with a NoOp parameter codec as the parameters are already encoded.
+     */
+    toHttpParams(): HttpParams {
+        const records = this.toRecord();
+
+        let httpParams = new HttpParams({encoder: new NoOpHttpParameterCodec()});
+
+        return httpParams.appendAll(records);
+    }
+}
+
+function concatHttpParamsObject(httpParams: OpenApiHttpParams, key: string, item: {
+    [index: string]: any
+}, delimiter: Delimiter): OpenApiHttpParams {
+    let keyAndValues: string[] = [];
+
+    for (const k in item) {
+        keyAndValues.push(k);
+        keyAndValues.push(item[k].toString());
+    }
+
+    return httpParams.set(key, keyAndValues, {explode: false, delimiter: delimiter});
+}
 
 export class BaseService {
-    protected basePath = 'http://api.example.xyz/v1';
+    protected basePath = 'http://localhost';
     public defaultHeaders = new HttpHeaders();
     public configuration: Configuration;
     public encoder: HttpParameterCodec;
 
-    constructor(basePath?: string|string[], configuration?: Configuration) {
+    constructor(basePath?: string | string[], configuration?: Configuration) {
         this.configuration = configuration || new Configuration();
         if (typeof this.configuration.basePath !== 'string') {
             const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
@@ -37,47 +180,58 @@ export class BaseService {
         return consumes.indexOf('multipart/form-data') !== -1;
     }
 
-    protected addToHttpParams(httpParams: HttpParams, value: any, key?: string, isDeep: boolean = false): HttpParams {
-        // If the value is an object (but not a Date), recursively add its keys.
-        if (typeof value === 'object' && !(value instanceof Date)) {
-            return this.addToHttpParamsRecursive(httpParams, value, isDeep ? key : undefined, isDeep);
-        }
-        return this.addToHttpParamsRecursive(httpParams, value, key);
-    }
-
-    protected addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string, isDeep: boolean = false): HttpParams {
+    protected addToHttpParams(httpParams: OpenApiHttpParams, key: string, value: any | null | undefined, paramStyle: QueryParamStyle, explode: boolean): OpenApiHttpParams {
         if (value === null || value === undefined) {
             return httpParams;
         }
-        if (typeof value === 'object') {
-            // If JSON format is preferred, key must be provided.
-            if (key != null) {
-                return isDeep
-                    ? Object.keys(value as Record<string, any>).reduce(
-                        (hp, k) => hp.append(`${key}[${k}]`, value[k]),
-                        httpParams,
-                    )
-                    : httpParams.append(key, JSON.stringify(value));
+
+        if (paramStyle === QueryParamStyle.DeepObject) {
+            if (typeof value !== 'object') {
+                throw Error(`An object must be provided for key ${key} as it is a deep object`);
             }
-            // Otherwise, if it's an array, add each element.
-            if (Array.isArray(value)) {
-                value.forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+
+            return Object.keys(value as Record<string, any>).reduce(
+                (hp, k) => hp.append(`${key}[${k}]`, value[k]),
+                httpParams,
+            );
+        } else if (paramStyle === QueryParamStyle.Json) {
+            return httpParams.append(key, JSON.stringify(value));
+        } else {
+            // Form-style, SpaceDelimited or PipeDelimited
+
+            if (Object(value) !== value) {
+                // If it is a primitive type, add its string representation
+                return httpParams.append(key, value.toString());
             } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, value.toISOString());
+                return httpParams.append(key, value.toISOString());
+            } else if (Array.isArray(value)) {
+                // Otherwise, if it's an array, add each element.
+                if (paramStyle === QueryParamStyle.Form) {
+                    return httpParams.set(key, value, {explode: explode, delimiter: ','});
+                } else if (paramStyle === QueryParamStyle.SpaceDelimited) {
+                    return httpParams.set(key, value, {explode: explode, delimiter: ' '});
                 } else {
-                    throw Error("key may not be null if value is Date");
+                    // PipeDelimited
+                    return httpParams.set(key, value, {explode: explode, delimiter: '|'});
                 }
             } else {
-                Object.keys(value).forEach(k => {
-                    const paramKey = key ? `${key}.${k}` : k;
-                    httpParams = this.addToHttpParamsRecursive(httpParams, value[k], paramKey);
-                });
+                // Otherwise, if it's an object, add each field.
+                if (paramStyle === QueryParamStyle.Form) {
+                    if (explode) {
+                        Object.keys(value).forEach(k => {
+                            httpParams = httpParams.append(k, value[k]);
+                        });
+                        return httpParams;
+                    } else {
+                        return concatHttpParamsObject(httpParams, key, value, ',');
+                    }
+                } else if (paramStyle === QueryParamStyle.SpaceDelimited) {
+                    return concatHttpParamsObject(httpParams, key, value, ' ');
+                } else {
+                    // PipeDelimited
+                    return concatHttpParamsObject(httpParams, key, value, '|');
+                }
             }
-            return httpParams;
-        } else if (key != null) {
-            return httpParams.append(key, value);
         }
-        throw Error("key may not be null if value is not object or array");
     }
 }

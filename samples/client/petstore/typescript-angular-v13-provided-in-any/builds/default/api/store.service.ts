@@ -11,9 +11,8 @@
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
+         HttpResponse, HttpEvent , HttpContext 
         }       from '@angular/common/http';
-import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
@@ -22,7 +21,7 @@ import { Order } from '../model/order';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { BaseService } from '../api.base.service';
+import { BaseService, OpenApiHttpParams, QueryParamStyle } from '../api.base.service';
 
 
 
@@ -41,6 +40,7 @@ export class StoreService extends BaseService {
      * @param orderId ID of the order that needs to be deleted
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param options additional options
      */
     public deleteOrder(orderId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
     public deleteOrder(orderId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
@@ -91,6 +91,7 @@ export class StoreService extends BaseService {
      * Returns a map of status codes to quantities
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param options additional options
      */
     public getInventory(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<{ [key: string]: number; }>;
     public getInventory(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<{ [key: string]: number; }>>;
@@ -143,6 +144,7 @@ export class StoreService extends BaseService {
      * @param orderId ID of pet that needs to be fetched
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param options additional options
      */
     public getOrderById(orderId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json', context?: HttpContext}): Observable<Order>;
     public getOrderById(orderId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json', context?: HttpContext}): Observable<HttpResponse<Order>>;
@@ -195,6 +197,7 @@ export class StoreService extends BaseService {
      * @param body order placed for purchasing the pet
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param options additional options
      */
     public placeOrder(body: Order, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json', context?: HttpContext}): Observable<Order>;
     public placeOrder(body: Order, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json', context?: HttpContext}): Observable<HttpResponse<Order>>;

@@ -11,9 +11,8 @@
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
+         HttpResponse, HttpEvent , HttpContext 
         }       from '@angular/common/http';
-import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
@@ -22,7 +21,7 @@ import { Fruit } from '../model/fruit';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { BaseService } from '../api.base.service';
+import { BaseService, OpenApiHttpParams, QueryParamStyle } from '../api.base.service';
 
 
 
@@ -38,6 +37,7 @@ export class DefaultService extends BaseService {
     /**
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param options additional options
      */
     public rootGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Fruit>;
     public rootGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Fruit>>;
@@ -85,6 +85,7 @@ export class DefaultService extends BaseService {
      * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param options additional options
      */
     public test(body?: any, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
     public test(body?: any, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;

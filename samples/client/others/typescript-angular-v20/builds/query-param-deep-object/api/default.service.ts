@@ -11,9 +11,8 @@
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
+         HttpResponse, HttpEvent , HttpContext 
         }       from '@angular/common/http';
-import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
@@ -24,7 +23,7 @@ import { CarFilter } from '../model/carFilter';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { BaseService } from '../api.base.service';
+import { BaseService, OpenApiHttpParams, QueryParamStyle } from '../api.base.service';
 
 
 
@@ -41,15 +40,23 @@ export class DefaultService extends BaseService {
      * @param filter 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param options additional options
      */
     public getCars(filter?: CarFilter, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<Array<Car>>;
     public getCars(filter?: CarFilter, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<Car>>>;
     public getCars(filter?: CarFilter, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<Car>>>;
     public getCars(filter?: CarFilter, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>filter, 'filter', true);
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'filter',
+            <any>filter,
+            QueryParamStyle.DeepObject,
+            true,
+        );
+
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -81,7 +88,7 @@ export class DefaultService extends BaseService {
         return this.httpClient.request<Array<Car>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                params: localVarQueryParameters,
+                params: localVarQueryParameters.toHttpParams(),
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
