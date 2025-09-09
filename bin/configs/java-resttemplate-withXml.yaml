@@ -8,3 +8,4 @@ additionalProperties:
   withXml: "true"
   artifactId: petstore-resttemplate-withxml
   hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: true
