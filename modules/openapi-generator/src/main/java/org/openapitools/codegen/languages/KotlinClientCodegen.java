@@ -966,7 +966,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
-        if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.kotlinx_serialization) {
+        if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.kotlinx_serialization || getLibrary().equals(MULTIPLATFORM)) {
             // The loop removes unneeded variables so commas are handled correctly in the related templates
             for (Map.Entry<String, ModelsMap> modelsMap : objs.entrySet()) {
                 for (ModelMap mo : modelsMap.getValue().getModels()) {
@@ -976,7 +976,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                         continue;
                     }
                     // Remove discriminator property from the base class, it is not needed in the generated code
-                    getAllVarProperties(cm).forEach(list -> list.removeIf(var -> var.name == discriminator.getPropertyName()));
+                    getAllVarProperties(cm).forEach(list -> list.removeIf(var -> var.name.equals(discriminator.getPropertyName())));
 
                     for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
                         // Add the mapping name to additionalProperties.disciminatorValue
@@ -989,7 +989,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                         }
                         additionalProperties.discriminatorValue = mappedModel.getMappingName();
                         // Remove the discriminator property from the derived class, it is not needed in the generated code
-                        getAllVarProperties(mappedModel.getModel()).forEach(list -> list.removeIf(prop -> prop.name == discriminator.getPropertyName()));
+                        getAllVarProperties(mappedModel.getModel()).forEach(list -> list.removeIf(prop -> prop.name.equals(discriminator.getPropertyName())));
                     }
 
                 }

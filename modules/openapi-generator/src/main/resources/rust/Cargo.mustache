@@ -69,7 +69,14 @@ reqwest-middleware = { version = "^0.4", features = ["json", "blocking", "multip
 {{/supportMiddleware}}
 {{/supportAsync}}
 {{#supportAsync}}
+{{#useAsyncFileStream}}
+tokio = { version = "^1.46.0", features = ["fs"] }
+tokio-util = { version = "^0.7", features = ["codec"] }
+reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart", "stream"] }
+{{/useAsyncFileStream}}
+{{^useAsyncFileStream}}
 reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
+{{/useAsyncFileStream}}
 {{#supportMiddleware}}
 reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 {{/supportMiddleware}}

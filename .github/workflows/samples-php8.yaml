@@ -32,7 +32,7 @@ jobs:
           - samples/server/petstore/php-laravel/
           - samples/server/petstore/php-laravel-issue-21334/
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup PHP with tools
         uses: shivammathur/setup-php@v2
         with:

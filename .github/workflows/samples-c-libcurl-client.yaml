@@ -25,7 +25,7 @@ jobs:
           - 'samples/client/others/c/bearerAuth/'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Prepare
         run: |
           sudo apt-get update

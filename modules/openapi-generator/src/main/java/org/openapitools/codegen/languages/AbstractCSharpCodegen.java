@@ -47,6 +47,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -105,7 +106,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     protected boolean supportNullable = Boolean.FALSE;
 
     @Setter protected Boolean zeroBasedEnums = null;
-    protected static final String zeroBasedEnumVendorExtension = "x-zero-based-enum";
+    protected static final String zeroBasedEnumVendorExtension = VendorExtension.X_ZERO_BASED_ENUM.getName();
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
@@ -439,9 +440,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 .put("joinWithAmpersand", new JoinWithCommaLambda(true, "  ", " && "))
                 .put("joinLinesWithComma", new JoinWithCommaLambda(false, "\n", ",\n"))
                 .put("joinConditions", new JoinWithCommaLambda(true, "  ", " && "))
-                .put("trimLineBreaks", new TrimLineBreaksLambda())
-                .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
-                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
                 .put("indent1", new IndentedLambda(4, " ", false, true))
@@ -629,8 +627,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 List<CodegenProperty> allOf = composedSchemas.getAllOf();
                 if (allOf != null) {
                     for (CodegenProperty property : allOf) {
+                        patchProperty(enumRefs, model, property);
                         property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
-                        patchPropertyVendorExtensions(property);
                     }
                 }
 
@@ -638,9 +636,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (anyOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for (CodegenProperty property : anyOf) {
+                        patchProperty(enumRefs, model, property);
                         property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
-                        patchPropertyVendorExtensions(property);
                         property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
                     }
                 }
@@ -649,18 +647,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (oneOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for (CodegenProperty property : oneOf) {
+                        patchProperty(enumRefs, model, property);
                         property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
-                        patchPropertyVendorExtensions(property);
                         property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
-
-                        if (!property.isEnum) {
-                            CodegenModel composedOf = ModelUtils.getModelByName(property.name, processed);
-                            if (composedOf != null) {
-                                property.isEnum = composedOf.isEnum;
-                                patchPropertyVendorExtensions(property);
-                            }
-                        }
                     }
                 }
             }
@@ -1613,33 +1603,28 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     /**
      * Provides C# strongly typed declaration for simple arrays of some type and arrays of arrays of some type.
      *
-     * @param arr The input array property
+     * @param items The input array property
      * @return The type declaration when the type is an array of arrays.
      */
-    private String getArrayTypeDeclaration(Schema arr) {
-        // TODO: collection type here should be fully qualified namespace to avoid model conflicts
-        // This supports arrays of arrays.
-        String arrayType = typeMapping.get("array");
-        StringBuilder instantiationType = new StringBuilder(arrayType);
-        Schema<?> items = ModelUtils.getSchemaItems(arr);
-        String nestedType = getTypeDeclaration(items);
-        // TODO: We may want to differentiate here between generics and primitive arrays.
-        instantiationType.append("<").append(nestedType).append(">");
-        return instantiationType.toString();
+    private String getTypeDeclarationForArray(Schema<?> items) {
+        return getTypeDeclaration(items);
     }
 
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration(p);
+            return getTypeDeclarationForArray(p);
         }
         return super.toInstantiationType(p);
     }
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration(p);
+        Schema<?> schema = unaliasSchema(p);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        if (ModelUtils.isArraySchema(target)) {
+            Schema<?> items = getSchemaItems(schema);
+            return getSchemaType(target) + "<" + getTypeDeclarationForArray(items) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
             Schema<?> inner = ModelUtils.getAdditionalProperties(p);
@@ -2101,6 +2086,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Deprecated
     protected Set<String> getNullableTypes() {
         throw new RuntimeException("This method should no longer be used.");
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_ZERO_BASED_ENUM);
+        return extensions;
     }
 
     protected Set<String> getValueTypes() {

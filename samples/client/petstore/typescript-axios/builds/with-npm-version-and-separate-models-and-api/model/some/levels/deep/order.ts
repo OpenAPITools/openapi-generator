@@ -16,45 +16,16 @@
 
 /**
  * An order for a pets from the pet store
- * @export
- * @interface Order
  */
 export interface Order {
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
     'petId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
     'quantity'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
     'shipDate'?: string;
     /**
      * Order Status
-     * @type {string}
-     * @memberof Order
      */
     'status'?: OrderStatusEnum;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Order
-     */
     'complete'?: boolean;
 }
 

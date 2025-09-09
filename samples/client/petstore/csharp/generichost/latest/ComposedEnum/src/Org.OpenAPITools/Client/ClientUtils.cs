@@ -111,6 +111,8 @@ namespace Org.OpenAPITools.Client
                 return boolean
                     ? "true"
                     : "false";
+            if (obj is AreaCode areaCode)
+                return AreaCodeValueConverter.ToJsonValue(areaCode);
             if (obj is MarineAreaCode marineAreaCode)
                 return MarineAreaCodeValueConverter.ToJsonValue(marineAreaCode);
             if (obj is StateTerritoryCode stateTerritoryCode)

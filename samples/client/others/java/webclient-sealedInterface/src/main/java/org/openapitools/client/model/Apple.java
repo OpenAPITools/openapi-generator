@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -33,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Apple.JSON_PROPERTY_SEEDS,
   Apple.JSON_PROPERTY_FRUIT_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public final class Apple implements Fruit {
   public static final String JSON_PROPERTY_SEEDS = "seeds";
   @javax.annotation.Nonnull
@@ -57,7 +58,7 @@ public final class Apple implements Fruit {
    * @return seeds
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SEEDS)
+  @JsonProperty(value = JSON_PROPERTY_SEEDS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getSeeds() {
@@ -65,7 +66,7 @@ public final class Apple implements Fruit {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SEEDS)
+  @JsonProperty(value = JSON_PROPERTY_SEEDS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setSeeds(@javax.annotation.Nonnull Integer seeds) {
     this.seeds = seeds;
@@ -82,7 +83,7 @@ public final class Apple implements Fruit {
    * @return fruitType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_FRUIT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_FRUIT_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public FruitType getFruitType() {
@@ -90,7 +91,7 @@ public final class Apple implements Fruit {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FRUIT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_FRUIT_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setFruitType(@javax.annotation.Nonnull FruitType fruitType) {
     this.fruitType = fruitType;

@@ -342,5 +342,7 @@ class DeserializationTests(unittest.TestCase):
 
         with self.assertRaises(petstore_api.ApiException) as cm:
             deserialized = self.deserialize(response, "Dict[str, str]", 'application/jsonnnnn')
-        
+
+        with self.assertRaises(petstore_api.ApiException) as cm:
+            deserialized = self.deserialize(response, "Dict[str, str]", 'application/<+json')
 

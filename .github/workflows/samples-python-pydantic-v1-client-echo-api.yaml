@@ -23,12 +23,12 @@ jobs:
           - "3.11"
           - "3.12"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Setup node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
       - name: Run echo server
         run: |
           git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server

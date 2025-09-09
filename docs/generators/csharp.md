@@ -57,6 +57,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |validatable|Generates self-validatable models.| |true|
 |zeroBasedEnums|Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.| |null|
 
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-zero-based-enum|When used on an enum, the index will not be generated and the default numbering will be used, zero-based|MODEL|false
+
+
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |

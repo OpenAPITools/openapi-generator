@@ -766,9 +766,10 @@ public class DefaultCodegenTest {
         Set<String> oneOf = new TreeSet<>();
         oneOf.add("Apple");
         oneOf.add("Banana");
+        oneOf.add("Orange");
         assertEquals(fruit.oneOf, oneOf);
-        assertEquals(3, fruit.optionalVars.size());
-        assertEquals(3, fruit.vars.size());
+        assertEquals(4, fruit.optionalVars.size());
+        assertEquals(4, fruit.vars.size());
         // make sure that fruit has the property color
         boolean colorSeen = false;
         for (CodegenProperty cp : fruit.vars) {
@@ -786,6 +787,32 @@ public class DefaultCodegenTest {
             }
         }
         assertTrue(colorSeen);
+    }
+
+    @Test
+    public void testComposedSchemaOneOfWithInnerModel() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_innerModel.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("RandomAnimalsResponse_animals_inner");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel randomAnimalsResponseInner = codegen.fromModel("RandomAnimalsResponse_animals_inner", schema);
+
+        Set<String> oneOf = new TreeSet<>();
+        oneOf.add("Mouse");
+        oneOf.add("Cat");
+        oneOf.add("Dog");
+        assertEquals(oneOf, randomAnimalsResponseInner.oneOf);
+        assertEquals(4, randomAnimalsResponseInner.vars.size());
+        // make sure that RandomAnimalsResponseInner has the property species
+        boolean speciesSeen = false;
+        for (CodegenProperty cp : randomAnimalsResponseInner.vars) {
+            if ("species".equals(cp.name)) {
+                speciesSeen = true;
+                break;
+            }
+        }
+        assertTrue(speciesSeen);
     }
 
     @Test
@@ -1797,15 +1824,6 @@ public class DefaultCodegenTest {
         Schema personForUpdate = openAPI.getComponents().getSchemas().get("personForUpdate");
         CodegenModel personForUpdateModel = codegen.fromModel("personForUpdate", personForUpdate);
         assertEquals(getRequiredVars(personForUpdateModel), Collections.emptyList());
-    }
-
-    private List<String> getRequiredVars(CodegenModel model) {
-        return getNames(model.getRequiredVars());
-    }
-
-    private List<String> getNames(List<CodegenProperty> props) {
-        if (props == null) return null;
-        return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
 
     @Test
@@ -5005,5 +5023,25 @@ public class DefaultCodegenTest {
 
         // When & Then
         assertThat(codegenOperation.getHasSingleParam()).isTrue();
+    }
+
+    @Test
+    public void testQueryIsJsonMimeType() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/echo_api.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/query/style_jsonSerialization/object";
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+
+        assertTrue(codegenOperation.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType));
+    }
+
+    private List<String> getRequiredVars(CodegenModel model) {
+        return getNames(model.getRequiredVars());
+    }
+
+    private List<String> getNames(List<CodegenProperty> props) {
+        if (props == null) return null;
+        return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
 }
