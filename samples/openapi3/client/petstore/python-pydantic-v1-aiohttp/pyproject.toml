@@ -3,7 +3,7 @@ name = "petstore_api"
 version = "1.0.0"
 description = "OpenAPI Petstore"
 authors = ["OpenAPI Generator Community <team@openapitools.org>"]
-license = { text = "Apache-2.0" }
+license = "Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
 keywords = ["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"]
