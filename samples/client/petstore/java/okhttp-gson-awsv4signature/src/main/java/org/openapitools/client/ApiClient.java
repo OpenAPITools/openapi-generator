@@ -236,8 +236,8 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g http://petstore.swagger.io/v2
-     * @return An instance of OkHttpClient
+     * @param basePath Base path of the URL (e.g http://petstore.swagger.io/v2)
+     * @return An instance of ApiClient
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
@@ -285,7 +285,7 @@ public class ApiClient {
      * Set HTTP client, which must never be null.
      *
      * @param newHttpClient An instance of OkHttpClient
-     * @return Api Client
+     * @return ApiClient
      * @throws java.lang.NullPointerException when newHttpClient is null
      */
     public ApiClient setHttpClient(OkHttpClient newHttpClient) {
