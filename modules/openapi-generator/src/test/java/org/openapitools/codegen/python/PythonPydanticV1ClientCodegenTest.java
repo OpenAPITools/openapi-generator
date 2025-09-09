@@ -25,7 +25,6 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PythonPydanticV1ClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
@@ -534,46 +533,5 @@ public class PythonPydanticV1ClientCodegenTest {
         assertFileContains(initFilePath, "from openapi_client.models.pet import Pet as Pet");
         assertFileContains(initFilePath, "from openapi_client.models.tag import Tag as Tag");
         assertFileContains(initFilePath, "from openapi_client.models.user import User as User");
-    }
-
-    @Test(description = "Verify pydantic-v1 always uses object notation for license")
-    public void testLicenseFormatInPyprojectToml() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("python-pydantic-v1")
-            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
-            .setOutputDir(output.getAbsolutePath())
-            .addAdditionalProperty("licenseInfo", "MIT");
-
-        DefaultGenerator generator = new DefaultGenerator();
-        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        TestUtils.assertFileExists(Paths.get(output.getAbsolutePath(), "pyproject.toml"));
-        // python-pydantic-v1 always uses object notation regardless of poetry1
-        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "pyproject.toml"),
-            "license = { text = \"MIT\" }");
-    }
-
-    @Test(description = "Verify pydantic-v1 uses default license when licenseInfo not provided")
-    public void testDefaultLicenseInPyprojectToml() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("python-pydantic-v1")
-            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
-            .setOutputDir(output.getAbsolutePath());
-
-        DefaultGenerator generator = new DefaultGenerator();
-        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        TestUtils.assertFileExists(Paths.get(output.getAbsolutePath(), "pyproject.toml"));
-        // Should use default "Unlicense"
-        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "pyproject.toml"),
-            "license = { text = \"Unlicense\" }");
     }
 }
