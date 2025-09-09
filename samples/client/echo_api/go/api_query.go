@@ -1148,3 +1148,120 @@ func (a *QueryAPIService) TestQueryStyleFormExplodeTrueObjectAllOfExecute(r ApiT
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+
+type ApiTestQueryStyleJsonSerializationObjectRequest struct {
+	ctx context.Context
+	ApiService *QueryAPIService
+	jsonSerializedObjectRefStringQuery *Pet
+	jsonSerializedObjectArrayRefStringQuery *[]Pet
+}
+
+func (r ApiTestQueryStyleJsonSerializationObjectRequest) JsonSerializedObjectRefStringQuery(jsonSerializedObjectRefStringQuery Pet) ApiTestQueryStyleJsonSerializationObjectRequest {
+	r.jsonSerializedObjectRefStringQuery = &jsonSerializedObjectRefStringQuery
+	return r
+}
+
+func (r ApiTestQueryStyleJsonSerializationObjectRequest) JsonSerializedObjectArrayRefStringQuery(jsonSerializedObjectArrayRefStringQuery []Pet) ApiTestQueryStyleJsonSerializationObjectRequest {
+	r.jsonSerializedObjectArrayRefStringQuery = &jsonSerializedObjectArrayRefStringQuery
+	return r
+}
+
+func (r ApiTestQueryStyleJsonSerializationObjectRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.TestQueryStyleJsonSerializationObjectExecute(r)
+}
+
+/*
+TestQueryStyleJsonSerializationObject Test query parameter(s)
+
+Test query parameter(s)
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiTestQueryStyleJsonSerializationObjectRequest
+*/
+func (a *QueryAPIService) TestQueryStyleJsonSerializationObject(ctx context.Context) ApiTestQueryStyleJsonSerializationObjectRequest {
+	return ApiTestQueryStyleJsonSerializationObjectRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return string
+func (a *QueryAPIService) TestQueryStyleJsonSerializationObjectExecute(r ApiTestQueryStyleJsonSerializationObjectRequest) (string, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  string
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "QueryAPIService.TestQueryStyleJsonSerializationObject")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/query/style_jsonSerialization/object"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.jsonSerializedObjectRefStringQuery != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "json_serialized_object_ref_string_query", r.jsonSerializedObjectRefStringQuery, "", "")
+	}
+	if r.jsonSerializedObjectArrayRefStringQuery != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "json_serialized_object_array_ref_string_query", r.jsonSerializedObjectArrayRefStringQuery, "", "csv")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"text/plain"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}

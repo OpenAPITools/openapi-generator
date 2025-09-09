@@ -398,7 +398,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.dataType, "List<string>");
+        Assert.assertEquals(property2.dataType, "List?<string>");
         Assert.assertEquals(property2.name, "Urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "List?");

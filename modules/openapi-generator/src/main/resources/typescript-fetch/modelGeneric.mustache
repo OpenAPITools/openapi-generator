@@ -141,10 +141,10 @@ export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classnam
         {{^isReadOnly}}
         {{#isPrimitiveType}}
         {{#isDateType}}
-        '{{baseName}}': {{^required}}{{#isNullable}}value['{{name}}'] === null ? null : {{/isNullable}}{{^isNullable}}value['{{name}}'] == null ? undefined : {{/isNullable}}{{/required}}((value['{{name}}']{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString().substring(0,10)),
+        '{{baseName}}': {{^required}}value['{{name}}'] == null ? value['{{name}}'] : {{/required}}{{#isNullable}}{{#required}}value['{{name}}'] == null ? value['{{name}}'] : {{/required}}{{/isNullable}}value['{{name}}'].toISOString().substring(0,10),
         {{/isDateType}}
         {{#isDateTimeType}}
-        '{{baseName}}': {{^required}}{{#isNullable}}value['{{name}}'] === null ? null : {{/isNullable}}{{^isNullable}}value['{{name}}'] == null ? undefined : {{/isNullable}}{{/required}}((value['{{name}}']{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString()),
+        '{{baseName}}': {{^required}}value['{{name}}'] == null ? value['{{name}}'] : {{/required}}{{#isNullable}}{{#required}}value['{{name}}'] == null ? value['{{name}}'] : {{/required}}{{/isNullable}}value['{{name}}'].toISOString(),
         {{/isDateTimeType}}
         {{#isArray}}
         '{{baseName}}': {{#uniqueItems}}{{^required}}value['{{name}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}Array.from(value['{{name}}'] as Set<any>){{/uniqueItems}}{{^uniqueItems}}value['{{name}}']{{/uniqueItems}},

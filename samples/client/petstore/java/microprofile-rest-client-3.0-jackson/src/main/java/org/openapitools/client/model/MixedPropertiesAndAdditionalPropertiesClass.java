@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -56,7 +57,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
    * Get uuid
    * @return uuid
    **/
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public UUID getUuid() {
     return uuid;
@@ -65,7 +66,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
   /**
    * Set uuid
    */
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
@@ -80,7 +81,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
    * Get dateTime
    * @return dateTime
    **/
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Date getDateTime() {
     return dateTime;
@@ -89,7 +90,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
   /**
    * Set dateTime
    */
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
@@ -104,7 +105,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
    * Get map
    * @return map
    **/
-  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonProperty(value = JSON_PROPERTY_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Animal> getMap() {
     return map;
@@ -113,7 +114,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
   /**
    * Set map
    */
-  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonProperty(value = JSON_PROPERTY_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMap(Map<String, Animal> map) {
     this.map = map;

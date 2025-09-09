@@ -2024,7 +2024,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         private PythonType uuidType(IJsonSchemaValidationProperties cp) {
-            return new PythonType(cp.getDataType());
+            moduleImports.add("uuid", "UUID");
+            return new PythonType("UUID");
         }
 
         private PythonType modelType(IJsonSchemaValidationProperties cp) {
@@ -2051,6 +2052,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return arrayType(cp);
             } else if (cp.getIsMap() || cp.getIsFreeFormObject()) {
                 return mapType(cp);
+            } else if (cp.getIsUuid()) {
+                return uuidType(cp);
             } else if (cp.getIsString()) {
                 return stringType(cp);
             } else if (cp.getIsNumber() || cp.getIsFloat() || cp.getIsDouble()) {
@@ -2067,8 +2070,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return anyType(cp);
             } else if (cp.getIsDate() || cp.getIsDateTime()) {
                 return dateType(cp);
-            } else if (cp.getIsUuid()) {
-                return uuidType(cp);
             }
 
             return null;

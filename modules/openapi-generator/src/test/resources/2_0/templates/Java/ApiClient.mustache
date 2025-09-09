@@ -52,6 +52,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.Locale;
 
 import java.net.URLEncoder;
 
@@ -711,6 +712,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     if (serverIndex != null) {
       if (serverIndex < 0 || serverIndex >= servers.size()) {
         throw new ArrayIndexOutOfBoundsException(String.format(
+          Locale.ROOT,
           "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
         ));
       }

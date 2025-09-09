@@ -307,6 +307,69 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             mdl.getComposedSchemas().setOneOf(newOneOfs);
         }
 
+        // Handle anyOf schemas similarly to oneOf
+        // This is pragmatic since Rust's untagged enum will deserialize to the first matching variant
+        if (mdl.getComposedSchemas() != null && mdl.getComposedSchemas().getAnyOf() != null
+                && !mdl.getComposedSchemas().getAnyOf().isEmpty()) {
+
+            List<CodegenProperty> newAnyOfs = mdl.getComposedSchemas().getAnyOf().stream()
+                    .map(CodegenProperty::clone)
+                    .collect(Collectors.toList());
+            List<Schema> schemas = ModelUtils.getInterfaces(model);
+            if (newAnyOfs.size() != schemas.size()) {
+                // For safety reasons, this should never happen unless there is an error in the code
+                throw new RuntimeException("anyOf size does not match the model");
+            }
+
+            Map<String, String> refsMapping = Optional.ofNullable(model.getDiscriminator())
+                    .map(Discriminator::getMapping).orElse(Collections.emptyMap());
+
+            // Reverse mapped references to use as baseName for anyOf, but different keys may point to the same $ref.
+            // Thus, we group them by the value
+            Map<String, List<String>> mappedNamesByRef = refsMapping.entrySet().stream()
+                    .collect(Collectors.groupingBy(Map.Entry::getValue,
+                            Collectors.mapping(Map.Entry::getKey, Collectors.toList())
+                    ));
+
+            for (int i = 0; i < newAnyOfs.size(); i++) {
+                CodegenProperty anyOf = newAnyOfs.get(i);
+                Schema schema = schemas.get(i);
+
+                if (mappedNamesByRef.containsKey(schema.get$ref())) {
+                    // prefer mapped names if present
+                    // remove mapping not in order not to reuse for the next occurrence of the ref
+                    List<String> names = mappedNamesByRef.get(schema.get$ref());
+                    String mappedName = names.remove(0);
+                    anyOf.setBaseName(mappedName);
+                    anyOf.setName(toModelName(mappedName));
+                } else if (!org.apache.commons.lang3.StringUtils.isEmpty(schema.get$ref())) {
+                    // use $ref if it's reference
+                    String refName = ModelUtils.getSimpleRef(schema.get$ref());
+                    if (refName != null) {
+                        String modelName = toModelName(refName);
+                        anyOf.setName(modelName);
+                        anyOf.setBaseName(refName);
+                    }
+                } else if (anyOf.isArray) {
+                    // If the type is an array, extend the name with the inner type to prevent name collisions
+                    // in case multiple arrays with different types are defined. If the user has manually specified
+                    // a name, use that name instead.
+                    String collectionWithTypeName = toModelName(schema.getType()) + anyOf.containerTypeMapped + anyOf.items.dataType;
+                    String anyOfName = Optional.ofNullable(schema.getTitle()).orElse(collectionWithTypeName);
+                    anyOf.setName(anyOfName);
+                }
+                else {
+                    // In-placed type (primitive), because there is no mapping or ref for it.
+                    // use camelized `title` if present, otherwise use `type`
+                    String anyOfName = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
+                    anyOf.setName(toModelName(anyOfName));
+                }
+            }
+
+            // Set anyOf as oneOf for template processing since we want the same output
+            mdl.getComposedSchemas().setOneOf(newAnyOfs);
+        }
+
         return mdl;
     }
 
@@ -639,13 +702,29 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         super.postProcessParameter(parameter);
         // in order to avoid name conflicts, we map parameters inside the functions
         String inFunctionIdentifier = "";
+        String locationSuffix = "";
+
+        // Determine parameter location using the boolean flags in case of parameters with the same name but in different locations
+        if (parameter.isPathParam) {
+            locationSuffix = "path_";
+        } else if (parameter.isQueryParam) {
+            locationSuffix = "query_";
+        } else if (parameter.isHeaderParam) {
+            locationSuffix = "header_";
+        } else if (parameter.isBodyParam) {
+            locationSuffix = "body_";
+        } else if (parameter.isCookieParam) {
+            locationSuffix = "cookie_";
+        } else if (parameter.isFormParam) {
+            locationSuffix = "form_";
+        }
         if (this.useSingleRequestParameter) {
             inFunctionIdentifier = "params." + parameter.paramName;
         } else {
             if (parameter.paramName.startsWith("r#")) {
-                inFunctionIdentifier = "p_" + parameter.paramName.substring(2);
+                inFunctionIdentifier = "p_" + locationSuffix + parameter.paramName.substring(2);
             } else {
-                inFunctionIdentifier = "p_" + parameter.paramName;
+                inFunctionIdentifier = "p_" + locationSuffix + parameter.paramName;
             }
         }
         if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENSION_PARAM_IDENTIFIER)) { // allow to overwrite this value
@@ -656,6 +735,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
+        boolean useAsyncFileStream = false;
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
@@ -687,6 +767,17 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             for (var param : operation.allParams) {
                 if (!hasUUIDs && param.isUuid) {
                     hasUUIDs = true;
+                    break;
+                }
+            }
+
+            // If we use a file body parameter, we need to include the imports and crates for it
+            // But they should be added only once per file 
+            for (var param: operation.bodyParams) {
+                if (param.isFile && supportAsync && !useAsyncFileStream) {
+                    useAsyncFileStream = true;
+                    additionalProperties.put("useAsyncFileStream", Boolean.TRUE);
+                    operation.vendorExtensions.put("useAsyncFileStream", Boolean.TRUE);
                     break;
                 }
             }

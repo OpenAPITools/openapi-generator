@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use axum::{body::Body, extract::*, response::Response, routing::*};
 use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
 use bytes::Bytes;
-use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
+use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 

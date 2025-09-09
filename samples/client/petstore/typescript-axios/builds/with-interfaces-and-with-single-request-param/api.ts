@@ -25,89 +25,31 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 
 /**
  * Describes the result of uploading an image resource
- * @export
- * @interface ApiResponse
  */
 export interface ApiResponse {
-    /**
-     * 
-     * @type {number}
-     * @memberof ApiResponse
-     */
     'code'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiResponse
-     */
     'type'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiResponse
-     */
     'message'?: string;
 }
 /**
  * A category for a pet
- * @export
- * @interface Category
  */
 export interface Category {
-    /**
-     * 
-     * @type {number}
-     * @memberof Category
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Category
-     */
     'name'?: string;
 }
 /**
  * An order for a pets from the pet store
- * @export
- * @interface Order
  */
 export interface Order {
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
     'petId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Order
-     */
     'quantity'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Order
-     */
     'shipDate'?: string;
     /**
      * Order Status
-     * @type {string}
-     * @memberof Order
      */
     'status'?: OrderStatusEnum;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Order
-     */
     'complete'?: boolean;
 }
 
@@ -121,44 +63,15 @@ export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnu
 
 /**
  * A pet for sale in the pet store
- * @export
- * @interface Pet
  */
 export interface Pet {
-    /**
-     * 
-     * @type {number}
-     * @memberof Pet
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {Category}
-     * @memberof Pet
-     */
     'category'?: Category;
-    /**
-     * 
-     * @type {string}
-     * @memberof Pet
-     */
     'name': string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Pet
-     */
     'photoUrls': Array<string>;
-    /**
-     * 
-     * @type {Array<Tag>}
-     * @memberof Pet
-     */
     'tags'?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {string}
-     * @memberof Pet
      */
     'status'?: PetStatusEnum;
 }
@@ -173,82 +86,30 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 /**
  * A tag for a pet
- * @export
- * @interface Tag
  */
 export interface Tag {
-    /**
-     * 
-     * @type {number}
-     * @memberof Tag
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Tag
-     */
     'name'?: string;
 }
 /**
  * A User who is purchasing from the pet store
- * @export
- * @interface User
  */
 export interface User {
-    /**
-     * 
-     * @type {number}
-     * @memberof User
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'username'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'firstName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'lastName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'email'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'password'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
     'phone'?: string;
     /**
      * User Status
-     * @type {number}
-     * @memberof User
      */
     'userStatus'?: number;
 }
 
 /**
  * PetApi - axios parameter creator
- * @export
  */
 export const PetApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -603,7 +464,6 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 /**
  * PetApi - functional programming interface
- * @export
  */
 export const PetApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = PetApiAxiosParamCreator(configuration)
@@ -723,7 +583,6 @@ export const PetApiFp = function(configuration?: Configuration) {
 
 /**
  * PetApi - factory interface
- * @export
  */
 export const PetApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = PetApiFp(configuration)
@@ -814,8 +673,6 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
 
 /**
  * PetApi - interface
- * @export
- * @interface PetApi
  */
 export interface PetApiInterface {
     /**
@@ -824,7 +681,6 @@ export interface PetApiInterface {
      * @param {PetApiAddPetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApiInterface
      */
     addPet(requestParameters: PetApiAddPetRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -834,7 +690,6 @@ export interface PetApiInterface {
      * @param {PetApiDeletePetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApiInterface
      */
     deletePet(requestParameters: PetApiDeletePetRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -844,7 +699,6 @@ export interface PetApiInterface {
      * @param {PetApiFindPetsByStatusRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApiInterface
      */
     findPetsByStatus(requestParameters: PetApiFindPetsByStatusRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<Pet>>;
 
@@ -855,7 +709,6 @@ export interface PetApiInterface {
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
-     * @memberof PetApiInterface
      */
     findPetsByTags(requestParameters: PetApiFindPetsByTagsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<Pet>>;
 
@@ -865,7 +718,6 @@ export interface PetApiInterface {
      * @param {PetApiGetPetByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApiInterface
      */
     getPetById(requestParameters: PetApiGetPetByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<Pet>;
 
@@ -875,7 +727,6 @@ export interface PetApiInterface {
      * @param {PetApiUpdatePetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApiInterface
      */
     updatePet(requestParameters: PetApiUpdatePetRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -885,7 +736,6 @@ export interface PetApiInterface {
      * @param {PetApiUpdatePetWithFormRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApiInterface
      */
     updatePetWithForm(requestParameters: PetApiUpdatePetWithFormRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -895,7 +745,6 @@ export interface PetApiInterface {
      * @param {PetApiUploadFileRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApiInterface
      */
     uploadFile(requestParameters: PetApiUploadFileRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponse>;
 
@@ -903,156 +752,108 @@ export interface PetApiInterface {
 
 /**
  * Request parameters for addPet operation in PetApi.
- * @export
- * @interface PetApiAddPetRequest
  */
 export interface PetApiAddPetRequest {
     /**
      * Pet object that needs to be added to the store
-     * @type {Pet}
-     * @memberof PetApiAddPet
      */
     readonly body: Pet
 }
 
 /**
  * Request parameters for deletePet operation in PetApi.
- * @export
- * @interface PetApiDeletePetRequest
  */
 export interface PetApiDeletePetRequest {
     /**
      * Pet id to delete
-     * @type {number}
-     * @memberof PetApiDeletePet
      */
     readonly petId: number
 
-    /**
-     * 
-     * @type {string}
-     * @memberof PetApiDeletePet
-     */
     readonly apiKey?: string
 }
 
 /**
  * Request parameters for findPetsByStatus operation in PetApi.
- * @export
- * @interface PetApiFindPetsByStatusRequest
  */
 export interface PetApiFindPetsByStatusRequest {
     /**
      * Status values that need to be considered for filter
-     * @type {Array<'available' | 'pending' | 'sold'>}
-     * @memberof PetApiFindPetsByStatus
      */
     readonly status: Array<FindPetsByStatusStatusEnum>
 }
 
 /**
  * Request parameters for findPetsByTags operation in PetApi.
- * @export
- * @interface PetApiFindPetsByTagsRequest
  */
 export interface PetApiFindPetsByTagsRequest {
     /**
      * Tags to filter by
-     * @type {Array<string>}
-     * @memberof PetApiFindPetsByTags
      */
     readonly tags: Array<string>
 }
 
 /**
  * Request parameters for getPetById operation in PetApi.
- * @export
- * @interface PetApiGetPetByIdRequest
  */
 export interface PetApiGetPetByIdRequest {
     /**
      * ID of pet to return
-     * @type {number}
-     * @memberof PetApiGetPetById
      */
     readonly petId: number
 }
 
 /**
  * Request parameters for updatePet operation in PetApi.
- * @export
- * @interface PetApiUpdatePetRequest
  */
 export interface PetApiUpdatePetRequest {
     /**
      * Pet object that needs to be added to the store
-     * @type {Pet}
-     * @memberof PetApiUpdatePet
      */
     readonly body: Pet
 }
 
 /**
  * Request parameters for updatePetWithForm operation in PetApi.
- * @export
- * @interface PetApiUpdatePetWithFormRequest
  */
 export interface PetApiUpdatePetWithFormRequest {
     /**
      * ID of pet that needs to be updated
-     * @type {number}
-     * @memberof PetApiUpdatePetWithForm
      */
     readonly petId: number
 
     /**
      * Updated name of the pet
-     * @type {string}
-     * @memberof PetApiUpdatePetWithForm
      */
     readonly name?: string
 
     /**
      * Updated status of the pet
-     * @type {string}
-     * @memberof PetApiUpdatePetWithForm
      */
     readonly status?: string
 }
 
 /**
  * Request parameters for uploadFile operation in PetApi.
- * @export
- * @interface PetApiUploadFileRequest
  */
 export interface PetApiUploadFileRequest {
     /**
      * ID of pet to update
-     * @type {number}
-     * @memberof PetApiUploadFile
      */
     readonly petId: number
 
     /**
      * Additional data to pass to server
-     * @type {string}
-     * @memberof PetApiUploadFile
      */
     readonly additionalMetadata?: string
 
     /**
      * file to upload
-     * @type {File}
-     * @memberof PetApiUploadFile
      */
     readonly file?: File
 }
 
 /**
  * PetApi - object-oriented interface
- * @export
- * @class PetApi
- * @extends {BaseAPI}
  */
 export class PetApi extends BaseAPI implements PetApiInterface {
     /**
@@ -1061,7 +862,6 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @param {PetApiAddPetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public addPet(requestParameters: PetApiAddPetRequest, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).addPet(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
@@ -1073,7 +873,6 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @param {PetApiDeletePetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public deletePet(requestParameters: PetApiDeletePetRequest, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).deletePet(requestParameters.petId, requestParameters.apiKey, options).then((request) => request(this.axios, this.basePath));
@@ -1085,7 +884,6 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @param {PetApiFindPetsByStatusRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public findPetsByStatus(requestParameters: PetApiFindPetsByStatusRequest, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).findPetsByStatus(requestParameters.status, options).then((request) => request(this.axios, this.basePath));
@@ -1098,7 +896,6 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public findPetsByTags(requestParameters: PetApiFindPetsByTagsRequest, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).findPetsByTags(requestParameters.tags, options).then((request) => request(this.axios, this.basePath));
@@ -1110,7 +907,6 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @param {PetApiGetPetByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public getPetById(requestParameters: PetApiGetPetByIdRequest, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).getPetById(requestParameters.petId, options).then((request) => request(this.axios, this.basePath));
@@ -1122,7 +918,6 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @param {PetApiUpdatePetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public updatePet(requestParameters: PetApiUpdatePetRequest, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).updatePet(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
@@ -1134,7 +929,6 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @param {PetApiUpdatePetWithFormRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public updatePetWithForm(requestParameters: PetApiUpdatePetWithFormRequest, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).updatePetWithForm(requestParameters.petId, requestParameters.name, requestParameters.status, options).then((request) => request(this.axios, this.basePath));
@@ -1146,16 +940,12 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @param {PetApiUploadFileRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PetApi
      */
     public uploadFile(requestParameters: PetApiUploadFileRequest, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).uploadFile(requestParameters.petId, requestParameters.additionalMetadata, requestParameters.file, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
-/**
- * @export
- */
 export const FindPetsByStatusStatusEnum = {
     Available: 'available',
     Pending: 'pending',
@@ -1166,7 +956,6 @@ export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof
 
 /**
  * StoreApi - axios parameter creator
- * @export
  */
 export const StoreApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1312,7 +1101,6 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
 
 /**
  * StoreApi - functional programming interface
- * @export
  */
 export const StoreApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = StoreApiAxiosParamCreator(configuration)
@@ -1373,7 +1161,6 @@ export const StoreApiFp = function(configuration?: Configuration) {
 
 /**
  * StoreApi - factory interface
- * @export
  */
 export const StoreApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = StoreApiFp(configuration)
@@ -1422,8 +1209,6 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
 
 /**
  * StoreApi - interface
- * @export
- * @interface StoreApi
  */
 export interface StoreApiInterface {
     /**
@@ -1432,7 +1217,6 @@ export interface StoreApiInterface {
      * @param {StoreApiDeleteOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApiInterface
      */
     deleteOrder(requestParameters: StoreApiDeleteOrderRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -1441,7 +1225,6 @@ export interface StoreApiInterface {
      * @summary Returns pet inventories by status
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApiInterface
      */
     getInventory(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: number; }>;
 
@@ -1451,7 +1234,6 @@ export interface StoreApiInterface {
      * @param {StoreApiGetOrderByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApiInterface
      */
     getOrderById(requestParameters: StoreApiGetOrderByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<Order>;
 
@@ -1461,7 +1243,6 @@ export interface StoreApiInterface {
      * @param {StoreApiPlaceOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApiInterface
      */
     placeOrder(requestParameters: StoreApiPlaceOrderRequest, options?: RawAxiosRequestConfig): AxiosPromise<Order>;
 
@@ -1469,51 +1250,36 @@ export interface StoreApiInterface {
 
 /**
  * Request parameters for deleteOrder operation in StoreApi.
- * @export
- * @interface StoreApiDeleteOrderRequest
  */
 export interface StoreApiDeleteOrderRequest {
     /**
      * ID of the order that needs to be deleted
-     * @type {string}
-     * @memberof StoreApiDeleteOrder
      */
     readonly orderId: string
 }
 
 /**
  * Request parameters for getOrderById operation in StoreApi.
- * @export
- * @interface StoreApiGetOrderByIdRequest
  */
 export interface StoreApiGetOrderByIdRequest {
     /**
      * ID of pet that needs to be fetched
-     * @type {number}
-     * @memberof StoreApiGetOrderById
      */
     readonly orderId: number
 }
 
 /**
  * Request parameters for placeOrder operation in StoreApi.
- * @export
- * @interface StoreApiPlaceOrderRequest
  */
 export interface StoreApiPlaceOrderRequest {
     /**
      * order placed for purchasing the pet
-     * @type {Order}
-     * @memberof StoreApiPlaceOrder
      */
     readonly body: Order
 }
 
 /**
  * StoreApi - object-oriented interface
- * @export
- * @class StoreApi
- * @extends {BaseAPI}
  */
 export class StoreApi extends BaseAPI implements StoreApiInterface {
     /**
@@ -1522,7 +1288,6 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @param {StoreApiDeleteOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApi
      */
     public deleteOrder(requestParameters: StoreApiDeleteOrderRequest, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).deleteOrder(requestParameters.orderId, options).then((request) => request(this.axios, this.basePath));
@@ -1533,7 +1298,6 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @summary Returns pet inventories by status
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApi
      */
     public getInventory(options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).getInventory(options).then((request) => request(this.axios, this.basePath));
@@ -1545,7 +1309,6 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @param {StoreApiGetOrderByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApi
      */
     public getOrderById(requestParameters: StoreApiGetOrderByIdRequest, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).getOrderById(requestParameters.orderId, options).then((request) => request(this.axios, this.basePath));
@@ -1557,7 +1320,6 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @param {StoreApiPlaceOrderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof StoreApi
      */
     public placeOrder(requestParameters: StoreApiPlaceOrderRequest, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).placeOrder(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
@@ -1568,7 +1330,6 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
 
 /**
  * UserApi - axios parameter creator
- * @export
  */
 export const UserApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1867,7 +1628,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
 
 /**
  * UserApi - functional programming interface
- * @export
  */
 export const UserApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UserApiAxiosParamCreator(configuration)
@@ -1982,7 +1742,6 @@ export const UserApiFp = function(configuration?: Configuration) {
 
 /**
  * UserApi - factory interface
- * @export
  */
 export const UserApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = UserApiFp(configuration)
@@ -2071,8 +1830,6 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
 
 /**
  * UserApi - interface
- * @export
- * @interface UserApi
  */
 export interface UserApiInterface {
     /**
@@ -2081,7 +1838,6 @@ export interface UserApiInterface {
      * @param {UserApiCreateUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApiInterface
      */
     createUser(requestParameters: UserApiCreateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -2091,7 +1847,6 @@ export interface UserApiInterface {
      * @param {UserApiCreateUsersWithArrayInputRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApiInterface
      */
     createUsersWithArrayInput(requestParameters: UserApiCreateUsersWithArrayInputRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -2101,7 +1856,6 @@ export interface UserApiInterface {
      * @param {UserApiCreateUsersWithListInputRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApiInterface
      */
     createUsersWithListInput(requestParameters: UserApiCreateUsersWithListInputRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -2111,7 +1865,6 @@ export interface UserApiInterface {
      * @param {UserApiDeleteUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApiInterface
      */
     deleteUser(requestParameters: UserApiDeleteUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -2121,7 +1874,6 @@ export interface UserApiInterface {
      * @param {UserApiGetUserByNameRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApiInterface
      */
     getUserByName(requestParameters: UserApiGetUserByNameRequest, options?: RawAxiosRequestConfig): AxiosPromise<User>;
 
@@ -2131,7 +1883,6 @@ export interface UserApiInterface {
      * @param {UserApiLoginUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApiInterface
      */
     loginUser(requestParameters: UserApiLoginUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<string>;
 
@@ -2140,7 +1891,6 @@ export interface UserApiInterface {
      * @summary Logs out current logged in user session
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApiInterface
      */
     logoutUser(options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -2150,7 +1900,6 @@ export interface UserApiInterface {
      * @param {UserApiUpdateUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApiInterface
      */
     updateUser(requestParameters: UserApiUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -2158,121 +1907,86 @@ export interface UserApiInterface {
 
 /**
  * Request parameters for createUser operation in UserApi.
- * @export
- * @interface UserApiCreateUserRequest
  */
 export interface UserApiCreateUserRequest {
     /**
      * Created user object
-     * @type {User}
-     * @memberof UserApiCreateUser
      */
     readonly body: User
 }
 
 /**
  * Request parameters for createUsersWithArrayInput operation in UserApi.
- * @export
- * @interface UserApiCreateUsersWithArrayInputRequest
  */
 export interface UserApiCreateUsersWithArrayInputRequest {
     /**
      * List of user object
-     * @type {Array<User>}
-     * @memberof UserApiCreateUsersWithArrayInput
      */
     readonly body: Array<User>
 }
 
 /**
  * Request parameters for createUsersWithListInput operation in UserApi.
- * @export
- * @interface UserApiCreateUsersWithListInputRequest
  */
 export interface UserApiCreateUsersWithListInputRequest {
     /**
      * List of user object
-     * @type {Array<User>}
-     * @memberof UserApiCreateUsersWithListInput
      */
     readonly body: Array<User>
 }
 
 /**
  * Request parameters for deleteUser operation in UserApi.
- * @export
- * @interface UserApiDeleteUserRequest
  */
 export interface UserApiDeleteUserRequest {
     /**
      * The name that needs to be deleted
-     * @type {string}
-     * @memberof UserApiDeleteUser
      */
     readonly username: string
 }
 
 /**
  * Request parameters for getUserByName operation in UserApi.
- * @export
- * @interface UserApiGetUserByNameRequest
  */
 export interface UserApiGetUserByNameRequest {
     /**
      * The name that needs to be fetched. Use user1 for testing.
-     * @type {string}
-     * @memberof UserApiGetUserByName
      */
     readonly username: string
 }
 
 /**
  * Request parameters for loginUser operation in UserApi.
- * @export
- * @interface UserApiLoginUserRequest
  */
 export interface UserApiLoginUserRequest {
     /**
      * The user name for login
-     * @type {string}
-     * @memberof UserApiLoginUser
      */
     readonly username: string
 
     /**
      * The password for login in clear text
-     * @type {string}
-     * @memberof UserApiLoginUser
      */
     readonly password: string
 }
 
 /**
  * Request parameters for updateUser operation in UserApi.
- * @export
- * @interface UserApiUpdateUserRequest
  */
 export interface UserApiUpdateUserRequest {
     /**
      * name that need to be deleted
-     * @type {string}
-     * @memberof UserApiUpdateUser
      */
     readonly username: string
 
     /**
      * Updated user object
-     * @type {User}
-     * @memberof UserApiUpdateUser
      */
     readonly body: User
 }
 
 /**
  * UserApi - object-oriented interface
- * @export
- * @class UserApi
- * @extends {BaseAPI}
  */
 export class UserApi extends BaseAPI implements UserApiInterface {
     /**
@@ -2281,7 +1995,6 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @param {UserApiCreateUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public createUser(requestParameters: UserApiCreateUserRequest, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUser(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
@@ -2293,7 +2006,6 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @param {UserApiCreateUsersWithArrayInputRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public createUsersWithArrayInput(requestParameters: UserApiCreateUsersWithArrayInputRequest, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUsersWithArrayInput(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
@@ -2305,7 +2017,6 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @param {UserApiCreateUsersWithListInputRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public createUsersWithListInput(requestParameters: UserApiCreateUsersWithListInputRequest, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUsersWithListInput(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
@@ -2317,7 +2028,6 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @param {UserApiDeleteUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public deleteUser(requestParameters: UserApiDeleteUserRequest, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).deleteUser(requestParameters.username, options).then((request) => request(this.axios, this.basePath));
@@ -2329,7 +2039,6 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @param {UserApiGetUserByNameRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public getUserByName(requestParameters: UserApiGetUserByNameRequest, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).getUserByName(requestParameters.username, options).then((request) => request(this.axios, this.basePath));
@@ -2341,7 +2050,6 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @param {UserApiLoginUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public loginUser(requestParameters: UserApiLoginUserRequest, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).loginUser(requestParameters.username, requestParameters.password, options).then((request) => request(this.axios, this.basePath));
@@ -2352,7 +2060,6 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @summary Logs out current logged in user session
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public logoutUser(options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).logoutUser(options).then((request) => request(this.axios, this.basePath));
@@ -2364,7 +2071,6 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @param {UserApiUpdateUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof UserApi
      */
     public updateUser(requestParameters: UserApiUpdateUserRequest, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).updateUser(requestParameters.username, requestParameters.body, options).then((request) => request(this.axios, this.basePath));

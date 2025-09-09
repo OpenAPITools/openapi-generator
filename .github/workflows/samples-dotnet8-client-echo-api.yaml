@@ -18,8 +18,8 @@ jobs:
           # clients
           - samples/client/echo_api/csharp/restsharp/net8/EchoApi
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4.3.1
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5.0.0
         with:
           dotnet-version: '8.0.x'
       - name: Run echo server

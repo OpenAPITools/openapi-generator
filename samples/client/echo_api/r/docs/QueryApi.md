@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**TestQueryStyleFormExplodeTrueArrayString**](QueryApi.md#TestQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 [**TestQueryStyleFormExplodeTrueObject**](QueryApi.md#TestQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 [**TestQueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#TestQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
+[**TestQueryStyleJsonSerializationObject**](QueryApi.md#TestQueryStyleJsonSerializationObject) | **GET** /query/style_jsonSerialization/object | Test query parameter(s)
 
 
 # **TestEnumRefString**
@@ -477,6 +478,55 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**DataQuery**](.md)|  | [optional] 
+
+### Return type
+
+**character**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+# **TestQueryStyleJsonSerializationObject**
+> character TestQueryStyleJsonSerializationObject(json_serialized_object_ref_string_query = var.json_serialized_object_ref_string_query, json_serialized_object_array_ref_string_query = var.json_serialized_object_array_ref_string_query)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+```R
+library(openapi)
+
+# Test query parameter(s)
+#
+# prepare function argument(s)
+var_json_serialized_object_ref_string_query <- Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available") # Pet |  (Optional)
+var_json_serialized_object_array_ref_string_query <- c(Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available")) # array[Pet] |  (Optional)
+
+api_instance <- QueryApi$new()
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$TestQueryStyleJsonSerializationObject(json_serialized_object_ref_string_query = var_json_serialized_object_ref_string_query, json_serialized_object_array_ref_string_query = var_json_serialized_object_array_ref_string_querydata_file = "result.txt")
+result <- api_instance$TestQueryStyleJsonSerializationObject(json_serialized_object_ref_string_query = var_json_serialized_object_ref_string_query, json_serialized_object_array_ref_string_query = var_json_serialized_object_array_ref_string_query)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **json_serialized_object_ref_string_query** | [**Pet**](.md)|  | [optional] 
+ **json_serialized_object_array_ref_string_query** | list( [**Pet**](Pet.md) )|  | [optional] 
 
 ### Return type
 

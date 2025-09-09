@@ -188,6 +188,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
+        // Enable discriminator-based oneOf interface generation by default
+        useOneOfInterfaces = true;
+        legacyDiscriminatorBehavior = false;
+        updateOption(USE_ONE_OF_INTERFACES, String.valueOf(useOneOfInterfaces));
+        updateOption(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, String.valueOf(legacyDiscriminatorBehavior));
+
         apiTestTemplateFiles.clear(); // TODO: add test template
 
         // spring uses the jackson lib
@@ -364,9 +370,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         convertPropertyToTypeAndWriteBack(REQUEST_MAPPING_OPTION, RequestMappingMode::valueOf, this::setRequestMappingMode);
-
-        useOneOfInterfaces = true;
-        legacyDiscriminatorBehavior = false;
 
         // Please refrain from updating values of Config Options after super.ProcessOpts() is called
         super.processOpts();
@@ -1034,6 +1037,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsClassSet.isEmpty()) {
             codegenOperation.imports.addAll(provideArgsClassSet);
+        }
+
+        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
+        if (getName().contains("spring")) {
+          codegenOperation.allParams.stream().filter(CodegenParameter::notRequiredOrIsNullable).findAny()
+              .ifPresent(p -> codegenOperation.imports.add("Nullable"));
         }
 
         if (reactive) {

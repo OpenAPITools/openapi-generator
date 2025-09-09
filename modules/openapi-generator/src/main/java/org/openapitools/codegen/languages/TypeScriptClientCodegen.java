@@ -83,6 +83,11 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     private final Map<String, String> frameworkToHttpLibMap;
 
+    @Setter
+    private boolean useRxJS;
+    @Setter
+    private boolean useInversify;
+
     // NPM Options
     private static final String NPM_REPOSITORY = "npmRepository";
 
@@ -461,12 +466,12 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             additionalProperties.put(IMPORT_FILE_EXTENSION_SWITCH, ".ts");
         }
 
-        final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
+        convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH, this::setUseRxJS);
         if (!useRxJS) {
             supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));
         }
 
-        final boolean useInversify = convertPropertyToBooleanAndWriteBack(USE_INVERSIFY_SWITCH);
+        convertPropertyToBooleanAndWriteBack(USE_INVERSIFY_SWITCH, this::setUseInversify);
         if (useInversify) {
             supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "index.ts"));
             supportingFiles.add(new SupportingFile("services" + File.separator + "configuration.mustache", "services", "configuration.ts"));
