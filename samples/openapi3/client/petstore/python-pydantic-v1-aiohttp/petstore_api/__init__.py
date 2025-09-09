@@ -64,6 +64,7 @@ __all__ = [
     "Creature",
     "CreatureInfo",
     "DanishPig",
+    "DataOutputFormat",
     "DeprecatedObject",
     "DiscriminatorAllOfSub",
     "DiscriminatorAllOfSuper",
@@ -72,6 +73,7 @@ __all__ = [
     "EnumArrays",
     "EnumClass",
     "EnumNumberVendorExt",
+    "EnumRefWithDefaultValue",
     "EnumString1",
     "EnumString2",
     "EnumStringVendorExt",
@@ -199,6 +201,7 @@ from petstore_api.models.color import Color as Color
 from petstore_api.models.creature import Creature as Creature
 from petstore_api.models.creature_info import CreatureInfo as CreatureInfo
 from petstore_api.models.danish_pig import DanishPig as DanishPig
+from petstore_api.models.data_output_format import DataOutputFormat as DataOutputFormat
 from petstore_api.models.deprecated_object import DeprecatedObject as DeprecatedObject
 from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub as DiscriminatorAllOfSub
 from petstore_api.models.discriminator_all_of_super import DiscriminatorAllOfSuper as DiscriminatorAllOfSuper
@@ -207,6 +210,7 @@ from petstore_api.models.dummy_model import DummyModel as DummyModel
 from petstore_api.models.enum_arrays import EnumArrays as EnumArrays
 from petstore_api.models.enum_class import EnumClass as EnumClass
 from petstore_api.models.enum_number_vendor_ext import EnumNumberVendorExt as EnumNumberVendorExt
+from petstore_api.models.enum_ref_with_default_value import EnumRefWithDefaultValue as EnumRefWithDefaultValue
 from petstore_api.models.enum_string1 import EnumString1 as EnumString1
 from petstore_api.models.enum_string2 import EnumString2 as EnumString2
 from petstore_api.models.enum_string_vendor_ext import EnumStringVendorExt as EnumStringVendorExt
