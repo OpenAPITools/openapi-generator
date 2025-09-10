@@ -835,6 +835,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
         CodegenModel m = super.fromModel(name, schema);
+        List<String> implementedInterfacesClasses = (List<String>) m.getVendorExtensions().getOrDefault("x-kotlin-implements", List.of());
+        List<String> implementedInterfacesFields = implementedInterfacesClasses.isEmpty()
+                ? List.of()
+                : (List<String>) m.getVendorExtensions().getOrDefault("x-kotlin-implements-fields", List.of());
         m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
         // Update allVars/requiredVars/optionalVars with isInherited
         // Each of these lists contains elements that are similar, but they are all cloned
@@ -850,7 +854,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // Update any other vars (requiredVars, optionalVars)
         Stream.of(m.requiredVars, m.optionalVars)
                 .flatMap(List::stream)
-                .filter(p -> allVarsMap.containsKey(p.baseName))
+                .filter(p -> allVarsMap.containsKey(p.baseName)
+                             || implementedInterfacesFields.contains(p.baseName)
+                )
                 .forEach(p -> p.isInherited = true);
         return m;
     }
