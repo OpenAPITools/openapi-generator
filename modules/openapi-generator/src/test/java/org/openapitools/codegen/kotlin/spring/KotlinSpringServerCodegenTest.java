@@ -1019,6 +1019,7 @@ public class KotlinSpringServerCodegenTest {
                 path,
                 "import java.io.Serializable",
                 ") : Serializable, com.some.package.Named{",
+                ") : Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
