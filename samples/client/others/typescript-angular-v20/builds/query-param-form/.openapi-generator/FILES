@@ -8,9 +8,10 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
-model/car.ts
-model/carFilter.ts
+model/filter.ts
+model/item.ts
 model/models.ts
+model/response.ts
 ng-package.json
 package.json
 param.ts
