@@ -1119,6 +1119,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     protected interface DataTypeAssigner {
+        void setIsVoid(Boolean isVoid);
+
         void setReturnType(String returnType);
 
         void setReturnContainer(String returnContainer);
@@ -1131,6 +1133,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
         if (returnType == null) {
             dataTypeAssigner.setReturnType("Unit");
+            dataTypeAssigner.setIsVoid(true);
         } else if (returnType.startsWith("kotlin.collections.List")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
