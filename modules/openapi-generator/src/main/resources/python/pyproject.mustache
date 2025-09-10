@@ -16,7 +16,12 @@ authors = [
 ]
 {{/poetry1}}
 {{#licenseInfo}}
+{{#poetry1}}
 license = "{{{licenseInfo}}}"
+{{/poetry1}}
+{{^poetry1}}
+license = { text = "{{{licenseInfo}}}" }
+{{/poetry1}}
 {{/licenseInfo}}
 readme = "README.md"
 {{#poetry1}}
