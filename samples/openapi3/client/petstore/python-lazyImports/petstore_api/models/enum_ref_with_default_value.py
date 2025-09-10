@@ -17,22 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt
+from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
-from petstore_api.models.one_of_enum_string import OneOfEnumString
-from petstore_api.models.pig import Pig
+from petstore_api.models.data_output_format import DataOutputFormat
 from typing import Optional, Set
 from typing_extensions import Self
 
-class WithNestedOneOf(BaseModel):
+class EnumRefWithDefaultValue(BaseModel):
     """
-    WithNestedOneOf
+    EnumRefWithDefaultValue
     """ # noqa: E501
-    size: Optional[StrictInt] = None
-    nested_pig: Optional[Pig] = None
-    nested_oneof_enum_string: Optional[OneOfEnumString] = None
+    report_format: Optional[DataOutputFormat] = DataOutputFormat.JSON
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["size", "nested_pig", "nested_oneof_enum_string"]
+    __properties: ClassVar[List[str]] = ["report_format"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +49,7 @@ class WithNestedOneOf(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of WithNestedOneOf from a JSON string"""
+        """Create an instance of EnumRefWithDefaultValue from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,12 +72,6 @@ class WithNestedOneOf(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of nested_pig
-        if self.nested_pig:
-            _dict['nested_pig'] = self.nested_pig.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of nested_oneof_enum_string
-        if self.nested_oneof_enum_string:
-            _dict['nested_oneof_enum_string'] = self.nested_oneof_enum_string.to_dict()
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -90,7 +81,7 @@ class WithNestedOneOf(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of WithNestedOneOf from a dict"""
+        """Create an instance of EnumRefWithDefaultValue from a dict"""
         if obj is None:
             return None
 
@@ -98,9 +89,7 @@ class WithNestedOneOf(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "size": obj.get("size"),
-            "nested_pig": Pig.from_dict(obj["nested_pig"]) if obj.get("nested_pig") is not None else None,
-            "nested_oneof_enum_string": OneOfEnumString.from_dict(obj["nested_oneof_enum_string"]) if obj.get("nested_oneof_enum_string") is not None else None
+            "report_format": obj.get("report_format") if obj.get("report_format") is not None else DataOutputFormat.JSON
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
