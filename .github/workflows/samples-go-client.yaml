@@ -4,9 +4,13 @@ on:
   push:
     paths:
       - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
+      - 'samples/openapi3/client/petstore/go-petstore-withXml/**'
+      - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/**
   pull_request:
     paths:
       - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
+      - 'samples/openapi3/client/petstore/go-petstore-withXml/**'
+      - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/**
 
 jobs:
   build:
@@ -17,9 +21,11 @@ jobs:
       matrix:
         sample:
           - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/'
+          - 'samples/openapi3/client/petstore/go-petstore-withXml/'
+          - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
       - run: go version
       - name: Install Dependencies
         working-directory: ${{ matrix.sample }}

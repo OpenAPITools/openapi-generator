@@ -1852,6 +1852,25 @@ components:
             type: array
           type: array
       type: object
+    ArrayTestWithWrapped:
+      properties:
+        array_of_string:
+          items:
+            type: string
+          type: array
+          xml:
+            wrapped: true
+      type: object
+    ArrayTestWithWrappedAndName:
+      properties:
+        array_of_string:
+          items:
+            type: string
+          type: array
+          xml:
+            name: item
+            wrapped: true
+      type: object
     NumberOnly:
       properties:
         JustNumber:

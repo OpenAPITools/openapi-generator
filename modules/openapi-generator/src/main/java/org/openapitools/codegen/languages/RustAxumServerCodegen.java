@@ -450,7 +450,15 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         String underscoredOperationId = underscore(op.operationId);
-        ArrayList<MethodOperation> pathMethods = pathMethodOpMap.get(path);
+        String axumPath = op.path;
+        for (CodegenParameter param : op.pathParams) {
+            // Replace {baseName} with {paramName} for format string
+            String paramSearch = "{" + param.baseName + "}";
+            String paramReplace = "{" + param.paramName + "}";
+
+            axumPath = axumPath.replace(paramSearch, paramReplace);
+        }
+        ArrayList<MethodOperation> pathMethods = pathMethodOpMap.get(axumPath);
 
         // Prevent multiple declarations of the same operation
         if (pathMethods != null && pathMethods.stream().anyMatch(pathMethod ->
@@ -463,14 +471,6 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
         if (!op.isCallbackRequest) {
             // group route by path
-            String axumPath = op.path;
-            for (CodegenParameter param : op.pathParams) {
-                // Replace {baseName} with {paramName} for format string
-                String paramSearch = "{" + param.baseName + "}";
-                String paramReplace = "{" + param.paramName + "}";
-
-                axumPath = axumPath.replace(paramSearch, paramReplace);
-            }
             pathMethodOpMap
                     .computeIfAbsent(axumPath, (key) -> new ArrayList<>())
                     .add(new MethodOperation(
