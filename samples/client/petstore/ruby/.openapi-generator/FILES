@@ -48,6 +48,7 @@ docs/Name.md
 docs/NullableClass.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
+docs/OneOfPrimitiveTypes.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -118,6 +119,7 @@ lib/petstore/models/name.rb
 lib/petstore/models/nullable_class.rb
 lib/petstore/models/number_only.rb
 lib/petstore/models/object_with_deprecated_fields.rb
+lib/petstore/models/one_of_primitive_types.rb
 lib/petstore/models/order.rb
 lib/petstore/models/outer_composite.rb
 lib/petstore/models/outer_enum.rb

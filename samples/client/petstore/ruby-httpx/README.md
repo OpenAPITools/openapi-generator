@@ -164,6 +164,7 @@ Class | Method | HTTP request | Description
  - [Petstore::NullableClass](docs/NullableClass.md)
  - [Petstore::NumberOnly](docs/NumberOnly.md)
  - [Petstore::ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
+ - [Petstore::OneOfPrimitiveTypes](docs/OneOfPrimitiveTypes.md)
  - [Petstore::Order](docs/Order.md)
  - [Petstore::OuterComposite](docs/OuterComposite.md)
  - [Petstore::OuterEnum](docs/OuterEnum.md)
