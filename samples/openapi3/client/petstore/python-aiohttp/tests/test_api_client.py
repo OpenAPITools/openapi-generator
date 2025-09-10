@@ -13,11 +13,11 @@ class TestApiClient(unittest.IsolatedAsyncioTestCase):
     async def test_ignore_operation_servers(self):
         config = petstore_api.Configuration(host=HOST)
         async with petstore_api.ApiClient(config) as client:
-            user_api_instance = petstore_api.api.user_api.UserApi(client)
+            user_api_instance = petstore_api.UserApi(client)
 
             config_ignore = petstore_api.Configuration(host=HOST, ignore_operation_servers=True)
             client_ignore = petstore_api.ApiClient(config_ignore)
-            user_api_instance_ignore = petstore_api.api.user_api.UserApi(client_ignore)
+            user_api_instance_ignore = petstore_api.UserApi(client_ignore)
 
             params_to_serialize = {
                 'user': petstore_api.User(id=1, username='test'),
