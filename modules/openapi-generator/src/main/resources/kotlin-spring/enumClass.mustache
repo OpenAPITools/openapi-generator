@@ -2,7 +2,7 @@
 * {{{description}}}
 * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
 */
-enum class {{classname}}(@get:JsonValue val value: {{dataType}}) {
+enum class {{classname}}(@get:JsonValue val value: {{dataType}}) {{#vendorExtensions.x-kotlin-implements}}{{#-first}}: {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-kotlin-implements}}{
 {{#allowableValues}}{{#enumVars}}
     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}};
 
