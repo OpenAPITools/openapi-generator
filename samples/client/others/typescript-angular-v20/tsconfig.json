@@ -18,6 +18,9 @@
       "@swagger/typescript-angular-query-param-deep-object": [
         "./builds/query-param-deep-object"
       ],
+      "@swagger/typescript-angular-query-param-form": [
+        "./builds/query-param-form"
+      ],
       "@swagger/typescript-angular-query-param-json": [
         "./builds/query-param-json"
       ],
