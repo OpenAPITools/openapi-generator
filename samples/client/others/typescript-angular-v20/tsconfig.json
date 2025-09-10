@@ -15,9 +15,12 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
+      "@swagger/typescript-angular-query-param-deep-object": [
+        "./builds/query-param-deep-object"
+      ],
       "@swagger/typescript-angular-query-param-json": [
         "./builds/query-param-json"
-      ]
+      ],
     }
   },
   "angularCompilerOptions": {
