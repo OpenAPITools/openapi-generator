@@ -1038,6 +1038,9 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "\nimport org.jboss.resteasy.reactive.RestResponse;\n",
                 "RestResponse<Pet> addPet", "RestResponse<Void> deletePet", "RestResponse<List<Pet>> findPetsByStatus",
                 "RestResponse<Void> updatePetWithForm", "RestResponse<ModelApiResponse> uploadFile");
+        assertFileContains(output.toPath().resolve("pom.xml"),
+            "<groupId>io.quarkus.resteasy.reactive</groupId>",
+            "<artifactId>resteasy-reactive</artifactId>");
     }
 
     @Test
