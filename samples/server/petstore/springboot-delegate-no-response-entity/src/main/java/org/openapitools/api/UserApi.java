@@ -159,7 +159,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     
     default void deleteUser(
-        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+        @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     ) {
         getDelegate().deleteUser(username);
     }
@@ -195,7 +195,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     
     default User getUserByName(
-        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+        @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
     ) {
         return getDelegate().getUserByName(username);
     }
@@ -300,7 +300,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     
     default void updateUser(
-        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
+        @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User user
     ) {
         getDelegate().updateUser(username, user);

@@ -108,7 +108,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     
     default Mono<Void> deletePet(
-        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
+        @NotNull @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) @Nullable String apiKey,
         @ApiIgnore final ServerWebExchange exchange
     ) {
@@ -235,7 +235,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     
     default Mono<Pet> getPetById(
-        @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId,
+        @NotNull @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().getPetById(petId, exchange);
@@ -319,7 +319,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     
     default Mono<Void> updatePetWithForm(
-        @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
+        @NotNull @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,
         @ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status,
         @ApiIgnore final ServerWebExchange exchange
@@ -363,7 +363,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     
     default Mono<ModelApiResponse> uploadFile(
-        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) Part file,
         @ApiIgnore final ServerWebExchange exchange

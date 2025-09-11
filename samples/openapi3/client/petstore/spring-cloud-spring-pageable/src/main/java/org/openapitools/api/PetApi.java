@@ -96,7 +96,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Void> deletePet(
-        @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
+        @NotNull @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     );
 
@@ -214,7 +214,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Pet> getPetById(
-        @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+        @NotNull @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     );
 
 
@@ -278,7 +278,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Void> updatePetWithForm(
-        @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
+        @NotNull @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
         @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     );
@@ -314,7 +314,7 @@ public interface PetApi {
     )
     
     ResponseEntity<ModelApiResponse> uploadFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
+        @NotNull @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     );

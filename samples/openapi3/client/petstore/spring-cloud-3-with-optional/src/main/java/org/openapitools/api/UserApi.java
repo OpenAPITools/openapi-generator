@@ -98,7 +98,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> deleteUser(
-         @PathVariable("username") String username
+        @NotNull  @PathVariable("username") String username
     );
 
 
@@ -119,7 +119,7 @@ public interface UserApi {
     )
     
     ResponseEntity<User> getUserByName(
-         @PathVariable("username") String username
+        @NotNull  @PathVariable("username") String username
     );
 
 
@@ -179,7 +179,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> updateUser(
-         @PathVariable("username") String username,
+        @NotNull  @PathVariable("username") String username,
          @Valid @RequestBody User user
     );
 

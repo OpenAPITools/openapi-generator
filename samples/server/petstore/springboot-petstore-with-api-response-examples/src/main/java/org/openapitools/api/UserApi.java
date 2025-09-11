@@ -166,7 +166,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> deleteUser(
-        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+        @NotNull @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
         return getDelegate().deleteUser(username);
     }
@@ -203,7 +203,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<User> getUserByName(
-        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+        @NotNull @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
         return getDelegate().getUserByName(username);
     }
@@ -307,7 +307,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> updateUser(
-        @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        @NotNull @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
         @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody User user
     ) {
         return getDelegate().updateUser(username, user);

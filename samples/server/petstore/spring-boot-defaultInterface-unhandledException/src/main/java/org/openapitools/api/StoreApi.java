@@ -64,7 +64,7 @@ public interface StoreApi {
     )
     
     ResponseEntity<Void> deleteOrder(
-        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
+        @NotNull @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
     ) throws Exception;
 
 
@@ -131,7 +131,7 @@ public interface StoreApi {
     )
     
     ResponseEntity<Order> getOrderById(
-        @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
+        @NotNull @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
     ) throws Exception;
 
 
