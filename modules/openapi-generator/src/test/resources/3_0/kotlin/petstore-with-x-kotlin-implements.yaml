@@ -720,7 +720,6 @@ components:
         category:
           $ref: '#/components/schemas/Category'
         name:
-          x-implements-field: true
           type: string
           example: doggie
         photoUrls:
