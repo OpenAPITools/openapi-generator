@@ -27,7 +27,7 @@ data class ApiError(
 
     @field:Valid
     @get:JsonProperty("reasonCode") val reasonCode: ReasonCode? = null
-    ) {
+) {
 
     /**
     * 

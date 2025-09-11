@@ -24,7 +24,7 @@ data class FooGetDefaultResponse(
     @field:Valid
     @Schema(example = "null", description = "")
     @get:JsonProperty("string") val string: Foo? = null
-    ) {
+) {
 
 }
 
