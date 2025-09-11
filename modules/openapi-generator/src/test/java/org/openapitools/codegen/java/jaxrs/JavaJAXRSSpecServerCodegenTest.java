@@ -537,6 +537,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
         codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
         codegen.additionalProperties().put(RETURN_JBOSS_RESPONSE, true); //And return type is RestResponse
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true); //And return type is RestResponse
 
         final ClientOptInput input = new ClientOptInput()
                 .openAPI(openAPI)
@@ -1055,6 +1056,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
         codegen.additionalProperties().put(USE_TAGS, true); //And use tags to generate everything in several API files
         codegen.additionalProperties().put(RETURN_JBOSS_RESPONSE, true); // Use JBoss Response type
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true); // Use JBoss Response type
         codegen.additionalProperties().put(SUPPORT_ASYNC, true);
         codegen.additionalProperties().put(USE_MUTINY, true); // Use Mutiny
         codegen.setLibrary(QUARKUS_LIBRARY); // Set Quarkus
