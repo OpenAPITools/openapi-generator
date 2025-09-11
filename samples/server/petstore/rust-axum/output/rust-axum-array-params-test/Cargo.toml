@@ -25,6 +25,7 @@ axum-extra = { version = "0.10", features = ["cookie", "query"] }
 base64 = "0.22"
 bytes = "1"
 chrono = { version = "0.4", features = ["serde"] }
+derive_more = { version = "2", features = ["from"] }
 frunk = { version = "0.4", optional = true }
 frunk-enum-core = { version = "0.3", optional = true }
 frunk-enum-derive = { version = "0.3", optional = true }

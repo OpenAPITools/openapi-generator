@@ -207,8 +207,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
-|allOf|✗|OAS2,OAS3
-|anyOf|✗|OAS3
+|allOf|✓|OAS2,OAS3
+|anyOf|✓|OAS3
 |oneOf|✓|OAS3
 |not|✗|OAS3
 

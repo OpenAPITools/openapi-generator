@@ -12,10 +12,12 @@ fn test_oneof_schema_untagged() {
     let test2 = r#"{"value": ["foo", "bar"]}"#;
 
     let test3 = Test {
-        value: OneOfGet200Response::I32(123.into()),
+        value: OneOfGet200Response::I32Type(123),
     };
     let test4 = Test {
-        value: OneOfGet200Response::VecOfString(vec!["foo".to_string(), "bar".to_string()].into()),
+        value: OneOfGet200Response::VecOfStringType(
+            vec!["foo".to_string(), "bar".to_string()].into(),
+        ),
     };
 
     let test5 = r#"{"value":123}"#;

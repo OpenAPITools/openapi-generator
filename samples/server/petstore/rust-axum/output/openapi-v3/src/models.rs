@@ -767,15 +767,20 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnotherXmlOb
     }
 }
 
-/// Any of:
-/// - String
-/// - uuid::Uuid
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct AnyOfGet202Response(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, derive_more::From)]
+#[serde(untagged)]
+#[allow(non_camel_case_types)]
+pub enum AnyOfGet202Response {
+    StringType(String),
+    Uuid(uuid::Uuid),
+}
 
 impl validator::Validate for AnyOfGet202Response {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::StringType(_) => std::result::Result::Ok(()),
+            Self::Uuid(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -790,22 +795,21 @@ impl std::str::FromStr for AnyOfGet202Response {
     }
 }
 
-impl PartialEq for AnyOfGet202Response {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
-    }
-}
-
 /// Test a model containing an anyOf of a hash map
-/// Any of:
-/// - String
-/// - std::collections::HashMap<String, String>
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct AnyOfHashMapObject(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, derive_more::From)]
+#[serde(untagged)]
+#[allow(non_camel_case_types)]
+pub enum AnyOfHashMapObject {
+    StringType(String),
+    HashMapOfStringStringType(std::collections::HashMap<String, String>),
+}
 
 impl validator::Validate for AnyOfHashMapObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::StringType(_) => std::result::Result::Ok(()),
+            Self::HashMapOfStringStringType(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -820,21 +824,19 @@ impl std::str::FromStr for AnyOfHashMapObject {
     }
 }
 
-impl PartialEq for AnyOfHashMapObject {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
-    }
-}
-
 /// Test a model containing an anyOf
-/// Any of:
-/// - String
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct AnyOfObject(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, derive_more::From)]
+#[serde(untagged)]
+#[allow(non_camel_case_types)]
+pub enum AnyOfObject {
+    StringType(String),
+}
 
 impl validator::Validate for AnyOfObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::StringType(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -846,12 +848,6 @@ impl std::str::FromStr for AnyOfObject {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
-    }
-}
-
-impl PartialEq for AnyOfObject {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
     }
 }
 
@@ -1451,14 +1447,18 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FormTestRequ
 }
 
 /// Test a model containing an anyOf that starts with a number
-/// Any of:
-/// - String
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct Model12345AnyOfObject(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, derive_more::From)]
+#[serde(untagged)]
+#[allow(non_camel_case_types)]
+pub enum Model12345AnyOfObject {
+    StringType(String),
+}
 
 impl validator::Validate for Model12345AnyOfObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::StringType(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -1470,12 +1470,6 @@ impl std::str::FromStr for Model12345AnyOfObject {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
-    }
-}
-
-impl PartialEq for Model12345AnyOfObject {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
     }
 }
 
@@ -2319,8 +2313,9 @@ pub struct ObjectParam {
     pub required_param: bool,
 
     #[serde(rename = "optionalParam")]
+    #[validate(range(min = 1u64, max = 10000000000000000000u64))]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub optional_param: Option<i32>,
+    pub optional_param: Option<u64>,
 }
 
 impl ObjectParam {
@@ -2366,7 +2361,7 @@ impl std::str::FromStr for ObjectParam {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub required_param: Vec<bool>,
-            pub optional_param: Vec<i32>,
+            pub optional_param: Vec<u64>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -2394,7 +2389,7 @@ impl std::str::FromStr for ObjectParam {
                     ),
                     #[allow(clippy::redundant_clone)]
                     "optionalParam" => intermediate_rep.optional_param.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                        <u64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     _ => {
                         return std::result::Result::Err(
@@ -2811,31 +2806,20 @@ impl std::ops::DerefMut for Ok {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, derive_more::From)]
 #[serde(untagged)]
 #[allow(non_camel_case_types)]
 pub enum OneOfGet200Response {
-    I32(Box<i32>),
-    VecOfString(Box<Vec<String>>),
+    I32Type(i32),
+    VecOfStringType(Vec<String>),
 }
 
 impl validator::Validate for OneOfGet200Response {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
-            Self::I32(_) => std::result::Result::Ok(()),
-            Self::VecOfString(_) => std::result::Result::Ok(()),
+            Self::I32Type(_) => std::result::Result::Ok(()),
+            Self::VecOfStringType(_) => std::result::Result::Ok(()),
         }
-    }
-}
-
-impl From<i32> for OneOfGet200Response {
-    fn from(value: i32) -> Self {
-        Self::I32(Box::new(value))
-    }
-}
-impl From<Vec<String>> for OneOfGet200Response {
-    fn from(value: Vec<String>) -> Self {
-        Self::VecOfString(Box::new(value))
     }
 }
 

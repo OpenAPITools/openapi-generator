@@ -969,23 +969,23 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<HelloD> {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Deserialize, derive_more::From)]
 #[serde(tag = "op")]
 #[allow(non_camel_case_types)]
 pub enum Message {
-    Hello(Box<models::Hello>),
-    Greeting(Box<models::Greeting>),
-    Goodbye(Box<models::Goodbye>),
-    SomethingCompletelyDifferent(Box<models::SomethingCompletelyDifferent>),
+    Hello(models::Hello),
+    Greeting(models::Greeting),
+    Goodbye(models::Goodbye),
+    SomethingCompletelyDifferent(models::SomethingCompletelyDifferent),
 }
 
 impl validator::Validate for Message {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
-            Self::Hello(x) => x.validate(),
-            Self::Greeting(x) => x.validate(),
-            Self::Goodbye(x) => x.validate(),
-            Self::SomethingCompletelyDifferent(x) => x.validate(),
+            Self::Hello(v) => v.validate(),
+            Self::Greeting(v) => v.validate(),
+            Self::Goodbye(v) => v.validate(),
+            Self::SomethingCompletelyDifferent(v) => v.validate(),
         }
     }
 }
@@ -1004,27 +1004,6 @@ impl serde::Serialize for Message {
     }
 }
 
-impl From<models::Hello> for Message {
-    fn from(value: models::Hello) -> Self {
-        Self::Hello(Box::new(value))
-    }
-}
-impl From<models::Greeting> for Message {
-    fn from(value: models::Greeting) -> Self {
-        Self::Greeting(Box::new(value))
-    }
-}
-impl From<models::Goodbye> for Message {
-    fn from(value: models::Goodbye) -> Self {
-        Self::Goodbye(Box::new(value))
-    }
-}
-impl From<models::SomethingCompletelyDifferent> for Message {
-    fn from(value: models::SomethingCompletelyDifferent) -> Self {
-        Self::SomethingCompletelyDifferent(Box::new(value))
-    }
-}
-
 /// Converts Query Parameters representation (style=form, explode=false) to a Message value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
@@ -1036,31 +1015,20 @@ impl std::str::FromStr for Message {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, derive_more::From)]
 #[serde(untagged)]
 #[allow(non_camel_case_types)]
 pub enum SomethingCompletelyDifferent {
-    VecOfObject(Box<Vec<crate::types::Object>>),
-    Object(Box<crate::types::Object>),
+    VecOfObjectType(Vec<crate::types::Object>),
+    Object(crate::types::Object),
 }
 
 impl validator::Validate for SomethingCompletelyDifferent {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
-            Self::VecOfObject(_) => std::result::Result::Ok(()),
-            Self::Object(x) => x.validate(),
+            Self::VecOfObjectType(_) => std::result::Result::Ok(()),
+            Self::Object(_) => std::result::Result::Ok(()),
         }
-    }
-}
-
-impl From<Vec<crate::types::Object>> for SomethingCompletelyDifferent {
-    fn from(value: Vec<crate::types::Object>) -> Self {
-        Self::VecOfObject(Box::new(value))
-    }
-}
-impl From<crate::types::Object> for SomethingCompletelyDifferent {
-    fn from(value: crate::types::Object) -> Self {
-        Self::Object(Box::new(value))
     }
 }
 

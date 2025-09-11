@@ -112,7 +112,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .schemaSupportFeatures(EnumSet.of(
                         SchemaSupportFeature.Simple,
                         SchemaSupportFeature.Composite,
-                        SchemaSupportFeature.oneOf
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf,
+                        SchemaSupportFeature.allOf
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.Info,
@@ -633,8 +635,8 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return op;
     }
 
-    private void postProcessOneOfModels(List<ModelMap> allModels) {
-        final HashMap<String, List<String>> oneOfMapDiscriminator = new HashMap<>();
+    private void postProcessOneAllAnyOfModels(List<ModelMap> allModels) {
+        final HashMap<String, List<String>> mapDiscriminator = new HashMap<>();
 
         for (ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
@@ -642,31 +644,44 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             final CodegenComposedSchemas cs = cm.getComposedSchemas();
             if (cs != null) {
                 final List<CodegenProperty> csOneOf = cs.getOneOf();
-
                 if (csOneOf != null) {
-                    for (CodegenProperty model : csOneOf) {
-                        // Generate a valid name for the enum variant.
-                        // Mainly needed for primitive types.
+                    processOneAllAnyOfModelDataType(csOneOf);
+                    cs.setAnyOf(csOneOf);
+                    cm.setComposedSchemas(cs);
+                }
 
-                        model.datatypeWithEnum = camelize(model.dataType.replaceAll("(?:\\w+::)+(\\w+)", "$1")
-                                .replace("<", "Of").replace(">", ""));
+                final List<CodegenProperty> csAnyOf = cs.getAnyOf();
+                if (csAnyOf != null) {
+                    processOneAllAnyOfModelDataType(csAnyOf);
+                    cs.setAnyOf(csAnyOf);
+                    cm.setComposedSchemas(cs);
+                }
 
-                        // Primitive type is not properly set, this overrides it to guarantee adequate model generation.
-                        if (!model.getDataType().matches(String.format(Locale.ROOT, ".*::%s", model.getDatatypeWithEnum()))) {
-                            model.isPrimitiveType = true;
-                        }
-                    }
-
-                    cs.setOneOf(csOneOf);
+                final List<CodegenProperty> csAllOf = cs.getAllOf();
+                if (csAllOf != null) {
+                    processOneAllAnyOfModelDataType(csAllOf);
+                    cs.setAllOf(csAllOf);
                     cm.setComposedSchemas(cs);
                 }
             }
 
             if (cm.discriminator != null) {
                 for (String model : cm.oneOf) {
-                    List<String> discriminators = oneOfMapDiscriminator.getOrDefault(model, new ArrayList<>());
+                    final List<String> discriminators = mapDiscriminator.getOrDefault(model, new ArrayList<>());
                     discriminators.add(cm.discriminator.getPropertyName());
-                    oneOfMapDiscriminator.put(model, discriminators);
+                    mapDiscriminator.put(model, discriminators);
+                }
+
+                for (String model : cm.anyOf) {
+                    final List<String> discriminators = mapDiscriminator.getOrDefault(model, new ArrayList<>());
+                    discriminators.add(cm.discriminator.getPropertyName());
+                    mapDiscriminator.put(model, discriminators);
+                }
+
+                for (String model : cm.allOf) {
+                    final List<String> discriminators = mapDiscriminator.getOrDefault(model, new ArrayList<>());
+                    discriminators.add(cm.discriminator.getPropertyName());
+                    mapDiscriminator.put(model, discriminators);
                 }
             }
         }
@@ -678,7 +693,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 var.isDiscriminator = false;
             }
 
-            final List<String> discriminatorsForModel = oneOfMapDiscriminator.get(cm.getSchemaName());
+            final List<String> discriminatorsForModel = mapDiscriminator.get(cm.getSchemaName());
 
             if (discriminatorsForModel != null) {
                 for (String discriminator : discriminatorsForModel) {
@@ -729,9 +744,34 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
     }
 
+    private static void processOneAllAnyOfModelDataType(final List<CodegenProperty> cp) {
+        final HashSet<String> dedup = new HashSet<>();
+
+        final List<CodegenProperty> toRemove = new ArrayList();
+        for (CodegenProperty model : cp) {
+            // Generate a valid name for the enum variant.
+            // Mainly needed for primitive types.
+            model.datatypeWithEnum = camelize(model.dataType.replaceAll("(?:\\w+::)+(\\w+)", "$1")
+                    .replace("<", "Of").replace(">", "")).replace(" ", "").replace(",", "");
+
+            if (!model.getDataType().matches(String.format(Locale.ROOT, ".*::%s", model.getDatatypeWithEnum()))) {
+                model.isPrimitiveType = true;
+                model.datatypeWithEnum += "Type";
+            }
+
+            if (!dedup.add(model.datatypeWithEnum)) {
+                toRemove.add(model);
+            }
+        }
+
+        for (var model : toRemove) {
+            cp.remove(model);
+        }
+    }
+
     @Override
     public OperationsMap postProcessOperationsWithModels(final OperationsMap operationsMap, List<ModelMap> allModels) {
-        postProcessOneOfModels(allModels);
+        postProcessOneAllAnyOfModels(allModels);
 
         final OperationMap operations = operationsMap.getOperations();
         operations.put("classnamePascalCase", camelize(operations.getClassname()));
