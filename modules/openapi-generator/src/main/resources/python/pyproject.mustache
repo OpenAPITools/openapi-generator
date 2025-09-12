@@ -16,7 +16,12 @@ authors = [
 ]
 {{/poetry1}}
 {{#licenseInfo}}
+{{#poetry1}}
 license = "{{{licenseInfo}}}"
+{{/poetry1}}
+{{^poetry1}}
+license = { text = "{{{licenseInfo}}}" }
+{{/poetry1}}
 {{/licenseInfo}}
 readme = "README.md"
 {{#poetry1}}
@@ -43,7 +48,9 @@ pycryptodome = ">= 3.9.0"
 {{/hasHttpSignatureMethods}}
 pydantic = ">= 2"
 typing-extensions = ">= 4.7.1"
+{{#lazyImports}}
 lazy-imports = ">= 1, < 2"
+{{/lazyImports}}
 {{/poetry1}}
 {{^poetry1}}
 requires-python = ">=3.9"
@@ -64,7 +71,9 @@ dependencies = [
 {{/hasHttpSignatureMethods}}
   "pydantic (>=2)",
   "typing-extensions (>=4.7.1)",
+{{#lazyImports}}
   "lazy-imports (>=1,<2)"
+{{/lazyImports}}
 ]
 
 [project.urls]

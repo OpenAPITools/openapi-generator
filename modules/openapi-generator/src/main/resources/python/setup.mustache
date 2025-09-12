@@ -30,7 +30,9 @@ REQUIRES = [
 {{/hasHttpSignatureMethods}}
     "pydantic >= 2",
     "typing-extensions >= 4.7.1",
+{{#lazyImports}}
     "lazy-imports >= 1, < 2",
+{{/lazyImports}}
 ]
 
 setup(

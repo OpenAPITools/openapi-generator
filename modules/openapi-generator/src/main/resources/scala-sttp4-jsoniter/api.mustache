@@ -1,0 +1,74 @@
+{{>licenseInfo}}
+package {{package}}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+import {{invokerPackage}}.JsonSupport.{*, given}
+import {{invokerPackage}}.FormSerializable
+import {{invokerPackage}}.FormStyleFormat
+import {{invokerPackage}}.HeaderSerializable
+import {{invokerPackage}}.ApiKeyLocation
+import {{invokerPackage}}.PathStyleFormat
+import {{invokerPackage}}.PathSerializable
+import {{invokerPackage}}.CookieSerializable
+import {{invokerPackage}}.Helpers.*
+import sttp.client4.jsoniter.*
+import sttp.client4.*
+import sttp.model.Method
+
+{{#operations}}
+object {{classname}}:
+  def apply(baseUrl: String = "{{{basePath}}}"): {{classname}}[{{invokerPackage}}.Authorization.NoAuthorization.type] = {{classname}}(baseUrl, {{invokerPackage}}.Authorization.NoAuthorization)
+  def withBasicAuth(baseUrl: String, username: String, password: String): {{classname}}[{{invokerPackage}}.Authorization.BasicAuth] =
+    {{classname}}(baseUrl, {{invokerPackage}}.Authorization.BasicAuth(username, password))
+
+  def withApiKeyAuth(baseUrl: String, apiKey: String): {{classname}}[{{invokerPackage}}.Authorization.ApiKey] =
+    {{classname}}(baseUrl, {{invokerPackage}}.Authorization.ApiKey(apiKey))
+
+  def withBearerTokenAuth(baseUrl: String, token: String): {{classname}}[{{invokerPackage}}.Authorization.BearerToken] =
+    {{classname}}(baseUrl, {{invokerPackage}}.Authorization.BearerToken(token))
+
+case class {{classname}}[Auth <: {{invokerPackage}}.Authorization] private (baseUrl: String, authConfig: {{invokerPackage}}.Authorization):
+  def withBasicAuth(username: String, password: String): {{classname}}[{{invokerPackage}}.Authorization.BasicAuth] =
+    copy(authConfig = {{invokerPackage}}.Authorization.BasicAuth(username, password))
+
+  def withApiKeyAuth(apiKey: String): {{classname}}[{{invokerPackage}}.Authorization.ApiKey] =
+    copy(authConfig = {{invokerPackage}}.Authorization.ApiKey(apiKey))
+
+  def withNoAuth: {{classname}}[{{invokerPackage}}.Authorization.NoAuthorization.type] =
+    copy(authConfig = {{invokerPackage}}.Authorization.NoAuthorization)
+
+  def withBearerTokenAuth(token: String): {{classname}}[{{invokerPackage}}.Authorization.BearerToken] =
+    copy(authConfig = {{invokerPackage}}.Authorization.BearerToken(token))
+
+{{#operation}}
+{{#javadocRenderer}}
+{{>javadoc}}
+{{/javadocRenderer}}
+  def {{operationId}}{{>methodParameters}}: sttp.client4.Request[{{#separateErrorChannel}}Either[ResponseException[String], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}] =
+{{#pathParams}}    val {{#fnEnumLeaf}}{{paramName}}PathParam{{/fnEnumLeaf}} = PathSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, PathStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, PathStyleFormat.SIMPLE{{/style}}, {{isExplode}})
+    {{/pathParams}}
+    val requestURL =
+      uri"$baseUrl{{{path}}}"{{#queryParams}}
+        .addParams(FormSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}}): _*){{/queryParams}}
+
+    basicRequest
+      .method(Method.{{httpMethod.toUpperCase}}, requestURL)
+      .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
+      .headers(HeaderSerializable.serialize("{{baseName}}", {{paramName}}, {{isExplode}})){{/headerParams}}{{#authMethods}}{{#cookieParams}}
+      .cookies(CookieSerializable.serialize("{{baseName}}", {{paramName}}, {{isExplode}})){{/cookieParams}}
+      .auth(authConfig{{#isApiKey}}, {{invokerPackage}}.ApiKeyLocation.{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInCookie}}COOKIE{{/isKeyInCookie}}, "{{keyParamName}}"{{/isApiKey}}){{/authMethods}}{{#formParams.0}}{{^isMultipart}}
+      .body({{#formParams}}
+        {{>paramFormCreation}}{{^-last}} ++ {{/-last}}{{/formParams}},
+        "utf-8"
+      ){{/isMultipart}}{{#isMultipart}}
+      .multipartBody(Seq({{#formParams}}
+        {{>paramMultipartCreation}}{{/formParams}}
+      ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
+      {{^isFile}}.body(asJson({{paramName}})){{/isFile}}{{#isFile}}.fileBody({{paramName}}){{/isFile}}{{/bodyParam}}
+      .response({{#separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))){{/returnType}}{{#fnHandleDownload}}{{#returnType}}asJson[{{>operationReturnType}}]{{/returnType}}{{/fnHandleDownload}}{{/separateErrorChannel}}{{^separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))).getRight{{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}].getRight{{/returnType}}{{/separateErrorChannel}})
+
+{{/operation}}
+{{/operations}}
+end {{classname}}

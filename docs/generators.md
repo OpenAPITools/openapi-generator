@@ -65,6 +65,7 @@ The following generators are available:
 * [scala-pekko](generators/scala-pekko.md)  
 * [scala-sttp](generators/scala-sttp.md)  
 * [scala-sttp4 (beta)](generators/scala-sttp4.md)  
+* [scala-sttp4-jsoniter (beta)](generators/scala-sttp4-jsoniter.md)  
 * [scalaz](generators/scalaz.md)  
 * [swift-combine](generators/swift-combine.md)  
 * [swift5](generators/swift5.md)  
