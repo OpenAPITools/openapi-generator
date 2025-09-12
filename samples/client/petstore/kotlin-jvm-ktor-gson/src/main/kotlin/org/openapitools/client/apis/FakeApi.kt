@@ -87,8 +87,8 @@ import java.text.DateFormat
             val localVariableBody = 
                         ParametersBuilder().also {
                         name?.apply { it.append("name", name) }
-                        status?.apply { it.append("status", status?.toString()) }
-                        status2?.apply { it.append("status2", status2?.toString()) }
+                        status?.apply { it.append("status", status.toString()) }
+                        status2?.apply { it.append("status2", status2.toString()) }
                         }.build()
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
