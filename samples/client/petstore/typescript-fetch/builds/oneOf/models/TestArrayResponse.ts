@@ -32,7 +32,7 @@ import {
  * 
  * @export
  */
-export type TestArrayResponse = Array<TestA> | Array<TestB> | Array<string>;
+export type TestArrayResponse = Array<TestA> | Array<TestB> | Array<boolean> | Array<number> | Array<object> | Array<string>;
 
 export function TestArrayResponseFromJSON(json: any): TestArrayResponse {
     return TestArrayResponseFromJSONTyped(json, false);
@@ -51,14 +51,8 @@ export function TestArrayResponseFromJSONTyped(json: any, ignoreDiscriminator: b
                 return json.map(value => TestBFromJSONTyped(value, true));
             }
         }
-        return json;
     }
-    if (Array.isArray(json)) {
-        if (json.every(item => typeof item === 'string')) {
-            return json;
-        }
-    }
-    return {} as any;
+    return json;
 }
 
 export function TestArrayResponseToJSON(json: any): any {
@@ -78,13 +72,7 @@ export function TestArrayResponseToJSONTyped(value?: TestArrayResponse | null, i
                 return value.map(value => TestBToJSON(value as TestB));
             }
         }
-        return value;
     }
-    if (Array.isArray(value)) {
-        if (value.every(item => typeof item === 'string')) {
-            return value;
-        }
-    }
-    return {};
+    return value;
 }
 
