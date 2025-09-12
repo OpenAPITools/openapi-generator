@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @Validated
 public interface SomeApi {
 
-    public static final String PATH_SOME_ENDPOINT_GET = "/some/endpoint";
+    public static final String PATH_SOME_ENDPOINT_GET = "/com/some/endpoint";
     /**
      * GET /some/endpoint
      *
