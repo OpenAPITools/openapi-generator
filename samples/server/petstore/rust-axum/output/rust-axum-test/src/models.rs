@@ -100,11 +100,7 @@ impl std::fmt::Display for FooANullableContainer {
                 .join(",")
             }),
             Some("RequiredNullableThing".to_string()),
-            Some(
-                self.required_nullable_thing
-                    .as_ref()
-                    .map_or("null".to_string(), |x| x.to_string()),
-            ),
+            // Skipping RequiredNullableThing in query parameter serialization
         ];
 
         write!(
@@ -882,6 +878,8 @@ impl std::fmt::Display for FooObjectOfObjects {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping inner in query parameter serialization
+
+
 
         ];
 

@@ -676,56 +676,56 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         for (ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
 
-            for (CodegenProperty var : cm.vars) {
-                var.isDiscriminator = false;
-            }
-
             final List<String> discriminatorsForModel = mapDiscriminator.get(cm.getSchemaName());
-
             if (discriminatorsForModel != null) {
-                for (String discriminator : discriminatorsForModel) {
-                    boolean hasDiscriminatorDefined = false;
+                for (CodegenProperty var : cm.vars) {
+                    var.isDiscriminator = false;
+                }
 
+                boolean hasDiscriminatorDefined = false;
+                for (String discriminator : discriminatorsForModel) {
                     for (CodegenProperty var : cm.vars) {
-                        if (var.baseName.equals(discriminator)) {
+                        if (var.baseName.equals(discriminator) || var.name.equals(discriminator)) {
                             var.isDiscriminator = true;
                             hasDiscriminatorDefined = true;
                             break;
                         }
                     }
+                }
 
-                    // If the discriminator field is not a defined attribute in the variant structure, create it.
-                    if (!hasDiscriminatorDefined) {
-                        CodegenProperty property = new CodegenProperty();
+                // If the discriminator field is not a defined attribute in the variant structure, create it.
+                if (!hasDiscriminatorDefined && !discriminatorsForModel.isEmpty()) {
+                    final String discriminator = discriminatorsForModel.get(0);
 
-                        // Static attributes
-                        // Only strings are supported by serde for tag field types, so it's the only one we'll deal with
-                        property.openApiType = "string";
-                        property.complexType = "string";
-                        property.dataType = "String";
-                        property.datatypeWithEnum = "String";
-                        property.baseType = "string";
-                        property.required = true;
-                        property.isPrimitiveType = true;
-                        property.isString = true;
-                        property.isDiscriminator = true;
+                    CodegenProperty property = new CodegenProperty();
 
-                        // Attributes based on the discriminator value
-                        property.baseName = discriminator;
-                        property.name = discriminator;
-                        property.nameInCamelCase = camelize(discriminator);
-                        property.nameInPascalCase = property.nameInCamelCase.substring(0, 1).toUpperCase(Locale.ROOT) + property.nameInCamelCase.substring(1);
-                        property.nameInSnakeCase = underscore(discriminator).toUpperCase(Locale.ROOT);
-                        property.getter = String.format(Locale.ROOT, "get%s", property.nameInPascalCase);
-                        property.setter = String.format(Locale.ROOT, "set%s", property.nameInPascalCase);
-                        property.defaultValueWithParam = String.format(Locale.ROOT, " = data.%s;", property.name);
+                    // Static attributes
+                    // Only strings are supported by serde for tag field types, so it's the only one we'll deal with
+                    property.openApiType = "string";
+                    property.complexType = "string";
+                    property.dataType = "String";
+                    property.datatypeWithEnum = "String";
+                    property.baseType = "string";
+                    property.required = true;
+                    property.isPrimitiveType = true;
+                    property.isString = true;
+                    property.isDiscriminator = true;
 
-                        // Attributes based on the model name
-                        property.defaultValue = String.format(Locale.ROOT, "r#\"%s\"#.to_string()", cm.getSchemaName());
-                        property.jsonSchema = String.format(Locale.ROOT, "{ \"default\":\"%s\"; \"type\":\"string\" }", cm.getSchemaName());
+                    // Attributes based on the discriminator value
+                    property.baseName = discriminator;
+                    property.name = discriminator;
+                    property.nameInCamelCase = camelize(discriminator);
+                    property.nameInPascalCase = property.nameInCamelCase.substring(0, 1).toUpperCase(Locale.ROOT) + property.nameInCamelCase.substring(1);
+                    property.nameInSnakeCase = underscore(discriminator).toUpperCase(Locale.ROOT);
+                    property.getter = String.format(Locale.ROOT, "get%s", property.nameInPascalCase);
+                    property.setter = String.format(Locale.ROOT, "set%s", property.nameInPascalCase);
+                    property.defaultValueWithParam = String.format(Locale.ROOT, " = data.%s;", property.name);
 
-                        cm.vars.add(property);
-                    }
+                    // Attributes based on the model name
+                    property.defaultValue = String.format(Locale.ROOT, "r#\"%s\"#.to_string()", cm.getSchemaName());
+                    property.jsonSchema = String.format(Locale.ROOT, "{ \"default\":\"%s\"; \"type\":\"string\" }", cm.getSchemaName());
+
+                    cm.vars.add(property);
                 }
             }
         }
@@ -995,6 +995,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 defaultValue = p.getDefault().toString();
+                if (!defaultValue.contains(".")) {
+                    defaultValue += ".0";
+                }
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
@@ -1111,7 +1114,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         String cmd = System.getenv("RUST_POST_PROCESS_FILE");
         if (StringUtils.isEmpty(cmd)) {
             cmd = "rustfmt";
-            command = new String[]{cmd, "--edition", "2021", fileName};
+            command = new String[]{cmd, "--edition", "2024", fileName};
         } else {
             command = new String[]{cmd, fileName};
         }
@@ -1180,6 +1183,15 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             return toModelName(refName);
         }
         return null;
+    }
+
+    @Override
+    public String toVarName(String name) {
+        final var varName = super.toVarName(name);
+        if (varName.startsWith("r#"))
+            return "r_" + varName.substring(2);
+        else
+            return varName;
     }
 
     static class PathMethodOperations {

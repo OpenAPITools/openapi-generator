@@ -907,7 +907,11 @@ impl std::fmt::Display for AnyOfProperty {
         let params: Vec<Option<String>> = vec![
             // Skipping requiredAnyOf in query parameter serialization
 
+
+
             // Skipping optionalAnyOf in query parameter serialization
+
+
 
         ];
 
@@ -1925,11 +1929,7 @@ impl std::fmt::Display for NullableTest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("nullable".to_string()),
-            Some(
-                self.nullable
-                    .as_ref()
-                    .map_or("null".to_string(), |x| x.to_string()),
-            ),
+            // Skipping nullable in query parameter serialization
             self.nullable_with_null_default
                 .as_ref()
                 .map(|nullable_with_null_default| {
@@ -2524,11 +2524,19 @@ impl std::fmt::Display for ObjectUntypedProps {
         let params: Vec<Option<String>> = vec![
             // Skipping required_untyped in query parameter serialization
 
+
+
             // Skipping required_untyped_nullable in query parameter serialization
+
+
 
             // Skipping not_required_untyped in query parameter serialization
 
+
+
             // Skipping not_required_untyped_nullable in query parameter serialization
+
+
 
         ];
 

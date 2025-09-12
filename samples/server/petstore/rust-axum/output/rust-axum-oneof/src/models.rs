@@ -92,7 +92,10 @@ impl Goodbye {
 impl Goodbye {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new(op: String, d: models::GoodbyeD) -> Goodbye {
-        Goodbye { op, d }
+        Goodbye {
+            op: Self::_name_for_op(),
+            d,
+        }
     }
 }
 
@@ -103,7 +106,7 @@ impl std::fmt::Display for Goodbye {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("op".to_string()),
-            Some(self.op.to_string()),
+            Some(self.op.clone()),
             // Skipping d in query parameter serialization
         ];
 
@@ -394,7 +397,7 @@ impl Greeting {
     pub fn new(d: models::GreetingD) -> Greeting {
         Greeting {
             d,
-            op: r#"Greeting"#.to_string(),
+            op: Self::_name_for_op(),
         }
     }
 }
@@ -407,7 +410,7 @@ impl std::fmt::Display for Greeting {
         let params: Vec<Option<String>> = vec![
             // Skipping d in query parameter serialization
             Some("op".to_string()),
-            Some(self.op.to_string()),
+            Some(self.op.clone()),
         ];
 
         write!(
@@ -698,7 +701,7 @@ impl Hello {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new(d: models::HelloD) -> Hello {
         Hello {
-            op: r#"Hello"#.to_string(),
+            op: Self::_name_for_op(),
             d,
         }
     }
@@ -711,7 +714,7 @@ impl std::fmt::Display for Hello {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("op".to_string()),
-            Some(self.op.to_string()),
+            Some(self.op.clone()),
             // Skipping d in query parameter serialization
         ];
 
