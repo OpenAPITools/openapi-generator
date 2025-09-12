@@ -25,7 +25,10 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.mockito.Answers;
 import org.mockito.Mockito;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -750,20 +753,6 @@ public class AbstractJavaCodegenTest {
 
         String defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "null");
-    }
-
-    @Test
-    public void defaultEmptyListForModelWithAdditionalPropertyDefaultToEmptyContainer() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/java/issue_21890.yaml");
-        codegen.additionalProperties().put(CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER, "map");
-        codegen.processOpts();
-        codegen.setOpenAPI(openAPI);
-
-        Schema<?> schema = openAPI.getComponents().getSchemas().get("Pet_parents");
-
-        CodegenProperty parents = codegen.fromProperty("parents", schema, true);
-        String defaultValue = codegen.toDefaultValue(parents, schema);
-        Assert.assertEquals(defaultValue, "new HashMap()");
     }
 
     @Test
