@@ -1,5 +1,10 @@
 apis/DefaultApi.ts
 apis/index.ts
+docs/DefaultApi.md
+docs/EnumPatternObject.md
+docs/FakeEnumRequestGetInline200Response.md
+docs/NumberEnum.md
+docs/StringEnum.md
 index.ts
 models/EnumPatternObject.ts
 models/FakeEnumRequestGetInline200Response.ts
