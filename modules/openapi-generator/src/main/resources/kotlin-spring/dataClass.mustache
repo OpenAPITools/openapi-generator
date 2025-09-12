@@ -33,8 +33,8 @@
 }}{{^parent}}{{! no newline
   }}{{#serializableModel}}{{! no newline
       }}{{^vendorExtensions.x-kotlin-implements}} : Serializable{{/vendorExtensions.x-kotlin-implements}}{{! no newline
-      }}{{#vendorExtensions.x-kotlin-implements}} : Serializable, {{! no newline
-      }}{{#-first}}{{{.}}}{{/-first}}{{! no newline
+      }}{{#vendorExtensions.x-kotlin-implements}}{{! no newline
+      }}{{#-first}} : Serializable, {{{.}}}{{/-first}}{{! no newline
       }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
       }}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
   }}{{/serializableModel}}{{! no newline

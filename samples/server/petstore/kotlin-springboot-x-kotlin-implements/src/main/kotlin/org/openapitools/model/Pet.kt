@@ -47,7 +47,7 @@ data class Pet(
 
     @field:Valid
     @get:JsonProperty("color") val color: Color? = null
-) : Serializable, com.some.pack.Named : Serializable, , com.some.pack.WithCategory : Serializable, , com.some.pack.WithDefaultMethods {
+) : Serializable, com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods {
 
     /**
     * pet status in the store
