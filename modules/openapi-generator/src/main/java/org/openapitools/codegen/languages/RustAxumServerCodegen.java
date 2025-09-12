@@ -99,6 +99,18 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     public RustAxumServerCodegen() {
         super();
 
+        // The `#[validate(nested)]` macro relies on an internal field named `errors` to accumulate validation results. Therefore, defining a struct like this will fail:
+        //
+        // ```rust
+        // struct A {
+        //   #[validate(nested)]
+        //   errors: B,
+        // }
+        // ```
+        //
+        // To avoid this, either rename the field to something other than "errors", or reserve it.
+        this.reservedWords.add("errors");
+
         modifyFeatureSet(features -> features
                 .wireFormatFeatures(EnumSet.of(
                         WireFormatFeature.JSON,
@@ -1191,10 +1203,6 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
         if (varName.startsWith("r#"))
             return "r_" + varName.substring(2);
-
-        // Special case: validate(nested) macros has internal field errors, thus, result in compilation error
-        if (varName == "errors")
-            return "errors_";
 
         return varName;
     }
