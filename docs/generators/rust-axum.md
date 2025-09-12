@@ -77,6 +77,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>dyn</li>
 <li>else</li>
 <li>enum</li>
+<li>errors</li>
 <li>extern</li>
 <li>false</li>
 <li>final</li>
