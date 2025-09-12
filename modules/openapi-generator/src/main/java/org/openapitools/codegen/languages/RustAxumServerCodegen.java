@@ -113,7 +113,8 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                         SchemaSupportFeature.Simple,
                         SchemaSupportFeature.Composite,
                         SchemaSupportFeature.oneOf,
-                        SchemaSupportFeature.anyOf
+                        SchemaSupportFeature.anyOf,
+                        SchemaSupportFeature.allOf
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.Info,
