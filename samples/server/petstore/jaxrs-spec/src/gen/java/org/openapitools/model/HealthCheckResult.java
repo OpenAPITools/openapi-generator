@@ -49,7 +49,7 @@ public class HealthCheckResult  implements Serializable {
     this.nullableMessage = nullableMessage;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -73,6 +73,7 @@ public class HealthCheckResult  implements Serializable {
     sb.append("class HealthCheckResult {\n");
     
     sb.append("    nullableMessage: ").append(toIndentedString(nullableMessage)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

@@ -67,7 +67,7 @@ public class Tag  implements Serializable {
     this.name = name;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -93,6 +93,7 @@ public class Tag  implements Serializable {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

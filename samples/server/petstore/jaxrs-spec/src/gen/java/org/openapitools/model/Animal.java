@@ -82,7 +82,7 @@ public class Animal  implements Serializable {
     this.color = color;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -108,6 +108,7 @@ public class Animal  implements Serializable {
     
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

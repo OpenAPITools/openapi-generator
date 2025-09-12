@@ -222,7 +222,7 @@ public class MapTest  implements Serializable {
 
     return this;
   }
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -252,6 +252,7 @@ public class MapTest  implements Serializable {
     sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
     sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
     sb.append("    indirectMap: ").append(toIndentedString(indirectMap)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

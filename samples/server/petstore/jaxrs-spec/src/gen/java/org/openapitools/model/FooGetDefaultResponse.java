@@ -48,7 +48,7 @@ public class FooGetDefaultResponse  implements Serializable {
     this.string = string;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -72,6 +72,7 @@ public class FooGetDefaultResponse  implements Serializable {
     sb.append("class FooGetDefaultResponse {\n");
     
     sb.append("    string: ").append(toIndentedString(string)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }
