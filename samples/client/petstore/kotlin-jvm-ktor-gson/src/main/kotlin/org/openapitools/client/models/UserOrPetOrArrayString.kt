@@ -16,23 +16,35 @@
 package org.openapitools.client.models
 
 import org.openapitools.client.models.Category
+import org.openapitools.client.models.Pet
 import org.openapitools.client.models.Tag
+import org.openapitools.client.models.User
 
 import com.google.gson.annotations.SerializedName
 
 /**
- * A pet for sale in the pet store
+ * 
  *
+ * @param username 
  * @param name 
  * @param photoUrls 
  * @param id 
+ * @param firstName 
+ * @param lastName 
+ * @param email 
+ * @param password 
+ * @param phone 
+ * @param userStatus User Status
  * @param category 
  * @param tags 
  * @param status pet status in the store
  */
 
 
-data class Pet (
+data class UserOrPetOrArrayString (
+
+    @SerializedName("username")
+    val username: kotlin.String,
 
     @SerializedName("name")
     val name: kotlin.String,
@@ -43,6 +55,25 @@ data class Pet (
     @SerializedName("id")
     val id: kotlin.Long? = null,
 
+    @SerializedName("firstName")
+    val firstName: kotlin.String? = null,
+
+    @SerializedName("lastName")
+    val lastName: kotlin.String? = null,
+
+    @SerializedName("email")
+    val email: kotlin.String? = null,
+
+    @SerializedName("password")
+    val password: kotlin.String? = null,
+
+    @SerializedName("phone")
+    val phone: kotlin.String? = null,
+
+    /* User Status */
+    @SerializedName("userStatus")
+    val userStatus: kotlin.Int? = null,
+
     @SerializedName("category")
     val category: Category? = null,
 
@@ -52,7 +83,7 @@ data class Pet (
     /* pet status in the store */
     @SerializedName("status")
     @Deprecated(message = "This property is deprecated.")
-    val status: Pet.Status? = null
+    val status: UserOrPetOrArrayString.Status? = null
 
 ) {
 
