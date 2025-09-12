@@ -1188,10 +1188,15 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public String toVarName(String name) {
         final var varName = super.toVarName(name);
+
         if (varName.startsWith("r#"))
             return "r_" + varName.substring(2);
-        else
-            return varName;
+
+        // Special case: validate(nested) macros has internal field errors, thus, result in compilation error
+        if (varName == "errors")
+            return "errors_";
+
+        return varName;
     }
 
     static class PathMethodOperations {
