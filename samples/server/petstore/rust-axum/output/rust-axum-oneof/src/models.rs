@@ -969,7 +969,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<HelloD> {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Deserialize, derive_more::From)]
+#[derive(Debug, Clone, PartialEq, serde::Deserialize)]
 #[serde(tag = "op")]
 #[allow(non_camel_case_types)]
 pub enum Message {
@@ -1015,18 +1015,39 @@ impl std::str::FromStr for Message {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, derive_more::From)]
+impl From<models::Hello> for Message {
+    fn from(value: models::Hello) -> Self {
+        Self::Hello(value)
+    }
+}
+impl From<models::Greeting> for Message {
+    fn from(value: models::Greeting) -> Self {
+        Self::Greeting(value)
+    }
+}
+impl From<models::Goodbye> for Message {
+    fn from(value: models::Goodbye) -> Self {
+        Self::Goodbye(value)
+    }
+}
+impl From<models::SomethingCompletelyDifferent> for Message {
+    fn from(value: models::SomethingCompletelyDifferent) -> Self {
+        Self::SomethingCompletelyDifferent(value)
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
 #[allow(non_camel_case_types)]
 pub enum SomethingCompletelyDifferent {
-    VecOfObjectType(Vec<crate::types::Object>),
+    VecOfObject(Vec<crate::types::Object>),
     Object(crate::types::Object),
 }
 
 impl validator::Validate for SomethingCompletelyDifferent {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
-            Self::VecOfObjectType(_) => std::result::Result::Ok(()),
+            Self::VecOfObject(_) => std::result::Result::Ok(()),
             Self::Object(_) => std::result::Result::Ok(()),
         }
     }
@@ -1040,5 +1061,16 @@ impl std::str::FromStr for SomethingCompletelyDifferent {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
+    }
+}
+
+impl From<Vec<crate::types::Object>> for SomethingCompletelyDifferent {
+    fn from(value: Vec<crate::types::Object>) -> Self {
+        Self::VecOfObject(value)
+    }
+}
+impl From<crate::types::Object> for SomethingCompletelyDifferent {
+    fn from(value: crate::types::Object) -> Self {
+        Self::Object(value)
     }
 }

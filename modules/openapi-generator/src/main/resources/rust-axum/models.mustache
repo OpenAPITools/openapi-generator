@@ -752,11 +752,11 @@ impl std::str::FromStr for {{{classname}}} {
 {{! general struct}}
 {{#anyOf.size}}
 {{#discriminator}}
-#[derive(Debug, Clone, PartialEq, serde::Deserialize, derive_more::From)]
+#[derive(Debug, Clone, PartialEq, serde::Deserialize)]
 #[serde(tag = "{{{propertyBaseName}}}")]
 {{/discriminator}}
 {{^discriminator}}
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, derive_more::From)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
 {{/discriminator}}
 #[allow(non_camel_case_types)]
@@ -797,14 +797,41 @@ impl std::str::FromStr for {{{classname}}} {
     }
 }
 
+{{#discriminator}}
+impl serde::Serialize for {{{classname}}} {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where S: serde::Serializer {
+            match self {
+                {{#composedSchemas}}
+                {{#anyOf}}
+                Self::{{{datatypeWithEnum}}}(x) => x.serialize(serializer),
+                {{/anyOf}}
+                {{/composedSchemas}}
+            }
+    }
+}
+{{/discriminator}}
+
+{{#composedSchemas}}
+{{#anyOf}}
+{{#vendorExtensions.x-from-trait}}
+impl From<{{{dataType}}}> for {{{classname}}} {
+    fn from(value: {{{dataType}}}) -> Self {
+        Self::{{{datatypeWithEnum}}}(value)
+    }
+}
+{{/vendorExtensions.x-from-trait}}
+{{/anyOf}}
+{{/composedSchemas}}
+
 {{/anyOf.size}}
 {{#oneOf.size}}
 {{#discriminator}}
-#[derive(Debug, Clone, PartialEq, serde::Deserialize, derive_more::From)]
+#[derive(Debug, Clone, PartialEq, serde::Deserialize)]
 #[serde(tag = "{{{propertyBaseName}}}")]
 {{/discriminator}}
 {{^discriminator}}
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, derive_more::From)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
 {{/discriminator}}
 #[allow(non_camel_case_types)]
@@ -821,14 +848,14 @@ impl validator::Validate for {{{classname}}}
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
             {{#composedSchemas}}
-            {{#anyOf}}
+            {{#oneOf}}
             {{^isModel}}
             Self::{{{datatypeWithEnum}}}(_) => std::result::Result::Ok(()),
             {{/isModel}}
             {{#isModel}}
             Self::{{{datatypeWithEnum}}}(v) => v.validate(),
             {{/isModel}}
-            {{/anyOf}}
+            {{/oneOf}}
             {{/composedSchemas}}
         }
     }
@@ -860,73 +887,21 @@ impl std::str::FromStr for {{{classname}}} {
     }
 }
 
+{{#composedSchemas}}
+{{#oneOf}}
+{{#vendorExtensions.x-from-trait}}
+impl From<{{{dataType}}}> for {{{classname}}} {
+    fn from(value: {{{dataType}}}) -> Self {
+        Self::{{{datatypeWithEnum}}}(value)
+    }
+}
+{{/vendorExtensions.x-from-trait}}
+{{/oneOf}}
+{{/composedSchemas}}
+
 {{/oneOf.size}}
-{{#allOf.size}}
-{{#discriminator}}
-#[derive(Debug, Clone, PartialEq, serde::Deserialize, derive_more::From)]
-#[serde(tag = "{{{propertyBaseName}}}")]
-{{/discriminator}}
-{{^discriminator}}
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, derive_more::From)]
-#[serde(untagged)]
-{{/discriminator}}
-#[allow(non_camel_case_types)]
-pub enum {{{classname}}} {
-    {{#composedSchemas}}
-    {{#allOf}}
-    {{{datatypeWithEnum}}}({{{dataType}}}),
-    {{/allOf}}
-    {{/composedSchemas}}
-}
-
-impl validator::Validate for {{{classname}}}
-{
-    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        match self {
-            {{#composedSchemas}}
-            {{#allOf}}
-            {{^isModel}}
-            Self::{{{datatypeWithEnum}}}(_) => std::result::Result::Ok(()),
-            {{/isModel}}
-            {{#isModel}}
-            Self::{{{datatypeWithEnum}}}(v) => v.validate(),
-            {{/isModel}}
-            {{/allOf}}
-            {{/composedSchemas}}
-        }
-    }
-}
-
-{{#discriminator}}
-impl serde::Serialize for {{{classname}}} {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where S: serde::Serializer {
-            match self {
-                {{#composedSchemas}}
-                {{#allOf}}
-                Self::{{{datatypeWithEnum}}}(x) => x.serialize(serializer),
-                {{/allOf}}
-                {{/composedSchemas}}
-            }
-    }
-}
-{{/discriminator}}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for {{{classname}}} {
-    type Err = serde_json::Error;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        serde_json::from_str(s)
-    }
-}
-
-{{/allOf.size}}
 {{^anyOf.size}}
 {{^oneOf.size}}
-{{^allOf.size}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct {{{classname}}} {
@@ -1254,14 +1229,12 @@ impl std::str::FromStr for {{{classname}}} {
         })
     }
 }
-{{/allOf.size}}
 {{/oneOf.size}}
 {{/anyOf.size}}
 {{/arrayModelType}}
 
 {{^anyOf.size}}
 {{^oneOf.size}}
-{{^allOf.size}}
 // Methods for converting between header::IntoHeaderValue<{{{classname}}}> and HeaderValue
 
 #[cfg(feature = "server")]
@@ -1293,7 +1266,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<{{{classname
         }
     }
 }
-{{/allOf.size}}
 {{/oneOf.size}}
 {{/anyOf.size}}
 

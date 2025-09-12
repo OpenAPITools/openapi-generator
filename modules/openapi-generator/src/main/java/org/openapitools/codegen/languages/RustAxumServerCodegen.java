@@ -113,8 +113,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                         SchemaSupportFeature.Simple,
                         SchemaSupportFeature.Composite,
                         SchemaSupportFeature.oneOf,
-                        SchemaSupportFeature.anyOf,
-                        SchemaSupportFeature.allOf
+                        SchemaSupportFeature.anyOf
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.Info,
@@ -646,7 +645,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 final List<CodegenProperty> csOneOf = cs.getOneOf();
                 if (csOneOf != null) {
                     processOneAllAnyOfModelDataType(csOneOf);
-                    cs.setAnyOf(csOneOf);
+                    cs.setOneOf(csOneOf);
                     cm.setComposedSchemas(cs);
                 }
 
@@ -654,13 +653,6 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 if (csAnyOf != null) {
                     processOneAllAnyOfModelDataType(csAnyOf);
                     cs.setAnyOf(csAnyOf);
-                    cm.setComposedSchemas(cs);
-                }
-
-                final List<CodegenProperty> csAllOf = cs.getAllOf();
-                if (csAllOf != null) {
-                    processOneAllAnyOfModelDataType(csAllOf);
-                    cs.setAllOf(csAllOf);
                     cm.setComposedSchemas(cs);
                 }
             }
@@ -673,12 +665,6 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 }
 
                 for (String model : cm.anyOf) {
-                    final List<String> discriminators = mapDiscriminator.getOrDefault(model, new ArrayList<>());
-                    discriminators.add(cm.discriminator.getPropertyName());
-                    mapDiscriminator.put(model, discriminators);
-                }
-
-                for (String model : cm.allOf) {
                     final List<String> discriminators = mapDiscriminator.getOrDefault(model, new ArrayList<>());
                     discriminators.add(cm.discriminator.getPropertyName());
                     mapDiscriminator.put(model, discriminators);
@@ -745,27 +731,30 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     private static void processOneAllAnyOfModelDataType(final List<CodegenProperty> cp) {
-        final HashSet<String> dedup = new HashSet<>();
+        HashSet<String> dedupDataTypeWithEnum = new HashSet();
+        HashMap<String, Integer> dedupDataType = new HashMap();
 
-        final List<CodegenProperty> toRemove = new ArrayList();
+        int idx = 0;
         for (CodegenProperty model : cp) {
             // Generate a valid name for the enum variant.
             // Mainly needed for primitive types.
             model.datatypeWithEnum = camelize(model.dataType.replaceAll("(?:\\w+::)+(\\w+)", "$1")
                     .replace("<", "Of").replace(">", "")).replace(" ", "").replace(",", "");
+            if (!dedupDataTypeWithEnum.add(model.datatypeWithEnum)) {
+                model.datatypeWithEnum += ++idx;
+            }
+
+            dedupDataType.put(model.getDataType(), dedupDataType.getOrDefault(model.getDataType(), 0) + 1);
 
             if (!model.getDataType().matches(String.format(Locale.ROOT, ".*::%s", model.getDatatypeWithEnum()))) {
                 model.isPrimitiveType = true;
-                model.datatypeWithEnum += "Type";
-            }
-
-            if (!dedup.add(model.datatypeWithEnum)) {
-                toRemove.add(model);
             }
         }
 
-        for (var model : toRemove) {
-            cp.remove(model);
+        for (CodegenProperty model : cp) {
+            if (dedupDataType.get(model.getDataType()) == 1) {
+                model.vendorExtensions.put("x-from-trait", true);
+            }
         }
     }
 
