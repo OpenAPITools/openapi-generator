@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import java.util.Locale;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +38,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String RETURN_RESPONSE = "returnResponse";
+    public static final String RETURN_JBOSS_RESPONSE = "returnJBossResponse";
     public static final String GENERATE_POM = "generatePom";
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
     public static final String USE_MICROPROFILE_OPENAPI_ANNOTATIONS = "useMicroProfileOpenAPIAnnotations";
@@ -52,6 +54,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
+    private boolean returnJbossResponse = false;
     private boolean generatePom = true;
     private boolean useSwaggerAnnotations = true;
     private boolean useMicroProfileOpenAPIAnnotations = false;
@@ -128,6 +131,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(GENERATE_POM, "Whether to generate pom.xml if the file does not already exist.").defaultValue(String.valueOf(generatePom)));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
+        cliOptions.add(CliOption.newBoolean(RETURN_JBOSS_RESPONSE, "Whether generate API interface should return `org.jboss.resteasy.reactive.RestResponse` instead of a deserialized entity. This flag cannot be combined with `returnResponse` flag. It requires the flag `interfaceOnly` and `useJakartaEE` set to true, because `org.jboss.resteasy.reactive.RestResponse` was introduced in Quarkus 2.x").defaultValue(String.valueOf(returnJbossResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
         cliOptions.add(CliOption.newBoolean(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, "Whether to generate Microprofile OpenAPI annotations. Only valid when library is set to quarkus.", useMicroProfileOpenAPIAnnotations));
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
@@ -142,6 +146,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         convertPropertyToBooleanAndWriteBack(INTERFACE_ONLY, value -> interfaceOnly = value);
         convertPropertyToBooleanAndWriteBack(RETURN_RESPONSE, value -> returnResponse = value);
+        convertPropertyToBooleanAndWriteBack(RETURN_JBOSS_RESPONSE, value -> returnJbossResponse = value);
         convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
         if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
             useSwaggerAnnotations = false;
@@ -218,6 +223,18 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("dockerignore.mustache", "", ".dockerignore")
                     .doNotOverwrite());
+            if(returnResponse && returnJbossResponse) {
+              String msg = String.format(Locale.ROOT,
+                  "You cannot combine [%s] and [%s] since they are mutually exclusive",
+                  RETURN_RESPONSE, RETURN_JBOSS_RESPONSE);
+              throw new IllegalArgumentException(msg);
+            }
+            if(returnJbossResponse && !useJakartaEe) {
+              String msg = String.format(Locale.ROOT,
+                  "The [%s] requires [%s] to be true, because org.jboss.resteasy.reactive.RestResponse was introduced in Quarkus 2.x",
+                  RETURN_JBOSS_RESPONSE, USE_JAKARTA_EE);
+              throw new IllegalArgumentException(msg);
+            }
         } else if (OPEN_LIBERTY_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("server.xml.mustache", "src/main/liberty/config", "server.xml")
                     .doNotOverwrite());

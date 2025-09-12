@@ -79,6 +79,12 @@
       <artifactId>quarkus-smallrye-openapi</artifactId>
     </dependency>
 {{#useJakartaEe}}
+{{#returnJBossResponse}}
+    <dependency>
+      <groupId>io.quarkus.resteasy.reactive</groupId>
+      <artifactId>resteasy-reactive</artifactId>
+    </dependency>
+{{/returnJBossResponse}}
     <dependency>
        <groupId>jakarta.ws.rs</groupId>
        <artifactId>jakarta.ws.rs-api</artifactId>
