@@ -634,7 +634,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return op;
     }
 
-    private void postProcessOneAllAnyOfModels(List<ModelMap> allModels) {
+    private void postProcessPolymorphism(List<ModelMap> allModels) {
         final HashMap<String, List<String>> mapDiscriminator = new HashMap<>();
 
         for (ModelMap mo : allModels) {
@@ -644,14 +644,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             if (cs != null) {
                 final List<CodegenProperty> csOneOf = cs.getOneOf();
                 if (csOneOf != null) {
-                    processOneAllAnyOfModelDataType(csOneOf);
+                    processPolymorphismDataType(csOneOf);
                     cs.setOneOf(csOneOf);
                     cm.setComposedSchemas(cs);
                 }
 
                 final List<CodegenProperty> csAnyOf = cs.getAnyOf();
                 if (csAnyOf != null) {
-                    processOneAllAnyOfModelDataType(csAnyOf);
+                    processPolymorphismDataType(csAnyOf);
                     cs.setAnyOf(csAnyOf);
                     cm.setComposedSchemas(cs);
                 }
@@ -730,7 +730,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
     }
 
-    private static void processOneAllAnyOfModelDataType(final List<CodegenProperty> cp) {
+    private static void processPolymorphismDataType(final List<CodegenProperty> cp) {
         HashSet<String> dedupDataTypeWithEnum = new HashSet();
         HashMap<String, Integer> dedupDataType = new HashMap();
 
@@ -760,7 +760,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
     @Override
     public OperationsMap postProcessOperationsWithModels(final OperationsMap operationsMap, List<ModelMap> allModels) {
-        postProcessOneAllAnyOfModels(allModels);
+        postProcessPolymorphism(allModels);
 
         final OperationMap operations = operationsMap.getOperations();
         operations.put("classnamePascalCase", camelize(operations.getClassname()));
