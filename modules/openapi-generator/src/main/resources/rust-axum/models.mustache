@@ -861,6 +861,17 @@ impl validator::Validate for {{{classname}}}
     }
 }
 
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for {{{classname}}} {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
+    }
+}
+
 {{#discriminator}}
 impl serde::Serialize for {{{classname}}} {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
@@ -875,17 +886,6 @@ impl serde::Serialize for {{{classname}}} {
     }
 }
 {{/discriminator}}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for {{{classname}}} {
-    type Err = serde_json::Error;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        serde_json::from_str(s)
-    }
-}
 
 {{#composedSchemas}}
 {{#oneOf}}

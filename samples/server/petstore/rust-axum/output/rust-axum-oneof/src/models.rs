@@ -990,6 +990,17 @@ impl validator::Validate for Message {
     }
 }
 
+/// Converts Query Parameters representation (style=form, explode=false) to a Message value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Message {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
+    }
+}
+
 impl serde::Serialize for Message {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -1001,17 +1012,6 @@ impl serde::Serialize for Message {
             Self::Goodbye(x) => x.serialize(serializer),
             Self::SomethingCompletelyDifferent(x) => x.serialize(serializer),
         }
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a Message value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for Message {
-    type Err = serde_json::Error;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        serde_json::from_str(s)
     }
 }
 
