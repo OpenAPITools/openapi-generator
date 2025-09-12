@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: Rust oneOf vs anyOf Comprehensive Test
+  description: Test to demonstrate semantic differences between oneOf and anyOf in Rust
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    # Simple oneOf - exactly one must match (XOR)
+    SimpleOneOf:
+      oneOf:
+        - type: string
+        - type: number
+        - type: boolean
+    
+    # Simple anyOf - one or more can match (OR)
+    SimpleAnyOf:
+      anyOf:
+        - type: string
+        - type: number
+        - type: boolean
+    
+    # oneOf with objects - no discriminator, should pick first matching
+    PersonOrCompany:
+      oneOf:
+        - $ref: '#/components/schemas/Person'
+        - $ref: '#/components/schemas/Company'
+    
+    # anyOf with objects - can be both person and company
+    PersonAndOrCompany:
+      anyOf:
+        - $ref: '#/components/schemas/Person'
+        - $ref: '#/components/schemas/Company'
+    
+    # Complex oneOf with nested schemas
+    ComplexOneOf:
+      oneOf:
+        - type: object
+          properties:
+            stringValue:
+              type: string
+            metadata:
+              type: string
+          required: [stringValue]
+        - type: object
+          properties:
+            numberValue:
+              type: number
+            metadata:
+              type: string
+          required: [numberValue]
+        - type: array
+          items:
+            type: string
+    
+    # Complex anyOf with overlapping properties
+    ComplexAnyOf:
+      anyOf:
+        - type: object
+          properties:
+            name:
+              type: string
+            age:
+              type: integer
+          required: [name]
+        - type: object
+          properties:
+            name:
+              type: string
+            company:
+              type: string
+          required: [company]
+        - type: object
+          properties:
+            tags:
+              type: array
+              items:
+                type: string
+    
+    # oneOf with discriminator
+    ShapeOneOfWithDiscriminator:
+      oneOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Rectangle'
+      discriminator:
+        propertyName: shapeType
+        mapping:
+          circle: '#/components/schemas/Circle'
+          rectangle: '#/components/schemas/Rectangle'
+    
+    # anyOf that could validate multiple schemas simultaneously
+    MixedContent:
+      anyOf:
+        - type: object
+          properties:
+            text:
+              type: string
+          required: [text]
+        - type: object
+          properties:
+            html:
+              type: string
+          required: [html]
+        - type: object
+          properties:
+            markdown:
+              type: string
+          required: [markdown]
+    
+    # Helper schemas
+    Person:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        age:
+          type: integer
+      required: [firstName, lastName]
+    
+    Company:
+      type: object
+      properties:
+        companyName:
+          type: string
+        employeeCount:
+          type: integer
+      required: [companyName]
+    
+    Circle:
+      type: object
+      properties:
+        shapeType:
+          type: string
+          enum: [circle]
+        radius:
+          type: number
+      required: [shapeType, radius]
+    
+    Rectangle:
+      type: object
+      properties:
+        shapeType:
+          type: string
+          enum: [rectangle]
+        width:
+          type: number
+        height:
+          type: number
+      required: [shapeType, width, height]

@@ -152,7 +152,46 @@ impl Default for {{classname}} {
 {{/-last}}
 {{/oneOf}}
 {{^oneOf}}
-{{! composedSchemas exists but no oneOf - generate normal struct}}
+{{#composedSchemas.anyOf}}
+{{#-first}}
+{{! Model with composedSchemas.anyOf - generate struct with optional fields for true OR semantics}}
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+pub struct {{classname}} {
+{{/-first}}
+{{/composedSchemas.anyOf}}
+{{#composedSchemas.anyOf}}
+    {{#description}}
+    /// {{{.}}} (anyOf option)
+    {{/description}}
+    #[serde(skip_serializing_if = "Option::is_none", rename = "as_{{{baseName}}}")]
+    pub as_{{{name}}}: Option<{{#isModel}}{{^avoidBoxedModels}}Box<{{/avoidBoxedModels}}{{/isModel}}{{{dataType}}}{{#isModel}}{{^avoidBoxedModels}}>{{/avoidBoxedModels}}{{/isModel}}>,
+{{/composedSchemas.anyOf}}
+{{#composedSchemas.anyOf}}
+{{#-last}}
+}
+
+impl {{classname}} {
+    /// Creates a new {{classname}} with all fields set to None
+    pub fn new() -> Self {
+        Default::default()
+    }
+
+    /// Validates that at least one anyOf field is set (OR semantics)
+    pub fn validate_any_of(&self) -> Result<(), String> {
+        {{#composedSchemas.anyOf}}
+        {{#-first}}
+        if {{/-first}}self.as_{{{name}}}.is_none(){{^-last}}
+            && {{/-last}}{{#-last}} {
+            return Err("At least one anyOf field must be set".to_string());
+        }{{/-last}}
+        {{/composedSchemas.anyOf}}
+        Ok(())
+    }
+}
+{{/-last}}
+{{/composedSchemas.anyOf}}
+{{^composedSchemas.anyOf}}
+{{! composedSchemas exists but no oneOf or anyOf - generate normal struct}}
 {{#vendorExtensions.x-rust-has-byte-array}}#[serde_as]
 {{/vendorExtensions.x-rust-has-byte-array}}#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct {{{classname}}} {
@@ -204,6 +243,7 @@ impl {{{classname}}} {
         }
     }
 }
+{{/composedSchemas.anyOf}}
 {{/oneOf}}
 {{/composedSchemas}}
 {{^composedSchemas}}

@@ -307,8 +307,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             mdl.getComposedSchemas().setOneOf(newOneOfs);
         }
 
-        // Handle anyOf schemas similarly to oneOf
-        // This is pragmatic since Rust's untagged enum will deserialize to the first matching variant
+        // Handle anyOf schemas with true OR semantics (one or more schemas must match)
+        // Unlike oneOf (XOR - exactly one), anyOf allows multiple schemas to validate
         if (mdl.getComposedSchemas() != null && mdl.getComposedSchemas().getAnyOf() != null
                 && !mdl.getComposedSchemas().getAnyOf().isEmpty()) {
 
@@ -366,8 +366,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 }
             }
 
-            // Set anyOf as oneOf for template processing since we want the same output
-            mdl.getComposedSchemas().setOneOf(newAnyOfs);
+            // Keep anyOf separate from oneOf - they have different semantics
+            // anyOf will be processed with a different template structure
+            // that allows multiple schemas to match (OR logic)
         }
 
         return mdl;
