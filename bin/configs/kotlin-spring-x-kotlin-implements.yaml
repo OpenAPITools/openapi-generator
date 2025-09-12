@@ -1,5 +1,5 @@
 generatorName: kotlin-spring
-outputDir: samples/server/petstore/kotlin-springboot-x-kotlin-implements
+outputDir: samples/server/petstore/kotlin-spring-x-kotlin-implements
 library: spring-boot
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-x-kotlin-implements.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
