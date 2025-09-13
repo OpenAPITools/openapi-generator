@@ -594,7 +594,7 @@ pub struct PaymentMethod {
     #[serde(rename = "type")]
     #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub r#type: Option<String>,
+    pub r_type: Option<String>,
 }
 
 impl PaymentMethod {
@@ -602,7 +602,7 @@ impl PaymentMethod {
     pub fn new() -> PaymentMethod {
         PaymentMethod {
             name: None,
-            r#type: None,
+            r_type: None,
         }
     }
 }
@@ -616,9 +616,9 @@ impl std::fmt::Display for PaymentMethod {
             self.name
                 .as_ref()
                 .map(|name| ["name".to_string(), name.to_string()].join(",")),
-            self.r#type
+            self.r_type
                 .as_ref()
-                .map(|r#type| ["type".to_string(), r#type.to_string()].join(",")),
+                .map(|r_type| ["type".to_string(), r_type.to_string()].join(",")),
         ];
 
         write!(
@@ -641,7 +641,7 @@ impl std::str::FromStr for PaymentMethod {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub name: Vec<String>,
-            pub r#type: Vec<String>,
+            pub r_type: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -668,7 +668,7 @@ impl std::str::FromStr for PaymentMethod {
                         <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     #[allow(clippy::redundant_clone)]
-                    "type" => intermediate_rep.r#type.push(
+                    "type" => intermediate_rep.r_type.push(
                         <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     _ => {
@@ -686,7 +686,7 @@ impl std::str::FromStr for PaymentMethod {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(PaymentMethod {
             name: intermediate_rep.name.into_iter().next(),
-            r#type: intermediate_rep.r#type.into_iter().next(),
+            r_type: intermediate_rep.r_type.into_iter().next(),
         })
     }
 }
