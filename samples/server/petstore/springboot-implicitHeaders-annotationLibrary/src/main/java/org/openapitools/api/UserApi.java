@@ -111,7 +111,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> deleteUser(
-         @PathVariable("username") String username
+        @NotNull  @PathVariable("username") String username
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -135,7 +135,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<User> getUserByName(
-         @PathVariable("username") String username
+        @NotNull  @PathVariable("username") String username
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -218,7 +218,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> updateUser(
-         @PathVariable("username") String username,
+        @NotNull  @PathVariable("username") String username,
          @Valid @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

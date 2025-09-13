@@ -53,7 +53,7 @@ public interface StoreApi {
     )
     
     ResponseEntity<Void> deleteOrder(
-        @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId
+        @NotNull @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId
     );
 
 
@@ -118,7 +118,7 @@ public interface StoreApi {
     )
     
     ResponseEntity<Order> getOrderById(
-        @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") Long orderId
+        @NotNull @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") Long orderId
     );
 
 
