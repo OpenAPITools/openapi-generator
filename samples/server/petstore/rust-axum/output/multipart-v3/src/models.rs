@@ -96,7 +96,6 @@ impl std::fmt::Display for MultipartRelatedRequest {
         let params: Vec<Option<String>> = vec![
             // Skipping object_field in query parameter serialization
 
-
             // Skipping optional_binary_field in query parameter serialization
             // Skipping optional_binary_field in query parameter serialization
 

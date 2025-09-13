@@ -843,7 +843,6 @@ impl std::fmt::Display for ArrayOfArrayOfNumberOnly {
         let params: Vec<Option<String>> = vec![
             // Skipping ArrayArrayNumber in query parameter serialization
 
-
         ];
 
         write!(
@@ -3637,9 +3636,7 @@ impl std::fmt::Display for MixedPropertiesAndAdditionalPropertiesClass {
         let params: Vec<Option<String>> = vec![
             // Skipping uuid in query parameter serialization
 
-
             // Skipping dateTime in query parameter serialization
-
 
             // Skipping map in query parameter serialization
             // Skipping map in query parameter serialization
@@ -4242,7 +4239,6 @@ impl std::fmt::Display for ObjectContainingObjectWithOnlyAdditionalProperties {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping inner in query parameter serialization
-
 
         ];
 

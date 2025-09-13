@@ -1116,19 +1116,21 @@ impl std::fmt::Display for {{{classname}}} {
 {{^isPrimitiveType}}
             // Skipping {{baseName}} in query parameter serialization
 {{/isPrimitiveType}}
-{{^isByteArray}}{{^isBinary}}{{^isMap}}
-{{#isPrimitiveType}}
+{{^isByteArray}}{{^isBinary}}{{^isMap}}{{#isPrimitiveType}}
 {{#required}}
             Some("{{{baseName}}}".to_string()),
 {{^isArray}}
 {{#isNullable}}
-            // Skipping {{baseName}} in query parameter serialization
+            Some(self.{{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string())),
 {{/isNullable}}
 {{^isNullable}}
             Some(self.{{{name}}}.to_string()),
 {{/isNullable}}
 {{/isArray}}
 {{#isArray}}
+{{#isNullable}}
+            Some(self.{{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))),
+{{/isNullable}}
 {{^isNullable}}
             Some(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
 {{/isNullable}}
@@ -1156,7 +1158,8 @@ impl std::fmt::Display for {{{classname}}} {
 {{/isArray}}
                 ].join(",")
             }),
-{{/required}}{{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}
+{{/required}}
+{{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}
 {{/vars}}
         ];
 
