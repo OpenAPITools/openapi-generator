@@ -49,7 +49,7 @@ data class Pet(
 
     @ApiModelProperty(example = "null", value = "pet status in the store")
     @get:JsonProperty("status") val status: Pet.Status? = null
-    ) : Serializable{
+) : Serializable {
 
     /**
     * pet status in the store

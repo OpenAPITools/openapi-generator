@@ -45,7 +45,7 @@ data class Order(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("complete") var complete: kotlin.Boolean? = false
-    ) : Serializable{
+) : Serializable {
 
     /**
     * Order Status

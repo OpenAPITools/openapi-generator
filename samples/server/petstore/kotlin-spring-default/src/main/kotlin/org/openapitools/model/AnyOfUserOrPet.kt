@@ -79,7 +79,7 @@ data class AnyOfUserOrPet(
     @Schema(example = "null", description = "pet status in the store")
     @Deprecated(message = "")
     @get:JsonProperty("status") val status: AnyOfUserOrPet.Status? = null
-    ) {
+) {
 
     /**
     * pet status in the store

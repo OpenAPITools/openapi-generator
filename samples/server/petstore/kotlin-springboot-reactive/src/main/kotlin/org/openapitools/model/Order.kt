@@ -44,7 +44,7 @@ data class Order(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
-    ) {
+) {
 
     /**
     * Order Status

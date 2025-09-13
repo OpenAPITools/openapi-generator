@@ -22,7 +22,7 @@ data class Annotation(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("id") val id: java.util.UUID? = null
-    ) {
+) {
 
 }
 
