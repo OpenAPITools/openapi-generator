@@ -642,7 +642,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         typeMapping.put("Date", "LocalDate");
         typeMapping.put("Time", "LocalTime");
 
-        importMapping.put("Instant", "kotlinx.datetime.Instant");
+        importMapping.put("Instant", "kotlin.time.Instant");
         importMapping.put("LocalDate", "kotlinx.datetime.LocalDate");
         importMapping.put("LocalTime", "kotlinx.datetime.LocalTime");
     }
@@ -887,7 +887,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         // multiplatform specific supporting files
         supportingFiles.add(new SupportingFile("infrastructure/Base64ByteArray.kt.mustache", infrastructureFolder, "Base64ByteArray.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/Bytes.kt.mustache", infrastructureFolder, "Bytes.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/HttpResponse.kt.mustache", infrastructureFolder, "HttpResponse.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/OctetByteArray.kt.mustache", infrastructureFolder, "OctetByteArray.kt"));
 
