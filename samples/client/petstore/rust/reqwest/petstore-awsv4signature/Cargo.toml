@@ -17,3 +17,8 @@ aws-sigv4 = "0.3.0"
 http = "0.2.5"
 secrecy = "0.8.0"
 reqwest = { version = "^0.12", default-features = false, features = ["json", "blocking", "multipart"] }
+
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls-tls = ["reqwest/rustls-tls"]

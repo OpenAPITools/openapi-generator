@@ -17,3 +17,8 @@ reqwest = { version = "^0.12", default-features = false, features = ["json", "mu
 async-trait = "^0.1"
 # TODO: propose to Yoshidan to externalize this as non google related crate, so that it can easily be extended for other cloud providers.
 google-cloud-token = "^0.1"
+
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls-tls = ["reqwest/rustls-tls"]
