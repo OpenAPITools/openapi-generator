@@ -238,10 +238,8 @@ impl std::fmt::Display for AdditionalPropertiesClass {
         let params: Vec<Option<String>> = vec![
             // Skipping map_property in query parameter serialization
 
-
             // Skipping map_of_map_property in query parameter serialization
             // Skipping map_of_map_property in query parameter serialization
-
 
         ];
 
@@ -378,7 +376,7 @@ impl Animal {
 
 impl Animal {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(class_name: String) -> Animal {
+    pub fn new() -> Animal {
         Animal {
             class_name: Self::_name_for_class_name(),
             color: Some(r#"red"#.to_string()),
@@ -393,7 +391,7 @@ impl std::fmt::Display for Animal {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("className".to_string()),
-            Some(self.class_name.clone()),
+            Some(self.class_name.to_string()),
             self.color
                 .as_ref()
                 .map(|color| ["color".to_string(), color.to_string()].join(",")),
@@ -844,7 +842,6 @@ impl std::fmt::Display for ArrayOfArrayOfNumberOnly {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping ArrayArrayNumber in query parameter serialization
-
 
 
         ];
@@ -3471,13 +3468,10 @@ impl std::fmt::Display for MapTest {
             // Skipping map_map_of_string in query parameter serialization
             // Skipping map_map_of_string in query parameter serialization
 
-
             // Skipping map_map_of_enum in query parameter serialization
             // Skipping map_map_of_enum in query parameter serialization
-
 
             // Skipping map_of_enum_string in query parameter serialization
-
 
         ];
 
@@ -3644,14 +3638,11 @@ impl std::fmt::Display for MixedPropertiesAndAdditionalPropertiesClass {
             // Skipping uuid in query parameter serialization
 
 
-
             // Skipping dateTime in query parameter serialization
 
 
-
             // Skipping map in query parameter serialization
             // Skipping map in query parameter serialization
-
 
         ];
 
@@ -4251,7 +4242,6 @@ impl std::fmt::Display for ObjectContainingObjectWithOnlyAdditionalProperties {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping inner in query parameter serialization
-
 
 
         ];
@@ -5932,7 +5922,7 @@ impl TestEnumParametersRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> TestEnumParametersRequest {
         TestEnumParametersRequest {
-            enum_form_string: Some(r#"-efg"#.to_string()),
+            enum_form_string: None,
         }
     }
 }

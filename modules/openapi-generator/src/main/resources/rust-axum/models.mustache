@@ -913,8 +913,10 @@ pub struct {{{classname}}} {
     /// Note: inline enums are not fully supported by openapi-generator
 {{/isEnum}}
 {{#isDiscriminator}}
+{{#isString}}
     #[serde(default = "{{{classname}}}::_name_for_{{{name}}}")]
     #[serde(serialize_with = "{{{classname}}}::_serialize_{{{name}}}")]
+{{/isString}}
 {{/isDiscriminator}}
     #[serde(rename = "{{{baseName}}}")]
 {{#hasValidation}}
@@ -1017,7 +1019,7 @@ pub struct {{{classname}}} {
         {{/isNullable}}
 {{/hasValidation}}
 {{#required}}
-    pub {{{name}}}: {{^isDiscriminator}}{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}{{/isDiscriminator}}{{#isDiscriminator}}{{{dataType}}}{{/isDiscriminator}},
+    pub {{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
 {{/required}}
 {{^required}}
 {{^isDiscriminator}}
@@ -1025,9 +1027,17 @@ pub struct {{{classname}}} {
     #[serde(deserialize_with = "deserialize_optional_nullable")]
     #[serde(default = "default_optional_nullable")]
 {{/isNullable}}
-    #[serde(skip_serializing_if="Option::is_none")]
 {{/isDiscriminator}}
-    pub {{{name}}}: {{^isDiscriminator}}Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>{{/isDiscriminator}}{{#isDiscriminator}}{{{dataType}}}{{/isDiscriminator}},
+{{#isDiscriminator}}
+{{^isString}}
+{{#isNullable}}
+    #[serde(deserialize_with = "deserialize_optional_nullable")]
+    #[serde(default = "default_optional_nullable")]
+{{/isNullable}}
+{{/isString}}
+{{/isDiscriminator}}
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub {{{name}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
 {{/required}}
 
 {{/vars}}
@@ -1035,6 +1045,7 @@ pub struct {{{classname}}} {
 
 {{#vars}}
 {{#isDiscriminator}}
+{{#isString}}
 impl {{{classname}}} {
     fn _name_for_{{{name}}}() -> String {
         String::from("{{{classname}}}")
@@ -1047,6 +1058,7 @@ impl {{{classname}}} {
         s.serialize_str(&Self::_name_for_{{{name}}}())
     }
 }
+{{/isString}}
 {{/isDiscriminator}}
 {{/vars}}
 
@@ -1077,9 +1089,9 @@ fn validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowerc
 
 impl {{{classname}}} {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new({{#vars}}{{^defaultValue}}{{{name}}}: {{^isDiscriminator}}{{#isNullable}}Nullable<{{/isNullable}}{{/isDiscriminator}}{{{dataType}}}{{^isDiscriminator}}{{#isNullable}}>{{/isNullable}}{{/isDiscriminator}}, {{/defaultValue}}{{/vars}}) -> {{{classname}}} {
+    pub fn new({{#vars}}{{^isDiscriminator}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{^isString}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/isString}}{{/isDiscriminator}}{{/vars}}) -> {{{classname}}} {
         {{{classname}}} {
-{{#vars}}            {{^isDiscriminator}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{{name}}}: Self::_name_for_{{{name}}}(){{/isDiscriminator}},
+{{#vars}} {{^isDiscriminator}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{#isString}}{{{name}}}: Self::_name_for_{{{name}}}(){{/isString}}{{^isString}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/isString}}{{/isDiscriminator}},
 {{/vars}}
         }
     }
@@ -1092,7 +1104,6 @@ impl std::fmt::Display for {{{classname}}} {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
 {{#vars}}
-{{^isDiscriminator}}
 {{#isByteArray}}
             // Skipping {{baseName}} in query parameter serialization
 {{/isByteArray}}
@@ -1145,9 +1156,7 @@ impl std::fmt::Display for {{{classname}}} {
 {{/isArray}}
                 ].join(",")
             }),
-{{/required}}
-{{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}{{/isDiscriminator}}
-{{#isDiscriminator}} Some("{{{baseName}}}".to_string()), Some(self.{{{name}}}.clone()),{{/isDiscriminator}}
+{{/required}}{{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}
 {{/vars}}
         ];
 
@@ -1221,17 +1230,12 @@ impl std::str::FromStr for {{{classname}}} {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok({{{classname}}} {
             {{#vars}}
-            {{^isDiscriminator}}
             {{#isNullable}}
             {{{name}}}: std::result::Result::Err("Nullable types not supported in {{{classname}}}".to_string())?,
             {{/isNullable}}
             {{^isNullable}}
             {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or_else(|| "{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}},
             {{/isNullable}}
-            {{/isDiscriminator}}
-            {{#isDiscriminator}}
-            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next().ok_or_else(|| "{{{baseName}}} missing in {{{classname}}}".to_string())?,
-            {{/isDiscriminator}}
             {{/vars}}
         })
     }

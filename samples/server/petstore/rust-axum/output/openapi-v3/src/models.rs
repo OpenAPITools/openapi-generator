@@ -908,9 +908,7 @@ impl std::fmt::Display for AnyOfProperty {
             // Skipping requiredAnyOf in query parameter serialization
 
 
-
             // Skipping optionalAnyOf in query parameter serialization
-
 
 
         ];
@@ -2525,17 +2523,13 @@ impl std::fmt::Display for ObjectUntypedProps {
             // Skipping required_untyped in query parameter serialization
 
 
-
             // Skipping required_untyped_nullable in query parameter serialization
-
 
 
             // Skipping not_required_untyped in query parameter serialization
 
 
-
             // Skipping not_required_untyped_nullable in query parameter serialization
-
 
 
         ];

@@ -744,8 +744,8 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     private static void processPolymorphismDataType(final List<CodegenProperty> cp) {
-        HashSet<String> dedupDataTypeWithEnum = new HashSet();
-        HashMap<String, Integer> dedupDataType = new HashMap();
+        final HashSet<String> dedupDataTypeWithEnum = new HashSet<>();
+        final HashMap<String, Integer> dedupDataType = new HashMap<>();
 
         int idx = 0;
         for (CodegenProperty model : cp) {
@@ -943,7 +943,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     // restore things to sensible values.
     @Override
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
-        final Schema original_schema = ModelUtils.getSchemaFromRequestBody(body);
+        final var original_schema = ModelUtils.getSchemaFromRequestBody(body);
         CodegenParameter codegenParameter = super.fromRequestBody(body, imports, bodyParameterName);
 
         if (StringUtils.isNotBlank(original_schema.get$ref())) {
@@ -962,10 +962,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public String toInstantiationType(final Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            final Schema inner = ModelUtils.getSchemaItems(p);
+            final var inner = ModelUtils.getSchemaItems(p);
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            final Schema inner = ModelUtils.getAdditionalProperties(p);
+            final var inner = ModelUtils.getAdditionalProperties(p);
             return instantiationTypes.get("map") + "<" + typeMapping.get("string") + ", " + getSchemaType(inner) + ">";
         } else {
             return null;
@@ -994,6 +994,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public String toDefaultValue(final Schema p) {
         String defaultValue = null;
+
+        if (ModelUtils.isEnumSchema(p))
+            return null;
+
         if ((ModelUtils.isNullable(p)) && (p.getDefault() != null) && ("null".equalsIgnoreCase(p.getDefault().toString())))
             return "Nullable::Null";
 
@@ -1138,7 +1142,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema) {
+    protected void updateParameterForString(CodegenParameter codegenParameter, final Schema parameterSchema) {
         if (ModelUtils.isEmailSchema(parameterSchema)) {
             codegenParameter.isEmail = true;
         } else if (ModelUtils.isUUIDSchema(parameterSchema)) {
@@ -1165,7 +1169,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             codegenParameter.isDecimal = true;
             codegenParameter.isPrimitiveType = true;
         }
-        if (Boolean.TRUE.equals(codegenParameter.isString)) {
+        if (codegenParameter.isString) {
             codegenParameter.isPrimitiveType = true;
         }
     }

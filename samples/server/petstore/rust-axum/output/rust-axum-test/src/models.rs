@@ -880,7 +880,6 @@ impl std::fmt::Display for FooObjectOfObjects {
             // Skipping inner in query parameter serialization
 
 
-
         ];
 
         write!(

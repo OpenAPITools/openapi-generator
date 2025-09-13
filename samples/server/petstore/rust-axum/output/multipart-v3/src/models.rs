@@ -97,14 +97,11 @@ impl std::fmt::Display for MultipartRelatedRequest {
             // Skipping object_field in query parameter serialization
 
 
-
             // Skipping optional_binary_field in query parameter serialization
             // Skipping optional_binary_field in query parameter serialization
 
-
             // Skipping required_binary_field in query parameter serialization
             // Skipping required_binary_field in query parameter serialization
-
 
         ];
 
@@ -591,10 +588,8 @@ impl std::fmt::Display for MultipleIdenticalMimeTypesPostRequest {
             // Skipping binary1 in query parameter serialization
             // Skipping binary1 in query parameter serialization
 
-
             // Skipping binary2 in query parameter serialization
             // Skipping binary2 in query parameter serialization
-
 
         ];
 
