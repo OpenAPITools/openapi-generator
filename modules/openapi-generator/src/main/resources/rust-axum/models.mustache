@@ -1022,20 +1022,10 @@ pub struct {{{classname}}} {
     pub {{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
 {{/required}}
 {{^required}}
-{{^isDiscriminator}}
 {{#isNullable}}
     #[serde(deserialize_with = "deserialize_optional_nullable")]
     #[serde(default = "default_optional_nullable")]
 {{/isNullable}}
-{{/isDiscriminator}}
-{{#isDiscriminator}}
-{{^isString}}
-{{#isNullable}}
-    #[serde(deserialize_with = "deserialize_optional_nullable")]
-    #[serde(default = "default_optional_nullable")]
-{{/isNullable}}
-{{/isString}}
-{{/isDiscriminator}}
     #[serde(skip_serializing_if="Option::is_none")]
     pub {{{name}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
 {{/required}}
