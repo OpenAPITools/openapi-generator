@@ -1,12 +1,14 @@
+import {provideZonelessChangeDetection} from '@angular/core';
 import { TestBed } from '@angular/core/testing'
 import { provideHttpClient } from '@angular/common/http'
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing'
-import { DefaultService } from '@swagger/typescript-angular-deepobject'
+import { DefaultService } from '@swagger/typescript-angular-query-param-deep-object'
 
 describe('DeepObject Query Param testing', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
+        provideZonelessChangeDetection(),
         provideHttpClient(),
         provideHttpClientTesting(),
         DefaultService,

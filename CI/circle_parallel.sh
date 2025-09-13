@@ -73,7 +73,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   export NVM_DIR="/opt/circleci/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
   #nvm install stable
-  # install v16 instead of the latest stable version
+  # install v18 instead of the latest stable version
   nvm install 18
   nvm alias default 18
   node --version
@@ -83,6 +83,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
 
   (cd samples/client/others/typescript-angular && mvn integration-test)
+  (cd samples/client/others/typescript-angular-v20 && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v12-provided-in-root && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v13-provided-in-root && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v14-provided-in-root && mvn integration-test)
