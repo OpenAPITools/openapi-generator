@@ -188,7 +188,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{/isNullable}}
         {{/required}}
         {{#isArray}}
-        $LocalVarBodyParameter = ,${{{paramName}}} | ConvertTo-Json -Depth 100
+        $LocalVarBodyParameter = ConvertTo-Json @(${{{paramName}}}) -Depth 100
         {{/isArray}}
         {{^isArray}}
         $LocalVarBodyParameter = ${{{paramName}}} | ConvertTo-Json -Depth 100

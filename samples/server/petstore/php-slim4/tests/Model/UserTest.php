@@ -172,3 +172,4 @@ class UserTest extends TestCase
         $this->assertIsArray($schemaArr);
     }
 }
+

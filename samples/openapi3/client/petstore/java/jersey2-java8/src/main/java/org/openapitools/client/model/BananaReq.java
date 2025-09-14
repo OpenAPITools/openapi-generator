@@ -13,9 +13,12 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,18 +38,20 @@ import org.openapitools.client.JSON;
   BananaReq.JSON_PROPERTY_SWEET
 })
 @JsonTypeName("bananaReq")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
+  @javax.annotation.Nonnull
   private BigDecimal lengthCm;
 
   public static final String JSON_PROPERTY_SWEET = "sweet";
+  @javax.annotation.Nullable
   private Boolean sweet;
 
   public BananaReq() { 
   }
 
-  public BananaReq lengthCm(BigDecimal lengthCm) {
+  public BananaReq lengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;
   }
@@ -56,7 +61,7 @@ public class BananaReq {
    * @return lengthCm
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getLengthCm() {
@@ -64,14 +69,14 @@ public class BananaReq {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLengthCm(BigDecimal lengthCm) {
+  public void setLengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 
 
-  public BananaReq sweet(Boolean sweet) {
+  public BananaReq sweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
     return this;
   }
@@ -81,7 +86,7 @@ public class BananaReq {
    * @return sweet
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SWEET)
+  @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getSweet() {
@@ -89,9 +94,9 @@ public class BananaReq {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SWEET)
+  @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSweet(Boolean sweet) {
+  public void setSweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
   }
 
@@ -101,20 +106,12 @@ public class BananaReq {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    BananaReq bananaReq = (BananaReq) o;
-    return Objects.equals(this.lengthCm, bananaReq.lengthCm) &&
-        Objects.equals(this.sweet, bananaReq.sweet);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lengthCm, sweet);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

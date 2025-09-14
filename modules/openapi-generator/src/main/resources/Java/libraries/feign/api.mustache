@@ -22,6 +22,7 @@ import {{javaxPackage}}.validation.Valid;
 import feign.*;
 
 {{>generatedAnnotation}}
+
 public interface {{classname}} extends ApiClient.Api {
 
 {{#operations}}{{#operation}}
@@ -47,12 +48,12 @@ public interface {{classname}} extends ApiClient.Api {
 {{/isDeprecated}}
   @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
   @Headers({
-{{#vendorExtensions.x-content-type}}    "Content-Type: {{vendorExtensions.x-content-type}}",
-{{/vendorExtensions.x-content-type}}    "Accept: {{#vendorExtensions.x-accepts}}{{.}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
+{{#vendorExtensions.x-content-type}}    "Content-Type: {{{vendorExtensions.x-content-type}}}",
+{{/vendorExtensions.x-content-type}}    "Accept: {{#vendorExtensions.x-accepts}}{{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
     "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
     {{/-last}}{{/headerParams}}
   })
-  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
   /**
    * {{summary}}
@@ -77,12 +78,12 @@ public interface {{classname}} extends ApiClient.Api {
 {{/isDeprecated}}
   @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
   @Headers({
-{{#vendorExtensions.x-content-type}}    "Content-Type: {{vendorExtensions.x-content-type}}",
-{{/vendorExtensions.x-content-type}}    "Accept: {{#vendorExtensions.x-accepts}}{{.}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
+{{#vendorExtensions.x-content-type}}    "Content-Type: {{{vendorExtensions.x-content-type}}}",
+{{/vendorExtensions.x-content-type}}    "Accept: {{#vendorExtensions.x-accepts}}{{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
     "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
     {{/-last}}{{/headerParams}}
   })
-  ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+  ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
 
   {{#hasQueryParams}}
@@ -122,12 +123,12 @@ public interface {{classname}} extends ApiClient.Api {
   {{/isDeprecated}}
   @RequestLine("{{httpMethod}} {{{path}}}?{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
   @Headers({
-{{#vendorExtensions.x-content-type}}  "Content-Type: {{vendorExtensions.x-content-type}}",
-{{/vendorExtensions.x-content-type}}  "Accept: {{#vendorExtensions.x-accepts}}{{.}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
+{{#vendorExtensions.x-content-type}}  "Content-Type: {{{vendorExtensions.x-content-type}}}",
+{{/vendorExtensions.x-content-type}}  "Accept: {{#vendorExtensions.x-accepts}}{{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
       "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
   })
-  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) {{operationIdCamelCase}}QueryParams queryParams);
+  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) {{operationIdCamelCase}}QueryParams queryParams);
 
   /**
   * {{summary}}
@@ -162,12 +163,12 @@ public interface {{classname}} extends ApiClient.Api {
   {{/isDeprecated}}
       @RequestLine("{{httpMethod}} {{{path}}}?{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
       @Headers({
-  {{#vendorExtensions.x-content-type}}  "Content-Type: {{vendorExtensions.x-content-type}}",
-  {{/vendorExtensions.x-content-type}}  "Accept: {{#vendorExtensions.x-accepts}}{{.}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
+  {{#vendorExtensions.x-content-type}}  "Content-Type: {{{vendorExtensions.x-content-type}}}",
+  {{/vendorExtensions.x-content-type}}  "Accept: {{#vendorExtensions.x-accepts}}{{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-accepts}}",{{#headerParams}}
           "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
       })
-   ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) {{operationIdCamelCase}}QueryParams queryParams);
+   ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) {{operationIdCamelCase}}QueryParams queryParams);
 
 
    /**
@@ -176,7 +177,7 @@ public interface {{classname}} extends ApiClient.Api {
    */
   public static class {{operationIdCamelCase}}QueryParams extends HashMap<String, Object> {
       {{#queryParams}}
-    public {{operationIdCamelCase}}QueryParams {{paramName}}(final {{{dataType}}} value) {
+    public {{operationIdCamelCase}}QueryParams {{paramName}}({{>nullable_var_annotations}} final {{{dataType}}} value) {
         {{#collectionFormat}}
       put("{{baseName}}", EncodingUtils.encodeCollection(value, "{{collectionFormat}}"));
         {{/collectionFormat}}

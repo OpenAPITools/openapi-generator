@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 {{#jsr310}}
 {{#threetenbp}}
 import org.threeten.bp.OffsetDateTime;
@@ -85,7 +86,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "{{{basePath}}}";
   protected String userAgent;
-  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+  protected static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>({{#servers}}{{#-first}}Arrays.asList(
 {{/-first}}    new ServerConfiguration(
@@ -158,7 +159,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   protected boolean debugging = false;
   protected ClientConfig clientConfig;
   protected int connectionTimeout = 0;
-  private int readTimeout = 0;
+  protected int readTimeout = 0;
 
   protected Client httpClient;
   protected JSON json;
@@ -311,14 +312,14 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     return this;
   }
 
-  private void updateBasePath() {
+  protected void updateBasePath() {
     if (serverIndex != null) {
         setBasePath(servers.get(serverIndex).URL(serverVariables));
     }
   }
 
   {{#hasOAuthMethods}}
-  private void setOauthBasePath(String basePath) {
+  protected void setOauthBasePath(String basePath) {
     for(Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
         ((OAuth) auth).setBasePath(basePath);
@@ -1086,6 +1087,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       if (index < 0 || index >= serverConfigurations.size()) {
         throw new ArrayIndexOutOfBoundsException(
             String.format(
+                Locale.ROOT,
                 "Invalid index %d when selecting the host settings. Must be less than %d",
                 index, serverConfigurations.size()));
       }
@@ -1200,7 +1202,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
   }
 
-  private Response sendRequest(String method, Invocation.Builder invocationBuilder, Entity<?> entity) {
+  protected Response sendRequest(String method, Invocation.Builder invocationBuilder, Entity<?> entity) {
     Response response;
     if ("POST".equals(method)) {
       response = invocationBuilder.post(entity);

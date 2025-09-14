@@ -46,6 +46,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     }
 
     /**
+     * GET /
      * 
      * 
      * @return ModelWithEnumPropertyHavingDefault
@@ -76,6 +77,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     }
 
     /**
+     * GET /
      * 
      * 
      * @return ApiResponse<ModelWithEnumPropertyHavingDefault?>

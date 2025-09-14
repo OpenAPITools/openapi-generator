@@ -55,7 +55,7 @@ func (dst *Object2) UnmarshalJSON(data []byte) error {
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src *Object2) MarshalJSON() ([]byte, error) {
+func (src Object2) MarshalJSON() ([]byte, error) {
 	if src.NestedObject1 != nil {
 		return json.Marshal(&src.NestedObject1)
 	}

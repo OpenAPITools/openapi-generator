@@ -1,0 +1,4 @@
+generatorName: typescript
+outputDir: samples/client/others/typescript/builds/enum-single-value
+inputSpec: modules/openapi-generator/src/test/resources/3_1/enum-single-value.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript

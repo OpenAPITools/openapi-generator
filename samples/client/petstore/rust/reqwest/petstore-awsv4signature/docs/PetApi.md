@@ -1,6 +1,6 @@
 # \PetApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://localhost/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -9,6 +9,8 @@ Method | HTTP request | Description
 [**find_pets_by_status**](PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
 [**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
 [**get_pet_by_id**](PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
+[**pets_explode_post**](PetApi.md#pets_explode_post) | **POST** /pets/explode | List all pets
+[**pets_post**](PetApi.md#pets_post) | **POST** /pets | List all pets
 [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -20,7 +22,7 @@ Method | HTTP request | Description
 > models::Pet add_pet(pet)
 Add a new pet to the store
 
-
+This is the description for the addPet operation
 
 ### Parameters
 
@@ -78,10 +80,10 @@ Name | Type | Description  | Required | Notes
 
 ## find_pets_by_status
 
-> Vec<models::Pet> find_pets_by_status(status)
+> Vec<models::Pet> find_pets_by_status(status, r#type)
 Finds Pets by status
 
-Multiple status values can be provided with comma separated strings
+Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
 
 ### Parameters
 
@@ -89,6 +91,7 @@ Multiple status values can be provided with comma separated strings
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **status** | [**Vec<String>**](String.md) | Status values that need to be considered for filter | [required] |
+**r#type** | Option<[**Vec<String>**](String.md)> | Make sure that Rust keywords like type work as query params |  |
 
 ### Return type
 
@@ -162,6 +165,66 @@ Name | Type | Description  | Required | Notes
 
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## pets_explode_post
+
+> Vec<models::Pet> pets_explode_post(page_explode)
+List all pets
+
+Returns a list of pets
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**page_explode** | Option<[**Page**](.md)> | Object containing page `size` and page `number`. |  |
+
+### Return type
+
+[**Vec<models::Pet>**](Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## pets_post
+
+> Vec<models::Pet> pets_post(page)
+List all pets
+
+Returns a list of pets
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**page** | Option<[**Page**](.md)> | The page number |  |
+
+### Return type
+
+[**Vec<models::Pet>**](Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

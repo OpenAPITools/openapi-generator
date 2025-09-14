@@ -24,7 +24,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatePathLocator;
@@ -70,7 +69,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     private static final String DIO_IMPORT = "package:dio/dio.dart";
     public static final String FINAL_PROPERTIES = "finalProperties";
+    public static final String SKIP_COPY_WITH = "skipCopyWith";
     public static final String FINAL_PROPERTIES_DEFAULT_VALUE = "true";
+    public static final String SKIP_COPY_WITH_DEFAULT_VALUE = "false";
 
     private static final String CLIENT_NAME = "clientName";
 
@@ -92,12 +93,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                         ClientModificationFeature.Authorizations,
                         ClientModificationFeature.UserAgent
                 ).includeSchemaSupportFeatures(
-                    SchemaSupportFeature.Polymorphism,
-                    SchemaSupportFeature.Union,
-                    SchemaSupportFeature.Composite,
-                    SchemaSupportFeature.allOf,
-                    SchemaSupportFeature.oneOf,
-                    SchemaSupportFeature.anyOf
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.Composite,
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf
                 )
         );
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -139,6 +140,11 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
         finalProperties.setDefault("true");
         cliOptions.add(finalProperties);
+
+        // skip CopyWith option
+        final CliOption skipCopyWith = CliOption.newBoolean(SKIP_COPY_WITH, "Skip CopyWith when using Json Serializable for serialization");
+        skipCopyWith.setDefault("false");
+        cliOptions.add(skipCopyWith);
     }
 
     @Override
@@ -154,11 +160,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
-        }
 
         if (!additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
             additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DEFAULT);
@@ -184,9 +185,15 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         if (!additionalProperties.containsKey(FINAL_PROPERTIES)) {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(FINAL_PROPERTIES_DEFAULT_VALUE));
             LOGGER.debug("finalProperties not set, using default {}", FINAL_PROPERTIES_DEFAULT_VALUE);
-        }
-        else {
+        } else {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(additionalProperties.get(FINAL_PROPERTIES).toString()));
+        }
+
+        if (!additionalProperties.containsKey(SKIP_COPY_WITH)) {
+            additionalProperties.put(SKIP_COPY_WITH, Boolean.parseBoolean(SKIP_COPY_WITH_DEFAULT_VALUE));
+            LOGGER.debug("skipCopyWith not set, using default {}", SKIP_COPY_WITH_DEFAULT_VALUE);
+        } else {
+            additionalProperties.put(SKIP_COPY_WITH, Boolean.parseBoolean(additionalProperties.get(SKIP_COPY_WITH).toString()));
         }
 
         if (!additionalProperties.containsKey(CLIENT_NAME)) {
@@ -389,6 +396,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             syncRootTypesWithInnerVars(allModels, model);
         }
     }
+
     private void syncRootTypesWithInnerVars(Map<String, CodegenModel> objs, CodegenModel model) {
         List<CodegenProperty> allVars = new ArrayList<>();
         allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kSelfAndAncestorOnlyProps)));
@@ -408,6 +416,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             }
         }
     }
+
     private final String kIsChild = "x-is-child";
     private final String kIsParent = "x-is-parent";
     private final String kIsPure = "x-is-pure";
@@ -447,7 +456,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
 
 
-
         Set<String> allPureClasses = new HashSet<>();
         // set isChild,isParent,isPure
         for (java.util.Map.Entry<String, CodegenModel> cmEntry : allModels.entrySet()) {
@@ -469,9 +477,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             cm.vendorExtensions.put(kIsPure, isPure);
             if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
                 //discriminator has no meaning here
-                if (cm.discriminator!=null) {
+                if (cm.discriminator != null) {
                     cm.vendorExtensions.put(kParentDiscriminator, cm.discriminator);
-                    cm.discriminator=null;
+                    cm.discriminator = null;
                 }
 
             }
@@ -574,8 +582,8 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
         CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema);
         Discriminator originalDiscriminator = schema.getDiscriminator();
-        if (originalDiscriminator!=null) {
-            Map<String,String> originalMapping = originalDiscriminator.getMapping();
+        if (originalDiscriminator != null) {
+            Map<String, String> originalMapping = originalDiscriminator.getMapping();
             if (originalMapping != null && !originalMapping.isEmpty()) {
                 //we already have a discriminator mapping, remove everything else
                 for (MappedModel currentMappings : new HashSet<>(sub.getMappedModels())) {
@@ -671,9 +679,20 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             // longer in use.
             if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))
                     && op.responses.stream().filter(response -> response.dataType != null)
-                            .noneMatch(response -> response.dataType.equals("Uint8List"))) {
+                    .noneMatch(response -> response.dataType.equals("Uint8List"))) {
                 // Remove unused imports after processing
                 op.imports.remove("Uint8List");
+            }
+
+            if (SERIALIZATION_LIBRARY_JSON_SERIALIZABLE.equals(library)) {
+                // built_value serialization uses Uint8List for all MultipartFile types
+                // in json_serialization, MultipartFile is used as the file parameter type, but
+                // MultipartFile isn't readable, instead we convert this to a Uin8List
+                if (op.isResponseFile) {
+                    op.imports.add("Uint8List");
+                    op.returnType = "Uint8List";
+                    op.returnBaseType = "Uint8List";
+                }
             }
 
             resultImports.addAll(rewriteImports(op.imports, false));
@@ -725,6 +744,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     /**
      * Adds the serializer to the global list of custom built_value serializers.
+     *
      * @param serializer
      */
     private void addBuiltValueSerializer(BuiltValueSerializer serializer) {

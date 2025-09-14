@@ -20,12 +20,7 @@ package org.openapitools.codegen;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
     /**
@@ -133,7 +128,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean exclusiveMaximum;
     @Setter public boolean required;
     public boolean deprecated;
-    public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
     public boolean isModel;
     /**
@@ -178,7 +172,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isAnyType;
     public boolean isArray;
     public boolean isMap;
-    /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
+    /**
+     * datatype is the generic inner parameter of a std::optional for C++, or Optional (Java)
+     */
     public boolean isOptional;
     public boolean isEnum; // true if the enum is defined inline
     public boolean isInnerEnum; // Enums declared inline will be located inside the generic model, changing how the enum is referenced in some cases.
@@ -243,7 +239,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private CodegenComposedSchemas composedSchemas = null;
     private boolean hasMultipleTypes = false;
-    /** true if the property's baseName != name, e.g. baseName = '_prop.value', name = 'propValue' after sanitization */
+    /**
+     * true if the property's baseName != name, e.g. baseName = '_prop.value', name = 'propValue' after sanitization
+     */
     private boolean hasSanitizedName = false;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
@@ -849,7 +847,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return hasSanitizedName;
     }
 
-    public void setHasSanitizedName(boolean hasSanitizedName) { this.hasSanitizedName = hasSanitizedName; }
+    public void setHasSanitizedName(boolean hasSanitizedName) {
+        this.hasSanitizedName = hasSanitizedName;
+    }
 
     @Override
     public boolean getIsUuid() {
@@ -994,7 +994,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", exclusiveMaximum=").append(exclusiveMaximum);
         sb.append(", required=").append(required);
         sb.append(", deprecated=").append(deprecated);
-        sb.append(", hasMoreNonReadOnly=").append(hasMoreNonReadOnly);
         sb.append(", isPrimitiveType=").append(isPrimitiveType);
         sb.append(", isModel=").append(isModel);
         sb.append(", isContainer=").append(isContainer);
@@ -1091,7 +1090,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 exclusiveMaximum == that.exclusiveMaximum &&
                 required == that.required &&
                 deprecated == that.deprecated &&
-                hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
                 isPrimitiveType == that.isPrimitiveType &&
                 isModel == that.isModel &&
                 isContainer == that.isContainer &&
@@ -1208,7 +1206,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 defaultValueWithParam, baseType, containerType, containerTypeMapped, title, unescapedDescription,
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, required, deprecated,
-                hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
+                isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject,
                 isArray, isMap, isOptional, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,

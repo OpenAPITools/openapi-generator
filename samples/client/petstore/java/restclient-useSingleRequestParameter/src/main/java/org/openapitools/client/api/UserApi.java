@@ -9,22 +9,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestClient.ResponseSpec;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient.ResponseSpec;
+import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -32,7 +33,6 @@ public class UserApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public UserApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -45,10 +45,6 @@ public class UserApi {
         this.apiClient = apiClient;
     }
 
-// It has a single param!
-/*
-* user
-*/
     /**
      * Create user
      * This can only be done by the logged in user.
@@ -56,7 +52,7 @@ public class UserApi {
      * @param user Created user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUserRequestCreation(User user) throws RestClientResponseException {
+    private ResponseSpec createUserRequestCreation(@jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         Object postBody = user;
         // verify the required parameter 'user' is set
         if (user == null) {
@@ -90,7 +86,7 @@ public class UserApi {
      * @param user Created user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void createUser(User user) throws RestClientResponseException {
+    public void createUser(@jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         createUserRequestCreation(user).body(localVarReturnType);
     }
@@ -102,7 +98,7 @@ public class UserApi {
      * @param user Created user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUserWithHttpInfo(User user) throws RestClientResponseException {
+    public ResponseEntity<Void> createUserWithHttpInfo(@jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createUserRequestCreation(user).toEntity(localVarReturnType);
     }
@@ -115,13 +111,10 @@ public class UserApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec createUserWithResponseSpec(User user) throws RestClientResponseException {
+    public ResponseSpec createUserWithResponseSpec(@jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         return createUserRequestCreation(user);
     }
-// It has a single param!
-/*
-* user
-*/
+
     /**
      * Creates list of users with given input array
      * 
@@ -129,7 +122,7 @@ public class UserApi {
      * @param user List of user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUsersWithArrayInputRequestCreation(List<User> user) throws RestClientResponseException {
+    private ResponseSpec createUsersWithArrayInputRequestCreation(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         Object postBody = user;
         // verify the required parameter 'user' is set
         if (user == null) {
@@ -163,7 +156,7 @@ public class UserApi {
      * @param user List of user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithArrayInput(List<User> user) throws RestClientResponseException {
+    public void createUsersWithArrayInput(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         createUsersWithArrayInputRequestCreation(user).body(localVarReturnType);
     }
@@ -175,7 +168,7 @@ public class UserApi {
      * @param user List of user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws RestClientResponseException {
+    public ResponseEntity<Void> createUsersWithArrayInputWithHttpInfo(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createUsersWithArrayInputRequestCreation(user).toEntity(localVarReturnType);
     }
@@ -188,13 +181,10 @@ public class UserApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec createUsersWithArrayInputWithResponseSpec(List<User> user) throws RestClientResponseException {
+    public ResponseSpec createUsersWithArrayInputWithResponseSpec(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         return createUsersWithArrayInputRequestCreation(user);
     }
-// It has a single param!
-/*
-* user
-*/
+
     /**
      * Creates list of users with given input array
      * 
@@ -202,7 +192,7 @@ public class UserApi {
      * @param user List of user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUsersWithListInputRequestCreation(List<User> user) throws RestClientResponseException {
+    private ResponseSpec createUsersWithListInputRequestCreation(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         Object postBody = user;
         // verify the required parameter 'user' is set
         if (user == null) {
@@ -236,7 +226,7 @@ public class UserApi {
      * @param user List of user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithListInput(List<User> user) throws RestClientResponseException {
+    public void createUsersWithListInput(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         createUsersWithListInputRequestCreation(user).body(localVarReturnType);
     }
@@ -248,7 +238,7 @@ public class UserApi {
      * @param user List of user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws RestClientResponseException {
+    public ResponseEntity<Void> createUsersWithListInputWithHttpInfo(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return createUsersWithListInputRequestCreation(user).toEntity(localVarReturnType);
     }
@@ -261,13 +251,10 @@ public class UserApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec createUsersWithListInputWithResponseSpec(List<User> user) throws RestClientResponseException {
+    public ResponseSpec createUsersWithListInputWithResponseSpec(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
         return createUsersWithListInputRequestCreation(user);
     }
-// It has a single param!
-/*
-* username
-*/
+
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -276,7 +263,7 @@ public class UserApi {
      * @param username The name that needs to be deleted
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec deleteUserRequestCreation(String username) throws RestClientResponseException {
+    private ResponseSpec deleteUserRequestCreation(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -311,7 +298,7 @@ public class UserApi {
      * @param username The name that needs to be deleted
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void deleteUser(String username) throws RestClientResponseException {
+    public void deleteUser(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         deleteUserRequestCreation(username).body(localVarReturnType);
     }
@@ -324,7 +311,7 @@ public class UserApi {
      * @param username The name that needs to be deleted
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> deleteUserWithHttpInfo(String username) throws RestClientResponseException {
+    public ResponseEntity<Void> deleteUserWithHttpInfo(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return deleteUserRequestCreation(username).toEntity(localVarReturnType);
     }
@@ -338,13 +325,10 @@ public class UserApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec deleteUserWithResponseSpec(String username) throws RestClientResponseException {
+    public ResponseSpec deleteUserWithResponseSpec(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
         return deleteUserRequestCreation(username);
     }
-// It has a single param!
-/*
-* username
-*/
+
     /**
      * Get user by user name
      * 
@@ -355,7 +339,7 @@ public class UserApi {
      * @return User
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec getUserByNameRequestCreation(String username) throws RestClientResponseException {
+    private ResponseSpec getUserByNameRequestCreation(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -394,7 +378,7 @@ public class UserApi {
      * @return User
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public User getUserByName(String username) throws RestClientResponseException {
+    public User getUserByName(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
         ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getUserByNameRequestCreation(username).body(localVarReturnType);
     }
@@ -409,7 +393,7 @@ public class UserApi {
      * @return ResponseEntity&lt;User&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<User> getUserByNameWithHttpInfo(String username) throws RestClientResponseException {
+    public ResponseEntity<User> getUserByNameWithHttpInfo(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
         ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getUserByNameRequestCreation(username).toEntity(localVarReturnType);
     }
@@ -424,54 +408,49 @@ public class UserApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec getUserByNameWithResponseSpec(String username) throws RestClientResponseException {
+    public ResponseSpec getUserByNameWithResponseSpec(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
         return getUserByNameRequestCreation(username);
     }
-// It has NO single param!
-/*
-* username
-* password
-*/
 
-    public record LoginUserRequest(String username, String password){}
+    public record LoginUserRequest(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password){}
 
     /**
-    * Logs user into the system
-    * 
+     * Logs user into the system
+     * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public String loginUser(LoginUserRequest requestParameters) throws RestClientResponseException {
-      return this.loginUser(requestParameters.username(), requestParameters.password());
+        return this.loginUser(requestParameters.username(), requestParameters.password());
     }
 
-  /**
-  * Logs user into the system
-  * 
+    /**
+     * Logs user into the system
+     * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<String> loginUserWithHttpInfo(LoginUserRequest requestParameters) throws RestClientResponseException {
-      return this.loginUserWithHttpInfo(requestParameters.username(), requestParameters.password());
+        return this.loginUserWithHttpInfo(requestParameters.username(), requestParameters.password());
     }
 
-  /**
-  * Logs user into the system
-  * 
+    /**
+     * Logs user into the system
+     * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec loginUserWithResponseSpec(LoginUserRequest requestParameters) throws RestClientResponseException {
-      return this.loginUserWithResponseSpec(requestParameters.username(), requestParameters.password());
+        return this.loginUserWithResponseSpec(requestParameters.username(), requestParameters.password());
     }
 
     /**
@@ -484,7 +463,7 @@ public class UserApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec loginUserRequestCreation(String username, String password) throws RestClientResponseException {
+    private ResponseSpec loginUserRequestCreation(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -504,7 +483,7 @@ public class UserApi {
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
-        
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };
@@ -528,7 +507,7 @@ public class UserApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String loginUser(String username, String password) throws RestClientResponseException {
+    public String loginUser(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return loginUserRequestCreation(username, password).body(localVarReturnType);
     }
@@ -543,7 +522,7 @@ public class UserApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> loginUserWithHttpInfo(String username, String password) throws RestClientResponseException {
+    public ResponseEntity<String> loginUserWithHttpInfo(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return loginUserRequestCreation(username, password).toEntity(localVarReturnType);
     }
@@ -558,9 +537,10 @@ public class UserApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec loginUserWithResponseSpec(String username, String password) throws RestClientResponseException {
+    public ResponseSpec loginUserWithResponseSpec(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws RestClientResponseException {
         return loginUserRequestCreation(username, password);
     }
+
     /**
      * Logs out current logged in user session
      * 
@@ -620,49 +600,44 @@ public class UserApi {
     public ResponseSpec logoutUserWithResponseSpec() throws RestClientResponseException {
         return logoutUserRequestCreation();
     }
-// It has NO single param!
-/*
-* username
-* user
-*/
 
-    public record UpdateUserRequest(String username, User user){}
+    public record UpdateUserRequest(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user){}
 
     /**
-    * Updated user
-    * This can only be done by the logged in user.
+     * Updated user
+     * This can only be done by the logged in user.
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The updateUser request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public void updateUser(UpdateUserRequest requestParameters) throws RestClientResponseException {
-      this.updateUser(requestParameters.username(), requestParameters.user());
+        this.updateUser(requestParameters.username(), requestParameters.user());
     }
 
-  /**
-  * Updated user
-  * This can only be done by the logged in user.
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The updateUser request parameters as object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     */
     public ResponseEntity<Void> updateUserWithHttpInfo(UpdateUserRequest requestParameters) throws RestClientResponseException {
-      return this.updateUserWithHttpInfo(requestParameters.username(), requestParameters.user());
+        return this.updateUserWithHttpInfo(requestParameters.username(), requestParameters.user());
     }
 
-  /**
-  * Updated user
-  * This can only be done by the logged in user.
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The updateUser request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-    */
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
     public ResponseSpec updateUserWithResponseSpec(UpdateUserRequest requestParameters) throws RestClientResponseException {
-      return this.updateUserWithResponseSpec(requestParameters.username(), requestParameters.user());
+        return this.updateUserWithResponseSpec(requestParameters.username(), requestParameters.user());
     }
 
     /**
@@ -674,7 +649,7 @@ public class UserApi {
      * @param user Updated user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updateUserRequestCreation(String username, User user) throws RestClientResponseException {
+    private ResponseSpec updateUserRequestCreation(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         Object postBody = user;
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -716,7 +691,7 @@ public class UserApi {
      * @param user Updated user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void updateUser(String username, User user) throws RestClientResponseException {
+    public void updateUser(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         updateUserRequestCreation(username, user).body(localVarReturnType);
     }
@@ -730,7 +705,7 @@ public class UserApi {
      * @param user Updated user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updateUserWithHttpInfo(String username, User user) throws RestClientResponseException {
+    public ResponseEntity<Void> updateUserWithHttpInfo(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return updateUserRequestCreation(username, user).toEntity(localVarReturnType);
     }
@@ -745,7 +720,7 @@ public class UserApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec updateUserWithResponseSpec(String username, User user) throws RestClientResponseException {
+    public ResponseSpec updateUserWithResponseSpec(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws RestClientResponseException {
         return updateUserRequestCreation(username, user);
     }
 }

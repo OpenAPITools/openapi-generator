@@ -4,15 +4,13 @@ defmodule {{moduleName}}.Deserializer do
   Helper functions for deserializing responses into models
   """
 
-  @jason_decode_opts [keys: :strings]
-
-  def jason_decode(json) do
-    Jason.decode(json, @jason_decode_opts)
+  def json_decode(json) do
+    JSON.decode(json)
   end
 
-  def jason_decode(json, module) do
+  def json_decode(json, module) do
     json
-    |> jason_decode()
+    |> json_decode()
     |> case do
       {:ok, decoded} -> {:ok, to_struct(decoded, module)}
       {:error, _} = error -> error
@@ -91,9 +89,9 @@ defmodule {{moduleName}}.Deserializer do
     end
   end
 
-  defp to_struct(map_or_list, module)
+  defp to_struct(value, module)
   defp to_struct(nil, _), do: nil
-
+  
   defp to_struct(list, module) when is_list(list) and is_atom(module) do
     Enum.map(list, &to_struct(&1, module))
   end
@@ -108,5 +106,9 @@ defmodule {{moduleName}}.Deserializer do
       Map.replace(acc, field, Map.get(map, Atom.to_string(field)))
     end)
     |> module.decode()
+  end
+
+  defp to_struct(value, module) when is_atom(module) do
+    module.decode(value)
   end
 end

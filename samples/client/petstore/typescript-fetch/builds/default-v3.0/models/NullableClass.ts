@@ -127,11 +127,11 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-  export function NullableClassToJSON(json: any): NullableClass {
-      return NullableClassToJSONTyped(json, false);
-  }
+export function NullableClassToJSON(json: any): NullableClass {
+    return NullableClassToJSONTyped(json, false);
+}
 
-  export function NullableClassToJSONTyped(value?: NullableClass | null, ignoreDiscriminator: boolean = false): any {
+export function NullableClassToJSONTyped(value?: NullableClass | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -143,8 +143,8 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
         'number_prop': value['numberProp'],
         'boolean_prop': value['booleanProp'],
         'string_prop': value['stringProp'],
-        'date_prop': value['dateProp'] == null ? undefined : ((value['dateProp'] as any).toISOString().substring(0,10)),
-        'datetime_prop': value['datetimeProp'] == null ? undefined : ((value['datetimeProp'] as any).toISOString()),
+        'date_prop': value['dateProp'] == null ? value['dateProp'] : value['dateProp'].toISOString().substring(0,10),
+        'datetime_prop': value['datetimeProp'] == null ? value['datetimeProp'] : value['datetimeProp'].toISOString(),
         'array_nullable_prop': value['arrayNullableProp'],
         'array_and_items_nullable_prop': value['arrayAndItemsNullableProp'],
         'array_items_nullable': value['arrayItemsNullable'],

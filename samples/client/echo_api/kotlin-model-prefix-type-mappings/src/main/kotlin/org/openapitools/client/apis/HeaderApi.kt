@@ -20,6 +20,7 @@ interface HeaderApi {
     }
 
     /**
+     * GET header/integer/boolean/string/enums
      * Test header parameter(s)
      * Test header parameter(s)
      * Responses:

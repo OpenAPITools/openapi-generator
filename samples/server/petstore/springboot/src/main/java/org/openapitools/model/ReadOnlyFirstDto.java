@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,14 +22,14 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("ReadOnlyFirst")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class ReadOnlyFirstDto {
 
-  private String bar;
+  private @Nullable String bar;
 
-  private String baz;
+  private @Nullable String baz;
 
-  public ReadOnlyFirstDto bar(String bar) {
+  public ReadOnlyFirstDto bar(@Nullable String bar) {
     this.bar = bar;
     return this;
   }
@@ -40,15 +41,15 @@ public class ReadOnlyFirstDto {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
-  public String getBar() {
+  public @Nullable String getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
 
-  public ReadOnlyFirstDto baz(String baz) {
+  public ReadOnlyFirstDto baz(@Nullable String baz) {
     this.baz = baz;
     return this;
   }
@@ -60,11 +61,11 @@ public class ReadOnlyFirstDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("baz")
-  public String getBaz() {
+  public @Nullable String getBaz() {
     return baz;
   }
 
-  public void setBaz(String baz) {
+  public void setBaz(@Nullable String baz) {
     this.baz = baz;
   }
 

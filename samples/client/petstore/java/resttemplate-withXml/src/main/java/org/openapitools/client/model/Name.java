@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,31 +37,35 @@ import io.github.threetenjaxb.core.*;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @XmlRootElement(name = "Name")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Name")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   @XmlElement(name = "name")
+  @javax.annotation.Nonnull
   private Integer name;
 
   public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
   @XmlElement(name = "snake_case")
+  @javax.annotation.Nullable
   private Integer snakeCase;
 
   public static final String JSON_PROPERTY_PROPERTY = "property";
   @XmlElement(name = "property")
+  @javax.annotation.Nullable
   private String property;
 
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
   @XmlElement(name = "123Number")
+  @javax.annotation.Nullable
   private Integer _123number;
 
   public Name() {
   }
 
-  public Name name(Integer name) {
+  public Name name(@javax.annotation.Nonnull Integer name) {
     
     this.name = name;
     return this;
@@ -71,7 +76,7 @@ public class Name {
    * @return name
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "name")
 
@@ -80,10 +85,10 @@ public class Name {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "name")
-  public void setName(Integer name) {
+  public void setName(@javax.annotation.Nonnull Integer name) {
     this.name = name;
   }
 
@@ -92,7 +97,7 @@ public class Name {
    * @return snakeCase
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
+  @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "snake_case")
 
@@ -102,7 +107,7 @@ public class Name {
 
 
 
-  public Name property(String property) {
+  public Name property(@javax.annotation.Nullable String property) {
     
     this.property = property;
     return this;
@@ -113,7 +118,7 @@ public class Name {
    * @return property
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "property")
 
@@ -122,10 +127,10 @@ public class Name {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "property")
-  public void setProperty(String property) {
+  public void setProperty(@javax.annotation.Nullable String property) {
     this.property = property;
   }
 
@@ -134,13 +139,14 @@ public class Name {
    * @return _123number
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_123NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_123NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "123Number")
 
   public Integer get123number() {
     return _123number;
   }
+
 
 
 

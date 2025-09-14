@@ -6,7 +6,12 @@
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
     <properties>
+        {{#useSealed}}
+        <java.version>17</java.version>
+        {{/useSealed}}
+        {{^useSealed}}
         <java.version>1.8</java.version>
+        {{/useSealed}}
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -50,8 +55,8 @@
 {{/parentOverridden}}
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
-        {{^interfaceOnly}}
         <plugins>
+            {{^interfaceOnly}}
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -69,6 +74,21 @@
                 {{/lombok}}
                 </configuration>
             </plugin>
+            {{/interfaceOnly}}
+            {{#interfaceOnly}}
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            {{/interfaceOnly}}
             {{#apiFirst}}
             <plugin>
                 <groupId>org.openapitools</groupId>
@@ -102,7 +122,6 @@
             </plugin>
             {{/apiFirst}}
         </plugins>
-        {{/interfaceOnly}}
     </build>
     <dependencies>
         <dependency>

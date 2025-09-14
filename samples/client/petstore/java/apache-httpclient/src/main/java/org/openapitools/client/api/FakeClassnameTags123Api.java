@@ -27,10 +27,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class FakeClassnameTags123Api extends BaseApi {
 
   public FakeClassnameTags123Api() {
@@ -48,7 +49,7 @@ public class FakeClassnameTags123Api extends BaseApi {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testClassname(Client client) throws ApiException {
+  public Client testClassname(@javax.annotation.Nonnull Client client) throws ApiException {
     return this.testClassname(client, Collections.emptyMap());
   }
 
@@ -61,7 +62,7 @@ public class FakeClassnameTags123Api extends BaseApi {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testClassname(Client client, Map<String, String> additionalHeaders) throws ApiException {
+  public Client testClassname(@javax.annotation.Nonnull Client client, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = client;
     
     // verify the required parameter 'client' is set

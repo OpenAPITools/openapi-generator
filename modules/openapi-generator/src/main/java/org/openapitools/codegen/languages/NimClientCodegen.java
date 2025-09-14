@@ -39,7 +39,7 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
-     final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
 
@@ -355,18 +355,26 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
+    private boolean isValidIdentifier(String identifier) {
+        //see https://nim-lang.org/docs/manual.html#lexical-analysis-identifiers-amp-keywords
+        return identifier.matches("^(?:[A-Z]|[a-z]|[\\x80-\\xff])(_?(?:[A-Z]|[a-z]|[\\x80-\\xff]|[0-9]))*$");
+    }
+
     @Override
     public String toEnumVarName(String name, String datatype) {
         name = name.replace(" ", "_");
         name = StringUtils.camelize(name);
 
-        if (name.matches("\\d.*")) { // starts with number
-            return "`" + name + "`";
-        } else {
+        // starts with number or contains any character not allowed,see
+        if (isValidIdentifier(name)) {
             return name;
+        } else {
+            return "`" + name + "`";
         }
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.NIM; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.NIM;
+    }
 }

@@ -13,9 +13,12 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,21 +38,24 @@ import org.openapitools.client.JSON;
   Whale.JSON_PROPERTY_CLASS_NAME
 })
 @JsonTypeName("whale")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
+  @javax.annotation.Nullable
   private Boolean hasBaleen;
 
   public static final String JSON_PROPERTY_HAS_TEETH = "hasTeeth";
+  @javax.annotation.Nullable
   private Boolean hasTeeth;
 
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @javax.annotation.Nonnull
   private String className;
 
   public Whale() { 
   }
 
-  public Whale hasBaleen(Boolean hasBaleen) {
+  public Whale hasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
     return this;
   }
@@ -59,7 +65,7 @@ public class Whale {
    * @return hasBaleen
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
+  @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getHasBaleen() {
@@ -67,14 +73,14 @@ public class Whale {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
+  @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setHasBaleen(Boolean hasBaleen) {
+  public void setHasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
   }
 
 
-  public Whale hasTeeth(Boolean hasTeeth) {
+  public Whale hasTeeth(@javax.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
     return this;
   }
@@ -84,7 +90,7 @@ public class Whale {
    * @return hasTeeth
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_HAS_TEETH)
+  @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getHasTeeth() {
@@ -92,14 +98,14 @@ public class Whale {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_HAS_TEETH)
+  @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setHasTeeth(Boolean hasTeeth) {
+  public void setHasTeeth(@javax.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
   }
 
 
-  public Whale className(String className) {
+  public Whale className(@javax.annotation.Nonnull String className) {
     this.className = className;
     return this;
   }
@@ -109,7 +115,7 @@ public class Whale {
    * @return className
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getClassName() {
@@ -117,9 +123,9 @@ public class Whale {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setClassName(String className) {
+  public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
   }
 
@@ -129,21 +135,12 @@ public class Whale {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Whale whale = (Whale) o;
-    return Objects.equals(this.hasBaleen, whale.hasBaleen) &&
-        Objects.equals(this.hasTeeth, whale.hasTeeth) &&
-        Objects.equals(this.className, whale.className);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(hasBaleen, hasTeeth, className);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

@@ -46,7 +46,7 @@ paths:
         name: enum_ref_string_path
         required: true
         schema:
-          $ref: '#/components/schemas/StringEnumRef'
+          $ref: "#/components/schemas/StringEnumRef"
         style: simple
       responses:
         "200":
@@ -66,7 +66,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/test_form_integer_boolean_string_request'
+              $ref: "#/components/schemas/test_form_integer_boolean_string_request"
       responses:
         "200":
           content:
@@ -85,7 +85,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/test_form_oneof_request'
+              $ref: "#/components/schemas/test_form_oneof_request"
       responses:
         "200":
           content:
@@ -138,7 +138,7 @@ paths:
         name: enum_ref_string_header
         required: false
         schema:
-          $ref: '#/components/schemas/StringEnumRef'
+          $ref: "#/components/schemas/StringEnumRef"
         style: form
       responses:
         "200":
@@ -171,7 +171,7 @@ paths:
         name: enum_ref_string_query
         required: false
         schema:
-          $ref: '#/components/schemas/StringEnumRef'
+          $ref: "#/components/schemas/StringEnumRef"
         style: form
       responses:
         "200":
@@ -267,7 +267,7 @@ paths:
         name: query_object
         required: false
         schema:
-          $ref: '#/components/schemas/test_query_style_form_explode_true_array_string_query_object_parameter'
+          $ref: "#/components/schemas/test_query_style_form_explode_true_array_string_query_object_parameter"
         style: form
       responses:
         "200":
@@ -337,7 +337,7 @@ paths:
         name: query_object
         required: false
         schema:
-          $ref: '#/components/schemas/Pet'
+          $ref: "#/components/schemas/Pet"
         style: form
       responses:
         "200":
@@ -359,7 +359,7 @@ paths:
         name: query_object
         required: false
         schema:
-          $ref: '#/components/schemas/DataQuery'
+          $ref: "#/components/schemas/DataQuery"
         style: form
       responses:
         "200":
@@ -381,7 +381,7 @@ paths:
         name: query_object
         required: false
         schema:
-          $ref: '#/components/schemas/Pet'
+          $ref: "#/components/schemas/Pet"
         style: deepObject
       responses:
         "200":
@@ -403,7 +403,7 @@ paths:
         name: query_object
         required: false
         schema:
-          $ref: '#/components/schemas/test_query_style_deepObject_explode_true_object_allOf_query_object_parameter'
+          $ref: "#/components/schemas/test_query_style_deepObject_explode_true_object_allOf_query_object_parameter"
         style: deepObject
       responses:
         "200":
@@ -440,13 +440,13 @@ paths:
       description: Test body parameter(s)
       operationId: test/echo/body/Pet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: Successful operation
       summary: Test body parameter(s)
       tags:
@@ -456,13 +456,13 @@ paths:
       description: Test body parameter(s)
       operationId: test/echo/body/allOf/Pet
       requestBody:
-        $ref: '#/components/requestBodies/AllOfPet'
+        $ref: "#/components/requestBodies/AllOfPet"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: Successful operation
       summary: Test body parameter(s)
       tags:
@@ -472,7 +472,7 @@ paths:
       description: Test empty response body
       operationId: test/echo/body/Pet/response_string
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
@@ -488,7 +488,7 @@ paths:
       description: Test empty json (request body)
       operationId: test/echo/body/Tag/response_string
       requestBody:
-        $ref: '#/components/requestBodies/Tag'
+        $ref: "#/components/requestBodies/Tag"
       responses:
         "200":
           content:
@@ -542,7 +542,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/test_body_multipart_formdata_single_binary_request'
+              $ref: "#/components/schemas/test_body_multipart_formdata_single_binary_request"
       responses:
         "200":
           content:
@@ -561,7 +561,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/test_body_multipart_formdata_array_of_binary_request'
+              $ref: "#/components/schemas/test_body_multipart_formdata_array_of_binary_request"
       responses:
         "200":
           content:
@@ -610,20 +610,20 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
       description: Pet object that needs to be added to the store
     AllOfPet:
       content:
         application/json:
           schema:
             allOf:
-            - $ref: '#/components/schemas/Pet'
+            - $ref: "#/components/schemas/Pet"
       description: Pet object that needs to be added to the store
     Tag:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
       description: Tag object
   schemas:
     Category:
@@ -679,7 +679,7 @@ components:
           example: doggie
           type: string
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         photoUrls:
           items:
             type: string
@@ -690,7 +690,7 @@ components:
             wrapped: true
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
           xml:
             wrapped: true
@@ -721,7 +721,7 @@ components:
           - success
           - failure
           items:
-            $ref: '#/components/schemas/StringEnumRef'
+            $ref: "#/components/schemas/StringEnumRef"
           type: array
         array_string_enum_default:
           default:
@@ -807,7 +807,7 @@ components:
             format: date-time
             type: string
         type: object
-      - $ref: '#/components/schemas/Query'
+      - $ref: "#/components/schemas/Query"
     NumberPropertiesOnly:
       properties:
         number:
@@ -846,9 +846,9 @@ components:
       type: object
     test_form_oneof_request:
       oneOf:
-      - $ref: '#/components/schemas/test_form_oneof_request_oneOf'
-      - $ref: '#/components/schemas/test_form_oneof_request_oneOf_1'
-      - $ref: '#/components/schemas/Tag'
+      - $ref: "#/components/schemas/test_form_oneof_request_oneOf"
+      - $ref: "#/components/schemas/test_form_oneof_request_oneOf_1"
+      - $ref: "#/components/schemas/Tag"
       type: object
     test_query_style_form_explode_true_array_string_query_object_parameter:
       properties:
@@ -859,8 +859,8 @@ components:
       type: object
     test_query_style_deepObject_explode_true_object_allOf_query_object_parameter:
       allOf:
-      - $ref: '#/components/schemas/Bird'
-      - $ref: '#/components/schemas/Category'
+      - $ref: "#/components/schemas/Bird"
+      - $ref: "#/components/schemas/Category"
     test_body_multipart_formdata_single_binary_request:
       properties:
         my-file:

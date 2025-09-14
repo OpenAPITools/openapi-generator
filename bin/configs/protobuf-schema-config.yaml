@@ -1,0 +1,25 @@
+generatorName: protobuf-schema
+outputDir: samples/config/petstore/protobuf-schema-config
+inputSpec: modules/openapi-generator/src/test/resources/3_0/protobuf/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/protobuf-schema
+additionalProperties:
+  packageName: petstore
+  addJsonNameAnnotation: true
+  numberedFieldNumberList: true
+  startEnumsWithUnspecified: true
+  wrapComplexType: false
+  supportMultipleResponses: false
+  aggregateModelsName: data
+  customOptionsApi: |
+    option java_multiple_files = true;
+    option java_package = "com.example.tutorial.protos.api";
+    option java_outer_classname = "ExampleProtos";
+  customOptionsModel: |
+    option java_multiple_files = false;
+    option java_package = "com.example.tutorial.protos.model";
+    option java_outer_classname = "ExampleProtos";
+  useSimplifiedEnumNames: true
+typeMappings:
+  object: "google.protobuf.Struct"
+importMappings:
+  google.protobuf.Struct: "google/protobuf/struct"

@@ -88,8 +88,8 @@ public class GenApiControllerTest {
 
     private void generateAndDownload(String type, String name) throws Exception {
         String result = mockMvc.perform(post("http://test.com:1234/api/gen/" + type + "/" + name)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"openAPIUrl\": \"" + OPENAPI_URL + "\"}"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"openAPIUrl\": \"" + OPENAPI_URL + "\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.code").value(matchesPattern(UUID_REGEX)))
@@ -107,11 +107,11 @@ public class GenApiControllerTest {
     @Test
     public void generateWIthForwardedHeaders() throws Exception {
         String result = mockMvc.perform(post("http://test.com:1234/api/gen/clients/java")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("X-Forwarded-Proto", "https")
-                .header("X-Forwarded-Host", "forwarded.com")
-                .header("X-Forwarded-Port", "5678")
-                .content("{\"openAPIUrl\": \"" + OPENAPI_URL + "\"}"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("X-Forwarded-Proto", "https")
+                        .header("X-Forwarded-Host", "forwarded.com")
+                        .header("X-Forwarded-Port", "5678")
+                        .content("{\"openAPIUrl\": \"" + OPENAPI_URL + "\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.code").value(matchesPattern(UUID_REGEX)))
@@ -141,8 +141,8 @@ public class GenApiControllerTest {
         String withoutOpenAPINormalizer = "{\"openAPIUrl\":\"https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml\",\"options\":{},\"spec\":{}}";
 
         String responseOfNormalized = mockMvc.perform(post("http://test.com:1234/api/gen/clients/java")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(withOpenAPINormalizer))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(withOpenAPINormalizer))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         String codeOfNormalized = new ObjectMapper().readValue(responseOfNormalized, ResponseCode.class).getCode();
         Long lengthOfNormalized = Long.parseLong(mockMvc.perform(get("http://test.com:1234/api/gen/download/" + codeOfNormalized))
@@ -159,7 +159,7 @@ public class GenApiControllerTest {
                 .andExpect(content().contentType("application/zip"))
                 .andExpect(status().isOk()).andReturn().getResponse().getHeader("Content-Length"));
 
-        Assert.isTrue(lengthOfNormalized <= lengthOfNotNormalized,"Using the normalizer should result in a smaller or equal file size");
+        Assert.isTrue(lengthOfNormalized <= lengthOfNotNormalized, "Using the normalizer should result in a smaller or equal file size");
 
     }
 }

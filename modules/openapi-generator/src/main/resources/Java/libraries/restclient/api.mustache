@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 {{#useBeanValidation}}
@@ -16,20 +18,29 @@ import {{javaxPackage}}.validation.constraints.*;
 import {{javaxPackage}}.validation.Valid;
 
 {{/useBeanValidation}}
+{{#generateClientAsBean}}
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestClient.ResponseSpec;
-import org.springframework.web.client.RestClientResponseException;
+{{/generateClientAsBean}}
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+{{#generateClientAsBean}}
+import org.springframework.stereotype.Component;
+{{/generateClientAsBean}}
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient.ResponseSpec;
+import org.springframework.web.client.RestClientResponseException;
 
 {{>generatedAnnotation}}
+
+{{#generateClientAsBean}}
+@Component("{{package}}.{{classname}}")
+{{/generateClientAsBean}}
 {{#operations}}
 public class {{classname}} {
     private ApiClient apiClient;
@@ -38,7 +49,9 @@ public class {{classname}} {
         this(new ApiClient());
     }
 
+{{#generateClientAsBean}}
     @Autowired
+{{/generateClientAsBean}}
     public {{classname}}(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -50,81 +63,8 @@ public class {{classname}} {
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
-
     {{#operation}}
-{{#useSingleRequestParameter}}
-{{#hasParams}}
-{{#hasSingleParam}}
-// It has a single param!
-/*
-{{#allParams}}
-* {{paramName}}
-{{/allParams}}
-*/
-{{/hasSingleParam}}
-{{^hasSingleParam}}
-// It has NO single param!
-/*
-{{#allParams}}
-* {{paramName}}
-{{/allParams}}
-*/
-{{/hasSingleParam}}
-{{^hasSingleParam}}
-
-    public record {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){}
-
-    /**
-    * {{summary}}
-    * {{notes}}
-{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
-{{/responses}}     * @param requestParameters The {{operationId}} request parameters as object
-{{#returnType}}     * @return {{.}}
-{{/returnType}}     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-{{#externalDocs}}
-    * {{description}}
-    * @see <a href="{{url}}">{{summary}} Documentation</a>
-{{/externalDocs}}
-    */
-    public {{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws RestClientResponseException {
-      {{#returnType}}return {{/returnType}}this.{{operationId}}({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
-    }
-
-  /**
-  * {{summary}}
-  * {{notes}}
-{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
-{{/responses}}     * @param requestParameters The {{operationId}} request parameters as object
-{{#returnType}}     * @return ResponseEntity&lt;{{.}}&gt;
-{{/returnType}}     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-{{#externalDocs}}
-    * {{description}}
-    * @see <a href="{{url}}">{{summary}} Documentation</a>
-{{/externalDocs}}
-    */
-    public {{#returnType}}ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}ResponseEntity<Void>{{/returnType}} {{operationId}}WithHttpInfo({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws RestClientResponseException {
-      return this.{{operationId}}WithHttpInfo({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
-    }
-
-  /**
-  * {{summary}}
-  * {{notes}}
-{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
-{{/responses}}     * @param requestParameters The {{operationId}} request parameters as object
-  * @return ResponseSpec
-  * @throws RestClientResponseException if an error occurs while attempting to invoke the API
-{{#externalDocs}}
-    * {{description}}
-    * @see <a href="{{url}}">{{summary}} Documentation</a>
-{{/externalDocs}}
-    */
-    public ResponseSpec {{operationId}}WithResponseSpec({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws RestClientResponseException {
-      return this.{{operationId}}WithResponseSpec({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
-    }
-
-{{/hasSingleParam}}
-{{/hasParams}}
-{{/useSingleRequestParameter}}
+{{#singleRequestParameter}}{{>single_request_parameter}}{{/singleRequestParameter}}{{^singleRequestParameter}}{{/singleRequestParameter}}
     /**
      * {{summary}}
      * {{notes}}
@@ -143,7 +83,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    private ResponseSpec {{operationId}}RequestCreation({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
+    private ResponseSpec {{operationId}}RequestCreation({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullable_var_annotations}} {{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullable_var_annotations}} {{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
         Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
         {{#allParams}}
         {{#required}}
@@ -168,10 +108,28 @@ public class {{classname}} {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
         {{#hasQueryParams}}
 
-        {{#queryParams}}{{#isExplode}}{{#hasVars}}{{#vars}}queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}.{{getter}}()));
-        {{/vars}}{{/hasVars}}{{^hasVars}}queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
-        {{/hasVars}}{{/isExplode}}{{^isExplode}}queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
-        {{/isExplode}}{{/queryParams}}{{/hasQueryParams}}{{#hasHeaderParams}}
+            {{#queryParams}}
+            {{#queryIsJsonMimeType}}
+        queryParams.putAll(apiClient.parameterToMultiValueMapJson({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+            {{/queryIsJsonMimeType}}
+            {{^queryIsJsonMimeType}}
+            {{#isExplode}}
+                {{#hasVars}}
+                    {{#vars}}
+        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}.{{getter}}()));
+                    {{/vars}}
+                {{/hasVars}}
+                {{^hasVars}}
+        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+                {{/hasVars}}
+            {{/isExplode}}
+            {{^isExplode}}
+        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+            {{/isExplode}}
+            {{/queryIsJsonMimeType}}
+            {{/queryParams}}
+        {{/hasQueryParams}}
+        {{#hasHeaderParams}}
 
         {{#headerParams}}
         if ({{paramName}} != null)
@@ -220,7 +178,7 @@ public class {{classname}} {
     * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
      */
-    public {{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
+    public {{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullable_var_annotations}} {{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullable_var_annotations}} {{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
         {{#returnType}}ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}
         {{#returnType}}return {{/returnType}}{{operationId}}RequestCreation({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).body(localVarReturnType);
     }
@@ -237,7 +195,7 @@ public class {{classname}} {
      * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
      */
-    public {{#returnType}}ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}ResponseEntity<Void>{{/returnType}} {{operationId}}WithHttpInfo({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
+    public {{#returnType}}ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}ResponseEntity<Void>{{/returnType}} {{operationId}}WithHttpInfo({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullable_var_annotations}} {{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullable_var_annotations}} {{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
         {{#returnType}}ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}
         return {{operationId}}RequestCreation({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).toEntity(localVarReturnType);
     }
@@ -255,7 +213,7 @@ public class {{classname}} {
      * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
      */
-    public ResponseSpec {{operationId}}WithResponseSpec({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
+    public ResponseSpec {{operationId}}WithResponseSpec({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullable_var_annotations}} {{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullable_var_annotations}} {{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
         return {{operationId}}RequestCreation({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     }
     {{/operation}}

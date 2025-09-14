@@ -45,19 +45,18 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>AnyType</li>
-<li>Atom</li>
-<li>Boolean</li>
-<li>Decimal</li>
-<li>Float</li>
-<li>Integer</li>
-<li>List</li>
-<li>Map</li>
-<li>PID</li>
-<li>String</li>
-<li>Tuple</li>
+<li>Date.t</li>
+<li>DateTime.t</li>
+<li>String.t</li>
 <li>any()</li>
+<li>binary()</li>
+<li>boolean()</li>
+<li>float()</li>
+<li>integer()</li>
+<li>list()</li>
 <li>map()</li>
+<li>nil</li>
+<li>number()</li>
 </ul>
 
 ## RESERVED WORDS
@@ -189,7 +188,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |BasicAuth|✓|OAS2,OAS3
 |ApiKey|✗|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
+|BearerToken|✓|OAS3
 |OAuth2_Implicit|✓|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3

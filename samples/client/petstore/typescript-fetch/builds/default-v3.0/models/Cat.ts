@@ -56,11 +56,11 @@ export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
     };
 }
 
-  export function CatToJSON(json: any): Cat {
-      return CatToJSONTyped(json, false);
-  }
+export function CatToJSON(json: any): Cat {
+    return CatToJSONTyped(json, false);
+}
 
-  export function CatToJSONTyped(value?: Cat | null, ignoreDiscriminator: boolean = false): any {
+export function CatToJSONTyped(value?: Cat | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

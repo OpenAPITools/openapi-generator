@@ -56,11 +56,11 @@ export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
     };
 }
 
-  export function DogToJSON(json: any): Dog {
-      return DogToJSONTyped(json, false);
-  }
+export function DogToJSON(json: any): Dog {
+    return DogToJSONTyped(json, false);
+}
 
-  export function DogToJSONTyped(value?: Dog | null, ignoreDiscriminator: boolean = false): any {
+export function DogToJSONTyped(value?: Dog | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

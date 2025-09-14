@@ -37,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -236,6 +235,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String NULL_SAFE_ADDITIONAL_PROPS = "nullSafeAdditionalProps";
     public static final String NULL_SAFE_ADDITIONAL_PROPS_DESC = "Set to make additional properties types declare that their indexer may return undefined";
 
+    public static final String LICENSE_NAME_DEFAULT_VALUE = "Unlicense";
+
     // NOTE: SimpleDateFormat is not thread-safe and may not be static unless it is thread-local
     @SuppressWarnings("squid:S5164")
     protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
@@ -257,6 +258,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected String enumSuffix = "Enum";
 
     protected String classEnumSeparator = ".";
+
+    @Getter() @Setter
+    protected String licenseName = getLicenseNameDefaultValue();
 
     public AbstractTypeScriptClientCodegen() {
         super();
@@ -300,6 +304,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 // Typescript reserved words
                 "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
+        Set<String> utilityTypes = new HashSet<>(Arrays.asList(
+                "Awaited","Partial","Required","Readonly","Record","Pick","Omit","Exclude","Extract","NonNullable",
+                "Parameters","ConstructorParameters","ReturnType","InstanceType","NoInfer","ThisParameterType",
+                "OmitThisParameter","ThisType","Uppercase","Lowercase","Capitalize","Uncapitalize")
+        );
+        defaultIncludes = new HashSet<>();
+        defaultIncludes.addAll(utilityTypes);
+
         languageSpecificPrimitives = new HashSet<>(Arrays.asList(
                 "string",
                 "String",
@@ -321,6 +333,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "object",
                 "Set"
         ));
+        languageSpecificPrimitives.addAll(utilityTypes);
 
         languageGenericTypes = new HashSet<>(Collections.singletonList(
                 "Array"
@@ -334,6 +347,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
         typeMapping.put("boolean", "boolean");
+        typeMapping.put("decimal", "string");
         typeMapping.put("string", "string");
         typeMapping.put("int", "number");
         typeMapping.put("float", "number");
@@ -370,6 +384,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 false));
         this.cliOptions.add(new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
         this.cliOptions.add(CliOption.newBoolean(ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_DESC, false));
+        cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME, CodegenConstants.LICENSE_NAME_DESC).defaultValue(this.licenseName));
     }
 
     protected void supportModelPropertyNaming(MODEL_PROPERTY_NAMING_TYPE defaultModelPropertyNaming) {
@@ -407,7 +422,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             setParamNaming((String) additionalProperties.get(CodegenConstants.PARAM_NAMING));
         }
 
-        setSupportsES6(convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6));
+        if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
+            setSupportsES6(convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6));
+        }
 
         if (additionalProperties.containsKey(NULL_SAFE_ADDITIONAL_PROPS)) {
             setNullSafeAdditionalProps(Boolean.valueOf(additionalProperties.get(NULL_SAFE_ADDITIONAL_PROPS).toString()));
@@ -415,6 +432,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
+            this.setLicenseName(additionalProperties.get(CodegenConstants.LICENSE_NAME).toString());
         }
     }
 
@@ -489,6 +510,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         }
 
+        additionalProperties.put(CodegenConstants.LICENSE_NAME, licenseName);
     }
 
     @Override
@@ -736,6 +758,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 return p.getDefault().toString();
             }
             return UNDEFINED_VALUE;
+        } else if (ModelUtils.isDecimalSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return UNDEFINED_VALUE;
         } else if (ModelUtils.isDateSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
@@ -787,7 +814,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return openAPIType;
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
+            String typeWithoutGeneric = typeWithoutGeneric(type);
+            if (languageSpecificPrimitives.contains(typeWithoutGeneric)) {
                 return type;
             }
         } else {
@@ -1092,20 +1120,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
         // only process files with ts extension
         if ("ts".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = tsPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{tsPostProcessFile, file.toString()});
         }
     }
 
@@ -1153,7 +1168,21 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
+    protected boolean needToImport(String type) {
+        return super.needToImport(typeWithoutGeneric(type));
+    }
+
+    private String typeWithoutGeneric(String type) {
+        int genericIndex = type.indexOf("<");
+        return genericIndex == -1 ? type : type.substring(0, genericIndex);
+    }
+
+    @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.TYPESCRIPT;
+    }
+
+    protected String getLicenseNameDefaultValue() {
+        return LICENSE_NAME_DEFAULT_VALUE;
     }
 }

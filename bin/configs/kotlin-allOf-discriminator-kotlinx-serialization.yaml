@@ -1,0 +1,10 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-allOf-discriminator-kotlinx-serialization
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/polymorphism.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-allOf-discriminator
+  serializableModel: "false"
+  dateLibrary: java8
+  enumUnknownDefaultCase: true
+  serializationLibrary: kotlinx_serialization

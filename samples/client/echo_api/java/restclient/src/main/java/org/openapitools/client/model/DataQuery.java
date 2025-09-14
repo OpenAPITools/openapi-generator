@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,22 +37,25 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   DataQuery.JSON_PROPERTY_TEXT,
   DataQuery.JSON_PROPERTY_DATE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String JSON_PROPERTY_SUFFIX = "suffix";
+  @jakarta.annotation.Nullable
   private String suffix;
 
   public static final String JSON_PROPERTY_TEXT = "text";
+  @jakarta.annotation.Nullable
   private String text;
 
   public static final String JSON_PROPERTY_DATE = "date";
+  @jakarta.annotation.Nullable
   private Instant date;
 
   public DataQuery() {
 
   }
 
-  public DataQuery suffix(String suffix) {
+  public DataQuery suffix(@jakarta.annotation.Nullable String suffix) {
     
     this.suffix = suffix;
     return this;
@@ -62,7 +66,7 @@ public class DataQuery extends Query {
    * @return suffix
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonProperty(value = JSON_PROPERTY_SUFFIX, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSuffix() {
@@ -70,13 +74,13 @@ public class DataQuery extends Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonProperty(value = JSON_PROPERTY_SUFFIX, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSuffix(String suffix) {
+  public void setSuffix(@jakarta.annotation.Nullable String suffix) {
     this.suffix = suffix;
   }
 
-  public DataQuery text(String text) {
+  public DataQuery text(@jakarta.annotation.Nullable String text) {
     
     this.text = text;
     return this;
@@ -87,7 +91,7 @@ public class DataQuery extends Query {
    * @return text
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getText() {
@@ -95,13 +99,13 @@ public class DataQuery extends Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setText(String text) {
+  public void setText(@jakarta.annotation.Nullable String text) {
     this.text = text;
   }
 
-  public DataQuery date(Instant date) {
+  public DataQuery date(@jakarta.annotation.Nullable Instant date) {
     
     this.date = date;
     return this;
@@ -112,7 +116,7 @@ public class DataQuery extends Query {
    * @return date
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Instant getDate() {
@@ -120,20 +124,21 @@ public class DataQuery extends Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDate(Instant date) {
+  public void setDate(@jakarta.annotation.Nullable Instant date) {
     this.date = date;
   }
 
+
   @Override
-  public DataQuery id(Long id) {
+  public DataQuery id(@jakarta.annotation.Nullable Long id) {
     this.setId(id);
     return this;
   }
 
   @Override
-  public DataQuery outcomes(List<OutcomesEnum> outcomes) {
+  public DataQuery outcomes(@jakarta.annotation.Nullable List<OutcomesEnum> outcomes) {
     this.setOutcomes(outcomes);
     return this;
   }

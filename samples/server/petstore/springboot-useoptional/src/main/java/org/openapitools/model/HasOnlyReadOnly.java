@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,7 +22,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class HasOnlyReadOnly {
 
   private Optional<String> bar = Optional.empty();
@@ -29,7 +30,7 @@ public class HasOnlyReadOnly {
   private Optional<String> foo = Optional.empty();
 
   public HasOnlyReadOnly bar(String bar) {
-    this.bar = Optional.of(bar);
+    this.bar = Optional.ofNullable(bar);
     return this;
   }
 
@@ -49,7 +50,7 @@ public class HasOnlyReadOnly {
   }
 
   public HasOnlyReadOnly foo(String foo) {
-    this.foo = Optional.of(foo);
+    this.foo = Optional.ofNullable(foo);
     return this;
   }
 

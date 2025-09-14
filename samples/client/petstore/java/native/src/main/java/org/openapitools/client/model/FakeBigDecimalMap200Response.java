@@ -13,12 +13,15 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,18 +42,20 @@ import org.openapitools.client.ApiClient;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_ID,
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
+  @javax.annotation.Nullable
   private BigDecimal someId;
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
+  @javax.annotation.Nullable
   private Map<String, BigDecimal> someMap = new HashMap<>();
 
   public FakeBigDecimalMap200Response() { 
   }
 
-  public FakeBigDecimalMap200Response someId(BigDecimal someId) {
+  public FakeBigDecimalMap200Response someId(@javax.annotation.Nullable BigDecimal someId) {
     this.someId = someId;
     return this;
   }
@@ -60,21 +65,21 @@ public class FakeBigDecimalMap200Response {
    * @return someId
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @JsonProperty(value = JSON_PROPERTY_SOME_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getSomeId() {
     return someId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @JsonProperty(value = JSON_PROPERTY_SOME_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSomeId(BigDecimal someId) {
+  public void setSomeId(@javax.annotation.Nullable BigDecimal someId) {
     this.someId = someId;
   }
 
 
-  public FakeBigDecimalMap200Response someMap(Map<String, BigDecimal> someMap) {
+  public FakeBigDecimalMap200Response someMap(@javax.annotation.Nullable Map<String, BigDecimal> someMap) {
     this.someMap = someMap;
     return this;
   }
@@ -92,16 +97,16 @@ public class FakeBigDecimalMap200Response {
    * @return someMap
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @JsonProperty(value = JSON_PROPERTY_SOME_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, BigDecimal> getSomeMap() {
     return someMap;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @JsonProperty(value = JSON_PROPERTY_SOME_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSomeMap(Map<String, BigDecimal> someMap) {
+  public void setSomeMap(@javax.annotation.Nullable Map<String, BigDecimal> someMap) {
     this.someMap = someMap;
   }
 
@@ -111,20 +116,12 @@ public class FakeBigDecimalMap200Response {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    FakeBigDecimalMap200Response fakeBigDecimalMap200Response = (FakeBigDecimalMap200Response) o;
-    return Objects.equals(this.someId, fakeBigDecimalMap200Response.someId) &&
-        Objects.equals(this.someMap, fakeBigDecimalMap200Response.someMap);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(someId, someMap);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -182,15 +179,15 @@ public class FakeBigDecimalMap200Response {
 
     // add `someId` to the URL query string
     if (getSomeId() != null) {
-      joiner.add(String.format("%ssomeId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSomeId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format(Locale.ROOT, "%ssomeId%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSomeId()))));
     }
 
     // add `someMap` to the URL query string
     if (getSomeMap() != null) {
       for (String _key : getSomeMap().keySet()) {
-        joiner.add(String.format("%ssomeMap%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getSomeMap().get(_key), URLEncoder.encode(ApiClient.valueToString(getSomeMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%ssomeMap%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+            getSomeMap().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getSomeMap().get(_key)))));
       }
     }
 

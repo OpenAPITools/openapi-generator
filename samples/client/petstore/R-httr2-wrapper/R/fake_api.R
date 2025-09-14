@@ -11,107 +11,6 @@
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
-#' @section Methods:
-#' \describe{
-#' \strong{ add_pet_optional } \emph{ Add a new pet to the store (optional body) }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } pet \link{Pet}
-#' \item \emph{ @returnType } \link{Pet} \cr
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : Pet
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' \item status code : 405 | Invalid input
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ fake_data_file } \emph{ test data_file to ensure it&#39;s escaped correctly }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } dummy character
-#' \item \emph{ @param } var_data_file character
-#' \item \emph{ @returnType } \link{User} \cr
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#' \item return type : User
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ fake_path_array } \emph{ test array parameter in path }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } path_array list( character )
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ fake_regular_expression } \emph{ test regular expression to ensure no exception }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } reg_exp_test character
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ fake_set_query } \emph{ test set query parameter }
-#' 
-#'
-#' \itemize{
-#' \item \emph{ @param } set_dummy list( character )
-#' \item \emph{ @param } array_dummy list( character )
-#'
-#' \item On encountering errors, an error of subclass ApiException will be thrown.
-#'
-#' \item status code : 200 | successful operation
-#'
-#'
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' }
-#'
-#'
 #' @examples
 #' \dontrun{
 #' ####################  add_pet_optional  ####################
@@ -270,13 +169,11 @@ FakeApi <- R6::R6Class(
   "FakeApi",
   public = list(
     api_client = NULL,
-    #' Initialize a new FakeApi.
-    #'
+
     #' @description
     #' Initialize a new FakeApi.
     #'
     #' @param api_client An instance of API client.
-    #' @export
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
@@ -284,38 +181,36 @@ FakeApi <- R6::R6Class(
         self$api_client <- ApiClient$new()
       }
     },
-    #' Add a new pet to the store (optional body)
-    #'
+
     #' @description
     #' Add a new pet to the store (optional body)
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return Pet
-    #' @export
     add_pet_optional = function(pet = NULL, data_file = NULL, ...) {
       local_var_response <- self$add_pet_optional_with_http_info(pet, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Add a new pet to the store (optional body)
-    #'
+
     #' @description
     #' Add a new pet to the store (optional body)
     #'
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    #' @export
     add_pet_optional_with_http_info = function(pet = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -326,11 +221,17 @@ FakeApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`pet`) && is.null(`pet`)) {
+        rlang::abort(message = "Invalid value for `pet` when calling FakeApi$add_pet_optional, `pet` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `pet` when calling FakeApi$add_pet_optional, `pet` is not nullable"))
+      }
 
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
       } else {
-        body <- NULL
+        local_var_body <- NULL
       }
 
       local_var_url_path <- "/fake/test_optional_body_parameter"
@@ -361,11 +262,11 @@ FakeApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("petstore")),
+          self$api_client$DeserializeResponse(local_var_resp, "Pet"),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -373,9 +274,12 @@ FakeApi <- R6::R6Class(
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        local_var_error_msg <- local_var_resp$response
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        
         if (local_var_error_msg == "") {
           local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
@@ -383,7 +287,6 @@ FakeApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
         }
@@ -391,7 +294,6 @@ FakeApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
@@ -400,8 +302,7 @@ FakeApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' test data_file to ensure it's escaped correctly
-    #'
+
     #' @description
     #' test data_file to ensure it's escaped correctly
     #'
@@ -409,22 +310,21 @@ FakeApi <- R6::R6Class(
     #' @param var_data_file (optional) header data file
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return User
-    #' @export
     fake_data_file = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
       local_var_response <- self$fake_data_file_with_http_info(dummy, var_data_file, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' test data_file to ensure it's escaped correctly
-    #'
+
     #' @description
     #' test data_file to ensure it's escaped correctly
     #'
@@ -432,8 +332,8 @@ FakeApi <- R6::R6Class(
     #' @param var_data_file (optional) header data file
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (User) with additional information such as HTTP status code, headers
-    #' @export
     fake_data_file_with_http_info = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -451,7 +351,19 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `dummy`."))
       }
 
+      if (!missing(`dummy`) && is.null(`dummy`)) {
+        rlang::abort(message = "Invalid value for `dummy` when calling FakeApi$fake_data_file, `dummy` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `dummy` when calling FakeApi$fake_data_file, `dummy` is not nullable"))
+      }
 
+      if (!missing(`var_data_file`) && is.null(`var_data_file`)) {
+        rlang::abort(message = "Invalid value for `var_data_file` when calling FakeApi$fake_data_file, `var_data_file` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `var_data_file` when calling FakeApi$fake_data_file, `var_data_file` is not nullable"))
+      }
 
       header_params["dummy"] <- `dummy`
 
@@ -481,11 +393,11 @@ FakeApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "User", loadNamespace("petstore")),
+          self$api_client$DeserializeResponse(local_var_resp, "User"),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -493,9 +405,12 @@ FakeApi <- R6::R6Class(
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        local_var_error_msg <- local_var_resp$response
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        
         if (local_var_error_msg == "") {
           local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
@@ -503,7 +418,6 @@ FakeApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
         }
@@ -511,7 +425,6 @@ FakeApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
@@ -520,36 +433,34 @@ FakeApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' test array parameter in path
-    #'
+
     #' @description
     #' test array parameter in path
     #'
     #' @param path_array dummy path parameter
     #' @param ... Other optional arguments
+    #'
     #' @return void
-    #' @export
     fake_path_array = function(path_array, ...) {
       local_var_response <- self$fake_path_array_with_http_info(path_array, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' test array parameter in path
-    #'
+
     #' @description
     #' test array parameter in path
     #'
     #' @param path_array dummy path parameter
     #' @param ... Other optional arguments
+    #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    #' @export
     fake_path_array_with_http_info = function(path_array, ...) {
       args <- list(...)
       query_params <- list()
@@ -567,6 +478,12 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `path_array`."))
       }
 
+      if (!missing(`path_array`) && is.null(`path_array`)) {
+        rlang::abort(message = "Invalid value for `path_array` when calling FakeApi$fake_path_array, `path_array` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `path_array` when calling FakeApi$fake_path_array, `path_array` is not nullable"))
+      }
 
       local_var_url_path <- "/fake/path_array/{path_array}/testing"
       if (!missing(`path_array`)) {
@@ -595,9 +512,12 @@ FakeApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        local_var_error_msg <- local_var_resp$response
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        
         if (local_var_error_msg == "") {
           local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
@@ -605,7 +525,6 @@ FakeApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
         }
@@ -613,7 +532,6 @@ FakeApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
@@ -622,36 +540,34 @@ FakeApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' test regular expression to ensure no exception
-    #'
+
     #' @description
     #' test regular expression to ensure no exception
     #'
     #' @param reg_exp_test dummy required parameter
     #' @param ... Other optional arguments
+    #'
     #' @return void
-    #' @export
     fake_regular_expression = function(reg_exp_test, ...) {
       local_var_response <- self$fake_regular_expression_with_http_info(reg_exp_test, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' test regular expression to ensure no exception
-    #'
+
     #' @description
     #' test regular expression to ensure no exception
     #'
     #' @param reg_exp_test dummy required parameter
     #' @param ... Other optional arguments
+    #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    #' @export
     fake_regular_expression_with_http_info = function(reg_exp_test, ...) {
       args <- list(...)
       query_params <- list()
@@ -669,7 +585,13 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `reg_exp_test`."))
       }
 
-      if (!str_detect(`reg_exp_test`, "^[A-Za-z0-9_]{1,15}$")) {
+      if (!missing(`reg_exp_test`) && is.null(`reg_exp_test`)) {
+        rlang::abort(message = "Invalid value for `reg_exp_test` when calling FakeApi$fake_regular_expression, `reg_exp_test` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `reg_exp_test` when calling FakeApi$fake_regular_expression, `reg_exp_test` is not nullable"))
+      }
+      if (!is.null(`reg_exp_test`) && !stringr::str_detect(`reg_exp_test`, "^[A-Za-z0-9_]{1,15}$")) {
         rlang::abort(message = "Invalid value for `reg_exp_test` when calling FakeApi$fake_regular_expression, must conform to the pattern ^[A-Za-z0-9_]{1,15}$.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
@@ -701,9 +623,12 @@ FakeApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        local_var_error_msg <- local_var_resp$response
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        
         if (local_var_error_msg == "") {
           local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
@@ -711,7 +636,6 @@ FakeApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
         }
@@ -719,7 +643,6 @@ FakeApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }
@@ -728,38 +651,36 @@ FakeApi <- R6::R6Class(
                      ApiException = ApiException$new(http_response = local_var_resp))
       }
     },
-    #' test set query parameter
-    #'
+
     #' @description
     #' test set query parameter
     #'
     #' @param set_dummy set query
     #' @param array_dummy array query
     #' @param ... Other optional arguments
+    #'
     #' @return void
-    #' @export
     fake_set_query = function(set_dummy, array_dummy, ...) {
       local_var_response <- self$fake_set_query_with_http_info(set_dummy, array_dummy, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' test set query parameter
-    #'
+
     #' @description
     #' test set query parameter
     #'
     #' @param set_dummy set query
     #' @param array_dummy array query
     #' @param ... Other optional arguments
+    #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    #' @export
     fake_set_query_with_http_info = function(set_dummy, array_dummy, ...) {
       args <- list(...)
       query_params <- list()
@@ -784,10 +705,22 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `array_dummy`."))
       }
 
+      if (!missing(`set_dummy`) && is.null(`set_dummy`)) {
+        rlang::abort(message = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query, `set_dummy` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query, `set_dummy` is not nullable"))
+      }
 
+      if (!missing(`array_dummy`) && is.null(`array_dummy`)) {
+        rlang::abort(message = "Invalid value for `array_dummy` when calling FakeApi$fake_set_query, `array_dummy` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `array_dummy` when calling FakeApi$fake_set_query, `array_dummy` is not nullable"))
+      }
 
       # check if items are unique
-      if (!identical(`set_dummy`, unique(`set_dummy`))) {
+      if (!is.null(`set_dummy`) && !identical(`set_dummy`, unique(`set_dummy`))) {
         rlang::abort(message = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query. Items must be unique.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
@@ -826,9 +759,12 @@ FakeApi <- R6::R6Class(
 
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         local_var_resp$content <- NULL
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
-        local_var_error_msg <- local_var_resp$response
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        
         if (local_var_error_msg == "") {
           local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
@@ -836,7 +772,6 @@ FakeApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api client exception encountered."
         }
@@ -844,7 +779,6 @@ FakeApi <- R6::R6Class(
                      .subclass = "ApiException",
                      ApiException = ApiException$new(http_response = local_var_resp))
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
-        local_var_error_msg <- local_var_resp$response
         if (local_var_error_msg == "") {
           local_var_error_msg <- "Api server exception encountered."
         }

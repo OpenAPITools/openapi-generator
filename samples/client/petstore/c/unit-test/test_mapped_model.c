@@ -22,11 +22,13 @@ MappedModel_t* instantiate_MappedModel(int include_optional) {
   MappedModel_t* MappedModel = NULL;
   if (include_optional) {
     MappedModel = MappedModel_create(
-      56
+      56,
+      "0"
     );
   } else {
     MappedModel = MappedModel_create(
-      56
+      56,
+      "0"
     );
   }
 

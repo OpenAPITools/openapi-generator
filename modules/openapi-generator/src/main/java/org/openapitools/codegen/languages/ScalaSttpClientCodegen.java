@@ -49,7 +49,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             "joda-time library", "2.10.13");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
             "library", "3.6.11");
-
+    private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
+            "library", "0.14.1");
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
 
     public static final String DEFAULT_PACKAGE_NAME = "org.openapitools.client";
@@ -57,7 +58,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
     private static final List<Property<?>> properties = Arrays.asList(
             STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JODA_TIME_VERSION,
-            JSON4S_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
+            JSON4S_VERSION, CIRCE_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttpClientCodegen.class);
 
@@ -243,7 +244,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
     /**
      * Update/clean up model imports
-     *
+     * <p>
      * append '._" if the import is a Enum class, otherwise
      * remove model imports to avoid warnings for importing class in the same package in Scala
      *
@@ -277,8 +278,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                         item.put("import", importPath.concat("._"));
                         newImports.add(item);
                     }
-                }
-                else {
+                } else {
                     item.put("import", importPath);
                     newImports.add(item);
                 }
@@ -358,8 +358,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 Map<String, String> item = new HashMap<>();
                 if (isEnumClass(importPath, enumRefs)) {
                     item.put("import", importPath.concat("._"));
-                }
-                else {
+                } else {
                     item.put("import", importPath);
                 }
                 newImports.add(item);

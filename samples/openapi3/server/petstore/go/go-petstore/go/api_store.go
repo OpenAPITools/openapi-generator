@@ -51,37 +51,68 @@ func NewStoreAPIController(s StoreAPIServicer, opts ...StoreAPIOption) *StoreAPI
 // Routes returns all the api routes for the StoreAPIController
 func (c *StoreAPIController) Routes() Routes {
 	return Routes{
-		"DeleteOrder": Route{
-			strings.ToUpper("Delete"),
-			"/v2/store/order/{orderId}",
-			c.DeleteOrder,
-		},
 		"GetInventory": Route{
+			"GetInventory",
 			strings.ToUpper("Get"),
 			"/v2/store/inventory",
 			c.GetInventory,
 		},
-		"GetOrderById": Route{
-			strings.ToUpper("Get"),
-			"/v2/store/order/{orderId}",
-			c.GetOrderById,
-		},
 		"PlaceOrder": Route{
+			"PlaceOrder",
 			strings.ToUpper("Post"),
 			"/v2/store/order",
 			c.PlaceOrder,
 		},
+		"GetOrderById": Route{
+			"GetOrderById",
+			strings.ToUpper("Get"),
+			"/v2/store/order/{orderId}",
+			c.GetOrderById,
+		},
+		"DeleteOrder": Route{
+			"DeleteOrder",
+			strings.ToUpper("Delete"),
+			"/v2/store/order/{orderId}",
+			c.DeleteOrder,
+		},
 	}
 }
 
-// DeleteOrder - Delete purchase order by ID
-func (c *StoreAPIController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
-	orderIdParam := chi.URLParam(r, "orderId")
-	if orderIdParam == "" {
-		c.errorHandler(w, r, &RequiredError{"orderId"}, nil)
-		return
+// OrderedRoutes returns all the api routes in a deterministic order for the StoreAPIController
+func (c *StoreAPIController) OrderedRoutes() []Route {
+	return []Route{
+		Route{
+			"GetInventory",
+			strings.ToUpper("Get"),
+			"/v2/store/inventory",
+			c.GetInventory,
+		},
+		Route{
+			"PlaceOrder",
+			strings.ToUpper("Post"),
+			"/v2/store/order",
+			c.PlaceOrder,
+		},
+		Route{
+			"GetOrderById",
+			strings.ToUpper("Get"),
+			"/v2/store/order/{orderId}",
+			c.GetOrderById,
+		},
+		Route{
+			"DeleteOrder",
+			strings.ToUpper("Delete"),
+			"/v2/store/order/{orderId}",
+			c.DeleteOrder,
+		},
 	}
-	result, err := c.service.DeleteOrder(r.Context(), orderIdParam)
+}
+
+
+
+// GetInventory - Returns pet inventories by status
+func (c *StoreAPIController) GetInventory(w http.ResponseWriter, r *http.Request) {
+	result, err := c.service.GetInventory(r.Context())
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -91,9 +122,24 @@ func (c *StoreAPIController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
-// GetInventory - Returns pet inventories by status
-func (c *StoreAPIController) GetInventory(w http.ResponseWriter, r *http.Request) {
-	result, err := c.service.GetInventory(r.Context())
+// PlaceOrder - Place an order for a pet
+func (c *StoreAPIController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
+	var orderParam Order
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&orderParam); err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if err := AssertOrderRequired(orderParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertOrderConstraints(orderParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.PlaceOrder(r.Context(), orderParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -125,24 +171,14 @@ func (c *StoreAPIController) GetOrderById(w http.ResponseWriter, r *http.Request
 	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
-// PlaceOrder - Place an order for a pet
-func (c *StoreAPIController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
-	orderParam := Order{}
-	d := json.NewDecoder(r.Body)
-	d.DisallowUnknownFields()
-	if err := d.Decode(&orderParam); err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+// DeleteOrder - Delete purchase order by ID
+func (c *StoreAPIController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
+	orderIdParam := chi.URLParam(r, "orderId")
+	if orderIdParam == "" {
+		c.errorHandler(w, r, &RequiredError{"orderId"}, nil)
 		return
 	}
-	if err := AssertOrderRequired(orderParam); err != nil {
-		c.errorHandler(w, r, err, nil)
-		return
-	}
-	if err := AssertOrderConstraints(orderParam); err != nil {
-		c.errorHandler(w, r, err, nil)
-		return
-	}
-	result, err := c.service.PlaceOrder(r.Context(), orderParam)
+	result, err := c.service.DeleteOrder(r.Context(), orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

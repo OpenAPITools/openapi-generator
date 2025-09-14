@@ -75,14 +75,14 @@ data class ApiTag (
     companion object {
         var openapiFields = HashSet<String>()
         var openapiRequiredFields = HashSet<String>()
-      
+
         init {
             // a set of all properties/fields (JSON key names)
             openapiFields.add("id")
             openapiFields.add("name")
 
         }
-      
+
        /**
         * Validates the JSON Element and throws an exception if issues found
         *

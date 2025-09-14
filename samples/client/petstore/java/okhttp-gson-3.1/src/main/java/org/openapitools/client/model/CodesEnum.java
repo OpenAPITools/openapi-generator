@@ -14,9 +14,11 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.Locale;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.JsonAdapter;
@@ -29,11 +31,11 @@ import com.google.gson.stream.JsonWriter;
 @JsonAdapter(CodesEnum.Adapter.class)
 public enum CodesEnum {
   
-  _1("Code 1"),
+  CODE_1("Code 1"),
   
-  _2("Code 2"),
+  CODE_2("Code 2"),
   
-  _3("Code 3");
+  CODE_3("Code 3");
 
   private String value;
 

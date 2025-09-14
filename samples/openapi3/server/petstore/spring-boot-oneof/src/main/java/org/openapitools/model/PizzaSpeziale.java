@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.math.BigDecimal;
 import org.openapitools.model.Pizza;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,10 +25,10 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class PizzaSpeziale extends Pizza {
 
-  private String toppings;
+  private @Nullable String toppings;
 
   public PizzaSpeziale() {
     super();
@@ -40,7 +41,7 @@ public class PizzaSpeziale extends Pizza {
     super(atType);
   }
 
-  public PizzaSpeziale toppings(String toppings) {
+  public PizzaSpeziale toppings(@Nullable String toppings) {
     this.toppings = toppings;
     return this;
   }
@@ -52,11 +53,11 @@ public class PizzaSpeziale extends Pizza {
   
   @Schema(name = "toppings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("toppings")
-  public String getToppings() {
+  public @Nullable String getToppings() {
     return toppings;
   }
 
-  public void setToppings(String toppings) {
+  public void setToppings(@Nullable String toppings) {
     this.toppings = toppings;
   }
 
@@ -143,7 +144,7 @@ public class PizzaSpeziale extends Pizza {
     }
 
     protected Builder copyOf(PizzaSpeziale value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setToppings(value.toppings);
       return this;
     }

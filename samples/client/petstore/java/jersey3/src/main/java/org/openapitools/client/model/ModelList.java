@@ -13,9 +13,12 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,15 +38,16 @@ import org.openapitools.client.JSON;
   ModelList.JSON_PROPERTY_123LIST
 })
 @JsonTypeName("List")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
+  @jakarta.annotation.Nullable
   private String _123list;
 
   public ModelList() { 
   }
 
-  public ModelList _123list(String _123list) {
+  public ModelList _123list(@jakarta.annotation.Nullable String _123list) {
     this._123list = _123list;
     return this;
   }
@@ -54,7 +58,7 @@ public class ModelList {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String get123list() {
@@ -62,9 +66,9 @@ public class ModelList {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void set123list(String _123list) {
+  public void set123list(@jakarta.annotation.Nullable String _123list) {
     this._123list = _123list;
   }
 
@@ -74,19 +78,12 @@ public class ModelList {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ModelList _list = (ModelList) o;
-    return Objects.equals(this._123list, _list._123list);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_123list);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

@@ -71,11 +71,11 @@ export function FindPetsByStatusResponseFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-  export function FindPetsByStatusResponseToJSON(json: any): FindPetsByStatusResponse {
-      return FindPetsByStatusResponseToJSONTyped(json, false);
-  }
+export function FindPetsByStatusResponseToJSON(json: any): FindPetsByStatusResponse {
+    return FindPetsByStatusResponseToJSONTyped(json, false);
+}
 
-  export function FindPetsByStatusResponseToJSONTyped(value?: FindPetsByStatusResponse | null, ignoreDiscriminator: boolean = false): any {
+export function FindPetsByStatusResponseToJSONTyped(value?: FindPetsByStatusResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

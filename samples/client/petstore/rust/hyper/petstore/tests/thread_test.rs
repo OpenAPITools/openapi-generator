@@ -9,7 +9,9 @@ mod tests {
         let client = APIClient::new(Configuration::new());
 
         let handle = thread::spawn(move || {
-            let _ = client.fake_api().test_nullable_required_param("username", None, None);
+            let _ = client
+                .fake_api()
+                .test_nullable_required_param("username", None, "any_type", None, None);
         });
 
         handle.join().expect("Thread panicked!");

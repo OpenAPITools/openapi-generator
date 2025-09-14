@@ -1,0 +1,17 @@
+openapi: 3.0.0
+components:
+  schemas:
+    AreaCode:
+      oneOf:
+        - $ref: '#/components/schemas/StateTerritoryCode'
+        - $ref: '#/components/schemas/MarineAreaCode'
+    StateTerritoryCode:
+        enum:
+          - AL
+          - AK
+        type: string
+    MarineAreaCode:
+      enum:
+        - AM
+        - AN
+      type: string

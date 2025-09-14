@@ -36,9 +36,8 @@ open class ApiClient(protected val client: RestClient) {
         method(HttpMethod.valueOf(requestConfig.method.name))
 
     private fun <I> RestClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
-        uri { builder ->
+        uri(requestConfig.path) { builder ->
             builder
-                .path(requestConfig.path)
                 .queryParams(LinkedMultiValueMap(requestConfig.query))
                 .build(requestConfig.params)
         }
@@ -46,8 +45,24 @@ open class ApiClient(protected val client: RestClient) {
     private fun <I> RestClient.RequestBodySpec.headers(requestConfig: RequestConfig<I>) =
         apply { requestConfig.headers.forEach { (name, value) -> header(name, value) } }
 
-    private fun <I : Any> RestClient.RequestBodySpec.nullableBody(requestConfig: RequestConfig<I>) =
-        apply { if (requestConfig.body != null) body(requestConfig.body) }
+    private fun <I : Any> RestClient.RequestBodySpec.nullableBody(requestConfig: RequestConfig<I>): RestClient.RequestBodySpec {
+        when {
+            requestConfig.headers[HttpHeaders.CONTENT_TYPE] == MediaType.MULTIPART_FORM_DATA_VALUE -> {
+                val parts = LinkedMultiValueMap<String, Any>()
+                @Suppress("UNCHECKED_CAST")
+                (requestConfig.body as Map<String, PartConfig<*>>).forEach { (name, part) ->
+                    if (part.body != null) {
+                        parts.add(name, part.body)
+                    }
+                }
+                return apply { body(parts) }
+            }
+
+            else -> {
+                return apply { if (requestConfig.body != null) body(requestConfig.body) }
+            }
+        }
+    }
 }
 
 inline fun <reified T: Any> parseDateToQueryString(value : T): String {

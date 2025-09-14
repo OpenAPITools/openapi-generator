@@ -83,6 +83,15 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
+        /// Test RedirectOrDefault
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task RedirectOrDefaultAsyncTest()
+        {
+            await _instance.RedirectOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Test RolesReportGet
         /// </summary>
         [Fact (Skip = "not implemented")]

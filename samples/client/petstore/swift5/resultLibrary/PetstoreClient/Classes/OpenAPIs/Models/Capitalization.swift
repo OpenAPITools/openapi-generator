@@ -10,17 +10,17 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct Capitalization: Codable, JSONEncodable, Hashable {
+internal struct Capitalization: Codable, JSONEncodable {
 
-    public var smallCamel: String?
-    public var capitalCamel: String?
-    public var smallSnake: String?
-    public var capitalSnake: String?
-    public var sCAETHFlowPoints: String?
+    internal private(set) var smallCamel: String?
+    internal private(set) var capitalCamel: String?
+    internal private(set) var smallSnake: String?
+    internal private(set) var capitalSnake: String?
+    internal private(set) var sCAETHFlowPoints: String?
     /** Name of the pet  */
-    public var ATT_NAME: String?
+    internal private(set) var ATT_NAME: String?
 
-    public init(smallCamel: String? = nil, capitalCamel: String? = nil, smallSnake: String? = nil, capitalSnake: String? = nil, sCAETHFlowPoints: String? = nil, ATT_NAME: String? = nil) {
+    internal init(smallCamel: String? = nil, capitalCamel: String? = nil, smallSnake: String? = nil, capitalSnake: String? = nil, sCAETHFlowPoints: String? = nil, ATT_NAME: String? = nil) {
         self.smallCamel = smallCamel
         self.capitalCamel = capitalCamel
         self.smallSnake = smallSnake
@@ -29,7 +29,7 @@ public struct Capitalization: Codable, JSONEncodable, Hashable {
         self.ATT_NAME = ATT_NAME
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case smallCamel
         case capitalCamel = "CapitalCamel"
         case smallSnake = "small_Snake"
@@ -40,7 +40,7 @@ public struct Capitalization: Codable, JSONEncodable, Hashable {
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(smallCamel, forKey: .smallCamel)
         try container.encodeIfPresent(capitalCamel, forKey: .capitalCamel)

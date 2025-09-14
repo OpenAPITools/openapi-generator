@@ -38,9 +38,11 @@ impl<C: hyper::client::connect::Connect> PetApiClient<C>
 pub trait PetApi {
     fn add_pet(&self, pet: models::Pet) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>>>>;
     fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
-    fn find_pets_by_status(&self, status: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>>;
+    fn find_pets_by_status(&self, status: Vec<String>, r#type: Option<Vec<String>>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>>;
     fn find_pets_by_tags(&self, tags: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>>;
     fn get_pet_by_id(&self, pet_id: i64) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>>>>;
+    fn pets_explode_post(&self, page_explode: Option<models::Page>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>>;
+    fn pets_post(&self, page: Option<models::Page>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>>;
     fn update_pet(&self, pet: models::Pet) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>>>>;
     fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
     fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Pin<Box<dyn Future<Output = Result<models::ApiResponse, Error>>>>;
@@ -73,11 +75,15 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn find_pets_by_status(&self, status: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>> {
+    fn find_pets_by_status(&self, status: Vec<String>, r#type: Option<Vec<String>>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/pet/findByStatus".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
         req = req.with_query_param("status".to_string(), status.join(",").to_string());
+        if let Some(ref s) = r#type {
+            let query_value = s.iter().map(|s| s.to_string()).collect::<Vec<String>>().join(",");
+            req = req.with_query_param("type".to_string(), query_value);
+        }
 
         req.execute(self.configuration.borrow())
     }
@@ -102,6 +108,36 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
             }))
         ;
         req = req.with_path_param("petId".to_string(), pet_id.to_string());
+
+        req.execute(self.configuration.borrow())
+    }
+
+    #[allow(unused_mut)]
+    fn pets_explode_post(&self, page_explode: Option<models::Page>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>> {
+        let mut req = __internal_request::Request::new(hyper::Method::POST, "/pets/explode".to_string())
+        ;
+        if let Some(ref s) = page_explode {
+            let query_value = match serde_json::to_string(s) {
+                Ok(value) => value,
+                Err(e) => return Box::pin(futures::future::err(Error::Serde(e))),
+            };
+            req = req.with_query_param("pageExplode".to_string(), query_value);
+        }
+
+        req.execute(self.configuration.borrow())
+    }
+
+    #[allow(unused_mut)]
+    fn pets_post(&self, page: Option<models::Page>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>> {
+        let mut req = __internal_request::Request::new(hyper::Method::POST, "/pets".to_string())
+        ;
+        if let Some(ref s) = page {
+            let query_value = match serde_json::to_string(s) {
+                Ok(value) => value,
+                Err(e) => return Box::pin(futures::future::err(Error::Serde(e))),
+            };
+            req = req.with_query_param("page".to_string(), query_value);
+        }
 
         req.execute(self.configuration.borrow())
     }

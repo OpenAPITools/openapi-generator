@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,10 +24,10 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesBoolean
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class AdditionalPropertiesBoolean {
 
-  private String name;
+  private @Nullable String name;
 
   public AdditionalPropertiesBoolean() {
     super();
@@ -35,11 +36,11 @@ public class AdditionalPropertiesBoolean {
   /**
    * Constructor with all args parameters
    */
-  public AdditionalPropertiesBoolean(String name) {
+  public AdditionalPropertiesBoolean(@Nullable String name) {
       this.name = name;
   }
 
-  public AdditionalPropertiesBoolean name(String name) {
+  public AdditionalPropertiesBoolean name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -51,11 +52,11 @@ public class AdditionalPropertiesBoolean {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
     /**

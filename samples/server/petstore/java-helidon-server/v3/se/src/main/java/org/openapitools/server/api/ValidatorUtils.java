@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Locale;
 import java.util.Objects;
 
 import jakarta.validation.ValidationException;
@@ -16,7 +17,7 @@ public final class ValidatorUtils {
     public static boolean validateMin(Integer value, Integer min) {
         checkNonNull(value);
         if (value < min) {
-            throw new ValidationException(String.format("%s is less than %s", value, min));
+            throw new ValidationException(String.format(Locale.ROOT, "%s is less than %s", value, min));
         }
         return true;
     }
@@ -24,7 +25,7 @@ public final class ValidatorUtils {
     public static boolean validateMax(Integer value, Integer max) {
         checkNonNull(value);
         if (value > max) {
-            throw new ValidationException(String.format("%s is more than %s", value, max));
+            throw new ValidationException(String.format(Locale.ROOT, "%s is more than %s", value, max));
         }
         return true;
     }
@@ -61,7 +62,7 @@ public final class ValidatorUtils {
         if (value.matches(pattern)) {
             return true;
         }
-        throw new ValidationException(String.format("'%s' does not match the pattern '%s'", value, pattern));
+        throw new ValidationException(String.format(Locale.ROOT, "'%s' does not match the pattern '%s'", value, pattern));
     }
 
     public static boolean validateMin(BigDecimal value, String stringMinValue, boolean inclusive) {
@@ -78,7 +79,7 @@ public final class ValidatorUtils {
             }
         }
         throw new ValidationException(
-            String.format("%s is not valid value. Min value '%s'. Inclusive - %s.", value, stringMinValue, inclusive)
+            String.format(Locale.ROOT, "%s is not valid value. Min value '%s'. Inclusive - %s.", value, stringMinValue, inclusive)
         );
     }
 
@@ -96,7 +97,7 @@ public final class ValidatorUtils {
             }
         }
         throw new ValidationException(
-            String.format("%s is not valid value. Max value '%s'. Inclusive - %s.", value, stringMaxValue, inclusive)
+            String.format(Locale.ROOT, "%s is not valid value. Max value '%s'. Inclusive - %s.", value, stringMaxValue, inclusive)
         );
     }
 

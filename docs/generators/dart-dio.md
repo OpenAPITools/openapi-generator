@@ -37,6 +37,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |pubRepository|Repository in generated pubspec| |null|
 |pubVersion|Version in generated pubspec| |1.0.0|
 |serializationLibrary|Specify serialization library|<dl><dt>**built_value**</dt><dd>[DEFAULT] built_value</dd><dt>**json_serializable**</dt><dd>[BETA] json_serializable</dd></dl>|built_value|
+|skipCopyWith|Skip CopyWith when using Json Serializable for serialization| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|

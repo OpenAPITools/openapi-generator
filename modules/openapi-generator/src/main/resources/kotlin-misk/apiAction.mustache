@@ -1,0 +1,63 @@
+package {{package}}
+
+import {{javaxPackage}}.inject.Inject
+import {{javaxPackage}}.inject.Singleton
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.Valid
+import {{javaxPackage}}.validation.constraints.DecimalMax
+import {{javaxPackage}}.validation.constraints.DecimalMin
+import {{javaxPackage}}.validation.constraints.Email
+import {{javaxPackage}}.validation.constraints.Max
+import {{javaxPackage}}.validation.constraints.Min
+import {{javaxPackage}}.validation.constraints.NotNull
+import {{javaxPackage}}.validation.constraints.Pattern
+import {{javaxPackage}}.validation.constraints.Size
+{{/useBeanValidation}}
+{{#actionImports}}
+import {{{.}}}
+{{/actionImports}}
+import misk.web.Delete
+import misk.web.Description
+import misk.web.Get
+import misk.web.HttpCall
+import misk.web.Patch
+import misk.web.PathParam
+import misk.web.Post
+import misk.web.Put
+import misk.web.QueryParam
+import misk.web.RequestBody
+import misk.web.RequestContentType
+import misk.web.RequestHeader
+import misk.web.Response
+import misk.web.ResponseContentType
+import misk.web.mediatype.MediaTypes
+{{#imports}}
+import {{import}}
+{{/imports}}
+
+/**
+* @TODO("Fill out implementation")
+*/
+{{#operations}}
+@Singleton
+class {{classname}}Action @Inject constructor(
+) : {{actionParentClass}} {
+{{#operation}}
+
+    @{{httpMethod}}("{{{actionPathPrefix}}}{{path}}")
+    @Description("{{{summary}}}"){{#hasConsumes}}
+    {{{actionRequestContentType}}}({{#consumes}}{{{actionRequestContentTypePrefix}}}.{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
+    @ResponseContentType({{#produces}}MediaTypes.{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
+{{#actionAnnotations}}
+    {{{.}}}
+{{/actionAnnotations}}
+    fun {{operationId}}(
+{{#allParams}}
+        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}
+{{/allParams}}
+    ): {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response<Unit>{{/returnType}} {
+        TODO()
+    }
+{{/operation}}
+}
+{{/operations}}

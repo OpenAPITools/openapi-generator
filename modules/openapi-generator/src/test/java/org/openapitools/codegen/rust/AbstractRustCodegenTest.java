@@ -36,6 +36,10 @@ public class AbstractRustCodegenTest {
         // Hyphens should be replaced (https://github.com/OpenAPITools/openapi-generator/commit/4cb7f1d6135aa3a42ff38cf89771105c40e7e5a9)
         Assert.assertEquals(sanitizeSnakeCase.apply("pet-name"), "pet_name");
 
+        // Periods should be replaced with underscores (https://github.com/OpenAPITools/openapi-generator/issues/15254)
+        Assert.assertEquals(sanitizeSnakeCase.apply("microsoft.graph.fido2AuthenticationMethod"), "microsoft_graph_fido2_authentication_method");
+        Assert.assertEquals(sanitizeCamelCase.apply("microsoft.graph.user"), "MicrosoftGraphUser");
+
         // Special character mappings are applied
         Assert.assertEquals(sanitizeSnakeCase.apply("@type"), "at_type");
         Assert.assertEquals(sanitizeCamelCase.apply("@type"), "AtType");

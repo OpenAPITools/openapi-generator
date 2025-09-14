@@ -11,6 +11,7 @@ import okhttp3.ResponseBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.Headers
+import okhttp3.Headers.Builder
 import okhttp3.Headers.Companion.toHeaders
 import okhttp3.MultipartBody
 import okhttp3.Call
@@ -35,21 +36,22 @@ val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
 open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
     companion object {
-        protected const val ContentType = "Content-Type"
-        protected const val Accept = "Accept"
-        protected const val Authorization = "Authorization"
-        protected const val JsonMediaType = "application/json"
-        protected const val FormDataMediaType = "multipart/form-data"
-        protected const val FormUrlEncMediaType = "application/x-www-form-urlencoded"
-        protected const val XmlMediaType = "application/xml"
-        protected const val OctetMediaType = "application/octet-stream"
+        protected const val ContentType: String = "Content-Type"
+        protected const val Accept: String = "Accept"
+        protected const val Authorization: String = "Authorization"
+        protected const val JsonMediaType: String = "application/json"
+        protected const val FormDataMediaType: String = "multipart/form-data"
+        protected const val FormUrlEncMediaType: String = "application/x-www-form-urlencoded"
+        protected const val XmlMediaType: String = "application/xml"
+        protected const val OctetMediaType: String = "application/octet-stream"
+        protected const val TextMediaType: String = "text/plain"
 
         val apiKey: MutableMap<String, String> = mutableMapOf()
         val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
-        const val baseUrlKey = "org.openapitools.client.baseUrl"
+        const val baseUrlKey: String = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val defaultClient: OkHttpClient by lazy {
@@ -58,6 +60,21 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
 
         @JvmStatic
         val builder: OkHttpClient.Builder = OkHttpClient.Builder()
+    }
+
+    /**
+     * Guess Content-Type header from the given byteArray (defaults to "application/octet-stream").
+     *
+     * @param byteArray The given file
+     * @return The guessed Content-Type
+     */
+    protected fun guessContentTypeFromByteArray(byteArray: ByteArray): String {
+        val contentType = try {
+            URLConnection.guessContentTypeFromStream(byteArray.inputStream())
+        } catch (io: IOException) {
+            "application/octet-stream"
+        }
+        return contentType
     }
 
     /**
@@ -71,8 +88,50 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         return contentType ?: "application/octet-stream"
     }
 
+    /**
+     * Adds a File to a MultipartBody.Builder
+     * Defined a helper in the requestBody method to not duplicate code
+     * It will be used when the content is a FormDataMediaType and the body of the PartConfig is a File
+     *
+     * @param name The field name to add in the request
+     * @param headers The headers that are in the PartConfig
+     * @param file The file that will be added as the field value
+     * @return The method returns Unit but the new Part is added to the Builder that the extension function is applying on
+     * @see requestBody
+     */
+    protected fun MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, file: File) {
+        val partHeaders = headers.toMutableMap() +
+            ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${file.name}\"")
+        val fileMediaType = guessContentTypeFromFile(file).toMediaTypeOrNull()
+        addPart(
+            partHeaders.toHeaders(),
+            file.asRequestBody(fileMediaType)
+        )
+    }
+
+    /**
+     * Adds any type to a MultipartBody.Builder
+     * Defined a helper in the requestBody method to not duplicate code
+     * It will be used when the content is a FormDataMediaType and the body of the PartConfig is not a File.
+     *
+     * @param name The field name to add in the request
+     * @param headers The headers that are in the PartConfig
+     * @param obj The field name to add in the request
+     * @return The method returns Unit but the new Part is added to the Builder that the extension function is applying on
+     * @see requestBody
+     */
+    protected fun <T> MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, obj: T?) {
+        val partHeaders = headers.toMutableMap() +
+            ("Content-Disposition" to "form-data; name=\"$name\"")
+        addPart(
+            partHeaders.toHeaders(),
+            parameterToString(obj).toRequestBody(null)
+        )
+    }
+
     protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
         when {
+            content is ByteArray -> content.toRequestBody((mediaType ?: guessContentTypeFromByteArray(content)).toMediaTypeOrNull())
             content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
             mediaType == FormDataMediaType ->
                 MultipartBody.Builder()
@@ -81,21 +140,18 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
                         // content's type *must* be Map<String, PartConfig<*>>
                         @Suppress("UNCHECKED_CAST")
                         (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
-                            if (part.body is File) {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${part.body.name}\"")
-                                val fileMediaType = guessContentTypeFromFile(part.body).toMediaTypeOrNull()
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    part.body.asRequestBody(fileMediaType)
-                                )
-                            } else {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"")
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    parameterToString(part.body).toRequestBody(null)
-                                )
+                            when (part.body) {
+                                is File -> addPartToMultiPart(name, part.headers, part.body)
+                                is List<*> -> {
+                                    part.body.forEach {
+                                        if (it is File) {
+                                            addPartToMultiPart(name, part.headers, it)
+                                        } else {
+                                            addPartToMultiPart(name, part.headers, it)
+                                        }
+                                    }
+                               }
+                               else -> addPartToMultiPart(name, part.headers, part.body)
                             }
                         }
                     }.build()
@@ -116,18 +172,21 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
                         .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
                 }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
-            mediaType == OctetMediaType && content is ByteArray ->
-                content.toRequestBody(OctetMediaType.toMediaTypeOrNull())
+            mediaType == TextMediaType && content is String ->
+                content.toRequestBody(TextMediaType.toMediaTypeOrNull())
             // TODO: this should be extended with other serializers
-            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, byte body and File body.")
+            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, text body, byte body and File body.")
         }
 
     protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JsonMediaType): T? {
         val body = response.body
         if(body == null) {
             return null
-        }
-        if (T::class.java == File::class.java) {
+        } else if (T::class.java == Unit::class.java) {
+            // No need to parse the body when we're not interested in the body
+            // Useful when API is returning other Content-Type
+            return null
+        } else if (T::class.java == File::class.java) {
             // return tempFile
             val contentDisposition = response.header("Content-Disposition")
 
@@ -190,7 +249,8 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
                 Serializer.kotlinxSerializationJson.decodeFromString<T>(bodyContent)
             }
             mediaType == OctetMediaType -> body.bytes() as? T
-            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
+            mediaType == TextMediaType -> body.string() as? T
+            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body, text body and byte body.")
         }
     }
 
@@ -256,7 +316,11 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
             RequestMethod.POST -> Request.Builder().url(url).post(requestBody(requestConfig.body, contentType))
             RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)
         }.apply {
-            headers.forEach { header -> addHeader(header.key, header.value) }
+            val headersBuilder = Headers.Builder()
+            headers.forEach { header ->
+                headersBuilder.add(header.key, header.value)
+            }
+            this.headers(headersBuilder.build())
         }.build()
 
         val response = client.newCall(request).execute()
@@ -301,8 +365,11 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime ->
-            parseDateToQueryString(value)
+        is OffsetDateTime -> parseDateToQueryString(value)
+        is OffsetTime -> parseDateToQueryString(value)
+        is LocalDateTime -> parseDateToQueryString(value)
+        is LocalDate -> parseDateToQueryString(value)
+        is LocalTime -> parseDateToQueryString(value)
         else -> value.toString()
     }
 

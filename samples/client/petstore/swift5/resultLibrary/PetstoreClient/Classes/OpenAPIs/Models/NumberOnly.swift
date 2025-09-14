@@ -10,21 +10,21 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct NumberOnly: Codable, JSONEncodable, Hashable {
+internal struct NumberOnly: Codable, JSONEncodable {
 
-    public var justNumber: Double?
+    internal private(set) var justNumber: Double?
 
-    public init(justNumber: Double? = nil) {
+    internal init(justNumber: Double? = nil) {
         self.justNumber = justNumber
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case justNumber = "JustNumber"
     }
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(justNumber, forKey: .justNumber)
     }

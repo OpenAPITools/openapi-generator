@@ -146,8 +146,7 @@ namespace Org.OpenAPITools.Model
                             prop1 = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "prop2":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                prop2 = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
+                            prop2 = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

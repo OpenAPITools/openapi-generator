@@ -47,23 +47,24 @@ import java.util.regex.Pattern;
 import static java.util.stream.Collectors.toMap;
 
 {{>generatedAnnotation}}
+
 public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
-    private static final Pattern CONTENT_DISPOSITION_PATTERN = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
-    private static final OpenOptions FILE_DOWNLOAD_OPTIONS = new OpenOptions().setCreate(true).setTruncateExisting(true);
+    protected static final Pattern CONTENT_DISPOSITION_PATTERN = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+    protected static final OpenOptions FILE_DOWNLOAD_OPTIONS = new OpenOptions().setCreate(true).setTruncateExisting(true);
 
-    private final Vertx vertx;
-    private final JsonObject config;
-    private final String identifier;
+    protected final Vertx vertx;
+    protected final JsonObject config;
+    protected final String identifier;
 
-    private MultiMap defaultHeaders = MultiMap.caseInsensitiveMultiMap();
-    private MultiMap defaultCookies = MultiMap.caseInsensitiveMultiMap();
-    private Map<String, Authentication> authentications;
-    private String basePath = "{{{basePath}}}";
-    private DateFormat dateFormat;
-    private ObjectMapper objectMapper;
-    private String downloadsDir = "";
-    private int timeout = -1;
+    protected MultiMap defaultHeaders = MultiMap.caseInsensitiveMultiMap();
+    protected MultiMap defaultCookies = MultiMap.caseInsensitiveMultiMap();
+    protected Map<String, Authentication> authentications;
+    protected String basePath = "{{{basePath}}}";
+    protected DateFormat dateFormat;
+    protected ObjectMapper objectMapper;
+    protected String downloadsDir = "";
+    protected int timeout = -1;
 
     public ApiClient(Vertx vertx, JsonObject config) {
         Objects.requireNonNull(vertx, "Vertx must not be null");
@@ -385,7 +386,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @param mime MIME
      * @return True if the MIME type is JSON
      */
-    private boolean isJsonMime(String mime) {
+    protected boolean isJsonMime(String mime) {
         String jsonMime = "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$";
         return mime != null && (mime.matches(jsonMime) || mime.equalsIgnoreCase("application/json-patch+json"));
     }
@@ -523,12 +524,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         }
     }
 
-    private String buildCookieHeader(MultiMap cookies) {
+    protected String buildCookieHeader(MultiMap cookies) {
       final StringBuilder cookieValue = new StringBuilder();
       String delimiter = "";
       for (final Map.Entry<String, String> entry : cookies.entries()) {
           if (entry.getValue() != null) {
-              cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
+              cookieValue.append(String.format(Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
               delimiter = "; ";
           }
       }
@@ -543,7 +544,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return The sanitized filename
      */
     protected String sanitizeFilename(String filename) {
-        return filename.replaceAll(".*[/\\\\]", "");
+        return filename.replaceFirst("^.*[/\\\\]", "");
     }
 
     /**
@@ -680,7 +681,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     public static class AuthInfo {
 
-        private final Map<String, Authentication> authentications = new LinkedHashMap<>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        protected final Map<String, Authentication> authentications = new LinkedHashMap<>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
 
         public void add{{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(String username, String password) {
             HttpBasicAuth auth = new HttpBasicAuth();

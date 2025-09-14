@@ -97,11 +97,11 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
     };
 }
 
-  export function OrderToJSON(json: any): Order {
-      return OrderToJSONTyped(json, false);
-  }
+export function OrderToJSON(json: any): Order {
+    return OrderToJSONTyped(json, false);
+}
 
-  export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: boolean = false): any {
+export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -112,7 +112,7 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
         'id': value['id'],
         'petId': value['petId'],
         'quantity': value['quantity'],
-        'shipDate': value['shipDate'] == null ? undefined : ((value['shipDate']).toISOString()),
+        'shipDate': value['shipDate'] == null ? value['shipDate'] : value['shipDate'].toISOString(),
         'status': value['status'],
         'complete': value['complete'],
     };

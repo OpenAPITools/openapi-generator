@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.AnimalDto;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -33,10 +34,10 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = BigCatDto.class, name = "BigCat")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class CatDto extends AnimalDto {
 
-  private Boolean declawed;
+  private @Nullable Boolean declawed;
 
   public CatDto() {
     super();
@@ -49,7 +50,7 @@ public class CatDto extends AnimalDto {
     super(className);
   }
 
-  public CatDto declawed(Boolean declawed) {
+  public CatDto declawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
     return this;
   }
@@ -61,11 +62,11 @@ public class CatDto extends AnimalDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
-  public Boolean getDeclawed() {
+  public @Nullable Boolean getDeclawed() {
     return declawed;
   }
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
   }
 

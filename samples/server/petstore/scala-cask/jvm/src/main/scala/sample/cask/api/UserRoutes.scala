@@ -22,11 +22,12 @@ import sample.cask.model.*
 
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
+import scala.util.Try
 
 import java.time.OffsetDateTime
 import sample.cask.model.User
 
-class UserRoutes(service : UserService) extends cask.Routes {
+class UserRoutes(service : UserService[Try]) extends cask.Routes {
 
     // route group for routeWorkAroundForGETUser
     @cask.get("/user", true)
@@ -49,12 +50,15 @@ class UserRoutes(service : UserService) extends cask.Routes {
         def failFast = request.queryParams.keySet.contains("failFast")
 
         val result =         for {
-              userData <- Parsed.eval(UserData.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as User from >${request.bodyAsString}< : ${e}") /* not array or map */
-              user <- Parsed.fromTry(userData.validated(failFast))
-            result <- Parsed.eval(service.createUser(user))
+              userJson <- Parsed.fromTry(request.bodyAsJson)
+              userData <- Parsed.eval(UserData.fromJson(userJson)) /* not array or map */
+              user <- Parsed.fromTry(UserData.validated(userData, failFast))
+            resultTry <- Parsed.eval(service.createUser(user))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
         }
@@ -70,10 +74,12 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         val result =         for {
             user <- Parsed.fromTry(UserData.manyFromJsonStringValidated(request.bodyAsString)).mapError(e => s"Error parsing json as an array of User from >${request.bodyAsString}< : ${e}") /* array */
-            result <- Parsed.eval(service.createUsersWithArrayInput(user))
+            resultTry <- Parsed.eval(service.createUsersWithArrayInput(user))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
         }
@@ -89,10 +95,12 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         val result =         for {
             user <- Parsed.fromTry(UserData.manyFromJsonStringValidated(request.bodyAsString)).mapError(e => s"Error parsing json as an array of User from >${request.bodyAsString}< : ${e}") /* array */
-            result <- Parsed.eval(service.createUsersWithListInput(user))
+            resultTry <- Parsed.eval(service.createUsersWithListInput(user))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
         }
@@ -108,10 +116,12 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         val result =         for {
             username <- Parsed(username)
-            result <- Parsed.eval(service.deleteUser(username))
+            resultTry <- Parsed.eval(service.deleteUser(username))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
         }
@@ -126,10 +136,13 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         val result =         for {
             username <- Parsed(username)
-            result <- Parsed.eval(service.getUserByName(username))
+            resultTry <- Parsed.eval(service.getUserByName(username))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+        import User.{given, *} // this brings in upickle in the case of union (oneOf) types
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(value : User) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
           case Right(other) => cask.Response(s"$other", 200)
@@ -144,10 +157,12 @@ class UserRoutes(service : UserService) extends cask.Routes {
         def failFast = request.queryParams.keySet.contains("failFast")
 
         val result =         for {
-            result <- Parsed.eval(service.loginUser(username, password))
+            resultTry <- Parsed.eval(service.loginUser(username, password))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(value : String) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
           case Right(other) => cask.Response(s"$other", 200)
@@ -163,10 +178,12 @@ class UserRoutes(service : UserService) extends cask.Routes {
         def failFast = request.queryParams.keySet.contains("failFast")
 
         val result =         for {
-            result <- Parsed.eval(service.logoutUser())
+            resultTry <- Parsed.eval(service.logoutUser())
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
         }
@@ -182,12 +199,15 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         val result =         for {
             username <- Parsed(username)
-              userData <- Parsed.eval(UserData.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as User from >${request.bodyAsString}< : ${e}") /* not array or map */
-              user <- Parsed.fromTry(userData.validated(failFast))
-            result <- Parsed.eval(service.updateUser(username, user))
+              userJson <- Parsed.fromTry(request.bodyAsJson)
+              userData <- Parsed.eval(UserData.fromJson(userJson)) /* not array or map */
+              user <- Parsed.fromTry(UserData.validated(userData, failFast))
+            resultTry <- Parsed.eval(service.updateUser(username, user))
+            result <- Parsed.fromTry(resultTry)
         } yield result
 
-        result match {
+
+        (result : @unchecked) match {
           case Left(error) => cask.Response(error, 500)
           case Right(other) => cask.Response(s"$other", 200)
         }

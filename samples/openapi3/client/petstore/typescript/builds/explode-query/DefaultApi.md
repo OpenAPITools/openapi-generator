@@ -15,17 +15,15 @@ Method | HTTP request | Description
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, DefaultApi } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.DefaultApi(configuration);
+const configuration = createConfiguration();
+const apiInstance = new DefaultApi(configuration);
 
-let body:any = {};
+const request = {};
 
-apiInstance.fooGet(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.fooGet(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 

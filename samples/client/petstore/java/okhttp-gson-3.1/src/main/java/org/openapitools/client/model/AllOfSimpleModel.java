@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -44,22 +45,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Locale;
 
 import org.openapitools.client.JSON;
 
 /**
  * AllOfSimpleModel
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class AllOfSimpleModel {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRINGS = "arrayOfStrings";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRINGS)
+  @javax.annotation.Nonnull
   private List<String> arrayOfStrings = new ArrayList<>();
 
   public AllOfSimpleModel() {
   }
 
-  public AllOfSimpleModel arrayOfStrings(List<String> arrayOfStrings) {
+  public AllOfSimpleModel arrayOfStrings(@javax.annotation.Nonnull List<String> arrayOfStrings) {
     this.arrayOfStrings = arrayOfStrings;
     return this;
   }
@@ -81,7 +84,7 @@ public class AllOfSimpleModel {
     return arrayOfStrings;
   }
 
-  public void setArrayOfStrings(List<String> arrayOfStrings) {
+  public void setArrayOfStrings(@javax.annotation.Nonnull List<String> arrayOfStrings) {
     this.arrayOfStrings = arrayOfStrings;
   }
 
@@ -176,12 +179,10 @@ public class AllOfSimpleModel {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("arrayOfStrings");
+    openapiFields = new HashSet<String>(Arrays.asList("arrayOfStrings"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("arrayOfStrings");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("arrayOfStrings"));
   }
 
   /**
@@ -193,14 +194,14 @@ public class AllOfSimpleModel {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AllOfSimpleModel.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in AllOfSimpleModel is not found in the empty JSON string", AllOfSimpleModel.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The required field(s) %s in AllOfSimpleModel is not found in the empty JSON string", AllOfSimpleModel.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : AllOfSimpleModel.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
@@ -208,7 +209,7 @@ public class AllOfSimpleModel {
       if (jsonObj.get("arrayOfStrings") == null) {
         throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
       } else if (!jsonObj.get("arrayOfStrings").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `arrayOfStrings` to be an array in the JSON string but got `%s`", jsonObj.get("arrayOfStrings").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `arrayOfStrings` to be an array in the JSON string but got `%s`", jsonObj.get("arrayOfStrings").toString()));
       }
   }
 
@@ -269,7 +270,7 @@ public class AllOfSimpleModel {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

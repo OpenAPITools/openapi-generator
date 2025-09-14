@@ -20,6 +20,32 @@
       }],
       "doc": "",
       "default": null
+    },
+    {
+      "name": "another",
+      "type": ["null", {
+        "type": "enum",
+        "name": "Sample_another",
+        "symbols": [
+          "x",
+          "y"
+        ]
+      }],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "equivalent",
+      "type": ["null", {
+        "type": "enum",
+        "name": "Sample_equivalent",
+        "symbols": [
+          "x",
+          "y"
+        ]
+      }],
+      "doc": "",
+      "default": null
     }
   ]
 

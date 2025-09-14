@@ -26,6 +26,9 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.CompletableFuture;
 {{/async}}
+{{#returnSuccessCode}}
+import java.util.concurrent.atomic.AtomicInteger;
+{{/returnSuccessCode}}
 import {{javaxPackage}}.annotation.Generated;
 
 {{#operations}}
@@ -34,6 +37,7 @@ import {{javaxPackage}}.annotation.Generated;
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
 {{>generatedAnnotation}}
+
 public interface {{classname}}Delegate {
 {{#jdk8-default-interface}}
 
@@ -66,10 +70,10 @@ public interface {{classname}}Delegate {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    {{#jdk8-default-interface}}default {{/jdk8-default-interface}}{{>responseType}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}Mono<{{{dataType}}}>{{/isArray}}{{#isArray}}Flux<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#isArray}}List<{{/isArray}}{{#reactive}}Flux<Part>{{/reactive}}{{^reactive}}{{#isFormParam}}MultipartFile{{/isFormParam}}{{^isFormParam}}{{>optionalDataType}}{{/isFormParam}}{{/reactive}}{{#isArray}}>{{/isArray}}{{/isFile}} {{paramName}}{{^-last}},
+    {{#jdk8-default-interface}}default {{/jdk8-default-interface}}{{>responseType}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}Mono<{{{dataType}}}>{{/isArray}}{{#isArray}}Flux<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#reactive}}{{#isArray}}Flux<{{/isArray}}Part{{#isArray}}>{{/isArray}}{{/reactive}}{{^reactive}}{{#isArray}}List<{{/isArray}}{{#isFormParam}}MultipartFile{{/isFormParam}}{{^isFormParam}}{{>optionalDataType}}{{/isFormParam}}{{#isArray}}>{{/isArray}}{{/reactive}}{{/isFile}} {{paramName}}{{^-last}},
         {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}},
         {{/hasParams}}ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}}{{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}} {
-        {{>methodBody}}
+        {{>methodBody}}{{! prevent indent}}
     }{{/jdk8-default-interface}}
 
 {{/operation}}

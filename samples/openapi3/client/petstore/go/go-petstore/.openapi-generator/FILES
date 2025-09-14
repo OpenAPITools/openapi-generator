@@ -22,6 +22,8 @@ docs/AppleReq.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
+docs/ArrayTestWithWrapped.md
+docs/ArrayTestWithWrappedAndName.md
 docs/Banana.md
 docs/BananaReq.md
 docs/Capitalization.md
@@ -47,6 +49,7 @@ docs/Foo.md
 docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/Fruit.md
+docs/FruitJuice.md
 docs/FruitReq.md
 docs/GmFruit.md
 docs/HasOnlyReadOnly.md
@@ -105,6 +108,8 @@ model_apple_req.go
 model_array_of_array_of_number_only.go
 model_array_of_number_only.go
 model_array_test_.go
+model_array_test_with_wrapped.go
+model_array_test_with_wrapped_and_name.go
 model_banana.go
 model_banana_req.go
 model_capitalization.go
@@ -126,6 +131,7 @@ model_filter_type_regex.go
 model_foo.go
 model_format_test_.go
 model_fruit.go
+model_fruit_juice.go
 model_fruit_req.go
 model_gm_fruit.go
 model_has_only_read_only.go

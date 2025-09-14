@@ -13,9 +13,12 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,18 +39,20 @@ import org.openapitools.client.JSON;
   AppleReq.JSON_PROPERTY_MEALY
 })
 @JsonTypeName("appleReq")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
+  @jakarta.annotation.Nonnull
   private String cultivar;
 
   public static final String JSON_PROPERTY_MEALY = "mealy";
+  @jakarta.annotation.Nullable
   private Boolean mealy;
 
   public AppleReq() { 
   }
 
-  public AppleReq cultivar(String cultivar) {
+  public AppleReq cultivar(@jakarta.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
     return this;
   }
@@ -59,7 +64,7 @@ public class AppleReq {
   @jakarta.annotation.Nonnull
   @NotNull
 
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getCultivar() {
@@ -67,14 +72,14 @@ public class AppleReq {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setCultivar(String cultivar) {
+  public void setCultivar(@jakarta.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
   }
 
 
-  public AppleReq mealy(Boolean mealy) {
+  public AppleReq mealy(@jakarta.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
     return this;
   }
@@ -85,7 +90,7 @@ public class AppleReq {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_MEALY)
+  @JsonProperty(value = JSON_PROPERTY_MEALY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getMealy() {
@@ -93,9 +98,9 @@ public class AppleReq {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MEALY)
+  @JsonProperty(value = JSON_PROPERTY_MEALY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMealy(Boolean mealy) {
+  public void setMealy(@jakarta.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
   }
 
@@ -105,20 +110,12 @@ public class AppleReq {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    AppleReq appleReq = (AppleReq) o;
-    return Objects.equals(this.cultivar, appleReq.cultivar) &&
-        Objects.equals(this.mealy, appleReq.mealy);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(cultivar, mealy);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

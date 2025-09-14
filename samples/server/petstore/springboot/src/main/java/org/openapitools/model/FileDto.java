@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,12 +23,12 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Must be named `File` for test.")
 @JsonTypeName("File")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class FileDto {
 
-  private String sourceURI;
+  private @Nullable String sourceURI;
 
-  public FileDto sourceURI(String sourceURI) {
+  public FileDto sourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
     return this;
   }
@@ -39,11 +40,11 @@ public class FileDto {
   
   @ApiModelProperty(value = "Test capitalization")
   @JsonProperty("sourceURI")
-  public String getSourceURI() {
+  public @Nullable String getSourceURI() {
     return sourceURI;
   }
 
-  public void setSourceURI(String sourceURI) {
+  public void setSourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
 

@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -29,20 +30,20 @@ import org.hibernate.validator.constraints.*;
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
    */
   @JsonAdapter(KindEnum.Adapter.class)
   public enum KindEnum {
-    LIONS("lions"),
+    LIONS(String.valueOf("lions")),
     
-    TIGERS("tigers"),
+    TIGERS(String.valueOf("tigers")),
     
-    LEOPARDS("leopards"),
+    LEOPARDS(String.valueOf("leopards")),
     
-    JAGUARS("jaguars");
+    JAGUARS(String.valueOf("jaguars"));
 
     private String value;
 
@@ -84,13 +85,14 @@ public class BigCat extends Cat {
 
   public static final String SERIALIZED_NAME_KIND = "kind";
   @SerializedName(SERIALIZED_NAME_KIND)
+  @javax.annotation.Nullable
   private KindEnum kind;
 
   public BigCat() {
 
   }
 
-  public BigCat kind(KindEnum kind) {
+  public BigCat kind(@javax.annotation.Nullable KindEnum kind) {
     
     this.kind = kind;
     return this;
@@ -108,18 +110,18 @@ public class BigCat extends Cat {
   }
 
 
-  public void setKind(KindEnum kind) {
+  public void setKind(@javax.annotation.Nullable KindEnum kind) {
     this.kind = kind;
   }
 
   @Override
-  public BigCat className(String className) {
+  public BigCat className(@javax.annotation.Nonnull String className) {
     this.setClassName(className);
     return this;
   }
 
   @Override
-  public BigCat color(String color) {
+  public BigCat color(@javax.annotation.Nullable String color) {
     this.setColor(color);
     return this;
   }

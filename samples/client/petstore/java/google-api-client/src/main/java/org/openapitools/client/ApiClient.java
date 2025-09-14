@@ -29,16 +29,16 @@ import com.google.api.client.json.Json;
 import java.io.IOException;
 import java.io.OutputStream;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class ApiClient {
-    private final String basePath;
-    private final HttpRequestFactory httpRequestFactory;
-    private final ObjectMapper objectMapper;
+    protected final String basePath;
+    protected final HttpRequestFactory httpRequestFactory;
+    protected final ObjectMapper objectMapper;
 
-    private static final String defaultBasePath = "http://petstore.swagger.io:80/v2";
+    protected static final String defaultBasePath = "http://petstore.swagger.io:80/v2";
 
     // A reasonable default object mapper. Client can pass in a chosen ObjectMapper anyway, this is just for reasonable defaults.
-    private static ObjectMapper createDefaultObjectMapper() {
+    protected static ObjectMapper createDefaultObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper()
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -80,7 +80,7 @@ public class ApiClient {
 
     public class JacksonJsonHttpContent extends AbstractHttpContent {
         /* A POJO that can be serialized with a com.fasterxml Jackson ObjectMapper */
-        private final Object data;
+        protected final Object data;
 
         public JacksonJsonHttpContent(Object data) {
             super(Json.MEDIA_TYPE);

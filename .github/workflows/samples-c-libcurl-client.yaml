@@ -5,10 +5,12 @@ on:
     paths:
       - 'samples/client/petstore/c/**'
       - 'samples/client/petstore/c-useJsonUnformatted/**'
+      - 'samples/client/others/c/bearerAuth/**'
   pull_request:
     paths:
       - 'samples/client/petstore/c/**'
       - 'samples/client/petstore/c-useJsonUnformatted/**'
+      - 'samples/client/others/c/bearerAuth/**'
 
 jobs:
   build:
@@ -20,9 +22,10 @@ jobs:
         sample:
           - 'samples/client/petstore/c/'
           - 'samples/client/petstore/c-useJsonUnformatted/'
+          - 'samples/client/others/c/bearerAuth/'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Prepare
         run: |
           sudo apt-get update

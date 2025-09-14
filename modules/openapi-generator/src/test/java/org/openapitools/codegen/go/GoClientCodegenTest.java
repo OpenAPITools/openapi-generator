@@ -206,7 +206,7 @@ public class GoClientCodegenTest {
 
         Assert.assertEquals(codegen.modelFileFolder(), "generated-code/go/model_dir/".replace("/", File.separator));
     }
-    
+
     @Test
     public void verifyTestFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
@@ -395,5 +395,27 @@ public class GoClientCodegenTest {
         TestUtils.assertFileNotExists(goModFile);
         Path goSumFile = Paths.get(output + "/go.sum");
         TestUtils.assertFileNotExists(goSumFile);
+    }
+
+    @Test
+    public void testXmlOptionsBeingUsed() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(GoClientCodegen.STRUCT_PREFIX, true);
+        properties.put(GoClientCodegen.WITH_XML, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/model_pet.go"), "tags>tag");
     }
 }

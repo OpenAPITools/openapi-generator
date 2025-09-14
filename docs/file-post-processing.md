@@ -19,6 +19,7 @@ Also refer to the relevant documentation for [CLI](./usage.md), [Maven Plugin](h
 The following environment variables are supported by their respective generators:
 <!-- query with: grep -Rn '_POST_PROCESS_FILE"' modules | grep -Eo '[^"]+_POST_PROCESS_FILE' | sort -u -->
 
+* `AVRO_POST_PROCESS_FILE`
 * `CPP_POST_PROCESS_FILE`
 * `CSHARP_POST_PROCESS_FILE`
 * `C_POST_PROCESS_FILE`

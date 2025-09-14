@@ -387,6 +387,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
+        } else if (ModelUtils.isObjectSchema(p)) {
+            return "std::shared_ptr<Object>";
+        } else if(typeMapping.containsKey(super.getSchemaType(p))) {
+            return openAPIType;
         }
 
         return "std::shared_ptr<" + openAPIType + ">";
@@ -423,7 +427,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
         } else if (ModelUtils.isStringSchema(p)) {
             return "utility::conversions::to_string_t(\"\")";
-        } else if (ModelUtils.isFreeFormObject(p)) {
+        } else if (ModelUtils.isFreeFormObject(p, openAPI)) {
             return "new Object()";
         }
 

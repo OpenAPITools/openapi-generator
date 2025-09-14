@@ -20,7 +20,7 @@ public class AuthorTemplateTest {
     }
 
     @Test
-    public void smokeTestAuthorTemplateCommand(){
+    public void smokeTestAuthorTemplateCommand() {
         Cli.CliBuilder<Runnable> builder = createBuilder();
         String[] arguments = new String[]{
                 "author",
@@ -57,7 +57,7 @@ public class AuthorTemplateTest {
         Assert.assertFalse(Files.exists(outputDirectory.resolve("libraries/okhttp-gson/auth/RetryingOAuth.mustache")));
     }
 
-    private Cli.CliBuilder<Runnable> createBuilder(){
+    private Cli.CliBuilder<Runnable> createBuilder() {
         Cli.CliBuilder<Runnable> builder = new Cli.CliBuilder<>("openapi-generator-cli");
 
         builder.withGroup("author")

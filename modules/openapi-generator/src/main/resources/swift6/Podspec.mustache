@@ -1,0 +1,38 @@
+Pod::Spec.new do |s|
+  s.name = '{{projectName}}'{{#projectDescription}}
+  s.summary = '{{.}}'{{/projectDescription}}
+  s.ios.deployment_target = '12.0'
+  s.osx.deployment_target = '10.13'
+  s.tvos.deployment_target = '12.0'
+  s.watchos.deployment_target = '4.0'
+  s.version = '{{podVersion}}{{^podVersion}}{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}{{/podVersion}}'
+  s.source = {{#podSource}}{{& podSource}}{{/podSource}}{{^podSource}}{ :git => 'git@github.com:OpenAPITools/openapi-generator.git', :tag => 'v{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}' }{{/podSource}}
+  {{#podAuthors}}
+  s.authors = '{{.}}'
+  {{/podAuthors}}
+  {{#podSocialMediaURL}}
+  s.social_media_url = '{{.}}'
+  {{/podSocialMediaURL}}
+  s.license = {{#podLicense}}{{& podLicense}}{{/podLicense}}{{^podLicense}}'Proprietary'{{/podLicense}}
+  s.homepage = '{{podHomepage}}{{^podHomepage}}https://github.com/OpenAPITools/openapi-generator{{/podHomepage}}'
+  s.summary = '{{podSummary}}{{^podSummary}}{{projectName}} Swift SDK{{/podSummary}}'
+  {{#podDescription}}
+  s.description = '{{.}}'
+  {{/podDescription}}
+  {{#podScreenshots}}
+  s.screenshots = {{& podScreenshots}}
+  {{/podScreenshots}}
+  {{#podDocumentationURL}}
+  s.documentation_url = '{{.}}'
+  {{/podDocumentationURL}}
+  s.source_files = '{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}/**/*.swift'
+  {{#useAlamofire}}
+  s.dependency 'Alamofire', '~> 5.10'
+  {{/useAlamofire}}
+  {{#usePromiseKit}}
+  s.dependency 'PromiseKit/CorePromise', '~> 8.1'
+  {{/usePromiseKit}}
+  {{#useRxSwift}}
+  s.dependency 'RxSwift', '~> 6.8'
+  {{/useRxSwift}}
+end

@@ -31,7 +31,11 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import java.util.*;
+import java.io.File;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeSet;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -43,6 +47,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String WITH_NODE_IMPORTS = "withNodeImports";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+    public static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
+    public static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html).";
     public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
     public static final String AXIOS_VERSION = "axiosVersion";
     public static final String DEFAULT_AXIOS_VERSION = "^1.6.1";
@@ -50,11 +56,15 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @Getter @Setter
     protected String npmRepository = null;
     protected Boolean stringEnums = false;
+    protected String importFileExtension = "";
 
     @Getter @Setter
     protected String axiosVersion = DEFAULT_AXIOS_VERSION;
 
     private String tsModelPackage = "";
+
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     public TypeScriptAxiosClientCodegen() {
         super();
@@ -81,6 +91,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_NODE_IMPORTS, "Setting this property to true adds imports for NodeJS", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
+        this.cliOptions.add(new CliOption(IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_SWITCH_DESC, SchemaTypeUtil.STRING_TYPE).defaultValue(this.importFileExtension));
         this.cliOptions.add(new CliOption(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, "Setting this property to true will add brackets to array attribute names, e.g. my_values[].", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(AXIOS_VERSION, "Use this property to override the axios version in package.json").defaultValue(DEFAULT_AXIOS_VERSION));
         // Templates have no mapping between formatted property names and original base names so use only "original" and remove this option
@@ -123,6 +134,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         additionalProperties.put("tsApiPackage", tsApiPackage);
         additionalProperties.put("apiRelativeToRoot", apiRelativeToRoot);
         additionalProperties.put("modelRelativeToRoot", modelRelativeToRoot);
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("baseApi.mustache", "", "base.ts"));
@@ -148,6 +164,14 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         if (additionalProperties.containsKey(STRING_ENUMS)) {
             this.stringEnums = Boolean.parseBoolean(additionalProperties.get(STRING_ENUMS).toString());
             additionalProperties.put("stringEnums", this.stringEnums);
+        }
+
+        if (additionalProperties.containsKey(IMPORT_FILE_EXTENSION_SWITCH)) {
+            this.importFileExtension = additionalProperties.get(IMPORT_FILE_EXTENSION_SWITCH).toString();
+            if (!this.importFileExtension.isEmpty() && !this.importFileExtension.startsWith(".")) {
+                this.importFileExtension = "." + this.importFileExtension;
+            }
+            additionalProperties.put("importFileExtension", this.importFileExtension);
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
@@ -230,7 +254,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             withoutPrefixEnums = Boolean.parseBoolean(additionalProperties.get(WITHOUT_PREFIX_ENUMS).toString());
         }
 
-        for (ModelMap mo  : models) {
+        for (ModelMap mo : models) {
             CodegenModel cm = mo.getModel();
 
             // Type is already any
@@ -242,7 +266,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             cm.classFilename = cm.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
 
             //processed enum names
-            if(!withoutPrefixEnums) {
+            if (!withoutPrefixEnums) {
                 cm.imports = new TreeSet<>(cm.imports);
                 // name enum with model name, e.g. StatusEnum => PetStatusEnum
                 for (CodegenProperty var : cm.vars) {
@@ -271,6 +295,16 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
         }
         return objs;
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
     }
 
     /**

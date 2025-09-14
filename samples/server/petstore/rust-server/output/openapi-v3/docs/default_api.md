@@ -7,6 +7,8 @@ Method | HTTP request | Description
 ****](default_api.md#) | **GET** /any-of | 
 ****](default_api.md#) | **POST** /callback-with-header | 
 ****](default_api.md#) | **GET** /complex-query-param | 
+**ExamplesTest**](default_api.md#ExamplesTest) | **GET** /examples-test | Test examples
+**FormTest**](default_api.md#FormTest) | **POST** /form-test | Test a Form Post
 **GetWithBooleanParameter**](default_api.md#GetWithBooleanParameter) | **GET** /get-with-bool | 
 ****](default_api.md#) | **GET** /json-complex-query-param | 
 ****](default_api.md#) | **GET** /mandatory-request-header | 
@@ -118,6 +120,72 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **ExamplesTest**
+> models::AdditionalPropertiesReferencedAnyOfObject ExamplesTest(optional)
+Test examples
+
+Test examples in OpenAPI
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ids** | [**String**](String.md)| A list of IDs to get | 
+
+### Return type
+
+[**models::AdditionalPropertiesReferencedAnyOfObject**](AdditionalPropertiesReferencedAnyOfObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **FormTest**
+> FormTest(optional)
+Test a Form Post
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **required_array** | [**String**](String.md)|  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

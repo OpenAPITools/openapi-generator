@@ -27,4 +27,7 @@ extension {{projectName}}API {
 {{> modelObject}}{{/isEnum}}{{/isArray}}{{/vendorExtensions.x-is-one-of-interface}}{{/model}}{{/models}}
 {{#swiftUseApiNamespace}}
 }
-{{/swiftUseApiNamespace}}
+{{/swiftUseApiNamespace}}{{#models}}{{#model}}{{#vendorExtensions.x-swift-identifiable}}
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension {{#swiftUseApiNamespace}}{{projectName}}API.{{/swiftUseApiNamespace}}{{{classname}}}: Identifiable {}
+{{/vendorExtensions.x-swift-identifiable}}{{/model}}{{/models}}

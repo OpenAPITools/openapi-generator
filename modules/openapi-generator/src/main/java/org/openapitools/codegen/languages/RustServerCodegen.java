@@ -21,11 +21,7 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.FileSchema;
-import io.swagger.v3.oas.models.media.XML;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -38,24 +34,19 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.ApiInfoMap;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -232,7 +223,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
          */
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
-        supportingFiles.add(new SupportingFile("cargo-config", ".cargo", "config"));
+        supportingFiles.add(new SupportingFile("cargo-config", ".cargo", "config.toml"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("context.mustache", "src", "context.rs"));
@@ -265,6 +256,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                     " 'export RUST_POST_PROCESS_FILE=\"/usr/local/bin/rustfmt\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` " +
                     " (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'RUST_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
@@ -591,7 +584,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         op.vendorExtensions.put("x-is-delete", isDelete);
 
         if (isDelete) {
-          additionalProperties.put("apiHasDeleteMethods", true);
+            additionalProperties.put("apiHasDeleteMethods", true);
         }
 
         if (!op.vendorExtensions.containsKey("x-must-use-response")) {
@@ -656,6 +649,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             } else {
                 original = operation.getResponses().get(rsp.code);
             }
+            original = ModelUtils.getReferencedApiResponse(openAPI, original);
             String[] words = rsp.message.split("[^A-Za-z ]");
 
             // Create a unique responseID for this response.
@@ -820,7 +814,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         operationList.sort((one, another) -> {
             int params_compare = ObjectUtils.compare(one.pathParams.size(), another.pathParams.size());
-                if (params_compare == 0) {
+            if (params_compare == 0) {
                 return ObjectUtils.compare(one.operationId, another.operationId);
             } else {
                 return params_compare;
@@ -862,7 +856,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         }
 
-        if (op.bodyParams.size() > 0 || op.formParams.size() > 0){
+        if (op.bodyParams.size() > 0 || op.formParams.size() > 0) {
             op.vendorExtensions.put("x-has-request-body", true);
         }
 
@@ -1063,39 +1057,48 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     public String getTypeDeclaration(Schema p) {
         LOGGER.trace("Getting type declaration for schema");
 
+        String type;
+
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             String innerType = getTypeDeclaration(inner);
-            return typeMapping.get("array") + "<" + innerType + ">";
+            type = typeMapping.get("array") + "<" + innerType + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
             typeDeclaration.append(innerType).append(">");
-            return typeDeclaration.toString();
+            type = typeDeclaration.toString();
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            String dataType;
             try {
-                dataType = modelFromSchema(p);
+                type = modelFromSchema(p);
 
-                if (dataType != null) {
-                    dataType = "models::" + dataType;
-                    LOGGER.debug("Returning " + dataType + " from ref");
+                if (type != null) {
+                    type = "models::" + type;
+                    LOGGER.debug("Returning " + type + " from ref");
                 }
             } catch (Exception e) {
-                dataType = null;
+                type = null;
                 LOGGER.error("Error obtaining the datatype from schema (model): " + p + ". Error was: " + e.getMessage(), e);
             }
-
-            LOGGER.debug("Returning " + dataType);
-
-            return dataType;
         } else if (p instanceof FileSchema) {
-            return typeMapping.get("File").toString();
+            type = typeMapping.get("File").toString();
+        } else {
+            type = super.getTypeDeclaration(p);
         }
 
-        return super.getTypeDeclaration(p);
+        // We are using extrinsic nullability, rather than intrinsic, so we need to dig into the inner
+        // layer of the referenced schema.
+        Schema rp = ModelUtils.getReferencedSchema(openAPI, p);
+
+        if (rp.getNullable() == Boolean.TRUE) {
+            type = "swagger::Nullable<" + type + ">";
+        }
+
+        LOGGER.debug("Returning " + type + " for type declaration");
+
+        return type;
     }
 
     @Override
@@ -1216,7 +1219,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         }
 
-        // Do we suppport doing ToString/FromStr conversions for query parameters?
+        // Do we support doing ToString/FromStr conversions for query parameters?
         boolean toStringSupport = true;
         boolean isString = "String".equals(mdl.dataType);
 
@@ -1400,6 +1403,19 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         return "swagger::AnyOf" + types.size() + "<" + String.join(",", types) + ">";
     }
 
+    /**
+     * Strip a swagger::Nullable wrapper on a datatype
+     *
+     * @deprecated Avoid using this - use a different mechanism instead.
+     */
+    private static String stripNullable(String type) {
+        if (type.startsWith("swagger::Nullable<") && type.endsWith(">")) {
+            return type.substring("swagger::Nullable<".length(), type.length() - 1);
+        } else {
+            return type;
+        }
+    }
+
     @Override
     public String toAllOfName(List<String> names, Schema composedSchema) {
         // Handle all of objects as freeform
@@ -1409,7 +1425,9 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (!languageSpecificPrimitives.contains(property.dataType)) {
+
+        // TODO: We should avoid reverse engineering primitive type status from the data type
+        if (!languageSpecificPrimitives.contains(stripNullable(property.dataType))) {
             // If we use a more qualified model name, then only camelize the actual type, not the qualifier.
             if (property.dataType.contains(":")) {
                 int position = property.dataType.lastIndexOf(":");
@@ -1417,7 +1435,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             } else {
                 property.dataType = camelize(property.dataType);
             }
-            property.isPrimitiveType = property.isContainer && languageSpecificPrimitives.contains(typeMapping.get(property.complexType));
+            property.isPrimitiveType = property.isContainer && languageSpecificPrimitives.contains(typeMapping.get(stripNullable(property.complexType)));
         } else {
             property.isPrimitiveType = true;
         }
@@ -1496,6 +1514,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         if (Boolean.TRUE.equals(param.isFreeFormObject)) {
             param.vendorExtensions.put("x-format-string", "{:?}");
             example = null;
+        } else if (param.isArray && param.isString) {
+            // This occurs if the parameter is a form property and is Vec<String>
+            param.vendorExtensions.put("x-format-string", "{:?}");
+            example = (param.example != null) ? "&vec![\"" + param.example + "\".to_string()]" : "&Vec::new()";
         } else if (param.isString) {
             param.vendorExtensions.put("x-format-string", "\\\"{}\\\"");
             example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
@@ -1510,7 +1532,16 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         } else if (param.isArray) {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            example = (param.example != null) ? param.example : "&Vec::new()";
+            if (param.items.isString) {
+                // We iterate through the list of string and ensure they end up in the format vec!["example".to_string()]
+                example = (param.example != null)
+                    ? "&vec![" + Arrays.stream(param.example.replace("[", "").replace("]", "").split(","))
+                        .map(item -> item + ".to_string()")
+                        .collect(Collectors.joining(", ")) + "]"
+                    : "&Vec::new()";
+            } else {
+                example = (param.example != null) ? param.example : "&Vec::new()";
+            }
         } else {
             param.vendorExtensions.put("x-format-string", "{:?}");
             if (param.example != null) {
@@ -1542,6 +1573,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -1553,19 +1585,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         // only process files with .rs extension
         if ("rs".equals(FilenameUtils.getExtension(file.toString()))) {
-            try {
-                Process p = Runtime.getRuntime().exec(new String[]{commandPrefix, file.toString()});
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {} {}", commandPrefix, file);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{commandPrefix, file.toString()});
         }
     }
 

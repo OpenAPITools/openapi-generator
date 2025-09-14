@@ -495,6 +495,38 @@ paths:
       responses:
         200:
           description: OK
+  /form-test:
+    post:
+      summary: Test a Form Post
+      operationId: FormTest
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                requiredArray:
+                  type: array
+                  items:
+                    type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+  /examples-test:
+    get:
+      operationId : ExamplesTest
+      summary: Test examples
+      description: Test examples in OpenAPI
+      parameters:
+        - $ref: "#/components/parameters/ids"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesReferencedAnyOfObject'
 
 components:
   securitySchemes:
@@ -526,6 +558,11 @@ components:
           $ref: '#/components/schemas/12345AnyOfObject'
       required:
       - requiredAnyOf
+    AdditionalPropertiesReferencedAnyOfObject:
+      description: Check that an object with only additional properties that references another object (e.g. an anyOf object) isn't treated as freeForm
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/AnyOfProperty'
     AnyOfObject:
       description: Test a model containing an anyOf
       anyOf:
@@ -656,6 +693,9 @@ components:
           type: boolean
         optionalParam:
           type: integer
+          minimum: 1
+          maximum: 10000000000000000000
+          example: 100
     ObjectHeader:
       type: object
       required:
@@ -669,6 +709,15 @@ components:
       type: boolean
     OptionalObjectHeader:
       type: integer
+    AdditionalPropertiesWithNullable:
+      type: object
+      properties:
+        nullableString:
+          $ref: '#/components/schemas/NullableObject'
+        nullableMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NullableObject'
     AdditionalPropertiesWithList:
       type: object
       maxProperties: 1
@@ -676,6 +725,9 @@ components:
         type: list
         items:
           type: string
+    NullableObject:
+      type: string
+      nullable: true
     NullableTest:
       type: object
       required:
@@ -729,3 +781,20 @@ components:
       type: string
     Result:
       type: string
+  parameters:
+    ids:
+      name: ids
+      in: query
+      description: A list of IDs to get
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
+      examples:
+        oneId:
+          value: ["foo"]
+        multipleIds:
+          value: ["foo", "bar"]

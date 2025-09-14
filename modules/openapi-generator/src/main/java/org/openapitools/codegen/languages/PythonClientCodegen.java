@@ -31,7 +31,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -44,6 +47,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String DATETIME_FORMAT = "datetimeFormat";
     public static final String DATE_FORMAT = "dateFormat";
     public static final String SET_ENSURE_ASCII_TO_FALSE = "setEnsureAsciiToFalse";
+    public static final String POETRY1_FALLBACK = "poetry1";
+    public static final String LAZY_IMPORTS = "lazyImports";
 
     @Setter protected String packageUrl;
     protected String apiDocPath = "docs/";
@@ -146,6 +151,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
                 .defaultValue("%Y-%m-%d"));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(POETRY1_FALLBACK, "Fallback to formatting pyproject.toml to Poetry 1.x format."));
+        cliOptions.add(new CliOption(LAZY_IMPORTS, "Enable lazy imports.").defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -177,11 +184,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         // map to Dot instead of Period
         specialCharReplacements.put(".", "Dot");
-
-        if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
-        }
 
         Boolean excludeTests = false;
 
@@ -262,6 +264,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             setDateFormat((String) additionalProperties.get(DATE_FORMAT));
         } else {
             additionalProperties.put(DATE_FORMAT, dateFormat);
+        }
+
+        if (additionalProperties.containsKey(LAZY_IMPORTS)) {
+            additionalProperties.put(LAZY_IMPORTS, Boolean.valueOf(additionalProperties.get(LAZY_IMPORTS).toString()));
         }
 
         String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
@@ -430,7 +436,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.7+";
+        return "3.9+";
     }
 
     @Override

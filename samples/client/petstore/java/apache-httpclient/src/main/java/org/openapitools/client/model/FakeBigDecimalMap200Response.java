@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,18 +38,20 @@ import java.util.StringJoiner;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
+  @javax.annotation.Nullable
   private BigDecimal someId;
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
+  @javax.annotation.Nullable
   private Map<String, BigDecimal> someMap = new HashMap<>();
 
   public FakeBigDecimalMap200Response() {
   }
 
-  public FakeBigDecimalMap200Response someId(BigDecimal someId) {
+  public FakeBigDecimalMap200Response someId(@javax.annotation.Nullable BigDecimal someId) {
     
     this.someId = someId;
     return this;
@@ -59,7 +62,7 @@ public class FakeBigDecimalMap200Response {
    * @return someId
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @JsonProperty(value = JSON_PROPERTY_SOME_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getSomeId() {
@@ -67,13 +70,13 @@ public class FakeBigDecimalMap200Response {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @JsonProperty(value = JSON_PROPERTY_SOME_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSomeId(BigDecimal someId) {
+  public void setSomeId(@javax.annotation.Nullable BigDecimal someId) {
     this.someId = someId;
   }
 
-  public FakeBigDecimalMap200Response someMap(Map<String, BigDecimal> someMap) {
+  public FakeBigDecimalMap200Response someMap(@javax.annotation.Nullable Map<String, BigDecimal> someMap) {
     
     this.someMap = someMap;
     return this;
@@ -92,7 +95,7 @@ public class FakeBigDecimalMap200Response {
    * @return someMap
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @JsonProperty(value = JSON_PROPERTY_SOME_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, BigDecimal> getSomeMap() {
@@ -100,9 +103,9 @@ public class FakeBigDecimalMap200Response {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @JsonProperty(value = JSON_PROPERTY_SOME_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSomeMap(Map<String, BigDecimal> someMap) {
+  public void setSomeMap(@javax.annotation.Nullable Map<String, BigDecimal> someMap) {
     this.someMap = someMap;
   }
 
@@ -180,7 +183,7 @@ public class FakeBigDecimalMap200Response {
     // add `someId` to the URL query string
     if (getSomeId() != null) {
       try {
-        joiner.add(String.format("%ssomeId%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSomeId()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%ssomeId%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSomeId()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -191,8 +194,8 @@ public class FakeBigDecimalMap200Response {
     if (getSomeMap() != null) {
       for (String _key : getSomeMap().keySet()) {
         try {
-          joiner.add(String.format("%ssomeMap%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%ssomeMap%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getSomeMap().get(_key), URLEncoder.encode(String.valueOf(getSomeMap().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported

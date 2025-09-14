@@ -1,0 +1,50 @@
+// swift-tools-version:6.0
+
+import PackageDescription
+
+let package = Package(
+    name: "{{projectName}}",
+    platforms: [
+        {{#useVapor}}
+        .macOS(.v10_15),
+        {{/useVapor}}
+        {{^useVapor}}
+        .iOS(.v12),
+        .macOS(.v10_13),
+        .tvOS(.v12),
+        .watchOS(.v4),
+        {{/useVapor}}
+    ],
+    products: [
+        // Products define the executables and libraries produced by a package, and make them visible to other packages.
+        .library(
+            name: "{{projectName}}",
+            targets: ["{{projectName}}"]
+        ),
+    ],
+    dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        {{#useAlamofire}}
+        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.10.2")),
+        {{/useAlamofire}}
+        {{#usePromiseKit}}
+        .package(url: "https://github.com/mxcl/PromiseKit", .upToNextMajor(from: "8.1.2")),
+        {{/usePromiseKit}}
+        {{#useRxSwift}}
+        .package(url: "https://github.com/ReactiveX/RxSwift", .upToNextMajor(from: "6.8.0")),
+        {{/useRxSwift}}
+        {{#useVapor}}
+        .package(url: "https://github.com/vapor/vapor", from: "4.0.0")
+        {{/useVapor}}
+    ],
+    targets: [
+        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
+        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
+        .target(
+            name: "{{projectName}}",
+            dependencies: [{{#useVapor}}"Vapor", {{/useVapor}}{{#useAlamofire}}"Alamofire", {{/useAlamofire}}{{#usePromiseKit}}"PromiseKit", {{/usePromiseKit}}{{#useRxSwift}}"RxSwift"{{/useRxSwift}}],
+            path: "{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}"
+        ),
+    ],
+    swiftLanguageModes: [.v6]
+)

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ import javax.annotation.Generated;
  * ReadOnlyFirst
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class ReadOnlyFirst {
 
   private Optional<String> bar = Optional.empty();
@@ -27,7 +28,7 @@ public class ReadOnlyFirst {
   private Optional<String> baz = Optional.empty();
 
   public ReadOnlyFirst bar(String bar) {
-    this.bar = Optional.of(bar);
+    this.bar = Optional.ofNullable(bar);
     return this;
   }
 
@@ -47,7 +48,7 @@ public class ReadOnlyFirst {
   }
 
   public ReadOnlyFirst baz(String baz) {
-    this.baz = Optional.of(baz);
+    this.baz = Optional.ofNullable(baz);
     return this;
   }
 

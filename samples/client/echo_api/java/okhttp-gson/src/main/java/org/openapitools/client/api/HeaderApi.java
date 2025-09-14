@@ -83,12 +83,13 @@ public class HeaderApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testHeaderIntegerBooleanStringEnumsCall(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testHeaderIntegerBooleanStringEnumsCall(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -113,26 +114,6 @@ public class HeaderApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (integerHeader != null) {
-            localVarHeaderParams.put("integer_header", localVarApiClient.parameterToString(integerHeader));
-        }
-
-        if (booleanHeader != null) {
-            localVarHeaderParams.put("boolean_header", localVarApiClient.parameterToString(booleanHeader));
-        }
-
-        if (stringHeader != null) {
-            localVarHeaderParams.put("string_header", localVarApiClient.parameterToString(stringHeader));
-        }
-
-        if (enumNonrefStringHeader != null) {
-            localVarHeaderParams.put("enum_nonref_string_header", localVarApiClient.parameterToString(enumNonrefStringHeader));
-        }
-
-        if (enumRefStringHeader != null) {
-            localVarHeaderParams.put("enum_ref_string_header", localVarApiClient.parameterToString(enumRefStringHeader));
-        }
-
         final String[] localVarAccepts = {
             "text/plain"
         };
@@ -148,12 +129,37 @@ public class HeaderApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
+        if (integerHeader != null) {
+            localVarHeaderParams.put("integer_header", localVarApiClient.parameterToString(integerHeader));
+        }
+
+
+        if (booleanHeader != null) {
+            localVarHeaderParams.put("boolean_header", localVarApiClient.parameterToString(booleanHeader));
+        }
+
+
+        if (stringHeader != null) {
+            localVarHeaderParams.put("string_header", localVarApiClient.parameterToString(stringHeader));
+        }
+
+
+        if (enumNonrefStringHeader != null) {
+            localVarHeaderParams.put("enum_nonref_string_header", localVarApiClient.parameterToString(enumNonrefStringHeader));
+        }
+
+
+        if (enumRefStringHeader != null) {
+            localVarHeaderParams.put("enum_ref_string_header", localVarApiClient.parameterToString(enumRefStringHeader));
+        }
+
+
         String[] localVarAuthNames = new String[] {  };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testHeaderIntegerBooleanStringEnumsValidateBeforeCall(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testHeaderIntegerBooleanStringEnumsValidateBeforeCall(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader, final ApiCallback _callback) throws ApiException {
         return testHeaderIntegerBooleanStringEnumsCall(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, _callback);
 
     }
@@ -169,12 +175,13 @@ public class HeaderApi {
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testHeaderIntegerBooleanStringEnums(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader) throws ApiException {
+    public String testHeaderIntegerBooleanStringEnums(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader) throws ApiException {
         ApiResponse<String> localVarResp = testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
         return localVarResp.getData();
     }
@@ -190,12 +197,13 @@ public class HeaderApi {
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader) throws ApiException {
+    public ApiResponse<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader) throws ApiException {
         okhttp3.Call localVarCall = testHeaderIntegerBooleanStringEnumsValidateBeforeCall(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -213,12 +221,13 @@ public class HeaderApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testHeaderIntegerBooleanStringEnumsAsync(Integer integerHeader, Boolean booleanHeader, String stringHeader, String enumNonrefStringHeader, StringEnumRef enumRefStringHeader, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testHeaderIntegerBooleanStringEnumsAsync(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testHeaderIntegerBooleanStringEnumsValidateBeforeCall(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();

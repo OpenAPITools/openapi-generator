@@ -16,52 +16,12 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.dashize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
-
-import com.google.common.collect.ImmutableMap;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.commons.text.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
-
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -75,6 +35,27 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.Nullable;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -587,7 +568,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
 
                     for (Map.Entry<String, ApiResponse> responseEntry : operation.getResponses().entrySet()) {
-                        CodegenResponse r = fromResponse(responseEntry.getKey(), responseEntry.getValue());
+                        CodegenResponse r = fromResponse(responseEntry.getKey(), ModelUtils.getReferencedApiResponse(openAPI, responseEntry.getValue()));
                         if (r.baseType != null &&
                                 !defaultIncludes.contains(r.baseType) &&
                                 !languageSpecificPrimitives.contains(r.baseType)) {
@@ -707,20 +688,18 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 Optional<DataExtractSubstituteParameter> dataExtract = getDataExtractSubstituteParameter(
                         dataExtractSubstituteParams, operationId);
 
-                // calculate order for this current request
-                Integer requestOrder = calculateRequestOrder(operationGroupingOrder, requests.size());
-
-                requests.put(requestOrder, new HTTPRequest(
-                    operationId,
-                    method.toString().toLowerCase(Locale.ROOT),
-                    path,
-                    queryParams.size() > 0 ? queryParams : null,
-                    bodyOrFormParams.size() > 0 ? new HTTPBody(bodyOrFormParams) : null,
-                    hasRequestBodyExample,
-                    params.cookies.size() > 0 ? true : false,
-                    params.headers.size() > 0 ? params : null,
-                    k6Checks.size() > 0 ? k6Checks : null,
-                    dataExtract.orElse(null))
+                // create requests
+                requests.putIfAbsent(requests.size(), new HTTPRequest(
+                        operationId,
+                        method.toString().toLowerCase(Locale.ROOT),
+                        path,
+                        queryParams.size() > 0 ? queryParams : null,
+                        bodyOrFormParams.size() > 0 ? new HTTPBody(bodyOrFormParams) : null,
+                        hasRequestBodyExample,
+                        params.cookies.size() > 0 ? true : false,
+                        params.headers.size() > 0 ? params : null,
+                        k6Checks.size() > 0 ? k6Checks : null,
+                        dataExtract.orElse(null))
                 );
             }
 
@@ -933,7 +912,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             existingHTTPRequestGroup.addRequests(requests);
             existingHTTPRequestGroup.addVariables(variables);
         } else {
-            requestGroups.put(groupName, new HTTPRequestGroup(groupName, variables, requests));
+            requestGroups.putIfAbsent(groupName, new HTTPRequestGroup(groupName, variables, requests));
         }
     }
 
@@ -1058,6 +1037,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return true if should be hidden, false otherwise
      */
     private boolean shouldHideOperationResponse(ApiResponse resp) {
+        resp = ModelUtils.getReferencedApiResponse(openAPI, resp);
         boolean hideOperationResponse = false;
 
         if (Objects.nonNull(resp.getExtensions()) && !resp.getExtensions().isEmpty()
@@ -1127,36 +1107,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    /**
-     * Calculate order for this current request
-     *
-     * @param operationGroupingOrder
-     * @param requestsSize
-     * @return request order
-     */
-    private Integer calculateRequestOrder(OptionalInt operationGroupingOrder, int requestsSize) {
-        int requestOrder;
-
-        if (operationGroupingOrder.isPresent()) {
-            requestOrder = operationGroupingOrder.getAsInt() - 1;
-
-        } else {
-            switch (requestsSize) {
-                case 0:
-                case 1:
-                    requestOrder = requestsSize;
-                    break;
-
-                default:
-                    requestOrder = (requestsSize - 1);
-                    break;
-            }
-        }
-
-        return requestOrder;
-    }
-
-    //
 
     /**
      * Any variables not defined yet but used for subsequent data extraction must be

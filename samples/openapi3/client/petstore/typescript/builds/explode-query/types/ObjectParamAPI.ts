@@ -1,5 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions } from '../configuration'
+import type { Middleware } from '../middleware';
 
 import { AdditionalPropertiesClass } from '../models/AdditionalPropertiesClass';
 import { AllOfWithSingleRef } from '../models/AllOfWithSingleRef';
@@ -73,7 +74,7 @@ export class ObjectAnotherFakeApi {
      * To test special tags
      * @param param the request object
      */
-    public _123testSpecialTagsWithHttpInfo(param: AnotherFakeApi123testSpecialTagsRequest, options?: Configuration): Promise<HttpInfo<Client>> {
+    public _123testSpecialTagsWithHttpInfo(param: AnotherFakeApi123testSpecialTagsRequest, options?: ConfigurationOptions): Promise<HttpInfo<Client>> {
         return this.api._123testSpecialTagsWithHttpInfo(param.client,  options).toPromise();
     }
 
@@ -82,7 +83,7 @@ export class ObjectAnotherFakeApi {
      * To test special tags
      * @param param the request object
      */
-    public _123testSpecialTags(param: AnotherFakeApi123testSpecialTagsRequest, options?: Configuration): Promise<Client> {
+    public _123testSpecialTags(param: AnotherFakeApi123testSpecialTagsRequest, options?: ConfigurationOptions): Promise<Client> {
         return this.api._123testSpecialTags(param.client,  options).toPromise();
     }
 
@@ -104,14 +105,14 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public fooGetWithHttpInfo(param: DefaultApiFooGetRequest = {}, options?: Configuration): Promise<HttpInfo<void>> {
+    public fooGetWithHttpInfo(param: DefaultApiFooGetRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.fooGetWithHttpInfo( options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public fooGet(param: DefaultApiFooGetRequest = {}, options?: Configuration): Promise<void> {
+    public fooGet(param: DefaultApiFooGetRequest = {}, options?: ConfigurationOptions): Promise<void> {
         return this.api.fooGet( options).toPromise();
     }
 
@@ -135,12 +136,14 @@ export interface FakeApiFakeHttpSignatureTestRequest {
     pet: Pet
     /**
      * query parameter
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApifakeHttpSignatureTest
      */
     query1?: string
     /**
      * header parameter
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApifakeHttpSignatureTest
      */
@@ -213,6 +216,7 @@ export interface FakeApiTestBodyWithFileSchemaRequest {
 export interface FakeApiTestBodyWithQueryParamsRequest {
     /**
      * 
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestBodyWithQueryParams
      */
@@ -237,84 +241,107 @@ export interface FakeApiTestClientModelRequest {
 export interface FakeApiTestEndpointParametersRequest {
     /**
      * None
+     * Minimum: 32.1
+     * Maximum: 543.2
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     number: number
     /**
      * None
+     * Minimum: 67.8
+     * Maximum: 123.4
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     _double: number
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
     patternWithoutDelimiter: string
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
     _byte: string
     /**
      * None
+     * Minimum: 10
+     * Maximum: 100
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     integer?: number
     /**
      * None
+     * Minimum: 20
+     * Maximum: 200
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     int32?: number
     /**
      * None
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     int64?: number
     /**
      * None
+     * Maximum: 987.6
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestEndpointParameters
      */
     _float?: number
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
     string?: string
     /**
      * None
+     * Defaults to: undefined
      * @type HttpFile
      * @memberof FakeApitestEndpointParameters
      */
     binary?: HttpFile
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
     date?: string
     /**
      * None
+     * Defaults to: undefined
      * @type Date
      * @memberof FakeApitestEndpointParameters
      */
     dateTime?: Date
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
     password?: string
     /**
      * None
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestEndpointParameters
      */
@@ -324,54 +351,63 @@ export interface FakeApiTestEndpointParametersRequest {
 export interface FakeApiTestEnumParametersRequest {
     /**
      * Header parameter enum test (string array)
+     * Defaults to: undefined
      * @type Array&lt;&#39;&gt;&#39; | &#39;$&#39;&gt;
      * @memberof FakeApitestEnumParameters
      */
     enumHeaderStringArray?: Array<'>' | '$'>
     /**
      * Header parameter enum test (string)
+     * Defaults to: &#39;-efg&#39;
      * @type &#39;_abc&#39; | &#39;-efg&#39; | &#39;(xyz)&#39;
      * @memberof FakeApitestEnumParameters
      */
     enumHeaderString?: '_abc' | '-efg' | '(xyz)'
     /**
      * Query parameter enum test (string array)
+     * Defaults to: undefined
      * @type Array&lt;&#39;&gt;&#39; | &#39;$&#39;&gt;
      * @memberof FakeApitestEnumParameters
      */
     enumQueryStringArray?: Array<'>' | '$'>
     /**
      * Query parameter enum test (string)
+     * Defaults to: &#39;-efg&#39;
      * @type &#39;_abc&#39; | &#39;-efg&#39; | &#39;(xyz)&#39;
      * @memberof FakeApitestEnumParameters
      */
     enumQueryString?: '_abc' | '-efg' | '(xyz)'
     /**
      * Query parameter enum test (double)
+     * Defaults to: undefined
      * @type 1 | -2
      * @memberof FakeApitestEnumParameters
      */
     enumQueryInteger?: 1 | -2
     /**
      * Query parameter enum test (double)
+     * Defaults to: undefined
      * @type 1.1 | -1.2
      * @memberof FakeApitestEnumParameters
      */
     enumQueryDouble?: 1.1 | -1.2
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;EnumClass&gt;
      * @memberof FakeApitestEnumParameters
      */
     enumQueryModelArray?: Array<EnumClass>
     /**
      * Form parameter enum test (string array)
+     * Defaults to: &#39;$&#39;
      * @type Array&lt;string&gt;
      * @memberof FakeApitestEnumParameters
      */
     enumFormStringArray?: Array<string>
     /**
      * Form parameter enum test (string)
+     * Defaults to: &#39;-efg&#39;
      * @type string
      * @memberof FakeApitestEnumParameters
      */
@@ -381,36 +417,42 @@ export interface FakeApiTestEnumParametersRequest {
 export interface FakeApiTestGroupParametersRequest {
     /**
      * Required String in group parameters
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestGroupParameters
      */
     requiredStringGroup: number
     /**
      * Required Boolean in group parameters
+     * Defaults to: undefined
      * @type boolean
      * @memberof FakeApitestGroupParameters
      */
     requiredBooleanGroup: boolean
     /**
      * Required Integer in group parameters
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestGroupParameters
      */
     requiredInt64Group: number
     /**
      * String in group parameters
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestGroupParameters
      */
     stringGroup?: number
     /**
      * Boolean in group parameters
+     * Defaults to: undefined
      * @type boolean
      * @memberof FakeApitestGroupParameters
      */
     booleanGroup?: boolean
     /**
      * Integer in group parameters
+     * Defaults to: undefined
      * @type number
      * @memberof FakeApitestGroupParameters
      */
@@ -429,12 +471,14 @@ export interface FakeApiTestInlineAdditionalPropertiesRequest {
 export interface FakeApiTestJsonFormDataRequest {
     /**
      * field1
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestJsonFormData
      */
     param: string
     /**
      * field2
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestJsonFormData
      */
@@ -444,42 +488,49 @@ export interface FakeApiTestJsonFormDataRequest {
 export interface FakeApiTestQueryParameterCollectionFormatRequest {
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;string&gt;
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     pipe: Array<string>
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;string&gt;
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     ioutil: Array<string>
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;string&gt;
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     http: Array<string>
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;string&gt;
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     url: Array<string>
     /**
      * 
+     * Defaults to: undefined
      * @type Array&lt;string&gt;
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     context: Array<string>
     /**
      * 
+     * Defaults to: undefined
      * @type string
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
     allowEmpty: string
     /**
      * 
+     * Defaults to: undefined
      * @type { [key: string]: string; }
      * @memberof FakeApitestQueryParameterCollectionFormat
      */
@@ -497,7 +548,7 @@ export class ObjectFakeApi {
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      * @param param the request object
      */
-    public fakeBigDecimalMapWithHttpInfo(param: FakeApiFakeBigDecimalMapRequest = {}, options?: Configuration): Promise<HttpInfo<FakeBigDecimalMap200Response>> {
+    public fakeBigDecimalMapWithHttpInfo(param: FakeApiFakeBigDecimalMapRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<FakeBigDecimalMap200Response>> {
         return this.api.fakeBigDecimalMapWithHttpInfo( options).toPromise();
     }
 
@@ -505,7 +556,7 @@ export class ObjectFakeApi {
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      * @param param the request object
      */
-    public fakeBigDecimalMap(param: FakeApiFakeBigDecimalMapRequest = {}, options?: Configuration): Promise<FakeBigDecimalMap200Response> {
+    public fakeBigDecimalMap(param: FakeApiFakeBigDecimalMapRequest = {}, options?: ConfigurationOptions): Promise<FakeBigDecimalMap200Response> {
         return this.api.fakeBigDecimalMap( options).toPromise();
     }
 
@@ -513,7 +564,7 @@ export class ObjectFakeApi {
      * Health check endpoint
      * @param param the request object
      */
-    public fakeHealthGetWithHttpInfo(param: FakeApiFakeHealthGetRequest = {}, options?: Configuration): Promise<HttpInfo<HealthCheckResult>> {
+    public fakeHealthGetWithHttpInfo(param: FakeApiFakeHealthGetRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<HealthCheckResult>> {
         return this.api.fakeHealthGetWithHttpInfo( options).toPromise();
     }
 
@@ -521,7 +572,7 @@ export class ObjectFakeApi {
      * Health check endpoint
      * @param param the request object
      */
-    public fakeHealthGet(param: FakeApiFakeHealthGetRequest = {}, options?: Configuration): Promise<HealthCheckResult> {
+    public fakeHealthGet(param: FakeApiFakeHealthGetRequest = {}, options?: ConfigurationOptions): Promise<HealthCheckResult> {
         return this.api.fakeHealthGet( options).toPromise();
     }
 
@@ -529,7 +580,7 @@ export class ObjectFakeApi {
      * test http signature authentication
      * @param param the request object
      */
-    public fakeHttpSignatureTestWithHttpInfo(param: FakeApiFakeHttpSignatureTestRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public fakeHttpSignatureTestWithHttpInfo(param: FakeApiFakeHttpSignatureTestRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.fakeHttpSignatureTestWithHttpInfo(param.pet, param.query1, param.header1,  options).toPromise();
     }
 
@@ -537,7 +588,7 @@ export class ObjectFakeApi {
      * test http signature authentication
      * @param param the request object
      */
-    public fakeHttpSignatureTest(param: FakeApiFakeHttpSignatureTestRequest, options?: Configuration): Promise<void> {
+    public fakeHttpSignatureTest(param: FakeApiFakeHttpSignatureTestRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.fakeHttpSignatureTest(param.pet, param.query1, param.header1,  options).toPromise();
     }
 
@@ -545,7 +596,7 @@ export class ObjectFakeApi {
      * Test serialization of outer boolean types
      * @param param the request object
      */
-    public fakeOuterBooleanSerializeWithHttpInfo(param: FakeApiFakeOuterBooleanSerializeRequest = {}, options?: Configuration): Promise<HttpInfo<boolean>> {
+    public fakeOuterBooleanSerializeWithHttpInfo(param: FakeApiFakeOuterBooleanSerializeRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<boolean>> {
         return this.api.fakeOuterBooleanSerializeWithHttpInfo(param.body,  options).toPromise();
     }
 
@@ -553,7 +604,7 @@ export class ObjectFakeApi {
      * Test serialization of outer boolean types
      * @param param the request object
      */
-    public fakeOuterBooleanSerialize(param: FakeApiFakeOuterBooleanSerializeRequest = {}, options?: Configuration): Promise<boolean> {
+    public fakeOuterBooleanSerialize(param: FakeApiFakeOuterBooleanSerializeRequest = {}, options?: ConfigurationOptions): Promise<boolean> {
         return this.api.fakeOuterBooleanSerialize(param.body,  options).toPromise();
     }
 
@@ -561,7 +612,7 @@ export class ObjectFakeApi {
      * Test serialization of object with outer number type
      * @param param the request object
      */
-    public fakeOuterCompositeSerializeWithHttpInfo(param: FakeApiFakeOuterCompositeSerializeRequest = {}, options?: Configuration): Promise<HttpInfo<OuterComposite>> {
+    public fakeOuterCompositeSerializeWithHttpInfo(param: FakeApiFakeOuterCompositeSerializeRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<OuterComposite>> {
         return this.api.fakeOuterCompositeSerializeWithHttpInfo(param.outerComposite,  options).toPromise();
     }
 
@@ -569,7 +620,7 @@ export class ObjectFakeApi {
      * Test serialization of object with outer number type
      * @param param the request object
      */
-    public fakeOuterCompositeSerialize(param: FakeApiFakeOuterCompositeSerializeRequest = {}, options?: Configuration): Promise<OuterComposite> {
+    public fakeOuterCompositeSerialize(param: FakeApiFakeOuterCompositeSerializeRequest = {}, options?: ConfigurationOptions): Promise<OuterComposite> {
         return this.api.fakeOuterCompositeSerialize(param.outerComposite,  options).toPromise();
     }
 
@@ -577,7 +628,7 @@ export class ObjectFakeApi {
      * Test serialization of outer number types
      * @param param the request object
      */
-    public fakeOuterNumberSerializeWithHttpInfo(param: FakeApiFakeOuterNumberSerializeRequest = {}, options?: Configuration): Promise<HttpInfo<number>> {
+    public fakeOuterNumberSerializeWithHttpInfo(param: FakeApiFakeOuterNumberSerializeRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<number>> {
         return this.api.fakeOuterNumberSerializeWithHttpInfo(param.body,  options).toPromise();
     }
 
@@ -585,7 +636,7 @@ export class ObjectFakeApi {
      * Test serialization of outer number types
      * @param param the request object
      */
-    public fakeOuterNumberSerialize(param: FakeApiFakeOuterNumberSerializeRequest = {}, options?: Configuration): Promise<number> {
+    public fakeOuterNumberSerialize(param: FakeApiFakeOuterNumberSerializeRequest = {}, options?: ConfigurationOptions): Promise<number> {
         return this.api.fakeOuterNumberSerialize(param.body,  options).toPromise();
     }
 
@@ -593,7 +644,7 @@ export class ObjectFakeApi {
      * Test serialization of outer string types
      * @param param the request object
      */
-    public fakeOuterStringSerializeWithHttpInfo(param: FakeApiFakeOuterStringSerializeRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public fakeOuterStringSerializeWithHttpInfo(param: FakeApiFakeOuterStringSerializeRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.fakeOuterStringSerializeWithHttpInfo(param.body,  options).toPromise();
     }
 
@@ -601,7 +652,7 @@ export class ObjectFakeApi {
      * Test serialization of outer string types
      * @param param the request object
      */
-    public fakeOuterStringSerialize(param: FakeApiFakeOuterStringSerializeRequest = {}, options?: Configuration): Promise<string> {
+    public fakeOuterStringSerialize(param: FakeApiFakeOuterStringSerializeRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.fakeOuterStringSerialize(param.body,  options).toPromise();
     }
 
@@ -609,7 +660,7 @@ export class ObjectFakeApi {
      * Test serialization of enum (int) properties with examples
      * @param param the request object
      */
-    public fakePropertyEnumIntegerSerializeWithHttpInfo(param: FakeApiFakePropertyEnumIntegerSerializeRequest, options?: Configuration): Promise<HttpInfo<OuterObjectWithEnumProperty>> {
+    public fakePropertyEnumIntegerSerializeWithHttpInfo(param: FakeApiFakePropertyEnumIntegerSerializeRequest, options?: ConfigurationOptions): Promise<HttpInfo<OuterObjectWithEnumProperty>> {
         return this.api.fakePropertyEnumIntegerSerializeWithHttpInfo(param.outerObjectWithEnumProperty,  options).toPromise();
     }
 
@@ -617,7 +668,7 @@ export class ObjectFakeApi {
      * Test serialization of enum (int) properties with examples
      * @param param the request object
      */
-    public fakePropertyEnumIntegerSerialize(param: FakeApiFakePropertyEnumIntegerSerializeRequest, options?: Configuration): Promise<OuterObjectWithEnumProperty> {
+    public fakePropertyEnumIntegerSerialize(param: FakeApiFakePropertyEnumIntegerSerializeRequest, options?: ConfigurationOptions): Promise<OuterObjectWithEnumProperty> {
         return this.api.fakePropertyEnumIntegerSerialize(param.outerObjectWithEnumProperty,  options).toPromise();
     }
 
@@ -625,7 +676,7 @@ export class ObjectFakeApi {
      * For this test, the body has to be a binary file.
      * @param param the request object
      */
-    public testBodyWithBinaryWithHttpInfo(param: FakeApiTestBodyWithBinaryRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public testBodyWithBinaryWithHttpInfo(param: FakeApiTestBodyWithBinaryRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.testBodyWithBinaryWithHttpInfo(param.body,  options).toPromise();
     }
 
@@ -633,7 +684,7 @@ export class ObjectFakeApi {
      * For this test, the body has to be a binary file.
      * @param param the request object
      */
-    public testBodyWithBinary(param: FakeApiTestBodyWithBinaryRequest, options?: Configuration): Promise<void> {
+    public testBodyWithBinary(param: FakeApiTestBodyWithBinaryRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.testBodyWithBinary(param.body,  options).toPromise();
     }
 
@@ -641,7 +692,7 @@ export class ObjectFakeApi {
      * For this test, the body for this request must reference a schema named `File`.
      * @param param the request object
      */
-    public testBodyWithFileSchemaWithHttpInfo(param: FakeApiTestBodyWithFileSchemaRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public testBodyWithFileSchemaWithHttpInfo(param: FakeApiTestBodyWithFileSchemaRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.testBodyWithFileSchemaWithHttpInfo(param.fileSchemaTestClass,  options).toPromise();
     }
 
@@ -649,21 +700,21 @@ export class ObjectFakeApi {
      * For this test, the body for this request must reference a schema named `File`.
      * @param param the request object
      */
-    public testBodyWithFileSchema(param: FakeApiTestBodyWithFileSchemaRequest, options?: Configuration): Promise<void> {
+    public testBodyWithFileSchema(param: FakeApiTestBodyWithFileSchemaRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.testBodyWithFileSchema(param.fileSchemaTestClass,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public testBodyWithQueryParamsWithHttpInfo(param: FakeApiTestBodyWithQueryParamsRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public testBodyWithQueryParamsWithHttpInfo(param: FakeApiTestBodyWithQueryParamsRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.testBodyWithQueryParamsWithHttpInfo(param.query, param.user,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public testBodyWithQueryParams(param: FakeApiTestBodyWithQueryParamsRequest, options?: Configuration): Promise<void> {
+    public testBodyWithQueryParams(param: FakeApiTestBodyWithQueryParamsRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.testBodyWithQueryParams(param.query, param.user,  options).toPromise();
     }
 
@@ -672,7 +723,7 @@ export class ObjectFakeApi {
      * To test \"client\" model
      * @param param the request object
      */
-    public testClientModelWithHttpInfo(param: FakeApiTestClientModelRequest, options?: Configuration): Promise<HttpInfo<Client>> {
+    public testClientModelWithHttpInfo(param: FakeApiTestClientModelRequest, options?: ConfigurationOptions): Promise<HttpInfo<Client>> {
         return this.api.testClientModelWithHttpInfo(param.client,  options).toPromise();
     }
 
@@ -681,7 +732,7 @@ export class ObjectFakeApi {
      * To test \"client\" model
      * @param param the request object
      */
-    public testClientModel(param: FakeApiTestClientModelRequest, options?: Configuration): Promise<Client> {
+    public testClientModel(param: FakeApiTestClientModelRequest, options?: ConfigurationOptions): Promise<Client> {
         return this.api.testClientModel(param.client,  options).toPromise();
     }
 
@@ -690,7 +741,7 @@ export class ObjectFakeApi {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param param the request object
      */
-    public testEndpointParametersWithHttpInfo(param: FakeApiTestEndpointParametersRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public testEndpointParametersWithHttpInfo(param: FakeApiTestEndpointParametersRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.testEndpointParametersWithHttpInfo(param.number, param._double, param.patternWithoutDelimiter, param._byte, param.integer, param.int32, param.int64, param._float, param.string, param.binary, param.date, param.dateTime, param.password, param.callback,  options).toPromise();
     }
 
@@ -699,7 +750,7 @@ export class ObjectFakeApi {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param param the request object
      */
-    public testEndpointParameters(param: FakeApiTestEndpointParametersRequest, options?: Configuration): Promise<void> {
+    public testEndpointParameters(param: FakeApiTestEndpointParametersRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.testEndpointParameters(param.number, param._double, param.patternWithoutDelimiter, param._byte, param.integer, param.int32, param.int64, param._float, param.string, param.binary, param.date, param.dateTime, param.password, param.callback,  options).toPromise();
     }
 
@@ -708,7 +759,7 @@ export class ObjectFakeApi {
      * To test enum parameters
      * @param param the request object
      */
-    public testEnumParametersWithHttpInfo(param: FakeApiTestEnumParametersRequest = {}, options?: Configuration): Promise<HttpInfo<void>> {
+    public testEnumParametersWithHttpInfo(param: FakeApiTestEnumParametersRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.testEnumParametersWithHttpInfo(param.enumHeaderStringArray, param.enumHeaderString, param.enumQueryStringArray, param.enumQueryString, param.enumQueryInteger, param.enumQueryDouble, param.enumQueryModelArray, param.enumFormStringArray, param.enumFormString,  options).toPromise();
     }
 
@@ -717,7 +768,7 @@ export class ObjectFakeApi {
      * To test enum parameters
      * @param param the request object
      */
-    public testEnumParameters(param: FakeApiTestEnumParametersRequest = {}, options?: Configuration): Promise<void> {
+    public testEnumParameters(param: FakeApiTestEnumParametersRequest = {}, options?: ConfigurationOptions): Promise<void> {
         return this.api.testEnumParameters(param.enumHeaderStringArray, param.enumHeaderString, param.enumQueryStringArray, param.enumQueryString, param.enumQueryInteger, param.enumQueryDouble, param.enumQueryModelArray, param.enumFormStringArray, param.enumFormString,  options).toPromise();
     }
 
@@ -726,7 +777,7 @@ export class ObjectFakeApi {
      * Fake endpoint to test group parameters (optional)
      * @param param the request object
      */
-    public testGroupParametersWithHttpInfo(param: FakeApiTestGroupParametersRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public testGroupParametersWithHttpInfo(param: FakeApiTestGroupParametersRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.testGroupParametersWithHttpInfo(param.requiredStringGroup, param.requiredBooleanGroup, param.requiredInt64Group, param.stringGroup, param.booleanGroup, param.int64Group,  options).toPromise();
     }
 
@@ -735,7 +786,7 @@ export class ObjectFakeApi {
      * Fake endpoint to test group parameters (optional)
      * @param param the request object
      */
-    public testGroupParameters(param: FakeApiTestGroupParametersRequest, options?: Configuration): Promise<void> {
+    public testGroupParameters(param: FakeApiTestGroupParametersRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.testGroupParameters(param.requiredStringGroup, param.requiredBooleanGroup, param.requiredInt64Group, param.stringGroup, param.booleanGroup, param.int64Group,  options).toPromise();
     }
 
@@ -744,7 +795,7 @@ export class ObjectFakeApi {
      * test inline additionalProperties
      * @param param the request object
      */
-    public testInlineAdditionalPropertiesWithHttpInfo(param: FakeApiTestInlineAdditionalPropertiesRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public testInlineAdditionalPropertiesWithHttpInfo(param: FakeApiTestInlineAdditionalPropertiesRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.testInlineAdditionalPropertiesWithHttpInfo(param.requestBody,  options).toPromise();
     }
 
@@ -753,7 +804,7 @@ export class ObjectFakeApi {
      * test inline additionalProperties
      * @param param the request object
      */
-    public testInlineAdditionalProperties(param: FakeApiTestInlineAdditionalPropertiesRequest, options?: Configuration): Promise<void> {
+    public testInlineAdditionalProperties(param: FakeApiTestInlineAdditionalPropertiesRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.testInlineAdditionalProperties(param.requestBody,  options).toPromise();
     }
 
@@ -762,7 +813,7 @@ export class ObjectFakeApi {
      * test json serialization of form data
      * @param param the request object
      */
-    public testJsonFormDataWithHttpInfo(param: FakeApiTestJsonFormDataRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public testJsonFormDataWithHttpInfo(param: FakeApiTestJsonFormDataRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.testJsonFormDataWithHttpInfo(param.param, param.param2,  options).toPromise();
     }
 
@@ -771,7 +822,7 @@ export class ObjectFakeApi {
      * test json serialization of form data
      * @param param the request object
      */
-    public testJsonFormData(param: FakeApiTestJsonFormDataRequest, options?: Configuration): Promise<void> {
+    public testJsonFormData(param: FakeApiTestJsonFormDataRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.testJsonFormData(param.param, param.param2,  options).toPromise();
     }
 
@@ -779,7 +830,7 @@ export class ObjectFakeApi {
      * To test the collection format in query parameters
      * @param param the request object
      */
-    public testQueryParameterCollectionFormatWithHttpInfo(param: FakeApiTestQueryParameterCollectionFormatRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public testQueryParameterCollectionFormatWithHttpInfo(param: FakeApiTestQueryParameterCollectionFormatRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.testQueryParameterCollectionFormatWithHttpInfo(param.pipe, param.ioutil, param.http, param.url, param.context, param.allowEmpty, param.language,  options).toPromise();
     }
 
@@ -787,7 +838,7 @@ export class ObjectFakeApi {
      * To test the collection format in query parameters
      * @param param the request object
      */
-    public testQueryParameterCollectionFormat(param: FakeApiTestQueryParameterCollectionFormatRequest, options?: Configuration): Promise<void> {
+    public testQueryParameterCollectionFormat(param: FakeApiTestQueryParameterCollectionFormatRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.testQueryParameterCollectionFormat(param.pipe, param.ioutil, param.http, param.url, param.context, param.allowEmpty, param.language,  options).toPromise();
     }
 
@@ -817,7 +868,7 @@ export class ObjectFakeClassnameTags123Api {
      * To test class name in snake case
      * @param param the request object
      */
-    public testClassnameWithHttpInfo(param: FakeClassnameTags123ApiTestClassnameRequest, options?: Configuration): Promise<HttpInfo<Client>> {
+    public testClassnameWithHttpInfo(param: FakeClassnameTags123ApiTestClassnameRequest, options?: ConfigurationOptions): Promise<HttpInfo<Client>> {
         return this.api.testClassnameWithHttpInfo(param.client,  options).toPromise();
     }
 
@@ -826,7 +877,7 @@ export class ObjectFakeClassnameTags123Api {
      * To test class name in snake case
      * @param param the request object
      */
-    public testClassname(param: FakeClassnameTags123ApiTestClassnameRequest, options?: Configuration): Promise<Client> {
+    public testClassname(param: FakeClassnameTags123ApiTestClassnameRequest, options?: ConfigurationOptions): Promise<Client> {
         return this.api.testClassname(param.client,  options).toPromise();
     }
 
@@ -847,12 +898,14 @@ export interface PetApiAddPetRequest {
 export interface PetApiDeletePetRequest {
     /**
      * Pet id to delete
+     * Defaults to: undefined
      * @type number
      * @memberof PetApideletePet
      */
     petId: number
     /**
      * 
+     * Defaults to: undefined
      * @type string
      * @memberof PetApideletePet
      */
@@ -862,6 +915,7 @@ export interface PetApiDeletePetRequest {
 export interface PetApiFindPetsByStatusRequest {
     /**
      * Status values that need to be considered for filter
+     * Defaults to: undefined
      * @type Array&lt;&#39;available&#39; | &#39;pending&#39; | &#39;sold&#39;&gt;
      * @memberof PetApifindPetsByStatus
      */
@@ -871,6 +925,7 @@ export interface PetApiFindPetsByStatusRequest {
 export interface PetApiFindPetsByTagsRequest {
     /**
      * Tags to filter by
+     * Defaults to: undefined
      * @type Set&lt;string&gt;
      * @memberof PetApifindPetsByTags
      */
@@ -880,6 +935,7 @@ export interface PetApiFindPetsByTagsRequest {
 export interface PetApiGetPetByIdRequest {
     /**
      * ID of pet to return
+     * Defaults to: undefined
      * @type number
      * @memberof PetApigetPetById
      */
@@ -898,18 +954,21 @@ export interface PetApiUpdatePetRequest {
 export interface PetApiUpdatePetWithFormRequest {
     /**
      * ID of pet that needs to be updated
+     * Defaults to: undefined
      * @type number
      * @memberof PetApiupdatePetWithForm
      */
     petId: number
     /**
      * Updated name of the pet
+     * Defaults to: undefined
      * @type string
      * @memberof PetApiupdatePetWithForm
      */
     name?: string
     /**
      * Updated status of the pet
+     * Defaults to: undefined
      * @type string
      * @memberof PetApiupdatePetWithForm
      */
@@ -919,18 +978,21 @@ export interface PetApiUpdatePetWithFormRequest {
 export interface PetApiUploadFileRequest {
     /**
      * ID of pet to update
+     * Defaults to: undefined
      * @type number
      * @memberof PetApiuploadFile
      */
     petId: number
     /**
      * Additional data to pass to server
+     * Defaults to: undefined
      * @type string
      * @memberof PetApiuploadFile
      */
     additionalMetadata?: string
     /**
      * file to upload
+     * Defaults to: undefined
      * @type HttpFile
      * @memberof PetApiuploadFile
      */
@@ -940,18 +1002,21 @@ export interface PetApiUploadFileRequest {
 export interface PetApiUploadFileWithRequiredFileRequest {
     /**
      * ID of pet to update
+     * Defaults to: undefined
      * @type number
      * @memberof PetApiuploadFileWithRequiredFile
      */
     petId: number
     /**
      * file to upload
+     * Defaults to: undefined
      * @type HttpFile
      * @memberof PetApiuploadFileWithRequiredFile
      */
     requiredFile: HttpFile
     /**
      * Additional data to pass to server
+     * Defaults to: undefined
      * @type string
      * @memberof PetApiuploadFileWithRequiredFile
      */
@@ -970,7 +1035,7 @@ export class ObjectPetApi {
      * Add a new pet to the store
      * @param param the request object
      */
-    public addPetWithHttpInfo(param: PetApiAddPetRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public addPetWithHttpInfo(param: PetApiAddPetRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.addPetWithHttpInfo(param.pet,  options).toPromise();
     }
 
@@ -979,7 +1044,7 @@ export class ObjectPetApi {
      * Add a new pet to the store
      * @param param the request object
      */
-    public addPet(param: PetApiAddPetRequest, options?: Configuration): Promise<void> {
+    public addPet(param: PetApiAddPetRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.addPet(param.pet,  options).toPromise();
     }
 
@@ -988,7 +1053,7 @@ export class ObjectPetApi {
      * Deletes a pet
      * @param param the request object
      */
-    public deletePetWithHttpInfo(param: PetApiDeletePetRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public deletePetWithHttpInfo(param: PetApiDeletePetRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.deletePetWithHttpInfo(param.petId, param.apiKey,  options).toPromise();
     }
 
@@ -997,7 +1062,7 @@ export class ObjectPetApi {
      * Deletes a pet
      * @param param the request object
      */
-    public deletePet(param: PetApiDeletePetRequest, options?: Configuration): Promise<void> {
+    public deletePet(param: PetApiDeletePetRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.deletePet(param.petId, param.apiKey,  options).toPromise();
     }
 
@@ -1006,7 +1071,7 @@ export class ObjectPetApi {
      * Finds Pets by status
      * @param param the request object
      */
-    public findPetsByStatusWithHttpInfo(param: PetApiFindPetsByStatusRequest, options?: Configuration): Promise<HttpInfo<Array<Pet>>> {
+    public findPetsByStatusWithHttpInfo(param: PetApiFindPetsByStatusRequest, options?: ConfigurationOptions): Promise<HttpInfo<Array<Pet>>> {
         return this.api.findPetsByStatusWithHttpInfo(param.status,  options).toPromise();
     }
 
@@ -1015,7 +1080,7 @@ export class ObjectPetApi {
      * Finds Pets by status
      * @param param the request object
      */
-    public findPetsByStatus(param: PetApiFindPetsByStatusRequest, options?: Configuration): Promise<Array<Pet>> {
+    public findPetsByStatus(param: PetApiFindPetsByStatusRequest, options?: ConfigurationOptions): Promise<Array<Pet>> {
         return this.api.findPetsByStatus(param.status,  options).toPromise();
     }
 
@@ -1024,7 +1089,7 @@ export class ObjectPetApi {
      * Finds Pets by tags
      * @param param the request object
      */
-    public findPetsByTagsWithHttpInfo(param: PetApiFindPetsByTagsRequest, options?: Configuration): Promise<HttpInfo<Set<Pet>>> {
+    public findPetsByTagsWithHttpInfo(param: PetApiFindPetsByTagsRequest, options?: ConfigurationOptions): Promise<HttpInfo<Set<Pet>>> {
         return this.api.findPetsByTagsWithHttpInfo(param.tags,  options).toPromise();
     }
 
@@ -1033,7 +1098,7 @@ export class ObjectPetApi {
      * Finds Pets by tags
      * @param param the request object
      */
-    public findPetsByTags(param: PetApiFindPetsByTagsRequest, options?: Configuration): Promise<Set<Pet>> {
+    public findPetsByTags(param: PetApiFindPetsByTagsRequest, options?: ConfigurationOptions): Promise<Set<Pet>> {
         return this.api.findPetsByTags(param.tags,  options).toPromise();
     }
 
@@ -1042,7 +1107,7 @@ export class ObjectPetApi {
      * Find pet by ID
      * @param param the request object
      */
-    public getPetByIdWithHttpInfo(param: PetApiGetPetByIdRequest, options?: Configuration): Promise<HttpInfo<Pet>> {
+    public getPetByIdWithHttpInfo(param: PetApiGetPetByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<Pet>> {
         return this.api.getPetByIdWithHttpInfo(param.petId,  options).toPromise();
     }
 
@@ -1051,7 +1116,7 @@ export class ObjectPetApi {
      * Find pet by ID
      * @param param the request object
      */
-    public getPetById(param: PetApiGetPetByIdRequest, options?: Configuration): Promise<Pet> {
+    public getPetById(param: PetApiGetPetByIdRequest, options?: ConfigurationOptions): Promise<Pet> {
         return this.api.getPetById(param.petId,  options).toPromise();
     }
 
@@ -1060,7 +1125,7 @@ export class ObjectPetApi {
      * Update an existing pet
      * @param param the request object
      */
-    public updatePetWithHttpInfo(param: PetApiUpdatePetRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public updatePetWithHttpInfo(param: PetApiUpdatePetRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.updatePetWithHttpInfo(param.pet,  options).toPromise();
     }
 
@@ -1069,7 +1134,7 @@ export class ObjectPetApi {
      * Update an existing pet
      * @param param the request object
      */
-    public updatePet(param: PetApiUpdatePetRequest, options?: Configuration): Promise<void> {
+    public updatePet(param: PetApiUpdatePetRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.updatePet(param.pet,  options).toPromise();
     }
 
@@ -1078,7 +1143,7 @@ export class ObjectPetApi {
      * Updates a pet in the store with form data
      * @param param the request object
      */
-    public updatePetWithFormWithHttpInfo(param: PetApiUpdatePetWithFormRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public updatePetWithFormWithHttpInfo(param: PetApiUpdatePetWithFormRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.updatePetWithFormWithHttpInfo(param.petId, param.name, param.status,  options).toPromise();
     }
 
@@ -1087,7 +1152,7 @@ export class ObjectPetApi {
      * Updates a pet in the store with form data
      * @param param the request object
      */
-    public updatePetWithForm(param: PetApiUpdatePetWithFormRequest, options?: Configuration): Promise<void> {
+    public updatePetWithForm(param: PetApiUpdatePetWithFormRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.updatePetWithForm(param.petId, param.name, param.status,  options).toPromise();
     }
 
@@ -1096,7 +1161,7 @@ export class ObjectPetApi {
      * uploads an image
      * @param param the request object
      */
-    public uploadFileWithHttpInfo(param: PetApiUploadFileRequest, options?: Configuration): Promise<HttpInfo<ApiResponse>> {
+    public uploadFileWithHttpInfo(param: PetApiUploadFileRequest, options?: ConfigurationOptions): Promise<HttpInfo<ApiResponse>> {
         return this.api.uploadFileWithHttpInfo(param.petId, param.additionalMetadata, param.file,  options).toPromise();
     }
 
@@ -1105,7 +1170,7 @@ export class ObjectPetApi {
      * uploads an image
      * @param param the request object
      */
-    public uploadFile(param: PetApiUploadFileRequest, options?: Configuration): Promise<ApiResponse> {
+    public uploadFile(param: PetApiUploadFileRequest, options?: ConfigurationOptions): Promise<ApiResponse> {
         return this.api.uploadFile(param.petId, param.additionalMetadata, param.file,  options).toPromise();
     }
 
@@ -1114,7 +1179,7 @@ export class ObjectPetApi {
      * uploads an image (required)
      * @param param the request object
      */
-    public uploadFileWithRequiredFileWithHttpInfo(param: PetApiUploadFileWithRequiredFileRequest, options?: Configuration): Promise<HttpInfo<ApiResponse>> {
+    public uploadFileWithRequiredFileWithHttpInfo(param: PetApiUploadFileWithRequiredFileRequest, options?: ConfigurationOptions): Promise<HttpInfo<ApiResponse>> {
         return this.api.uploadFileWithRequiredFileWithHttpInfo(param.petId, param.requiredFile, param.additionalMetadata,  options).toPromise();
     }
 
@@ -1123,7 +1188,7 @@ export class ObjectPetApi {
      * uploads an image (required)
      * @param param the request object
      */
-    public uploadFileWithRequiredFile(param: PetApiUploadFileWithRequiredFileRequest, options?: Configuration): Promise<ApiResponse> {
+    public uploadFileWithRequiredFile(param: PetApiUploadFileWithRequiredFileRequest, options?: ConfigurationOptions): Promise<ApiResponse> {
         return this.api.uploadFileWithRequiredFile(param.petId, param.requiredFile, param.additionalMetadata,  options).toPromise();
     }
 
@@ -1135,6 +1200,7 @@ import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreA
 export interface StoreApiDeleteOrderRequest {
     /**
      * ID of the order that needs to be deleted
+     * Defaults to: undefined
      * @type string
      * @memberof StoreApideleteOrder
      */
@@ -1147,6 +1213,9 @@ export interface StoreApiGetInventoryRequest {
 export interface StoreApiGetOrderByIdRequest {
     /**
      * ID of pet that needs to be fetched
+     * Minimum: 1
+     * Maximum: 5
+     * Defaults to: undefined
      * @type number
      * @memberof StoreApigetOrderById
      */
@@ -1174,7 +1243,7 @@ export class ObjectStoreApi {
      * Delete purchase order by ID
      * @param param the request object
      */
-    public deleteOrderWithHttpInfo(param: StoreApiDeleteOrderRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public deleteOrderWithHttpInfo(param: StoreApiDeleteOrderRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.deleteOrderWithHttpInfo(param.orderId,  options).toPromise();
     }
 
@@ -1183,7 +1252,7 @@ export class ObjectStoreApi {
      * Delete purchase order by ID
      * @param param the request object
      */
-    public deleteOrder(param: StoreApiDeleteOrderRequest, options?: Configuration): Promise<void> {
+    public deleteOrder(param: StoreApiDeleteOrderRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.deleteOrder(param.orderId,  options).toPromise();
     }
 
@@ -1192,7 +1261,7 @@ export class ObjectStoreApi {
      * Returns pet inventories by status
      * @param param the request object
      */
-    public getInventoryWithHttpInfo(param: StoreApiGetInventoryRequest = {}, options?: Configuration): Promise<HttpInfo<{ [key: string]: number; }>> {
+    public getInventoryWithHttpInfo(param: StoreApiGetInventoryRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<{ [key: string]: number; }>> {
         return this.api.getInventoryWithHttpInfo( options).toPromise();
     }
 
@@ -1201,7 +1270,7 @@ export class ObjectStoreApi {
      * Returns pet inventories by status
      * @param param the request object
      */
-    public getInventory(param: StoreApiGetInventoryRequest = {}, options?: Configuration): Promise<{ [key: string]: number; }> {
+    public getInventory(param: StoreApiGetInventoryRequest = {}, options?: ConfigurationOptions): Promise<{ [key: string]: number; }> {
         return this.api.getInventory( options).toPromise();
     }
 
@@ -1210,7 +1279,7 @@ export class ObjectStoreApi {
      * Find purchase order by ID
      * @param param the request object
      */
-    public getOrderByIdWithHttpInfo(param: StoreApiGetOrderByIdRequest, options?: Configuration): Promise<HttpInfo<Order>> {
+    public getOrderByIdWithHttpInfo(param: StoreApiGetOrderByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<Order>> {
         return this.api.getOrderByIdWithHttpInfo(param.orderId,  options).toPromise();
     }
 
@@ -1219,7 +1288,7 @@ export class ObjectStoreApi {
      * Find purchase order by ID
      * @param param the request object
      */
-    public getOrderById(param: StoreApiGetOrderByIdRequest, options?: Configuration): Promise<Order> {
+    public getOrderById(param: StoreApiGetOrderByIdRequest, options?: ConfigurationOptions): Promise<Order> {
         return this.api.getOrderById(param.orderId,  options).toPromise();
     }
 
@@ -1228,7 +1297,7 @@ export class ObjectStoreApi {
      * Place an order for a pet
      * @param param the request object
      */
-    public placeOrderWithHttpInfo(param: StoreApiPlaceOrderRequest, options?: Configuration): Promise<HttpInfo<Order>> {
+    public placeOrderWithHttpInfo(param: StoreApiPlaceOrderRequest, options?: ConfigurationOptions): Promise<HttpInfo<Order>> {
         return this.api.placeOrderWithHttpInfo(param.order,  options).toPromise();
     }
 
@@ -1237,7 +1306,7 @@ export class ObjectStoreApi {
      * Place an order for a pet
      * @param param the request object
      */
-    public placeOrder(param: StoreApiPlaceOrderRequest, options?: Configuration): Promise<Order> {
+    public placeOrder(param: StoreApiPlaceOrderRequest, options?: ConfigurationOptions): Promise<Order> {
         return this.api.placeOrder(param.order,  options).toPromise();
     }
 
@@ -1276,6 +1345,7 @@ export interface UserApiCreateUsersWithListInputRequest {
 export interface UserApiDeleteUserRequest {
     /**
      * The name that needs to be deleted
+     * Defaults to: undefined
      * @type string
      * @memberof UserApideleteUser
      */
@@ -1285,6 +1355,7 @@ export interface UserApiDeleteUserRequest {
 export interface UserApiGetUserByNameRequest {
     /**
      * The name that needs to be fetched. Use user1 for testing.
+     * Defaults to: undefined
      * @type string
      * @memberof UserApigetUserByName
      */
@@ -1294,12 +1365,14 @@ export interface UserApiGetUserByNameRequest {
 export interface UserApiLoginUserRequest {
     /**
      * The user name for login
+     * Defaults to: undefined
      * @type string
      * @memberof UserApiloginUser
      */
     username: string
     /**
      * The password for login in clear text
+     * Defaults to: undefined
      * @type string
      * @memberof UserApiloginUser
      */
@@ -1312,6 +1385,7 @@ export interface UserApiLogoutUserRequest {
 export interface UserApiUpdateUserRequest {
     /**
      * name that need to be deleted
+     * Defaults to: undefined
      * @type string
      * @memberof UserApiupdateUser
      */
@@ -1336,7 +1410,7 @@ export class ObjectUserApi {
      * Create user
      * @param param the request object
      */
-    public createUserWithHttpInfo(param: UserApiCreateUserRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public createUserWithHttpInfo(param: UserApiCreateUserRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.createUserWithHttpInfo(param.user,  options).toPromise();
     }
 
@@ -1345,7 +1419,7 @@ export class ObjectUserApi {
      * Create user
      * @param param the request object
      */
-    public createUser(param: UserApiCreateUserRequest, options?: Configuration): Promise<void> {
+    public createUser(param: UserApiCreateUserRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.createUser(param.user,  options).toPromise();
     }
 
@@ -1354,7 +1428,7 @@ export class ObjectUserApi {
      * Creates list of users with given input array
      * @param param the request object
      */
-    public createUsersWithArrayInputWithHttpInfo(param: UserApiCreateUsersWithArrayInputRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public createUsersWithArrayInputWithHttpInfo(param: UserApiCreateUsersWithArrayInputRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.createUsersWithArrayInputWithHttpInfo(param.user,  options).toPromise();
     }
 
@@ -1363,7 +1437,7 @@ export class ObjectUserApi {
      * Creates list of users with given input array
      * @param param the request object
      */
-    public createUsersWithArrayInput(param: UserApiCreateUsersWithArrayInputRequest, options?: Configuration): Promise<void> {
+    public createUsersWithArrayInput(param: UserApiCreateUsersWithArrayInputRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.createUsersWithArrayInput(param.user,  options).toPromise();
     }
 
@@ -1372,7 +1446,7 @@ export class ObjectUserApi {
      * Creates list of users with given input array
      * @param param the request object
      */
-    public createUsersWithListInputWithHttpInfo(param: UserApiCreateUsersWithListInputRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public createUsersWithListInputWithHttpInfo(param: UserApiCreateUsersWithListInputRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.createUsersWithListInputWithHttpInfo(param.user,  options).toPromise();
     }
 
@@ -1381,7 +1455,7 @@ export class ObjectUserApi {
      * Creates list of users with given input array
      * @param param the request object
      */
-    public createUsersWithListInput(param: UserApiCreateUsersWithListInputRequest, options?: Configuration): Promise<void> {
+    public createUsersWithListInput(param: UserApiCreateUsersWithListInputRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.createUsersWithListInput(param.user,  options).toPromise();
     }
 
@@ -1390,7 +1464,7 @@ export class ObjectUserApi {
      * Delete user
      * @param param the request object
      */
-    public deleteUserWithHttpInfo(param: UserApiDeleteUserRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public deleteUserWithHttpInfo(param: UserApiDeleteUserRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.deleteUserWithHttpInfo(param.username,  options).toPromise();
     }
 
@@ -1399,7 +1473,7 @@ export class ObjectUserApi {
      * Delete user
      * @param param the request object
      */
-    public deleteUser(param: UserApiDeleteUserRequest, options?: Configuration): Promise<void> {
+    public deleteUser(param: UserApiDeleteUserRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.deleteUser(param.username,  options).toPromise();
     }
 
@@ -1408,7 +1482,7 @@ export class ObjectUserApi {
      * Get user by user name
      * @param param the request object
      */
-    public getUserByNameWithHttpInfo(param: UserApiGetUserByNameRequest, options?: Configuration): Promise<HttpInfo<User>> {
+    public getUserByNameWithHttpInfo(param: UserApiGetUserByNameRequest, options?: ConfigurationOptions): Promise<HttpInfo<User>> {
         return this.api.getUserByNameWithHttpInfo(param.username,  options).toPromise();
     }
 
@@ -1417,7 +1491,7 @@ export class ObjectUserApi {
      * Get user by user name
      * @param param the request object
      */
-    public getUserByName(param: UserApiGetUserByNameRequest, options?: Configuration): Promise<User> {
+    public getUserByName(param: UserApiGetUserByNameRequest, options?: ConfigurationOptions): Promise<User> {
         return this.api.getUserByName(param.username,  options).toPromise();
     }
 
@@ -1426,7 +1500,7 @@ export class ObjectUserApi {
      * Logs user into the system
      * @param param the request object
      */
-    public loginUserWithHttpInfo(param: UserApiLoginUserRequest, options?: Configuration): Promise<HttpInfo<string>> {
+    public loginUserWithHttpInfo(param: UserApiLoginUserRequest, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.loginUserWithHttpInfo(param.username, param.password,  options).toPromise();
     }
 
@@ -1435,7 +1509,7 @@ export class ObjectUserApi {
      * Logs user into the system
      * @param param the request object
      */
-    public loginUser(param: UserApiLoginUserRequest, options?: Configuration): Promise<string> {
+    public loginUser(param: UserApiLoginUserRequest, options?: ConfigurationOptions): Promise<string> {
         return this.api.loginUser(param.username, param.password,  options).toPromise();
     }
 
@@ -1444,7 +1518,7 @@ export class ObjectUserApi {
      * Logs out current logged in user session
      * @param param the request object
      */
-    public logoutUserWithHttpInfo(param: UserApiLogoutUserRequest = {}, options?: Configuration): Promise<HttpInfo<void>> {
+    public logoutUserWithHttpInfo(param: UserApiLogoutUserRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.logoutUserWithHttpInfo( options).toPromise();
     }
 
@@ -1453,7 +1527,7 @@ export class ObjectUserApi {
      * Logs out current logged in user session
      * @param param the request object
      */
-    public logoutUser(param: UserApiLogoutUserRequest = {}, options?: Configuration): Promise<void> {
+    public logoutUser(param: UserApiLogoutUserRequest = {}, options?: ConfigurationOptions): Promise<void> {
         return this.api.logoutUser( options).toPromise();
     }
 
@@ -1462,7 +1536,7 @@ export class ObjectUserApi {
      * Updated user
      * @param param the request object
      */
-    public updateUserWithHttpInfo(param: UserApiUpdateUserRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public updateUserWithHttpInfo(param: UserApiUpdateUserRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.updateUserWithHttpInfo(param.username, param.user,  options).toPromise();
     }
 
@@ -1471,7 +1545,7 @@ export class ObjectUserApi {
      * Updated user
      * @param param the request object
      */
-    public updateUser(param: UserApiUpdateUserRequest, options?: Configuration): Promise<void> {
+    public updateUser(param: UserApiUpdateUserRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.updateUser(param.username, param.user,  options).toPromise();
     }
 

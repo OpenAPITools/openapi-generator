@@ -16,22 +16,21 @@ To test class name in snake case
 
 
 ```typescript
-import { petstore } from 'ts-petstore-client';
-import * as fs from 'fs';
+import { createConfiguration, FakeClassnameTags123Api } from 'ts-petstore-client';
+import type { FakeClassnameTags123ApiTestClassnameRequest } from 'ts-petstore-client';
 
-const configuration = petstore.createConfiguration();
-const apiInstance = new petstore.FakeClassnameTags123Api(configuration);
+const configuration = createConfiguration();
+const apiInstance = new FakeClassnameTags123Api(configuration);
 
-let body:petstore.FakeClassnameTags123ApiTestClassnameRequest = {
-  // Client | client model
+const request: FakeClassnameTags123ApiTestClassnameRequest = {
+    // client model
   client: {
     client: "client_example",
   },
 };
 
-apiInstance.testClassname(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
+const data = await apiInstance.testClassname(request);
+console.log('API called successfully. Returned data:', data);
 ```
 
 

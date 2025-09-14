@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Entity;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,12 +24,12 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class Foo extends Entity implements FooRefOrValue {
 
-  private String fooPropA;
+  private @Nullable String fooPropA;
 
-  private String fooPropB;
+  private @Nullable String fooPropB;
 
   public Foo() {
     super();
@@ -41,7 +42,7 @@ public class Foo extends Entity implements FooRefOrValue {
     super(atType);
   }
 
-  public Foo fooPropA(String fooPropA) {
+  public Foo fooPropA(@Nullable String fooPropA) {
     this.fooPropA = fooPropA;
     return this;
   }
@@ -53,15 +54,15 @@ public class Foo extends Entity implements FooRefOrValue {
   
   @Schema(name = "fooPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropA")
-  public String getFooPropA() {
+  public @Nullable String getFooPropA() {
     return fooPropA;
   }
 
-  public void setFooPropA(String fooPropA) {
+  public void setFooPropA(@Nullable String fooPropA) {
     this.fooPropA = fooPropA;
   }
 
-  public Foo fooPropB(String fooPropB) {
+  public Foo fooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
     return this;
   }
@@ -73,11 +74,11 @@ public class Foo extends Entity implements FooRefOrValue {
   
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
-  public String getFooPropB() {
+  public @Nullable String getFooPropB() {
     return fooPropB;
   }
 
-  public void setFooPropB(String fooPropB) {
+  public void setFooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
   }
 
@@ -161,7 +162,7 @@ public class Foo extends Entity implements FooRefOrValue {
     }
 
     protected Builder copyOf(Foo value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setFooPropA(value.fooPropA);
       this.instance.setFooPropB(value.fooPropB);
       return this;

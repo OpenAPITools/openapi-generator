@@ -28,14 +28,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Query
  */
-public class QueryTest {
+class QueryTest {
     private final Query model = new Query();
 
     /**
      * Model tests for Query
      */
     @Test
-    public void testQuery() {
+    void testQuery() {
         // TODO: test Query
     }
 
@@ -43,7 +43,7 @@ public class QueryTest {
      * Test the property 'id'
      */
     @Test
-    public void idTest() {
+    void idTest() {
         // TODO: test id
     }
 
@@ -51,7 +51,7 @@ public class QueryTest {
      * Test the property 'outcomes'
      */
     @Test
-    public void outcomesTest() {
+    void outcomesTest() {
         // TODO: test outcomes
     }
 

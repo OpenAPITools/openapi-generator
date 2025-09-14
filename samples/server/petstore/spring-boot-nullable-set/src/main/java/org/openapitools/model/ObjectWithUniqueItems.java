@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -28,7 +29,7 @@ import javax.annotation.Generated;
  * ObjectWithUniqueItems
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class ObjectWithUniqueItems {
 
   @Valid
@@ -44,10 +45,10 @@ public class ObjectWithUniqueItems {
   private List<String> notNullList = new ArrayList<>();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime notNullDateField;
+  private @Nullable OffsetDateTime notNullDateField;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime nullDateField;
+  private @Nullable OffsetDateTime nullDateField;
 
   public ObjectWithUniqueItems nullSet(Set<String> nullSet) {
     this.nullSet = JsonNullable.of(nullSet);
@@ -162,7 +163,7 @@ public class ObjectWithUniqueItems {
     this.notNullList = notNullList;
   }
 
-  public ObjectWithUniqueItems notNullDateField(OffsetDateTime notNullDateField) {
+  public ObjectWithUniqueItems notNullDateField(@Nullable OffsetDateTime notNullDateField) {
     this.notNullDateField = notNullDateField;
     return this;
   }
@@ -174,15 +175,15 @@ public class ObjectWithUniqueItems {
   @Valid 
   @Schema(name = "notNullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullDateField")
-  public OffsetDateTime getNotNullDateField() {
+  public @Nullable OffsetDateTime getNotNullDateField() {
     return notNullDateField;
   }
 
-  public void setNotNullDateField(OffsetDateTime notNullDateField) {
+  public void setNotNullDateField(@Nullable OffsetDateTime notNullDateField) {
     this.notNullDateField = notNullDateField;
   }
 
-  public ObjectWithUniqueItems nullDateField(OffsetDateTime nullDateField) {
+  public ObjectWithUniqueItems nullDateField(@Nullable OffsetDateTime nullDateField) {
     this.nullDateField = nullDateField;
     return this;
   }
@@ -194,11 +195,11 @@ public class ObjectWithUniqueItems {
   @Valid 
   @Schema(name = "nullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullDateField")
-  public OffsetDateTime getNullDateField() {
+  public @Nullable OffsetDateTime getNullDateField() {
     return nullDateField;
   }
 
-  public void setNullDateField(OffsetDateTime nullDateField) {
+  public void setNullDateField(@Nullable OffsetDateTime nullDateField) {
     this.nullDateField = nullDateField;
   }
 

@@ -17,24 +17,24 @@
 
 package org.openapitools.codegen.cmd;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
-
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.spi.FilterAttachable;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.MergedSpecBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 
 @SuppressWarnings({"java:S106"})
 @Command(name = "generate", description = "Generate code with the specified generator.")
@@ -101,7 +101,7 @@ public class Generate extends OpenApiGeneratorCommand {
                     + "overwritten during the generation.")
     private Boolean skipOverwrite;
 
-    @Option(name = { "--dry-run" }, title = "Dry run",
+    @Option(name = {"--dry-run"}, title = "Dry run",
             description = "Try things out and report on potential changes (without actually making changes).")
     private Boolean isDryRun;
 
@@ -162,7 +162,7 @@ public class Generate extends OpenApiGeneratorCommand {
 
     @Option(
             name = {"--openapi-generator-ignore-list"},
-            title = ".openapi-generaotr-ignore list",
+            title = ".openapi-generator-ignore list",
             description = "specifies entries in the .openapi-generator-ignore file relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml"
                     + " You can also have multiple occurrences of this option.")
     private List<String> openapiGeneratorIgnoreList = new ArrayList<>();
@@ -327,15 +327,15 @@ public class Generate extends OpenApiGeneratorCommand {
     private Boolean legacyDiscriminatorBehavior;
 
     @Option(name = {"--minimal-update"},
-        title = "Minimal update",
-        description = "Only write output files that have changed.")
+            title = "Minimal update",
+            description = "Only write output files that have changed.")
     private Boolean minimalUpdate;
 
     @Override
     public void execute() {
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
             spec = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName)
-                .buildMergedSpec();
+                    .buildMergedSpec();
             System.out.println("Merge input spec would be used - " + spec);
         }
 

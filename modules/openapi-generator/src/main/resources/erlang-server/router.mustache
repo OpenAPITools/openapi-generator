@@ -19,23 +19,38 @@ get_paths(LogicHandler) ->
 
 group_paths() ->
     maps:fold(
-      fun(OperationID, #{path := Path, method := Method, handler := Handler}, Acc) ->
-              case maps:find(Path, Acc) of
+      fun(OperationID, #{servers := Servers, base_path := BasePath, path := Path,
+                         method := Method, handler := Handler}, Acc) ->
+              FullPaths = build_full_paths(Servers, BasePath, Path),
+              merge_paths(FullPaths, OperationID, Method, Handler, Acc)
+      end, #{}, get_operations()).
+
+build_full_paths([], BasePath, Path) ->
+    [lists:append([BasePath, Path])];
+build_full_paths(Servers, _BasePath, Path) ->
+    [lists:append([Server, Path]) || Server <- Servers ].
+
+merge_paths(FullPaths, OperationID, Method, Handler, Acc) ->
+    lists:foldl(
+      fun(Path, Acc0) ->
+              case maps:find(Path, Acc0) of
                   {ok, PathInfo0 = #{operations := Operations0}} ->
                       Operations = Operations0#{Method => OperationID},
                       PathInfo = PathInfo0#{operations => Operations},
-                      Acc#{Path => PathInfo};
+                      Acc0#{Path => PathInfo};
                   error ->
                       Operations = #{Method => OperationID},
                       PathInfo = #{handler => Handler, operations => Operations},
-                      Acc#{Path => PathInfo}
+                      Acc0#{Path => PathInfo}
               end
-      end, #{}, get_operations()).
+      end, Acc, FullPaths).
 
 get_operations() ->
     #{ {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-        '{{operationId}}' => #{
-            path => "{{{basePathWithoutHost}}}{{{path}}}",
+       '{{operationIdOriginal}}' => #{
+            servers => [{{#servers}}"{{{url}}}"{{^-last}},{{/-last}}{{/servers}}],
+            base_path => "{{{basePathWithoutHost}}}",
+            path => "{{{path}}}",
             method => <<"{{httpMethod}}">>,
             handler => '{{classname}}'
         }{{^-last}},{{/-last}}{{/operation}}{{^-last}},{{/-last}}{{/operations}}{{/apis}}{{/apiInfo}}

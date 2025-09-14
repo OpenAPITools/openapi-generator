@@ -1,0 +1,3 @@
+github "Alamofire/Alamofire" ~> 5.10
+github "mxcl/PromiseKit" ~> 8.1
+github "ReactiveX/RxSwift" ~> 6.8

@@ -27,19 +27,20 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonPydanticV1ClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileExists;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileExists;
 
 public class PythonPydanticV1ClientCodegenTest {
 
@@ -402,7 +403,8 @@ public class PythonPydanticV1ClientCodegenTest {
         Assert.assertEquals(cm.parent, null);
         Assert.assertEquals(cm.imports.size(), 0);
     }
-    @Test(description ="check API example has input param(configuration) when it creates api_client")
+
+    @Test(description = "check API example has input param(configuration) when it creates api_client")
     public void apiExampleDocTest() throws Exception {
         final DefaultCodegen codegen = new PythonPydanticV1ClientCodegen();
         final String outputPath = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");
@@ -500,5 +502,36 @@ public class PythonPydanticV1ClientCodegenTest {
         Assert.assertEquals(vars.size(), 1);
         CodegenProperty property = vars.get(0);
         Assert.assertEquals(property.name, "dollar_value");
+    }
+
+    @Test(description = "outputs __init__.py with imports for exports")
+    public void testInitFileImportsExports() throws Exception {
+        final PythonPydanticV1ClientCodegen codegen = new PythonPydanticV1ClientCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        final Path initFilePath = Paths.get(outputPath + "openapi_client/__init__.py");
+
+        // import apis into sdk package
+        assertFileContains(initFilePath, "from openapi_client.api.pet_api import PetApi as PetApi");
+        assertFileContains(initFilePath, "from openapi_client.api.store_api import StoreApi as StoreApi");
+        assertFileContains(initFilePath, "from openapi_client.api.user_api import UserApi as UserApi");
+
+        // import ApiClient
+        assertFileContains(initFilePath, "from openapi_client.api_response import ApiResponse as ApiResponse");
+        assertFileContains(initFilePath, "from openapi_client.api_client import ApiClient as ApiClient");
+        assertFileContains(initFilePath, "from openapi_client.configuration import Configuration as Configuration");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import OpenApiException as OpenApiException");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import ApiTypeError as ApiTypeError");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import ApiValueError as ApiValueError");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import ApiKeyError as ApiKeyError");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import ApiAttributeError as ApiAttributeError");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import ApiException as ApiException");
+
+        // import models into sdk package
+        assertFileContains(initFilePath, "from openapi_client.models.api_response import ApiResponse as ApiResponse");
+        assertFileContains(initFilePath, "from openapi_client.models.category import Category as Category");
+        assertFileContains(initFilePath, "from openapi_client.models.order import Order as Order");
+        assertFileContains(initFilePath, "from openapi_client.models.pet import Pet as Pet");
+        assertFileContains(initFilePath, "from openapi_client.models.tag import Tag as Tag");
+        assertFileContains(initFilePath, "from openapi_client.models.user import User as User");
     }
 }

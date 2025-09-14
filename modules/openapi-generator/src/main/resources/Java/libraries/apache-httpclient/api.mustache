@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -29,6 +30,7 @@ import {{javaxPackage}}.validation.Valid;
 
 {{/useBeanValidation}}
 {{>generatedAnnotation}}
+
 {{#operations}}
 public class {{classname}} extends BaseApi {
 
@@ -62,7 +64,7 @@ public class {{classname}} extends BaseApi {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
     {{#returnType}}return {{/returnType}}this.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}Collections.emptyMap());
   }
 
@@ -89,7 +91,7 @@ public class {{classname}} extends BaseApi {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Map<String, String> additionalHeaders) throws ApiException {
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/allParams}}Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -99,7 +101,7 @@ public class {{classname}} extends BaseApi {
     {{/required}}{{/allParams}}
     // create path and map variables
     String localVarPath = "{{{path}}}"{{#pathParams}}
-      .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
+      .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString(apiClient.parameterToString({{{paramName}}}))){{/pathParams}};
 
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
@@ -114,7 +116,7 @@ public class {{classname}} extends BaseApi {
     localVarQueryParameterBaseName = "{{{baseName}}}";
           {{#isArray}}
     for (int i=0; i < {{paramName}}.size(); i++) {
-      localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
+      localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format(Locale.ROOT, "{{baseName}}[%d]", i)));
     }
           {{/isArray}}
           {{^isArray}}

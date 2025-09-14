@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty.</param>
-        public DateOnlyClass(DateTime dateOnlyProperty = default(DateTime))
+        public DateOnlyClass(DateTime dateOnlyProperty = default)
         {
             this._DateOnlyProperty = dateOnlyProperty;
             if (this.DateOnlyProperty != null)
@@ -49,7 +49,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
-        /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
+        /*
+        <example>Fri Jul 21 00:00:00 UTC 2017</example>
+        */
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "dateOnlyProperty", EmitDefaultValue = false)]
         public DateTime DateOnlyProperty

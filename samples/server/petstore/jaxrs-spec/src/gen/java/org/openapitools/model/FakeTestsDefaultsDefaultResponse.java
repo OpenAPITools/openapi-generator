@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("fake_tests_defaults_default_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class FakeTestsDefaultsDefaultResponse  implements Serializable {
   private StringEnum stringEnum = StringEnum.FOO;
   private IntegerEnum integerEnum = IntegerEnum.NUMBER_1;
@@ -256,7 +256,7 @@ public class FakeTestsDefaultsDefaultResponse  implements Serializable {
     return new FakeTestsDefaultsDefaultResponseBuilderImpl();
   }
 
-  private static class FakeTestsDefaultsDefaultResponseBuilderImpl extends FakeTestsDefaultsDefaultResponseBuilder<FakeTestsDefaultsDefaultResponse, FakeTestsDefaultsDefaultResponseBuilderImpl> {
+  private static final class FakeTestsDefaultsDefaultResponseBuilderImpl extends FakeTestsDefaultsDefaultResponseBuilder<FakeTestsDefaultsDefaultResponse, FakeTestsDefaultsDefaultResponseBuilderImpl> {
 
     @Override
     protected FakeTestsDefaultsDefaultResponseBuilderImpl self() {

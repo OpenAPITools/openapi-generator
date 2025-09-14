@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * This class encapsulates the OpenAPI discriminator construct, as specified at
  * https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#discriminatorObject.
- *
+ * <p>
  * When request bodies or response payloads may be one of a number of different schemas,
  * a discriminator object can be used to aid in serialization, deserialization, and validation.
  * The discriminator is a specific object in a schema which is used to inform the consumer of
@@ -57,18 +57,18 @@ public class CodegenDiscriminator {
     public void setIsEnum(boolean isEnum) {
         this.isEnum = isEnum;
     }
-    
+
     /**
      * An object to hold discriminator mappings between payload values and schema names or
      * references.
-     *
+     * <p>
      * In the OpenAPI document, the discriminator "mapping" attribute is optional.
      * In scenarios where the value of the discriminator field does not match the schema name
      * or implicit mapping is not possible, an optional mapping definition MAY be used.
      * In OpenAPITools codegen, the MappedModel is the union of all the discriminator mappings,
      * both explicitly defined in the OpenAPI document and inherited from oneOf/allOf/anyOf.
      */
-    public static class MappedModel implements Comparable<MappedModel>{
+    public static class MappedModel implements Comparable<MappedModel> {
         // The value of the discriminator property in the payload.
         @Getter @Setter
         private String mappingName;

@@ -1,4 +1,7 @@
 -module(openapi_server).
+-moduledoc """
+Echo Server API
+""".
 
 -define(DEFAULT_LOGIC_HANDLER, openapi_logic_handler).
 
@@ -28,12 +31,12 @@ get_cowboy_config(LogicHandler, ExtraOpts) ->
     maps:fold(fun get_cowboy_config/3, DefaultOpts, ExtraOpts).
 
 get_cowboy_config(env, #{dispatch := _Dispatch} = Env, AccIn) ->
-    maps:put(env, Env, AccIn);
+    AccIn#{env => Env};
 get_cowboy_config(env, NewEnv, #{env := OldEnv} = AccIn) ->
     Env = maps:merge(OldEnv, NewEnv),
-    maps:put(env, Env, AccIn);
+    AccIn#{env => Env};
 get_cowboy_config(Key, Value, AccIn) ->
-    maps:put(Key, Value, AccIn).
+    AccIn#{Key => Value}.
 
 get_default_dispatch(LogicHandler) ->
     Paths = openapi_router:get_paths(LogicHandler),

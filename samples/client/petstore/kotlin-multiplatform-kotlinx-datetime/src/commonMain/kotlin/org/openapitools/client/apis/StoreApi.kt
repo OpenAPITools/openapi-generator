@@ -110,7 +110,7 @@ open class StoreApi : ApiClient {
         companion object : KSerializer<GetInventoryResponse> {
             private val serializer: KSerializer<Map<kotlin.String, kotlin.Int>> = serializer<Map<String, kotlin.Int>>()
             override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: GetInventoryResponse) = serializer.serialize(encoder, obj.value)
+            override fun serialize(encoder: Encoder, value: GetInventoryResponse) = serializer.serialize(encoder, value.value)
             override fun deserialize(decoder: Decoder) = GetInventoryResponse(serializer.deserialize(decoder))
         }
     }

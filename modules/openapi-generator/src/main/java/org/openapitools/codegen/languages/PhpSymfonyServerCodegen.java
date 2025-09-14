@@ -232,15 +232,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     }
 
     @Override
-    public String escapeText(String input) {
-        if (input != null) {
-            // Trim the string to avoid leading and trailing spaces.
-            return super.escapeText(input).trim();
-        }
-        return input;
-    }
-
-    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -426,10 +417,16 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 op.vendorExtensions.put("x-comment-type", "void");
             }
             // Create a variable to add typing for return value of interface
-            if (op.returnType != null) {
-                op.vendorExtensions.put("x-return-type", "array|object|null");
-            } else {
+            if (op.returnType == null) {
                 op.vendorExtensions.put("x-return-type", "void");
+            } else if (op.isArray || op.isMap || isApplicationJsonOrApplicationXml(op)
+                    || !op.returnTypeIsPrimitive // it could make sense to remove it, but it would break retro-compatibility
+            ) {
+                op.vendorExtensions.put("x-return-type", "array|object|null");
+            } else if ("binary".equals(op.returnProperty.dataFormat)) {
+                op.vendorExtensions.put("x-return-type", "mixed");
+            } else {
+                op.vendorExtensions.put("x-return-type", op.returnType);
             }
 
             // Add operation's authentication methods to whole interface
@@ -445,6 +442,18 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         operations.put("authMethods", authMethods);
 
         return objs;
+    }
+
+    private boolean isApplicationJsonOrApplicationXml(CodegenOperation op) {
+       if (op.produces != null) {
+           for(Map<String, String> produce : op.produces) {
+               String mediaType = produce.get("mediaType");
+               if (isJsonMimeType(mediaType) || isXmlMimeType(mediaType)) {
+                  return true;
+               }
+           }
+       }
+       return false;
     }
 
     @Override
@@ -574,15 +583,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             return name;
         } else {
             return modelPackage() + "\\" + name;
-        }
-    }
-
-    @Override
-    public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "float".equals(datatype)) {
-            return value;
-        } else {
-            return "\"" + escapeText(value) + "\"";
         }
     }
 

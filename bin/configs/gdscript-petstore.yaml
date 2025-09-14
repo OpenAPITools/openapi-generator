@@ -1,0 +1,35 @@
+# Run this configuration to update the sample project used in integration testing:
+#     bin/generate-samples.sh bin/configs/gdscript-petstore.yaml
+
+generatorName: gdscript
+
+# We output straight into an addon directory. (any addon name will work)
+# The addon need not be enabled in Project Settings to be used, for now,
+# but that may change, so as best practice you should enable it anyway.
+outputDir: samples/client/petstore/gdscript/addons/oas.petstore.client
+
+# We have two test servers available.
+# See https://github.com/OpenAPITools/openapi-generator/wiki/Integration-Tests
+
+# A: Newer, recommended echo server OAS, that we're failing for now:
+# Exception: Could not process model 'Bird'. Please make sure that your schema is correct!
+# Caused by: java.lang.RuntimeException: reserved word color not allowed
+# Perhaps try this again later, using another config file like gdscript-echo.yaml
+# > Later: this has been solved, we should now be able to use echo as well
+#inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+
+# B: Older (legacy, deprecated) petstore server OAS
+inputSpec: modules/openapi-generator/src/test/resources/3_0/gdscript/petstore.yaml
+
+templateDir: modules/openapi-generator/src/main/resources/gdscript
+
+additionalProperties:
+  # Timestamping the generated sample project would only add noise to git
+  hideGenerationTimestamp: "true"
+  # Since we're polluting the global namespace with class_name (it's really convenient),
+  # we can use these affixes to namespace the generated classes.
+  # Best make sure the words you use here are not part of the domain of Godot.
+  apiNamePrefix: Demo
+  modelNamePrefix: Demo
+  modelNameSuffix: Model
+  coreNamePrefix: Demo

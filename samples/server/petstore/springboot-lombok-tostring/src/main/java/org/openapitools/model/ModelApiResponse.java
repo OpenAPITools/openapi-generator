@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -26,28 +27,28 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "ApiResponse", description = "Describes the result of uploading an image resource")
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class ModelApiResponse {
 
-  private Integer code;
+  private @Nullable Integer code;
 
-  private String type;
+  private @Nullable String type;
 
-  private String message;
+  private @Nullable String message;
 
-  public ModelApiResponse code(Integer code) {
+  public ModelApiResponse code(@Nullable Integer code) {
     this.code = code;
     return this;
   }
 
 
-  public ModelApiResponse type(String type) {
+  public ModelApiResponse type(@Nullable String type) {
     this.type = type;
     return this;
   }
 
 
-  public ModelApiResponse message(String message) {
+  public ModelApiResponse message(@Nullable String message) {
     this.message = message;
     return this;
   }

@@ -33,6 +33,8 @@ export class HttpException extends Error {
  */
 export type RequestBody = undefined | string | FormData | URLSearchParams;
 
+type Headers = Record<string, string>;
+
 function ensureAbsoluteUrl(url: string) {
     if (url.startsWith("http://") || url.startsWith("https://")) {
         return url;
@@ -44,9 +46,10 @@ function ensureAbsoluteUrl(url: string) {
  * Represents an HTTP request context
  */
 export class RequestContext {
-    private headers: { [key: string]: string } = {};
+    private headers: Headers = {};
     private body: RequestBody = undefined;
     private url: URL;
+    private signal: AbortSignal | undefined = undefined;
 
     /**
      * Creates the request context using a http method and request resource url
@@ -93,7 +96,7 @@ export class RequestContext {
         return this.httpMethod;
     }
 
-    public getHeaders(): { [key: string]: string } {
+    public getHeaders(): Headers {
         return this.headers;
     }
 
@@ -123,6 +126,15 @@ export class RequestContext {
     public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
     }
+
+    public setSignal(signal: AbortSignal): void {
+        this.signal = signal;
+    }
+
+    public getSignal(): AbortSignal | undefined {
+        return this.signal;
+    }
+
 }
 
 export interface ResponseBody {
@@ -160,7 +172,7 @@ export class SelfDecodingBody implements ResponseBody {
 export class ResponseContext {
     public constructor(
         public httpStatusCode: number,
-        public headers: { [key: string]: string },
+        public headers: Headers,
         public body: ResponseBody
     ) {}
 
@@ -171,15 +183,18 @@ export class ResponseContext {
      * Parameter names are converted to lower case
      * The first parameter is returned with the key `""`
      */
-    public getParsedHeader(headerName: string): { [parameter: string]: string } {
-        const result: { [parameter: string]: string } = {};
+    public getParsedHeader(headerName: string): Headers {
+        const result: Headers = {};
         if (!this.headers[headerName]) {
             return result;
         }
 
-        const parameters = this.headers[headerName].split(";");
+        const parameters = this.headers[headerName]!.split(";");
         for (const parameter of parameters) {
             let [key, value] = parameter.split("=", 2);
+            if (!key) {
+                continue;
+            }
             key = key.toLowerCase().trim();
             if (value === undefined) {
                 result[""] = key;
@@ -244,9 +259,9 @@ export function wrapHttpLibrary(promiseHttpLibrary: PromiseHttpLibrary): HttpLib
 
 export class HttpInfo<T> extends ResponseContext {
     public constructor(
-        public httpStatusCode: number,
-        public headers: { [key: string]: string },
-        public body: ResponseBody,
+        httpStatusCode: number,
+        headers: Headers,
+        body: ResponseBody,
         public data: T,
     ) {
         super(httpStatusCode, headers, body);

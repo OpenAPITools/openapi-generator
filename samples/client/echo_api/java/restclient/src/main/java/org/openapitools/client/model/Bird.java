@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -30,18 +31,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Bird.JSON_PROPERTY_SIZE,
   Bird.JSON_PROPERTY_COLOR
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class Bird {
   public static final String JSON_PROPERTY_SIZE = "size";
+  @jakarta.annotation.Nullable
   private String size;
 
   public static final String JSON_PROPERTY_COLOR = "color";
+  @jakarta.annotation.Nullable
   private String color;
 
   public Bird() {
   }
 
-  public Bird size(String size) {
+  public Bird size(@jakarta.annotation.Nullable String size) {
     
     this.size = size;
     return this;
@@ -52,7 +55,7 @@ public class Bird {
    * @return size
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSize() {
@@ -60,13 +63,13 @@ public class Bird {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSize(String size) {
+  public void setSize(@jakarta.annotation.Nullable String size) {
     this.size = size;
   }
 
-  public Bird color(String color) {
+  public Bird color(@jakarta.annotation.Nullable String color) {
     
     this.color = color;
     return this;
@@ -77,7 +80,7 @@ public class Bird {
    * @return color
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getColor() {
@@ -85,11 +88,12 @@ public class Bird {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setColor(String color) {
+  public void setColor(@jakarta.annotation.Nullable String color) {
     this.color = color;
   }
+
 
   @Override
   public boolean equals(Object o) {

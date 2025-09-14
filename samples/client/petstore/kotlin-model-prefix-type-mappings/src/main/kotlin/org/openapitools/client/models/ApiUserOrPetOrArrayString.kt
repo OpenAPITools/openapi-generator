@@ -74,7 +74,7 @@ data class ApiUserOrPetOrArrayString(var actualInstance: Any? = null) {
                     // check if the actual instance is of the type `kotlin.collections.List<kotlin.String>`
                     if (value.actualInstance is List<*>) {
                         val list = value.actualInstance as List<Any>
-                        if (list.get(0) is kotlin.String) {
+                        if (!list.isEmpty() && list.get(0) is kotlin.String) {
                             val array = adapterkotlincollectionsListkotlinString.toJsonTree(value.actualInstance as kotlin.collections.List<kotlin.String>?).getAsJsonArray()
                             elementAdapter.write(out, array)
                             return
@@ -145,6 +145,63 @@ data class ApiUserOrPetOrArrayString(var actualInstance: Any? = null) {
                     throw IOException(String.format("Failed deserialization for ApiUserOrPetOrArrayString: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()))
                 }
             }.nullSafe() as TypeAdapter<T>
+        }
+    }
+
+    companion object {
+        /**
+        * Validates the JSON Element and throws an exception if issues found
+        *
+        * @param jsonElement JSON Element
+        * @throws IOException if the JSON Element is invalid with respect to ApiUserOrPetOrArrayString
+        */
+        @Throws(IOException::class)
+        fun validateJsonElement(jsonElement: JsonElement?) {
+            requireNotNull(jsonElement) {
+                "Provided json element must not be null"
+            }
+            var match = 0
+            val errorMessages = ArrayList<String>()
+            // validate the json string with ApiUser
+            try {
+                // validate the JSON object to see if any exception is thrown
+                ApiUser.validateJsonElement(jsonElement)
+                match++
+            } catch (e: Exception) {
+                // Validation failed, continue
+                errorMessages.add(String.format("Validation for ApiUser failed with `%s`.", e.message))
+            }
+            // validate the json string with ApiPet
+            try {
+                // validate the JSON object to see if any exception is thrown
+                ApiPet.validateJsonElement(jsonElement)
+                match++
+            } catch (e: Exception) {
+                // Validation failed, continue
+                errorMessages.add(String.format("Validation for ApiPet failed with `%s`.", e.message))
+            }
+            // validate the json string with kotlin.collections.List<kotlin.String>
+            try {
+                // validate the JSON object to see if any exception is thrown
+                require(jsonElement.isJsonArray) {
+                    String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString())
+                }
+
+                // validate array items
+                for(element in jsonElement.getAsJsonArray()) {
+                    require(element.getAsJsonPrimitive().isString) {
+                        String.format("Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString())
+                    }
+                }
+                match++
+            } catch (e: Exception) {
+                // Validation failed, continue
+                errorMessages.add(String.format("Validation for kotlin.collections.List<kotlin.String> failed with `%s`.", e.message))
+            }
+
+            if (match != 1) {
+                throw IOException(String.format("Failed validation for ApiUserOrPetOrArrayString: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()))
+            }
         }
     }
 }

@@ -4,8 +4,11 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -16,6 +19,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NODE})
@@ -171,27 +178,27 @@ public class TypeScriptNodeClientCodegenTest {
     public void postProcessOperationsWithModelsTestWithModelNameSuffix() {
         final OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema rootSchema = new ObjectSchema()
-            .addProperty("child", new Schema().$ref("Child"));
+                .addProperty("child", new Schema().$ref("Child"));
         final Schema childSchema = new ObjectSchema()
-            .addProperty("key", new StringSchema());
+                .addProperty("key", new StringSchema());
 
         openAPI.getComponents()
-            .addSchemas("Root", rootSchema)
-            .addSchemas("Child", childSchema);
+                .addSchemas("Root", rootSchema)
+                .addSchemas("Child", childSchema);
 
         final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
         codegen.setOpenAPI(openAPI);
         codegen.setModelNameSuffix("Suffix");
 
         final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(
-            codegen.fromModel("Root", rootSchema),
-            codegen.fromModel("Child", childSchema)
+                codegen.fromModel("Root", rootSchema),
+                codegen.fromModel("Child", childSchema)
         );
         final Map<String, ModelsMap> results = codegen.postProcessAllModels(allModels);
         final List<ModelMap> rootModelMaps = results.get("Root")
-            .getModels();
+                .getModels();
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) rootModelMaps.get(0)
-            .get("tsImports");
+                .get("tsImports");
 
         Assert.assertEquals(tsImports.size(), 1);
         Assert.assertEquals(tsImports.get(0).get("filename"), "./childSuffix");
@@ -201,30 +208,112 @@ public class TypeScriptNodeClientCodegenTest {
     public void postProcessOperationsWithModelsTestWithModelNamePrefix() {
         final OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema rootSchema = new ObjectSchema()
-            .addProperty("child", new Schema().$ref("Child"));
+                .addProperty("child", new Schema().$ref("Child"));
         final Schema childSchema = new ObjectSchema()
-            .addProperty("key", new StringSchema());
+                .addProperty("key", new StringSchema());
 
         openAPI.getComponents()
-            .addSchemas("Root", rootSchema)
-            .addSchemas("Child", childSchema);
+                .addSchemas("Root", rootSchema)
+                .addSchemas("Child", childSchema);
 
         final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
         codegen.setOpenAPI(openAPI);
         codegen.setModelNamePrefix("Prefix");
 
         final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(
-            codegen.fromModel("Root", rootSchema),
-            codegen.fromModel("Child", childSchema)
+                codegen.fromModel("Root", rootSchema),
+                codegen.fromModel("Child", childSchema)
         );
         final Map<String, ModelsMap> results = codegen.postProcessAllModels(allModels);
         final List<ModelMap> rootModelMaps = results.get("Root")
-            .getModels();
+                .getModels();
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) rootModelMaps.get(0)
-            .get("tsImports");
+                .get("tsImports");
 
         Assert.assertEquals(tsImports.size(), 1);
         Assert.assertEquals(tsImports.get(0).get("filename"), "./prefixChild");
+    }
+
+    @Test
+    public void testApisGeneration() throws IOException {
+
+        File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-node")
+                .setInputSpec("src/test/resources/3_0/typescript-node/SampleProject.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/api/basicApi.ts"),
+                "* Sample project");
+        TestUtils.assertFileContains(Paths.get(output + "/api/basicApi.ts"),
+                "export class BasicApi {");
+    }
+
+    @Test
+    public void testModelsGeneration() throws IOException {
+
+        File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-node")
+                .setInputSpec("src/test/resources/3_0/typescript-node/SampleProject.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/model/group.ts"),
+                "export class Group {");
+    }
+
+    @Test
+    public void testDeprecatedAttribute() throws IOException {
+
+        File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-node")
+                .setInputSpec("src/test/resources/3_0/typescript-node/SampleProject.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/model/group.ts"),
+                "* @deprecated");
+    }
+
+    @Test
+    public void testDeprecatedOperation() throws IOException {
+
+        File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-node")
+                .setInputSpec("src/test/resources/3_0/typescript-node/SampleProject.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/api/defaultApi.ts"),
+                "* @deprecated");
     }
 
     private OperationsMap createPostProcessOperationsMapWithImportName(String importName) {
