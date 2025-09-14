@@ -5,6 +5,14 @@
     "description": "Specification to reproduce nullable issue with Array",
     "title": "ArrayNullableTest Api"
   },
+  "servers": [
+    {
+      "url": "api.my-domain.com/my-context-root/v1"
+    },
+    {
+      "url": "hom-api.my-domain.com/my-context-root/v1"
+    }
+  ],
   "paths": {
     "/spec1": {
       "get": {
