@@ -22,6 +22,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
 
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -37,7 +39,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+
 import org.openapitools.codegen.utils.CamelizeOption;
+
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
@@ -56,18 +60,31 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
     public static final String USE_GENERIC_RESPONSE = "useGenericResponse";
     public static final String REGISTRY_ADDRESS = "registry-address";
 
-    @Setter protected String title = null;
-    @Getter @Setter protected String configPackage = "org.openapitools.configuration";
-    @Getter @Setter protected String basePackage = "org.openapitools";
+    @Setter
+    protected String title = null;
+    @Getter
+    @Setter
+    protected String configPackage = "org.openapitools.configuration";
+    @Getter
+    @Setter
+    protected String basePackage = "org.openapitools";
 
-    @Setter protected boolean interfaceOnly = false;
-    @Setter protected boolean useTags = true;
-    @Setter protected String javaVersion = "17";
-    @Setter protected String dubboVersion = "3.2.18";
-    @Setter protected boolean serviceInterface = true;
-    @Setter protected boolean serviceImplementation = true;
-    @Setter protected boolean useGenericResponse = false;
-    @Setter protected String registryAddress = "zookeeper://127.0.0.1:2181";
+    @Setter
+    protected boolean interfaceOnly = false;
+    @Setter
+    protected boolean useTags = true;
+    @Setter
+    protected String javaVersion = "17";
+    @Setter
+    protected String dubboVersion = "3.2.18";
+    @Setter
+    protected boolean serviceInterface = true;
+    @Setter
+    protected boolean serviceImplementation = true;
+    @Setter
+    protected boolean useGenericResponse = false;
+    @Setter
+    protected String registryAddress = "zookeeper://127.0.0.1:2181";
 
     public JavaDubboServerCodegen() {
         super();
@@ -81,6 +98,10 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
                 .excludeGlobalFeatures(GlobalFeature.Callbacks, GlobalFeature.LinkObjects, GlobalFeature.ParameterStyling)
                 .includeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
                 .excludeParameterFeatures(ParameterFeature.Cookie));
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         dateLibrary = "java8";
 
@@ -380,7 +401,8 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
 
             if (isUserTitle) {
                 String titleName = (String) additionalProperties.get(TITLE);
-                mainClassName = (camelize(titleName.trim(), CamelizeOption.UPPERCASE_FIRST_CHAR) + "Application").replaceAll("\\s+", "");;
+                mainClassName = (camelize(titleName.trim(), CamelizeOption.UPPERCASE_FIRST_CHAR) + "Application").replaceAll("\\s+", "");
+                ;
             } else {
                 mainClassName = "OpenApiGeneratorApplication";
             }
@@ -471,7 +493,6 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
 
         return objs;
     }
-
 
 
     @Override
@@ -605,7 +626,6 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
     }
 
 
-
     @Override
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
@@ -716,7 +736,6 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
     }
 
 
-
     @Override
     public Set<String> defaultIncludes() {
         return new HashSet<String>(
@@ -781,7 +800,6 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
 
         return super.needToImport(type);
     }
-
 
 
     @Override
