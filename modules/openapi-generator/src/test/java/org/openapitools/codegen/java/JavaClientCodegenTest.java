@@ -3152,6 +3152,43 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testRestTemplateWithDefaultUserAgent() {
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/java/petstore.yaml",
+                JavaClientCodegen.RESTTEMPLATE
+        );
+
+        final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
+                .printFileContent();
+        apiClient
+                .assertMethod("init")
+                .bodyContainsLines("setUserAgent(\"OpenAPI-Generator/1.0.0/java\");");
+    }
+
+    @Test
+    public void testRestTemplateWithCustomUserAgent() {
+
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setValidateSpec(false)
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setHttpUserAgent("MyAwesomeCustomService/0.0.1")
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));;
+
+        final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
+                .printFileContent();
+        apiClient
+                .assertMethod("init")
+                .bodyContainsLines("setUserAgent(\"MyAwesomeCustomService/0.0.1\");");
+    }
+
+    @Test
     public void testRestClientWithGeneratedOAuthTokenSuppliers() {
         final Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/java/oauth.yaml",
@@ -3194,6 +3231,7 @@ public class JavaClientCodegenTest {
                 "import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;"
         );
     }
+
 
     @Test
     public void testRestClientWithUseSingleRequestParameter_issue_19406() {
