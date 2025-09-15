@@ -13,8 +13,8 @@ For more information, please visit [https://example.org](https://example.org)
 
 ## Requires
 
-* Kotlin 1.7.21
-* Gradle 7.5
+* Kotlin 2.2.20
+* Gradle 8.14
 
 ## Build
 
