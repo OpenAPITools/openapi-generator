@@ -7,7 +7,8 @@ additionalProperties:
   documentationProvider: none
   annotationLibrary: none
   useSwaggerUI: "false"
-  serviceImplementation: "true"
+  serviceImplementation: "false"
+  skipDefaultInterface: "true"
+  interfaceOnly: "true"
   serializableModel: "true"
   beanValidations: "true"
-  requestMappingMode: controller
