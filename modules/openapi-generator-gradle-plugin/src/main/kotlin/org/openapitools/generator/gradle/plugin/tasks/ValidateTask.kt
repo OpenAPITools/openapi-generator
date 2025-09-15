@@ -21,6 +21,7 @@ import io.swagger.v3.parser.core.models.ParseOptions
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.logging.Logging
+import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
@@ -51,17 +52,18 @@ import org.openapitools.codegen.validations.oas.RuleConfiguration
  *
  * @author Jim Schubert
  */
+@CacheableTask
 open class ValidateTask : DefaultTask() {
     @get:InputFile
-    @PathSensitive(PathSensitivity.RELATIVE)
+    @get:PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
 
-    @Optional
-    @Input
+    @get:Optional
+    @get:Input
     val recommend = project.objects.property<Boolean>().convention(true)
 
-    @Optional
-    @Input
+    @get:Optional
+    @get:Input
     val treatWarningsAsErrors = project.objects.property<Boolean>().convention(false)
 
     @get:Internal

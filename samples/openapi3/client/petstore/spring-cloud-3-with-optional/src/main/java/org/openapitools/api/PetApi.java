@@ -63,7 +63,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Void> deletePet(
-         @PathVariable("petId") Long petId,
+        @NotNull  @PathVariable("petId") Long petId,
          @RequestHeader(value = "api_key", required = false) Optional<String> apiKey
     );
 
@@ -127,7 +127,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Pet> getPetById(
-         @PathVariable("petId") Long petId
+        @NotNull  @PathVariable("petId") Long petId
     );
 
 
@@ -173,7 +173,7 @@ public interface PetApi {
     )
     
     ResponseEntity<Void> updatePetWithForm(
-         @PathVariable("petId") Long petId,
+        @NotNull  @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "name", required = false) Optional<String> name,
          @Valid @RequestParam(value = "status", required = false) Optional<String> status
     );
@@ -197,7 +197,7 @@ public interface PetApi {
     )
     
     ResponseEntity<ModelApiResponse> uploadFile(
-         @PathVariable("petId") Long petId,
+        @NotNull  @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file
     );

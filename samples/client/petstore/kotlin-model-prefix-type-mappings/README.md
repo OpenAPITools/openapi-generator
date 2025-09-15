@@ -46,6 +46,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 | Class | Method | HTTP request | Description |
 | ------------ | ------------- | ------------- | ------------- |
 | *FakeApi* | [**annotations**](docs/FakeApi.md#annotations) | **POST** fake/annotations | annotate |
+| *FakeApi* | [**updatePetWithFormNumber**](docs/FakeApi.md#updatepetwithformnumber) | **PUT** fake/annotations | Updates a pet in the store with form data (number) |
 | *PetApi* | [**addPet**](docs/PetApi.md#addpet) | **POST** pet | Add a new pet to the store |
 | *PetApi* | [**deletePet**](docs/PetApi.md#deletepet) | **DELETE** pet/{petId} | Deletes a pet |
 | *PetApi* | [**findPetsByStatus**](docs/PetApi.md#findpetsbystatus) | **GET** pet/findByStatus | Finds Pets by status |

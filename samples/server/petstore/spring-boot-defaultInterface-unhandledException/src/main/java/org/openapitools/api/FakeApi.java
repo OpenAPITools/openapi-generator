@@ -222,7 +222,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+        @NotNull @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) throws Exception;
 
 
@@ -629,7 +629,7 @@ public interface FakeApi {
     )
     
     ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
+        @NotNull @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     ) throws Exception;

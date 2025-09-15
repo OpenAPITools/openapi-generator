@@ -84,7 +84,7 @@ public interface PetApi {
     )
     
     default ResponseEntity<Void> deletePet(
-         @PathVariable("petId") Long petId,
+        @NotNull  @PathVariable("petId") Long petId,
          @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -185,7 +185,7 @@ public interface PetApi {
     )
     
     default ResponseEntity<Pet> getPetById(
-         @PathVariable("petId") Long petId
+        @NotNull  @PathVariable("petId") Long petId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -265,7 +265,7 @@ public interface PetApi {
     )
     
     default ResponseEntity<Void> updatePetWithForm(
-         @PathVariable("petId") Long petId,
+        @NotNull  @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "name", required = false) String name,
          @Valid @RequestParam(value = "status", required = false) String status
     ) {
@@ -292,7 +292,7 @@ public interface PetApi {
     )
     
     default ResponseEntity<ModelApiResponse> uploadFile(
-         @PathVariable("petId") Long petId,
+        @NotNull  @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file
     ) {

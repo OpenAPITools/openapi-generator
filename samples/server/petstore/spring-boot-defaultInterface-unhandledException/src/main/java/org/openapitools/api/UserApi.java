@@ -148,7 +148,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> deleteUser(
-        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+        @NotNull @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) throws Exception;
 
 
@@ -183,7 +183,7 @@ public interface UserApi {
     )
     
     ResponseEntity<User> getUserByName(
-        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+        @NotNull @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) throws Exception;
 
 
@@ -275,7 +275,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> updateUser(
-        @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        @NotNull @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
         @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody User user
     ) throws Exception;
 

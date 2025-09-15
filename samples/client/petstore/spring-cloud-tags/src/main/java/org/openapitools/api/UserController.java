@@ -132,7 +132,7 @@ public interface UserController {
     )
     
     ResponseEntity<Void> deleteUser(
-        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+        @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     );
 
 
@@ -164,7 +164,7 @@ public interface UserController {
     )
     
     ResponseEntity<User> getUserByName(
-        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+        @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
     );
 
 
@@ -276,7 +276,7 @@ public interface UserController {
     )
     
     ResponseEntity<Void> updateUser(
-        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
+        @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body
     );
 
