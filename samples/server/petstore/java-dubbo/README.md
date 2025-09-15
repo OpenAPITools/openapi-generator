@@ -202,7 +202,7 @@ The generator automatically selects the correct dependencies based on Dubbo vers
 # Using Zookeeper (3.2 version automatically uses dubbo-dependencies-zookeeper)
 java -jar openapi-generator-cli.jar generate \
 -i /Users/redoom/IdeaProjects/openapi.yaml \
--g dubbo \
+-g java-dubbo \
 -o /Users/redoom/IdeaProjects/openapi-test \
 --additional-properties=registry-address=zookeeper://127.0.0.1:2181 \
 --additional-properties=dubboVersion=3.2.0 \
@@ -211,7 +211,7 @@ java -jar openapi-generator-cli.jar generate \
 # Using Nacos (3.2 version uses nacos-client:2.2.4)
 java -jar openapi-generator-cli.jar generate \
 -i /Users/redoom/IdeaProjects/openapi.yaml \
--g dubbo \
+-g java-dubbo \
 -o /Users/redoom/IdeaProjects/openapi-test \
 --additional-properties=registry-address=nacos://127.0.0.1:8848 \
 --additional-properties=dubboVersion=3.2.0 \
@@ -223,7 +223,7 @@ java -jar openapi-generator-cli.jar generate \
 # Using Zookeeper (3.3+ version automatically uses new modular dependencies)
 java -jar openapi-generator-cli.jar generate \
 -i /Users/redoom/IdeaProjects/openapi.yaml \
--g dubbo \
+-g java-dubbo \
 -o /Users/redoom/IdeaProjects/openapi-test \
 --additional-properties=registry-address=zookeeper://127.0.0.1:2181 \
 --additional-properties=dubboVersion=3.3.0 \
@@ -232,7 +232,7 @@ java -jar openapi-generator-cli.jar generate \
 # Using Nacos (3.3+ version uses nacos-client:2.5.0)
 java -jar openapi-generator-cli.jar generate \
 -i /Users/redoom/IdeaProjects/openapi.yaml \
--g dubbo \
+-g java-dubbo \
 -o /Users/redoom/IdeaProjects/openapi-test \
 --additional-properties=registry-address=nacos://127.0.0.1:8848 \
 --additional-properties=dubboVersion=3.3.0 \
