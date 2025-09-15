@@ -769,7 +769,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnotherXmlOb
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum AnyOfGet202Response {
     String(String),
     Uuid(uuid::Uuid),
@@ -809,7 +809,7 @@ impl From<uuid::Uuid> for AnyOfGet202Response {
 /// Test a model containing an anyOf of a hash map
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum AnyOfHashMapObject {
     String(String),
     HashMapOfStringString(std::collections::HashMap<String, String>),
@@ -849,7 +849,7 @@ impl From<std::collections::HashMap<String, String>> for AnyOfHashMapObject {
 /// Test a model containing an anyOf
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum AnyOfObject {
     String(String),
     String1(String),
@@ -1186,7 +1186,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<DuplicateXml
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
@@ -1473,7 +1473,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FormTestRequ
 /// Test a model containing an anyOf that starts with a number
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum Model12345AnyOfObject {
     String(String),
     String1(String),
@@ -2834,7 +2834,7 @@ impl std::ops::DerefMut for Ok {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum OneOfGet200Response {
     I32(i32),
     VecOfString(Vec<String>),
@@ -2992,7 +2992,7 @@ impl std::ops::DerefMut for Result {
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,

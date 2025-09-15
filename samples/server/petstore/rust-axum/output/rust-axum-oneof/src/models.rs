@@ -974,7 +974,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<HelloD> {
 
 #[derive(Debug, Clone, PartialEq, serde::Deserialize)]
 #[serde(tag = "op")]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum Message {
     Hello(models::Hello),
     Greeting(models::Greeting),
@@ -1041,7 +1041,7 @@ impl From<models::SomethingCompletelyDifferent> for Message {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum SomethingCompletelyDifferent {
     VecOfObject(Vec<crate::types::Object>),
     Object(crate::types::Object),
