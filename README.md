@@ -1143,6 +1143,7 @@ Here is a list of template creators:
    * Haskell Servant: @algas
    * Haskell Yesod: @yotsuya
    * Java Camel: @carnevalegiacomo
+   * Java Dubbo: @redoom
    * Java MSF4J: @sanjeewa-malalgoda
    * Java Spring Boot: @diyfr
    * Java Undertow: @stevehu

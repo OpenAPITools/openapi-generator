@@ -106,6 +106,7 @@ The following generators are available:
 * [haskell](generators/haskell.md)  
 * [haskell-yesod (beta)](generators/haskell-yesod.md)  
 * [java-camel](generators/java-camel.md)  
+* [java-dubbo (beta)](generators/java-dubbo.md)  
 * [java-helidon-server (beta)](generators/java-helidon-server.md)  
 * [java-inflector](generators/java-inflector.md)  
 * [java-micronaut-server (beta)](generators/java-micronaut-server.md)  
