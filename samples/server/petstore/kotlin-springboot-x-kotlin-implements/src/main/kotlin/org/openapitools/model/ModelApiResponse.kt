@@ -15,7 +15,7 @@ import javax.validation.constraints.Size
 import javax.validation.Valid
 
 /**
- * Describes the result of uploading an image resource
+ * 
  * @param code 
  * @param type 
  * @param message 

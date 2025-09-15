@@ -15,7 +15,7 @@ import javax.validation.constraints.Size
 import javax.validation.Valid
 
 /**
- * A User who is purchasing from the pet store
+ * 
  * @param id 
  * @param username 
  * @param firstName 
@@ -23,7 +23,7 @@ import javax.validation.Valid
  * @param email 
  * @param password 
  * @param phone 
- * @param userStatus User Status
+ * @param userStatus 
  */
 data class User(
 

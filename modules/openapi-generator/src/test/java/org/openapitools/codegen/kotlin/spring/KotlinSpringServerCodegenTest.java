@@ -977,12 +977,12 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
         assertFileContains(
                 path,
                 "import java.io.Serializable",
-                "@get:JsonProperty(\"name\", required = true) override val name: kotlin.String,",
-                ") : Serializable, com.some.package.Named {",
+                "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
+                ") : Pet, Serializable,  com.some.pack.Fetchable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
@@ -1009,17 +1009,17 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
         assertFileContains(
                 path,
-                "@get:JsonProperty(\"name\", required = true) override val name: kotlin.String,",
-                ") : com.some.package.Named {"
+                "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
+                ") : Pet, com.some.pack.Fetchable {"
         );
         assertFileNotContains(
                 path,
                 "import java.io.Serializable",
-                ") : Serializable, com.some.package.Named {",
-                ") : Serializable {",
+                ") : Pet, Serializable,  com.some.pack.Fetchable {",
+                ") : Pet, Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }

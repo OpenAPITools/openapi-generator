@@ -31,28 +31,31 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
 
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user"]
+        value = ["/user"],
+        consumes = ["application/json"]
     )
-    fun createUser( @Valid @RequestBody body: User): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUser(body), HttpStatus.valueOf(200))
+    fun createUser( @Valid @RequestBody user: User): ResponseEntity<Unit> {
+        return ResponseEntity(service.createUser(user), HttpStatus.valueOf(200))
     }
 
 
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithArray"]
+        value = ["/user/createWithArray"],
+        consumes = ["application/json"]
     )
-    fun createUsersWithArrayInput( @Valid @RequestBody body: kotlin.collections.List<User>): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUsersWithArrayInput(body), HttpStatus.valueOf(200))
+    fun createUsersWithArrayInput( @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+        return ResponseEntity(service.createUsersWithArrayInput(user), HttpStatus.valueOf(200))
     }
 
 
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithList"]
+        value = ["/user/createWithList"],
+        consumes = ["application/json"]
     )
-    fun createUsersWithListInput( @Valid @RequestBody body: kotlin.collections.List<User>): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUsersWithListInput(body), HttpStatus.valueOf(200))
+    fun createUsersWithListInput( @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+        return ResponseEntity(service.createUsersWithListInput(user), HttpStatus.valueOf(200))
     }
 
 
@@ -68,7 +71,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/user/{username}"],
-        produces = ["application/xml", "application/json"]
+        produces = ["application/json"]
     )
     fun getUserByName( @PathVariable("username") username: kotlin.String): ResponseEntity<User> {
         return ResponseEntity(service.getUserByName(username), HttpStatus.valueOf(200))
@@ -78,7 +81,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/user/login"],
-        produces = ["application/xml", "application/json"]
+        produces = ["application/json"]
     )
     fun loginUser(@NotNull  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
         return ResponseEntity(service.loginUser(username, password), HttpStatus.valueOf(200))
@@ -96,9 +99,10 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
 
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = ["/user/{username}"]
+        value = ["/user/{username}"],
+        consumes = ["application/json"]
     )
-    fun updateUser( @PathVariable("username") username: kotlin.String, @Valid @RequestBody body: User): ResponseEntity<Unit> {
-        return ResponseEntity(service.updateUser(username, body), HttpStatus.valueOf(400))
+    fun updateUser( @PathVariable("username") username: kotlin.String, @Valid @RequestBody user: User): ResponseEntity<Unit> {
+        return ResponseEntity(service.updateUser(username, user), HttpStatus.valueOf(400))
     }
 }

@@ -51,9 +51,9 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/store/order/{orderId}"],
-        produces = ["application/xml", "application/json"]
+        produces = ["application/json"]
     )
-    fun getOrderById(@Min(1L) @Max(5L)  @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(@Min(1) @Max(5)  @PathVariable("orderId") orderId: kotlin.Int): ResponseEntity<Order> {
         return ResponseEntity(service.getOrderById(orderId), HttpStatus.valueOf(200))
     }
 
@@ -61,9 +61,10 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     @RequestMapping(
         method = [RequestMethod.POST],
         value = ["/store/order"],
-        produces = ["application/xml", "application/json"]
+        produces = ["application/json"],
+        consumes = ["application/json"]
     )
-    fun placeOrder( @Valid @RequestBody body: Order): ResponseEntity<Order> {
-        return ResponseEntity(service.placeOrder(body), HttpStatus.valueOf(200))
+    fun placeOrder( @Valid @RequestBody order: Order): ResponseEntity<Order> {
+        return ResponseEntity(service.placeOrder(order), HttpStatus.valueOf(200))
     }
 }

@@ -17,12 +17,12 @@ import javax.validation.constraints.Size
 import javax.validation.Valid
 
 /**
- * An order for a pets from the pet store
+ * 
  * @param id 
  * @param petId 
  * @param quantity 
  * @param shipDate 
- * @param status Order Status
+ * @param status 
  * @param complete 
  */
 data class Order(
@@ -41,7 +41,7 @@ data class Order(
 ) : Serializable {
 
     /**
-    * Order Status
+    * 
     * Values: placed,approved,delivered
     */
     enum class Status(@get:JsonValue val value: kotlin.String) {

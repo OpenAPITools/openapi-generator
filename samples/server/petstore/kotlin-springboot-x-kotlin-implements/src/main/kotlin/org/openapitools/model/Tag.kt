@@ -15,7 +15,7 @@ import javax.validation.constraints.Size
 import javax.validation.Valid
 
 /**
- * A tag for a pet
+ * 
  * @param id 
  * @param name 
  */

@@ -13,11 +13,11 @@ class StoreApiServiceImpl : StoreApiService {
         TODO("Implement me")
     }
 
-    override fun getOrderById(orderId: kotlin.Long): Order {
+    override fun getOrderById(orderId: kotlin.Int): Order {
         TODO("Implement me")
     }
 
-    override fun placeOrder(body: Order): Order {
+    override fun placeOrder(order: Order): Order {
         TODO("Implement me")
     }
 }

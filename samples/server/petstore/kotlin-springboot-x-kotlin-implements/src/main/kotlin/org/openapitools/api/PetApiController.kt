@@ -33,10 +33,10 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @RequestMapping(
         method = [RequestMethod.POST],
         value = ["/pet"],
-        consumes = ["application/json", "application/xml"]
+        consumes = ["application/json"]
     )
-    fun addPet( @Valid @RequestBody body: Pet): ResponseEntity<Unit> {
-        return ResponseEntity(service.addPet(body), HttpStatus.valueOf(405))
+    fun addPet( @Valid @RequestBody pet: Pet): ResponseEntity<Unit> {
+        return ResponseEntity(service.addPet(pet), HttpStatus.valueOf(405))
     }
 
 
@@ -52,7 +52,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/pet/findByStatus"],
-        produces = ["application/xml", "application/json"]
+        produces = ["application/json"]
     )
     fun findPetsByStatus(@NotNull  @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsByStatus(status), HttpStatus.valueOf(200))
@@ -62,7 +62,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/pet/findByTags"],
-        produces = ["application/xml", "application/json"]
+        produces = ["application/json"]
     )
     fun findPetsByTags(@NotNull  @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsByTags(tags), HttpStatus.valueOf(200))
@@ -72,7 +72,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/pet/{petId}"],
-        produces = ["application/xml", "application/json"]
+        produces = ["application/json"]
     )
     fun getPetById( @PathVariable("petId") petId: kotlin.Long): ResponseEntity<Pet> {
         return ResponseEntity(service.getPetById(petId), HttpStatus.valueOf(200))
@@ -82,10 +82,10 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @RequestMapping(
         method = [RequestMethod.PUT],
         value = ["/pet"],
-        consumes = ["application/json", "application/xml"]
+        consumes = ["application/json"]
     )
-    fun updatePet( @Valid @RequestBody body: Pet): ResponseEntity<Unit> {
-        return ResponseEntity(service.updatePet(body), HttpStatus.valueOf(400))
+    fun updatePet( @Valid @RequestBody pet: Pet): ResponseEntity<Unit> {
+        return ResponseEntity(service.updatePet(pet), HttpStatus.valueOf(400))
     }
 
 

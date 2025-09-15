@@ -20,7 +20,7 @@ import javax.validation.Valid
 * 
 * Values: black,white,brown,yellow,violet
 */
-enum class Color(@get:JsonValue val value: kotlin.String) : com.some.pack.WithDefaultMethods {
+enum class Color(@get:JsonValue val value: kotlin.String) {
 
     black("black"),
     white("white"),

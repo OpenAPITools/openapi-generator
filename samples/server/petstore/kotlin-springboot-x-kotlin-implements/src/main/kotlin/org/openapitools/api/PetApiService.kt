@@ -8,11 +8,11 @@ interface PetApiService {
     /**
      * POST /pet : Add a new pet to the store
      *
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet  (required)
      * @return Invalid input (status code 405)
      * @see PetApi#addPet
      */
-    fun addPet(body: Pet): Unit
+    fun addPet(pet: Pet): Unit
 
     /**
      * DELETE /pet/{petId} : Deletes a pet
@@ -42,7 +42,6 @@ interface PetApiService {
      * @param tags Tags to filter by (required)
      * @return successful operation (status code 200)
      *         or Invalid tag value (status code 400)
-     * @deprecated
      * @see PetApi#findPetsByTags
      */
     fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<Pet>
@@ -62,13 +61,13 @@ interface PetApiService {
     /**
      * PUT /pet : Update an existing pet
      *
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet  (required)
      * @return Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
      * @see PetApi#updatePet
      */
-    fun updatePet(body: Pet): Unit
+    fun updatePet(pet: Pet): Unit
 
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
@@ -82,11 +81,11 @@ interface PetApiService {
     fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): Unit
 
     /**
-     * POST /pet/{petId}/uploadImage : uploads an image
+     * POST /pet/{petId}/uploadImage : Uploads an image
      *
      * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param additionalMetadata  (optional)
+     * @param file  (optional)
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */

@@ -5,15 +5,15 @@ import org.springframework.stereotype.Service
 @Service
 class UserApiServiceImpl : UserApiService {
 
-    override fun createUser(body: User): Unit {
+    override fun createUser(user: User): Unit {
         TODO("Implement me")
     }
 
-    override fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Unit {
+    override fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Unit {
         TODO("Implement me")
     }
 
-    override fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit {
+    override fun createUsersWithListInput(user: kotlin.collections.List<User>): Unit {
         TODO("Implement me")
     }
 
@@ -33,7 +33,7 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override fun updateUser(username: kotlin.String, body: User): Unit {
+    override fun updateUser(username: kotlin.String, user: User): Unit {
         TODO("Implement me")
     }
 }
