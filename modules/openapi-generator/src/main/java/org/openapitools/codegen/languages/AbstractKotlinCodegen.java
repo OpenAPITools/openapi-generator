@@ -835,6 +835,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
         CodegenModel m = super.fromModel(name, schema);
+        List<String> implementedInterfacesClasses = (List<String>) m.getVendorExtensions().getOrDefault(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), List.of());
+        List<String> implementedInterfacesFields = Optional.ofNullable((List<String>) m.getVendorExtensions().get(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName()))
+                .map(xKotlinImplementsFields -> {
+                    if (implementedInterfacesClasses.isEmpty() && !xKotlinImplementsFields.isEmpty()) {
+                        LOGGER.warn("Annotating {} with {} without {} is not supported. {} will be ignored.",
+                                name, VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName(), VendorExtension.X_KOTLIN_IMPLEMENTS.getName(),
+                                VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName());
+                    }
+                    return xKotlinImplementsFields;
+                }).orElse(List.of());
         m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
         // Update allVars/requiredVars/optionalVars with isInherited
         // Each of these lists contains elements that are similar, but they are all cloned
@@ -850,7 +860,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // Update any other vars (requiredVars, optionalVars)
         Stream.of(m.requiredVars, m.optionalVars)
                 .flatMap(List::stream)
-                .filter(p -> allVarsMap.containsKey(p.baseName))
+                .filter(p -> allVarsMap.containsKey(p.baseName)
+                             || implementedInterfacesFields.contains(p.baseName)
+                )
                 .forEach(p -> p.isInherited = true);
         return m;
     }

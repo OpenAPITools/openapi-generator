@@ -45,7 +45,7 @@ data class Order(
 
     @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
-    ) : Serializable{
+) : Serializable {
 
     /**
     * Order Status
