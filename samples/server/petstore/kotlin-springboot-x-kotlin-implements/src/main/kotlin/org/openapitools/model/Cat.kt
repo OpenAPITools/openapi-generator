@@ -45,8 +45,6 @@ data class Cat(
     @field:Valid
     @get:JsonProperty("tags") override val tags: kotlin.collections.List<Tag>? = null,
 
-    @get:JsonProperty("status") override val status: Cat.Status? = null,
-
     @field:Valid
     @get:JsonProperty("color") override val color: Color? = null
 ) : Pet, Serializable {

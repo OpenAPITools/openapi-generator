@@ -48,8 +48,6 @@ data class Dog(
     @field:Valid
     @get:JsonProperty("tags") override val tags: kotlin.collections.List<Tag>? = null,
 
-    @get:JsonProperty("status") override val status: Dog.Status? = null,
-
     @field:Valid
     @get:JsonProperty("color") override val color: Color? = null
 ) : Pet, Serializable,  com.some.pack.Fetchable {

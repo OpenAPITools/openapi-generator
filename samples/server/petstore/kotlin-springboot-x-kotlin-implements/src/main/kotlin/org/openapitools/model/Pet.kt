@@ -30,7 +30,6 @@ import javax.validation.Valid
  * @param id 
  * @param category 
  * @param tags 
- * @param status 
  * @param color 
  */
 @JsonIgnoreProperties(
@@ -63,31 +62,8 @@ interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, c
         val tags: kotlin.collections.List<Tag>? 
 
         
-        val status: Pet.Status? 
-
-        
         val color: Color? 
 
-
-    /**
-    * 
-    * Values: available,pending,sold
-    */
-    enum class Status(@get:JsonValue val value: kotlin.String) {
-
-        available("available"),
-        pending("pending"),
-        sold("sold");
-
-        companion object {
-            @JvmStatic
-            @JsonCreator
-            fun forValue(value: kotlin.String): Status {
-                return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Pet'")
-            }
-        }
-    }
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

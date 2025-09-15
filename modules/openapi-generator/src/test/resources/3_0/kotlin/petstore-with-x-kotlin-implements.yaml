@@ -531,12 +531,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Tag'
-        status:
-          type: string
-          enum:
-            - available
-            - pending
-            - sold
         color:
           $ref: '#/components/schemas/Color'
         petType:
@@ -587,6 +581,7 @@ components:
         name:
           type: string
     Color:
+      x-kotlin-implements: [ com.some.pack.WithDefaultMethods ]
       type: string
       enum:
         - black
