@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Generated;
 
 
-@Generated(value = "org.openapitools.codegen.languages.DubboCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 
 @DubboService
 public class StoreServiceImpl implements StoreService {
@@ -48,8 +48,7 @@ public class StoreServiceImpl implements StoreService {
         
         // TODO: Implement your business logic here
         // Replace this with actual implementation
-        return null
-;
+        return null;
     }
 
     @Override
@@ -60,7 +59,6 @@ public class StoreServiceImpl implements StoreService {
         
         // TODO: Implement your business logic here
         // Replace this with actual implementation
-        return null
-;
+        return null;
     }
 }

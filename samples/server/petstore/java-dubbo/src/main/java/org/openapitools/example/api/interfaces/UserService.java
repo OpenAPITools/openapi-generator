@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import javax.annotation.Generated;
 
 
-@Generated(value = "org.openapitools.codegen.languages.DubboCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 
 public interface UserService {
 

@@ -46,20 +46,15 @@ public class {{serviceName}}Impl implements {{serviceName}} {
 {{#async}}
         return CompletableFuture.supplyAsync(() -> {
             // TODO: Implement your business logic here
-{{#returnType}}
             // Replace this with actual implementation
-            return {{>returnValueExample}};
-{{/returnType}}
-{{^returnType}}
             return null;
-{{/returnType}}
         });
 {{/async}}
 {{^async}}
         // TODO: Implement your business logic here
 {{#returnType}}
         // Replace this with actual implementation
-        return {{>returnValueExample}};
+        return null;
 {{/returnType}}
 {{/async}}
     }

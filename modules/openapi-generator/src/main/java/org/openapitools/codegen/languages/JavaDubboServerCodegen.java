@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +16,10 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 
 import org.openapitools.codegen.meta.features.*;
@@ -33,27 +29,20 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.Objects;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import org.openapitools.codegen.utils.CamelizeOption;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.ModelMap;
 
 
-public class DubboCodegen extends AbstractJavaCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(DubboCodegen.class);
-
+public class JavaDubboServerCodegen extends AbstractJavaCodegen {
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaDubboServerCodegen.class);
 
     public static final String TITLE = "title";
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -80,7 +69,7 @@ public class DubboCodegen extends AbstractJavaCodegen {
     @Setter protected boolean useGenericResponse = false;
     @Setter protected String registryAddress = "zookeeper://127.0.0.1:2181";
 
-    public DubboCodegen() {
+    public JavaDubboServerCodegen() {
         super();
 
         modifyFeatureSet(features -> features
@@ -215,15 +204,6 @@ public class DubboCodegen extends AbstractJavaCodegen {
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response wrapper", useGenericResponse));
         cliOptions.add(new CliOption(REGISTRY_ADDRESS, "Registry address (e.g., zookeeper://127.0.0.1:2181 or nacos://127.0.0.1:8848)")
                 .defaultValue(registryAddress));
-
-        supportedLibraries.put(DEFAULT_LIBRARY, "Default Dubbo library");
-        setLibrary(DEFAULT_LIBRARY);
-
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        libraryOption.setEnum(supportedLibraries);
-        libraryOption.setDefault(DEFAULT_LIBRARY);
-        cliOptions.add(libraryOption);
-        setLibrary(DEFAULT_LIBRARY);
     }
 
     @Override
@@ -233,7 +213,7 @@ public class DubboCodegen extends AbstractJavaCodegen {
 
     @Override
     public String getName() {
-        return "dubbo";
+        return "java-dubbo";
     }
 
     @Override
@@ -400,7 +380,7 @@ public class DubboCodegen extends AbstractJavaCodegen {
 
             if (isUserTitle) {
                 String titleName = (String) additionalProperties.get(TITLE);
-                mainClassName = camelize(titleName.trim(), CamelizeOption.UPPERCASE_FIRST_CHAR) + "Application";
+                mainClassName = (camelize(titleName.trim(), CamelizeOption.UPPERCASE_FIRST_CHAR) + "Application").replaceAll("\\s+", "");;
             } else {
                 mainClassName = "OpenApiGeneratorApplication";
             }

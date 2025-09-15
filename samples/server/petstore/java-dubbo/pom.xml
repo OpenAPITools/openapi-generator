@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>org.openapitools</groupId>
-    <artifactId>openapi-dubbo</artifactId>
+    <artifactId>openapi-dubbo-server-petstore</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>Financial Data API</name>
-    <description>API for retrieving historical and real-time financial data for various products like A-Shares, US Stocks, Funds, and more.</description>
+    <name>OpenAPI Petstore</name>
+    <description>This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -45,11 +45,9 @@
             <artifactId>dubbo</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
-        <!-- 注册中心依赖 - 根据Dubbo版本和registry-address自动选择 -->
-        <!-- 当前配置: zookeeper://127.0.0.1:2181 (Dubbo 3.2.0) -->
 
-        <!-- Zookeeper 注册中心依赖 -->
-        <!-- Dubbo 3.2 及之前版本使用聚合依赖 -->
+        <!-- Zookeeper -->
+        <!-- Dubbo 3.2 -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-dependencies-zookeeper</artifactId>
