@@ -5,12 +5,10 @@ on:
     paths:
       - 'samples/client/petstore/scala**'
       - 'samples/server/petstore/scala**'
-      - 'samples/client/petstore/java/okhttp-gson/**'
   pull_request:
     paths:
       - 'samples/client/petstore/scala**'
       - 'samples/server/petstore/scala**'
-      - 'samples/client/petstore/java/okhttp-gson/**'
 jobs:
   build:
     name: Build sbt/Scala client, servers
@@ -20,7 +18,6 @@ jobs:
       matrix:
         sample:
           # clients
-          - samples/client/petstore/java/okhttp-gson
           - samples/client/petstore/scalaz
           - samples/client/petstore/scala-pekko
           - samples/client/petstore/scala-http4s
