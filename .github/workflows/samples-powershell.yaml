@@ -9,7 +9,7 @@ on:
       - samples/client/petstore/powershell/**
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     name: Test Powershell Clients
     strategy:
       matrix:
@@ -25,8 +25,9 @@ jobs:
           SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v5
-      - name: Run tests
+      - name: Build the client
         working-directory: ${{ matrix.sample }}
         shell: pwsh
         run: |
-          CIRunTest.ps1
+          Build.ps1
+
