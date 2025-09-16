@@ -9,7 +9,7 @@ on:
       - samples/client/petstore/powershell/**
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     name: Test Powershell Clients
     strategy:
       matrix:
@@ -29,5 +29,5 @@ jobs:
         working-directory: ${{ matrix.sample }}
         shell: pwsh
         run: |
-          Build.ps1
+          ./Build.ps1
 
