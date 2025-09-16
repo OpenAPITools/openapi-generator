@@ -1,17 +1,17 @@
 ---
-title: Documentation for the scala-lagom-server Generator
+title: Documentation for the scala-lagom-server-deprecated Generator
 ---
 
 ## METADATA
 
 | Property | Value | Notes |
 | -------- | ----- | ----- |
-| generator name | scala-lagom-server | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator name | scala-lagom-server-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
 | generator type | SERVER | |
 | generator language | Scala | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Lagom API server (Beta) in scala | |
+| helpTxt | Generates a Lagom API server (Beta) in scala. IMPORTANT: this generator has been deprecated | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.

@@ -151,7 +151,7 @@ The following generators are available:
 * [scala-cask](generators/scala-cask.md)  
 * [scala-finch](generators/scala-finch.md)  
 * [scala-http4s-server](generators/scala-http4s-server.md)  
-* [scala-lagom-server](generators/scala-lagom-server.md)  
+* [scala-lagom-server-deprecated (deprecated)](generators/scala-lagom-server-deprecated.md)  
 * [scala-play-server](generators/scala-play-server.md)  
 * [scalatra](generators/scalatra.md)  
 * [spring](generators/spring.md)  
