@@ -47,7 +47,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  @jakarta.annotation.Nonnull
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
   protected String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";

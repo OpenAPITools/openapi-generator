@@ -41,7 +41,7 @@ public final class Apple implements Fruit {
   private Integer seeds;
 
   public static final String JSON_PROPERTY_FRUIT_TYPE = "fruitType";
-  @javax.annotation.Nonnull
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
   private FruitType fruitType;
 
   public Apple() {
