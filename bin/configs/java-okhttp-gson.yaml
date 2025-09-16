@@ -14,7 +14,6 @@ additionalProperties:
   artifactId: petstore-okhttp-gson
   hideGenerationTimestamp: true
   useOneOfDiscriminatorLookup: true
-  disallowAdditionalPropertiesIfNotPresent: false
   useReflectionEqualsHashCode:: true
   removeEnumValuePrefix: true
 enumNameMappings:

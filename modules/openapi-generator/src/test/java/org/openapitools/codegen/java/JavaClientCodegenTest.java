@@ -3217,7 +3217,8 @@ public class JavaClientCodegenTest {
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
-                        CodegenConstants.WITH_XML, true
+                        CodegenConstants.WITH_XML, true,
+                        CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, true
                 ))
                 .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
