@@ -18,7 +18,13 @@ class ChildWithNullable {
     this.otherProperty,
   });
 
-  ChildWithNullableTypeEnum? type;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? type;
 
   String? nullableProperty;
 
@@ -85,7 +91,7 @@ class ChildWithNullable {
       }());
 
       return ChildWithNullable(
-        type: ChildWithNullableTypeEnum.fromJson(json[r'type']),
+        type: mapValueOfType<String>(json, r'type'),
         nullableProperty: mapValueOfType<String>(json, r'nullableProperty'),
         otherProperty: mapValueOfType<String>(json, r'otherProperty'),
       );
@@ -137,75 +143,4 @@ class ChildWithNullable {
   static const requiredKeys = <String>{
   };
 }
-
-
-class ChildWithNullableTypeEnum {
-  /// Instantiate a new enum with the provided [value].
-  const ChildWithNullableTypeEnum._(this.value);
-
-  /// The underlying value of this enum member.
-  final String value;
-
-  @override
-  String toString() => value;
-
-  String toJson() => value;
-
-  static const childWithNullable = ChildWithNullableTypeEnum._(r'ChildWithNullable');
-
-  /// List of all possible values in this [enum][ChildWithNullableTypeEnum].
-  static const values = <ChildWithNullableTypeEnum>[
-    childWithNullable,
-  ];
-
-  static ChildWithNullableTypeEnum? fromJson(dynamic value) => ChildWithNullableTypeEnumTypeTransformer().decode(value);
-
-  static List<ChildWithNullableTypeEnum> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <ChildWithNullableTypeEnum>[];
-    if (json is List && json.isNotEmpty) {
-      for (final row in json) {
-        final value = ChildWithNullableTypeEnum.fromJson(row);
-        if (value != null) {
-          result.add(value);
-        }
-      }
-    }
-    return result.toList(growable: growable);
-  }
-}
-
-/// Transformation class that can [encode] an instance of [ChildWithNullableTypeEnum] to String,
-/// and [decode] dynamic data back to [ChildWithNullableTypeEnum].
-class ChildWithNullableTypeEnumTypeTransformer {
-  factory ChildWithNullableTypeEnumTypeTransformer() => _instance ??= const ChildWithNullableTypeEnumTypeTransformer._();
-
-  const ChildWithNullableTypeEnumTypeTransformer._();
-
-  String encode(ChildWithNullableTypeEnum data) => data.value;
-
-  /// Decodes a [dynamic value][data] to a ChildWithNullableTypeEnum.
-  ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  ChildWithNullableTypeEnum? decode(dynamic data, {bool allowNull = true}) {
-    if (data != null) {
-      switch (data) {
-        case r'ChildWithNullable': return ChildWithNullableTypeEnum.childWithNullable;
-        default:
-          if (!allowNull) {
-            throw ArgumentError('Unknown enum value to decode: $data');
-          }
-      }
-    }
-    return null;
-  }
-
-  /// Singleton [ChildWithNullableTypeEnumTypeTransformer] instance.
-  static ChildWithNullableTypeEnumTypeTransformer? _instance;
-}
-
 
