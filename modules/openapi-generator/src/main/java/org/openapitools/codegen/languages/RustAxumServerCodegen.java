@@ -647,10 +647,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return op;
     }
 
-    private void postProcessPolymorphism(List<ModelMap> allModels) {
-        final HashMap<String, List<String>> mapDiscriminator = new HashMap<>();
+    private void postProcessPolymorphism(final List<ModelMap> allModels) {
+        final HashMap<String, List<String>> discriminatorsForModel = new HashMap<>();
 
-        for (ModelMap mo : allModels) {
+        for (final ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
 
             final CodegenComposedSchemas cs = cm.getComposedSchemas();
@@ -671,43 +671,29 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             }
 
             if (cm.discriminator != null) {
-                for (String model : cm.oneOf) {
-                    final List<String> discriminators = mapDiscriminator.getOrDefault(model, new ArrayList<>());
+                for (final String model : cm.oneOf) {
+                    final List<String> discriminators = discriminatorsForModel.getOrDefault(model, new ArrayList<>());
                     discriminators.add(cm.discriminator.getPropertyName());
-                    mapDiscriminator.put(model, discriminators);
+                    discriminatorsForModel.put(model, discriminators);
                 }
 
-                for (String model : cm.anyOf) {
-                    final List<String> discriminators = mapDiscriminator.getOrDefault(model, new ArrayList<>());
+                for (final String model : cm.anyOf) {
+                    final List<String> discriminators = discriminatorsForModel.getOrDefault(model, new ArrayList<>());
                     discriminators.add(cm.discriminator.getPropertyName());
-                    mapDiscriminator.put(model, discriminators);
+                    discriminatorsForModel.put(model, discriminators);
                 }
             }
         }
 
+        final var blocking = new HashSet<String>();
         for (ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
 
-            final List<String> discriminatorsForModel = mapDiscriminator.get(cm.getSchemaName());
-            if (discriminatorsForModel != null) {
-                for (CodegenProperty var : cm.vars) {
-                    var.isDiscriminator = false;
-                }
-
-                boolean hasDiscriminatorDefined = false;
-                for (String discriminator : discriminatorsForModel) {
-                    for (CodegenProperty var : cm.vars) {
-                        if (var.baseName.equals(discriminator) || var.name.equals(discriminator)) {
-                            var.isDiscriminator = true;
-                            hasDiscriminatorDefined = true;
-                            break;
-                        }
-                    }
-                }
-
+            final List<String> discriminators = discriminatorsForModel.get(cm.getSchemaName());
+            if (discriminators != null) {
                 // If the discriminator field is not a defined attribute in the variant structure, create it.
-                if (!hasDiscriminatorDefined && !discriminatorsForModel.isEmpty()) {
-                    final String discriminator = discriminatorsForModel.get(0);
+                if (!discriminating(discriminators, cm)) {
+                    final String discriminator = discriminators.get(0);
 
                     CodegenProperty property = new CodegenProperty();
 
@@ -740,6 +726,50 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     cm.vars.add(property);
                 }
             }
+
+            if (cm.vars.stream().noneMatch(v -> v.isDiscriminator)) {
+                blocking.add(cm.getSchemaName());
+            }
+        }
+
+        for (final ModelMap mo : allModels) {
+            final CodegenModel cm = mo.getModel();
+            if (cm.discriminator != null) {
+                // if no discriminator in any of variant -> disable discriminator
+                if (cm.oneOf.stream().anyMatch(blocking::contains) || cm.anyOf.stream().anyMatch(blocking::contains)) {
+                    cm.discriminator = null;
+                }
+            }
+        }
+    }
+
+    private static boolean discriminating(final List<String> discriminatorsForModel, final CodegenModel cm) {
+        resetDiscriminatorProperty(cm);
+
+        // Discriminator will be presented as enum tag -> One and only one tag is allowed
+        int countString = 0;
+        int countNonString = 0;
+        for (final CodegenProperty var : cm.vars) {
+            if (discriminatorsForModel.stream().anyMatch(discriminator -> var.baseName.equals(discriminator) || var.name.equals(discriminator))) {
+                if (var.isString) {
+                    var.isDiscriminator = true;
+                    ++countString;
+                } else
+                    ++countNonString;
+            }
+        }
+
+        if (countString > 0 && (countNonString > 0 || countString > 1)) {
+            // at least two discriminator, one of them is string -> should not render serde tag
+            resetDiscriminatorProperty(cm);
+        }
+
+        return countNonString > 0 || countString > 0;
+    }
+
+    private static void resetDiscriminatorProperty(final CodegenModel cm) {
+        for (final CodegenProperty var : cm.vars) {
+            var.isDiscriminator = false;
         }
     }
 
