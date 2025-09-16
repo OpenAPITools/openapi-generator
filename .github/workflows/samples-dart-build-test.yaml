@@ -10,7 +10,7 @@ on:
       - samples/openapi3/client/petstore/dart-dio/oneof/**
       - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
       - samples/openapi3/client/petstore/dart-dio/binary_response/**
-      - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-timemachine/**
+      - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**
   pull_request:
     paths:
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
@@ -19,7 +19,7 @@ on:
       - samples/openapi3/client/petstore/dart-dio/oneof/**
       - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
       - samples/openapi3/client/petstore/dart-dio/binary_response/**
-      - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-timemachine/**
+      - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**
 
 jobs:
   test:
@@ -35,7 +35,7 @@ jobs:
           - samples/openapi3/client/petstore/dart-dio/oneof/
           - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/
           - samples/openapi3/client/petstore/dart-dio/binary_response/
-          - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-timemachine/
+          - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/
     steps:
       - uses: actions/checkout@v5
 

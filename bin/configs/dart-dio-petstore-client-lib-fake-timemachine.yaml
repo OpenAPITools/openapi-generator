@@ -1,6 +1,6 @@
 generatorName: dart-dio
-outputDir: samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-timemachine
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+outputDir: samples/openapi3/client/petstore/dart-dio/petstore-timemachine
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/dart/libraries/dio
 typeMappings:
   Client: "ModelClient"
