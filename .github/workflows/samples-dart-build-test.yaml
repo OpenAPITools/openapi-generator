@@ -4,6 +4,7 @@ on:
   push:
     branches:
     paths:
+      - samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/**
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
       - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
@@ -13,6 +14,7 @@ on:
       - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**
   pull_request:
     paths:
+      - samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/**
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
       - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
@@ -29,6 +31,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         sdk: ["3.9.0"]
         sample:
+          - samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/
           #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/
           #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/
           - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/
