@@ -317,7 +317,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 imports.put("OffsetDate", "package:time_machine/time_machine.dart");
                 imports.put("OffsetDateTime", "package:time_machine/time_machine.dart");
                 if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
-                    supportingFiles.add(new SupportingFile("serialization/built_value/offset_date_serializer.mustache", srcFolder, "local_date_serializer.dart"));
+                    supportingFiles.add(new SupportingFile("serialization/built_value/offset_date_serializer.mustache", srcFolder, "offset_date_serializer.dart"));
                 }
                 break;
             default:
