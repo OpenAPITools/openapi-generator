@@ -30,4 +30,15 @@ jobs:
         shell: pwsh
         run: |
           ./Build.ps1
+      - name: Import
+        working-directory: ${{ matrix.sample }}
+        shell: pwsh
+        run: |
+          Import-Module -Name './src/PSPetstore'
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        shell: pwsh
+        run: |
+          Invoke-Pester -PassThru
+
 
