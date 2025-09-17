@@ -1,6 +1,6 @@
 # Org.OpenAPITools.Api.AnotherFakeApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://localhost/v2*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -29,7 +29,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new AnotherFakeApi(config);
             var modelClient = new ModelClient(); // ModelClient | client model
 
