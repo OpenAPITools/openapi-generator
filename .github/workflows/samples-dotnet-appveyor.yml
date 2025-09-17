@@ -1,4 +1,4 @@
-name: Samples C# .Net 8 Client (from AppVeyor)
+name: Samples C# .Net Client (from AppVeyor)
 
 on:
   push:
@@ -28,7 +28,7 @@ on:
 jobs:
   build:
     name: Build clients (migrated from AppVeyor)
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
