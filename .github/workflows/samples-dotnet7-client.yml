@@ -1,4 +1,4 @@
-name: Samples C# .Net Client (from AppVeyor)
+name: Samples C# .Net 7 Client
 
 on:
   push:
@@ -28,16 +28,8 @@ on:
       - samples/client/petstore/csharp/restsharp/standard2.0/Petstore/**
 jobs:
   build:
-    name: Build clients (migrated from AppVeyor)
+    name: Build clients
     runs-on: windows-latest
-    services:
-      petstore-api:
-        image: swaggerapi/petstore
-        ports:
-          - 80:8080
-        env:
-          SWAGGER_HOST: http://petstore.swagger.io
-          SWAGGER_BASE_PATH: /v2
     strategy:
       fail-fast: false
       matrix:

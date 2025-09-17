@@ -1,4 +1,4 @@
-name: Samples C# .Net Client (from AppVeyor)
+name: Samples C# .Net Client (Petstore)
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - samples/client/petstore/csharp/restsharp/standard2.0/Petstore/**
 jobs:
   build:
-    name: Build clients (migrated from AppVeyor)
+    name: Build clients
     runs-on: ubuntu-latest
     services:
       petstore-api:
