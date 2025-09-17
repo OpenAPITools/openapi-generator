@@ -1,0 +1,56 @@
+name: Samples C# .Net 8 Client (from AppVeyor)
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/csharp/httpclient/standard2.0/Petstore/**
+      - samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/**
+      - samples/client/petstore/csharp/restsharp/net4.7/Petstore/**
+      - samples/client/petstore/csharp/restsharp/net4.8/Petstore/**
+      - samples/client/petstore/csharp/restsharp/net8/ParameterMappings/**
+      - samples/client/petstore/csharp/restsharp/net8/EnumMappings/**
+      - samples/client/petstore/csharp/restsharp/net8/Petstore/**
+      - samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/**
+      - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/**
+      - samples/client/petstore/csharp/restsharp/standard2.0/Petstore/**
+  pull_request:
+    paths:
+      - samples/client/petstore/csharp/httpclient/standard2.0/Petstore/**
+      - samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/**
+      - samples/client/petstore/csharp/restsharp/net4.7/Petstore/**
+      - samples/client/petstore/csharp/restsharp/net4.8/Petstore/**
+      - samples/client/petstore/csharp/restsharp/net8/ParameterMappings/**
+      - samples/client/petstore/csharp/restsharp/net8/EnumMappings/**
+      - samples/client/petstore/csharp/restsharp/net8/Petstore/**
+      - samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/**
+      - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/**
+      - samples/client/petstore/csharp/restsharp/standard2.0/Petstore/**
+jobs:
+  build:
+    name: Build clients (migrated from AppVeyor)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/csharp/httpclient/standard2.0/Petstore/
+          - samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/
+          - samples/client/petstore/csharp/restsharp/net4.7/Petstore/
+          - samples/client/petstore/csharp/restsharp/net4.8/Petstore/
+          - samples/client/petstore/csharp/restsharp/net8/ParameterMappings/
+          - samples/client/petstore/csharp/restsharp/net8/EnumMappings/
+          - samples/client/petstore/csharp/restsharp/net8/Petstore/
+          - samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/
+          - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/
+          - samples/client/petstore/csharp/restsharp/standard2.0/Petstore/
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5.0.0
+        with:
+          dotnet-version: '8.0.x'
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: dotnet build Org.OpenAPITools.sln
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: dotnet test Org.OpenAPITools.sln
