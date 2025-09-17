@@ -3,33 +3,14 @@ name: Samples C# .Net Client (from AppVeyor)
 on:
   push:
     paths:
-      # the .NET Core 3.0 runtime is no longer supported as it reached its end-of-life on March 3, 2020
-      #- samples/client/petstore/csharp/httpclient/standard2.0/Petstore/**
-      - samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/**
-      - samples/client/petstore/csharp/restsharp/net4.7/Petstore/**
-      - samples/client/petstore/csharp/restsharp/net4.8/Petstore/**
-      - samples/client/petstore/csharp/restsharp/net8/ParameterMappings/**
-      - samples/client/petstore/csharp/restsharp/net8/EnumMappings/**
-      - samples/client/petstore/csharp/restsharp/net8/Petstore/**
-      - samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/**
-      - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/**
       - samples/client/petstore/csharp/restsharp/standard2.0/Petstore/**
   pull_request:
     paths:
-      #- samples/client/petstore/csharp/httpclient/standard2.0/Petstore/**
-      - samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/**
-      - samples/client/petstore/csharp/restsharp/net4.7/Petstore/**
-      - samples/client/petstore/csharp/restsharp/net4.8/Petstore/**
-      - samples/client/petstore/csharp/restsharp/net8/ParameterMappings/**
-      - samples/client/petstore/csharp/restsharp/net8/EnumMappings/**
-      - samples/client/petstore/csharp/restsharp/net8/Petstore/**
-      - samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/**
-      - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/**
       - samples/client/petstore/csharp/restsharp/standard2.0/Petstore/**
 jobs:
   build:
     name: Build clients (migrated from AppVeyor)
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     services:
       petstore-api:
         image: swaggerapi/petstore
@@ -42,15 +23,6 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          #- samples/client/petstore/csharp/httpclient/standard2.0/Petstore/
-          - samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/
-          - samples/client/petstore/csharp/restsharp/net4.7/Petstore/
-          - samples/client/petstore/csharp/restsharp/net4.8/Petstore/
-          - samples/client/petstore/csharp/restsharp/net8/ParameterMappings/
-          - samples/client/petstore/csharp/restsharp/net8/EnumMappings/
-          - samples/client/petstore/csharp/restsharp/net8/Petstore/
-          - samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate/
-          - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/
           - samples/client/petstore/csharp/restsharp/standard2.0/Petstore/
     steps:
       - uses: actions/checkout@v5
