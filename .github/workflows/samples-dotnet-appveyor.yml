@@ -3,7 +3,8 @@ name: Samples C# .Net Client (from AppVeyor)
 on:
   push:
     paths:
-      - samples/client/petstore/csharp/httpclient/standard2.0/Petstore/**
+      # the .NET Core 3.0 runtime is no longer supported as it reached its end-of-life on March 3, 2020
+      #- samples/client/petstore/csharp/httpclient/standard2.0/Petstore/**
       - samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/**
       - samples/client/petstore/csharp/restsharp/net4.7/Petstore/**
       - samples/client/petstore/csharp/restsharp/net4.8/Petstore/**
@@ -15,7 +16,7 @@ on:
       - samples/client/petstore/csharp/restsharp/standard2.0/Petstore/**
   pull_request:
     paths:
-      - samples/client/petstore/csharp/httpclient/standard2.0/Petstore/**
+      #- samples/client/petstore/csharp/httpclient/standard2.0/Petstore/**
       - samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/**
       - samples/client/petstore/csharp/restsharp/net4.7/Petstore/**
       - samples/client/petstore/csharp/restsharp/net4.8/Petstore/**
@@ -29,11 +30,19 @@ jobs:
   build:
     name: Build clients (migrated from AppVeyor)
     runs-on: windows-latest
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     strategy:
       fail-fast: false
       matrix:
         sample:
-          - samples/client/petstore/csharp/httpclient/standard2.0/Petstore/
+          #- samples/client/petstore/csharp/httpclient/standard2.0/Petstore/
           - samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks/
           - samples/client/petstore/csharp/restsharp/net4.7/Petstore/
           - samples/client/petstore/csharp/restsharp/net4.8/Petstore/
