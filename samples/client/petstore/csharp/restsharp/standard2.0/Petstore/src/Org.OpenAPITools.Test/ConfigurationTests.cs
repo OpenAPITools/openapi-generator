@@ -42,16 +42,16 @@ namespace Org.OpenAPITools.Test
         {
             Configuration c = new Configuration();
             // no variable (null) provided
-            Assert.Equal("https://localhost:8080/v2", c.GetServerUrl(1, null));
+            Assert.Equal("https://localhost:8080/v2", c.GetServerUrl(2, null));
             // no variable (empty dictionary) provided
-            Assert.Equal("https://localhost:8080/v2", c.GetServerUrl(1, new Dictionary<string, string>()));
+            Assert.Equal("https://localhost:8080/v2", c.GetServerUrl(2, new Dictionary<string, string>()));
 
-            Assert.Equal("https://localhost:8080/v1", c.GetServerUrl(1, new Dictionary<string, string>() { { "version", "v1" } }));
+            Assert.Equal("https://localhost:8080/v1", c.GetServerUrl(2, new Dictionary<string, string>() { { "version", "v1" } }));
 
-            Assert.Throws<InvalidOperationException>(() => c.GetServerUrl(1, new Dictionary<string, string>() { { "version", "v3" } }));
+            Assert.Throws<InvalidOperationException>(() => c.GetServerUrl(2, new Dictionary<string, string>() { { "version", "v3" } }));
 
             // test the first server (index 0)
-            Assert.Equal("http://petstore.swagger.io:80/v2", c.GetServerUrl(0));
+            Assert.Equal("http://petstore.swagger.io:80/v2", c.GetServerUrl(1));
 
         }
     }
