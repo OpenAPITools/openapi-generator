@@ -26,8 +26,6 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 import io.smallrye.mutiny.Uni;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
  * OpenAPI Petstore
@@ -36,7 +34,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("/store")
 public interface StoreApi  {
 
@@ -48,7 +45,7 @@ public interface StoreApi  {
      */
     @DELETE
     @Path("/order/{orderId}")
-    Uni<Void> deleteOrder(@PathParam("orderId") String orderId) throws ApiException, ProcessingException;
+    Uni<Void> deleteOrder(@PathParam("orderId") String orderId) throws WebApplicationException, ProcessingException;
 
     /**
      * Returns pet inventories by status
@@ -59,7 +56,7 @@ public interface StoreApi  {
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
-    Uni<Map<String, Integer>> getInventory() throws ApiException, ProcessingException;
+    Uni<Map<String, Integer>> getInventory() throws WebApplicationException, ProcessingException;
 
     /**
      * Find purchase order by ID
@@ -70,7 +67,7 @@ public interface StoreApi  {
     @GET
     @Path("/order/{orderId}")
     @Produces({ "application/xml", "application/json" })
-    Uni<Order> getOrderById(@PathParam("orderId") Long orderId) throws ApiException, ProcessingException;
+    Uni<Order> getOrderById(@PathParam("orderId") Long orderId) throws WebApplicationException, ProcessingException;
 
     /**
      * Place an order for a pet
@@ -82,5 +79,5 @@ public interface StoreApi  {
     @Path("/order")
     @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
-    Uni<Order> placeOrder(Order order) throws ApiException, ProcessingException;
+    Uni<Order> placeOrder(Order order) throws WebApplicationException, ProcessingException;
 }

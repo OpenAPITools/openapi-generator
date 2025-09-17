@@ -25,7 +25,6 @@ import javax.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
@@ -36,7 +35,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="fakeclassnametags123-api")
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("/fake_classname_test")
 public interface FakeClassnameTags123Api  {
 
@@ -50,5 +48,5 @@ public interface FakeClassnameTags123Api  {
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    Client testClassname(Client client) throws ApiException, ProcessingException;
+    Client testClassname(Client client) throws WebApplicationException, ProcessingException;
 }

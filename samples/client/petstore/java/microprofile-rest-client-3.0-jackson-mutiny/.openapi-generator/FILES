@@ -12,8 +12,6 @@ pom.xml
 src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/RFC3339InstantDeserializer.java
 src/main/java/org/openapitools/client/RFC3339JavaTimeModule.java
-src/main/java/org/openapitools/client/api/ApiException.java
-src/main/java/org/openapitools/client/api/ApiExceptionMapper.java
 src/main/java/org/openapitools/client/api/PetApi.java
 src/main/java/org/openapitools/client/api/StoreApi.java
 src/main/java/org/openapitools/client/api/UserApi.java

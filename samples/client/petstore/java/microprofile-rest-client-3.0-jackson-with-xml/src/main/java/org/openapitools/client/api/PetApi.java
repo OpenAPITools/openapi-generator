@@ -27,7 +27,6 @@ import jakarta.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
@@ -38,7 +37,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="petstore")
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("/pet")
 public interface PetApi  {
 
@@ -52,7 +50,7 @@ public interface PetApi  {
     
     @Consumes({ "application/json", "application/xml" })
     @Produces({ "application/xml", "application/json" })
-    Pet addPet(Pet pet) throws ApiException, ProcessingException;
+    Pet addPet(Pet pet) throws WebApplicationException, ProcessingException;
 
     /**
      * Deletes a pet
@@ -62,7 +60,7 @@ public interface PetApi  {
      */
     @DELETE
     @Path("/{petId}")
-    void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")  String apiKey) throws ApiException, ProcessingException;
+    void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")  String apiKey) throws WebApplicationException, ProcessingException;
 
     /**
      * Finds Pets by status
@@ -73,7 +71,7 @@ public interface PetApi  {
     @GET
     @Path("/findByStatus")
     @Produces({ "application/xml", "application/json" })
-    List<Pet> findPetsByStatus(@QueryParam("status") List<String> status) throws ApiException, ProcessingException;
+    List<Pet> findPetsByStatus(@QueryParam("status") List<String> status) throws WebApplicationException, ProcessingException;
 
     /**
      * Finds Pets by tags
@@ -86,7 +84,7 @@ public interface PetApi  {
     @GET
     @Path("/findByTags")
     @Produces({ "application/xml", "application/json" })
-    List<Pet> findPetsByTags(@QueryParam("tags") List<String> tags) throws ApiException, ProcessingException;
+    List<Pet> findPetsByTags(@QueryParam("tags") List<String> tags) throws WebApplicationException, ProcessingException;
 
     /**
      * Find pet by ID
@@ -97,7 +95,7 @@ public interface PetApi  {
     @GET
     @Path("/{petId}")
     @Produces({ "application/xml", "application/json" })
-    Pet getPetById(@PathParam("petId") Long petId) throws ApiException, ProcessingException;
+    Pet getPetById(@PathParam("petId") Long petId) throws WebApplicationException, ProcessingException;
 
     /**
      * Update an existing pet
@@ -109,7 +107,7 @@ public interface PetApi  {
     
     @Consumes({ "application/json", "application/xml" })
     @Produces({ "application/xml", "application/json" })
-    Pet updatePet(Pet pet) throws ApiException, ProcessingException;
+    Pet updatePet(Pet pet) throws WebApplicationException, ProcessingException;
 
     /**
      * Updates a pet in the store with form data
@@ -120,7 +118,7 @@ public interface PetApi  {
     @POST
     @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
-    void updatePetWithForm(@PathParam("petId") Long petId, @Multipart(value = "name", required = false)  String name, @Multipart(value = "status", required = false)  String status) throws ApiException, ProcessingException;
+    void updatePetWithForm(@PathParam("petId") Long petId, @Multipart(value = "name", required = false)  String name, @Multipart(value = "status", required = false)  String status) throws WebApplicationException, ProcessingException;
 
     /**
      * uploads an image
@@ -132,5 +130,5 @@ public interface PetApi  {
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment _fileDetail) throws ApiException, ProcessingException;
+    ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment _fileDetail) throws WebApplicationException, ProcessingException;
 }
