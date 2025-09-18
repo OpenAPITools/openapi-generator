@@ -57,7 +57,7 @@ public class Cat extends Animal implements Serializable {
     this.declawed = declawed;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -82,6 +82,7 @@ public class Cat extends Animal implements Serializable {
     sb.append("class Cat {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

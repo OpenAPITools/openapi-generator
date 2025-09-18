@@ -89,7 +89,7 @@ public class OuterComposite  implements Serializable {
     this.myBoolean = myBoolean;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -117,6 +117,7 @@ public class OuterComposite  implements Serializable {
     sb.append("    myNumber: ").append(toIndentedString(myNumber)).append("\n");
     sb.append("    myString: ").append(toIndentedString(myString)).append("\n");
     sb.append("    myBoolean: ").append(toIndentedString(myBoolean)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

@@ -118,7 +118,7 @@ public class Name  implements Serializable {
     this._123number = _123number;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -148,6 +148,7 @@ public class Name  implements Serializable {
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("    property: ").append(toIndentedString(property)).append("\n");
     sb.append("    _123number: ").append(toIndentedString(_123number)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

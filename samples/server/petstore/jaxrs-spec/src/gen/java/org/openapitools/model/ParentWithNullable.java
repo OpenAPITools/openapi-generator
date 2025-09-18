@@ -122,7 +122,7 @@ public class ParentWithNullable  implements Serializable {
     this.nullableProperty = nullableProperty;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -148,6 +148,7 @@ public class ParentWithNullable  implements Serializable {
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    nullableProperty: ").append(toIndentedString(nullableProperty)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }
