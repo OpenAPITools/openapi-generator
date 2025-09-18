@@ -595,13 +595,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // imports for pojos
-        if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
-            importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
-            importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
-        } else if (AnnotationLibrary.SWAGGER2.equals(getAnnotationLibrary())) {
-            importMapping.put("Schema", "io.swagger.v3.oas.annotations.media.Schema");
-        }
-
+        importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
+        importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
+        importMapping.put("Schema", "io.swagger.v3.oas.annotations.media.Schema");
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("JsonDeserialize", "com.fasterxml.jackson.databind.annotation.JsonDeserialize");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
