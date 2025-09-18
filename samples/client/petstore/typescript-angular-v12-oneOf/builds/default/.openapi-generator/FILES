@@ -13,4 +13,5 @@ model/fruit.ts
 model/grape.ts
 model/models.ts
 param.ts
+query.params.ts
 variables.ts
