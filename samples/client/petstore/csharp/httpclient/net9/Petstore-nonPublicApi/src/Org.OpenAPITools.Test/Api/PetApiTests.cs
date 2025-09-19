@@ -31,7 +31,7 @@ namespace Org.OpenAPITools.Test.Api
     /// </remarks>
     public class PetApiTests : IDisposable
     {
-        private PetApi instance;
+        //private PetApi instance;
 
         public PetApiTests()
         {
