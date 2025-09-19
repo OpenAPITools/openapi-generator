@@ -105,6 +105,10 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
+				URL: "http://localhost/v2",
+				Description: "No description provided",
+			},
+			{
 				URL: "http://{server}.swagger.io:{port}/v2",
 				Description: "petstore server",
 				Variables: map[string]ServerVariable{
@@ -149,6 +153,10 @@ func NewConfiguration() *Configuration {
 		OperationServers: map[string]ServerConfigurations{
 			"PetAPIService.AddPet": {
 				{
+					URL: "http://localhost/v2",
+					Description: "No description provided",
+				},
+				{
 					URL: "http://petstore.swagger.io/v2",
 					Description: "No description provided",
 				},
@@ -158,6 +166,10 @@ func NewConfiguration() *Configuration {
 				},
 			},
 			"PetAPIService.UpdatePet": {
+				{
+					URL: "http://localhost/v2",
+					Description: "No description provided",
+				},
 				{
 					URL: "http://petstore.swagger.io/v2",
 					Description: "No description provided",

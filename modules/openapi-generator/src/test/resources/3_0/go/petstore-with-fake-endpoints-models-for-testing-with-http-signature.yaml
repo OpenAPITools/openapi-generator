@@ -49,6 +49,7 @@ paths:
                     $ref: '#/components/schemas/Foo'
   /pet:
     servers:
+    - url: 'http://localhost/v2'
     - url: 'http://petstore.swagger.io/v2'
     - url: 'http://path-server-test.petstore.local/v2'
     post:
@@ -1308,6 +1309,7 @@ paths:
               schema:
                 type: object
 servers:
+  - url: 'http://localhost/v2'
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
     variables:
