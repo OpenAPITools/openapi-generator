@@ -132,7 +132,7 @@ func NewConfiguration() *Configuration {
 				},
 			},
 			{
-				URL: "https://localhost:8080/{version}",
+				URL: "http://localhost:8080/{version}",
 				Description: "The local server",
 				Variables: map[string]ServerVariable{
 					"version": ServerVariable{
@@ -146,7 +146,7 @@ func NewConfiguration() *Configuration {
 				},
 			},
 			{
-				URL: "https://127.0.0.1/no_variable",
+				URL: "http://127.0.0.1/no_variable",
 				Description: "The local server without variables",
 			},
 		},
