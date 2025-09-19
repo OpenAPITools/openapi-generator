@@ -257,8 +257,10 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, ex
 	cfg := sw.NewConfiguration()
 	cfg.AddDefaultHeader("testheader", "testvalue")
 	cfg.AddDefaultHeader("Content-Type", "application/json")
-	cfg.Host = testHost
-	cfg.Scheme = testScheme
+	// cfg.Host = testHost
+	cfg.Host = petstore.swagger.io/v2
+	//cfg.Scheme = testScheme
+	cfg.Scheme = "http"
 	apiClient := sw.NewAPIClient(cfg)
 
 	privateKeyPath := filepath.Join(dir, "rsa.pem")
