@@ -8,7 +8,6 @@ on:
       - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/**
       - samples/client/others/go/allof_multiple_ref_and_discriminator/**
       - samples/client/others/go/oneof-anyof-required/**
-      - samples/client/others/go/oneof-required/**
       - samples/client/others/go/oneof-discriminator-lookup/**
   pull_request:
     paths:
@@ -17,7 +16,6 @@ on:
       - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/**
       - samples/client/others/go/allof_multiple_ref_and_discriminator/**
       - samples/client/others/go/oneof-anyof-required/**
-      - samples/client/others/go/oneof-required/**
       - samples/client/others/go/oneof-discriminator-lookup/**
 jobs:
   build:
@@ -32,7 +30,6 @@ jobs:
           - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/
           - samples/client/others/go/allof_multiple_ref_and_discriminator/
           - samples/client/others/go/oneof-anyof-required/
-          - samples/client/others/go/oneof-required/
           - samples/client/others/go/oneof-discriminator-lookup/
     steps:
       - uses: actions/checkout@v5
