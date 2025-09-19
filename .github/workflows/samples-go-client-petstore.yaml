@@ -1,0 +1,34 @@
+name: Samples Go Clients (Petstore)
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/go/**
+      - samples/openapi3/client/petstore/go/**
+  pull_request:
+    paths:
+      - samples/client/petstore/go/**
+      - samples/openapi3/client/petstore/go/**
+
+jobs:
+  build:
+    name: Build Go
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/go/
+          - samples/openapi3/client/petstore/go/
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+      - run: go version
+      - name: Install Dependencies
+        working-directory: ${{ matrix.sample }}
+        run: |
+          go mod tidy
+      - name: Run test
+        working-directory: ${{ matrix.sample }}
+        run: go test -mod=mod -v
+
