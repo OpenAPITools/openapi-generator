@@ -193,7 +193,7 @@ namespace Org.OpenAPITools.Client
     /// <remarks>
     /// The Dispose method will manage the HttpClient lifecycle when not passed by constructor.
     /// </remarks>
-    public partial class ApiClient : IDisposable, ISynchronousClient, IAsynchronousClient
+    internal partial class ApiClient : IDisposable, ISynchronousClient, IAsynchronousClient
     {
         private readonly string _baseUrl;
 

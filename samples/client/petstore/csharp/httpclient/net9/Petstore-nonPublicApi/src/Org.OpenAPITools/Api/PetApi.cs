@@ -24,7 +24,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IPetApiSync : IApiAccessor
+    internal interface IPetApiSync : IApiAccessor
     {
         #region Synchronous Operations
         /// <summary>
@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IPetApiAsync : IApiAccessor
+    internal interface IPetApiAsync : IApiAccessor
     {
         #region Asynchronous Operations
         /// <summary>
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IPetApi : IPetApiSync, IPetApiAsync
+    internal interface IPetApi : IPetApiSync, IPetApiAsync
     {
 
     }
@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class PetApi : IDisposable, IPetApi
+    internal partial class PetApi : IDisposable, IPetApi
     {
         private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 

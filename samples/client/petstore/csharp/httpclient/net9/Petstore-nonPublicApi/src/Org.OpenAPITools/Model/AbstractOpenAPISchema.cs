@@ -17,7 +17,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     ///  Abstract base class for oneOf, anyOf schemas in the OpenAPI specification
     /// </summary>
-    public abstract partial class AbstractOpenAPISchema
+    internal abstract partial class AbstractOpenAPISchema
     {
         /// <summary>
         ///  Custom JSON serializer

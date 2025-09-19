@@ -31,14 +31,14 @@ namespace Org.OpenAPITools.Model
     /// A pet for sale in the pet store
     /// </summary>
     [DataContract(Name = "Pet")]
-    public partial class Pet : IEquatable<Pet>, IValidatableObject
+    internal partial class Pet : IEquatable<Pet>, IValidatableObject
     {
         /// <summary>
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
         [JsonConverter(typeof(StringEnumConverter))]
-        public enum StatusEnum
+        internal enum StatusEnum
         {
             /// <summary>
             /// Enum Available for value: available

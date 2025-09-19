@@ -31,7 +31,7 @@ namespace Org.OpenAPITools.Model
     /// A tag for a pet
     /// </summary>
     [DataContract(Name = "Tag")]
-    public partial class Tag : IEquatable<Tag>, IValidatableObject
+    internal partial class Tag : IEquatable<Tag>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Tag" /> class.

@@ -15,7 +15,7 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// API Exception
     /// </summary>
-    public class ApiException : Exception
+    internal class ApiException : Exception
     {
         /// <summary>
         /// Gets or sets the error code (HTTP status code)

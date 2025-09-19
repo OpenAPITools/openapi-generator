@@ -31,7 +31,7 @@ namespace Org.OpenAPITools.Model
     /// A category for a pet
     /// </summary>
     [DataContract(Name = "Category")]
-    public partial class Category : IEquatable<Category>, IValidatableObject
+    internal partial class Category : IEquatable<Category>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.

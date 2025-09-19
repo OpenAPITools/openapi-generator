@@ -25,7 +25,7 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// Represents a set of configuration settings
     /// </summary>
-    public class Configuration : IReadableConfiguration
+    internal class Configuration : IReadableConfiguration
     {
         #region Constants
 
