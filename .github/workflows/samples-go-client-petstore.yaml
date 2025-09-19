@@ -30,6 +30,9 @@ jobs:
           - samples/openapi3/client/petstore/go/
     steps:
       - uses: actions/checkout@v5
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
       - uses: actions/setup-go@v6
       - run: go version
       - name: Install Dependencies
