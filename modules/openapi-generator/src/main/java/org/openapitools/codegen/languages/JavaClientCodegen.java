@@ -1088,6 +1088,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
 
+        if (!AnnotationLibrary.SWAGGER2.equals(getAnnotationLibrary())) {
+            codegenModel.imports.remove("Schema");
+        }
+
         return codegenModel;
     }
 
