@@ -214,7 +214,7 @@ Authentication schemes defined for the API:
 
 - **Type**: OAuth
 - **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Authorization URL**: http://localhost/api/oauth/dialog
 - **Scopes**: 
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets

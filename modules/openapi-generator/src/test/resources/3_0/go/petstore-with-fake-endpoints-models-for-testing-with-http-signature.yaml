@@ -1367,7 +1367,7 @@ components:
       type: oauth2
       flows:
         implicit:
-          authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
+          authorizationUrl: 'http://localhost/api/oauth/dialog'
           scopes:
             'write:pets': modify pets in your account
             'read:pets': read your pets
