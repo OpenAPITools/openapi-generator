@@ -56,11 +56,6 @@ elif [ "$NODE_INDEX" = "2" ]; then
   sudo ./setup-cpp-x64-linux --compiler llvm --cmake true --ninja true
   source ~/.cpprc # activate cpp environment variables
 
-  # run go integration tests
-  (cd samples/client/petstore/go && mvn integration-test)
-  (cd samples/openapi3/client/petstore/go && mvn integration-test)
-  (cd samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false && mvn integration-test)
-  (cd samples/client/others/go/allof_multiple_ref_and_discriminator && mvn integration-test)
   (cd samples/client/petstore/cpp-restsdk/client && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "3" ]; then

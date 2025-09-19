@@ -9,7 +9,7 @@ info:
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
-- url: http://petstore.swagger.io:80/v2
+- url: http://localhost/v2
 tags:
 - description: Everything about your Pets
   name: pet
@@ -2130,7 +2130,7 @@ components:
     petstore_auth:
       flows:
         implicit:
-          authorizationUrl: http://petstore.swagger.io/api/oauth/dialog
+          authorizationUrl: http://localhost/api/oauth/dialog
           scopes:
             write:pets: modify pets in your account
             read:pets: read your pets
