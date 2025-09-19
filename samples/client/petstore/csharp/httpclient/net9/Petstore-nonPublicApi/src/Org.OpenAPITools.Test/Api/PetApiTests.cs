@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Test.Api
 
         public PetApiTests()
         {
-            instance = new PetApi();
+            //instance = new PetApi();
         }
 
         public void Dispose()
