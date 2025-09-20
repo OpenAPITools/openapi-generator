@@ -48,5 +48,4 @@ jobs:
           sudo mv lein /usr/local/bin/
       - name: Run tests (Leiningen)
         working-directory: ${{ matrix.sample }}
-        if: success() && contains(github.event.repository.description, 'leiningen') 
         run: lein test
