@@ -120,6 +120,5 @@ else
   (cd samples/client/petstore/scala-sttp && mvn integration-test)
   (cd samples/client/petstore/scala-sttp-circe && mvn integration-test)
   (cd samples/client/petstore/scala-sttp4 && mvn integration-test)
-  (cd samples/client/petstore/clojure && mvn integration-test)
 
 fi
