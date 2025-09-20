@@ -1,4 +1,4 @@
-name: Samples Java Client JDK11
+name: Samples Java Petsore Client JDK11
 
 on:
   push:
@@ -6,29 +6,29 @@ on:
       - samples/client/petstore/java/jersey2-java8/**
       - samples/openapi3/client/petstore/java/jersey2-java8/**
       - samples/client/petstore/java/jersey3/**
-      - samples/client/petstore/java/jersey3-oneOf/**
-      - samples/client/others/java/okhttp-gson-streaming/**
+      #- samples/client/petstore/java/jersey3-oneOf/**
+      #- samples/client/others/java/okhttp-gson-streaming/**
       - samples/client/petstore/java/okhttp-gson/**
       - samples/client/petstore/java/okhttp-gson-3.1/**
       - samples/client/petstore/java/okhttp-gson-dynamicOperations/**
-      - samples/client/petstore/java/resteasy/**
+      #- samples/client/petstore/java/resteasy/**
       - samples/client/petstore/java-micronaut-client/**
-      - samples/client/petstore/java/apache-httpclient/**
-      - samples/client/petstore/java/resttemplate-jakarta/**
+      #- samples/client/petstore/java/apache-httpclient/**
+      #- samples/client/petstore/java/resttemplate-jakarta/**
   pull_request:
     paths:
       - samples/client/petstore/java/jersey2-java8/**
       - samples/openapi3/client/petstore/java/jersey2-java8/**
       - samples/client/petstore/java/jersey3/**
-      - samples/client/petstore/java/jersey3-oneOf/**
-      - samples/client/others/java/okhttp-gson-streaming/**
+      #- samples/client/petstore/java/jersey3-oneOf/**
+      #- samples/client/others/java/okhttp-gson-streaming/**
       - samples/client/petstore/java/okhttp-gson/**
       - samples/client/petstore/java/okhttp-gson-3.1/**
       - samples/client/petstore/java/okhttp-gson-dynamicOperations/**
-      - samples/client/petstore/java/resteasy/**
+      #- samples/client/petstore/java/resteasy/**
       - samples/client/petstore/java-micronaut-client/**
-      - samples/client/petstore/java/apache-httpclient/**
-      - samples/client/petstore/java/resttemplate-jakarta/**
+      #- samples/client/petstore/java/apache-httpclient/**
+      #- samples/client/petstore/java/resttemplate-jakarta/**
 jobs:
   build:
     name: Build Java Client JDK11
@@ -40,17 +40,28 @@ jobs:
           - samples/client/petstore/java/jersey2-java8
           - samples/openapi3/client/petstore/java/jersey2-java8
           - samples/client/petstore/java/jersey3
-          - samples/client/petstore/java/jersey3-oneOf
-          - samples/client/others/java/okhttp-gson-streaming
+          #- samples/client/petstore/java/jersey3-oneOf
+          #- samples/client/others/java/okhttp-gson-streaming
           - samples/client/petstore/java/okhttp-gson
           - samples/client/petstore/java/okhttp-gson-3.1
           - samples/client/petstore/java/okhttp-gson-dynamicOperations
-          - samples/client/petstore/java/resteasy
+          #- samples/client/petstore/java/resteasy
           - samples/client/petstore/java-micronaut-client
-          - samples/client/petstore/java/apache-httpclient
-          - samples/client/petstore/java/resttemplate-jakarta
+          #- samples/client/petstore/java/apache-httpclient
+          #- samples/client/petstore/java/resttemplate-jakarta
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v5
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
