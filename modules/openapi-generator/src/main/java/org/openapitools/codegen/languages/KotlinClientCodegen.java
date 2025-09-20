@@ -1114,6 +1114,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        adjustEnumRefDefault(parameter);
+    }
+
+    private void adjustEnumRefDefault(CodegenParameter param) {
+        if (StringUtils.isEmpty(param.defaultValue) || !(param.isEnum || param.isEnumRef)) {
+            return;
+        }
+
+        String type = StringUtils.defaultIfEmpty(param.datatypeWithEnum, param.dataType);
+        param.enumDefaultValue = toEnumVarName(param.defaultValue, type);
+        param.defaultValue = type + "." + param.enumDefaultValue;
+    }
+
+    @Override
     public void postProcess() {
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");

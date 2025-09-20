@@ -91,6 +91,24 @@ public class KotlinClientCodegenApiTest {
         assertFileContainsLine(lines, "suspend fun deletePet(@Path(\"petId\") petId: kotlin.Long, @Header(\"api_key\") apiKey: kotlin.String? = null)" + expectedUnitResponse);
     }
 
+    @Test
+    public void testEnumDefaultForReferencedSchemaParameterJvmOkhttp4() throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/enum-default-query.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_OKHTTP4);
+        codegen.additionalProperties().put("enumPropertyNaming", "UPPERCASE");
+
+        ClientOptInput input = createClientOptInput(openAPI, codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(input).generate();
+        File statusApi = files.stream().filter(file -> file.getName().equals("StatusApi.kt")).findAny().orElseThrow();
+
+        assertFileContains(statusApi.toPath(), "state: PetStatus? = PetStatus.AVAILABLE");
+    }
+
     private static void assertFileContainsLine(List<String> lines, String line) {
         Assert.assertListContains(lines, s -> s.equals(line), line);
     }
