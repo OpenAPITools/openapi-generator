@@ -1,3 +1,4 @@
+# run java client tests with petstore server
 name: Samples Java Petsore Client JDK11
 
 on:
@@ -6,29 +7,19 @@ on:
       - samples/client/petstore/java/jersey2-java8/**
       - samples/openapi3/client/petstore/java/jersey2-java8/**
       - samples/client/petstore/java/jersey3/**
-      #- samples/client/petstore/java/jersey3-oneOf/**
-      #- samples/client/others/java/okhttp-gson-streaming/**
       - samples/client/petstore/java/okhttp-gson/**
       - samples/client/petstore/java/okhttp-gson-3.1/**
       - samples/client/petstore/java/okhttp-gson-dynamicOperations/**
-      #- samples/client/petstore/java/resteasy/**
       - samples/client/petstore/java-micronaut-client/**
-      #- samples/client/petstore/java/apache-httpclient/**
-      #- samples/client/petstore/java/resttemplate-jakarta/**
   pull_request:
     paths:
       - samples/client/petstore/java/jersey2-java8/**
       - samples/openapi3/client/petstore/java/jersey2-java8/**
       - samples/client/petstore/java/jersey3/**
-      #- samples/client/petstore/java/jersey3-oneOf/**
-      #- samples/client/others/java/okhttp-gson-streaming/**
       - samples/client/petstore/java/okhttp-gson/**
       - samples/client/petstore/java/okhttp-gson-3.1/**
       - samples/client/petstore/java/okhttp-gson-dynamicOperations/**
-      #- samples/client/petstore/java/resteasy/**
       - samples/client/petstore/java-micronaut-client/**
-      #- samples/client/petstore/java/apache-httpclient/**
-      #- samples/client/petstore/java/resttemplate-jakarta/**
 jobs:
   build:
     name: Build Java Client JDK11
@@ -40,15 +31,10 @@ jobs:
           - samples/client/petstore/java/jersey2-java8
           - samples/openapi3/client/petstore/java/jersey2-java8
           - samples/client/petstore/java/jersey3
-          #- samples/client/petstore/java/jersey3-oneOf
-          #- samples/client/others/java/okhttp-gson-streaming
           - samples/client/petstore/java/okhttp-gson
           - samples/client/petstore/java/okhttp-gson-3.1
           - samples/client/petstore/java/okhttp-gson-dynamicOperations
-          #- samples/client/petstore/java/resteasy
           - samples/client/petstore/java-micronaut-client
-          #- samples/client/petstore/java/apache-httpclient
-          #- samples/client/petstore/java/resttemplate-jakarta
     services:
       petstore-api:
         image: swaggerapi/petstore
