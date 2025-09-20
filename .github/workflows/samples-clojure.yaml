@@ -16,6 +16,14 @@ jobs:
       matrix:
         sample:
           - samples/client/petstore/clojure/
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v5
       - name: Add hosts to /etc/hosts
