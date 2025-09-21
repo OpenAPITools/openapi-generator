@@ -157,7 +157,7 @@ module Petstore
 
     def initialize
       @scheme = 'http'
-      @host = 'petstore.swagger.io'
+      @host = 'localhost'
       @base_path = '/v2'
       @server_index = nil
       @server_operation_index = {}
@@ -291,6 +291,10 @@ module Petstore
     def server_settings
       [
         {
+          url: "http://localhost/v2",
+          description: "No description provided",
+        },
+        {
           url: "http://{server}.swagger.io:{port}/v2",
           description: "petstore server",
           variables: {
@@ -330,6 +334,20 @@ module Petstore
         {
           url: "https://127.0.0.1/no_varaible",
           description: "The local server without variables",
+        },
+        {
+          url: "http://server.{version}.openapi-generator.tech",
+          description: "The openapi-generator test server",
+          variables: {
+            version: {
+                description: "target server",
+                default_value: "v2",
+                enum_values: [
+                  "v1",
+                  "v2"
+                ]
+              }
+            }
         }
       ]
     end
@@ -337,6 +355,10 @@ module Petstore
     def operation_server_settings
       {
         "PetApi.add_pet": [
+          {
+          url: "http://localhost/v2",
+          description: "No description provided",
+          },
           {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
@@ -367,9 +389,27 @@ module Petstore
                 ]
               }
             }
+          },
+          {
+          url: "http://path.{version}.test.openapi-generator.tech/v2",
+          description: "test server with variables",
+          variables: {
+            version: {
+                description: "target server",
+                default_value: "v2",
+                enum_values: [
+                  "v1",
+                  "v2"
+                ]
+              }
+            }
           }
         ],
-        "PetApi.update_pet": [
+        "PetApi.delete_pet": [
+          {
+          url: "http://localhost/v2",
+          description: "No description provided",
+          },
           {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
@@ -397,6 +437,173 @@ module Petstore
                 enum_values: [
                   "80",
                   "8080"
+                ]
+              }
+            }
+          },
+          {
+          url: "http://path.{version}.test.openapi-generator.tech/v2",
+          description: "test server with variables",
+          variables: {
+            version: {
+                description: "target server",
+                default_value: "v2",
+                enum_values: [
+                  "v1",
+                  "v2"
+                ]
+              }
+            }
+          }
+        ],
+        "PetApi.get_pet_by_id": [
+          {
+          url: "http://localhost/v2",
+          description: "No description provided",
+          },
+          {
+          url: "http://petstore.swagger.io/v2",
+          description: "No description provided",
+          },
+          {
+          url: "http://path-server-test.petstore.local/v2",
+          description: "No description provided",
+          },
+          {
+          url: "http://{server}.swagger.io:{port}/v2",
+          description: "test server with variables",
+          variables: {
+            server: {
+                description: "target server",
+                default_value: "petstore",
+                enum_values: [
+                  "petstore",
+                  "qa-petstore",
+                  "dev-petstore"
+                ]
+              },
+            port: {
+                description: "No description provided",
+                default_value: "80",
+                enum_values: [
+                  "80",
+                  "8080"
+                ]
+              }
+            }
+          },
+          {
+          url: "http://path.{version}.test.openapi-generator.tech/v2",
+          description: "test server with variables",
+          variables: {
+            version: {
+                description: "target server",
+                default_value: "v2",
+                enum_values: [
+                  "v1",
+                  "v2"
+                ]
+              }
+            }
+          }
+        ],
+        "PetApi.update_pet": [
+          {
+          url: "http://localhost/v2",
+          description: "No description provided",
+          },
+          {
+          url: "http://petstore.swagger.io/v2",
+          description: "No description provided",
+          },
+          {
+          url: "http://path-server-test.petstore.local/v2",
+          description: "No description provided",
+          },
+          {
+          url: "http://{server}.swagger.io:{port}/v2",
+          description: "test server with variables",
+          variables: {
+            server: {
+                description: "target server",
+                default_value: "petstore",
+                enum_values: [
+                  "petstore",
+                  "qa-petstore",
+                  "dev-petstore"
+                ]
+              },
+            port: {
+                description: "No description provided",
+                default_value: "80",
+                enum_values: [
+                  "80",
+                  "8080"
+                ]
+              }
+            }
+          },
+          {
+          url: "http://path.{version}.test.openapi-generator.tech/v2",
+          description: "test server with variables",
+          variables: {
+            version: {
+                description: "target server",
+                default_value: "v2",
+                enum_values: [
+                  "v1",
+                  "v2"
+                ]
+              }
+            }
+          }
+        ],
+        "PetApi.update_pet_with_form": [
+          {
+          url: "http://localhost/v2",
+          description: "No description provided",
+          },
+          {
+          url: "http://petstore.swagger.io/v2",
+          description: "No description provided",
+          },
+          {
+          url: "http://path-server-test.petstore.local/v2",
+          description: "No description provided",
+          },
+          {
+          url: "http://{server}.swagger.io:{port}/v2",
+          description: "test server with variables",
+          variables: {
+            server: {
+                description: "target server",
+                default_value: "petstore",
+                enum_values: [
+                  "petstore",
+                  "qa-petstore",
+                  "dev-petstore"
+                ]
+              },
+            port: {
+                description: "No description provided",
+                default_value: "80",
+                enum_values: [
+                  "80",
+                  "8080"
+                ]
+              }
+            }
+          },
+          {
+          url: "http://path.{version}.test.openapi-generator.tech/v2",
+          description: "test server with variables",
+          variables: {
+            version: {
+                description: "target server",
+                default_value: "v2",
+                enum_values: [
+                  "v1",
+                  "v2"
                 ]
               }
             }
