@@ -158,7 +158,7 @@ module Petstore
 
     def initialize
       @scheme = 'http'
-      @host = 'petstore.swagger.io'
+      @host = 'localhost'
       @base_path = '/v2'
       @server_index = nil
       @server_operation_index = {}
@@ -287,6 +287,10 @@ module Petstore
     def server_settings
       [
         {
+          url: "http://localhost/v2",
+          description: "No description provided",
+        },
+        {
           url: "http://{server}.swagger.io:{port}/v2",
           description: "petstore server",
           variables: {
@@ -348,6 +352,10 @@ module Petstore
       {
         "PetApi.add_pet": [
           {
+          url: "http://localhost/v2",
+          description: "No description provided",
+          },
+          {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
           },
@@ -394,6 +402,10 @@ module Petstore
           }
         ],
         "PetApi.delete_pet": [
+          {
+          url: "http://localhost/v2",
+          description: "No description provided",
+          },
           {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
@@ -442,6 +454,10 @@ module Petstore
         ],
         "PetApi.get_pet_by_id": [
           {
+          url: "http://localhost/v2",
+          description: "No description provided",
+          },
+          {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
           },
@@ -489,6 +505,10 @@ module Petstore
         ],
         "PetApi.update_pet": [
           {
+          url: "http://localhost/v2",
+          description: "No description provided",
+          },
+          {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
           },
@@ -535,6 +555,10 @@ module Petstore
           }
         ],
         "PetApi.update_pet_with_form": [
+          {
+          url: "http://localhost/v2",
+          description: "No description provided",
+          },
           {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
