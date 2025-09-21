@@ -6,6 +6,14 @@
 {{#discriminator}}
 {{>typeInfoAnnotation}}
 
+{{/discriminator}}{{^discriminator}}{{#useDeductionForOneOfInterfaces}}
+@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
+@JsonSubTypes({
+    {{#interfaceModels}}
+    @JsonSubTypes.Type(value = {{classname}}.class){{^-last}}, {{/-last}}
+    {{/interfaceModels}}
+})
+{{/useDeductionForOneOfInterfaces}}
 {{/discriminator}}
 {{>generatedAnnotation}}
 
