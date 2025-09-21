@@ -27,31 +27,31 @@ describe Petstore::Configuration do
 
   describe '#base_url' do
     it 'should have the default value' do
-      expect(config.base_url).to eq("http://petstore.swagger.io/v2")
+      expect(config.base_url).to eq("http://localhost/v2")
     end
 
     it 'returns default value when invalid operation is passed' do
-      expect(config.base_url('invalid_operation')).to eq('http://petstore.swagger.io/v2')
+      expect(config.base_url('invalid_operation')).to eq('http://localhost/v2')
     end
 
     it 'returns proper URL default server_index' do
-      expect(config.base_url(:'PetApi.add_pet')).to eq('http://petstore.swagger.io/v2')
+      expect(config.base_url(:'PetApi.add_pet')).to eq('http://localhost/v2')
     end
 
     it 'returns proper URL when server_index is set' do
-      config.server_index = 1
+      config.server_index = 2
       expect(config.base_url(:'PetApi.add_pet')).to eq('http://path-server-test.petstore.local/v2')
     end
 
     it 'returns proper URL when server_operation_index is set' do
       config.server_operation_index = {
-        :'PetApi.add_pet' => 1
+        :'PetApi.add_pet' =>2
       }
       expect(config.base_url(:'PetApi.add_pet')).to eq('http://path-server-test.petstore.local/v2')
     end
 
     it 'returns proper URL from server_settings when server_index is set' do
-      config.server_index = 1
+      config.server_index = 2
       expect(config.base_url).to eq('https://localhost:8080/v2')
     end
 
