@@ -35,6 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   allowSetters = true // allows the  to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "", visible = true)
+
 public sealed interface Animal permits Dog, Cat {
 }
 
