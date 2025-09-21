@@ -54,7 +54,7 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 17
+          java-version: 11
       - name: Setup sbt launcher
         uses: sbt/setup-sbt@v1
       - name: Cache maven dependencies
@@ -67,4 +67,4 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/build.sbt') }}
       - name: Build and test
         working-directory: ${{ matrix.sample }}
-        run: sbt -v ++2.13.x +test
+        run: sbt -v test
