@@ -209,20 +209,6 @@ components:
       properties:
         length:
           type: integer
-    Animal:
-      oneOf:
-        - $ref: '#/components/schemas/Dog'
-        - $ref: '#/components/schemas/Cat'
-    Cat:
-      type: object
-      properties:
-        declawed:
-          type: boolean
-    Dog:
-      type: object
-      properties:
-        bark:
-          type: boolean
 
   requestBodies:
     Foo:
