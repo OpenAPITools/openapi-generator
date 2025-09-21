@@ -66,7 +66,7 @@ describe "Pet" do
       expect(index_backup).to eq({})
       # test operation index 1 (invalid path)
       @pet_api.api_client.config.server_operation_index = {
-        :'PetApi.get_pet_by_id' => 2
+        :'PetApi.get_pet_by_id' => 1
       }
 
       expect(@pet_api.api_client.config.base_url(:'PetApi.get_pet_by_id')).to eq('http://path-server-test.petstore.local/v2')
@@ -86,7 +86,7 @@ describe "Pet" do
       expect(index_backup).to eq({})
       # test operation index 3
       @pet_api.api_client.config.server_operation_index = {
-        :'PetApi.get_pet_by_id' => 4
+        :'PetApi.get_pet_by_id' => 3
       }
 
       expect(@pet_api.api_client.config.base_url(:'PetApi.get_pet_by_id')).to eq('http://path.v2.test.openapi-generator.tech/v2')

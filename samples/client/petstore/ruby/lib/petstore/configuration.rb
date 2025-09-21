@@ -158,7 +158,7 @@ module Petstore
 
     def initialize
       @scheme = 'http'
-      @host = 'domaincontrol.com'
+      @host = 'petstore.swagger.io'
       @base_path = '/v2'
       @server_index = nil
       @server_operation_index = {}
@@ -287,10 +287,6 @@ module Petstore
     def server_settings
       [
         {
-          url: "http://domaincontrol.com/v2",
-          description: "No description provided",
-        },
-        {
           url: "http://{server}.swagger.io:{port}/v2",
           description: "petstore server",
           variables: {
@@ -328,7 +324,7 @@ module Petstore
             }
         },
         {
-          url: "https://domaincontrol.com/no_varaible",
+          url: "https://127.0.0.1/no_varaible",
           description: "The local server without variables",
         },
         {
@@ -351,10 +347,6 @@ module Petstore
     def operation_server_settings
       {
         "PetApi.add_pet": [
-          {
-          url: "http://domaincontrol.com/v2",
-          description: "No description provided",
-          },
           {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
@@ -403,10 +395,6 @@ module Petstore
         ],
         "PetApi.delete_pet": [
           {
-          url: "http://domaincontrol.com/v2",
-          description: "No description provided",
-          },
-          {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
           },
@@ -453,10 +441,6 @@ module Petstore
           }
         ],
         "PetApi.get_pet_by_id": [
-          {
-          url: "http://domaincontrol.com/v2",
-          description: "No description provided",
-          },
           {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
@@ -505,10 +489,6 @@ module Petstore
         ],
         "PetApi.update_pet": [
           {
-          url: "http://domaincontrol.com/v2",
-          description: "No description provided",
-          },
-          {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
           },
@@ -555,10 +535,6 @@ module Petstore
           }
         ],
         "PetApi.update_pet_with_form": [
-          {
-          url: "http://domaincontrol.com/v2",
-          description: "No description provided",
-          },
           {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
