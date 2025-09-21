@@ -1,29 +1,20 @@
-name: Samples Scala/sbt
+name: Samples Scala/sbt server
 
 on:
   push:
     paths:
-      - 'samples/client/petstore/scala**'
       - 'samples/server/petstore/scala**'
   pull_request:
     paths:
-      - 'samples/client/petstore/scala**'
       - 'samples/server/petstore/scala**'
 jobs:
   build:
-    name: Build sbt/Scala client, servers
+    name: Build sbt/Scala
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
-          # clients
-          - samples/client/petstore/scalaz
-          - samples/client/petstore/scala-pekko
-          - samples/client/petstore/scala-http4s
-          - samples/client/petstore/scala-sttp4-jsoniter
-          #- samples/client/petstore/scala-sttp
-          #- samples/client/petstore/scala-sttp-circe
           # servers
           - samples/server/petstore/scala-play-server
           - samples/server/petstore/scala-akka-http-server
