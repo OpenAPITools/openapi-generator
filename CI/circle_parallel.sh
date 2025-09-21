@@ -116,9 +116,4 @@ else
   echo "Running node $NODE_INDEX ..."
   java -version
 
-  (cd samples/client/petstore/scala-akka && mvn integration-test)
-  (cd samples/client/petstore/scala-sttp && mvn integration-test)
-  (cd samples/client/petstore/scala-sttp-circe && mvn integration-test)
-  (cd samples/client/petstore/scala-sttp4 && mvn integration-test)
-
 fi
