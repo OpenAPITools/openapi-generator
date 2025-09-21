@@ -139,12 +139,4 @@ lib/petstore/models/whale.rb
 lib/petstore/models/zebra.rb
 lib/petstore/version.rb
 petstore.gemspec
-spec/models/cow_spec.rb
-spec/models/mammal_anyof_spec.rb
-spec/models/mammal_spec.rb
-spec/models/mammal_without_discriminator_spec.rb
-spec/models/one_of_primitive_types_spec.rb
-spec/models/property_name_mapping_spec.rb
-spec/models/whale_spec.rb
-spec/models/zebra_spec.rb
 spec/spec_helper.rb

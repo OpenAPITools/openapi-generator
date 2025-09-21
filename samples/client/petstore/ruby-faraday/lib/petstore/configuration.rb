@@ -157,7 +157,7 @@ module Petstore
 
     def initialize
       @scheme = 'http'
-      @host = 'localhost'
+      @host = '127.0.0.1'
       @base_path = '/v2'
       @server_index = nil
       @server_operation_index = {}
@@ -291,7 +291,7 @@ module Petstore
     def server_settings
       [
         {
-          url: "http://localhost/v2",
+          url: "http://127.0.0.1/v2",
           description: "No description provided",
         },
         {
@@ -356,7 +356,7 @@ module Petstore
       {
         "PetApi.add_pet": [
           {
-          url: "http://localhost/v2",
+          url: "http://127.0.0.1/v2",
           description: "No description provided",
           },
           {
@@ -407,7 +407,7 @@ module Petstore
         ],
         "PetApi.delete_pet": [
           {
-          url: "http://localhost/v2",
+          url: "http://127.0.0.1/v2",
           description: "No description provided",
           },
           {
@@ -458,7 +458,7 @@ module Petstore
         ],
         "PetApi.get_pet_by_id": [
           {
-          url: "http://localhost/v2",
+          url: "http://127.0.0.1/v2",
           description: "No description provided",
           },
           {
@@ -509,7 +509,7 @@ module Petstore
         ],
         "PetApi.update_pet": [
           {
-          url: "http://localhost/v2",
+          url: "http://127.0.0.1/v2",
           description: "No description provided",
           },
           {
@@ -560,7 +560,7 @@ module Petstore
         ],
         "PetApi.update_pet_with_form": [
           {
-          url: "http://localhost/v2",
+          url: "http://127.0.0.1/v2",
           description: "No description provided",
           },
           {

@@ -66,11 +66,11 @@ describe Petstore::Configuration do
 
     it 'throws argument error when attempting to use a server index that is out of bounds' do
       config.server_operation_index = {
-        :'PetApi.add_pet' => 10
+        :'PetApi.add_pet' => 11
       }
       expect {
         config.base_url(:'PetApi.add_pet')
-      }.to raise_error(ArgumentError, 'Invalid index 10 when selecting the server. Must not be nil and must be less than 4')
+      }.to raise_error(ArgumentError, 'Invalid index 11 when selecting the server. Must not be nil and must be less than 4')
     end
 
     it 'should remove trailing slashes' do
