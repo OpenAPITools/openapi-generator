@@ -72,7 +72,7 @@ end
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://127.0.0.1/v2*
+All URIs are relative to *http://domaincontrol.com/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

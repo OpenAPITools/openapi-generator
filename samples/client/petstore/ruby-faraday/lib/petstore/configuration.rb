@@ -157,7 +157,7 @@ module Petstore
 
     def initialize
       @scheme = 'http'
-      @host = '127.0.0.1'
+      @host = 'domaincontrol.com'
       @base_path = '/v2'
       @server_index = nil
       @server_operation_index = {}
@@ -291,7 +291,7 @@ module Petstore
     def server_settings
       [
         {
-          url: "http://127.0.0.1/v2",
+          url: "http://domaincontrol.com/v2",
           description: "No description provided",
         },
         {
@@ -332,7 +332,7 @@ module Petstore
             }
         },
         {
-          url: "https://127.0.0.1/no_varaible",
+          url: "https://domaincontrol.com/no_varaible",
           description: "The local server without variables",
         },
         {
@@ -356,7 +356,7 @@ module Petstore
       {
         "PetApi.add_pet": [
           {
-          url: "http://127.0.0.1/v2",
+          url: "http://domaincontrol.com/v2",
           description: "No description provided",
           },
           {
@@ -407,7 +407,7 @@ module Petstore
         ],
         "PetApi.delete_pet": [
           {
-          url: "http://127.0.0.1/v2",
+          url: "http://domaincontrol.com/v2",
           description: "No description provided",
           },
           {
@@ -458,7 +458,7 @@ module Petstore
         ],
         "PetApi.get_pet_by_id": [
           {
-          url: "http://127.0.0.1/v2",
+          url: "http://domaincontrol.com/v2",
           description: "No description provided",
           },
           {
@@ -509,7 +509,7 @@ module Petstore
         ],
         "PetApi.update_pet": [
           {
-          url: "http://127.0.0.1/v2",
+          url: "http://domaincontrol.com/v2",
           description: "No description provided",
           },
           {
@@ -560,7 +560,7 @@ module Petstore
         ],
         "PetApi.update_pet_with_form": [
           {
-          url: "http://127.0.0.1/v2",
+          url: "http://domaincontrol.com/v2",
           description: "No description provided",
           },
           {
