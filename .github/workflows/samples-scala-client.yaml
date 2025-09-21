@@ -53,6 +53,7 @@ jobs:
             sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
       - uses: actions/setup-java@v5
         with:
+          distribution: 'temurin'
           java-version: 8
       - name: Setup sbt launcher
         uses: sbt/setup-sbt@v1
