@@ -54,7 +54,7 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 8
+          java-version: 17
       - name: Setup sbt launcher
         uses: sbt/setup-sbt@v1
       - name: Cache maven dependencies
