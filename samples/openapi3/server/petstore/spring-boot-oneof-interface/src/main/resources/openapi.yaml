@@ -15,7 +15,13 @@ paths:
       operationId: getAllFoos
       responses:
         "200":
-          $ref: "#/components/responses/200FooArray"
+          content:
+            application/json;charset=utf-8:
+              schema:
+                items:
+                  $ref: "#/components/schemas/FooRefOrValue"
+                type: array
+          description: Success
       summary: GET all Foos
       tags:
       - Foo
@@ -29,7 +35,11 @@ paths:
         $ref: "#/components/requestBodies/Foo"
       responses:
         "201":
-          $ref: "#/components/responses/201Foo"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FooRefOrValue"
+          description: Error
       summary: Create a Foo
       tags:
       - Foo
