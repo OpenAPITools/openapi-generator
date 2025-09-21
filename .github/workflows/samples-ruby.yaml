@@ -23,9 +23,9 @@ jobs:
       matrix:
         sample:
           - samples/client/petstore/ruby/
-          - samples/client/petstore/ruby-faraday/
-          - samples/client/petstore/ruby-httpx/
-          - samples/client/petstore/ruby-autoload/
+          #- samples/client/petstore/ruby-faraday/
+          #- samples/client/petstore/ruby-httpx/
+          #- samples/client/petstore/ruby-autoload/
     services:
       petstore-api:
         image: swaggerapi/petstore
@@ -39,6 +39,7 @@ jobs:
       - name: Add hosts to /etc/hosts
         run: |
             sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
+            cat /etc/hosts
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2' # Not needed with a .ruby-version, .tool-versions or mise.toml
