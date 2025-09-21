@@ -67,4 +67,4 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/build.sbt') }}
       - name: Build and test
         working-directory: ${{ matrix.sample }}
-        run: sbt -v +test
+        run: sbt -v ++2.13.x +test
