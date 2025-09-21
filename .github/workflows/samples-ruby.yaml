@@ -32,8 +32,9 @@ jobs:
         with:
           ruby-version: '3.2' # Not needed with a .ruby-version, .tool-versions or mise.toml
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-      - name: Run test
+      - name: Install bundle
         working-directory: ${{ matrix.sample }}
-        run: bundle exec rake
-
-
+        run: bundle install
+      - name: Run rspec
+        working-directory: ${{ matrix.sample }}
+        run: rspec
