@@ -1,4 +1,4 @@
-  name: Samples Scala/sbt client
+name: Samples Scala/sbt client
 
 on:
   push:
