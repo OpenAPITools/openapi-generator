@@ -17,9 +17,9 @@ docs/ArrayTest.md
 docs/Capitalization.md
 docs/Cat.md
 docs/Category.md
-docs/ChildWithNullable.md
 docs/ClassModel.md
 docs/Client.md
+docs/Cow.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
@@ -37,6 +37,9 @@ docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/List.md
+docs/Mammal.md
+docs/MammalAnyof.md
+docs/MammalWithoutDiscriminator.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -45,6 +48,7 @@ docs/Name.md
 docs/NullableClass.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
+docs/OneOfPrimitiveTypes.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -52,9 +56,9 @@ docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
 docs/OuterObjectWithEnumProperty.md
-docs/ParentWithNullable.md
 docs/Pet.md
 docs/PetApi.md
+docs/PropertyNameMapping.md
 docs/ReadOnlyFirst.md
 docs/SingleRefType.md
 docs/SpecialModelName.md
@@ -63,6 +67,8 @@ docs/Tag.md
 docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/User.md
 docs/UserApi.md
+docs/Whale.md
+docs/Zebra.md
 git_push.sh
 lib/petstore.rb
 lib/petstore/api/another_fake_api.rb
@@ -85,9 +91,9 @@ lib/petstore/models/array_test.rb
 lib/petstore/models/capitalization.rb
 lib/petstore/models/cat.rb
 lib/petstore/models/category.rb
-lib/petstore/models/child_with_nullable.rb
 lib/petstore/models/class_model.rb
 lib/petstore/models/client.rb
+lib/petstore/models/cow.rb
 lib/petstore/models/deprecated_object.rb
 lib/petstore/models/dog.rb
 lib/petstore/models/enum_arrays.rb
@@ -102,6 +108,9 @@ lib/petstore/models/format_test.rb
 lib/petstore/models/has_only_read_only.rb
 lib/petstore/models/health_check_result.rb
 lib/petstore/models/list.rb
+lib/petstore/models/mammal.rb
+lib/petstore/models/mammal_anyof.rb
+lib/petstore/models/mammal_without_discriminator.rb
 lib/petstore/models/map_test.rb
 lib/petstore/models/mixed_properties_and_additional_properties_class.rb
 lib/petstore/models/model200_response.rb
@@ -110,6 +119,7 @@ lib/petstore/models/name.rb
 lib/petstore/models/nullable_class.rb
 lib/petstore/models/number_only.rb
 lib/petstore/models/object_with_deprecated_fields.rb
+lib/petstore/models/one_of_primitive_types.rb
 lib/petstore/models/order.rb
 lib/petstore/models/outer_composite.rb
 lib/petstore/models/outer_enum.rb
@@ -117,14 +127,16 @@ lib/petstore/models/outer_enum_default_value.rb
 lib/petstore/models/outer_enum_integer.rb
 lib/petstore/models/outer_enum_integer_default_value.rb
 lib/petstore/models/outer_object_with_enum_property.rb
-lib/petstore/models/parent_with_nullable.rb
 lib/petstore/models/pet.rb
+lib/petstore/models/property_name_mapping.rb
 lib/petstore/models/read_only_first.rb
 lib/petstore/models/single_ref_type.rb
 lib/petstore/models/special_model_name.rb
 lib/petstore/models/tag.rb
 lib/petstore/models/test_inline_freeform_additional_properties_request.rb
 lib/petstore/models/user.rb
+lib/petstore/models/whale.rb
+lib/petstore/models/zebra.rb
 lib/petstore/version.rb
 petstore.gemspec
 spec/spec_helper.rb

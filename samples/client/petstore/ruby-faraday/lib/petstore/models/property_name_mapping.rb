@@ -14,38 +14,22 @@ require 'date'
 require 'time'
 
 module Petstore
-  class ParentWithNullable
+  class PropertyNameMapping
+    attr_accessor :http_debug_operation
+
+    attr_accessor :_type
+
     attr_accessor :type
 
-    attr_accessor :nullable_property
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
+    attr_accessor :type_
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'http_debug_operation' => :'http_debug_operation',
+        :'_type' => :'_type',
         :'type' => :'type',
-        :'nullable_property' => :'nullableProperty'
+        :'type_' => :'type_'
       }
     end
 
@@ -62,45 +46,49 @@ module Petstore
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'http_debug_operation' => :'String',
+        :'_type' => :'String',
         :'type' => :'String',
-        :'nullable_property' => :'String'
+        :'type_' => :'String'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'nullable_property'
       ])
-    end
-
-    # discriminator's property name in OpenAPI v3
-    def self.openapi_discriminator_name
-      :'type'
     end
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::ParentWithNullable` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::PropertyNameMapping` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::ParentWithNullable`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::PropertyNameMapping`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
+
+      if attributes.key?(:'http_debug_operation')
+        self.http_debug_operation = attributes[:'http_debug_operation']
+      end
+
+      if attributes.key?(:'_type')
+        self._type = attributes[:'_type']
+      end
 
       if attributes.key?(:'type')
         self.type = attributes[:'type']
       end
 
-      if attributes.key?(:'nullable_property')
-        self.nullable_property = attributes[:'nullable_property']
+      if attributes.key?(:'type_')
+        self.type_ = attributes[:'type_']
       end
     end
 
@@ -116,19 +104,7 @@ module Petstore
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      type_validator = EnumAttributeValidator.new('String', ["ChildWithNullable"])
-      return false unless type_validator.valid?(@type)
       true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] type Object to be assigned
-    def type=(type)
-      validator = EnumAttributeValidator.new('String', ["ChildWithNullable"])
-      unless validator.valid?(type)
-        fail ArgumentError, "invalid value for \"type\", must be one of #{validator.allowable_values}."
-      end
-      @type = type
     end
 
     # Checks equality by comparing each attribute.
@@ -136,8 +112,10 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          http_debug_operation == o.http_debug_operation &&
+          _type == o._type &&
           type == o.type &&
-          nullable_property == o.nullable_property
+          type_ == o.type_
     end
 
     # @see the `==` method
@@ -149,7 +127,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [type, nullable_property].hash
+      [http_debug_operation, _type, type, type_].hash
     end
 
     # Builds the object from hash
