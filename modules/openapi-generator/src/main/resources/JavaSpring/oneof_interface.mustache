@@ -13,7 +13,8 @@
     @JsonSubTypes.Type(value = {{classname}}.class){{^-last}}, {{/-last}}
     {{/interfaceModels}}
 })
-{{/useDeductionForOneOfInterfaces}}
+{{/useDeductionForOneOfInterfaces}}{{#vendorExtensions.x-class-extra-annotation}}{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
 {{/discriminator}}
 {{>generatedAnnotation}}
 
