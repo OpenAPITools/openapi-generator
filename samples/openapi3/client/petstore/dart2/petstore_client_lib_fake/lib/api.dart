@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -70,7 +70,10 @@ part 'model/model_return.dart';
 part 'model/name.dart';
 part 'model/nullable_class.dart';
 part 'model/number_only.dart';
+part 'model/object_that_references_objects_with_duplicate_inline_enums.dart';
 part 'model/object_with_deprecated_fields.dart';
+part 'model/object_with_duplicate_inline_enum.dart';
+part 'model/object_with_inline_enum.dart';
 part 'model/order.dart';
 part 'model/outer_composite.dart';
 part 'model/outer_enum.dart';
@@ -84,7 +87,9 @@ part 'model/read_only_first.dart';
 part 'model/single_ref_type.dart';
 part 'model/special_model_name.dart';
 part 'model/tag.dart';
+part 'model/test_enum.dart';
 part 'model/test_inline_freeform_additional_properties_request.dart';
+part 'model/test_item.dart';
 part 'model/user.dart';
 
 

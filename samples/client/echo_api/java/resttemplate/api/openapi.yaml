@@ -46,7 +46,7 @@ paths:
         name: enum_ref_string_path
         required: true
         schema:
-          $ref: '#/components/schemas/StringEnumRef'
+          $ref: "#/components/schemas/StringEnumRef"
         style: simple
       responses:
         "200":
@@ -58,7 +58,8 @@ paths:
       summary: Test path parameter(s)
       tags:
       - path
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /form/integer/boolean/string:
     post:
       description: Test form parameter(s)
@@ -67,7 +68,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/test_form_integer_boolean_string_request'
+              $ref: "#/components/schemas/test_form_integer_boolean_string_request"
       responses:
         "200":
           content:
@@ -79,7 +80,8 @@ paths:
       tags:
       - form
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /form/oneof:
     post:
       description: Test form parameter(s) for oneOf schema
@@ -88,7 +90,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/test_form_oneof_request'
+              $ref: "#/components/schemas/test_form_oneof_request"
       responses:
         "200":
           content:
@@ -100,7 +102,30 @@ paths:
       tags:
       - form
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
+  /form/object/multipart:
+    post:
+      description: Test form parameter(s) for multipart schema
+      operationId: test/form/object/multipart
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/test_form_object_multipart_request"
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test form parameter(s) for multipart schema
+      tags:
+      - form
+      x-content-type: multipart/form-data
+      x-accepts:
+      - text/plain
   /header/integer/boolean/string/enums:
     get:
       description: Test header parameter(s)
@@ -143,7 +168,7 @@ paths:
         name: enum_ref_string_header
         required: false
         schema:
-          $ref: '#/components/schemas/StringEnumRef'
+          $ref: "#/components/schemas/StringEnumRef"
         style: form
       responses:
         "200":
@@ -155,7 +180,8 @@ paths:
       summary: Test header parameter(s)
       tags:
       - header
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/enum_ref_string:
     get:
       description: Test query parameter(s)
@@ -177,7 +203,7 @@ paths:
         name: enum_ref_string_query
         required: false
         schema:
-          $ref: '#/components/schemas/StringEnumRef'
+          $ref: "#/components/schemas/StringEnumRef"
         style: form
       responses:
         "200":
@@ -189,7 +215,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/datetime/date/string:
     get:
       description: Test query parameter(s)
@@ -228,7 +255,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/integer/boolean/string:
     get:
       description: Test query parameter(s)
@@ -265,7 +293,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_form/explode_true/array_string:
     get:
       description: Test query parameter(s)
@@ -276,7 +305,7 @@ paths:
         name: query_object
         required: false
         schema:
-          $ref: '#/components/schemas/test_query_style_form_explode_true_array_string_query_object_parameter'
+          $ref: "#/components/schemas/test_query_style_form_explode_true_array_string_query_object_parameter"
         style: form
       responses:
         "200":
@@ -288,7 +317,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_form/explode_false/array_integer:
     get:
       description: Test query parameter(s)
@@ -313,7 +343,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_form/explode_false/array_string:
     get:
       description: Test query parameter(s)
@@ -338,7 +369,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_form/explode_true/object:
     get:
       description: Test query parameter(s)
@@ -349,7 +381,7 @@ paths:
         name: query_object
         required: false
         schema:
-          $ref: '#/components/schemas/Pet'
+          $ref: "#/components/schemas/Pet"
         style: form
       responses:
         "200":
@@ -361,7 +393,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_form/explode_true/object/allOf:
     get:
       description: Test query parameter(s)
@@ -372,7 +405,7 @@ paths:
         name: query_object
         required: false
         schema:
-          $ref: '#/components/schemas/DataQuery'
+          $ref: "#/components/schemas/DataQuery"
         style: form
       responses:
         "200":
@@ -384,7 +417,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_deepObject/explode_true/object:
     get:
       description: Test query parameter(s)
@@ -395,7 +429,7 @@ paths:
         name: query_object
         required: false
         schema:
-          $ref: '#/components/schemas/Pet'
+          $ref: "#/components/schemas/Pet"
         style: deepObject
       responses:
         "200":
@@ -407,7 +441,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_deepObject/explode_true/object/allOf:
     get:
       description: Test query parameter(s)
@@ -418,7 +453,7 @@ paths:
         name: query_object
         required: false
         schema:
-          $ref: '#/components/schemas/test_query_style_deepObject_explode_true_object_allOf_query_object_parameter'
+          $ref: "#/components/schemas/test_query_style_deepObject_explode_true_object_allOf_query_object_parameter"
         style: deepObject
       responses:
         "200":
@@ -430,7 +465,41 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
+  /query/style_jsonSerialization/object:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_jsonSerialization/object
+      parameters:
+      - content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+        in: query
+        name: json_serialized_object_ref_string_query
+        required: false
+      - content:
+          application/json:
+            schema:
+              items:
+                $ref: "#/components/schemas/Pet"
+              type: array
+        in: query
+        name: json_serialized_object_array_ref_string_query
+        required: false
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts:
+      - text/plain
   /body/application/octetstream/binary:
     post:
       description: Test body parameter(s)
@@ -452,49 +521,52 @@ paths:
       tags:
       - body
       x-content-type: application/octet-stream
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /echo/body/Pet:
     post:
       description: Test body parameter(s)
       operationId: test/echo/body/Pet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: Successful operation
       summary: Test body parameter(s)
       tags:
       - body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /echo/body/allOf/Pet:
     post:
       description: Test body parameter(s)
       operationId: test/echo/body/allOf/Pet
       requestBody:
-        $ref: '#/components/requestBodies/AllOfPet'
+        $ref: "#/components/requestBodies/AllOfPet"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: Successful operation
       summary: Test body parameter(s)
       tags:
       - body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /echo/body/Pet/response_string:
     post:
       description: Test empty response body
       operationId: test/echo/body/Pet/response_string
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
@@ -506,13 +578,14 @@ paths:
       tags:
       - body
       x-content-type: application/json
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /echo/body/Tag/response_string:
     post:
       description: Test empty json (request body)
       operationId: test/echo/body/Tag/response_string
       requestBody:
-        $ref: '#/components/requestBodies/Tag'
+        $ref: "#/components/requestBodies/Tag"
       responses:
         "200":
           content:
@@ -524,7 +597,8 @@ paths:
       tags:
       - body
       x-content-type: application/json
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /echo/body/FreeFormObject/response_string:
     post:
       description: Test free form object
@@ -546,7 +620,31 @@ paths:
       tags:
       - body
       x-content-type: application/json
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
+  /echo/body/string_enum:
+    post:
+      description: Test string enum response body
+      operationId: test/echo/body/string_enum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StringEnumRef"
+        description: String enum
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StringEnumRef"
+          description: Successful operation
+      summary: Test string enum response body
+      tags:
+      - body
+      x-content-type: application/json
+      x-accepts:
+      - application/json
   /binary/gif:
     post:
       description: Test binary (gif) response body
@@ -562,7 +660,8 @@ paths:
       summary: Test binary (gif) response body
       tags:
       - body
-      x-accepts: image/gif
+      x-accepts:
+      - image/gif
   /body/application/octetstream/single_binary:
     post:
       description: Test single binary in multipart mime
@@ -571,7 +670,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/test_body_multipart_formdata_single_binary_request'
+              $ref: "#/components/schemas/test_body_multipart_formdata_single_binary_request"
       responses:
         "200":
           content:
@@ -583,7 +682,8 @@ paths:
       tags:
       - body
       x-content-type: multipart/form-data
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /body/application/octetstream/array_of_binary:
     post:
       description: Test array of binary in multipart mime
@@ -592,7 +692,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/test_body_multipart_formdata_array_of_binary_request'
+              $ref: "#/components/schemas/test_body_multipart_formdata_array_of_binary_request"
       responses:
         "200":
           content:
@@ -604,7 +704,8 @@ paths:
       tags:
       - body
       x-content-type: multipart/form-data
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /auth/http/basic:
     post:
       description: To test HTTP basic authentication
@@ -621,7 +722,8 @@ paths:
       summary: To test HTTP basic authentication
       tags:
       - auth
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /auth/http/bearer:
     post:
       description: To test HTTP bearer authentication
@@ -638,27 +740,28 @@ paths:
       summary: To test HTTP bearer authentication
       tags:
       - auth
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
 components:
   requestBodies:
     Pet:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
       description: Pet object that needs to be added to the store
     AllOfPet:
       content:
         application/json:
           schema:
             allOf:
-            - $ref: '#/components/schemas/Pet'
+            - $ref: "#/components/schemas/Pet"
       description: Pet object that needs to be added to the store
     Tag:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
       description: Tag object
   schemas:
     Category:
@@ -714,7 +817,7 @@ components:
           example: doggie
           type: string
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         photoUrls:
           items:
             type: string
@@ -725,7 +828,7 @@ components:
             wrapped: true
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
           xml:
             wrapped: true
@@ -756,7 +859,7 @@ components:
           - success
           - failure
           items:
-            $ref: '#/components/schemas/StringEnumRef'
+            $ref: "#/components/schemas/StringEnumRef"
           type: array
         array_string_enum_default:
           default:
@@ -842,7 +945,7 @@ components:
             format: date-time
             type: string
         type: object
-      - $ref: '#/components/schemas/Query'
+      - $ref: "#/components/schemas/Query"
     NumberPropertiesOnly:
       properties:
         number:
@@ -881,9 +984,21 @@ components:
       type: object
     test_form_oneof_request:
       oneOf:
-      - $ref: '#/components/schemas/test_form_oneof_request_oneOf'
-      - $ref: '#/components/schemas/test_form_oneof_request_oneOf_1'
-      - $ref: '#/components/schemas/Tag'
+      - $ref: "#/components/schemas/test_form_oneof_request_oneOf"
+      - $ref: "#/components/schemas/test_form_oneof_request_oneOf_1"
+      - $ref: "#/components/schemas/Tag"
+      type: object
+    test_form_object_multipart_request_marker:
+      properties:
+        name:
+          type: string
+      type: object
+    test_form_object_multipart_request:
+      properties:
+        marker:
+          $ref: "#/components/schemas/test_form_object_multipart_request_marker"
+      required:
+      - marker
       type: object
     test_query_style_form_explode_true_array_string_query_object_parameter:
       properties:
@@ -894,8 +1009,8 @@ components:
       type: object
     test_query_style_deepObject_explode_true_object_allOf_query_object_parameter:
       allOf:
-      - $ref: '#/components/schemas/Bird'
-      - $ref: '#/components/schemas/Category'
+      - $ref: "#/components/schemas/Bird"
+      - $ref: "#/components/schemas/Category"
     test_body_multipart_formdata_single_binary_request:
       properties:
         my-file:

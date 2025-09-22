@@ -11,7 +11,8 @@ import scala.reflect.ClassTag
 
 object JsonSupport extends SttpJson4sApi {
   def enumSerializers: Seq[Serializer[_]] = Seq[Serializer[_]](){{#models}}{{#model}}{{#isEnum}} :+
-    new EnumNameSerializer({{classname}}){{/isEnum}}{{/model}}{{/models}}
+    new EnumNameSerializer({{classname}}){{/isEnum}}{{#hasEnums}}{{#vars}}{{#isEnum}} :+
+    new EnumNameSerializer({{classname}}Enums.{{datatypeWithEnum}}){{/isEnum}}{{/vars}}{{/hasEnums}}{{/model}}{{/models}}
 
   private class EnumNameSerializer[E <: Enumeration: ClassTag](enumeration: E) extends Serializer[E#Value] {
     import JsonDSL._
@@ -52,6 +53,14 @@ object JsonSupport extends SttpCirceApi with AutoDerivation with DateSerializers
   implicit val {{classname}}Decoder: Decoder[{{classname}}.{{classname}}] = Decoder.decodeEnumeration({{classname}})
   implicit val {{classname}}Encoder: Encoder[{{classname}}.{{classname}}] = Encoder.encodeEnumeration({{classname}})
 {{/isEnum}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+  implicit val {{classname}}{{datatypeWithEnum}}Decoder: Decoder[{{classname}}Enums.{{datatypeWithEnum}}] = Decoder.decodeEnumeration({{classname}}Enums.{{datatypeWithEnum}})
+  implicit val {{classname}}{{datatypeWithEnum}}Encoder: Encoder[{{classname}}Enums.{{datatypeWithEnum}}] = Encoder.encodeEnumeration({{classname}}Enums.{{datatypeWithEnum}})
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
 {{/model}}
 {{/models}}
 }

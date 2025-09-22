@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -33,7 +34,7 @@ import javax.annotation.Generated;
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
 @JsonTypeName("Capitalization")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @Introspected
 public class Capitalization {
     public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
@@ -64,7 +65,7 @@ public class Capitalization {
     /**
      * Get smallCamel
      * @return smallCamel
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -86,7 +87,7 @@ public class Capitalization {
     /**
      * Get capitalCamel
      * @return capitalCamel
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -108,7 +109,7 @@ public class Capitalization {
     /**
      * Get smallSnake
      * @return smallSnake
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -130,7 +131,7 @@ public class Capitalization {
     /**
      * Get capitalSnake
      * @return capitalSnake
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -152,7 +153,7 @@ public class Capitalization {
     /**
      * Get scAETHFlowPoints
      * @return scAETHFlowPoints
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -174,7 +175,7 @@ public class Capitalization {
     /**
      * Name of the pet 
      * @return ATT_NAME
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

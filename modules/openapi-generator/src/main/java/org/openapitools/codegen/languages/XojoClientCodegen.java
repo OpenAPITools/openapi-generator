@@ -16,9 +16,12 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.WordUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -26,6 +29,8 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
@@ -33,12 +38,6 @@ import java.util.function.Consumer;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.WordUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CODEGEN_MODULE_NAME = "xojo-client";
@@ -49,24 +48,16 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public enum SERIALIZATION_LIBRARY_TYPE {xoson}
 
-    protected String projectName = "OpenAPIClient";
-    protected boolean nonPublicApi = false;
+    @Setter protected String projectName = "OpenAPIClient";
+    @Setter protected boolean nonPublicApi = false;
     protected boolean supportsAsync = true;
-    protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.xoson;
+    @Getter protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.xoson;
 
     // Number for each object that appears in the xojo_project file.
     // We start with a relatively high value, to have space for other static objects.
     protected int projectObjectNumber = 100042;
 
     private final Logger LOGGER = LoggerFactory.getLogger(XojoClientCodegen.class);
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setNonPublicApi(boolean nonPublicApi) {
-        this.nonPublicApi = nonPublicApi;
-    }
 
     public void setSupportsAsync(Boolean supportsAsync) {
         this.supportsAsync = supportsAsync;
@@ -101,16 +92,16 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         supportingFiles.add(new SupportingFile("App.mustache",
-            "",
-            "App.xojo_code"));
+                "",
+                "App.xojo_code"));
 
         supportingFiles.add(new SupportingFile("BuildAutomation.mustache",
-            "",
-            "Build Automation.xojo_code"));
+                "",
+                "Build Automation.xojo_code"));
 
         supportingFiles.add(new SupportingFile("api_mock.mustache",
-            "",
-            "Mock.xojo_code"));
+                "",
+                "Mock.xojo_code"));
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
@@ -133,18 +124,18 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
         );
 
         setReservedWordsLowerCase(
-            Arrays.asList(
-                    // name used by Xojo client
-                    "Models", "APIs",
+                Arrays.asList(
+                        // name used by Xojo client
+                        "Models", "APIs",
 
-                    // Xojo keywords. This list is taken from here:
-                    // https://documentation.xojo.com/getting_started/using_the_xojo_language/reserved_words.html
-                    //
-                    "#Bad", "#Else", "#Elseif", "#Endif", "#If", "#Pragma", "#Tag", "AddHandler", "AddressOf", "Aggregates", "And", "Array", "As", "Assigns", "Async", "Attributes", "Await", "Break", "ByRef", "ByVal", "Call", "Case", "Catch", "Class", "Const", "Continue", "CType", "Declare", "Delegate", "Dim", "Do", "DownTo", "Each", "Else", "ElseIf", "End", "Enum", "Event", "Exception", "Exit", "Extends", "False", "Finally", "For", "Function", "Global", "GoTo", "Handles", "If", "Implements", "In", "Inherits", "Interface", "Is", "IsA", "Lib", "Loop", "Me", "Mod", "Module", "Namespace", "New", "Next", "Nil", "Not", /*"Object",*/ "Of", "Optional", "Or", "ParamArray", "Private", "Property", "Protected", "Public", "Raise", "RaiseEvent", "Redim", "Rem", "RemoveHandler", "Return", "Select", "Self", "Shared", "Soft", "Static", "Step", "Structure", "Sub", "Super", "Then", "To", "True", "Try", "Until", "Using", "Var", "WeakAddressOf", "Wend", "While", "With", "Xor",
+                        // Xojo keywords. This list is taken from here:
+                        // https://documentation.xojo.com/getting_started/using_the_xojo_language/reserved_words.html
+                        //
+                        "#Bad", "#Else", "#Elseif", "#Endif", "#If", "#Pragma", "#Tag", "AddHandler", "AddressOf", "Aggregates", "And", "Array", "As", "Assigns", "Async", "Attributes", "Await", "Break", "ByRef", "ByVal", "Call", "Case", "Catch", "Class", "Const", "Continue", "CType", "Declare", "Delegate", "Dim", "Do", "DownTo", "Each", "Else", "ElseIf", "End", "Enum", "Event", "Exception", "Exit", "Extends", "False", "Finally", "For", "Function", "Global", "GoTo", "Handles", "If", "Implements", "In", "Inherits", "Interface", "Is", "IsA", "Lib", "Loop", "Me", "Mod", "Module", "Namespace", "New", "Next", "Nil", "Not", /*"Object",*/ "Of", "Optional", "Or", "ParamArray", "Private", "Property", "Protected", "Public", "Raise", "RaiseEvent", "Redim", "Rem", "RemoveHandler", "Return", "Select", "Self", "Shared", "Soft", "Static", "Step", "Structure", "Sub", "Super", "Then", "To", "True", "Try", "Until", "Using", "Var", "WeakAddressOf", "Wend", "While", "With", "Xor",
 
-                    // The following are other words we want to reserve
-                    "Void", "COLUMN", "FILE", "FUNCTION", "LINE"
-            )
+                        // The following are other words we want to reserve
+                        "Void", "COLUMN", "FILE", "FUNCTION", "LINE"
+                )
         );
 
         typeMapping = new HashMap<>();
@@ -235,8 +226,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return super.getTypeDeclaration(inner);
         }
         return super.getTypeDeclaration(p);
@@ -311,28 +301,28 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         supportingFiles.add(new SupportingFile("MainModule.mustache",
-            "",
-            projectName + ".xojo_code"));
+                "",
+                projectName + ".xojo_code"));
 
         supportingFiles.add(new SupportingFile("APIsModule.mustache",
-            projectName,
-            "APIs.xojo_code"));
+                projectName,
+                "APIs.xojo_code"));
 
         supportingFiles.add(new SupportingFile("ModelModule.mustache",
-            projectName,
-            "Models.xojo_code"));
+                projectName,
+                "Models.xojo_code"));
 
         supportingFiles.add(new SupportingFile("Project.mustache",
-            "",
-            projectName + ".xojo_project"));
+                "",
+                projectName + ".xojo_project"));
 
         supportingFiles.add(new SupportingFile("Exception.mustache",
-            projectName,
-            projectName + "Exception.xojo_code"));
+                projectName,
+                projectName + "Exception.xojo_code"));
 
         supportingFiles.add(new SupportingFile("Resources.mustache",
-            "",
-            projectName + ".xojo_resources"));
+                "",
+                projectName + ".xojo_resources"));
     }
 
     @Override
@@ -357,7 +347,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 parentSchema = parentCodegenModel.parentSchema;
             }
         }
-        
+
         return codegenModel;
     }
 
@@ -383,7 +373,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
-        Map<String, Object> vendorExtensions = (Map<String, Object>)objs.get("vendorExtensions");
+        Map<String, Object> vendorExtensions = (Map<String, Object>) objs.get("vendorExtensions");
         if (null == vendorExtensions) {
             vendorExtensions = new HashMap<>();
             objs.put("vendorExtensions", vendorExtensions);
@@ -420,7 +410,9 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.XOJO; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.XOJO;
+    }
 
     @Override
     public String toOperationId(String operationId) {
@@ -504,7 +496,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
         return camelize(replaceSpecialCharacters(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
-                        .replaceAll("[-_ :\\(\\)]", "")));
+                .replaceAll("[-_ :\\(\\)]", "")));
     }
 
     private String replaceSpecialCharacters(String name) {
@@ -692,10 +684,6 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(codegenParameter.isFreeFormObject)) {
             codegenParameter.example = "New Dictionary";
         }
-    }
-
-    public SERIALIZATION_LIBRARY_TYPE getSerializationLibrary() {
-        return this.serializationLibrary;
     }
 
     /**

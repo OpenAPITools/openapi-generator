@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    FinalItem:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/base.item'
+        - $ref: '#/components/schemas/AdditionalData'
+    base.item:
+      type: object
+      properties:
+        title:
+          type: string
+        type:
+          type: string
+          enum:
+            - FINAL
+          example: FINAL
+      discriminator:
+        propertyName: type
+        mapping:
+          FINAL: '#/components/schemas/FinalItem'
+      required:
+        - title
+        - type
+    AdditionalData:
+      type: object
+      properties:
+        prop1:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+          example: 1
+          minimum: 1
+        unitPrice:
+          type: number
+          format: double
+          example: 9.99
+          minimum: 0.0
+        totalPrice:
+          type: number
+          format: double
+          example: 9.99
+          minimum: 0.0
+      required:
+        - prop1
+        - quantity
+        - unitPrice
+        - totalPrice

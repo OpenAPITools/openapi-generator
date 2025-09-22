@@ -33,7 +33,7 @@ print NullableClass.to_json()
 # convert the object into a dict
 nullable_class_dict = nullable_class_instance.to_dict()
 # create an instance of NullableClass from a dict
-nullable_class_form_dict = nullable_class.from_dict(nullable_class_dict)
+nullable_class_from_dict = NullableClass.from_dict(nullable_class_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -1,0 +1,37 @@
+openapi: "3.0.3"
+info:
+  description: 'This spec is mainly for testing Petstore server and contains fake
+    endpoints, models. Please do not use this for any other purpose. Special
+    characters: " \'
+  version: 1.0.0
+  title: OpenAPI Petstore Auth
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+security:
+  - OAuth2: [openid, profile, aud]
+
+paths:
+  /some/endpoint:
+    get:
+      responses:
+        "200":
+          description: OK
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      x-tokenName: id_token
+      flows:
+        authorizationCode:
+          authorizationUrl: "${authorizationUrl}"
+          tokenUrl: "${tokenUrl}"
+          scopes:
+            openid: Access OpenId Connect info
+            profile: Profile info
+            aud: Audience info
+        clientCredentials:
+          tokenUrl: '/openid-connect/token'
+          scopes: { }

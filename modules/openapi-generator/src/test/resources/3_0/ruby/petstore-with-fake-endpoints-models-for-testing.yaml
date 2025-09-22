@@ -1048,6 +1048,23 @@ paths:
               $ref: '#/components/schemas/FreeFormObject'
         description: request body
         required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1904,6 +1921,11 @@ components:
       type: object
       description: A schema consisting only of additional properties
       additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -2140,3 +2162,33 @@ components:
           type: string
         type_:
           type: string
+    OneOfPrimitiveTypes:
+      oneOf:
+        - type: string
+        - type: number
+        - type: integer
+        - type: boolean
+        - type: string
+          format: date
+        - type: string
+          format: date-time
+        - type: array
+          items:
+            type: string
+        - type: array
+          items:
+            type: number
+        - type: array
+          items:
+            type: integer
+        - type: array
+          items:
+            type: boolean
+        - type: array
+          items:
+            type: string
+            format: date
+        - type: array
+          items:
+            type: string
+            format: date-time

@@ -1,0 +1,6 @@
+## LiveApi
+
+### GET /live
+## GET /live
+GET https://api.opendota.com/api/live
+Accept: application/json; charset=utf-8

@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -21,11 +22,11 @@ import javax.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
   @Valid
-  private List<String> nullableArray;
+  private @Nullable List<String> nullableArray;
 
   @Valid
   private List<String> nullableRequiredArray;
@@ -34,7 +35,7 @@ public class ContainerDefaultValue {
   private List<String> requiredArray = new ArrayList<>();
 
   @Valid
-  private List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
+  private @Nullable List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
 
   public ContainerDefaultValue() {
     super();
@@ -48,7 +49,7 @@ public class ContainerDefaultValue {
     this.requiredArray = requiredArray;
   }
 
-  public ContainerDefaultValue nullableArray(List<String> nullableArray) {
+  public ContainerDefaultValue nullableArray(@Nullable List<String> nullableArray) {
     this.nullableArray = nullableArray;
     return this;
   }
@@ -64,15 +65,15 @@ public class ContainerDefaultValue {
   /**
    * Get nullableArray
    * @return nullableArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array")
-  public List<String> getNullableArray() {
+  public @Nullable List<String> getNullableArray() {
     return nullableArray;
   }
 
-  public void setNullableArray(List<String> nullableArray) {
+  public void setNullableArray(@Nullable List<String> nullableArray) {
     this.nullableArray = nullableArray;
   }
 
@@ -92,7 +93,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableRequiredArray
    * @return nullableRequiredArray
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("nullable_required_array")
@@ -120,7 +121,7 @@ public class ContainerDefaultValue {
   /**
    * Get requiredArray
    * @return requiredArray
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("required_array")
@@ -132,7 +133,7 @@ public class ContainerDefaultValue {
     this.requiredArray = requiredArray;
   }
 
-  public ContainerDefaultValue nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
+  public ContainerDefaultValue nullableArrayWithDefault(@Nullable List<String> nullableArrayWithDefault) {
     this.nullableArrayWithDefault = nullableArrayWithDefault;
     return this;
   }
@@ -148,15 +149,15 @@ public class ContainerDefaultValue {
   /**
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array_with_default")
-  public List<String> getNullableArrayWithDefault() {
+  public @Nullable List<String> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;
   }
 
-  public void setNullableArrayWithDefault(List<String> nullableArrayWithDefault) {
+  public void setNullableArrayWithDefault(@Nullable List<String> nullableArrayWithDefault) {
     this.nullableArrayWithDefault = nullableArrayWithDefault;
   }
 

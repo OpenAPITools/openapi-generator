@@ -39,11 +39,11 @@ class HeaderApi(client: RestClient) : ApiClient(client) {
     /**
      * enum for parameter enumNonrefStringHeader
      */
-     enum class EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums(val value: kotlin.String) {
-         @JsonProperty(value = "success") success("success"),
-         @JsonProperty(value = "failure") failure("failure"),
-         @JsonProperty(value = "unclassified") unclassified("unclassified"),
-     }
+    enum class EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums(val value: kotlin.String) {
+        @JsonProperty(value = "success") success("success"),
+        @JsonProperty(value = "failure") failure("failure"),
+        @JsonProperty(value = "unclassified") unclassified("unclassified"),
+    }
 
 
     @Throws(RestClientResponseException::class)

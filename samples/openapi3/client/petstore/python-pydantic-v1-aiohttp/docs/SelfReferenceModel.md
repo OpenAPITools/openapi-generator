@@ -22,7 +22,7 @@ print SelfReferenceModel.to_json()
 # convert the object into a dict
 self_reference_model_dict = self_reference_model_instance.to_dict()
 # create an instance of SelfReferenceModel from a dict
-self_reference_model_form_dict = self_reference_model.from_dict(self_reference_model_dict)
+self_reference_model_from_dict = SelfReferenceModel.from_dict(self_reference_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

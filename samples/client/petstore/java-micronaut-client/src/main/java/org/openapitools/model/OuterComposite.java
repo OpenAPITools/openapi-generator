@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.*;
 
@@ -31,7 +32,7 @@ import javax.annotation.Generated;
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
 @JsonTypeName("OuterComposite")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @Introspected
 public class OuterComposite {
     public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
@@ -53,7 +54,7 @@ public class OuterComposite {
     /**
      * Get myNumber
      * @return myNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -75,7 +76,7 @@ public class OuterComposite {
     /**
      * Get myString
      * @return myString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MY_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -97,7 +98,7 @@ public class OuterComposite {
     /**
      * Get myBoolean
      * @return myBoolean
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

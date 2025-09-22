@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * A category for a pet
  * @export
@@ -36,10 +36,8 @@ export interface Category {
 /**
  * Check if a given object implements the Category interface.
  */
-export function instanceOfCategory(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfCategory(value: object): value is Category {
+    return true;
 }
 
 export function CategoryFromJSON(json: any): Category {
@@ -47,27 +45,29 @@ export function CategoryFromJSON(json: any): Category {
 }
 
 export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): Category {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
+        'id': json['id'] == null ? undefined : json['id'],
+        'name': json['name'] == null ? undefined : json['name'],
     };
 }
 
-export function CategoryToJSON(value?: Category | null): any {
-    if (value === undefined) {
-        return undefined;
+export function CategoryToJSON(json: any): Category {
+    return CategoryToJSONTyped(json, false);
+}
+
+export function CategoryToJSONTyped(value?: Category | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'id': value.id,
-        'name': value.name,
+        'id': value['id'],
+        'name': value['name'],
     };
 }
 

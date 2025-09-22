@@ -32,13 +32,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |licenseName|The name of the license| |null|
 |modelPackage|package for generated models| |null|
-|modern|use modern language features (generated code will require PHP 8.0)| |false|
+|modern|use modern language features (generated code will require PHP 8.1)| |false|
 |packageName|The main package name for classes. e.g. GeneratedPetstore| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |srcBasePath|The directory to serve as source root.| |null|
-|variableNamingConvention|naming convention of variable name, e.g. camelCase.| |snake_case|
+|variableNamingConvention|naming convention of variable name, e.g. camelCase.|<dl><dt>**camelCase**</dt><dd>Use camelCase convention</dd><dt>**PascalCase**</dt><dd>Use PascalCase convention</dd><dt>**snake_case**</dt><dd>Use snake_case convention</dd><dt>**original**</dt><dd>Do not change the variable name</dd></dl>|snake_case|
 
 ## IMPORT MAPPING
 

@@ -79,12 +79,13 @@ public class DefaultApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call myExamplePostCall(MyExamplePostRequest myExamplePostRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call myExamplePostCall(@javax.annotation.Nullable MyExamplePostRequest myExamplePostRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -129,7 +130,7 @@ public class DefaultApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call myExamplePostValidateBeforeCall(MyExamplePostRequest myExamplePostRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call myExamplePostValidateBeforeCall(@javax.annotation.Nullable MyExamplePostRequest myExamplePostRequest, final ApiCallback _callback) throws ApiException {
         return myExamplePostCall(myExamplePostRequest, _callback);
 
     }
@@ -140,12 +141,13 @@ public class DefaultApi {
      * @param myExamplePostRequest  (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public void myExamplePost(MyExamplePostRequest myExamplePostRequest) throws ApiException {
+    public void myExamplePost(@javax.annotation.Nullable MyExamplePostRequest myExamplePostRequest) throws ApiException {
         myExamplePostWithHttpInfo(myExamplePostRequest);
     }
 
@@ -156,12 +158,13 @@ public class DefaultApi {
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> myExamplePostWithHttpInfo(MyExamplePostRequest myExamplePostRequest) throws ApiException {
+    public ApiResponse<Void> myExamplePostWithHttpInfo(@javax.annotation.Nullable MyExamplePostRequest myExamplePostRequest) throws ApiException {
         okhttp3.Call localVarCall = myExamplePostValidateBeforeCall(myExamplePostRequest, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -174,12 +177,13 @@ public class DefaultApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call myExamplePostAsync(MyExamplePostRequest myExamplePostRequest, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call myExamplePostAsync(@javax.annotation.Nullable MyExamplePostRequest myExamplePostRequest, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = myExamplePostValidateBeforeCall(myExamplePostRequest, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);

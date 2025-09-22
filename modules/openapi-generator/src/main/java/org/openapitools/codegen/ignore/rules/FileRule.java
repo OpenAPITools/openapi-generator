@@ -27,7 +27,7 @@ public class FileRule extends Rule {
 
     FileRule(List<Part> syntax, String definition) {
         super(syntax, definition);
-        matcher = FileSystems.getDefault().getPathMatcher("glob:"+this.getPattern());
+        matcher = FileSystems.getDefault().getPathMatcher("glob:" + this.getPattern());
     }
 
     @Override

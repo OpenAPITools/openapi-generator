@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -15,9 +15,9 @@ package org.openapitools.client.api;
 
 import java.util.Date;
 import org.openapitools.client.model.User;
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
@@ -39,7 +39,7 @@ public class UserApiTest {
     private UserApi client;
     private String baseUrl = "http://localhost:9080";
 
-    @Before
+    @BeforeEach
     public void setup() throws MalformedURLException {
         // TODO initialize the client
     }
@@ -58,7 +58,7 @@ public class UserApiTest {
         // TODO: test validations
         User user = null;
         //api.createUser(user);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -76,7 +76,7 @@ public class UserApiTest {
         // TODO: test validations
         List<User> user = null;
         //api.createUsersWithArrayInput(user);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -94,7 +94,7 @@ public class UserApiTest {
         // TODO: test validations
         List<User> user = null;
         //api.createUsersWithListInput(user);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -112,7 +112,7 @@ public class UserApiTest {
         // TODO: test validations
         String username = null;
         //api.deleteUser(username);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -130,7 +130,7 @@ public class UserApiTest {
         // TODO: test validations
         String username = null;
         //User response = api.getUserByName(username);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -149,7 +149,7 @@ public class UserApiTest {
         String username = null;
         String password = null;
         //String response = api.loginUser(username, password);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -166,7 +166,7 @@ public class UserApiTest {
     public void logoutUserTest() {
         // TODO: test validations
         //api.logoutUser();
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -185,7 +185,7 @@ public class UserApiTest {
         String username = null;
         User user = null;
         //api.updateUser(username, user);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }

@@ -16,6 +16,7 @@ final case class API [
   petstoreAuth: Kleisli[OptionT[F, *], Request[F], petstore_auth],
   apiKey: Kleisli[OptionT[F, *], Request[F], api_key],
 )(
+  delegateFakeApi: FakeApiDelegate[F],
   delegatePetApi: PetApiDelegate[F, petstore_auth, api_key],
   delegateStoreApi: StoreApiDelegate[F, api_key],
   delegateUserApi: UserApiDelegate[F, api_key],
@@ -23,12 +24,14 @@ final case class API [
   val apiKeyMiddleware = AuthMiddleware.withFallThrough(apiKey)
   val petstoreAuthMiddleware = AuthMiddleware(petstoreAuth)
 
+  val fakeApiRoutes = new FakeApiRoutes(delegateFakeApi)
   val petApiRoutes = new PetApiRoutes(delegatePetApi)
   val storeApiRoutes = new StoreApiRoutes(delegateStoreApi)
   val userApiRoutes = new UserApiRoutes(delegateUserApi)
 
   val routes = 
-    storeApiRoutes.routes <+>
+    fakeApiRoutes.routes <+>
+      storeApiRoutes.routes <+>
       userApiRoutes.routes
   
   val routesapi_key = apiKeyMiddleware(

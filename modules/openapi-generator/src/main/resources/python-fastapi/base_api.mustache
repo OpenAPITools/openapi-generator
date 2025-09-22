@@ -15,7 +15,7 @@ class Base{{classname}}:
         Base{{classname}}.subclasses = Base{{classname}}.subclasses + (cls,)
 {{#operations}}
 {{#operation}}
-    def {{operationId}}(
+    async def {{operationId}}(
         self,
         {{#allParams}}
         {{>impl_argument_definition}},

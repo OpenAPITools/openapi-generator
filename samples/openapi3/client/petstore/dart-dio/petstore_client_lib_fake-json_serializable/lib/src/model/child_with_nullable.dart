@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/parent_with_nullable.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'child_with_nullable.g.dart';
@@ -11,6 +12,7 @@ part 'child_with_nullable.g.dart';
 // ignore_for_file: unused_import
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -32,11 +34,11 @@ class ChildWithNullable {
     
     name: r'type',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
-  final ChildWithNullableTypeEnum? type;
+  final String? type;
 
 
 
@@ -44,7 +46,7 @@ class ChildWithNullable {
     
     name: r'nullableProperty',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -56,7 +58,7 @@ class ChildWithNullable {
     
     name: r'otherProperty',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -64,17 +66,19 @@ class ChildWithNullable {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ChildWithNullable &&
-     other.type == type &&
-     other.nullableProperty == nullableProperty &&
-     other.otherProperty == otherProperty;
 
-  @override
-  int get hashCode =>
-    type.hashCode +
-    (nullableProperty == null ? 0 : nullableProperty.hashCode) +
-    otherProperty.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ChildWithNullable &&
+      other.type == type &&
+      other.nullableProperty == nullableProperty &&
+      other.otherProperty == otherProperty;
+
+    @override
+    int get hashCode =>
+        type.hashCode +
+        (nullableProperty == null ? 0 : nullableProperty.hashCode) +
+        otherProperty.hashCode;
 
   factory ChildWithNullable.fromJson(Map<String, dynamic> json) => _$ChildWithNullableFromJson(json);
 
@@ -86,13 +90,4 @@ class ChildWithNullable {
   }
 
 }
-
-
-enum ChildWithNullableTypeEnum {
-  @JsonValue(r'ChildWithNullable')
-  childWithNullable,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
-}
-
 

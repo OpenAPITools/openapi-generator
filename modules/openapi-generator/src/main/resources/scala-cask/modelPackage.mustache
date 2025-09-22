@@ -1,0 +1,70 @@
+{{>licenseInfo}}
+package {{modelPackage}}
+
+// model package
+import upickle.default._
+import java.time.*
+import java.time.format.DateTimeFormatter
+
+/**
+ * This base class lets us refer to fields in exceptions
+ */
+class Field(val name : String)
+
+final case class ValidationErrors(
+    first: ValidationError,
+    remaining: Seq[ValidationError],
+    message: String
+) extends Exception(message)
+
+object ValidationErrors {
+  def apply(first: ValidationError, remaining: Seq[ValidationError]) = {
+    val noun = if remaining.isEmpty then "error" else "errors"
+    new ValidationErrors(
+      first,
+      remaining,
+      remaining.mkString(s"${remaining.size + 1} $noun found: ${first}", "\n\t", "")
+    )
+  }
+}
+
+
+final case class ValidationError(path : Seq[Field], message : String) extends Exception(message) {
+  override def toString = s"ValidationError for ${path.mkString(".")}: $message"
+}
+
+given ReadWriter[ZonedDateTime] = readwriter[String].bimap[ZonedDateTime](
+  zonedDateTime => DateTimeFormatter.ISO_INSTANT.format(zonedDateTime),
+  str => ZonedDateTime.parse(str, DateTimeFormatter.ISO_INSTANT))
+
+given ReadWriter[LocalDateTime] = readwriter[String].bimap[LocalDateTime](
+    zonedDateTime => DateTimeFormatter.ISO_INSTANT.format(zonedDateTime),
+    str => LocalDateTime.parse(str, DateTimeFormatter.ISO_INSTANT))
+
+given ReadWriter[LocalDate] = readwriter[String].bimap[LocalDate](
+    zonedDateTime => DateTimeFormatter.ISO_INSTANT.format(zonedDateTime),
+    str => LocalDate.parse(str, DateTimeFormatter.ISO_INSTANT))
+
+given ReadWriter[OffsetDateTime] = readwriter[String].bimap[OffsetDateTime](
+    zonedDateTime => DateTimeFormatter.ISO_INSTANT.format(zonedDateTime),
+    str =>  scala.util.Try(OffsetDateTime.parse(str, DateTimeFormatter.ISO_DATE_TIME)).getOrElse(
+             OffsetDateTime.parse(str, DateTimeFormatter.ISO_INSTANT)
+            )
+)
+
+
+extension (json: ujson.Value) {
+    def mergeWith(other: ujson.Value): ujson.Value = (json, other) match {
+        case (ujson.Obj(aMap), ujson.Obj(bMap)) =>
+            val mergedMap: scala.collection.mutable.Map[String, ujson.Value] = aMap ++ bMap.map {
+                case (k, v) => k -> (aMap.get(k) match {
+                                        case Some(aValue) => aValue.mergeWith(v)
+                                        case None         => v
+                                    })
+            }
+            ujson.Obj.from(mergedMap)
+        case (ujson.Arr(aArray), ujson.Arr(bArray)) => ujson.Arr(aArray ++ bArray)
+        case (aValue, ujson.Null) => aValue
+        case (_, bValue)          => bValue
+    }
+}

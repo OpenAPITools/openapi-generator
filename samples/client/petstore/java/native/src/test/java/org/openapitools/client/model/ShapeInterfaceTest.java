@@ -18,22 +18,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import java.util.Arrays;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for ShapeInterface
  */
-public class ShapeInterfaceTest {
+class ShapeInterfaceTest {
     private final ShapeInterface model = new ShapeInterface();
 
     /**
      * Model tests for ShapeInterface
      */
     @Test
-    public void testShapeInterface() {
+    void testShapeInterface() {
         // TODO: test ShapeInterface
     }
 
@@ -41,7 +41,7 @@ public class ShapeInterfaceTest {
      * Test the property 'shapeType'
      */
     @Test
-    public void shapeTypeTest() {
+    void shapeTypeTest() {
         // TODO: test shapeType
     }
 

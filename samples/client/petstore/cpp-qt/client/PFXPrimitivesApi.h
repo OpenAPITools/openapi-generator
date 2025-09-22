@@ -58,12 +58,12 @@ public:
     /**
     * @param[in]  body qint32 [optional]
     */
-    void primitivesIntegerPost(const ::test_namespace::OptionalParam<qint32> &body = ::test_namespace::OptionalParam<qint32>());
+    virtual void primitivesIntegerPost(const ::test_namespace::OptionalParam<qint32> &body = ::test_namespace::OptionalParam<qint32>());
 
     /**
     * @param[in]  body double [optional]
     */
-    void primitivesNumberPut(const ::test_namespace::OptionalParam<double> &body = ::test_namespace::OptionalParam<double>());
+    virtual void primitivesNumberPut(const ::test_namespace::OptionalParam<double> &body = ::test_namespace::OptionalParam<double>());
 
 
 private:
@@ -95,6 +95,7 @@ Q_SIGNALS:
 
     void primitivesIntegerPostSignal();
     void primitivesNumberPutSignal();
+
 
     void primitivesIntegerPostSignalFull(PFXHttpRequestWorker *worker);
     void primitivesNumberPutSignalFull(PFXHttpRequestWorker *worker);

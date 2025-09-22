@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'array_of_number_only.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -25,7 +27,7 @@ class ArrayOfNumberOnly {
     
     name: r'ArrayNumber',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -33,13 +35,15 @@ class ArrayOfNumberOnly {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ArrayOfNumberOnly &&
-     other.arrayNumber == arrayNumber;
 
-  @override
-  int get hashCode =>
-    arrayNumber.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ArrayOfNumberOnly &&
+      other.arrayNumber == arrayNumber;
+
+    @override
+    int get hashCode =>
+        arrayNumber.hashCode;
 
   factory ArrayOfNumberOnly.fromJson(Map<String, dynamic> json) => _$ArrayOfNumberOnlyFromJson(json);
 

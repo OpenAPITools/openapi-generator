@@ -206,6 +206,30 @@ inline FString CollectionToUrlString_multi(const TArray<T>& Collection, const TC
 	return Output;
 }
 
+
+template <typename T>
+inline FString CollectionToUrlString_multi(const TSet<T>& Collection, const TCHAR* BaseName)
+{
+	FString Output;
+	if (Collection.Num() == 0)
+	{
+		return Output;
+	}
+
+	int32 Index = 0;
+	for (typename TSet<T>::TConstIterator Iter = Collection.CreateConstIterator(); Iter; ++Iter)
+	{
+		if (Index == 0)
+		{
+			Output += FString::Format(TEXT("{0}={1}"), { FStringFormatArg(BaseName), ToUrlString(*Iter) });
+			Index++;
+			continue;
+		}
+		Output += FString::Format(TEXT("&{0}={1}"), { FStringFormatArg(BaseName), ToUrlString(*Iter) });
+	}
+	return Output;
+}
+	
 //////////////////////////////////////////////////////////////////////////
 
 inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonValue>& Value)
@@ -281,6 +305,17 @@ inline void WriteJsonValue(JsonWriter& Writer, const TMap<FString, T>& Value)
 		WriteJsonValue(Writer, It.Value);
 	}
 	Writer->WriteObjectEnd();
+}
+
+template <typename T>
+inline void WriteJsonValue(JsonWriter& Writer, const TSet<T>& Value)
+{
+	Writer->WriteArrayStart();
+	for (const auto& Element : Value)
+	{
+		WriteJsonValue(Writer, Element);
+	}
+	Writer->WriteArrayEnd();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -433,10 +468,11 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FSt
 template<typename T>
 inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FString& Key, TOptional<T>& OptionalValue)
 {
-	if(JsonObject->HasField(Key))
+	const TSharedPtr<FJsonValue> JsonValue = JsonObject->TryGetField(Key);
+	if (JsonValue.IsValid() && !JsonValue->IsNull())
 	{
 		T Value;
-		if (TryGetJsonValue(JsonObject, Key, Value))
+		if (TryGetJsonValue(JsonValue, Value))
 		{
 			OptionalValue = Value;
 			return true;
@@ -444,7 +480,29 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FSt
 		else
 			return false;
 	}
-	return true; // Absence of optional value is not a parsing error
+	// Absence of optional value is not a parsing error.
+	// Nullable is handled like optional.
+	return true;
+}
+
+template <typename T>
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TSet<T>& ArrayValue)
+{
+	const TArray<TSharedPtr<FJsonValue>>* JsonArray;
+	if (JsonValue->TryGetArray(JsonArray))
+	{
+		bool ParseSuccess = true;
+		const int32 Count = JsonArray->Num();
+		ArrayValue.Reset();
+		for (int i = 0; i < Count; i++)
+		{
+			T TmpValue;
+			ParseSuccess &= TryGetJsonValue((*JsonArray)[i], TmpValue);
+			ArrayValue.Emplace(MoveTemp(TmpValue));
+		}
+		return ParseSuccess;
+	}
+	return false;
 }
 
 }

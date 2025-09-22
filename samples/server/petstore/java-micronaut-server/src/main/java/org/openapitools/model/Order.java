@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.*;
 
@@ -36,7 +37,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   Order.JSON_PROPERTY_COMPLETE
 })
 @JsonTypeName("Order")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @Introspected
 public class Order {
     public static final String JSON_PROPERTY_ID = "id";
@@ -102,7 +103,7 @@ public class Order {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
     @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_ID)
@@ -125,7 +126,7 @@ public class Order {
     /**
      * Get petId
      * @return petId
-     **/
+     */
     @Nullable
     @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_PET_ID)
@@ -148,7 +149,7 @@ public class Order {
     /**
      * Get quantity
      * @return quantity
-     **/
+     */
     @Nullable
     @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_QUANTITY)
@@ -171,7 +172,7 @@ public class Order {
     /**
      * Get shipDate
      * @return shipDate
-     **/
+     */
     @Nullable
     @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_SHIP_DATE)
@@ -196,7 +197,7 @@ public class Order {
     /**
      * Order Status
      * @return status
-     **/
+     */
     @Nullable
     @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_STATUS)
@@ -219,7 +220,7 @@ public class Order {
     /**
      * Get complete
      * @return complete
-     **/
+     */
     @Nullable
     @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_COMPLETE)

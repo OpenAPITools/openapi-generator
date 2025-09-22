@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'model_list.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -25,7 +27,7 @@ class ModelList {
     
     name: r'123-list',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -33,13 +35,15 @@ class ModelList {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ModelList &&
-     other.n123list == n123list;
 
-  @override
-  int get hashCode =>
-    n123list.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ModelList &&
+      other.n123list == n123list;
+
+    @override
+    int get hashCode =>
+        n123list.hashCode;
 
   factory ModelList.fromJson(Map<String, dynamic> json) => _$ModelListFromJson(json);
 

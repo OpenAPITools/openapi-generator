@@ -23,7 +23,7 @@ function Get-PSConfiguration {
     $Configuration = $Script:Configuration
 
     if ([string]::IsNullOrEmpty($Configuration["BaseUrl"])) {
-        $Configuration["BaseUrl"] = "http://petstore.swagger.io:80/v2";
+        $Configuration["BaseUrl"] = "http://localhost/v2";
     }
 
     if (!$Configuration.containsKey("Username")) {
@@ -179,8 +179,8 @@ function Set-PSConfiguration {
         }
 
         If ($null -ne $Proxy) {
-            If ($Proxy.GetType().FullName -ne "System.Net.SystemWebProxy" -and $Proxy.GetType().FullName -ne "System.Net.WebRequest+WebProxyWrapperOpaque") {
-                throw "Incorrect Proxy type '$($Proxy.GetType().FullName)'. Must be System.Net.SystemWebProxy or System.Net.WebRequest+WebProxyWrapperOpaque."
+            If ('System.Net.IWebProxy' -notin $Proxy.GetType().ImplementedInterfaces.FullName) {
+                throw "Incorrect Proxy type '$($Proxy.GetType().FullName)'. Must implement System.Net.IWebProxy interface."
             }
             $Script:Configuration['Proxy'] = $Proxy
         } else {
@@ -311,6 +311,10 @@ System.Collections.Hashtable[]
 #>
 function Get-PSHostSetting {
     return ,@(
+          @{
+            "Url" = "http://localhost/v2";
+            "Description" = "No description provided";
+          },
           @{
             "Url" = "http://{server}.swagger.io:{port}/v2";
             "Description" = "petstore server";

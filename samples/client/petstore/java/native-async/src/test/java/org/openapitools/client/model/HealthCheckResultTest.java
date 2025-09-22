@@ -18,26 +18,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for HealthCheckResult
  */
-public class HealthCheckResultTest {
+class HealthCheckResultTest {
     private final HealthCheckResult model = new HealthCheckResult();
 
     /**
      * Model tests for HealthCheckResult
      */
     @Test
-    public void testHealthCheckResult() {
+    void testHealthCheckResult() {
         // TODO: test HealthCheckResult
     }
 
@@ -45,7 +45,7 @@ public class HealthCheckResultTest {
      * Test the property 'nullableMessage'
      */
     @Test
-    public void nullableMessageTest() {
+    void nullableMessageTest() {
         // TODO: test nullableMessage
     }
 

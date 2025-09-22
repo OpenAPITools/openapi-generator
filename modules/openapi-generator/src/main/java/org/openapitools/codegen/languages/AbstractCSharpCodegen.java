@@ -18,12 +18,12 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
-
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -31,7 +31,10 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.templating.mustache.CopyLambda.CopyContent;
+import org.openapitools.codegen.templating.mustache.CopyLambda.WhiteSpaceStrategy;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,62 +47,66 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
+public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalEmitDefaultValuesFlag = false;
     protected boolean conditionalSerialization = false;
     protected boolean optionalProjectFileFlag = true;
-    protected boolean optionalMethodArgumentFlag = true;
+    @Setter protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
     protected boolean useDateTimeForDateFlag = false;
     protected boolean useCollection = false;
-    protected boolean returnICollection = false;
-    protected boolean netCoreProjectFileFlag = false;
+    @Setter protected boolean returnICollection = false;
+    @Setter protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
     protected boolean useSourceGeneration = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
-    protected String licenseUrl = "http://localhost";
-    protected String licenseName = "NoLicense";
+    @Setter protected String licenseUrl = "http://localhost";
+    @Setter protected String licenseName = "NoLicense";
 
-    protected String packageVersion = "1.0.0";
-    protected String packageName = "Org.OpenAPITools";
-    protected String packageTitle = "OpenAPI Library";
-    protected String packageProductName = "OpenAPILibrary";
-    protected String packageDescription = "A library generated from a OpenAPI doc";
-    protected String packageCompany = "OpenAPI";
-    protected String packageCopyright = "No Copyright";
-    protected String packageAuthors = "OpenAPI";
+    @Setter protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "Org.OpenAPITools";
+    @Setter protected String packageTitle = "OpenAPI Library";
+    @Setter protected String packageProductName = "OpenAPILibrary";
+    @Setter protected String packageDescription = "A library generated from a OpenAPI doc";
+    @Setter protected String packageCompany = "OpenAPI";
+    @Setter protected String packageCopyright = "No Copyright";
+    @Setter protected String packageAuthors = "OpenAPI";
     public static final String DATE_FORMAT = "dateFormat";
-    protected String dateFormat = "yyyy'-'MM'-'dd";
+    @Setter protected String dateFormat = "yyyy'-'MM'-'dd";
     public static final String DATETIME_FORMAT = "dateTimeFormat";
-    protected String dateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+    @Setter protected String dateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
+    @Getter @Setter
     protected String interfacePrefix = "I";
-    protected String enumNameSuffix = "Enum";
-    protected String enumValueSuffix = "Enum";
+    @Setter protected String enumNameSuffix = "Enum";
+    @Setter protected String enumValueSuffix = "Enum";
 
-    protected String sourceFolder = "src";
-    protected String invalidNamePrefix = "var";
-    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
+    @Setter protected String sourceFolder = "src";
+    protected static final String invalidParameterNamePrefix = "var";
+    protected static final String invalidPropertyNamePrefix = "Var";
+    @Getter protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
     //       This would require updating relative paths (e.g. path to main project file in test project file)
-    protected String testFolder = sourceFolder;
+    @Setter protected String testFolder = sourceFolder;
 
     protected Set<String> collectionTypes;
     protected Set<String> mapTypes;
 
     // true if support nullable type
+    @Getter @Setter
     protected boolean supportNullable = Boolean.FALSE;
 
-    protected Boolean zeroBasedEnums = null;
-    protected static final String zeroBasedEnumVendorExtension = "x-zero-based-enum";
+    @Setter protected Boolean zeroBasedEnums = null;
+    protected static final String zeroBasedEnumVendorExtension = VendorExtension.X_ZERO_BASED_ENUM.getName();
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
@@ -107,7 +114,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected Set<String> propertySpecialKeywords = new HashSet<>(Arrays.asList("ToString", "ToJson", "GetHashCode", "Equals", "ShouldSerializeToString"));
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
-    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+    private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractCSharpCodegen() {
         super();
@@ -204,15 +211,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         instantiationTypes.put("array", "List");
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
-
-        this.setSortParamsByRequiredFlag(true);
-
-        // do it only on newer libraries to avoid breaking changes
-        // this.setSortModelPropertiesByRequiredFlag(true);
-    }
-
-    public void setReturnICollection(boolean returnICollection) {
-        this.returnICollection = returnICollection;
     }
 
     public void setUseCollection(boolean useCollection) {
@@ -222,14 +220,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             instantiationTypes.put("list", "Collection");
         }
         this.setTypeMapping();
-    }
-
-    public void setOptionalMethodArgumentFlag(boolean flag) {
-        this.optionalMethodArgumentFlag = flag;
-    }
-
-    public void setNetCoreProjectFileFlag(boolean flag) {
-        this.netCoreProjectFileFlag = flag;
     }
 
     public void useDateTimeOffset(boolean flag) {
@@ -255,6 +245,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (StringUtils.isEmpty(System.getenv("CSHARP_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable CSHARP_POST_PROCESS_FILE not defined so the C# code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export CSHARP_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'CSHARP_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         // License info
@@ -438,30 +430,31 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
-        CopyLambda copyLambda = new CopyLambda();
+        final CopyContent copyContent = new CopyContent();
 
         return super.addMustacheLambdas()
-                .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
+                .put("camelcase_sanitize_param", new CamelCaseAndSanitizeLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
                 .put("joinWithAmpersand", new JoinWithCommaLambda(true, "  ", " && "))
                 .put("joinLinesWithComma", new JoinWithCommaLambda(false, "\n", ",\n"))
                 .put("joinConditions", new JoinWithCommaLambda(true, "  ", " && "))
-                .put("trimLineBreaks", new TrimLineBreaksLambda())
-                .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
-                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
                 .put("indent1", new IndentedLambda(4, " ", false, true))
+                .put("indentAll1", new IndentedLambda(4, " ", true, true))
                 .put("indent3", new IndentedLambda(12, " ", false, true))
                 .put("indent4", new IndentedLambda(16, " ", false, true))
-                .put("copy", copyLambda)
-                .put("paste", new PasteLambda(copyLambda, true, true, true, false))
-                .put("pasteOnce", new PasteLambda(copyLambda, true, true, true, true))
-                .put("pasteLine", new PasteLambda(copyLambda, true, true, false, false))
+                .put("copy", new CopyLambda(copyContent, WhiteSpaceStrategy.None, WhiteSpaceStrategy.None))
+                .put("copyText", new CopyLambda(copyContent, WhiteSpaceStrategy.Strip, WhiteSpaceStrategy.StripLineBreakIfPresent))
+                .put("paste", new PasteLambda(copyContent, false))
+                .put("pasteOnce", new PasteLambda(copyContent, true))
                 .put("uniqueLines", new UniqueLambda("\n", false))
-                .put("unique", new UniqueLambda("\n", true));
+                .put("unique", new UniqueLambda("\n", true))
+                .put("camel_case", new CamelCaseLambda())
+                .put("escape_reserved_word", new EscapeKeywordLambda(this::escapeKeyword))
+                .put("alphabet_or_underscore", new ReplaceAllLambda("[^A-Za-z]", "_"));
     }
 
     @Override
@@ -473,14 +466,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.dataType = property.datatypeWithEnum;
         }
 
-        if (property.isEnum && !property.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
+        if (property.isEnum && !property.vendorExtensions.containsKey(AbstractCSharpCodegen.zeroBasedEnumVendorExtension)) {
             if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
-                property.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
+                property.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, true);
             } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
                 if (property.allowableValues.containsKey("values")) {
-                    final List<Object> allowableValues = (List<Object>) property.allowableValues.get("values");
+                    final List<?> allowableValues = (List<?>) property.allowableValues.get("values");
                     boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
-                    property.vendorExtensions.put(this.zeroBasedEnumVendorExtension, isZeroBased);
+                    property.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, isZeroBased);
                 }
             }
         }
@@ -490,6 +483,50 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isEnum = false;
             property.isInnerEnum = false;
             property.isString = false;
+        }
+
+        Double maximum = asDouble(property.maximum);
+        if (property.dataType.equals("int") && maximum != null) {
+            if ((!property.exclusiveMaximum && asInteger(property.maximum) == null) || (property.exclusiveMaximum && asInteger((maximum + 1) + "") == null)) {
+                property.dataType = "long";
+                property.datatypeWithEnum = "long";
+            }
+        }
+
+        Double minimum = asDouble(property.minimum);
+        if (property.dataType.equals("int") && minimum != null) {
+            if ((!property.exclusiveMinimum && asInteger(property.minimum) == null) || (property.exclusiveMinimum && asInteger((minimum - 1) + "") == null)) {
+                property.dataType = "long";
+                property.datatypeWithEnum = "long";
+            }
+        }
+    }
+
+    /**
+     * If the value can be parsed as a double, returns the value, otherwise returns null
+     */
+    public static Double asDouble(String strNum) {
+        if (strNum == null) {
+            return null;
+        }
+        try {
+            return Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return null;
+        }
+    }
+
+    /**
+     * If the value can be parsed as an integer, returns the value, otherwise returns null
+     */
+    public static Integer asInteger(String strNum) {
+        if (strNum == null) {
+            return null;
+        }
+        try {
+            return Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return null;
         }
     }
 
@@ -528,14 +565,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            if (cm.isEnum && !cm.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
+            if (cm.isEnum && !cm.vendorExtensions.containsKey(AbstractCSharpCodegen.zeroBasedEnumVendorExtension)) {
                 if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
-                    cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
+                    cm.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, true);
                 } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
                     if (cm.allowableValues.containsKey("values")) {
-                        final List<Object> allowableValues = (List<Object>) cm.allowableValues.get("values");
+                        final List<?> allowableValues = (List<?>) cm.allowableValues.get("values");
                         boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
-                        cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, isZeroBased);
+                        cm.vendorExtensions.put(AbstractCSharpCodegen.zeroBasedEnumVendorExtension, isZeroBased);
                     }
                 }
             }
@@ -557,6 +594,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), processed);
+            if (model == null) {
+                continue;
+            }
 
             // if we don't call setHasDiscriminatorWithNonEmptyMapping then hasDiscriminatorWithNonEmptyMapping will be false, and we need it in the JsonConverter
             // the checks on oneOf and anyOf must be there or else hasDiscriminatorWithNonEmptyMapping will be true for GrandparentAnimal.
@@ -575,15 +615,20 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
-            model.vendorExtensions.put("x-model-is-mutatable", modelIsMutatable(model, null));
+            if (model == null) {
+                continue;
+            }
+
+            model.vendorExtensions.put("x-model-is-mutable", modelIsMutable(model, null));
 
             CodegenComposedSchemas composedSchemas = model.getComposedSchemas();
             if (composedSchemas != null) {
+                Set<String> composedPropertyNames = new HashSet<String>();
                 List<CodegenProperty> allOf = composedSchemas.getAllOf();
                 if (allOf != null) {
                     for (CodegenProperty property : allOf) {
-                        property.name = patchPropertyName(model, property.baseType);
-                        patchPropertyVendorExtensions(property);
+                        patchProperty(enumRefs, model, property);
+                        property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                     }
                 }
 
@@ -591,9 +636,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 if (anyOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for (CodegenProperty property : anyOf) {
-                        property.name = patchPropertyName(model, property.baseType);
+                        patchProperty(enumRefs, model, property);
+                        property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
-                        patchPropertyVendorExtensions(property);
+                        property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
                     }
                 }
 
@@ -601,9 +647,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 if (oneOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for (CodegenProperty property : oneOf) {
-                        property.name = patchPropertyName(model, property.baseType);
+                        patchProperty(enumRefs, model, property);
+                        property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
-                        patchPropertyVendorExtensions(property);
+                        property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
                     }
                 }
             }
@@ -635,6 +682,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             for (CodegenProperty property : model.nonNullableVars) {
                 patchProperty(enumRefs, model, property);
             }
+
+            List<CodegenProperty> overriddenProperties = model.vars.stream().filter(v -> model.allVars.stream().anyMatch(a -> a.baseName.equals(v.baseName) && a.dataType != v.dataType)).collect(Collectors.toList());
+            for (CodegenProperty overridden : overriddenProperties) {
+                // if the current model overrides an allOf property, use the overridden property
+                model.allVars.set(model.allVars.indexOf(model.allVars.stream().filter(a -> a.baseName.equals(overridden.baseName)).findFirst().get()), overridden);
+            }
         }
         return processed;
     }
@@ -645,44 +698,130 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      * can instantiate the object. If false, then the model is only ever given
      * to us by the server, so we do not need a public constructor
      */
-    private boolean modelIsMutatable(CodegenModel model, Set<String> processed) {
+    private boolean modelIsMutable(CodegenModel model, Set<String> processed) {
         if (processed == null) {
             processed = new HashSet<String>();
         }
-        Boolean isMutatable = model.allVars.stream().anyMatch(v -> !v.isReadOnly);
-        if (!isMutatable && !processed.contains(model.classname) && model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
+        boolean isMutable = model.allVars.stream().anyMatch(v -> !v.isReadOnly);
+        if (!isMutable && !processed.contains(model.classname) && model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
             processed.add(model.classname);
-            for (CodegenDiscriminator.MappedModel mappedModel : model.getDiscriminator().getMappedModels()) {
-                isMutatable = modelIsMutatable(model, processed);
-            }
+            isMutable = modelIsMutable(model, processed);
         }
 
-        return isMutatable;
+        return isMutable;
     }
 
     protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
     }
 
-    private String patchPropertyName(CodegenModel model, String value) {
-        // the casing will be wrong if we just set the name to escapeReservedWord
-        // if we try to fix it with camelize, underscores get stripped out
-        // so test if the name was escaped and then replace var with Var
-        String tmpPropertyName = escapeReservedWord(model, value);
-        if (!value.equals(tmpPropertyName) || value.startsWith(this.invalidNamePrefix)) {
-            value = tmpPropertyName;
-            String firstCharacter = value.substring(0, 1);
-            value = value.substring(1);
-            value = firstCharacter.toUpperCase(Locale.ROOT) + value;
+    /**
+     * If the model has duplicate proprety names, just make it unique
+     * This can happen for base names like "id" and "@id"
+     * @param model
+     * @param property
+     * @param value
+     * @return
+     */
+    private String setUniquePropertyName(CodegenModel model, CodegenProperty property, String value) {
+        if (property.name.equalsIgnoreCase(property.baseName)) {
+            return value;
+        }
+
+        Optional<CodegenProperty> alreadyUpdatedProperty = model.allVars.stream()
+                .filter(p -> !p.name.equals(property.name) && p.baseName.equals(property.baseName))
+                .collect(Collectors.toList())
+                .stream()
+                .findFirst();
+
+        if (alreadyUpdatedProperty.isPresent()) {
+            // above iterates allVars, which may have already been corrected
+            return alreadyUpdatedProperty.get().name;
+        }
+
+        final String tmp = value;
+
+        long count = model.allVars.stream()
+                .filter(v -> v.name.equalsIgnoreCase(tmp))
+                .count();
+
+        if (count > 1) {
+            value = value + count;
+            value = setUniquePropertyName(model, property, value);
         }
 
         return value;
     }
 
+    /** 
+     * Fixes nested maps so the generic type is defined
+     * Convertes List<List>> to List<List<T>>
+     */
+    private String patchPropertyName(CodegenModel model, CodegenProperty property, String value, Set<String> composedPropertyNames) {
+        value = setUniquePropertyName(model, property, value);
+
+        String name = escapeReservedWord(model, value);
+
+        if (name.startsWith(AbstractCSharpCodegen.invalidParameterNamePrefix)) {
+            name = AbstractCSharpCodegen.invalidPropertyNamePrefix + name.substring(AbstractCSharpCodegen.invalidParameterNamePrefix.length());
+        }
+
+        // ensure the name we use for a composed property does not already exist as a property or composed property
+        // only do this if the set of composed property names was provided to ensure this method is idempotent
+        // we would not calling this method multiple times to result in different values
+        if (composedPropertyNames != null) {
+            String tmpName = name;
+            long count = model.allVars.stream().map(v -> v.name).filter(n -> n.equals(tmpName)).count() + composedPropertyNames.stream().filter(n -> n.equals(tmpName)).count();
+
+            if (count > 0) {
+                name = name + count++;
+            }
+
+            composedPropertyNames.add(name);
+        }
+
+        return name;
+    }
+
     private void patchPropertyVendorExtensions(CodegenProperty property) {
-        Boolean isValueType = isValueType(property);
+        boolean isValueType = isValueType(property);
         property.vendorExtensions.put("x-is-value-type", isValueType);
         property.vendorExtensions.put("x-is-reference-type", !isValueType);
         property.vendorExtensions.put("x-is-nullable-type", this.getNullableReferencesTypes() || isValueType);
+        property.vendorExtensions.put("x-is-base-or-new-discriminator", (property.isDiscriminator && !property.isInherited) || (property.isDiscriminator && property.isNew));
+    }
+
+    protected void patchPropertyIsInherited(CodegenModel model, CodegenProperty property) {
+    }
+
+    private void patchNestedMaps(CodegenProperty property) {
+        // Process nested types before making any replacements to ensure we have the correct inner type
+        if (property.items != null) {
+            patchNestedMaps(property.items);
+        }
+
+        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
+        
+        if (property.datatypeWithEnum != null) {
+            String originalType = property.datatypeWithEnum;
+            
+            for (String nestedType : nestedTypes) {
+                // fix incorrect data types for maps of maps
+                if (property.items != null) {
+                    if (property.datatypeWithEnum.contains(", " + nestedType + ">")) {
+                        property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + nestedType + ">", ", " + property.items.datatypeWithEnum + ">");
+                    }
+
+                    if (property.datatypeWithEnum.contains("<" + nestedType + ">")) {
+                        property.datatypeWithEnum = property.datatypeWithEnum.replace("<" + nestedType + ">", "<" + property.items.datatypeWithEnum + ">");
+                    }
+                }
+            }
+
+            // Only update dataType if we actually made changes
+            if (!originalType.equals(property.datatypeWithEnum)) {
+                property.dataType = property.datatypeWithEnum;
+            }
+        }
     }
 
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
@@ -698,25 +837,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
+        this.patchPropertyIsInherited(model, property);
+
         patchPropertyVendorExtensions(property);
 
-        String tmpPropertyName = escapeReservedWord(model, property.name);
-        property.name = patchPropertyName(model, property.name);
+        property.name = patchPropertyName(model, property, property.name, null);
 
-        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
-
-        Arrays.stream(nestedTypes).forEach(nestedType -> {
-            // fix incorrect data types for maps of maps
-            if (property.datatypeWithEnum.contains(", " + nestedType + ">") && property.items != null) {
-                property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + nestedType + ">", ", " + property.items.datatypeWithEnum + ">");
-                property.dataType = property.datatypeWithEnum;
-            }
-
-            if (property.datatypeWithEnum.contains("<" + nestedType + ">") && property.items != null) {
-                property.datatypeWithEnum = property.datatypeWithEnum.replace("<" + nestedType + ">", "<" + property.items.datatypeWithEnum + ">");
-                property.dataType = property.datatypeWithEnum;
-            }
-        });
+        patchNestedMaps(property);
 
         // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
         if (property.datatypeWithEnum.equals("decimal")) {
@@ -736,6 +863,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 enumVar.put("isString", true);
             });
         }
+
+        String[] numericTypes = {"double", "double?", "decimal", "decimal", "float", "float?", "int", "int?", "long", "long?", "ulong", "ulong?"};
+        enumVars.forEach((enumVar) -> {
+            enumVar.put("isNumeric", Arrays.asList(numericTypes).contains(dataType));
+        });
 
         return enumVars;
     }
@@ -784,329 +916,377 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        super.postProcessWebhooksWithModels(objs, allModels);
+
+        if (objs != null) {
+            OperationMap operationMap = objs.getWebhooks();
+            this.postProcessOperations(operationMap, allModels);
+        }
+
+        return objs;
+    }
+
+    private HashMap<String, String> duplicateOf = new HashMap<String, String>();
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
 
+        if (objs != null) {
+            OperationMap operations = objs.getOperations();
+            this.postProcessOperations(operations, allModels);
+        }
+
+        return objs;
+    }
+
+    private void postProcessOperations(OperationMap operations, List<ModelMap> allModels) {
         Set<String> httpStatusesWithReturn = additionalProperties.get("x-http-statuses-with-return") instanceof Set<?>
                 ? (Set<String>) additionalProperties.get("x-http-statuses-with-return")
                 : new HashSet<String>();
 
         additionalProperties.put("x-http-statuses-with-return", httpStatusesWithReturn);
 
-        if (objs != null) {
-            OperationMap operations = objs.getOperations();
-            if (operations != null) {
-                List<CodegenOperation> ops = operations.getOperation();
-                for (CodegenOperation operation : ops) {
-                    if (operation.responses != null) {
-                        for (CodegenResponse response : operation.responses) {
+        HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
 
-                            if (response.returnProperty != null) {
-                                Boolean isValueType = isValueType(response.returnProperty);
-                                response.vendorExtensions.put("x-is-value-type", isValueType);
-                                response.vendorExtensions.put("x-is-reference-type", !isValueType);
-                            }
-
-                            if (response.headers != null && response.headers.stream().anyMatch(h -> h.baseName.equals("Set-Cookie"))) {
-                                response.vendorExtensions.put("x-set-cookie", true);
-                                operation.vendorExtensions.put("x-set-cookie", true);
-                            }
-
-                            String code = response.code.toLowerCase(Locale.ROOT);
-                            switch(code) {
-                                case "default":
-                                case "0":
-                                    postProcessResponseCode(response, "Default", httpStatusesWithReturn);
-                                    response.vendorExtensions.put("x-http-status-is-default", true);
-                                    if (operation.responses.stream().count() == 1) {
-                                        response.vendorExtensions.put("x-only-default", true);
-                                    }
-                                    break;
-                                case "100":
-                                    postProcessResponseCode(response, "Continue", httpStatusesWithReturn);
-                                    break;
-                                case "101":
-                                    postProcessResponseCode(response, "SwitchingProtocols", httpStatusesWithReturn);
-                                    break;
-                                case "102":
-                                    postProcessResponseCode(response, "Processing", httpStatusesWithReturn);
-                                    break;
-                                case "103":
-                                    postProcessResponseCode(response, "EarlyHints", httpStatusesWithReturn);
-                                    break;
-                                case "200":
-                                    postProcessResponseCode(response, "Ok", httpStatusesWithReturn);
-                                    break;
-                                case "201":
-                                    postProcessResponseCode(response, "Created", httpStatusesWithReturn);
-                                    break;
-                                case "202":
-                                    postProcessResponseCode(response, "Accepted", httpStatusesWithReturn);
-                                    break;
-                                case "203":
-                                    postProcessResponseCode(response, "NonAuthoritativeInformation", httpStatusesWithReturn);
-                                    break;
-                                case "204":
-                                    postProcessResponseCode(response, "NoContent", httpStatusesWithReturn);
-                                    break;
-                                case "205":
-                                    postProcessResponseCode(response, "ResetContent", httpStatusesWithReturn);
-                                    break;
-                                case "206":
-                                    postProcessResponseCode(response, "PartialContent", httpStatusesWithReturn);
-                                    break;
-                                case "207":
-                                    postProcessResponseCode(response, "MultiStatus", httpStatusesWithReturn);
-                                    break;
-                                case "208":
-                                    postProcessResponseCode(response, "AlreadyImported", httpStatusesWithReturn);
-                                    break;
-                                case "226":
-                                    postProcessResponseCode(response, "IMUsed", httpStatusesWithReturn);
-                                    break;
-                                case "300":
-                                    postProcessResponseCode(response, "MultipleChoices", httpStatusesWithReturn);
-                                    break;
-                                case "301":
-                                    postProcessResponseCode(response, "MovedPermanently", httpStatusesWithReturn);
-                                    break;
-                                case "302":
-                                    postProcessResponseCode(response, "Found", httpStatusesWithReturn);
-                                    break;
-                                case "303":
-                                    postProcessResponseCode(response, "SeeOther", httpStatusesWithReturn);
-                                    break;
-                                case "304":
-                                    postProcessResponseCode(response, "NotModified", httpStatusesWithReturn);
-                                    break;
-                                case "307":
-                                    postProcessResponseCode(response, "TemporaryRedirect", httpStatusesWithReturn);
-                                    break;
-                                case "308":
-                                    postProcessResponseCode(response, "PermanentRedirect", httpStatusesWithReturn);
-                                    break;
-                                case "400":
-                                    postProcessResponseCode(response, "BadRequest", httpStatusesWithReturn);
-                                    break;
-                                case "401":
-                                    postProcessResponseCode(response, "Unauthorized", httpStatusesWithReturn);
-                                    break;
-                                case "402":
-                                    postProcessResponseCode(response, "PaymentRequired", httpStatusesWithReturn);
-                                    break;
-                                case "403":
-                                    postProcessResponseCode(response, "Forbidden", httpStatusesWithReturn);
-                                    break;
-                                case "404":
-                                    postProcessResponseCode(response, "NotFound", httpStatusesWithReturn);
-                                    break;
-                                case "405":
-                                    postProcessResponseCode(response, "MethodNotAllowed", httpStatusesWithReturn);
-                                    break;
-                                case "406":
-                                    postProcessResponseCode(response, "NotAcceptable", httpStatusesWithReturn);
-                                    break;
-                                case "407":
-                                    postProcessResponseCode(response, "ProxyAuthenticationRequired", httpStatusesWithReturn);
-                                    break;
-                                case "408":
-                                    postProcessResponseCode(response, "RequestTimeout", httpStatusesWithReturn);
-                                    break;
-                                case "409":
-                                    postProcessResponseCode(response, "Conflict", httpStatusesWithReturn);
-                                    break;
-                                case "410":
-                                    postProcessResponseCode(response, "Gone", httpStatusesWithReturn);
-                                    break;
-                                case "411":
-                                    postProcessResponseCode(response, "LengthRequired", httpStatusesWithReturn);
-                                    break;
-                                case "412":
-                                    postProcessResponseCode(response, "PreconditionFailed", httpStatusesWithReturn);
-                                    break;
-                                case "413":
-                                    postProcessResponseCode(response, "ContentTooLarge", httpStatusesWithReturn);
-                                    break;
-                                case "414":
-                                    postProcessResponseCode(response, "URITooLong", httpStatusesWithReturn);
-                                    break;
-                                case "415":
-                                    postProcessResponseCode(response, "UnsupportedMediaType", httpStatusesWithReturn);
-                                    break;
-                                case "416":
-                                    postProcessResponseCode(response, "RangeNotSatisfiable", httpStatusesWithReturn);
-                                    break;
-                                case "417":
-                                    postProcessResponseCode(response, "ExpectationFailed", httpStatusesWithReturn);
-                                    break;
-                                case "421":
-                                    postProcessResponseCode(response, "MisdirectedRequest", httpStatusesWithReturn);
-                                    break;
-                                case "422":
-                                    postProcessResponseCode(response, "UnprocessableContent", httpStatusesWithReturn);
-                                    break;
-                                case "423":
-                                    postProcessResponseCode(response, "Locked", httpStatusesWithReturn);
-                                    break;
-                                case "424":
-                                    postProcessResponseCode(response, "FailedDependency", httpStatusesWithReturn);
-                                    break;
-                                case "425":
-                                    postProcessResponseCode(response, "TooEarly", httpStatusesWithReturn);
-                                    break;
-                                case "426":
-                                    postProcessResponseCode(response, "UpgradeRequired", httpStatusesWithReturn);
-                                    break;
-                                case "428":
-                                    postProcessResponseCode(response, "PreconditionRequired", httpStatusesWithReturn);
-                                    break;
-                                case "429":
-                                    postProcessResponseCode(response, "TooManyRequests", httpStatusesWithReturn);
-                                    break;
-                                case "431":
-                                    postProcessResponseCode(response, "RequestHeaderFieldsTooLong", httpStatusesWithReturn);
-                                    break;
-                                case "451":
-                                    postProcessResponseCode(response, "UnavailableForLegalReasons", httpStatusesWithReturn);
-                                    break;
-                                case "500":
-                                    postProcessResponseCode(response, "InternalServerError", httpStatusesWithReturn);
-                                    break;
-                                case "501":
-                                    postProcessResponseCode(response, "NotImplemented", httpStatusesWithReturn);
-                                    break;
-                                case "502":
-                                    postProcessResponseCode(response, "BadGateway", httpStatusesWithReturn);
-                                    break;
-                                case "503":
-                                    postProcessResponseCode(response, "ServiceUnavailable", httpStatusesWithReturn);
-                                    break;
-                                case "504":
-                                    postProcessResponseCode(response, "GatewayTimeout", httpStatusesWithReturn);
-                                    break;
-                                case "505":
-                                    postProcessResponseCode(response, "HttpVersionNotSupported", httpStatusesWithReturn);
-                                    break;
-                                case "506":
-                                    postProcessResponseCode(response, "VariantAlsoNegotiates", httpStatusesWithReturn);
-                                    break;
-                                case "507":
-                                    postProcessResponseCode(response, "InsufficientStorage", httpStatusesWithReturn);
-                                    break;
-                                case "508":
-                                    postProcessResponseCode(response, "LoopDetected", httpStatusesWithReturn);
-                                    break;
-                                case "511":
-                                    postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
-                                    break;
-                                default:
-                                    postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);
-                            }
-                        }
-                    }
-
-                    // Check return types for collection
-                    if (operation.returnType != null) {
-                        int namespaceEnd = operation.returnType.lastIndexOf(".");
-                        String typeMapping = namespaceEnd > 0
-                                ? operation.returnType.substring(namespaceEnd)
-                                : operation.returnType;
-
-                        if (this.collectionTypes.contains(typeMapping)) {
-                            operation.isArray = true;
-                            operation.returnContainer = operation.returnType;
-                            if (this.returnICollection && (
-                                    typeMapping.startsWith("List") ||
-                                            typeMapping.startsWith("Collection"))) {
-                                // NOTE: ICollection works for both List<T> and Collection<T>
-                                int genericStart = typeMapping.indexOf("<");
-                                if (genericStart > 0) {
-                                    operation.returnType = "ICollection" + typeMapping.substring(genericStart);
-                                }
-                            }
-                        } else {
-                            operation.returnContainer = operation.returnType;
-                            operation.isMap = this.mapTypes.stream().anyMatch(t -> typeMapping.startsWith(t));
-                        }
-                    }
-
-                    if (operation.examples != null) {
-                        for (Map<String, String> example : operation.examples) {
-                            for (Map.Entry<String, String> entry : example.entrySet()) {
-                                // Replace " with \", \r, \n with \\r, \\n
-                                String val = entry.getValue().replace("\"", "\\\"")
-                                        .replace("\r", "\\r")
-                                        .replace("\n", "\\n");
-                                entry.setValue(val);
-                            }
-                        }
-                    }
-
-                    for (CodegenParameter parameter : operation.allParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.bodyParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.cookieParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.formParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.headerParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.implicitHeadersParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.optionalParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.pathParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.queryParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.notNullableParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.requiredParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    List<CodegenParameter> referenceTypes = operation.allParams.stream().filter(p -> p.vendorExtensions.get("x-is-value-type") == null && !p.isNullable).collect(Collectors.toList());
-                    operation.vendorExtensions.put("x-not-nullable-reference-types", referenceTypes);
-                    operation.vendorExtensions.put("x-has-not-nullable-reference-types", referenceTypes.size() > 0);
-                    processOperation(operation);
+        if (operations != null) {
+            List<CodegenOperation> ops = operations.getOperation();
+            for (CodegenOperation operation : ops) {
+                String duplicates = duplicateOf.get(operation.operationId);
+                if (duplicates != null) {
+                    operation.vendorExtensions.put("x-duplicates", duplicates);
+                } else {
+                    duplicateOf.put(operation.operationId, operations.getClassname());
                 }
+                if (operation.responses != null) {
+                    for (CodegenResponse response : operation.responses) {
+
+                        if (response.returnProperty != null) {
+                            Boolean isValueType = isValueType(response.returnProperty);
+                            response.vendorExtensions.put("x-is-value-type", isValueType);
+                            response.vendorExtensions.put("x-is-reference-type", !isValueType);
+                        }
+
+                        if (response.headers != null && response.headers.stream().anyMatch(h -> h.baseName.equals("Set-Cookie"))) {
+                            response.vendorExtensions.put("x-set-cookie", true);
+                            operation.vendorExtensions.put("x-set-cookie", true);
+                        }
+
+                        String code = response.code.toLowerCase(Locale.ROOT);
+                        switch (code) {
+                            case "default":
+                            case "0":
+                                postProcessResponseCode(response, "Default", httpStatusesWithReturn);
+                                response.vendorExtensions.put("x-http-status-is-default", true);
+                                if ((long) operation.responses.size() == 1) {
+                                    response.vendorExtensions.put("x-only-default", true);
+                                }
+                                break;
+                            case "100":
+                                postProcessResponseCode(response, "Continue", httpStatusesWithReturn);
+                                break;
+                            case "101":
+                                postProcessResponseCode(response, "SwitchingProtocols", httpStatusesWithReturn);
+                                break;
+                            case "102":
+                                postProcessResponseCode(response, "Processing", httpStatusesWithReturn);
+                                break;
+                            case "103":
+                                postProcessResponseCode(response, "EarlyHints", httpStatusesWithReturn);
+                                break;
+                            case "200":
+                                postProcessResponseCode(response, "Ok", httpStatusesWithReturn);
+                                break;
+                            case "201":
+                                postProcessResponseCode(response, "Created", httpStatusesWithReturn);
+                                break;
+                            case "202":
+                                postProcessResponseCode(response, "Accepted", httpStatusesWithReturn);
+                                break;
+                            case "203":
+                                postProcessResponseCode(response, "NonAuthoritativeInformation", httpStatusesWithReturn);
+                                break;
+                            case "204":
+                                postProcessResponseCode(response, "NoContent", httpStatusesWithReturn);
+                                break;
+                            case "205":
+                                postProcessResponseCode(response, "ResetContent", httpStatusesWithReturn);
+                                break;
+                            case "206":
+                                postProcessResponseCode(response, "PartialContent", httpStatusesWithReturn);
+                                break;
+                            case "207":
+                                postProcessResponseCode(response, "MultiStatus", httpStatusesWithReturn);
+                                break;
+                            case "208":
+                                postProcessResponseCode(response, "AlreadyImported", httpStatusesWithReturn);
+                                break;
+                            case "226":
+                                postProcessResponseCode(response, "IMUsed", httpStatusesWithReturn);
+                                break;
+                            case "300":
+                                postProcessResponseCode(response, "MultipleChoices", httpStatusesWithReturn);
+                                break;
+                            case "301":
+                                postProcessResponseCode(response, "MovedPermanently", httpStatusesWithReturn);
+                                break;
+                            case "302":
+                                postProcessResponseCode(response, "Found", httpStatusesWithReturn);
+                                break;
+                            case "303":
+                                postProcessResponseCode(response, "SeeOther", httpStatusesWithReturn);
+                                break;
+                            case "304":
+                                postProcessResponseCode(response, "NotModified", httpStatusesWithReturn);
+                                break;
+                            case "307":
+                                postProcessResponseCode(response, "TemporaryRedirect", httpStatusesWithReturn);
+                                break;
+                            case "308":
+                                postProcessResponseCode(response, "PermanentRedirect", httpStatusesWithReturn);
+                                break;
+                            case "400":
+                                postProcessResponseCode(response, "BadRequest", httpStatusesWithReturn);
+                                break;
+                            case "401":
+                                postProcessResponseCode(response, "Unauthorized", httpStatusesWithReturn);
+                                break;
+                            case "402":
+                                postProcessResponseCode(response, "PaymentRequired", httpStatusesWithReturn);
+                                break;
+                            case "403":
+                                postProcessResponseCode(response, "Forbidden", httpStatusesWithReturn);
+                                break;
+                            case "404":
+                                postProcessResponseCode(response, "NotFound", httpStatusesWithReturn);
+                                break;
+                            case "405":
+                                postProcessResponseCode(response, "MethodNotAllowed", httpStatusesWithReturn);
+                                break;
+                            case "406":
+                                postProcessResponseCode(response, "NotAcceptable", httpStatusesWithReturn);
+                                break;
+                            case "407":
+                                postProcessResponseCode(response, "ProxyAuthenticationRequired", httpStatusesWithReturn);
+                                break;
+                            case "408":
+                                postProcessResponseCode(response, "RequestTimeout", httpStatusesWithReturn);
+                                break;
+                            case "409":
+                                postProcessResponseCode(response, "Conflict", httpStatusesWithReturn);
+                                break;
+                            case "410":
+                                postProcessResponseCode(response, "Gone", httpStatusesWithReturn);
+                                break;
+                            case "411":
+                                postProcessResponseCode(response, "LengthRequired", httpStatusesWithReturn);
+                                break;
+                            case "412":
+                                postProcessResponseCode(response, "PreconditionFailed", httpStatusesWithReturn);
+                                break;
+                            case "413":
+                                postProcessResponseCode(response, "ContentTooLarge", httpStatusesWithReturn);
+                                break;
+                            case "414":
+                                postProcessResponseCode(response, "URITooLong", httpStatusesWithReturn);
+                                break;
+                            case "415":
+                                postProcessResponseCode(response, "UnsupportedMediaType", httpStatusesWithReturn);
+                                break;
+                            case "416":
+                                postProcessResponseCode(response, "RangeNotSatisfiable", httpStatusesWithReturn);
+                                break;
+                            case "417":
+                                postProcessResponseCode(response, "ExpectationFailed", httpStatusesWithReturn);
+                                break;
+                            case "421":
+                                postProcessResponseCode(response, "MisdirectedRequest", httpStatusesWithReturn);
+                                break;
+                            case "422":
+                                postProcessResponseCode(response, "UnprocessableContent", httpStatusesWithReturn);
+                                break;
+                            case "423":
+                                postProcessResponseCode(response, "Locked", httpStatusesWithReturn);
+                                break;
+                            case "424":
+                                postProcessResponseCode(response, "FailedDependency", httpStatusesWithReturn);
+                                break;
+                            case "425":
+                                postProcessResponseCode(response, "TooEarly", httpStatusesWithReturn);
+                                break;
+                            case "426":
+                                postProcessResponseCode(response, "UpgradeRequired", httpStatusesWithReturn);
+                                break;
+                            case "428":
+                                postProcessResponseCode(response, "PreconditionRequired", httpStatusesWithReturn);
+                                break;
+                            case "429":
+                                postProcessResponseCode(response, "TooManyRequests", httpStatusesWithReturn);
+                                break;
+                            case "431":
+                                postProcessResponseCode(response, "RequestHeaderFieldsTooLong", httpStatusesWithReturn);
+                                break;
+                            case "451":
+                                postProcessResponseCode(response, "UnavailableForLegalReasons", httpStatusesWithReturn);
+                                break;
+                            case "500":
+                                postProcessResponseCode(response, "InternalServerError", httpStatusesWithReturn);
+                                break;
+                            case "501":
+                                postProcessResponseCode(response, "NotImplemented", httpStatusesWithReturn);
+                                break;
+                            case "502":
+                                postProcessResponseCode(response, "BadGateway", httpStatusesWithReturn);
+                                break;
+                            case "503":
+                                postProcessResponseCode(response, "ServiceUnavailable", httpStatusesWithReturn);
+                                break;
+                            case "504":
+                                postProcessResponseCode(response, "GatewayTimeout", httpStatusesWithReturn);
+                                break;
+                            case "505":
+                                postProcessResponseCode(response, "HttpVersionNotSupported", httpStatusesWithReturn);
+                                break;
+                            case "506":
+                                postProcessResponseCode(response, "VariantAlsoNegotiates", httpStatusesWithReturn);
+                                break;
+                            case "507":
+                                postProcessResponseCode(response, "InsufficientStorage", httpStatusesWithReturn);
+                                break;
+                            case "508":
+                                postProcessResponseCode(response, "LoopDetected", httpStatusesWithReturn);
+                                break;
+                            case "511":
+                                postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
+                                break;
+                            case "1xx":
+                                response.vendorExtensions.put("x-http-status-range", 1);
+                                postProcessResponseCode(response, "HttpStatusCode1XX", httpStatusesWithReturn);
+                                break;
+                            case "2xx":
+                                response.vendorExtensions.put("x-http-status-range", 2);
+                                postProcessResponseCode(response, "HttpStatusCode2XX", httpStatusesWithReturn);
+                                break;
+                            case "3xx":
+                                response.vendorExtensions.put("x-http-status-range", 3);
+                                postProcessResponseCode(response, "HttpStatusCode3XX", httpStatusesWithReturn);
+                                break;
+                            case "4xx":
+                                response.vendorExtensions.put("x-http-status-range", 4);
+                                postProcessResponseCode(response, "HttpStatusCode4XX", httpStatusesWithReturn);
+                                break;
+                            case "5xx":
+                                response.vendorExtensions.put("x-http-status-range", 5);
+                                postProcessResponseCode(response, "HttpStatusCode5XX", httpStatusesWithReturn);
+                                break;
+                            default:
+                                postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);
+                        }
+                    }
+                }
+
+                // Check return types for collection
+                if (operation.returnType != null) {
+                    int namespaceEnd = operation.returnType.lastIndexOf(".");
+                    String typeMapping = namespaceEnd > 0
+                            ? operation.returnType.substring(namespaceEnd)
+                            : operation.returnType;
+
+                    if (this.collectionTypes.contains(typeMapping)) {
+                        operation.isArray = true;
+                        operation.returnContainer = operation.returnType;
+                        if (this.returnICollection && (
+                                typeMapping.startsWith("List") ||
+                                        typeMapping.startsWith("Collection"))) {
+                            // NOTE: ICollection works for both List<T> and Collection<T>
+                            int genericStart = typeMapping.indexOf("<");
+                            if (genericStart > 0) {
+                                operation.returnType = "ICollection" + typeMapping.substring(genericStart);
+                            }
+                        }
+                    } else {
+                        operation.returnContainer = operation.returnType;
+                        operation.isMap = this.mapTypes.stream().anyMatch(typeMapping::startsWith);
+                    }
+                }
+
+                if (operation.examples != null) {
+                    for (Map<String, String> example : operation.examples) {
+                        for (Map.Entry<String, String> entry : example.entrySet()) {
+                            // Replace " with \", \r, \n with \\r, \\n
+                            String val = entry.getValue().replace("\"", "\\\"")
+                                    .replace("\r", "\\r")
+                                    .replace("\n", "\\n");
+                            entry.setValue(val);
+                        }
+                    }
+                }
+
+                for (CodegenParameter parameter : operation.allParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.bodyParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.cookieParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.formParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.headerParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.implicitHeadersParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.optionalParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.pathParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.queryParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.notNullableParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.requiredParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                List<CodegenParameter> referenceTypes = operation.allParams.stream().filter(p -> p.vendorExtensions.get("x-is-value-type") == null && !p.isNullable).collect(Collectors.toList());
+                operation.vendorExtensions.put("x-not-nullable-reference-types", referenceTypes);
+                operation.vendorExtensions.put("x-has-not-nullable-reference-types", referenceTypes.size() > 0);
+                processOperation(operation);
+
+                // Remove constant params from allParams list and add to constantParams
+                handleConstantParams(operation);
             }
         }
-
-        return objs;
     }
 
     protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
@@ -1118,10 +1298,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     /**
      * Returns the model related to the given parameter
      */
-    private CodegenModel getModelFromParameter(List<ModelMap> allModels, CodegenParameter parameter) {
-        return parameter.isModel
-                ? allModels.stream().map(m -> m.getModel()).filter(m -> m.getClassname().equals(parameter.dataType)).findFirst().orElse(null)
-                : null;
+    private CodegenModel getModelFromParameter(HashMap<String, CodegenModel> allModels, CodegenParameter parameter) {
+        return allModels.getOrDefault(parameter.dataType, null);
     }
 
     /**
@@ -1159,7 +1337,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     protected void processOperation(CodegenOperation operation) {
-        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
 
         Arrays.stream(nestedTypes).forEach(nestedType -> {
             if (operation.returnProperty != null && operation.returnType.contains("<" + nestedType + ">") && operation.returnProperty.items != null) {
@@ -1305,21 +1483,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public String escapeReservedWord(CodegenModel model, String name) {
         name = this.escapeReservedWord(name);
 
-        return name.equalsIgnoreCase(model.getClassname())
-                ? this.invalidNamePrefix + camelize(name)
+        return name.equals(model.getClassname())
+                ? AbstractCSharpCodegen.invalidParameterNamePrefix + camelize(name)
                 : name;
     }
 
     @Override
     public String escapeReservedWord(String name) {
-        if (reservedWords().contains(name) ||
-                reservedWords().contains(name.toLowerCase(Locale.ROOT)) ||
-                reservedWords().contains(camelize(sanitizeName(name))) ||
-                isReservedWord(name) ||
+        if (isReservedWord(name) ||
                 name.matches("^\\d.*")) {
-            name = this.invalidNamePrefix + camelize(name);
+            name = AbstractCSharpCodegen.invalidParameterNamePrefix + camelize(name);
         }
         return name;
+    }
+
+    public String escapeKeyword(String value) {
+        return isReservedWord(value) ? "@" + value : value;
     }
 
     /**
@@ -1424,36 +1603,31 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     /**
      * Provides C# strongly typed declaration for simple arrays of some type and arrays of arrays of some type.
      *
-     * @param arr The input array property
+     * @param items The input array property
      * @return The type declaration when the type is an array of arrays.
      */
-    private String getArrayTypeDeclaration(ArraySchema arr) {
-        // TODO: collection type here should be fully qualified namespace to avoid model conflicts
-        // This supports arrays of arrays.
-        String arrayType = typeMapping.get("array");
-        StringBuilder instantiationType = new StringBuilder(arrayType);
-        Schema items = arr.getItems();
-        String nestedType = getTypeDeclaration(items);
-        // TODO: We may want to differentiate here between generics and primitive arrays.
-        instantiationType.append("<").append(nestedType).append(">");
-        return instantiationType.toString();
+    private String getTypeDeclarationForArray(Schema<?> items) {
+        return getTypeDeclaration(items);
     }
 
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration((ArraySchema) p);
+            return getTypeDeclarationForArray(p);
         }
         return super.toInstantiationType(p);
     }
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration((ArraySchema) p);
+        Schema<?> schema = unaliasSchema(p);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        if (ModelUtils.isArraySchema(target)) {
+            Schema<?> items = getSchemaItems(schema);
+            return getSchemaType(target) + "<" + getTypeDeclarationForArray(items) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema<?> inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
@@ -1529,70 +1703,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return toModelName(name) + "Tests";
     }
 
-    public void setLicenseUrl(String licenseUrl) {
-        this.licenseUrl = licenseUrl;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
-    public void setPackageTitle(String packageTitle) {
-        this.packageTitle = packageTitle;
-    }
-
-    public void setPackageProductName(String packageProductName) {
-        this.packageProductName = packageProductName;
-    }
-
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
-    public void setDateTimeFormat(String dateTimeFormat) {
-        this.dateTimeFormat = dateTimeFormat;
-    }
-
-    public void setPackageDescription(String packageDescription) {
-        this.packageDescription = packageDescription;
-    }
-
-    public void setPackageCompany(String packageCompany) {
-        this.packageCompany = packageCompany;
-    }
-
-    public void setPackageCopyright(String packageCopyright) {
-        this.packageCopyright = packageCopyright;
-    }
-
-    public void setPackageAuthors(String packageAuthors) {
-        this.packageAuthors = packageAuthors;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setTestFolder(String testFolder) {
-        this.testFolder = testFolder;
-    }
-
-    public String getInterfacePrefix() {
-        return interfacePrefix;
-    }
-
-    public void setZeroBasedEnums(final Boolean zeroBasedEnums) {
-        this.zeroBasedEnums = zeroBasedEnums;
-    }
-
     public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag) {
         this.nullReferenceTypesFlag = nullReferenceTypesFlag;
         additionalProperties.put("nullableReferenceTypes", nullReferenceTypesFlag);
@@ -1617,30 +1727,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public boolean getUseSourceGeneration() {
         return this.useSourceGeneration;
-    }
-
-    public void setInterfacePrefix(final String interfacePrefix) {
-        this.interfacePrefix = interfacePrefix;
-    }
-
-    public void setEnumNameSuffix(final String enumNameSuffix) {
-        this.enumNameSuffix = enumNameSuffix;
-    }
-
-    public void setEnumValueSuffix(final String enumValueSuffix) {
-        this.enumValueSuffix = enumValueSuffix;
-    }
-
-    public boolean isSupportNullable() {
-        return supportNullable;
-    }
-
-    public void setSupportNullable(final boolean supportNullable) {
-        this.supportNullable = supportNullable;
-    }
-
-    public CodegenConstants.ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
-        return this.enumPropertyNaming;
     }
 
     public void setEnumPropertyNaming(final String enumPropertyNamingType) {
@@ -1711,11 +1797,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      * @param name The original name
      * @return The adjusted name
      */
-    private String adjustNamingStyle(String name)
-    {
+    private String adjustNamingStyle(String name) {
         switch (getEnumPropertyNaming()) {
-            case original:
-                return name;
             case camelCase:
                 // NOTE: Removes hyphens and underscores
                 return camelize(name, LOWERCASE_FIRST_LETTER);
@@ -1771,7 +1854,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return (this.getValueTypes().contains(var.dataType) || var.isEnum);
     }
 
-    protected boolean useNet60OrLater() { return false; }
+    protected boolean useNet60OrLater() {
+        return false;
+    }
 
     protected boolean useDateOnly() {
         return useNet60OrLater() && !useDateTimeForDateFlag;
@@ -1784,7 +1869,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         boolean hasAllowableValues = p.allowableValues != null && !p.allowableValues.isEmpty();
         if (hasAllowableValues) {
             //support examples for inline enums
-            final List<Object> values = (List<Object>) p.allowableValues.get("values");
+            final List<?> values = (List<?>) p.allowableValues.get("values");
             example = String.valueOf(values.get(0));
         } else if (p.defaultValue == null) {
             example = p.example;
@@ -1909,6 +1994,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -1920,20 +2006,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // only process files with .cs extension
         if ("cs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = csharpPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{csharpPostProcessFile, file.toString()});
         }
     }
 
@@ -1954,14 +2027,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             Pattern hasModifiers = Pattern.compile(".*/[gmiyuvsdlnx]+$");
 
             int end = hasModifiers.matcher(pattern).find()
-                ? pattern.lastIndexOf('/')
-                : pattern.length() - 1;
+                    ? pattern.lastIndexOf('/')
+                    : pattern.length() - 1;
 
             int start = pattern.startsWith("/")
-                ? 1
-                : 0;
+                    ? 1
+                    : 0;
 
-            Map<Character, String> optionsMap = new HashMap();
+            Map<Character, String> optionsMap = new HashMap<Character, String>();
             optionsMap.put('i', "IgnoreCase");
             optionsMap.put('m', "Multiline");
             optionsMap.put('s', "SingleLine");
@@ -1974,14 +2047,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             for (char c : pattern.substring(end).toCharArray()) {
                 if (optionsMap.containsKey(c)) {
                     modifiers.add(optionsMap.get(c));
-                } else if (c == 'l'){
+                } else if (c == 'l') {
                     modifiers.remove("CultureInvariant");
                 } else {
                     vendorExtensions.put("x-modifier-" + c, c);
                 }
             }
 
-            String regex = pattern.substring(start, end).replace("'", "\'").replace("\"", "\"\"");
+            String regex = pattern.substring(start, end).replace("\"", "\"\"");
             vendorExtensions.put("x-regex", regex);
             vendorExtensions.put("x-modifiers", modifiers);
         }
@@ -2013,6 +2086,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Deprecated
     protected Set<String> getNullableTypes() {
         throw new RuntimeException("This method should no longer be used.");
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_ZERO_BASED_ENUM);
+        return extensions;
     }
 
     protected Set<String> getValueTypes() {

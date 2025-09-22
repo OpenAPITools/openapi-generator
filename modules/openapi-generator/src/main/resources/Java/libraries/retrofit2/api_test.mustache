@@ -3,8 +3,9 @@ package {{package}};
 import {{invokerPackage}}.ApiClient;
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -13,6 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+
+{{/useBeanValidation}}
 /**
  * API tests for {{classname}}
  */
@@ -20,7 +26,7 @@ public class {{classname}}Test {
 
     private {{classname}} api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         api = new ApiClient().createService({{classname}}.class);
     }

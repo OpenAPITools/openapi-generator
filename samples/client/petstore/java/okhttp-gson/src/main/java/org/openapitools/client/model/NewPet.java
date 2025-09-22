@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -42,43 +43,59 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Locale;
 
 import org.openapitools.client.JSON;
 
 /**
  * NewPet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class NewPet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY_INLINE_ALLOF = "category_inline_allof";
   @SerializedName(SERIALIZED_NAME_CATEGORY_INLINE_ALLOF)
+  @javax.annotation.Nullable
   private NewPetCategoryInlineAllof categoryInlineAllof;
 
   public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF = "category_allOf_ref";
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF)
+  @javax.annotation.Nullable
   private Category categoryAllOfRef;
+
+  public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION = "category_allOf_ref_description";
+  @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION)
+  @javax.annotation.Nullable
+  private Category categoryAllOfRefDescription;
+
+  public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY = "category_allOf_ref_description_readonly";
+  @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY)
+  @javax.annotation.Nullable
+  private Category categoryAllOfRefDescriptionReadonly;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
+  @javax.annotation.Nonnull
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags;
+  @javax.annotation.Nullable
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -136,88 +153,126 @@ public class NewPet {
 
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
   private StatusEnum status;
 
   public NewPet() {
   }
 
-  public NewPet id(Long id) {
+  public NewPet(
+     Category categoryAllOfRefDescriptionReadonly
+  ) {
+    this();
+    this.categoryAllOfRefDescriptionReadonly = categoryAllOfRefDescriptionReadonly;
+  }
+
+  public NewPet id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public NewPet categoryInlineAllof(NewPetCategoryInlineAllof categoryInlineAllof) {
+  public NewPet categoryInlineAllof(@javax.annotation.Nullable NewPetCategoryInlineAllof categoryInlineAllof) {
     this.categoryInlineAllof = categoryInlineAllof;
     return this;
   }
 
-   /**
+  /**
    * Get categoryInlineAllof
    * @return categoryInlineAllof
-  **/
+   */
   @javax.annotation.Nullable
   public NewPetCategoryInlineAllof getCategoryInlineAllof() {
     return categoryInlineAllof;
   }
 
-  public void setCategoryInlineAllof(NewPetCategoryInlineAllof categoryInlineAllof) {
+  public void setCategoryInlineAllof(@javax.annotation.Nullable NewPetCategoryInlineAllof categoryInlineAllof) {
     this.categoryInlineAllof = categoryInlineAllof;
   }
 
 
-  public NewPet categoryAllOfRef(Category categoryAllOfRef) {
+  public NewPet categoryAllOfRef(@javax.annotation.Nullable Category categoryAllOfRef) {
     this.categoryAllOfRef = categoryAllOfRef;
     return this;
   }
 
-   /**
+  /**
    * Get categoryAllOfRef
    * @return categoryAllOfRef
-  **/
+   */
   @javax.annotation.Nullable
   public Category getCategoryAllOfRef() {
     return categoryAllOfRef;
   }
 
-  public void setCategoryAllOfRef(Category categoryAllOfRef) {
+  public void setCategoryAllOfRef(@javax.annotation.Nullable Category categoryAllOfRef) {
     this.categoryAllOfRef = categoryAllOfRef;
   }
 
 
-  public NewPet name(String name) {
+  public NewPet categoryAllOfRefDescription(@javax.annotation.Nullable Category categoryAllOfRefDescription) {
+    this.categoryAllOfRefDescription = categoryAllOfRefDescription;
+    return this;
+  }
+
+  /**
+   * Adding description to property using allOf 
+   * @return categoryAllOfRefDescription
+   */
+  @javax.annotation.Nullable
+  public Category getCategoryAllOfRefDescription() {
+    return categoryAllOfRefDescription;
+  }
+
+  public void setCategoryAllOfRefDescription(@javax.annotation.Nullable Category categoryAllOfRefDescription) {
+    this.categoryAllOfRefDescription = categoryAllOfRefDescription;
+  }
+
+
+  /**
+   * Adding description to readonly property using allOf 
+   * @return categoryAllOfRefDescriptionReadonly
+   */
+  @javax.annotation.Nullable
+  public Category getCategoryAllOfRefDescriptionReadonly() {
+    return categoryAllOfRefDescriptionReadonly;
+  }
+
+
+
+  public NewPet name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public NewPet photoUrls(List<String> photoUrls) {
+  public NewPet photoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -230,21 +285,21 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
-  public NewPet tags(List<Tag> tags) {
+  public NewPet tags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -257,35 +312,35 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
   public List<Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
   }
 
 
-  public NewPet status(StatusEnum status) {
+  public NewPet status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
   public StatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 
@@ -347,6 +402,8 @@ public class NewPet {
     return Objects.equals(this.id, newPet.id) &&
         Objects.equals(this.categoryInlineAllof, newPet.categoryInlineAllof) &&
         Objects.equals(this.categoryAllOfRef, newPet.categoryAllOfRef) &&
+        Objects.equals(this.categoryAllOfRefDescription, newPet.categoryAllOfRefDescription) &&
+        Objects.equals(this.categoryAllOfRefDescriptionReadonly, newPet.categoryAllOfRefDescriptionReadonly) &&
         Objects.equals(this.name, newPet.name) &&
         Objects.equals(this.photoUrls, newPet.photoUrls) &&
         Objects.equals(this.tags, newPet.tags) &&
@@ -356,7 +413,7 @@ public class NewPet {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, categoryInlineAllof, categoryAllOfRef, name, photoUrls, tags, status, additionalProperties);
+    return Objects.hash(id, categoryInlineAllof, categoryAllOfRef, categoryAllOfRefDescription, categoryAllOfRefDescriptionReadonly, name, photoUrls, tags, status, additionalProperties);
   }
 
   @Override
@@ -366,6 +423,8 @@ public class NewPet {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    categoryInlineAllof: ").append(toIndentedString(categoryInlineAllof)).append("\n");
     sb.append("    categoryAllOfRef: ").append(toIndentedString(categoryAllOfRef)).append("\n");
+    sb.append("    categoryAllOfRefDescription: ").append(toIndentedString(categoryAllOfRefDescription)).append("\n");
+    sb.append("    categoryAllOfRefDescriptionReadonly: ").append(toIndentedString(categoryAllOfRefDescriptionReadonly)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
     sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
@@ -392,38 +451,29 @@ public class NewPet {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("id");
-    openapiFields.add("category_inline_allof");
-    openapiFields.add("category_allOf_ref");
-    openapiFields.add("name");
-    openapiFields.add("photoUrls");
-    openapiFields.add("tags");
-    openapiFields.add("status");
+    openapiFields = new HashSet<String>(Arrays.asList("id", "category_inline_allof", "category_allOf_ref", "category_allOf_ref_description", "category_allOf_ref_description_readonly", "name", "photoUrls", "tags", "status"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("name");
-    openapiRequiredFields.add("photoUrls");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("name", "photoUrls"));
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to NewPet
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to NewPet
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!NewPet.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in NewPet is not found in the empty JSON string", NewPet.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The required field(s) %s in NewPet is not found in the empty JSON string", NewPet.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : NewPet.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
@@ -435,21 +485,29 @@ public class NewPet {
       if (jsonObj.get("category_allOf_ref") != null && !jsonObj.get("category_allOf_ref").isJsonNull()) {
         Category.validateJsonElement(jsonObj.get("category_allOf_ref"));
       }
+      // validate the optional field `category_allOf_ref_description`
+      if (jsonObj.get("category_allOf_ref_description") != null && !jsonObj.get("category_allOf_ref_description").isJsonNull()) {
+        Category.validateJsonElement(jsonObj.get("category_allOf_ref_description"));
+      }
+      // validate the optional field `category_allOf_ref_description_readonly`
+      if (jsonObj.get("category_allOf_ref_description_readonly") != null && !jsonObj.get("category_allOf_ref_description_readonly").isJsonNull()) {
+        Category.validateJsonElement(jsonObj.get("category_allOf_ref_description_readonly"));
+      }
       if (!jsonObj.get("name").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
       // ensure the required json array is present
       if (jsonObj.get("photoUrls") == null) {
         throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
       } else if (!jsonObj.get("photoUrls").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
       }
       if (jsonObj.get("tags") != null && !jsonObj.get("tags").isJsonNull()) {
         JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
         if (jsonArraytags != null) {
           // ensure the json data is an array
           if (!jsonObj.get("tags").isJsonArray()) {
-            throw new IllegalArgumentException(String.format("Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj.get("tags").toString()));
+            throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj.get("tags").toString()));
           }
 
           // validate the optional field `tags` (array)
@@ -459,7 +517,7 @@ public class NewPet {
         }
       }
       if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
       // validate the optional field `status`
       if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
@@ -495,7 +553,12 @@ public class NewPet {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -519,7 +582,7 @@ public class NewPet {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object
@@ -534,22 +597,22 @@ public class NewPet {
     }
   }
 
- /**
-  * Create an instance of NewPet given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of NewPet
-  * @throws IOException if the JSON string is invalid with respect to NewPet
-  */
+  /**
+   * Create an instance of NewPet given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of NewPet
+   * @throws IOException if the JSON string is invalid with respect to NewPet
+   */
   public static NewPet fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, NewPet.class);
   }
 
- /**
-  * Convert an instance of NewPet to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of NewPet to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

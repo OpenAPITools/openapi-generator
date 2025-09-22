@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -20,20 +21,20 @@ import javax.annotation.Generated;
  * NumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class NumberOnly {
 
   private Optional<BigDecimal> justNumber = Optional.empty();
 
   public NumberOnly justNumber(BigDecimal justNumber) {
-    this.justNumber = Optional.of(justNumber);
+    this.justNumber = Optional.ofNullable(justNumber);
     return this;
   }
 
   /**
    * Get justNumber
    * @return justNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
@@ -81,5 +82,63 @@ public class NumberOnly {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private NumberOnly instance;
+
+    public Builder() {
+      this(new NumberOnly());
+    }
+
+    protected Builder(NumberOnly instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(NumberOnly value) { 
+      this.instance.setJustNumber(value.justNumber);
+      return this;
+    }
+
+    public NumberOnly.Builder justNumber(BigDecimal justNumber) {
+      this.instance.justNumber(justNumber);
+      return this;
+    }
+    
+    /**
+    * returns a built NumberOnly instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public NumberOnly build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static NumberOnly.Builder builder() {
+    return new NumberOnly.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NumberOnly.Builder toBuilder() {
+    NumberOnly.Builder builder = new NumberOnly.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

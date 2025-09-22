@@ -15,31 +15,11 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { BranchDto } from './branch-dto';
+import type { BranchDto } from './branch-dto';
 
-/**
- * 
- * @export
- * @interface AbstractUserDto
- */
 export interface AbstractUserDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof AbstractUserDto
-     */
     'username'?: string;
-    /**
-     * 
-     * @type {BranchDto}
-     * @memberof AbstractUserDto
-     */
     'branch'?: BranchDto;
-    /**
-     * 
-     * @type {string}
-     * @memberof AbstractUserDto
-     */
     'type'?: string;
 }
 

@@ -13,45 +13,39 @@ class Order
     /**
      * @DTA\Data(field="id", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
      */
-    public $id;
+    public ?int $id = null;
 
     /**
      * @DTA\Data(field="petId", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
      */
-    public $pet_id;
+    public ?int $pet_id = null;
 
     /**
      * @DTA\Data(field="quantity", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
      */
-    public $quantity;
+    public ?int $quantity = null;
 
     /**
      * @DTA\Data(field="shipDate", nullable=true)
      * @DTA\Strategy(name="DateTime")
-     * @DTA\Validator(name="Date", options={"format": \DateTime::RFC3339})
-     * @var \DateTime|null
+     * @DTA\Validator(name="DateTime")
      */
-    public $ship_date;
+    public ?\DateTimeInterface $ship_date = null;
 
     /**
      * Order Status
      * @DTA\Data(field="status", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $status;
+    public ?string $status = null;
 
     /**
      * @DTA\Data(field="complete", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"bool"})
-     * @var bool|null
      */
-    public $complete;
+    public ?bool $complete = null;
 
 }

@@ -5,13 +5,12 @@ on:
     branches:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
+      - samples/client/others/kotlin-integer-enum/**
   pull_request:
     paths:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
-
-env:
-  GRADLE_VERSION: 6.9
+      - samples/client/others/kotlin-integer-enum/**
 
 jobs:
   build:
@@ -23,8 +22,10 @@ jobs:
         sample:
           # client
           - samples/client/petstore/kotlin
+          - samples/client/petstore/kotlin-explicit
           - samples/client/petstore/kotlin-gson
           - samples/client/petstore/kotlin-jackson
+          - samples/client/petstore/kotlin-model-prefix-type-mappings
           # needs Android configured
           #- samples/client/petstore/kotlin-json-request-string
           - samples/client/petstore/kotlin-jvm-okhttp4-coroutines
@@ -32,9 +33,9 @@ jobs:
           - samples/client/petstore/kotlin-moshi-codegen
           - samples/client/petstore/kotlin-multiplatform
           - samples/client/petstore/kotlin-multiplatform-kotlinx-datetime
+          - samples/client/petstore/kotlin-multiplatform-allOf-discriminator
           - samples/client/petstore/kotlin-nonpublic
           - samples/client/petstore/kotlin-nullable
-          - samples/client/petstore/kotlin-okhttp3
           - samples/client/petstore/kotlin-retrofit2
           - samples/client/petstore/kotlin-retrofit2-kotlinx_serialization
           - samples/client/petstore/kotlin-retrofit2-jackson
@@ -43,12 +44,10 @@ jobs:
           - samples/client/petstore/kotlin-threetenbp
           - samples/client/petstore/kotlin-kotlinx-datetime
           - samples/client/petstore/kotlin-uppercase-enum
-          - samples/client/petstore/kotlin-default-values-jvm-okhttp3
           - samples/client/petstore/kotlin-default-values-jvm-okhttp4
           - samples/client/petstore/kotlin-default-values-jvm-retrofit2
           - samples/client/petstore/kotlin-default-values-jvm-volley
           - samples/client/petstore/kotlin-default-values-multiplatform
-          - samples/client/petstore/kotlin-array-simple-string-jvm-okhttp3
           - samples/client/petstore/kotlin-array-simple-string-jvm-okhttp4
           - samples/client/petstore/kotlin-array-simple-string-jvm-volley
           - samples/client/petstore/kotlin-array-simple-string-multiplatform
@@ -64,17 +63,20 @@ jobs:
           - samples/client/petstore/kotlin-jvm-vertx-moshi
           - samples/client/petstore/kotlin-jvm-spring-2-webclient
           - samples/client/petstore/kotlin-jvm-spring-3-webclient
+          - samples/client/echo_api/kotlin-jvm-spring-3-webclient
           - samples/client/petstore/kotlin-jvm-spring-3-restclient
           - samples/client/echo_api/kotlin-jvm-spring-3-restclient
-          - samples/client/petstore/kotlin-spring-cloud
           - samples/client/petstore/kotlin-name-parameter-mappings
           - samples/client/others/kotlin-jvm-okhttp-parameter-tests
+          - samples/client/others/kotlin-jvm-okhttp-path-comments
+          - samples/client/others/kotlin-integer-enum
+          - samples/client/petstore/kotlin-allOf-discriminator-kotlinx-serialization
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 8
+          java-version: 11
       - name: Cache maven dependencies
         uses: actions/cache@v4
         env:
@@ -84,9 +86,8 @@ jobs:
             ~/.gradle
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Install Gradle wrapper
-        uses: eskatos/gradle-command-action@v2
+        uses: eskatos/gradle-command-action@v3
         with:
-          gradle-version: ${{ env.GRADLE_VERSION }}
           build-root-directory: ${{ matrix.sample }}
           arguments: wrapper
       - name: Build

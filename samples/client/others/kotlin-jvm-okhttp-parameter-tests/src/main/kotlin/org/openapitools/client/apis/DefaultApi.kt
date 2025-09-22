@@ -16,7 +16,7 @@
 package org.openapitools.client.apis
 
 import java.io.IOException
-import okhttp3.OkHttpClient
+import okhttp3.Call
 import okhttp3.HttpUrl
 
 
@@ -36,7 +36,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
+class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -48,30 +48,58 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * enum for parameter queryDefaultEnum
      */
      enum class QueryDefaultEnumFindPetsByStatus(val value: kotlin.String) {
-         @Json(name = "A") a("A"),
-         @Json(name = "B") b("B"),
-         @Json(name = "C") c("C")
+         @Json(name = "A") A("A"),
+         @Json(name = "B") B("B"),
+         @Json(name = "C") C("C");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
      }
 
     /**
      * enum for parameter headerDefaultEnum
      */
      enum class HeaderDefaultEnumFindPetsByStatus(val value: kotlin.String) {
-         @Json(name = "A") a("A"),
-         @Json(name = "B") b("B"),
-         @Json(name = "C") c("C")
+         @Json(name = "A") A("A"),
+         @Json(name = "B") B("B"),
+         @Json(name = "C") C("C");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
      }
 
     /**
      * enum for parameter cookieDefaultEnum
      */
      enum class CookieDefaultEnumFindPetsByStatus(val value: kotlin.String) {
-         @Json(name = "A") a("A"),
-         @Json(name = "B") b("B"),
-         @Json(name = "C") c("C")
+         @Json(name = "A") A("A"),
+         @Json(name = "B") B("B"),
+         @Json(name = "C") C("C");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
      }
 
     /**
+     * GET /test/parameters/{path_default}/{path_nullable}
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param pathDefault path default
@@ -97,7 +125,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByStatus(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String? = "available", queryDefaultEnum: QueryDefaultEnumFindPetsByStatus? = QueryDefaultEnumFindPetsByStatus.b, queryDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), headerDefault: kotlin.String? = "available", headerDefaultEnum: HeaderDefaultEnumFindPetsByStatus? = HeaderDefaultEnumFindPetsByStatus.b, headerDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), cookieDefault: kotlin.String? = "available", cookieDefaultEnum: CookieDefaultEnumFindPetsByStatus? = CookieDefaultEnumFindPetsByStatus.b, cookieDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), queryNullable: kotlin.String? = null, headerNullable: kotlin.String? = null, cookieNullable: kotlin.String? = null, dollarQueryDollarDollarSign: kotlin.String? = null) : Unit {
+    fun findPetsByStatus(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String? = "available", queryDefaultEnum: QueryDefaultEnumFindPetsByStatus? = QueryDefaultEnumFindPetsByStatus.B, queryDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), headerDefault: kotlin.String? = "available", headerDefaultEnum: HeaderDefaultEnumFindPetsByStatus? = HeaderDefaultEnumFindPetsByStatus.B, headerDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), cookieDefault: kotlin.String? = "available", cookieDefaultEnum: CookieDefaultEnumFindPetsByStatus? = CookieDefaultEnumFindPetsByStatus.B, cookieDefaultInt: java.math.BigDecimal? = java.math.BigDecimal("3"), queryNullable: kotlin.String? = null, headerNullable: kotlin.String? = null, cookieNullable: kotlin.String? = null, dollarQueryDollarDollarSign: kotlin.String? = null) : Unit {
         val localVarResponse = findPetsByStatusWithHttpInfo(pathDefault = pathDefault, pathNullable = pathNullable, queryDefault = queryDefault, queryDefaultEnum = queryDefaultEnum, queryDefaultInt = queryDefaultInt, headerDefault = headerDefault, headerDefaultEnum = headerDefaultEnum, headerDefaultInt = headerDefaultInt, cookieDefault = cookieDefault, cookieDefaultEnum = cookieDefaultEnum, cookieDefaultInt = cookieDefaultInt, queryNullable = queryNullable, headerNullable = headerNullable, cookieNullable = cookieNullable, dollarQueryDollarDollarSign = dollarQueryDollarDollarSign)
 
         return when (localVarResponse.responseType) {
@@ -116,6 +144,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
     }
 
     /**
+     * GET /test/parameters/{path_default}/{path_nullable}
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param pathDefault path default

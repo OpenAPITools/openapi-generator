@@ -35,12 +35,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /*
 import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
@@ -52,7 +47,7 @@ import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 @SuppressWarnings("static-method")
 public class TypeScriptFetchModelTest {
 
-    @Test(description = "convert a simple TypeScript Angular model")
+    @Test(description = "convert a simple TypeScript Fetch model")
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")
@@ -480,4 +475,5 @@ public class TypeScriptFetchModelTest {
         final Map<String, Schema> schemaBefore = openAPI.getComponents().getSchemas();
         Assert.assertEquals(schemaBefore.keySet(), Sets.newHashSet("club", "owner"));
     }
+
 }

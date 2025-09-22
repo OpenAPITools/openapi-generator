@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'health_check_result.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -25,7 +27,7 @@ class HealthCheckResult {
     
     name: r'NullableMessage',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -33,13 +35,15 @@ class HealthCheckResult {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
-     other.nullableMessage == nullableMessage;
 
-  @override
-  int get hashCode =>
-    (nullableMessage == null ? 0 : nullableMessage.hashCode);
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
+      other.nullableMessage == nullableMessage;
+
+    @override
+    int get hashCode =>
+        (nullableMessage == null ? 0 : nullableMessage.hashCode);
 
   factory HealthCheckResult.fromJson(Map<String, dynamic> json) => _$HealthCheckResultFromJson(json);
 

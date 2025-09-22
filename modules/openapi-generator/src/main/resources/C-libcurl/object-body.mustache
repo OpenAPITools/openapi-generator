@@ -43,7 +43,7 @@ object_t *object_parseFromJSON(cJSON *json){
     if (!object) {
         goto end;
     }
-    object->temporary = cJSON_Print(json);
+    object->temporary = {{{cJSONPrint}}}(json);
     return object;
 
 end:

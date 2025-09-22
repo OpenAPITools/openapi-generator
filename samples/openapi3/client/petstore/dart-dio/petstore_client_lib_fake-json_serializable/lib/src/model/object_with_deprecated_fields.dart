@@ -4,11 +4,13 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/deprecated_object.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'object_with_deprecated_fields.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -32,7 +34,7 @@ class ObjectWithDeprecatedFields {
     
     name: r'uuid',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -45,7 +47,7 @@ class ObjectWithDeprecatedFields {
     
     name: r'id',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -58,7 +60,7 @@ class ObjectWithDeprecatedFields {
     
     name: r'deprecatedRef',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -71,7 +73,7 @@ class ObjectWithDeprecatedFields {
     
     name: r'bars',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -79,19 +81,21 @@ class ObjectWithDeprecatedFields {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ObjectWithDeprecatedFields &&
-     other.uuid == uuid &&
-     other.id == id &&
-     other.deprecatedRef == deprecatedRef &&
-     other.bars == bars;
 
-  @override
-  int get hashCode =>
-    uuid.hashCode +
-    id.hashCode +
-    deprecatedRef.hashCode +
-    bars.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ObjectWithDeprecatedFields &&
+      other.uuid == uuid &&
+      other.id == id &&
+      other.deprecatedRef == deprecatedRef &&
+      other.bars == bars;
+
+    @override
+    int get hashCode =>
+        uuid.hashCode +
+        id.hashCode +
+        deprecatedRef.hashCode +
+        bars.hashCode;
 
   factory ObjectWithDeprecatedFields.fromJson(Map<String, dynamic> json) => _$ObjectWithDeprecatedFieldsFromJson(json);
 

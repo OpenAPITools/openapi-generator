@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen;
 
+import lombok.Getter;
+
+@Getter
 public enum CodegenModelType {
 
     MODEL(CodegenModel.class),
@@ -32,7 +35,4 @@ public enum CodegenModelType {
         this.defaultImplementation = defaultImplementation;
     }
 
-    public Class<?> getDefaultImplementation() {
-        return defaultImplementation;
-    }
 }

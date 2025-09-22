@@ -4,11 +4,13 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/single_ref_type.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'all_of_with_single_ref.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -28,7 +30,7 @@ class AllOfWithSingleRef {
     
     name: r'username',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -40,7 +42,8 @@ class AllOfWithSingleRef {
     
     name: r'SingleRefType',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: SingleRefType.unknownDefaultOpenApi,
   )
 
 
@@ -48,15 +51,17 @@ class AllOfWithSingleRef {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
-     other.username == username &&
-     other.singleRefType == singleRefType;
 
-  @override
-  int get hashCode =>
-    username.hashCode +
-    singleRefType.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
+      other.username == username &&
+      other.singleRefType == singleRefType;
+
+    @override
+    int get hashCode =>
+        username.hashCode +
+        singleRefType.hashCode;
 
   factory AllOfWithSingleRef.fromJson(Map<String, dynamic> json) => _$AllOfWithSingleRefFromJson(json);
 

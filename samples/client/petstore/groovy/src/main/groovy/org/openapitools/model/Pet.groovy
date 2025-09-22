@@ -19,7 +19,7 @@ class Pet {
     
     List<String> photoUrls = new ArrayList<>()
     
-    List<Tag> tags
+    List<Tag> tags = new ArrayList<>()
 
     enum StatusEnum {
     

@@ -16,10 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
@@ -32,22 +29,14 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.CamelizeOption.*;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
@@ -60,7 +49,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             "joda-time library", "2.10.13");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
             "library", "3.6.11");
-
+    private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
+            "library", "0.14.1");
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
 
     public static final String DEFAULT_PACKAGE_NAME = "org.openapitools.client";
@@ -68,7 +58,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
     private static final List<Property<?>> properties = Arrays.asList(
             STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JODA_TIME_VERSION,
-            JSON4S_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
+            JSON4S_VERSION, CIRCE_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttpClientCodegen.class);
 
@@ -254,7 +244,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
     /**
      * Update/clean up model imports
-     *
+     * <p>
      * append '._" if the import is a Enum class, otherwise
      * remove model imports to avoid warnings for importing class in the same package in Scala
      *
@@ -288,8 +278,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                         item.put("import", importPath.concat("._"));
                         newImports.add(item);
                     }
-                }
-                else {
+                } else {
                     item.put("import", importPath);
                     newImports.add(item);
                 }
@@ -369,8 +358,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 Map<String, String> item = new HashMap<>();
                 if (isEnumClass(importPath, enumRefs)) {
                     item.put("import", importPath.concat("._"));
-                }
-                else {
+                } else {
                     item.put("import", importPath);
                 }
                 newImports.add(item);
@@ -431,9 +419,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
-            if (ModelUtils.isSet(ap)) {
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
+            if (ModelUtils.isSet(p)) {
                 return "Set[" + inner + "].empty ";
             }
             return "Seq[" + inner + "].empty ";

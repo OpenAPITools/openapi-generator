@@ -40,7 +40,7 @@ public class PerlClientOptionsProvider implements OptionsProvider {
                 .put(PerlClientCodegen.MODULE_VERSION, MODULE_VERSION_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "true")
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, "true")
-                .put("hideGenerationTimestamp", "true")
+                .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .build();
     }

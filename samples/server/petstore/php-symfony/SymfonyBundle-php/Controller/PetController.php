@@ -88,7 +88,7 @@ class PetController extends Controller
 
         // Deserialize the input values that needs it
         try {
-            $inputFormat = $request->getMimeType($request->getContentType());
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
             $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
@@ -117,18 +117,11 @@ class PetController extends Controller
 
             $result = $handler->addPet($pet, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 405:
-                    $message = 'Invalid input';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                405 => 'Invalid input',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -202,15 +195,10 @@ class PetController extends Controller
 
             $handler->deletePet($petId, $apiKey, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 400:
-                    $message = 'Invalid pet value';
-                    break;
-            }
+            $message = match($responseCode) {
+                400 => 'Invalid pet value',
+                default => '',
+            };
 
             return new Response(
                 '',
@@ -218,6 +206,79 @@ class PetController extends Controller
                 array_merge(
                     $responseHeaders,
                     [
+                        'X-OpenAPI-Message' => $message
+                    ]
+                )
+            );
+        } catch (\Throwable $fallthrough) {
+            return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
+        }
+    }
+
+    /**
+     * Operation downloadFile
+     *
+     * downloads an image
+     *
+     * @param Request $request The Symfony request to handle.
+     * @return Response The Symfony response.
+     */
+    public function downloadFileAction(Request $request, $petId)
+    {
+        // Figure out what data format to return to the client
+        $produces = ['image/png'];
+        // Figure out what the client accepts
+        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
+        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
+        if ($responseFormat === null) {
+            return new Response('', 406);
+        }
+
+        // Handle authentication
+
+        // Read out all input parameter values into variables
+
+        // Use the default value if no value was provided
+
+        // Deserialize the input values that needs it
+        try {
+            $petId = $this->deserialize($petId, 'int', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
+
+        // Validate the input values
+        $asserts = [];
+        $asserts[] = new Assert\NotNull();
+        $asserts[] = new Assert\Type("int");
+        $response = $this->validate($petId, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+
+
+        try {
+            $handler = $this->getApiHandler();
+
+
+            // Make the call to the business logic
+            $responseCode = 200;
+            $responseHeaders = [];
+
+            $result = $handler->downloadFile($petId, $responseCode, $responseHeaders);
+
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                default => '',
+            };
+
+            return new Response(
+                $result !== null ?$this->serialize($result, $responseFormat):'',
+                $responseCode,
+                array_merge(
+                    $responseHeaders,
+                    [
+                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -267,7 +328,7 @@ class PetController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
-            new Assert\Choice([ "available", "pending", "sold" ])
+            new Assert\Choice([ 'available', 'pending', 'sold' ])
         ]);
         $asserts[] = new Assert\All([
             new Assert\Type("string"),
@@ -291,18 +352,11 @@ class PetController extends Controller
 
             $result = $handler->findPetsByStatus($status, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid status value';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid status value',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -382,18 +436,11 @@ class PetController extends Controller
 
             $result = $handler->findPetsByTags($tags, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid tag value';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid tag value',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -468,21 +515,158 @@ class PetController extends Controller
 
             $result = $handler->getPetById($petId, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid ID supplied',
+                404 => 'Pet not found',
+                default => '',
+            };
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid ID supplied';
-                    break;
-                case 404:
-                    $message = 'Pet not found';
-                    break;
-            }
+            return new Response(
+                $result !== null ?$this->serialize($result, $responseFormat):'',
+                $responseCode,
+                array_merge(
+                    $responseHeaders,
+                    [
+                        'Content-Type' => $responseFormat,
+                        'X-OpenAPI-Message' => $message
+                    ]
+                )
+            );
+        } catch (\Throwable $fallthrough) {
+            return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
+        }
+    }
+
+    /**
+     * Operation petAge
+     *
+     * Get the age of the pet
+     *
+     * @param Request $request The Symfony request to handle.
+     * @return Response The Symfony response.
+     */
+    public function petAgeAction(Request $request, $petId)
+    {
+        // Figure out what data format to return to the client
+        $produces = ['text/plain'];
+        // Figure out what the client accepts
+        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
+        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
+        if ($responseFormat === null) {
+            return new Response('', 406);
+        }
+
+        // Handle authentication
+
+        // Read out all input parameter values into variables
+
+        // Use the default value if no value was provided
+
+        // Deserialize the input values that needs it
+        try {
+            $petId = $this->deserialize($petId, 'int', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
+
+        // Validate the input values
+        $asserts = [];
+        $asserts[] = new Assert\NotNull();
+        $asserts[] = new Assert\Type("int");
+        $response = $this->validate($petId, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+
+
+        try {
+            $handler = $this->getApiHandler();
+
+
+            // Make the call to the business logic
+            $responseCode = 200;
+            $responseHeaders = [];
+
+            $result = $handler->petAge($petId, $responseCode, $responseHeaders);
+
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                default => '',
+            };
+
+            return new Response(
+                $result !== null ?$this->serialize($result, $responseFormat):'',
+                $responseCode,
+                array_merge(
+                    $responseHeaders,
+                    [
+                        'Content-Type' => $responseFormat,
+                        'X-OpenAPI-Message' => $message
+                    ]
+                )
+            );
+        } catch (\Throwable $fallthrough) {
+            return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
+        }
+    }
+
+    /**
+     * Operation petAvailableForSale
+     *
+     * Whether the pet can currently be bought
+     *
+     * @param Request $request The Symfony request to handle.
+     * @return Response The Symfony response.
+     */
+    public function petAvailableForSaleAction(Request $request, $petId)
+    {
+        // Figure out what data format to return to the client
+        $produces = ['text/plain'];
+        // Figure out what the client accepts
+        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
+        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
+        if ($responseFormat === null) {
+            return new Response('', 406);
+        }
+
+        // Handle authentication
+
+        // Read out all input parameter values into variables
+
+        // Use the default value if no value was provided
+
+        // Deserialize the input values that needs it
+        try {
+            $petId = $this->deserialize($petId, 'int', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
+
+        // Validate the input values
+        $asserts = [];
+        $asserts[] = new Assert\NotNull();
+        $asserts[] = new Assert\Type("int");
+        $response = $this->validate($petId, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+
+
+        try {
+            $handler = $this->getApiHandler();
+
+
+            // Make the call to the business logic
+            $responseCode = 200;
+            $responseHeaders = [];
+
+            $result = $handler->petAvailableForSale($petId, $responseCode, $responseHeaders);
+
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -538,7 +722,7 @@ class PetController extends Controller
 
         // Deserialize the input values that needs it
         try {
-            $inputFormat = $request->getMimeType($request->getContentType());
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
             $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
@@ -567,24 +751,13 @@ class PetController extends Controller
 
             $result = $handler->updatePet($pet, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid ID supplied';
-                    break;
-                case 404:
-                    $message = 'Pet not found';
-                    break;
-                case 405:
-                    $message = 'Validation exception';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid ID supplied',
+                404 => 'Pet not found',
+                405 => 'Validation exception',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -666,15 +839,10 @@ class PetController extends Controller
 
             $handler->updatePetWithForm($petId, $name, $status, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 405:
-                    $message = 'Invalid input';
-                    break;
-            }
+            $message = match($responseCode) {
+                405 => 'Invalid input',
+                default => '',
+            };
 
             return new Response(
                 '',
@@ -763,15 +931,10 @@ class PetController extends Controller
 
             $result = $handler->uploadFile($petId, $additionalMetadata, $file, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',

@@ -3,9 +3,20 @@
 # flake8: noqa
 {{>partial_header}}
 
-# import models into model package
-{{#models}}
-{{#model}}
-from {{modelPackage}}.{{classFilename}} import {{classname}}
-{{/model}}
-{{/models}}
+{{^lazyImports}}
+{{>exports_model}}
+{{/lazyImports}}
+{{#lazyImports}}if __import__("typing").TYPE_CHECKING:
+    {{>exports_model}}
+else:
+    from lazy_imports import LazyModule, as_package, load
+
+    load(
+        LazyModule(
+            *as_package(__file__),
+            """{{>exports_model}}""",
+            name=__name__,
+            doc=__doc__,
+        )
+    )
+{{/lazyImports}}

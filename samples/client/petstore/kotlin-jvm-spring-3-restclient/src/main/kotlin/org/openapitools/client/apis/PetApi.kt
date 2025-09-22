@@ -77,7 +77,7 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): Unit {
-        val result = deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
+        deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
     }
 
     @Throws(RestClientResponseException::class)
@@ -112,11 +112,11 @@ class PetApi(client: RestClient) : ApiClient(client) {
     /**
      * enum for parameter status
      */
-     enum class StatusFindPetsByStatus(val value: kotlin.String) {
-         @JsonProperty(value = "available") available("available"),
-         @JsonProperty(value = "pending") pending("pending"),
-         @JsonProperty(value = "sold") sold("sold"),
-     }
+    enum class StatusFindPetsByStatus(val value: kotlin.String) {
+        @JsonProperty(value = "available") available("available"),
+        @JsonProperty(value = "pending") pending("pending"),
+        @JsonProperty(value = "sold") sold("sold"),
+    }
 
 
     @Throws(RestClientResponseException::class)
@@ -273,7 +273,7 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Unit {
-        val result = updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
+        updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
     }
 
     @Throws(RestClientResponseException::class)

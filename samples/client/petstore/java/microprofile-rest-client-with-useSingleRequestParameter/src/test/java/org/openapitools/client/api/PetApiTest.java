@@ -16,9 +16,9 @@ package org.openapitools.client.api;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
@@ -40,7 +40,7 @@ public class PetApiTest {
     private PetApi client;
     private String baseUrl = "http://localhost:9080";
 
-    @Before
+    @BeforeEach
     public void setup() throws MalformedURLException {
         // TODO initialize the client
     }
@@ -59,7 +59,7 @@ public class PetApiTest {
         // TODO: test validations
         Pet pet = null;
         //Pet response = api.addPet(pet);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -78,7 +78,7 @@ public class PetApiTest {
         Long petId = null;
         String apiKey = null;
         //api.deletePet(petId, apiKey);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -96,7 +96,7 @@ public class PetApiTest {
         // TODO: test validations
         List<String> status = null;
         //List<Pet> response = api.findPetsByStatus(status);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -114,7 +114,7 @@ public class PetApiTest {
         // TODO: test validations
         List<String> tags = null;
         //List<Pet> response = api.findPetsByTags(tags);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -132,7 +132,7 @@ public class PetApiTest {
         // TODO: test validations
         Long petId = null;
         //Pet response = api.getPetById(petId);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -150,7 +150,7 @@ public class PetApiTest {
         // TODO: test validations
         Pet pet = null;
         //Pet response = api.updatePet(pet);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -170,7 +170,7 @@ public class PetApiTest {
         String name = null;
         String status = null;
         //api.updatePetWithForm(petId, name, status);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -190,7 +190,7 @@ public class PetApiTest {
         String additionalMetadata = null;
         org.apache.cxf.jaxrs.ext.multipart.Attachment _file = null;
         //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }

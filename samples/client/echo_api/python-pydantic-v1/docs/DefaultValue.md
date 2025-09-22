@@ -29,7 +29,7 @@ print DefaultValue.to_json()
 # convert the object into a dict
 default_value_dict = default_value_instance.to_dict()
 # create an instance of DefaultValue from a dict
-default_value_form_dict = default_value.from_dict(default_value_dict)
+default_value_from_dict = DefaultValue.from_dict(default_value_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

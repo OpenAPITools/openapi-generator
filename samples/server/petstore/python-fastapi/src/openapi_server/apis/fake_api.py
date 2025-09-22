@@ -14,6 +14,7 @@ from fastapi import (  # noqa: F401
     Depends,
     Form,
     Header,
+    HTTPException,
     Path,
     Query,
     Response,
@@ -22,6 +23,9 @@ from fastapi import (  # noqa: F401
 )
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
+from pydantic import Field, StrictStr
+from typing import Any, Optional
+from typing_extensions import Annotated
 
 
 router = APIRouter()
@@ -42,8 +46,10 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     response_model_by_alias=True,
 )
 async def fake_query_param_default(
-    has_default: str = Query('Hello World', description="has default value", alias="hasDefault"),
-    no_default: str = Query(None, description="no default value", alias="noDefault"),
+    has_default: Annotated[Optional[StrictStr], Field(description="has default value")] = Query('Hello World', description="has default value", alias="hasDefault"),
+    no_default: Annotated[Optional[StrictStr], Field(description="no default value")] = Query(None, description="no default value", alias="noDefault"),
 ) -> None:
     """"""
-    return BaseFakeApi.subclasses[0]().fake_query_param_default(has_default, no_default)
+    if not BaseFakeApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
+    return await BaseFakeApi.subclasses[0]().fake_query_param_default(has_default, no_default)

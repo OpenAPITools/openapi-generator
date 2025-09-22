@@ -7,10 +7,65 @@ use validator::Validate;
 use crate::header;
 use crate::{models, types::*};
 
+#[allow(dead_code)]
+pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
+    if ammonia::is_html(v) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
+    if v.iter().any(|i| ammonia::is_html(i)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_string(
+    v: &std::collections::HashMap<String, String>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_nested<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError>
+where
+    T: validator::Validate,
+{
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRelatedRequest {
     #[serde(rename = "object_field")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub object_field: Option<models::MultipartRequestObjectField>,
 
@@ -36,8 +91,8 @@ impl MultipartRelatedRequest {
 /// Converts the MultipartRelatedRequest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MultipartRelatedRequest {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for MultipartRelatedRequest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping object_field in query parameter serialization
 
@@ -49,7 +104,11 @@ impl std::string::ToString for MultipartRelatedRequest {
 
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -81,7 +140,7 @@ impl std::str::FromStr for MultipartRelatedRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultipartRelatedRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -128,8 +187,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRelatedRequest>> for
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for MultipartRelatedRequest - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for MultipartRelatedRequest - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -147,14 +205,201 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MultipartRel
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into MultipartRelatedRequest - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into MultipartRelatedRequest - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct MultipartRequest {
+    #[serde(rename = "string_field")]
+    #[validate(custom(function = "check_xss_string"))]
+    pub string_field: String,
+
+    #[serde(rename = "optional_string_field")]
+    #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub optional_string_field: Option<String>,
+
+    #[serde(rename = "object_field")]
+    #[validate(nested)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub object_field: Option<models::MultipartRequestObjectField>,
+
+    #[serde(rename = "binary_field")]
+    pub binary_field: ByteArray,
+}
+
+impl MultipartRequest {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new(string_field: String, binary_field: ByteArray) -> MultipartRequest {
+        MultipartRequest {
+            string_field,
+            optional_string_field: None,
+            object_field: None,
+            binary_field,
+        }
+    }
+}
+
+/// Converts the MultipartRequest value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for MultipartRequest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            Some("string_field".to_string()),
+            Some(self.string_field.to_string()),
+            self.optional_string_field
+                .as_ref()
+                .map(|optional_string_field| {
+                    [
+                        "optional_string_field".to_string(),
+                        optional_string_field.to_string(),
+                    ]
+                    .join(",")
+                }),
+            // Skipping object_field in query parameter serialization
+
+            // Skipping binary_field in query parameter serialization
+            // Skipping binary_field in query parameter serialization
+        ];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a MultipartRequest value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for MultipartRequest {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub string_field: Vec<String>,
+            pub optional_string_field: Vec<String>,
+            pub object_field: Vec<models::MultipartRequestObjectField>,
+            pub binary_field: Vec<ByteArray>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing MultipartRequest".to_string(),
+                    );
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "string_field" => intermediate_rep.string_field.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    #[allow(clippy::redundant_clone)]
+                    "optional_string_field" => intermediate_rep.optional_string_field.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    #[allow(clippy::redundant_clone)]
+                    "object_field" => intermediate_rep.object_field.push(
+                        <models::MultipartRequestObjectField as std::str::FromStr>::from_str(val)
+                            .map_err(|x| x.to_string())?,
+                    ),
+                    "binary_field" => return std::result::Result::Err(
+                        "Parsing binary data in this style is not supported in MultipartRequest"
+                            .to_string(),
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing MultipartRequest".to_string(),
+                        );
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(MultipartRequest {
+            string_field: intermediate_rep
+                .string_field
+                .into_iter()
+                .next()
+                .ok_or_else(|| "string_field missing in MultipartRequest".to_string())?,
+            optional_string_field: intermediate_rep.optional_string_field.into_iter().next(),
+            object_field: intermediate_rep.object_field.into_iter().next(),
+            binary_field: intermediate_rep
+                .binary_field
+                .into_iter()
+                .next()
+                .ok_or_else(|| "binary_field missing in MultipartRequest".to_string())?,
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<MultipartRequest> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRequest>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<MultipartRequest>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for MultipartRequest - value: {hdr_value} is invalid {e}"#
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MultipartRequest> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => {
+                match <MultipartRequest as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
+                    }
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into MultipartRequest - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -164,9 +409,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MultipartRel
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRequestObjectField {
     #[serde(rename = "field_a")]
+    #[validate(custom(function = "check_xss_string"))]
     pub field_a: String,
 
     #[serde(rename = "field_b")]
+    #[validate(custom(function = "check_xss_vec_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub field_b: Option<Vec<String>>,
 }
@@ -184,8 +431,8 @@ impl MultipartRequestObjectField {
 /// Converts the MultipartRequestObjectField value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MultipartRequestObjectField {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for MultipartRequestObjectField {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("field_a".to_string()),
             Some(self.field_a.to_string()),
@@ -202,7 +449,11 @@ impl std::string::ToString for MultipartRequestObjectField {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -233,7 +484,7 @@ impl std::str::FromStr for MultipartRequestObjectField {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultipartRequestObjectField".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -276,8 +527,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRequestObjectField>>
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for MultipartRequestObjectField - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for MultipartRequestObjectField - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -295,14 +545,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MultipartReq
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into MultipartRequestObjectField - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into MultipartRequestObjectField - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -333,8 +581,8 @@ impl MultipleIdenticalMimeTypesPostRequest {
 /// Converts the MultipleIdenticalMimeTypesPostRequest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MultipleIdenticalMimeTypesPostRequest {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for MultipleIdenticalMimeTypesPostRequest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping binary1 in query parameter serialization
             // Skipping binary1 in query parameter serialization
@@ -344,7 +592,11 @@ impl std::string::ToString for MultipleIdenticalMimeTypesPostRequest {
 
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -376,7 +628,7 @@ impl std::str::FromStr for MultipleIdenticalMimeTypesPostRequest {
                     return std::result::Result::Err(
                         "Missing value while parsing MultipleIdenticalMimeTypesPostRequest"
                             .to_string(),
-                    )
+                    );
                 }
             };
 
@@ -414,10 +666,10 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MultipleIdenticalMimeTypesPos
     ) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for MultipleIdenticalMimeTypesPostRequest - value: {} is invalid {}",
-                     hdr_value, e))
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for MultipleIdenticalMimeTypesPostRequest - value: {hdr_value} is invalid {e}"#
+            )),
         }
     }
 }
@@ -430,17 +682,20 @@ impl std::convert::TryFrom<HeaderValue>
 
     fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <MultipleIdenticalMimeTypesPostRequest as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into MultipleIdenticalMimeTypesPostRequest - {}",
-                                value, err))
+            std::result::Result::Ok(value) => {
+                match <MultipleIdenticalMimeTypesPostRequest as std::str::FromStr>::from_str(value)
+                {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into MultipleIdenticalMimeTypesPostRequest - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
         }
     }
 }

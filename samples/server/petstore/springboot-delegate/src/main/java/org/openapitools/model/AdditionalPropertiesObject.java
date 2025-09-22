@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Map;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,12 +25,23 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesObject
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class AdditionalPropertiesObject {
 
-  private String name;
+  private @Nullable String name;
 
-  public AdditionalPropertiesObject name(String name) {
+  public AdditionalPropertiesObject() {
+    super();
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public AdditionalPropertiesObject(@Nullable String name) {
+      this.name = name;
+  }
+
+  public AdditionalPropertiesObject name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -37,15 +49,15 @@ public class AdditionalPropertiesObject {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
     /**

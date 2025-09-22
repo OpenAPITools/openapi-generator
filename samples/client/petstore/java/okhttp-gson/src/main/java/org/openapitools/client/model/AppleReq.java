@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -37,65 +38,67 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Locale;
 
 import org.openapitools.client.JSON;
 
 /**
  * AppleReq
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class AppleReq {
   public static final String SERIALIZED_NAME_CULTIVAR = "cultivar";
   @SerializedName(SERIALIZED_NAME_CULTIVAR)
+  @javax.annotation.Nonnull
   private String cultivar;
 
   public static final String SERIALIZED_NAME_MEALY = "mealy";
   @SerializedName(SERIALIZED_NAME_MEALY)
+  @javax.annotation.Nullable
   private Boolean mealy;
 
   public AppleReq() {
   }
 
-  public AppleReq cultivar(String cultivar) {
+  public AppleReq cultivar(@javax.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
     return this;
   }
 
-   /**
+  /**
    * Get cultivar
    * @return cultivar
-  **/
+   */
   @javax.annotation.Nonnull
   public String getCultivar() {
     return cultivar;
   }
 
-  public void setCultivar(String cultivar) {
+  public void setCultivar(@javax.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
   }
 
 
-  public AppleReq mealy(Boolean mealy) {
+  public AppleReq mealy(@javax.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
     return this;
   }
 
-   /**
+  /**
    * Get mealy
    * @return mealy
-  **/
+   */
   @javax.annotation.Nullable
   public Boolean getMealy() {
     return mealy;
   }
 
-  public void setMealy(Boolean mealy) {
+  public void setMealy(@javax.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
   }
 
@@ -146,25 +149,22 @@ public class AppleReq {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("cultivar");
-    openapiFields.add("mealy");
+    openapiFields = new HashSet<String>(Arrays.asList("cultivar", "mealy"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("cultivar");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("cultivar"));
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AppleReq
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AppleReq
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AppleReq.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in AppleReq is not found in the empty JSON string", AppleReq.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The required field(s) %s in AppleReq is not found in the empty JSON string", AppleReq.openapiRequiredFields.toString()));
         }
       }
 
@@ -172,19 +172,19 @@ public class AppleReq {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!AppleReq.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AppleReq` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The field `%s` in the JSON string is not defined in the `AppleReq` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : AppleReq.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if (!jsonObj.get("cultivar").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `cultivar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cultivar").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `cultivar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cultivar").toString()));
       }
   }
 
@@ -217,22 +217,22 @@ public class AppleReq {
     }
   }
 
- /**
-  * Create an instance of AppleReq given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AppleReq
-  * @throws IOException if the JSON string is invalid with respect to AppleReq
-  */
+  /**
+   * Create an instance of AppleReq given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AppleReq
+   * @throws IOException if the JSON string is invalid with respect to AppleReq
+   */
   public static AppleReq fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AppleReq.class);
   }
 
- /**
-  * Convert an instance of AppleReq to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AppleReq to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

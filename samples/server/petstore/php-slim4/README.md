@@ -9,7 +9,7 @@ This server has been generated with [Slim PSR-7](https://github.com/slimphp/Slim
 ## Requirements
 
 * Web server with URL rewriting
-* PHP 7.4 or newer
+* PHP 8.1 or newer
 
 This package contains `.htaccess` for Apache configuration.
 If you use another server(Nginx, HHVM, IIS, lighttpd) check out [Web Servers](https://www.slimframework.com/docs/v3/start/web-servers.html) doc.
@@ -90,12 +90,22 @@ $ composer phplint
 
 ## Show errors
 
-Switch your app environment to development in `public/.htaccess` file:
+Switch your app environment to development
+- When using with some webserver => in `public/.htaccess` file:
 ```ini
 ## .htaccess
 <IfModule mod_env.c>
     SetEnv APP_ENV 'development'
 </IfModule>
+```
+
+- Or when using whatever else, set `APP_ENV` environment variable like this:
+```bash
+export APP_ENV=development
+```
+or simply
+```bash
+export APP_ENV=dev
 ```
 
 ## Mock Server

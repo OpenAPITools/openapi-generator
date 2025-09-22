@@ -1,6 +1,7 @@
 # coding: utf-8
 
 {{>partial_header}}
+
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -33,6 +34,7 @@ class {{classname}}:
     @validate_call
     {{#asyncio}}async {{/asyncio}}def {{operationId}}{{>partial_api_args}} -> {{{returnType}}}{{^returnType}}None{{/returnType}}:
 {{>partial_api}}
+
         response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
@@ -47,6 +49,7 @@ class {{classname}}:
     @validate_call
     {{#asyncio}}async {{/asyncio}}def {{operationId}}_with_http_info{{>partial_api_args}} -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
 {{>partial_api}}
+
         response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
@@ -61,6 +64,7 @@ class {{classname}}:
     @validate_call
     {{#asyncio}}async {{/asyncio}}def {{operationId}}_without_preload_content{{>partial_api_args}} -> RESTResponseType:
 {{>partial_api}}
+
         response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
@@ -101,7 +105,9 @@ class {{classname}}:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -165,6 +171,9 @@ class {{classname}}:
             if isinstance({{paramName}}, str):
                 with open({{paramName}}, "rb") as _fp:
                     _body_params = _fp.read()
+            elif isinstance({{paramName}}, tuple):
+                # drop the filename from the tuple
+                _body_params = {{paramName}}[1]
             else:
                 _body_params = {{paramName}}
             {{/isBinary}}
@@ -176,7 +185,7 @@ class {{classname}}:
         {{#constantParams}}
         {{#isQueryParam}}
         # Set client side default value of Query Param "{{baseName}}".
-        _query_params['{{baseName}}'] = {{#_enum}}'{{{.}}}'{{/_enum}}
+        _query_params.append(('{{baseName}}', {{#_enum}}'{{{.}}}'{{/_enum}}))
         {{/isQueryParam}}
         {{#isHeaderParam}}
         # Set client side default value of Header Param "{{baseName}}".
@@ -186,11 +195,12 @@ class {{classname}}:
 
         {{#hasProduces}}
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [{{#produces}}
-                '{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [{{#produces}}
+                    '{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}
+                ]
+            )
         {{/hasProduces}}
 
         {{#hasConsumes}}

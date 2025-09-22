@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -32,20 +33,20 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = FooRef.class, name = "FooRef")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class EntityRef {
 
-  private String name;
+  private @Nullable String name;
 
-  private String atReferredType;
+  private @Nullable String atReferredType;
 
-  private String href;
+  private @Nullable String href;
 
-  private String id;
+  private @Nullable String id;
 
-  private String atSchemaLocation;
+  private @Nullable String atSchemaLocation;
 
-  private String atBaseType;
+  private @Nullable String atBaseType;
 
   private String atType;
 
@@ -60,7 +61,7 @@ public class EntityRef {
     this.atType = atType;
   }
 
-  public EntityRef name(String name) {
+  public EntityRef name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -68,19 +69,19 @@ public class EntityRef {
   /**
    * Name of the related entity.
    * @return name
-  */
+   */
   
   @Schema(name = "name", description = "Name of the related entity.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
 
-  public EntityRef atReferredType(String atReferredType) {
+  public EntityRef atReferredType(@Nullable String atReferredType) {
     this.atReferredType = atReferredType;
     return this;
   }
@@ -88,19 +89,19 @@ public class EntityRef {
   /**
    * The actual type of the target instance when needed for disambiguation.
    * @return atReferredType
-  */
+   */
   
   @Schema(name = "@referredType", description = "The actual type of the target instance when needed for disambiguation.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@referredType")
-  public String getAtReferredType() {
+  public @Nullable String getAtReferredType() {
     return atReferredType;
   }
 
-  public void setAtReferredType(String atReferredType) {
+  public void setAtReferredType(@Nullable String atReferredType) {
     this.atReferredType = atReferredType;
   }
 
-  public EntityRef href(String href) {
+  public EntityRef href(@Nullable String href) {
     this.href = href;
     return this;
   }
@@ -108,19 +109,19 @@ public class EntityRef {
   /**
    * Hyperlink reference
    * @return href
-  */
+   */
   
   @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("href")
-  public String getHref() {
+  public @Nullable String getHref() {
     return href;
   }
 
-  public void setHref(String href) {
+  public void setHref(@Nullable String href) {
     this.href = href;
   }
 
-  public EntityRef id(String id) {
+  public EntityRef id(@Nullable String id) {
     this.id = id;
     return this;
   }
@@ -128,19 +129,19 @@ public class EntityRef {
   /**
    * unique identifier
    * @return id
-  */
+   */
   
   @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public String getId() {
+  public @Nullable String getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(@Nullable String id) {
     this.id = id;
   }
 
-  public EntityRef atSchemaLocation(String atSchemaLocation) {
+  public EntityRef atSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
     return this;
   }
@@ -148,19 +149,19 @@ public class EntityRef {
   /**
    * A URI to a JSON-Schema file that defines additional attributes and relationships
    * @return atSchemaLocation
-  */
+   */
   
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@schemaLocation")
-  public String getAtSchemaLocation() {
+  public @Nullable String getAtSchemaLocation() {
     return atSchemaLocation;
   }
 
-  public void setAtSchemaLocation(String atSchemaLocation) {
+  public void setAtSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
   }
 
-  public EntityRef atBaseType(String atBaseType) {
+  public EntityRef atBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
     return this;
   }
@@ -168,15 +169,15 @@ public class EntityRef {
   /**
    * When sub-classing, this defines the super-class
    * @return atBaseType
-  */
+   */
   
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@baseType")
-  public String getAtBaseType() {
+  public @Nullable String getAtBaseType() {
     return atBaseType;
   }
 
-  public void setAtBaseType(String atBaseType) {
+  public void setAtBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
   }
 
@@ -188,7 +189,7 @@ public class EntityRef {
   /**
    * When sub-classing, this defines the sub-class Extensible name
    * @return atType
-  */
+   */
   @NotNull 
   @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("@type")
@@ -248,5 +249,99 @@ public class EntityRef {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private EntityRef instance;
+
+    public Builder() {
+      this(new EntityRef());
+    }
+
+    protected Builder(EntityRef instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(EntityRef value) { 
+      this.instance.setName(value.name);
+      this.instance.setAtReferredType(value.atReferredType);
+      this.instance.setHref(value.href);
+      this.instance.setId(value.id);
+      this.instance.setAtSchemaLocation(value.atSchemaLocation);
+      this.instance.setAtBaseType(value.atBaseType);
+      this.instance.setAtType(value.atType);
+      return this;
+    }
+
+    public EntityRef.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public EntityRef.Builder atReferredType(String atReferredType) {
+      this.instance.atReferredType(atReferredType);
+      return this;
+    }
+    
+    public EntityRef.Builder href(String href) {
+      this.instance.href(href);
+      return this;
+    }
+    
+    public EntityRef.Builder id(String id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public EntityRef.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+    
+    public EntityRef.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+    
+    public EntityRef.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    
+    /**
+    * returns a built EntityRef instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public EntityRef build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static EntityRef.Builder builder() {
+    return new EntityRef.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public EntityRef.Builder toBuilder() {
+    EntityRef.Builder builder = new EntityRef.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

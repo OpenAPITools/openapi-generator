@@ -4,11 +4,13 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/read_only_first.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'array_test.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -30,7 +32,7 @@ class ArrayTest {
     
     name: r'array_of_string',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -42,7 +44,7 @@ class ArrayTest {
     
     name: r'array_array_of_integer',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -54,7 +56,7 @@ class ArrayTest {
     
     name: r'array_array_of_model',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -62,17 +64,19 @@ class ArrayTest {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
-     other.arrayOfString == arrayOfString &&
-     other.arrayArrayOfInteger == arrayArrayOfInteger &&
-     other.arrayArrayOfModel == arrayArrayOfModel;
 
-  @override
-  int get hashCode =>
-    arrayOfString.hashCode +
-    arrayArrayOfInteger.hashCode +
-    arrayArrayOfModel.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
+      other.arrayOfString == arrayOfString &&
+      other.arrayArrayOfInteger == arrayArrayOfInteger &&
+      other.arrayArrayOfModel == arrayArrayOfModel;
+
+    @override
+    int get hashCode =>
+        arrayOfString.hashCode +
+        arrayArrayOfInteger.hashCode +
+        arrayArrayOfModel.hashCode;
 
   factory ArrayTest.fromJson(Map<String, dynamic> json) => _$ArrayTestFromJson(json);
 

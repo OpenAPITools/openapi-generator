@@ -1,0 +1,142 @@
+openapi: 3.0.0
+info:
+  description: |
+    This spec is mainly for testing JAXB & Jackson XML annotation being generated correctly.
+    Some guidance:
+    - Jackson annotations: https://www.baeldung.com/jackson-xml-serialization-and-deserialization
+    - JAXB annotations: https://howtodoinjava.com/jaxb/xmlelementwrapper-annotation
+  version: 1.0.0
+  title: OpenAPI Petstore
+servers:
+  - url: 'https://localhost'
+paths:
+  /foo:
+    get:
+      operationId: foo
+      responses: 
+        '200':
+          description: response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  requestBodies:
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+      required: true
+  schemas:
+    Category:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          default: default-name
+      xml:
+        name: Category
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      xml:
+        name: Tag
+    Pet:
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+          x-is-unique: true
+          xml:
+            prefix: 'smp'
+            namespace: 'http://example.com/schema'
+        friends:  # non-wrapped with custom xml item element name (1st example in https://spec.openapis.org/oas/v3.0.0#xml-arrays) 
+          type: array
+          items:
+            type: string
+            xml:
+              name: friend-pet
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+          xml:
+            wrapped: false  # This is the default value as per OAI spec anyway, just being explicit here for the test
+            # as per https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=For%20arrays: 
+            # »For arrays, the `xml/name` property works only if `xml/wrapped` is set to true. 
+            name: NotUsedAsNotWrapped # ← so this will not be used (see also 2nd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+        name:
+          type: string
+          example: doggie
+          xml:
+            attribute: true
+        photoUrls: # wrapped with no defined xml name (3rd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+          type: array
+          xml:
+            wrapped: true
+          items:
+            type: string
+        colors: # wrapped with only internal xml name (4th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+          type: array
+          xml:
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: color
+        activities: # wrapped with both internal and external xml name (5th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+          type: array
+          xml:
+            wrapped: true
+            name: activities-array
+          items:
+            type: string
+            xml:
+              name: item
+        foods:
+          type: array
+          items:
+            type: string
+          xml:
+            name: yummy-yummy # test case for changing external name, but not internal (last example at https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+            wrapped: true
+        tags:
+          type: array
+          xml:
+            name: TagList
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Tag'
+            xml:
+              name: Ignored  # because sibling elements of `$ref`s are ignored (https://swagger.io/docs/specification/using-ref/)
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold
+          xml:
+            name: PetStatus # custom element name (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Change%20Element%20Names)
+      xml:
+        name: Pet
+        namespace: 'urn:jacksonxml'

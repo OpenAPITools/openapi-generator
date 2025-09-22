@@ -10,21 +10,21 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ArrayOfNumberOnly: Codable, JSONEncodable, Hashable {
+internal struct ArrayOfNumberOnly: Codable, JSONEncodable {
 
-    public var arrayNumber: [Double]?
+    internal private(set) var arrayNumber: [Double]?
 
-    public init(arrayNumber: [Double]? = nil) {
+    internal init(arrayNumber: [Double]? = nil) {
         self.arrayNumber = arrayNumber
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayNumber = "ArrayNumber"
     }
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
     }

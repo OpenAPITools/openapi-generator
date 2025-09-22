@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -37,7 +38,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   User.JSON_PROPERTY_USER_STATUS
 })
 @JsonTypeName("User")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @Introspected
 public class User {
     public static final String JSON_PROPERTY_ID = "id";
@@ -75,7 +76,7 @@ public class User {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
     @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_ID)
@@ -98,7 +99,7 @@ public class User {
     /**
      * Get username
      * @return username
-     **/
+     */
     @Nullable
     @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_USERNAME)
@@ -121,7 +122,7 @@ public class User {
     /**
      * Get firstName
      * @return firstName
-     **/
+     */
     @Nullable
     @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_FIRST_NAME)
@@ -144,7 +145,7 @@ public class User {
     /**
      * Get lastName
      * @return lastName
-     **/
+     */
     @Nullable
     @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_LAST_NAME)
@@ -167,7 +168,7 @@ public class User {
     /**
      * Get email
      * @return email
-     **/
+     */
     @Nullable
     @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_EMAIL)
@@ -190,7 +191,7 @@ public class User {
     /**
      * Get password
      * @return password
-     **/
+     */
     @Nullable
     @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_PASSWORD)
@@ -213,7 +214,7 @@ public class User {
     /**
      * Get phone
      * @return phone
-     **/
+     */
     @Nullable
     @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_PHONE)
@@ -236,7 +237,7 @@ public class User {
     /**
      * User Status
      * @return userStatus
-     **/
+     */
     @Nullable
     @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_USER_STATUS)

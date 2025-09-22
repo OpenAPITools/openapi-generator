@@ -49,11 +49,12 @@ def place_order(body):  # noqa: E501
 
      # noqa: E501
 
-    :param body: order placed for purchasing the pet
-    :type body: dict | bytes
+    :param order: order placed for purchasing the pet
+    :type order: dict | bytes
 
     :rtype: Union[Order, Tuple[Order, int], Tuple[Order, int, Dict[str, str]]
     """
+    order = body
     if connexion.request.is_json:
-        body = Order.from_dict(connexion.request.get_json())  # noqa: E501
+        order = Order.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'

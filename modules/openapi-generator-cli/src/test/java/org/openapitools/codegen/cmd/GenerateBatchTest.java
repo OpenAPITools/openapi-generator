@@ -6,7 +6,6 @@ import org.openapitools.codegen.config.Context;
 import org.openapitools.codegen.config.GeneratorSettings;
 import org.openapitools.codegen.config.WorkflowSettings;
 import org.testng.ITestContext;
-import org.testng.TestRunner;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -43,7 +42,7 @@ public class GenerateBatchTest {
 
     @DataProvider(name = "customIncludeDeserializerFiles")
     public Object[][] customIncludeDeserializerFiles() {
-        return new Object[][] {
+        return new Object[][]{
                 {JAXRS_DATELIB_J8_JSON},
                 {JAXRS_DATELIB_J8_YAML},
                 {JAXRS_DATELIB_J8_JSON_INCLUDE_YAML},
@@ -90,7 +89,7 @@ public class GenerateBatchTest {
 
     @SuppressWarnings("unused")
     @Test(
-            expectedExceptions = { RuntimeException.class },
+            expectedExceptions = {RuntimeException.class},
             expectedExceptionsMessageRegExp = "Unable to deserialize config file: .*"
     )
     public void testInvalidDeserializerWithIncludeOption() {

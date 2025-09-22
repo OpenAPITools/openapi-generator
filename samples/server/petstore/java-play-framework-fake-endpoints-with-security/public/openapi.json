@@ -55,7 +55,7 @@
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "put" : {
         "operationId" : "updatePet",
@@ -96,7 +96,7 @@
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/pet/findByStatus" : {
@@ -148,7 +148,7 @@
         },
         "summary" : "Finds Pets by status",
         "tags" : [ "pet" ],
-        "x-accepts" : "application/json,application/xml"
+        "x-accepts" : [ "application/json", "application/xml" ]
       }
     }
   },

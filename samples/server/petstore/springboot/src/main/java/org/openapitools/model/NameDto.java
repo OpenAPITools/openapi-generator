@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,16 +23,16 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing model name same as property name")
 @JsonTypeName("Name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class NameDto {
 
   private Integer name;
 
-  private Integer snakeCase;
+  private @Nullable Integer snakeCase;
 
-  private String property;
+  private @Nullable String property;
 
-  private Integer _123Number;
+  private @Nullable Integer _123Number;
 
   public NameDto() {
     super();
@@ -52,7 +53,7 @@ public class NameDto {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
@@ -64,7 +65,7 @@ public class NameDto {
     this.name = name;
   }
 
-  public NameDto snakeCase(Integer snakeCase) {
+  public NameDto snakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
     return this;
   }
@@ -72,19 +73,19 @@ public class NameDto {
   /**
    * Get snakeCase
    * @return snakeCase
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
-  public Integer getSnakeCase() {
+  public @Nullable Integer getSnakeCase() {
     return snakeCase;
   }
 
-  public void setSnakeCase(Integer snakeCase) {
+  public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
-  public NameDto property(String property) {
+  public NameDto property(@Nullable String property) {
     this.property = property;
     return this;
   }
@@ -92,19 +93,19 @@ public class NameDto {
   /**
    * Get property
    * @return property
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("property")
-  public String getProperty() {
+  public @Nullable String getProperty() {
     return property;
   }
 
-  public void setProperty(String property) {
+  public void setProperty(@Nullable String property) {
     this.property = property;
   }
 
-  public NameDto _123Number(Integer _123Number) {
+  public NameDto _123Number(@Nullable Integer _123Number) {
     this._123Number = _123Number;
     return this;
   }
@@ -112,15 +113,15 @@ public class NameDto {
   /**
    * Get _123Number
    * @return _123Number
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")
-  public Integer get123Number() {
+  public @Nullable Integer get123Number() {
     return _123Number;
   }
 
-  public void set123Number(Integer _123Number) {
+  public void set123Number(@Nullable Integer _123Number) {
     this._123Number = _123Number;
   }
 

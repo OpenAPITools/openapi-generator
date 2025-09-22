@@ -17,28 +17,25 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonClientCodegen extends AbstractPythonCodegen implements CodegenConfig {
@@ -49,14 +46,17 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String RECURSION_LIMIT = "recursionLimit";
     public static final String DATETIME_FORMAT = "datetimeFormat";
     public static final String DATE_FORMAT = "dateFormat";
+    public static final String SET_ENSURE_ASCII_TO_FALSE = "setEnsureAsciiToFalse";
+    public static final String POETRY1_FALLBACK = "poetry1";
+    public static final String LAZY_IMPORTS = "lazyImports";
 
-    protected String packageUrl;
+    @Setter protected String packageUrl;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
-    protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
-    protected String dateFormat = "%Y-%m-%d";
-
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
+    @Setter protected String dateFormat = "%Y-%m-%d";
+    @Setter protected boolean setEnsureAsciiToFalse = false;
 
     private String testFolder;
 
@@ -141,6 +141,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(SET_ENSURE_ASCII_TO_FALSE, "When set to true, add `ensure_ascii=False` in json.dumps when creating the HTTP request body.")
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
         cliOptions.add(new CliOption(MAP_NUMBER_TO, "Map number to Union[StrictFloat, StrictInt], StrictStr or float.")
                 .defaultValue("Union[StrictFloat, StrictInt]"));
@@ -149,6 +151,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
                 .defaultValue("%Y-%m-%d"));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(POETRY1_FALLBACK, "Fallback to formatting pyproject.toml to Poetry 1.x format."));
+        cliOptions.add(new CliOption(LAZY_IMPORTS, "Enable lazy imports.").defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -180,11 +184,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         // map to Dot instead of Period
         specialCharReplacements.put(".", "Dot");
-
-        if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
-        }
 
         Boolean excludeTests = false;
 
@@ -228,6 +227,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
+        if (additionalProperties.containsKey(SET_ENSURE_ASCII_TO_FALSE)) {
+            additionalProperties.put(SET_ENSURE_ASCII_TO_FALSE, Boolean.valueOf(additionalProperties.get(SET_ENSURE_ASCII_TO_FALSE).toString()));
+        }
+
         if (additionalProperties.containsKey(PACKAGE_URL)) {
             setPackageUrl((String) additionalProperties.get(PACKAGE_URL));
         }
@@ -261,6 +264,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             setDateFormat((String) additionalProperties.get(DATE_FORMAT));
         } else {
             additionalProperties.put(DATE_FORMAT, dateFormat);
+        }
+
+        if (additionalProperties.containsKey(LAZY_IMPORTS)) {
+            additionalProperties.put(LAZY_IMPORTS, Boolean.valueOf(additionalProperties.get(LAZY_IMPORTS).toString()));
         }
 
         String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
@@ -333,10 +340,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         modelPackage = this.packageName + "." + modelPackage;
         apiPackage = this.packageName + "." + apiPackage;
-    }
-
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
     }
 
     public boolean getUseOneOfDiscriminatorLookup() {
@@ -413,10 +416,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         return outputFolder + File.separatorChar + testFolder;
     }
 
-    public void setPackageUrl(String packageUrl) {
-        this.packageUrl = packageUrl;
-    }
-
     public String packagePath() {
         return packageName.replace('.', File.separatorChar);
     }
@@ -437,7 +436,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.7+";
+        return "3.9+";
     }
 
     @Override
@@ -456,14 +455,4 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         }
         return "var_" + name;
     }
-
-    public void setDatetimeFormat(String datetimeFormat) {
-        this.datetimeFormat = datetimeFormat;
-    }
-
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
-
 }

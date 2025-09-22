@@ -12,50 +12,6 @@
 #' @format An \code{R6Class} generator object
 #' @field api_client Handles the client-server communication.
 #'
-#' @section Methods:
-#' \describe{
-#' \strong{ TestFormIntegerBooleanString } \emph{ Test form parameter(s) }
-#' Test form parameter(s)
-#'
-#' \itemize{
-#' \item \emph{ @param } integer_form integer
-#' \item \emph{ @param } boolean_form character
-#' \item \emph{ @param } string_form character
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' \strong{ TestFormOneof } \emph{ Test form parameter(s) for oneOf schema }
-#' Test form parameter(s) for oneOf schema
-#'
-#' \itemize{
-#' \item \emph{ @param } form1 character
-#' \item \emph{ @param } form2 integer
-#' \item \emph{ @param } form3 character
-#' \item \emph{ @param } form4 character
-#' \item \emph{ @param } id integer
-#' \item \emph{ @param } name character
-#'
-#'
-#' \item status code : 200 | Successful operation
-#'
-#' \item return type : character
-#' \item response headers :
-#'
-#' \tabular{ll}{
-#' }
-#' }
-#'
-#' }
-#'
-#'
 #' @examples
 #' \dontrun{
 #' ####################  TestFormIntegerBooleanString  ####################
@@ -71,6 +27,20 @@
 #' # to save the result into a file, simply add the optional `data_file` parameter, e.g.
 #' # result <- api_instance$TestFormIntegerBooleanString(integer_form = var_integer_form, boolean_form = var_boolean_form, string_form = var_string_formdata_file = "result.txt")
 #' result <- api_instance$TestFormIntegerBooleanString(integer_form = var_integer_form, boolean_form = var_boolean_form, string_form = var_string_form)
+#' dput(result)
+#'
+#'
+#' ####################  TestFormObjectMultipart  ####################
+#'
+#' library(openapi)
+#' var_marker <- test_form_object_multipart_request_marker$new("name_example") # TestFormObjectMultipartRequestMarker | 
+#'
+#' #Test form parameter(s) for multipart schema
+#' api_instance <- FormApi$new()
+#'
+#' # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#' # result <- api_instance$TestFormObjectMultipart(var_markerdata_file = "result.txt")
+#' result <- api_instance$TestFormObjectMultipart(var_marker)
 #' dput(result)
 #'
 #'
@@ -101,13 +71,11 @@ FormApi <- R6::R6Class(
   "FormApi",
   public = list(
     api_client = NULL,
-    #' Initialize a new FormApi.
-    #'
+
     #' @description
     #' Initialize a new FormApi.
     #'
     #' @param api_client An instance of API client.
-    #' @export
     initialize = function(api_client) {
       if (!missing(api_client)) {
         self$api_client <- api_client
@@ -115,8 +83,7 @@ FormApi <- R6::R6Class(
         self$api_client <- ApiClient$new()
       }
     },
-    #' Test form parameter(s)
-    #'
+
     #' @description
     #' Test form parameter(s)
     #'
@@ -125,22 +92,21 @@ FormApi <- R6::R6Class(
     #' @param string_form (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return character
-    #' @export
     TestFormIntegerBooleanString = function(integer_form = NULL, boolean_form = NULL, string_form = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestFormIntegerBooleanStringWithHttpInfo(integer_form, boolean_form, string_form, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test form parameter(s)
-    #'
+
     #' @description
     #' Test form parameter(s)
     #'
@@ -149,8 +115,8 @@ FormApi <- R6::R6Class(
     #' @param string_form (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
     TestFormIntegerBooleanStringWithHttpInfo = function(integer_form = NULL, boolean_form = NULL, string_form = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -161,8 +127,17 @@ FormApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`integer_form`) && is.null(`integer_form`)) {
+        stop("Invalid value for `integer_form` when calling FormApi$TestFormIntegerBooleanString, `integer_form` is not nullable")
+      }
 
+      if (!missing(`boolean_form`) && is.null(`boolean_form`)) {
+        stop("Invalid value for `boolean_form` when calling FormApi$TestFormIntegerBooleanString, `boolean_form` is not nullable")
+      }
 
+      if (!missing(`string_form`) && is.null(`string_form`)) {
+        stop("Invalid value for `string_form` when calling FormApi$TestFormIntegerBooleanString, `string_form` is not nullable")
+      }
 
       form_params["integer_form"] <- `integer_form`
       form_params["boolean_form"] <- `boolean_form`
@@ -191,18 +166,21 @@ FormApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
         ApiResponse$new("API client error", local_var_resp)
@@ -210,11 +188,108 @@ FormApi <- R6::R6Class(
         if (is.null(local_var_resp$response) || local_var_resp$response == "") {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     },
-    #' Test form parameter(s) for oneOf schema
+
+    #' @description
+    #' Test form parameter(s) for multipart schema
     #'
+    #' @param marker 
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #'
+    #' @return character
+    TestFormObjectMultipart = function(marker, data_file = NULL, ...) {
+      local_var_response <- self$TestFormObjectMultipartWithHttpInfo(marker, data_file = data_file, ...)
+      if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
+        return(local_var_response$content)
+      } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
+        return(local_var_response)
+      } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
+        return(local_var_response)
+      } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
+        return(local_var_response)
+      }
+    },
+
+    #' @description
+    #' Test form parameter(s) for multipart schema
+    #'
+    #' @param marker 
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #'
+    #' @return API response (character) with additional information such as HTTP status code, headers
+    TestFormObjectMultipartWithHttpInfo = function(marker, data_file = NULL, ...) {
+      args <- list(...)
+      query_params <- list()
+      header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
+
+      if (missing(`marker`)) {
+        stop("Missing required parameter `marker`.")
+      }
+
+      if (!missing(`marker`) && is.null(`marker`)) {
+        stop("Invalid value for `marker` when calling FormApi$TestFormObjectMultipart, `marker` is not nullable")
+      }
+
+      form_params["marker"] <- `marker`
+      local_var_url_path <- "/form/object/multipart"
+
+      # The Accept request HTTP header
+      local_var_accepts <- list("text/plain")
+
+      # The Content-Type representation header
+      local_var_content_types <- list("multipart/form-data")
+
+      local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
+                                 method = "POST",
+                                 query_params = query_params,
+                                 header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
+                                 accepts = local_var_accepts,
+                                 content_types = local_var_content_types,
+                                 body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
+                                 ...)
+
+      if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+
+        deserialized_resp_obj <- tryCatch(
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
+          error = function(e) {
+            stop("Failed to deserialize response")
+          }
+        )
+        local_var_resp$content <- deserialized_resp_obj
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+      } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
+        ApiResponse$new("API client error", local_var_resp)
+      } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
+        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+          local_var_resp$response <- "API server error"
+        }
+        return(local_var_resp)
+      }
+    },
+
     #' @description
     #' Test form parameter(s) for oneOf schema
     #'
@@ -226,22 +301,21 @@ FormApi <- R6::R6Class(
     #' @param name (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return character
-    #' @export
     TestFormOneof = function(form1 = NULL, form2 = NULL, form3 = NULL, form4 = NULL, id = NULL, name = NULL, data_file = NULL, ...) {
       local_var_response <- self$TestFormOneofWithHttpInfo(form1, form2, form3, form4, id, name, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
-        local_var_response$content
+        return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
-        local_var_response
+        return(local_var_response)
       } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
-        local_var_response
+        return(local_var_response)
       }
     },
-    #' Test form parameter(s) for oneOf schema
-    #'
+
     #' @description
     #' Test form parameter(s) for oneOf schema
     #'
@@ -253,8 +327,8 @@ FormApi <- R6::R6Class(
     #' @param name (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    #' @export
     TestFormOneofWithHttpInfo = function(form1 = NULL, form2 = NULL, form3 = NULL, form4 = NULL, id = NULL, name = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
@@ -265,11 +339,29 @@ FormApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`form1`) && is.null(`form1`)) {
+        stop("Invalid value for `form1` when calling FormApi$TestFormOneof, `form1` is not nullable")
+      }
 
+      if (!missing(`form2`) && is.null(`form2`)) {
+        stop("Invalid value for `form2` when calling FormApi$TestFormOneof, `form2` is not nullable")
+      }
 
+      if (!missing(`form3`) && is.null(`form3`)) {
+        stop("Invalid value for `form3` when calling FormApi$TestFormOneof, `form3` is not nullable")
+      }
 
+      if (!missing(`form4`) && is.null(`form4`)) {
+        stop("Invalid value for `form4` when calling FormApi$TestFormOneof, `form4` is not nullable")
+      }
 
+      if (!missing(`id`) && is.null(`id`)) {
+        stop("Invalid value for `id` when calling FormApi$TestFormOneof, `id` is not nullable")
+      }
 
+      if (!missing(`name`) && is.null(`name`)) {
+        stop("Invalid value for `name` when calling FormApi$TestFormOneof, `name` is not nullable")
+      }
 
       form_params["form1"] <- `form1`
       form_params["form2"] <- `form2`
@@ -301,18 +393,21 @@ FormApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-          write(local_var_resp$response, data_file)
+          self$api_client$WriteFile(local_var_resp, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
             stop("Failed to deserialize response")
           }
         )
         local_var_resp$content <- deserialized_resp_obj
-        local_var_resp
-      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
         ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
         ApiResponse$new("API client error", local_var_resp)
@@ -320,7 +415,7 @@ FormApi <- R6::R6Class(
         if (is.null(local_var_resp$response) || local_var_resp$response == "") {
           local_var_resp$response <- "API server error"
         }
-        local_var_resp
+        return(local_var_resp)
       }
     }
   )

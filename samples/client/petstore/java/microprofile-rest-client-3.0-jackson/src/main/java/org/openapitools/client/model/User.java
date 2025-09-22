@@ -1,6 +1,6 @@
-/**
+/*
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -12,6 +12,13 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -30,9 +37,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-/**
-  * A User who is purchasing from the pet store
- **/
 
 public class User  {
   
@@ -66,25 +70,26 @@ public class User  {
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
  /**
-   * User Status
-  **/
+  * User Status
+  */
   
   private Integer userStatus;
 
- /**
+
+  /**
    * Get id
    * @return id
-  **/
-  @JsonProperty(JSON_PROPERTY_ID)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
     return id;
   }
 
   /**
-    * Set id
-  **/
-  @JsonProperty(JSON_PROPERTY_ID)
+   * Set id
+   */
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
     this.id = id;
@@ -95,20 +100,20 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get username
    * @return username
-  **/
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getUsername() {
     return username;
   }
 
   /**
-    * Set username
-  **/
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+   * Set username
+   */
+  @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUsername(String username) {
     this.username = username;
@@ -119,20 +124,20 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get firstName
    * @return firstName
-  **/
-  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_FIRST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getFirstName() {
     return firstName;
   }
 
   /**
-    * Set firstName
-  **/
-  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
+   * Set firstName
+   */
+  @JsonProperty(value = JSON_PROPERTY_FIRST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFirstName(String firstName) {
     this.firstName = firstName;
@@ -143,20 +148,20 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get lastName
    * @return lastName
-  **/
-  @JsonProperty(JSON_PROPERTY_LAST_NAME)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_LAST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getLastName() {
     return lastName;
   }
 
   /**
-    * Set lastName
-  **/
-  @JsonProperty(JSON_PROPERTY_LAST_NAME)
+   * Set lastName
+   */
+  @JsonProperty(value = JSON_PROPERTY_LAST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLastName(String lastName) {
     this.lastName = lastName;
@@ -167,20 +172,20 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get email
    * @return email
-  **/
-  @JsonProperty(JSON_PROPERTY_EMAIL)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_EMAIL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getEmail() {
     return email;
   }
 
   /**
-    * Set email
-  **/
-  @JsonProperty(JSON_PROPERTY_EMAIL)
+   * Set email
+   */
+  @JsonProperty(value = JSON_PROPERTY_EMAIL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEmail(String email) {
     this.email = email;
@@ -191,20 +196,20 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get password
    * @return password
-  **/
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPassword() {
     return password;
   }
 
   /**
-    * Set password
-  **/
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+   * Set password
+   */
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPassword(String password) {
     this.password = password;
@@ -215,20 +220,20 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get phone
    * @return phone
-  **/
-  @JsonProperty(JSON_PROPERTY_PHONE)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_PHONE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPhone() {
     return phone;
   }
 
   /**
-    * Set phone
-  **/
-  @JsonProperty(JSON_PROPERTY_PHONE)
+   * Set phone
+   */
+  @JsonProperty(value = JSON_PROPERTY_PHONE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPhone(String phone) {
     this.phone = phone;
@@ -239,20 +244,20 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * User Status
    * @return userStatus
-  **/
-  @JsonProperty(JSON_PROPERTY_USER_STATUS)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_USER_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getUserStatus() {
     return userStatus;
   }
 
   /**
-    * Set userStatus
-  **/
-  @JsonProperty(JSON_PROPERTY_USER_STATUS)
+   * Set userStatus
+   */
+  @JsonProperty(value = JSON_PROPERTY_USER_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
@@ -263,10 +268,19 @@ public class User  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -295,3 +309,4 @@ public class User  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

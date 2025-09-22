@@ -40,16 +40,18 @@ import java.text.DateFormat
     ) {
 
         /**
+        * POST /pet
         * Add a new pet to the store
         * 
-         * @param body Pet object that needs to be added to the store 
-         * @return void
+         * @param pet Pet object that needs to be added to the store 
+         * @return Pet
         */
-        open suspend fun addPet(body: Pet): HttpResponse<Unit> {
+            @Suppress("UNCHECKED_CAST")
+        open suspend fun addPet(pet: Pet): HttpResponse<Pet> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
-            val localVariableBody = body
+            val localVariableBody = pet
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -71,6 +73,7 @@ import java.text.DateFormat
             }
 
         /**
+        * DELETE /pet/{petId}
         * Deletes a pet
         * 
          * @param petId Pet id to delete 
@@ -105,6 +108,7 @@ import java.text.DateFormat
             }
 
         /**
+        * GET /pet/findByStatus
         * Finds Pets by status
         * Multiple status values can be provided with comma separated strings
          * @param status Status values that need to be considered for filter 
@@ -139,6 +143,7 @@ import java.text.DateFormat
             }
 
         /**
+        * GET /pet/findByTags
         * Finds Pets by tags
         * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
          * @param tags Tags to filter by 
@@ -173,6 +178,7 @@ import java.text.DateFormat
             }
 
         /**
+        * GET /pet/{petId}
         * Find pet by ID
         * Returns a single pet
          * @param petId ID of pet to return 
@@ -206,16 +212,18 @@ import java.text.DateFormat
             }
 
         /**
+        * PUT /pet
         * Update an existing pet
         * 
-         * @param body Pet object that needs to be added to the store 
-         * @return void
+         * @param pet Pet object that needs to be added to the store 
+         * @return Pet
         */
-        open suspend fun updatePet(body: Pet): HttpResponse<Unit> {
+            @Suppress("UNCHECKED_CAST")
+        open suspend fun updatePet(pet: Pet): HttpResponse<Pet> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
-            val localVariableBody = body
+            val localVariableBody = pet
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -237,6 +245,7 @@ import java.text.DateFormat
             }
 
         /**
+        * POST /pet/{petId}
         * Updates a pet in the store with form data
         * 
          * @param petId ID of pet that needs to be updated 
@@ -274,6 +283,7 @@ import java.text.DateFormat
             }
 
         /**
+        * POST /pet/{petId}/uploadImage
         * uploads an image
         * 
          * @param petId ID of pet to update 
@@ -282,14 +292,14 @@ import java.text.DateFormat
          * @return ModelApiResponse
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.InputProvider?): HttpResponse<ModelApiResponse> {
+        open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider>?): HttpResponse<ModelApiResponse> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
             val localVariableBody = 
                         formData {
                         additionalMetadata?.apply { append("additionalMetadata", additionalMetadata) }
-                        file?.apply { append("file", file) }
+                        file?.apply { append(file) }
                         }
 
             val localVariableQuery = mutableMapOf<String, List<String>>()

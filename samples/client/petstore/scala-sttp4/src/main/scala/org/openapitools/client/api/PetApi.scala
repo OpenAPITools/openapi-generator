@@ -54,7 +54,7 @@ class PetApi(baseUrl: String) {
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
       .header("api_key", apiKey.toString)
-      .response(asJson[Unit])
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
    * Multiple status values can be provided with comma separated strings
@@ -99,11 +99,11 @@ class PetApi(baseUrl: String) {
    * 
    * @param petId ID of pet to return
    */
-  def getPetById(apiKey: String)(petId: Long): Request[Either[ResponseException[String, Exception], Pet]] =
+  def getPetById(apiKeyHeader: String)(petId: Long): Request[Either[ResponseException[String, Exception], Pet]] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
-      .header("api_key", apiKey)
+      .header("api_key", apiKeyHeader)
       .response(asJson[Pet])
 
   /**
@@ -142,7 +142,7 @@ class PetApi(baseUrl: String) {
         "name" -> name,
         "status" -> status
       ))
-      .response(asJson[Unit])
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
    * 

@@ -1,0 +1,12 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-jvm-retrofit2-coroutines
+library: jvm-retrofit2
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  serializationLibrary: gson
+  useCoroutines: "true"
+  artifactId: kotlin-petstore-coroutines-client
+  serializableModel: "true"
+  dateLibrary: java8
+  useResponseAsReturnType: false

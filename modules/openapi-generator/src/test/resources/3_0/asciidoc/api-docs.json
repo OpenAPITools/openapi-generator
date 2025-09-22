@@ -1399,9 +1399,21 @@
                         "items": {
                             "$ref": "#/components/schemas/TaskWeek"
                         }
+                    },
+                    "pricingModelType":{
+                        "$ref": "#/components/schemas/PricingModelType"
                     }
                 },
                 "description": "week, holds all work and working assignments."
+            },
+            "PricingModelType": {
+                "type": "string",
+                "enum": [
+                    "Unsupported",
+                    "Flex",
+                    "Community",
+                    "Freedom"
+                ]
             }
         },
         "securitySchemes": {

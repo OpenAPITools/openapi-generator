@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
@@ -33,7 +34,7 @@ import javax.annotation.Generated;
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
 @JsonTypeName("MapTest")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @Introspected
 public class MapTest {
     public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
@@ -99,7 +100,7 @@ public class MapTest {
     /**
      * Get mapMapOfString
      * @return mapMapOfString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -129,7 +130,7 @@ public class MapTest {
     /**
      * Get mapOfEnumString
      * @return mapOfEnumString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -159,7 +160,7 @@ public class MapTest {
     /**
      * Get directMap
      * @return directMap
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -189,7 +190,7 @@ public class MapTest {
     /**
      * Get indirectMap
      * @return indirectMap
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

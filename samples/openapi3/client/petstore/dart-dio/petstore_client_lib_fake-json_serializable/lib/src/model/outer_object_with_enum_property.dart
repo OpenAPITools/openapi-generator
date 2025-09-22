@@ -4,11 +4,13 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/outer_enum_integer.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'outer_object_with_enum_property.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -26,7 +28,8 @@ class OuterObjectWithEnumProperty {
     
     name: r'value',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: OuterEnumInteger.unknownDefaultOpenApi,
   )
 
 
@@ -34,13 +37,15 @@ class OuterObjectWithEnumProperty {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is OuterObjectWithEnumProperty &&
-     other.value == value;
 
-  @override
-  int get hashCode =>
-    value.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is OuterObjectWithEnumProperty &&
+      other.value == value;
+
+    @override
+    int get hashCode =>
+        value.hashCode;
 
   factory OuterObjectWithEnumProperty.fromJson(Map<String, dynamic> json) => _$OuterObjectWithEnumPropertyFromJson(json);
 

@@ -17,8 +17,8 @@ import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import java.util.Set;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -31,12 +31,10 @@ import java.util.Map;
 /**
  * API tests for PetApi
  */
-@Ignore
 public class PetApiTest {
 
     private final PetApi api = new PetApi();
 
-    
     /**
      * Add a new pet to the store
      *
@@ -48,11 +46,12 @@ public class PetApiTest {
     @Test
     public void addPetTest() throws IOException {
         Pet body = null;
-        api.addPet(body);
+        // uncomment below to test the API function
+        //api.addPet(body);
 
         // TODO: test validations
     }
-    
+
     /**
      * Deletes a pet
      *
@@ -65,11 +64,12 @@ public class PetApiTest {
     public void deletePetTest() throws IOException {
         Long petId = null;
         String apiKey = null;
-        api.deletePet(petId, apiKey);
+        // uncomment below to test the API function
+        //api.deletePet(petId, apiKey);
 
         // TODO: test validations
     }
-    
+
     /**
      * Finds Pets by status
      *
@@ -81,11 +81,12 @@ public class PetApiTest {
     @Test
     public void findPetsByStatusTest() throws IOException {
         List<String> status = null;
-        List<Pet> response = api.findPetsByStatus(status);
+        // uncomment below to test the API function
+        //List<Pet> response = api.findPetsByStatus(status);
 
         // TODO: test validations
     }
-    
+
     /**
      * Finds Pets by tags
      *
@@ -97,11 +98,12 @@ public class PetApiTest {
     @Test
     public void findPetsByTagsTest() throws IOException {
         Set<String> tags = null;
-        Set<Pet> response = api.findPetsByTags(tags);
+        // uncomment below to test the API function
+        //Set<Pet> response = api.findPetsByTags(tags);
 
         // TODO: test validations
     }
-    
+
     /**
      * Find pet by ID
      *
@@ -113,11 +115,12 @@ public class PetApiTest {
     @Test
     public void getPetByIdTest() throws IOException {
         Long petId = null;
-        Pet response = api.getPetById(petId);
+        // uncomment below to test the API function
+        //Pet response = api.getPetById(petId);
 
         // TODO: test validations
     }
-    
+
     /**
      * Update an existing pet
      *
@@ -129,11 +132,12 @@ public class PetApiTest {
     @Test
     public void updatePetTest() throws IOException {
         Pet body = null;
-        api.updatePet(body);
+        // uncomment below to test the API function
+        //api.updatePet(body);
 
         // TODO: test validations
     }
-    
+
     /**
      * Updates a pet in the store with form data
      *
@@ -147,11 +151,12 @@ public class PetApiTest {
         Long petId = null;
         String name = null;
         String status = null;
-        api.updatePetWithForm(petId, name, status);
+        // uncomment below to test the API function
+        //api.updatePetWithForm(petId, name, status);
 
         // TODO: test validations
     }
-    
+
     /**
      * uploads an image
      *
@@ -165,11 +170,12 @@ public class PetApiTest {
         Long petId = null;
         String additionalMetadata = null;
         File _file = null;
-        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
+        // uncomment below to test the API function
+        //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
 
         // TODO: test validations
     }
-    
+
     /**
      * uploads an image (required)
      *
@@ -183,9 +189,10 @@ public class PetApiTest {
         Long petId = null;
         File requiredFile = null;
         String additionalMetadata = null;
-        ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+        // uncomment below to test the API function
+        //ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
 
         // TODO: test validations
     }
-    
+
 }

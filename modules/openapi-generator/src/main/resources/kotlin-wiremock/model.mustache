@@ -1,0 +1,33 @@
+@file:Suppress(
+    "RemoveRedundantQualifierName",
+    "unused",
+)
+
+package {{modelPackage}}
+
+import com.fasterxml.jackson.annotation.JsonProperty
+
+{{#models}}
+{{#model}}
+{{#isEnum}}
+enum class {{classname}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    @JsonProperty(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}}) {{&name}},
+    {{/enumVars}}
+    {{/allowableValues}}
+}
+{{/isEnum}}
+{{^isEnum}}
+data class {{classname}}(
+    {{#allVars}}
+    @field:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
+    val {{{name}}}: {{{dataType}}}{{^required}}?{{/required}}{{!
+    !}}{{^required}} = {{^defaultValue}}null{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}{{/required}}{{!
+    }}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}},
+
+    {{/allVars}}
+)
+{{/isEnum}}
+{{/model}}
+{{/models}}

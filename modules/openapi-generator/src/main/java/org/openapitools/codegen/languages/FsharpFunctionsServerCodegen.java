@@ -16,29 +16,34 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import java.io.File;
-import java.util.*;
-
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.util.EnumSet;
+
 public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
     public static final String PROJECT_NAME = "projectName";
 
-     final Logger LOGGER = LoggerFactory.getLogger(FsharpFunctionsServerCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(FsharpFunctionsServerCodegen.class);
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "fsharp-functions";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a fsharp-functions server (beta).";
     }
@@ -49,24 +54,24 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
         // TODO: There's a README.mustache, but it doesn't seem to be referenced…
         modifyFeatureSet(features -> features
 //                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling,
-                        GlobalFeature.BasePath,
-                        GlobalFeature.Host
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .includeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
+                        .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                        .securityFeatures(EnumSet.noneOf(
+                                SecurityFeature.class
+                        ))
+                        .excludeGlobalFeatures(
+                                GlobalFeature.XMLStructureDefinitions,
+                                GlobalFeature.Callbacks,
+                                GlobalFeature.LinkObjects,
+                                GlobalFeature.ParameterStyling,
+                                GlobalFeature.BasePath,
+                                GlobalFeature.Host
+                        )
+                        .excludeSchemaSupportFeatures(
+                                SchemaSupportFeature.Polymorphism
+                        )
+                        .includeParameterFeatures(
+                                ParameterFeature.Cookie
+                        )
         );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)

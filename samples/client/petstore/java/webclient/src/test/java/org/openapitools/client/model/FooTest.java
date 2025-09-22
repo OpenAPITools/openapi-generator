@@ -18,22 +18,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Foo
  */
-public class FooTest {
+class FooTest {
     private final Foo model = new Foo();
 
     /**
      * Model tests for Foo
      */
     @Test
-    public void testFoo() {
+    void testFoo() {
         // TODO: test Foo
     }
 
@@ -41,7 +40,7 @@ public class FooTest {
      * Test the property 'bar'
      */
     @Test
-    public void barTest() {
+    void barTest() {
         // TODO: test bar
     }
 

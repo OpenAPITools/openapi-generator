@@ -20,6 +20,7 @@ package org.openapitools.codegen.csharpnetcore;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
@@ -27,14 +28,13 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AspNetServerCodegen;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.Assert;
-import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
 
 public class CSharpModelEnumTest {
@@ -162,44 +162,43 @@ public class CSharpModelEnumTest {
     }
 
     @DataProvider(name = "enumVarName")
-    public Object[][] provideTestData()
-    {
-        return new Object[][] {
-            { "FooBar", "fooBar", camelCase },
-            { "fooBar", "fooBar", camelCase },
-            { "foo-bar", "fooBar", camelCase },
-            { "foo_bar", "fooBar", camelCase },
-            { "foo bar", "fooBar", camelCase },
-            { "FOO-BAR", "fOOBAR", camelCase }, // camelize doesn't support uppercase
-            { "FOO_BAR", "fOOBAR", camelCase }, // ditto
-            { "FooBar", "FooBar", PascalCase },
-            { "fooBar", "FooBar", PascalCase },
-            { "foo-bar", "FooBar", PascalCase },
-            { "foo_bar", "FooBar", PascalCase },
-            { "foo bar", "FooBar", PascalCase },
-            { "FOO-BAR", "FOOBAR", PascalCase }, // ditto
-            { "FOO_BAR", "FOOBAR", PascalCase }, // ditto
-            { "FooBar", "foo_bar", snake_case },
-            { "fooBar", "foo_bar", snake_case },
-            { "foo-bar", "foo_bar", snake_case },
-            { "foo_bar", "foo_bar", snake_case },
-            { "foo bar", "foo_bar", snake_case },
-            { "FOO-BAR", "foo_bar", snake_case },
-            { "FOO_BAR", "foo_bar", snake_case },
-            { "FooBar", "FOO_BAR", UPPERCASE },
-            { "fooBar", "FOO_BAR", UPPERCASE },
-            { "foo-bar", "FOO_BAR", UPPERCASE },
-            { "foo_bar", "FOO_BAR", UPPERCASE },
-            { "foo bar", "FOO_BAR", UPPERCASE },
-            { "FOO-BAR", "FOO_BAR", UPPERCASE },
-            { "FOO_BAR", "FOO_BAR", UPPERCASE },
-            { "FooBar", "FooBar", original },
-            { "fooBar", "fooBar", original },
-            { "foo-bar", "foo_bar", original },
-            { "foo_bar", "foo_bar", original },
-            { "foo bar", "foo_bar", original },
-            { "FOO-BAR", "FOO_BAR", original },
-            { "FOO_BAR", "FOO_BAR", original },
+    public Object[][] provideTestData() {
+        return new Object[][]{
+                {"FooBar", "fooBar", camelCase},
+                {"fooBar", "fooBar", camelCase},
+                {"foo-bar", "fooBar", camelCase},
+                {"foo_bar", "fooBar", camelCase},
+                {"foo bar", "fooBar", camelCase},
+                {"FOO-BAR", "fOOBAR", camelCase}, // camelize doesn't support uppercase
+                {"FOO_BAR", "fOOBAR", camelCase}, // ditto
+                {"FooBar", "FooBar", PascalCase},
+                {"fooBar", "FooBar", PascalCase},
+                {"foo-bar", "FooBar", PascalCase},
+                {"foo_bar", "FooBar", PascalCase},
+                {"foo bar", "FooBar", PascalCase},
+                {"FOO-BAR", "FOOBAR", PascalCase}, // ditto
+                {"FOO_BAR", "FOOBAR", PascalCase}, // ditto
+                {"FooBar", "foo_bar", snake_case},
+                {"fooBar", "foo_bar", snake_case},
+                {"foo-bar", "foo_bar", snake_case},
+                {"foo_bar", "foo_bar", snake_case},
+                {"foo bar", "foo_bar", snake_case},
+                {"FOO-BAR", "foo_bar", snake_case},
+                {"FOO_BAR", "foo_bar", snake_case},
+                {"FooBar", "FOO_BAR", UPPERCASE},
+                {"fooBar", "FOO_BAR", UPPERCASE},
+                {"foo-bar", "FOO_BAR", UPPERCASE},
+                {"foo_bar", "FOO_BAR", UPPERCASE},
+                {"foo bar", "FOO_BAR", UPPERCASE},
+                {"FOO-BAR", "FOO_BAR", UPPERCASE},
+                {"FOO_BAR", "FOO_BAR", UPPERCASE},
+                {"FooBar", "FooBar", original},
+                {"fooBar", "fooBar", original},
+                {"foo-bar", "foo_bar", original},
+                {"foo_bar", "foo_bar", original},
+                {"foo bar", "foo_bar", original},
+                {"FOO-BAR", "FOO_BAR", original},
+                {"FOO_BAR", "FOO_BAR", original},
         };
     }
 }

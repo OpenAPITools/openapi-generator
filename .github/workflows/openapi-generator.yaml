@@ -15,9 +15,9 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up JDK 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 11
           distribution: 'temurin'
@@ -53,9 +53,9 @@ jobs:
     needs:
       - build
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up JDK 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 11
           distribution: 'temurin'
@@ -90,14 +90,14 @@ jobs:
     needs:
       - build
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up JDK 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -129,19 +129,37 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up JDK 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
+      - name: Delete samples that are entirely generated
+        run: |
+          # List all directories in generichost, filter out Manual directories, and remove the rest
+          cd samples/client/petstore/csharp/generichost
+          for version_dir in */ ; do
+            if [ -d "$version_dir" ]; then
+              cd "$version_dir"
+              for dir in */ ; do
+                if [ -d "$dir" ] && [[ ! "$dir" =~ Manual ]]; then
+                  rm -rf "$dir"
+                fi
+              done
+              cd ..
+            fi
+          done
       - name: Generate samples
-        run: bash bin/generate-samples.sh
+        run: |
+          bash bin/generate-samples.sh
+          # when a sample is deleted, you have to generate it twice for all files to get created
+          bash bin/generate-samples.sh
       - name: Verify git status
         run: |
           if [[ "$(git status --porcelain)" != "" ]]; then

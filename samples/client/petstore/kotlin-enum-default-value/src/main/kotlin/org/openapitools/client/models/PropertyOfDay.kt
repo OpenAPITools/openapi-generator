@@ -66,26 +66,26 @@ data class PropertyOfDay (
     /**
      * Days of week
      *
-     * Values: mONDAY,tUESDAY,wEDNESDAY,tHURSDAY,fRIDAY,sATURDAY,sUNDAY,wEEKDAYS,wEEKEND,eVERYDAY,unknownDefaultOpenApi
+     * Values: MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY,SUNDAY,WEEKDAYS,WEEKEND,EVERYDAY,unknown_default_open_api
      */
     @JsonClass(generateAdapter = false)
     enum class DaysOfWeek(val value: kotlin.Any) {
-        @Json(name = "MONDAY") mONDAY("MONDAY"),
-        @Json(name = "TUESDAY") tUESDAY("TUESDAY"),
-        @Json(name = "WEDNESDAY") wEDNESDAY("WEDNESDAY"),
-        @Json(name = "THURSDAY") tHURSDAY("THURSDAY"),
-        @Json(name = "FRIDAY") fRIDAY("FRIDAY"),
-        @Json(name = "SATURDAY") sATURDAY("SATURDAY"),
-        @Json(name = "SUNDAY") sUNDAY("SUNDAY"),
-        @Json(name = "WEEKDAYS") wEEKDAYS("WEEKDAYS"),
-        @Json(name = "WEEKEND") wEEKEND("WEEKEND"),
-        @Json(name = "EVERYDAY") eVERYDAY("EVERYDAY"),
-        @Json(name = "11184809") unknownDefaultOpenApi("11184809");
+        @Json(name = "MONDAY") MONDAY("MONDAY"),
+        @Json(name = "TUESDAY") TUESDAY("TUESDAY"),
+        @Json(name = "WEDNESDAY") WEDNESDAY("WEDNESDAY"),
+        @Json(name = "THURSDAY") THURSDAY("THURSDAY"),
+        @Json(name = "FRIDAY") FRIDAY("FRIDAY"),
+        @Json(name = "SATURDAY") SATURDAY("SATURDAY"),
+        @Json(name = "SUNDAY") SUNDAY("SUNDAY"),
+        @Json(name = "WEEKDAYS") WEEKDAYS("WEEKDAYS"),
+        @Json(name = "WEEKEND") WEEKEND("WEEKEND"),
+        @Json(name = "EVERYDAY") EVERYDAY("EVERYDAY"),
+        @Json(name = "11184809") unknown_default_open_api("11184809");
     }
     /**
      * Month of year
      *
-     * Values: _1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,unknownDefaultOpenApi
+     * Values: _1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,unknown_default_open_api
      */
     @JsonClass(generateAdapter = false)
     enum class MonthOfYear(val value: kotlin.Int) {
@@ -101,35 +101,36 @@ data class PropertyOfDay (
         @Json(name = "10") _10(10),
         @Json(name = "11") _11(11),
         @Json(name = "12") _12(12),
-        @Json(name = "11184809") unknownDefaultOpenApi(11184809);
+        @Json(name = "11184809") unknown_default_open_api(11184809);
     }
     /**
      * Holiday types
      *
-     * Values: nOTHOLIDAY,lOCALHOLIDAY,nATIONALHOLIDAY,aNYHOLIDAY,wORKINGDAY,aNYDAY,nEWYEARSDAY,pALMSUNDAY,mAUNDYTHURSDAY,gOODFRIDAY,eASTERSUNDAY,eASTERMONDAY,lABOURDAY,cONSTITUTIONDAY,aSCENSIONDAY,wHITSUNDAY,wHITMONDAY,XMAS_DAY,bOXINGDAY,unknownDefaultOpenApi
+     * Values: NOT_HOLIDAY,LOCAL_HOLIDAY,NATIONAL_HOLIDAY,ANY_HOLIDAY,WORKING_DAY,ANY_DAY,NEW_YEARS_DAY,PALM_SUNDAY,MAUNDY_THURSDAY,GOOD_FRIDAY,EASTER_SUNDAY,EASTER_MONDAY,LABOUR_DAY,CONSTITUTION_DAY,ASCENSION_DAY,WHIT_SUNDAY,WHIT_MONDAY,XMAS_DAY,BOXING_DAY,unknown_default_open_api
      */
     @JsonClass(generateAdapter = false)
     enum class HolidayTypes(val value: kotlin.Any) {
-        @Json(name = "NOT_HOLIDAY") nOTHOLIDAY("NOT_HOLIDAY"),
-        @Json(name = "LOCAL_HOLIDAY") lOCALHOLIDAY("LOCAL_HOLIDAY"),
-        @Json(name = "NATIONAL_HOLIDAY") nATIONALHOLIDAY("NATIONAL_HOLIDAY"),
-        @Json(name = "ANY_HOLIDAY") aNYHOLIDAY("ANY_HOLIDAY"),
-        @Json(name = "WORKING_DAY") wORKINGDAY("WORKING_DAY"),
-        @Json(name = "ANY_DAY") aNYDAY("ANY_DAY"),
-        @Json(name = "NEW_YEARS_DAY") nEWYEARSDAY("NEW_YEARS_DAY"),
-        @Json(name = "PALM_SUNDAY") pALMSUNDAY("PALM_SUNDAY"),
-        @Json(name = "MAUNDY_THURSDAY") mAUNDYTHURSDAY("MAUNDY_THURSDAY"),
-        @Json(name = "GOOD_FRIDAY") gOODFRIDAY("GOOD_FRIDAY"),
-        @Json(name = "EASTER_SUNDAY") eASTERSUNDAY("EASTER_SUNDAY"),
-        @Json(name = "EASTER_MONDAY") eASTERMONDAY("EASTER_MONDAY"),
-        @Json(name = "LABOUR_DAY") lABOURDAY("LABOUR_DAY"),
-        @Json(name = "CONSTITUTION_DAY") cONSTITUTIONDAY("CONSTITUTION_DAY"),
-        @Json(name = "ASCENSION_DAY") aSCENSIONDAY("ASCENSION_DAY"),
-        @Json(name = "WHIT_SUNDAY") wHITSUNDAY("WHIT_SUNDAY"),
-        @Json(name = "WHIT_MONDAY") wHITMONDAY("WHIT_MONDAY"),
+        @Json(name = "NOT_HOLIDAY") NOT_HOLIDAY("NOT_HOLIDAY"),
+        @Json(name = "LOCAL_HOLIDAY") LOCAL_HOLIDAY("LOCAL_HOLIDAY"),
+        @Json(name = "NATIONAL_HOLIDAY") NATIONAL_HOLIDAY("NATIONAL_HOLIDAY"),
+        @Json(name = "ANY_HOLIDAY") ANY_HOLIDAY("ANY_HOLIDAY"),
+        @Json(name = "WORKING_DAY") WORKING_DAY("WORKING_DAY"),
+        @Json(name = "ANY_DAY") ANY_DAY("ANY_DAY"),
+        @Json(name = "NEW_YEARS_DAY") NEW_YEARS_DAY("NEW_YEARS_DAY"),
+        @Json(name = "PALM_SUNDAY") PALM_SUNDAY("PALM_SUNDAY"),
+        @Json(name = "MAUNDY_THURSDAY") MAUNDY_THURSDAY("MAUNDY_THURSDAY"),
+        @Json(name = "GOOD_FRIDAY") GOOD_FRIDAY("GOOD_FRIDAY"),
+        @Json(name = "EASTER_SUNDAY") EASTER_SUNDAY("EASTER_SUNDAY"),
+        @Json(name = "EASTER_MONDAY") EASTER_MONDAY("EASTER_MONDAY"),
+        @Json(name = "LABOUR_DAY") LABOUR_DAY("LABOUR_DAY"),
+        @Json(name = "CONSTITUTION_DAY") CONSTITUTION_DAY("CONSTITUTION_DAY"),
+        @Json(name = "ASCENSION_DAY") ASCENSION_DAY("ASCENSION_DAY"),
+        @Json(name = "WHIT_SUNDAY") WHIT_SUNDAY("WHIT_SUNDAY"),
+        @Json(name = "WHIT_MONDAY") WHIT_MONDAY("WHIT_MONDAY"),
         @Json(name = "CHRISTMAS_DAY") XMAS_DAY("CHRISTMAS_DAY"),
-        @Json(name = "BOXING_DAY") bOXINGDAY("BOXING_DAY"),
-        @Json(name = "11184809") unknownDefaultOpenApi("11184809");
+        @Json(name = "BOXING_DAY") BOXING_DAY("BOXING_DAY"),
+        @Json(name = "11184809") unknown_default_open_api("11184809");
     }
+
 }
 

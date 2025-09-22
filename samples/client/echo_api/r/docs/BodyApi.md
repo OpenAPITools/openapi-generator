@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**TestEchoBodyFreeFormObjectResponseString**](BodyApi.md#TestEchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 [**TestEchoBodyPet**](BodyApi.md#TestEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 [**TestEchoBodyPetResponseString**](BodyApi.md#TestEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
+[**TestEchoBodyStringEnum**](BodyApi.md#TestEchoBodyStringEnum) | **POST** /echo/body/string_enum | Test string enum response body
 [**TestEchoBodyTagResponseString**](BodyApi.md#TestEchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 
 
@@ -380,6 +381,53 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+# **TestEchoBodyStringEnum**
+> StringEnumRef TestEchoBodyStringEnum(body = var.body)
+
+Test string enum response body
+
+Test string enum response body
+
+### Example
+```R
+library(openapi)
+
+# Test string enum response body
+#
+# prepare function argument(s)
+var_body <- "body_example" # character | String enum (Optional)
+
+api_instance <- BodyApi$new()
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$TestEchoBodyStringEnum(body = var_bodydata_file = "result.txt")
+result <- api_instance$TestEchoBodyStringEnum(body = var_body)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **character**| String enum | [optional] 
+
+### Return type
+
+[**StringEnumRef**](StringEnumRef.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

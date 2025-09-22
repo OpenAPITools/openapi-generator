@@ -51,6 +51,7 @@ data class Pet (
 
     /* pet status in the store */
     @SerializedName("status")
+    @Deprecated(message = "This property is deprecated.")
     val status: Pet.Status? = null
 
 ) {
@@ -58,13 +59,14 @@ data class Pet (
     /**
      * pet status in the store
      *
-     * Values: available,pending,sold,unknownDefaultOpenApi
+     * Values: available,pending,sold,unknown_default_open_api
      */
     enum class Status(val value: kotlin.String) {
         @SerializedName(value = "available") available("available"),
         @SerializedName(value = "pending") pending("pending"),
         @SerializedName(value = "sold") sold("sold"),
-        @SerializedName(value = "unknown_default_open_api") unknownDefaultOpenApi("unknown_default_open_api");
+        @SerializedName(value = "unknown_default_open_api") unknown_default_open_api("unknown_default_open_api");
     }
+
 }
 

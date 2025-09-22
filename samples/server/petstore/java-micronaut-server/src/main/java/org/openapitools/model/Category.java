@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -31,7 +32,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   Category.JSON_PROPERTY_NAME
 })
 @JsonTypeName("Category")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @Introspected
 public class Category {
     public static final String JSON_PROPERTY_ID = "id";
@@ -51,7 +52,7 @@ public class Category {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
     @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_ID)
@@ -74,7 +75,7 @@ public class Category {
     /**
      * Get name
      * @return name
-     **/
+     */
     @Nullable
     @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")
     @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)

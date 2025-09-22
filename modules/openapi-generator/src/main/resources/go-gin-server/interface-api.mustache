@@ -1,0 +1,22 @@
+{{>partial_header}}
+package {{packageName}}
+
+{{#operations}}
+import (
+	"github.com/gin-gonic/gin"
+)
+
+type {{classname}} interface {
+
+
+    {{#operation}}
+    // {{nickname}} {{httpMethod}} {{{basePathWithoutHost}}}{{{path}}}{{#summary}}
+    // {{{.}}} {{/summary}}
+    {{#isDeprecated}}
+    // Deprecated
+    {{/isDeprecated}}
+     {{nickname}}(c *gin.Context)
+
+    {{/operation}}
+    {{/operations}}
+}

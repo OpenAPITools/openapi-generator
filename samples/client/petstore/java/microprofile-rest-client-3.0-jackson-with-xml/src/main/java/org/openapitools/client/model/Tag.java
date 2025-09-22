@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -12,6 +12,11 @@
 
 package org.openapitools.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,35 +28,38 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "Tag", propOrder =
-    { "id", "name"
-})
+@XmlType(name = "Tag", propOrder =
+    { "id", "name" }
+)
 
-@XmlRootElement(name="Tag")
+
+@XmlRootElement(name = "Tag")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Tag")
 @JsonPropertyOrder({
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME
 })
 /**
   * A tag for a pet
- **/
+  */
 
 public class Tag  {
   
   public static final String JSON_PROPERTY_ID = "id";
-  @XmlElement(name="id")
+  @XmlElement(name = "id")
   private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @XmlElement(name="name")
+  @XmlElement(name = "name")
   private String name;
 
- /**
+
+  /**
    * Get id
    * @return id
-  **/
-  @JsonProperty(JSON_PROPERTY_ID)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
   public Long getId() {
@@ -59,9 +67,9 @@ public class Tag  {
   }
 
   /**
-    * Set id
-  **/
-  @JsonProperty(JSON_PROPERTY_ID)
+   * Set id
+   */
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
   public void setId(Long id) {
@@ -73,11 +81,11 @@ public class Tag  {
     return this;
   }
 
- /**
+  /**
    * Get name
    * @return name
-  **/
-  @JsonProperty(JSON_PROPERTY_NAME)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "name")
   public String getName() {
@@ -85,9 +93,9 @@ public class Tag  {
   }
 
   /**
-    * Set name
-  **/
-  @JsonProperty(JSON_PROPERTY_NAME)
+   * Set name
+   */
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "name")
   public void setName(String name) {
@@ -99,10 +107,27 @@ public class Tag  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Tag tag = (Tag) o;
+    return Objects.equals(this.id, tag.id) &&
+        Objects.equals(this.name, tag.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name);
+  }
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -125,3 +150,4 @@ public class Tag  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

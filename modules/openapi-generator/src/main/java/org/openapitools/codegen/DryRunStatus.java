@@ -1,5 +1,7 @@
 package org.openapitools.codegen;
 
+import lombok.Getter;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Locale;
@@ -7,9 +9,29 @@ import java.util.Locale;
 /**
  * Holds details about a file's write status for display via the --dry-run option of CLI
  */
+@Getter
 class DryRunStatus {
-    private Path path;
+    /**
+     * -- GETTER --
+     * Gets the target path of the file write operation
+     *
+     * @return a {@link Path} instance
+     */
+    private final Path path;
+    /**
+     * -- GETTER --
+     * Gets the
+     * as determined by the generator's workflow
+     *
+     * @return A {@link State} enum detailing the expected operation of the generator's workflow
+     */
     private State state;
+    /**
+     * -- GETTER --
+     * Gets the reason for the file's
+     *
+     * @return A human-readable string which explains why this file's dry-run resulted in the defined {@link State}
+     */
     private String reason;
 
     /**
@@ -56,33 +78,6 @@ class DryRunStatus {
     }
 
     /**
-     * Gets the target path of the file write operation
-     *
-     * @return a {@link Path} instance
-     */
-    public Path getPath() {
-        return path;
-    }
-
-    /**
-     * Gets the reason for the file's {@link State}
-     *
-     * @return A human-readable string which explains why this file's dry-run resulted in the defined {@link State}
-     */
-    public String getReason() {
-        return reason;
-    }
-
-    /**
-     * Gets the {@link State} as determined by the generator's workflow
-     *
-     * @return A {@link State} enum detailing the expected operation of the generator's workflow
-     */
-    public State getState() {
-        return state;
-    }
-
-    /**
      * Sets the {@link State} as determined by the generator's workflow.
      * <p>
      * This method will provide a default reason. To explicitly provide a reason for the {@link State}, use {@link DryRunStatus#DryRunStatus(Path, State, String)}
@@ -116,6 +111,7 @@ class DryRunStatus {
     /**
      * Represents the possible states of a file write operation as determined by the Generator
      */
+    @Getter
     enum State {
         Write("w", "Write"),
         WriteIfNewer("n", "Write if New/Updated"),
@@ -124,7 +120,19 @@ class DryRunStatus {
         Skipped("k", "Skipped by user option(s)"),
         Error("e", "Error evaluating file write state");
 
+        /**
+         * -- GETTER --
+         * Gets the short value used for display
+         *
+         * @return A character representing this state
+         */
         private final String shortDisplay;
+        /**
+         * -- GETTER --
+         * Gets a description of the state which is more human-readable than the enum's name
+         *
+         * @return A human-readable description
+         */
         private final String description;
 
         /**
@@ -139,22 +147,5 @@ class DryRunStatus {
             this.description = description;
         }
 
-        /**
-         * Gets a description of the state which is more human-readable than the enum's name
-         *
-         * @return A human-readable description
-         */
-        public String getDescription() {
-            return description;
-        }
-
-        /**
-         * Gets the short value used for display
-         *
-         * @return A character representing this state
-         */
-        public String getShortDisplay() {
-            return shortDisplay;
-        }
     }
 }

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
   private Optional<UUID> uuid = Optional.empty();
@@ -37,14 +38,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = Optional.of(uuid);
+    this.uuid = Optional.ofNullable(uuid);
     return this;
   }
 
   /**
    * Get uuid
    * @return uuid
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
@@ -57,14 +58,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    this.dateTime = Optional.of(dateTime);
+    this.dateTime = Optional.ofNullable(dateTime);
     return this;
   }
 
   /**
    * Get dateTime
    * @return dateTime
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
@@ -92,7 +93,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   /**
    * Get map
    * @return map
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map")
@@ -144,5 +145,75 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private MixedPropertiesAndAdditionalPropertiesClass instance;
+
+    public Builder() {
+      this(new MixedPropertiesAndAdditionalPropertiesClass());
+    }
+
+    protected Builder(MixedPropertiesAndAdditionalPropertiesClass instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(MixedPropertiesAndAdditionalPropertiesClass value) { 
+      this.instance.setUuid(value.uuid);
+      this.instance.setDateTime(value.dateTime);
+      this.instance.setMap(value.map);
+      return this;
+    }
+
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder uuid(UUID uuid) {
+      this.instance.uuid(uuid);
+      return this;
+    }
+    
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(OffsetDateTime dateTime) {
+      this.instance.dateTime(dateTime);
+      return this;
+    }
+    
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder map(Map<String, Animal> map) {
+      this.instance.map(map);
+      return this;
+    }
+    
+    /**
+    * returns a built MixedPropertiesAndAdditionalPropertiesClass instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public MixedPropertiesAndAdditionalPropertiesClass build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static MixedPropertiesAndAdditionalPropertiesClass.Builder builder() {
+    return new MixedPropertiesAndAdditionalPropertiesClass.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public MixedPropertiesAndAdditionalPropertiesClass.Builder toBuilder() {
+    MixedPropertiesAndAdditionalPropertiesClass.Builder builder = new MixedPropertiesAndAdditionalPropertiesClass.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

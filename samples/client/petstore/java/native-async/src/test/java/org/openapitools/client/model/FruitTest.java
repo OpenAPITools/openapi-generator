@@ -19,24 +19,24 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import org.openapitools.client.model.Apple;
 import org.openapitools.client.model.Banana;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Fruit
  */
-public class FruitTest {
+class FruitTest {
     private final Fruit model = new Fruit();
 
     /**
      * Model tests for Fruit
      */
     @Test
-    public void testFruit() {
+    void testFruit() {
         // TODO: test Fruit
     }
 
@@ -44,7 +44,7 @@ public class FruitTest {
      * Test the property 'cultivar'
      */
     @Test
-    public void cultivarTest() {
+    void cultivarTest() {
         // TODO: test cultivar
     }
 
@@ -52,7 +52,7 @@ public class FruitTest {
      * Test the property 'origin'
      */
     @Test
-    public void originTest() {
+    void originTest() {
         // TODO: test origin
     }
 
@@ -60,7 +60,7 @@ public class FruitTest {
      * Test the property 'lengthCm'
      */
     @Test
-    public void lengthCmTest() {
+    void lengthCmTest() {
         // TODO: test lengthCm
     }
 

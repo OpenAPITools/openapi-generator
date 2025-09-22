@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.file import File
 from typing import Optional, Set
@@ -31,11 +31,11 @@ class FileSchemaTestClass(BaseModel):
     files: Optional[List[File]] = None
     __properties: ClassVar[List[str]] = ["file", "files"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -76,9 +76,9 @@ class FileSchemaTestClass(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in files (list)
         _items = []
         if self.files:
-            for _item in self.files:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_files in self.files:
+                if _item_files:
+                    _items.append(_item_files.to_dict())
             _dict['files'] = _items
         return _dict
 

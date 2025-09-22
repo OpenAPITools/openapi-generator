@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'outer_composite.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -29,7 +31,7 @@ class OuterComposite {
     
     name: r'my_number',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -41,7 +43,7 @@ class OuterComposite {
     
     name: r'my_string',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -53,7 +55,7 @@ class OuterComposite {
     
     name: r'my_boolean',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -61,17 +63,19 @@ class OuterComposite {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
-     other.myNumber == myNumber &&
-     other.myString == myString &&
-     other.myBoolean == myBoolean;
 
-  @override
-  int get hashCode =>
-    myNumber.hashCode +
-    myString.hashCode +
-    myBoolean.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
+      other.myNumber == myNumber &&
+      other.myString == myString &&
+      other.myBoolean == myBoolean;
+
+    @override
+    int get hashCode =>
+        myNumber.hashCode +
+        myString.hashCode +
+        myBoolean.hashCode;
 
   factory OuterComposite.fromJson(Map<String, dynamic> json) => _$OuterCompositeFromJson(json);
 

@@ -18,8 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenProperty;
@@ -45,9 +45,9 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     private static final String NAMED_CREDENTIAL = "namedCredential";
     private final Logger LOGGER = LoggerFactory.getLogger(ApexClientCodegen.class);
     private String classPrefix = "OAS";
-    private String apiVersion = "42.0";
+    @Setter private String apiVersion = "42.0";
     private String buildMethod = "sfdx";
-    private String namedCredential;
+    @Setter private String namedCredential;
     private String srcPath = "force-app/main/default/";
     private String sfdxConfigPath = "config/";
     private HashMap<String, Object> primitiveDefaults = new HashMap<>();
@@ -223,7 +223,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     public String toDefaultValue(Schema p) {
         String out = null;
         if (ModelUtils.isArraySchema(p)) {
-            Schema inner = ((ArraySchema) p).getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             out = String.format(
                     Locale.ROOT,
                     "new List<%s>()",
@@ -263,18 +263,10 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         this.buildMethod = buildMethod;
     }
 
-    public void setNamedCredential(String namedCredential) {
-        this.namedCredential = namedCredential;
-    }
-
     public void setClassPrefix(String classPrefix) {
         // the best thing we can do without namespacing in Apex
         modelNamePrefix = classPrefix;
         this.classPrefix = classPrefix;
-    }
-
-    public void setApiVersion(String apiVersion) {
-        this.apiVersion = apiVersion;
     }
 
     private String toApiVersion(String apiVersion) {

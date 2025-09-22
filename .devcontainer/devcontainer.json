@@ -9,11 +9,11 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
     },
+    "ghcr.io/devcontainers/features/rust:1": {},
     "ghcr.io/snebjorn/devcontainer-feature/chromium:latest": {},
-    "docker-in-docker": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
       "version": "latest",
-      "moby": true,
-      "dockerDashComposeVersion": "v1"
+      "moby": true
     }
   },
   // Configure tool-specific properties.
@@ -25,8 +25,8 @@
         "java.configuration.runtimes": [
           {
             "name": "JavaSE-11",
-            "path": "/usr/local/sdkman/candidates/java/11.0.16.1-ms",
-            "sources": "/usr/local/sdkman/candidates/java/11.0.16.1-ms/lib/src.zip",
+            "path": "/usr/local/sdkman/candidates/java/current",
+            "sources": "/usr/local/sdkman/candidates/java/current/lib/src.zip",
             "javadoc": "https://docs.oracle.com/en/java/javase/11/docs/api",
             "default": true
           }

@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 {{/useReflectionEqualsHashCode}}
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 {{#useOptional}}
 import java.util.Optional;
 {{/useOptional}}
@@ -45,13 +46,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
     {{#model}}
         {{#isEnum}}
 {{>common/model/modelEnum}}
+
         {{/isEnum}}
         {{^isEnum}}
             {{#vendorExtensions.x-is-one-of-interface}}
 {{>common/model/oneof_interface}}
+
             {{/vendorExtensions.x-is-one-of-interface}}
             {{^vendorExtensions.x-is-one-of-interface}}
 {{>common/model/pojo}}
+
             {{/vendorExtensions.x-is-one-of-interface}}
         {{/isEnum}}
     {{/model}}

@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.*;
 
@@ -29,7 +30,7 @@ import javax.annotation.Generated;
   ModelList.JSON_PROPERTY_123LIST
 })
 @JsonTypeName("List")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @Introspected
 public class ModelList {
     public static final String JSON_PROPERTY_123LIST = "123-list";
@@ -45,7 +46,7 @@ public class ModelList {
     /**
      * Get _123list
      * @return _123list
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_123LIST)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

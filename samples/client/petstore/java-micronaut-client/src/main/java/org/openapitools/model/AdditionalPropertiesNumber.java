@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ import javax.annotation.Generated;
   AdditionalPropertiesNumber.JSON_PROPERTY_NAME
 })
 @JsonTypeName("AdditionalPropertiesNumber")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @Introspected
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
     public static final String JSON_PROPERTY_NAME = "name";
@@ -48,7 +49,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
     /**
      * Get name
      * @return name
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

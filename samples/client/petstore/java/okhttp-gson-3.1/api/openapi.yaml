@@ -25,16 +25,16 @@ paths:
       description: ""
       operationId: addPet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "405":
           description: Invalid input
@@ -46,7 +46,9 @@ paths:
       tags:
       - pet
       x-content-type: application/json
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
     put:
       description: ""
       externalDocs:
@@ -54,16 +56,16 @@ paths:
         url: http://petstore.swagger.io/v2/doc/updatePet
       operationId: updatePet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "200":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -79,7 +81,9 @@ paths:
       tags:
       - pet
       x-content-type: application/json
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -107,12 +111,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -123,7 +127,9 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/findByTags:
     get:
       deprecated: true
@@ -147,12 +153,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -163,7 +169,9 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/{petId}:
     delete:
       description: ""
@@ -195,7 +203,8 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: Returns a single pet
       operationId: getPetById
@@ -214,10 +223,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -228,7 +237,9 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
     post:
       description: ""
       operationId: updatePetWithForm
@@ -246,7 +257,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/updatePetWithForm_request'
+              $ref: "#/components/schemas/updatePetWithForm_request"
       responses:
         "405":
           description: Invalid input
@@ -258,7 +269,8 @@ paths:
       tags:
       - pet
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /pet/{petId}/uploadImage:
     post:
       description: ""
@@ -277,13 +289,13 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFile_request'
+              $ref: "#/components/schemas/uploadFile_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       security:
       - petstore_auth:
@@ -293,7 +305,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -312,7 +325,8 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /store/order:
     post:
       description: ""
@@ -321,7 +335,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: "#/components/schemas/Order"
         description: order placed for purchasing the pet
         required: true
       responses:
@@ -329,10 +343,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           description: Invalid Order
@@ -340,7 +354,9 @@ paths:
       tags:
       - store
       x-content-type: application/json
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
   /store/order/{orderId}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -363,7 +379,8 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
         values will generate exceptions
@@ -385,10 +402,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -397,7 +414,9 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -406,7 +425,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Created user object
         required: true
       responses:
@@ -418,13 +437,14 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/createWithArray:
     post:
       description: ""
       operationId: createUsersWithArrayInput
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
           description: successful operation
@@ -434,13 +454,14 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/createWithList:
     post:
       description: ""
       operationId: createUsersWithListInput
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
           description: successful operation
@@ -450,7 +471,8 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/login:
     get:
       description: ""
@@ -511,7 +533,9 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
   /user/logout:
     get:
       description: ""
@@ -524,7 +548,8 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/{username}:
     delete:
       description: This can only be done by the logged in user.
@@ -548,7 +573,8 @@ paths:
       summary: Delete user
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: ""
       operationId: getUserByName
@@ -566,10 +592,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
           description: successful operation
         "400":
           description: Invalid username supplied
@@ -578,7 +604,9 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -595,7 +623,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Updated user object
         required: true
       responses:
@@ -609,7 +637,8 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /no_ref:
     get:
       operationId: response_no_ref
@@ -622,38 +651,70 @@ paths:
           description: required to pass validation
       tags:
       - fake
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /ref/no_ref:
     get:
       operationId: response_ref_to_no_ref
       responses:
         "200":
-          $ref: '#/components/responses/no_ref'
+          $ref: "#/components/responses/no_ref"
       tags:
       - fake
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /ref/ref:
     get:
       operationId: response_ref_to_ref
       responses:
         "200":
-          $ref: '#/components/responses/ref'
+          $ref: "#/components/responses/ref"
       tags:
       - fake
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /ref/ref_to_parameter:
     get:
       operationId: ref_to_ref_parameter
       parameters:
-      - $ref: '#/components/parameters/ref_to_uuid'
+      - $ref: "#/components/parameters/ref_to_uuid"
       responses:
         "200":
-          $ref: '#/components/responses/ref'
+          $ref: "#/components/responses/ref"
       tags:
       - fake
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
     parameters:
-    - $ref: '#/components/parameters/ref_to_uuid'
+    - $ref: "#/components/parameters/ref_to_uuid"
+  /ref/ref_to_path_level_parameter_oneof:
+    get:
+      description: to test $ref to path level parameters
+      operationId: ref_to_ref_parameter_oneof
+      parameters:
+      - $ref: "#/components/parameters/ref_to_oneof"
+      responses:
+        "200":
+          description: Successful Response
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+    parameters:
+    - $ref: "#/components/parameters/ref_to_oneof"
+  /ref/ref_to_operation_level_parameter_oneof:
+    get:
+      description: to test $ref to operation level parameters
+      operationId: ref_to_ref_parameter_anyof
+      parameters:
+      - $ref: "#/components/parameters/ref_to_anyof"
+      responses:
+        "200":
+          description: Successful Response
+      tags:
+      - fake
+      x-accepts:
+      - application/json
   /fake/api/changeowner:
     post:
       operationId: op1
@@ -668,12 +729,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: op1
       tags:
       - fake
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /fake/api/changename:
     post:
       operationId: op2
@@ -688,12 +750,77 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: op2
       tags:
       - fake
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+  /fake/api/query/enum:
+    post:
+      operationId: op3
+      parameters:
+      - description: query enum test
+        explode: true
+        in: query
+        name: query_enum
+        required: true
+        schema:
+          items:
+            $ref: "#/components/schemas/CodesEnum"
+          type: array
+        style: form
+      responses:
+        "200":
+          description: Successful Response
+      summary: op3
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /fake/inline/schema/anyof/path1:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/myObject"
+          description: ""
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /fake/inline/schema/anyof/path2:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/myObject"
+          description: ""
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /fake/inline/schema/anyof/path3:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/myObject"
+                nullable: true
+                type: array
+          description: ""
+      tags:
+      - fake
+      x-accepts:
+      - application/json
 components:
   parameters:
     ref_to_uuid:
@@ -707,13 +834,31 @@ components:
         format: uuid
         type: string
       style: simple
+    ref_to_oneof:
+      description: to test ref to parameter (oneof)
+      explode: false
+      in: header
+      name: ref_to_oneof
+      required: true
+      schema:
+        $ref: "#/components/schemas/_ref_ref_to_path_level_parameter_oneof_ref_to_oneof_parameter"
+      style: simple
+    ref_to_anyof:
+      description: to test ref to parameter (anyof)
+      explode: false
+      in: header
+      name: ref_to_anyof
+      required: true
+      schema:
+        $ref: "#/components/schemas/ref_to_ref_parameter_anyof_ref_to_anyof_parameter"
+      style: simple
   requestBodies:
     UserArray:
       content:
         application/json:
           schema:
             items:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
             type: array
       description: List of user object
       required: true
@@ -721,10 +866,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
         application/xml:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
       description: Pet object that needs to be added to the store
       required: true
   responses:
@@ -738,7 +883,7 @@ components:
       content:
         text/plain:
           schema:
-            $ref: '#/components/schemas/simple_text'
+            $ref: "#/components/schemas/simple_text"
       description: required to pass validation
   schemas:
     Order:
@@ -861,7 +1006,7 @@ components:
           format: int64
           type: integer
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         name:
           example: doggie
           type: string
@@ -874,7 +1019,7 @@ components:
             wrapped: true
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
           xml:
             name: tag
@@ -921,13 +1066,13 @@ components:
       - type: integer
     Dog:
       allOf:
-      - $ref: '#/components/schemas/Animal'
+      - $ref: "#/components/schemas/Animal"
       - properties:
           breed:
             type: string
     Cat:
       allOf:
-      - $ref: '#/components/schemas/Animal'
+      - $ref: "#/components/schemas/Animal"
       - properties:
           declawed:
             type: boolean
@@ -952,16 +1097,85 @@ components:
           items:
             type: string
           type: array
+        ref_array_prefix_items:
+          description: |
+            An item that was added to the queue.
+          items: {}
+          maxItems: 5
+          minItems: 3
+          type: array
     HTTPValidationError:
       properties: {}
       title: HTTPValidationError
       type: object
-    AnyOfArray:
+    ArrayPrefixItems:
+      description: |
+        An item that was added to the queue.
+      items: {}
+      maxItems: 5
+      minItems: 3
+      type: array
+    circular_reference_1:
+      properties:
+        prop1:
+          $ref: "#/components/schemas/circular_reference_2"
+    circular_reference_2:
+      properties:
+        prop1:
+          $ref: "#/components/schemas/circular_reference_3"
+    circular_reference_3:
+      properties:
+        prop1:
+          $ref: "#/components/schemas/circular_reference_1"
+    array_of_same_ref:
+      properties:
+        arrayFooOne:
+          items:
+            $ref: "#/components/schemas/Tag"
+          type: array
+        arrayFooTwo:
+          items:
+            $ref: "#/components/schemas/Tag"
+          type: array
+        arrayFooThree:
+          items:
+            $ref: "#/components/schemas/Tag"
+          type: array
+    CodesEnum:
+      enum:
+      - Code 1
+      - Code 2
+      - Code 3
+      type: string
+    SimpleModelWithArrayProperty:
+      properties:
+        arrayOfStrings:
+          items:
+            type: string
+          type: array
+      required:
+      - arrayOfStrings
+    AllOfSimpleModel:
+      allOf:
+      - $ref: "#/components/schemas/SimpleModelWithArrayProperty"
+    myObject:
+      type: object
+    SelfReference:
+      items: {}
+      type: array
+    SelfReferenceOneOf:
+      oneOf:
+      - type: string
+      - type: boolean
+    SelfReferenceAnyOf:
       anyOf:
-      - items:
+      - type: string
+      - type: boolean
+    SelfReferenceAdditionalProperties:
+      additionalProperties: {}
+      properties:
+        dummy:
           type: string
-      - items:
-          type: integer
     updatePetWithForm_request:
       properties:
         name:
@@ -979,6 +1193,36 @@ components:
           description: file to upload
           format: binary
           type: string
+    _ref_ref_to_path_level_parameter_oneof_ref_to_oneof_parameter:
+      oneOf:
+      - type: string
+      - type: integer
+    ref_to_ref_parameter_anyof_ref_to_anyof_parameter:
+      oneOf:
+      - type: string
+      - items:
+          type: string
+        type: array
+    _fake_webhooks_sources_deleted_post_request_event:
+      properties:
+        event_id:
+          type: string
+      required:
+      - event_id
+    _fake_webhooks_sources_deleted_post_request:
+      description: inline schema in webhooks
+      properties:
+        event_timestamp:
+          format: date-time
+          type: string
+        event_type:
+          type: string
+        event:
+          $ref: "#/components/schemas/_fake_webhooks_sources_deleted_post_request_event"
+      required:
+      - event
+      - event_timestamp
+      - event_type
   securitySchemes:
     petstore_auth:
       flows:

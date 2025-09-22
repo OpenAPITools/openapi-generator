@@ -11,8 +11,18 @@ on:
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
       - samples/openapi3/client/petstore/java/native**
       - samples/client/others/java/okhttp-gson-oneOf/**
+      - samples/client/others/java/okhttp-gson-oneOf-array/**
       - samples/client/others/java/resttemplate-useAbstractionForFiles/**
       - samples/client/others/java/webclient-useAbstractionForFiles/**
+      - samples/client/petstore/java/webclient-useSingleRequestParameter/**
+      - samples/client/others/java/jersey2-oneOf-duplicates/**
+      - samples/client/others/java/jersey2-oneOf-Mixed/**
+      - samples/client/petstore/java/jersey3-oneOf/**
+      - samples/client/others/java/okhttp-gson-streaming/**
+      - samples/client/others/java/resteasy/**
+      - samples/client/others/java/apache-httpclient/**
+      - samples/client/others/java/resttemplate-list-schema-validation/**
+      - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
   pull_request:
     paths:
       - 'samples/client/petstore/java/**'
@@ -23,8 +33,18 @@ on:
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
       - samples/openapi3/client/petstore/java/native**
       - samples/client/others/java/okhttp-gson-oneOf/**
+      - samples/client/others/java/okhttp-gson-oneOf-array/**
       - samples/client/others/java/resttemplate-useAbstractionForFiles/**
       - samples/client/others/java/webclient-useAbstractionForFiles/**
+      - samples/client/petstore/java/webclient-useSingleRequestParameter/**
+      - samples/client/others/java/jersey2-oneOf-duplicates/**
+      - samples/client/others/java/jersey2-oneOf-Mixed/**
+      - samples/client/petstore/java/jersey3-oneOf/**
+      - samples/client/others/java/okhttp-gson-streaming/**
+      - samples/client/others/java/resteasy/**
+      - samples/client/others/java/apache-httpclient/**
+      - samples/client/others/java/resttemplate-list-schema-validation/**
+      - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
 jobs:
   build:
     name: Build Java Client JDK11
@@ -47,18 +67,26 @@ jobs:
           - samples/client/petstore/java/webclient
           - samples/client/petstore/java/webclient-nullable-arrays
           - samples/client/petstore/java/webclient-swagger2
+          - samples/client/petstore/java/webclient-useSingleRequestParameter
           - samples/client/petstore/java/vertx
+          - samples/client/petstore/java/vertx-no-nullable
+          - samples/client/petstore/java/vertx-supportVertxFuture
           - samples/client/petstore/java/jersey2-java8-localdatetime
           - samples/client/petstore/java/google-api-client
           - samples/client/petstore/java/rest-assured
           - samples/client/petstore/java/rest-assured-jackson
           - samples/client/petstore/java/microprofile-rest-client
+          - samples/client/petstore/java/microprofile-rest-client-mutiny
           - samples/client/petstore/java/microprofile-rest-client-3.0
           - samples/client/petstore/java/microprofile-rest-client-3.0-jackson
+          - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-mutiny
           - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-with-xml
+          - samples/client/petstore/java/microprofile-rest-client-3.0-mutiny
           - samples/client/petstore/java/microprofile-rest-client-with-useSingleRequestParameter
           - samples/client/petstore/java/apache-httpclient
           - samples/client/petstore/java/feign
+          - samples/client/petstore/java/feign-hc5
+          - samples/client/petstore/java/feign-no-nullable
           - samples/client/petstore/java/okhttp-gson-awsv4signature
           - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
           - samples/openapi3/client/petstore/java/native
@@ -69,11 +97,21 @@ jobs:
           - samples/client/petstore/java/resttemplate-swagger2/
           - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/
           - samples/client/others/java/okhttp-gson-oneOf/
+          - samples/client/others/java/okhttp-gson-oneOf-array/
+          - samples/client/echo_api/java/okhttp-gson-user-defined-templates/
           - samples/client/others/java/resttemplate-useAbstractionForFiles/
           - samples/client/others/java/webclient-useAbstractionForFiles/
+          - samples/client/others/java/jersey2-oneOf-duplicates/
+          - samples/client/others/java/jersey2-oneOf-Mixed/
+          - samples/client/others/java/resttemplate-list-schema-validation/
+          - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/
+          - samples/client/petstore/java/jersey3-oneOf/
+          - samples/client/others/java/okhttp-gson-streaming/
+          - samples/client/petstore/java/resteasy/
+          - samples/client/petstore/java/apache-httpclient/
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: 11
@@ -85,6 +123,27 @@ jobs:
           path: |
             ~/.m2
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
-      - name: Build
+      - name: Build with Maven
         working-directory: ${{ matrix.sample }}
-        run: mvn clean package
+        run: mvn clean package --no-transfer-progress
+
+      - name: Cache gradle dependencies
+        uses: actions/cache@v4
+        env:
+          cache-name: gradle-caches
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
+
+      - name: Cache gradle wrapper
+        uses: actions/cache@v4
+        env:
+          cache-name: gradle-wrapper
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Build with Gradle
+        working-directory: ${{ matrix.sample }}
+        if: ${{ hashFiles('./gradlew') != '' }}
+        run: ./gradlew build -x test

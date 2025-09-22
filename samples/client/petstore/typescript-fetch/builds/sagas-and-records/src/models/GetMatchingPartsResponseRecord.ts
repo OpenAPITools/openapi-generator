@@ -54,15 +54,15 @@ knownRecordFactories.set(GetMatchingPartsResponseRecordProps.recType, GetMatchin
 class GetMatchingPartsResponseRecordUtils extends ApiRecordUtils<GetMatchingPartsResponse, GetMatchingPartsResponseRecord> {
     public normalize(apiObject: GetMatchingPartsResponse, asEntity?: boolean): GetMatchingPartsResponse {
         (apiObject as any).recType = GetMatchingPartsResponseRecordProps.recType;
-        responseMetaRecordUtils.normalize(apiObject.meta);
-        if (apiObject.data) { matchingPartsRecordUtils.normalize(apiObject.data); } 
+        responseMetaRecordUtils.normalize(apiObject['meta']);
+        if (apiObject['data']) { matchingPartsRecordUtils.normalize(apiObject['data']); } 
         return apiObject;
     }
 
     public toApi(record: GetMatchingPartsResponseRecord): GetMatchingPartsResponse {
         const apiObject = super.toApi(record);
-        apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
-        if (record.data) { apiObject.data = matchingPartsRecordUtils.toApi(record.data); } 
+        apiObject['meta'] = responseMetaRecordUtils.toApi(record['meta']);
+        if (record['data']) { apiObject['data'] = matchingPartsRecordUtils.toApi(record['data']); } 
         return apiObject;
     }
 

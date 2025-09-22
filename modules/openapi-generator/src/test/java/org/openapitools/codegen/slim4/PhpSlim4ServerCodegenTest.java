@@ -58,12 +58,12 @@ public class PhpSlim4ServerCodegenTest {
 
     @DataProvider(name = "modelFileFolderProvider")
     public Object[][] modelFileFolderProvider() {
-        return new Object[][] {
-            // {modelPackage, invokerPackage, expected}
-            {"Model", "Invoker", "generated-code/slim4/lib/Model".replace('/', File.separatorChar)},
-            {"Petstore", "Petstore", "generated-code/slim4/lib".replace('/', File.separatorChar)},
-            {"Package\\SubPackage\\Model", "Package\\SubPackage", "generated-code/slim4/lib/Model".replace('/', File.separatorChar)},
-            {"Websupport\\InvoiceValidation\\Model", "Websupport\\InvoiceValidation", "generated-code/slim4/lib/Model".replace('/', File.separatorChar)},
+        return new Object[][]{
+                // {modelPackage, invokerPackage, expected}
+                {"Model", "Invoker", "generated-code/slim4/lib/Model".replace('/', File.separatorChar)},
+                {"Petstore", "Petstore", "generated-code/slim4/lib".replace('/', File.separatorChar)},
+                {"Package\\SubPackage\\Model", "Package\\SubPackage", "generated-code/slim4/lib/Model".replace('/', File.separatorChar)},
+                {"Websupport\\InvoiceValidation\\Model", "Websupport\\InvoiceValidation", "generated-code/slim4/lib/Model".replace('/', File.separatorChar)},
         };
     }
 
@@ -78,7 +78,7 @@ public class PhpSlim4ServerCodegenTest {
 
     @DataProvider(name = "apiFileFolderProvider")
     public Object[][] apiFileFolderProvider() {
-        return new Object[][] {
+        return new Object[][]{
                 // {apiPackage, invokerPackage, expected}
                 {"Api", "Invoker", "generated-code/slim4/lib/Api".replace('/', File.separatorChar)},
                 {"Petstore", "Petstore", "generated-code/slim4/lib".replace('/', File.separatorChar)},

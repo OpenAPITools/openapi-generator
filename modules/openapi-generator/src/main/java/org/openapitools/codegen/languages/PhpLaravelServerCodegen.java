@@ -1,395 +1,204 @@
-/*
- * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.media.Schema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
-    protected String apiVersion = "1.0.0";
+public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
+    private static final String AUTOWIRE = "autowire";
+    private final Logger LOGGER = LoggerFactory.getLogger(PhpLaravelServerCodegen.class);
 
-    /**
-     * Configures the type of generator.
-     *
-     * @return the CodegenType for this generator
-     * @see org.openapitools.codegen.CodegenType
-     */
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
-    /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
-     *
-     * @return the friendly name for the generator
-     */
     public String getName() {
         return "php-laravel";
     }
 
-    /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
-     * tips, parameters here
-     *
-     * @return A string value for the help message
-     */
     public String getHelp() {
-        return "Generates a PHP laravel server library.";
+        return "Generates a php-laravel server.";
     }
 
-    /**
-     * Class constructor
-     */
+    protected String controllerDirName = "Http\\Controllers";
+    protected String controllerPackage;
+    protected String routesFileName = "routes.php";
+    protected String routesDirectory = "";
+
     public PhpLaravelServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-        );
-
+        outputFolder = "generated-code" + File.separator + "php-laravel";
         embeddedTemplateDir = templateDir = "php-laravel";
         variableNamingConvention = "camelCase";
 
-        /*
-         * packPath
-         */
-        invokerPackage = "php-laravel";
-        outputFolder = srcBasePath;
+        // We need inline enums to be resolved to a separate model so that
+        // anyOf/oneOf that contain them work correctly.
+        inlineSchemaOption.put("RESOLVE_INLINE_ENUMS", "true");
 
-        /*
-         * Api Package.  Optional, if needed, this can be used in templates
-         */
-        apiPackage = "app.Http.Controllers";
-
-        /*
-         * Model Package.  Optional, if needed, this can be used in templates
-         */
-        modelPackage = "app\\Models";
-
-        // template files want to be ignored
-        apiTestTemplateFiles.clear();
-        apiDocTemplateFiles.clear();
         modelDocTemplateFiles.clear();
+        apiDocTemplateFiles.clear();
+        apiTestTemplateFiles.clear();
+        modelTestTemplateFiles.clear();
 
-        /*
-         * Additional Properties.  These values can be passed to the templates and
-         * are available in models, apis, and supporting files
-         */
-        additionalProperties.put("apiVersion", apiVersion);
+        setSrcBasePath("");
+        setInvokerPackage("OpenAPI\\Server");
 
-        /*
-         * Supporting Files.  You can write single files for the generator with the
-         * entire object tree available.  If the input file has a suffix of `.mustache
-         * it will be processed by the template engine.  Otherwise, it will be copied
-         */
-        supportingFiles.add(new SupportingFile("composer.mustache", outputFolder, "composer.json"));
-        supportingFiles.add(new SupportingFile("README.md", outputFolder, "README.md"));
-        supportingFiles.add(new SupportingFile("artisan", outputFolder, "artisan"));
-        supportingFiles.add(new SupportingFile("package.json", outputFolder, "package.json"));
-        supportingFiles.add(new SupportingFile("phpunit.xml", outputFolder, "phpunit.xml"));
-        supportingFiles.add(new SupportingFile("webpack.mix.js", outputFolder, "webpack.mix.js"));
-        supportingFiles.add(new SupportingFile("editorconfig", outputFolder, ".editorconfig"));
-        supportingFiles.add(new SupportingFile("env.example", outputFolder, ".env.example"));
-        supportingFiles.add(new SupportingFile("gitattributes", outputFolder, ".gitattributes"));
-        supportingFiles.add(new SupportingFile("styleci.yml", outputFolder, ".styleci.yml"));
-        supportingFiles.add(new SupportingFile("server.php", outputFolder, "server.php"));
-        supportingFiles.add(new SupportingFile("gitignore", outputFolder, ".gitignore"));
+        additionalProperties.put("controllerPackage", controllerPackage);
+        additionalProperties.put("controllerSrcPath", "." + "/" + toSrcPath(controllerPackage, srcBasePath));
 
-        supportingFiles.add(new SupportingFile("bootstrap/cache/gitignore", outputFolder + File.separator + "bootstrap" + File.separator + "cache", ".gitignore"));
-        supportingFiles.add(new SupportingFile("bootstrap/app.php", outputFolder + File.separator + "bootstrap", "app.php"));
+        apiTemplateFiles.put("api_controller.mustache", ".php");
 
-        /* /public/ */
-        supportingFiles.add(new SupportingFile("public/.htaccess", outputFolder + File.separator + "public", ".htaccess"));
-        supportingFiles.add(new SupportingFile("public/favicon.ico", outputFolder + File.separator + "public", "favicon.ico"));
-        supportingFiles.add(new SupportingFile("public/index.php", outputFolder + File.separator + "public", "index.php"));
-        supportingFiles.add(new SupportingFile("public/robots.txt", outputFolder + File.separator + "public", "robots.txt"));
-        supportingFiles.add(new SupportingFile("public/web.config", outputFolder + File.separator + "public", "web.config"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("phpunit.mustache", "", "phpunit.xml.dist"));
 
-        /* /routes/ */
-        supportingFiles.add(new SupportingFile("routes/api.mustache", outputFolder + File.separator + "routes", "api.php"));
-        supportingFiles.add(new SupportingFile("routes/web.mustache", outputFolder + File.separator + "routes", "web.php"));
-        supportingFiles.add(new SupportingFile("routes/channels.mustache", outputFolder + File.separator + "routes", "channels.php"));
-        supportingFiles.add(new SupportingFile("routes/console.mustache", outputFolder + File.separator + "routes", "console.php"));
+        typeMapping.put("file", "\\Illuminate\\Http\\UploadedFile");
+        languageSpecificPrimitives.add("\\Illuminate\\Http\\UploadedFile");
 
-        /* /app/Http/Controllers/ */
-        supportingFiles.add(new SupportingFile("app/Http/Kernel.php", outputFolder + File.separator + "app" + File.separator + "Http", "Kernel.php"));
-        supportingFiles.add(new SupportingFile("app/Http/Controllers/Controller.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Controllers", "Controller.php"));
-        supportingFiles.add(new SupportingFile("app/Http/Middleware/Authenticate.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "Authenticate.php"));
-        supportingFiles.add(new SupportingFile("app/Http/Middleware/CheckForMaintenanceMode.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "CheckForMaintenanceMode.php"));
-        supportingFiles.add(new SupportingFile("app/Http/Middleware/EncryptCookies.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "EncryptCookies.php"));
-        supportingFiles.add(new SupportingFile("app/Http/Middleware/RedirectIfAuthenticated.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "RedirectIfAuthenticated.php"));
-        supportingFiles.add(new SupportingFile("app/Http/Middleware/TrimStrings.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "TrimStrings.php"));
-        supportingFiles.add(new SupportingFile("app/Http/Middleware/TrustProxies.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "TrustProxies.php"));
-        supportingFiles.add(new SupportingFile("app/Http/Middleware/VerifyCsrfToken.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "VerifyCsrfToken.php"));
-
-        // /app/Console
-        supportingFiles.add(new SupportingFile("app/Console/Kernel.php", outputFolder + File.separator + "app" + File.separator + "Console", "Kernel.php"));
-        // /app/Exceptions
-        supportingFiles.add(new SupportingFile("app/Exceptions/Handler.php", outputFolder + File.separator + "app" + File.separator + "Exceptions", "Handler.php"));
-        // /app/Providers
-        supportingFiles.add(new SupportingFile("app/Providers/AppServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "AppServiceProvider.php"));
-        supportingFiles.add(new SupportingFile("app/Providers/AuthServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "AuthServiceProvider.php"));
-        supportingFiles.add(new SupportingFile("app/Providers/BroadcastServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "BroadcastServiceProvider.php"));
-        supportingFiles.add(new SupportingFile("app/Providers/EventServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "EventServiceProvider.php"));
-        supportingFiles.add(new SupportingFile("app/Providers/RouteServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "RouteServiceProvider.php"));
-        // /app/
-        supportingFiles.add(new SupportingFile("app/User.php", outputFolder + File.separator + "app", "RouteServiceProvider.php"));
-
-        // /database/
-        supportingFiles.add(new SupportingFile("database/factories/UserFactory.php", outputFolder + File.separator + "database" + File.separator + "factories", "UserFactory.php"));
-        supportingFiles.add(new SupportingFile("database/migrations/2014_10_12_000000_create_users_table.php", outputFolder + File.separator + "database" + File.separator + "migrations", "2014_10_12_000000_create_users_table.php"));
-        supportingFiles.add(new SupportingFile("database/migrations/2019_08_19_000000_create_failed_jobs_table.php", outputFolder + File.separator + "database" + File.separator + "migrations", "2019_08_19_000000_create_failed_jobs_table.php"));
-        supportingFiles.add(new SupportingFile("database/seeds/DatabaseSeeder.php", outputFolder + File.separator + "database" + File.separator + "seeds", "DatabaseSeeder.php"));
-        supportingFiles.add(new SupportingFile("database/gitignore", outputFolder + File.separator + "database", ".gitignore"));
-
-        // /config/
-        supportingFiles.add(new SupportingFile("config/app.php", outputFolder + File.separator + "config", "app.php"));
-        supportingFiles.add(new SupportingFile("config/auth.php", outputFolder + File.separator + "config", "auth.php"));
-        supportingFiles.add(new SupportingFile("config/broadcasting.php", outputFolder + File.separator + "config", "broadcasting.php"));
-        supportingFiles.add(new SupportingFile("config/cache.php", outputFolder + File.separator + "config", "cache.php"));
-        supportingFiles.add(new SupportingFile("config/cors.php", outputFolder + File.separator + "config", "cors.php"));
-        supportingFiles.add(new SupportingFile("config/database.php", outputFolder + File.separator + "config", "database.php"));
-        supportingFiles.add(new SupportingFile("config/filesystems.php", outputFolder + File.separator + "config", "filesystems.php"));
-        supportingFiles.add(new SupportingFile("config/hashing.php", outputFolder + File.separator + "config", "hashing.php"));
-        supportingFiles.add(new SupportingFile("config/logging.php", outputFolder + File.separator + "config", "logging.php"));
-        supportingFiles.add(new SupportingFile("config/mail.php", outputFolder + File.separator + "config", "mail.php"));
-        supportingFiles.add(new SupportingFile("config/queue.php", outputFolder + File.separator + "config", "queue.php"));
-        supportingFiles.add(new SupportingFile("config/services.php", outputFolder + File.separator + "config", "services.php"));
-        supportingFiles.add(new SupportingFile("config/session.php", outputFolder + File.separator + "config", "session.php"));
-        supportingFiles.add(new SupportingFile("config/view.php", outputFolder + File.separator + "config", "view.php"));
-
-        // /database/
-        supportingFiles.add(new SupportingFile("database/migrations/2019_08_19_000000_create_failed_jobs_table.php", outputFolder + File.separator + "database" + File.separator + "migrations", "2019_08_19_000000_create_failed_jobs_table.php"));
-
-        // /resources/
-        supportingFiles.add(new SupportingFile("resources/js/app.js", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js", "app.js"));
-        supportingFiles.add(new SupportingFile("resources/js/bootstrap.js", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js", "bootstrap.js"));
-        supportingFiles.add(new SupportingFile("resources/sass/app.scss", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "sass", "app.scss"));
-        supportingFiles.add(new SupportingFile("resources/lang/en/auth.php", outputFolder + File.separator + "resources" + File.separator + "lang" + File.separator + "en", "auth.php"));
-        supportingFiles.add(new SupportingFile("resources/lang/en/pagination.php", outputFolder + File.separator + "resources" + File.separator + "lang" + File.separator + "en", "pagination.php"));
-        supportingFiles.add(new SupportingFile("resources/lang/en/passwords.php", outputFolder + File.separator + "resources" + File.separator + "lang" + File.separator + "en", "passwords.php"));
-        supportingFiles.add(new SupportingFile("resources/lang/en/validation.php", outputFolder + File.separator + "resources" + File.separator + "lang" + File.separator + "en", "validation.php"));
-        supportingFiles.add(new SupportingFile("resources/views/welcome.blade.php", outputFolder + File.separator + "resources" + File.separator + "views", "welcome.blade.php"));
-
-        // /storage/
-        supportingFiles.add(new SupportingFile("storage/app/gitignore", outputFolder + File.separator + "storage" + File.separator + "app", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/app/public/gitignore", outputFolder + File.separator + "storage" + File.separator + "app" + File.separator + "public", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/cache/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "cache", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/cache/data/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "cache", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/sessions/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "sessions", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/testing/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "testing", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/views/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "views", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/logs/gitignore", outputFolder + File.separator + "storage" + File.separator + "logs", ".gitignore"));
-
-        // /tests/
-        supportingFiles.add(new SupportingFile("tests/Feature/ExampleTest.php", outputFolder + File.separator + "tests" + File.separator + "Feature", "ExampleTest.php"));
-        supportingFiles.add(new SupportingFile("tests/Unit/ExampleTest.php", outputFolder + File.separator + "tests" + File.separator + "Unit", "ExampleTest.php"));
-        supportingFiles.add(new SupportingFile("tests/CreatesApplication.php", outputFolder + File.separator + "tests", "CreatesApplication.php"));
-        supportingFiles.add(new SupportingFile("tests/TestCase.php", outputFolder + File.separator + "tests", "TestCase.php"));
+        cliOptions.add(new CliOption(AUTOWIRE, "Should autowire be enabled.").defaultValue("false"));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        // remove gitignore supporting file from AbstractPhpCodegen
-        supportingFiles.remove(supportingFiles.size() - 1);
+        vendorExtensions.put("x-autowire", additionalProperties.getOrDefault(AUTOWIRE, "false").equals("true"));
+
+        supportingFiles.add(new SupportingFile("routes.mustache", routesDirectory, routesFileName));
     }
 
-    // override with any special post-processing
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        OperationMap objectMap = objs.getOperations();
-        List<CodegenOperation> operations = objectMap.getOperation();
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
 
-        for (CodegenOperation op : operations) {
-            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
-            // check to see if the path contains ".", which is not supported by PHP laravel
-            // ref: https://github.com/swagger-api/swagger-codegen/issues/6897
-            if (op.path != null && op.path.contains(".")) {
-                throw new IllegalArgumentException("'.' (dot) is not supported by PHP laravel. Please refer to https://github.com/swagger-api/swagger-codegen/issues/6897 for more info.");
-            }
-
-            if (op.hasProduces) {
-                // need to escape */* values because they breaks current mustaches
-                List<Map<String, String>> c = op.produces;
-                for (Map<String, String> mediaType : c) {
-                    if ("*/*".equals(mediaType.get("mediaType"))) {
-                        mediaType.put("mediaType", "*_/_*");
-                    }
-                }
-            }
+        if (openAPI == null || openAPI.getPaths() == null) {
+            return;
         }
 
-        // sort the endpoints in ascending to avoid the route priority issue.
-        // https://github.com/swagger-api/swagger-codegen/issues/2643
-        operations.sort(Comparator.comparing(lhs -> lhs.path));
+        openAPI.getPaths()
+                .values()
+                .stream()
+                .flatMap(pathItem -> pathItem.readOperations().stream())
+                .filter(path -> path.getResponses() != null)
+                .flatMap(path -> path.getResponses().entrySet().stream())
+                .forEach(respEntry -> {
+                    String httpStatusCode = respEntry.getKey();
+                    ApiResponse apiResponse = respEntry.getValue();
+
+                    // If schema is present in the response
+                    if (apiResponse.getContent() != null && !apiResponse.getContent().isEmpty()) {
+                        return;
+                    }
+
+                    // Create an empty schema
+                    Schema<?> noContentSchema = new Schema<>()
+                            .type("object")                     // Mark it explicitly as an object
+                            .description("No content for " + httpStatusCode);
+
+                    Map<String, Schema> props = new HashMap<>();
+                    props.put("dummy", new Schema<>().type("string").nullable(true).description("dummy property for no-content responses"));
+                    noContentSchema.setProperties(props);
+
+                    // Give it a unique name, e.g. "NoContent204", "NoContent404", etc.
+                    String modelName = "NoContent" + camelize(httpStatusCode);
+
+                    // Make sure components and schemas exist
+                    if (openAPI.getComponents() == null) {
+                        openAPI.setComponents(new Components());
+                    }
+                    if (openAPI.getComponents().getSchemas() == null) {
+                        openAPI.getComponents().setSchemas(new HashMap<>());
+                    }
+
+                    // Register our schema in components
+                    openAPI.getComponents().getSchemas().put(modelName, noContentSchema);
+
+                    // Now force the response to reference that named schema
+                    String ref = "#/components/schemas/" + modelName;
+                    Content forcedContent = new Content()
+                            .addMediaType("application/json", new MediaType().schema(new Schema<>().$ref(ref)));
+                    apiResponse.setContent(forcedContent);
+                });
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+
+        OperationMap operations = objs.getOperations();
+        operations.put("controllerName", toControllerName(operations.getPathPrefix()));
+
+        operations.getOperation().forEach(operation -> {
+            operation.vendorExtensions.put("x-route-name", operations.getPathPrefix() + "." + operation.operationIdSnakeCase.replace('_', '.'));
+        });
 
         return objs;
     }
 
     @Override
-    public String toApiName(String name) {
-        if (name.isEmpty()) {
-            return "DefaultController";
-        }
-
-        return camelize(name) + "Controller";
-    }
-
-    protected String controllerFileFolder() {
-        return (outputFolder + File.separator + srcBasePath + File.separator + "app" + File.separator + "Http" + File.separator + "Controllers");
+    public void setInvokerPackage(String invokerPackage) {
+        super.setInvokerPackage(invokerPackage);
+        apiPackage = invokerPackage + "\\" + apiDirName;
+        modelPackage = invokerPackage + "\\" + modelDirName;
+        controllerPackage = invokerPackage + "\\" + controllerDirName;
     }
 
     @Override
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
-        if (templateName.equals("api.mustache")) {
-            return controllerFileFolder() + '/' + toControllerName(tag) + suffix;
+        if (templateName.equals("api_controller.mustache")) {
+            return controllerFileFolder() + File.separator + toControllerName(tag) + suffix;
         }
 
-        return apiFileFolder() + '/' + toApiFilename(tag) + suffix;
+        return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+    }
+
+    public String controllerFileFolder() {
+        return (outputFolder + File.separator + toSrcPath(controllerPackage, srcBasePath));
+    }
+
+    @Override
+    public String toApiName(String name) {
+        return camelize(name) + "ApiInterface";
     }
 
     protected String toControllerName(String name) {
-        if (name.isEmpty()) {
-            return "DefaultController";
-        }
-
         return camelize(name) + "Controller";
     }
 
     @Override
-    protected String getEnumDefaultValue(String defaultValue, String dataType) {
-        return defaultValue;
-    }
-
-    @Override
-    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
-        CodegenProperty property = super.fromProperty(name, p, required);
-        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
-
-        //Referenced enum case:
-        if (!property.isEnum && referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
-            property.dataType = this.getSchemaType(referencedSchema);
-            property.defaultValue = this.toDefaultValue(referencedSchema);
-            List<Object> _enum = referencedSchema.getEnum();
-
-            Map<String, Object> allowableValues = new HashMap<>();
-            allowableValues.put("values", _enum);
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
-            }
+    protected String getParameterDataType(Parameter parameter, Schema schema) {
+        if (parameter.get$ref() != null) {
+            String refName = ModelUtils.getSimpleRef(parameter.get$ref());
+            return toModelName(refName);
         }
-
-        return property;
-    }
-
-    @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            } else if (!Boolean.TRUE.equals(p.getNullable())) {
-                return "false";
-            }
-        } else if (ModelUtils.isDateSchema(p)) {
-            // TODO
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            // TODO
-        } else if (ModelUtils.isFileSchema(p)) {
-            // TODO
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            } else if (!Boolean.TRUE.equals(p.getNullable())) {
-                return "0";
-            }
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            } else if (!Boolean.TRUE.equals(p.getNullable())) {
-                return "0";
-            }
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "'" + p.getDefault() + "'";
-            } else if (!Boolean.TRUE.equals(p.getNullable())) {
-                return "\"\"";
-            }
-        } else if (ModelUtils.isArraySchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            } else if (!Boolean.TRUE.equals(p.getNullable())) {
-                return "[]";
-            }
-        }
-
         return null;
     }
 
     @Override
-    public String toEnumDefaultValue(String value, String datatype) {
-        return datatype + "::" + value;
-    }
-
-    @Override
-    public String toEnumVarName(String value, String datatype) {
-        if (value.length() == 0) {
-            return super.toEnumVarName(value, datatype);
-        }
-
-        // number
-        if ("int".equals(datatype) || "float".equals(datatype)) {
-            String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
-        }
-
-        return super.toEnumVarName(value, datatype);
+    public String getSchemaType(Schema p) {
+        return super.getSchemaType(p);
     }
 }

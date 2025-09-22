@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'additional_properties_class.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -27,7 +29,7 @@ class AdditionalPropertiesClass {
     
     name: r'map_property',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -39,7 +41,7 @@ class AdditionalPropertiesClass {
     
     name: r'map_of_map_property',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -47,15 +49,17 @@ class AdditionalPropertiesClass {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
-     other.mapProperty == mapProperty &&
-     other.mapOfMapProperty == mapOfMapProperty;
 
-  @override
-  int get hashCode =>
-    mapProperty.hashCode +
-    mapOfMapProperty.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
+      other.mapProperty == mapProperty &&
+      other.mapOfMapProperty == mapOfMapProperty;
+
+    @override
+    int get hashCode =>
+        mapProperty.hashCode +
+        mapOfMapProperty.hashCode;
 
   factory AdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$AdditionalPropertiesClassFromJson(json);
 

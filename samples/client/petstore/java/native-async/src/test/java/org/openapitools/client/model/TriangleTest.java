@@ -21,25 +21,25 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import org.openapitools.client.model.EquilateralTriangle;
 import org.openapitools.client.model.IsoscelesTriangle;
 import org.openapitools.client.model.ScaleneTriangle;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Triangle
  */
-public class TriangleTest {
+class TriangleTest {
     private final Triangle model = new Triangle();
 
     /**
      * Model tests for Triangle
      */
     @Test
-    public void testTriangle() {
+    void testTriangle() {
         // TODO: test Triangle
     }
 
@@ -47,7 +47,7 @@ public class TriangleTest {
      * Test the property 'shapeType'
      */
     @Test
-    public void shapeTypeTest() {
+    void shapeTypeTest() {
         // TODO: test shapeType
     }
 
@@ -55,7 +55,7 @@ public class TriangleTest {
      * Test the property 'triangleType'
      */
     @Test
-    public void triangleTypeTest() {
+    void triangleTypeTest() {
         // TODO: test triangleType
     }
 

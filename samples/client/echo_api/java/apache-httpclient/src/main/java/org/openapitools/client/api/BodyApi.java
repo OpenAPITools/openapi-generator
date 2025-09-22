@@ -16,11 +16,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.BaseApi;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
 import java.io.File;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.Tag;
 
 
@@ -28,29 +30,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class BodyApi {
-
-
-  private ApiClient apiClient;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+public class BodyApi extends BaseApi {
 
   public BodyApi() {
-    this(Configuration.getDefaultApiClient());
+    super(Configuration.getDefaultApiClient());
   }
 
   public BodyApi(ApiClient apiClient) {
-    this.apiClient = apiClient;
-  }
-
-  public ApiClient getApiClient() {
-    return apiClient;
-  }
-
-  public void setApiClient(ApiClient apiClient) {
-    this.apiClient = apiClient;
+    super(apiClient);
   }
 
   /**
@@ -127,7 +119,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyApplicationOctetstreamBinary(File body) throws ApiException {
+  public String testBodyApplicationOctetstreamBinary(@javax.annotation.Nullable File body) throws ApiException {
     return this.testBodyApplicationOctetstreamBinary(body, Collections.emptyMap());
   }
 
@@ -140,7 +132,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyApplicationOctetstreamBinary(File body, Map<String, String> additionalHeaders) throws ApiException {
+  public String testBodyApplicationOctetstreamBinary(@javax.annotation.Nullable File body, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -196,7 +188,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyMultipartFormdataArrayOfBinary(List<File> files) throws ApiException {
+  public String testBodyMultipartFormdataArrayOfBinary(@javax.annotation.Nonnull List<File> files) throws ApiException {
     return this.testBodyMultipartFormdataArrayOfBinary(files, Collections.emptyMap());
   }
 
@@ -209,7 +201,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyMultipartFormdataArrayOfBinary(List<File> files, Map<String, String> additionalHeaders) throws ApiException {
+  public String testBodyMultipartFormdataArrayOfBinary(@javax.annotation.Nonnull List<File> files, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'files' is set
@@ -272,7 +264,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyMultipartFormdataSingleBinary(File myFile) throws ApiException {
+  public String testBodyMultipartFormdataSingleBinary(@javax.annotation.Nullable File myFile) throws ApiException {
     return this.testBodyMultipartFormdataSingleBinary(myFile, Collections.emptyMap());
   }
 
@@ -285,7 +277,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyMultipartFormdataSingleBinary(File myFile, Map<String, String> additionalHeaders) throws ApiException {
+  public String testBodyMultipartFormdataSingleBinary(@javax.annotation.Nullable File myFile, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -343,7 +335,7 @@ public class BodyApi {
    * @return Pet
    * @throws ApiException if fails to make API call
    */
-  public Pet testEchoBodyAllOfPet(Pet pet) throws ApiException {
+  public Pet testEchoBodyAllOfPet(@javax.annotation.Nullable Pet pet) throws ApiException {
     return this.testEchoBodyAllOfPet(pet, Collections.emptyMap());
   }
 
@@ -356,7 +348,7 @@ public class BodyApi {
    * @return Pet
    * @throws ApiException if fails to make API call
    */
-  public Pet testEchoBodyAllOfPet(Pet pet, Map<String, String> additionalHeaders) throws ApiException {
+  public Pet testEchoBodyAllOfPet(@javax.annotation.Nullable Pet pet, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = pet;
     
     // create path and map variables
@@ -412,7 +404,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyFreeFormObjectResponseString(Object body) throws ApiException {
+  public String testEchoBodyFreeFormObjectResponseString(@javax.annotation.Nullable Object body) throws ApiException {
     return this.testEchoBodyFreeFormObjectResponseString(body, Collections.emptyMap());
   }
 
@@ -425,7 +417,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyFreeFormObjectResponseString(Object body, Map<String, String> additionalHeaders) throws ApiException {
+  public String testEchoBodyFreeFormObjectResponseString(@javax.annotation.Nullable Object body, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -481,7 +473,7 @@ public class BodyApi {
    * @return Pet
    * @throws ApiException if fails to make API call
    */
-  public Pet testEchoBodyPet(Pet pet) throws ApiException {
+  public Pet testEchoBodyPet(@javax.annotation.Nullable Pet pet) throws ApiException {
     return this.testEchoBodyPet(pet, Collections.emptyMap());
   }
 
@@ -494,7 +486,7 @@ public class BodyApi {
    * @return Pet
    * @throws ApiException if fails to make API call
    */
-  public Pet testEchoBodyPet(Pet pet, Map<String, String> additionalHeaders) throws ApiException {
+  public Pet testEchoBodyPet(@javax.annotation.Nullable Pet pet, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = pet;
     
     // create path and map variables
@@ -550,7 +542,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyPetResponseString(Pet pet) throws ApiException {
+  public String testEchoBodyPetResponseString(@javax.annotation.Nullable Pet pet) throws ApiException {
     return this.testEchoBodyPetResponseString(pet, Collections.emptyMap());
   }
 
@@ -563,7 +555,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyPetResponseString(Pet pet, Map<String, String> additionalHeaders) throws ApiException {
+  public String testEchoBodyPetResponseString(@javax.annotation.Nullable Pet pet, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = pet;
     
     // create path and map variables
@@ -613,13 +605,82 @@ public class BodyApi {
   }
 
   /**
+   * Test string enum response body
+   * Test string enum response body
+   * @param body String enum (optional)
+   * @return StringEnumRef
+   * @throws ApiException if fails to make API call
+   */
+  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body) throws ApiException {
+    return this.testEchoBodyStringEnum(body, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test string enum response body
+   * Test string enum response body
+   * @param body String enum (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return StringEnumRef
+   * @throws ApiException if fails to make API call
+   */
+  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = body;
+    
+    // create path and map variables
+    String localVarPath = "/echo/body/string_enum";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<StringEnumRef> localVarReturnType = new TypeReference<StringEnumRef>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "POST",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
    * Test empty json (request body)
    * Test empty json (request body)
    * @param tag Tag object (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyTagResponseString(Tag tag) throws ApiException {
+  public String testEchoBodyTagResponseString(@javax.annotation.Nullable Tag tag) throws ApiException {
     return this.testEchoBodyTagResponseString(tag, Collections.emptyMap());
   }
 
@@ -632,7 +693,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyTagResponseString(Tag tag, Map<String, String> additionalHeaders) throws ApiException {
+  public String testEchoBodyTagResponseString(@javax.annotation.Nullable Tag tag, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = tag;
     
     // create path and map variables
@@ -681,4 +742,44 @@ public class BodyApi {
     );
   }
 
+  @Override
+  public <T> T invokeAPI(String url, String method, Object request, TypeReference<T> returnType, Map<String, String> additionalHeaders) throws ApiException {
+    String localVarPath = url.replace(apiClient.getBaseURL(), "");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    return apiClient.invokeAPI(
+      localVarPath,
+        method,
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        request,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        returnType
+    );
+  }
 }

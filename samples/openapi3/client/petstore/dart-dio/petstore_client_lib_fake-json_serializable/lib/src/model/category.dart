@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'category.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -27,7 +29,7 @@ class Category {
     
     name: r'id',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -39,7 +41,7 @@ class Category {
     defaultValue: 'default-name',
     name: r'name',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -47,15 +49,17 @@ class Category {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Category &&
-     other.id == id &&
-     other.name == name;
 
-  @override
-  int get hashCode =>
-    id.hashCode +
-    name.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Category &&
+      other.id == id &&
+      other.name == name;
+
+    @override
+    int get hashCode =>
+        id.hashCode +
+        name.hashCode;
 
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 

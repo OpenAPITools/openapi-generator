@@ -279,7 +279,7 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
-  '/pet/{petId}/uploadImage':
+  '/pet/{petId}/{petDate}/uploadImage':
     post:
       tags:
         - pet

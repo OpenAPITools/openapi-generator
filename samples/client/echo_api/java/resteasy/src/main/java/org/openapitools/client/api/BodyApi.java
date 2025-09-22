@@ -9,6 +9,7 @@ import javax.ws.rs.core.GenericType;
 
 import java.io.File;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.Tag;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class BodyApi {
   private ApiClient apiClient;
 
@@ -80,7 +81,7 @@ public class BodyApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testBodyApplicationOctetstreamBinary(File body) throws ApiException {
+  public String testBodyApplicationOctetstreamBinary(@javax.annotation.Nullable File body) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -118,7 +119,7 @@ public class BodyApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testBodyMultipartFormdataArrayOfBinary(List<File> files) throws ApiException {
+  public String testBodyMultipartFormdataArrayOfBinary(@javax.annotation.Nonnull List<File> files) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'files' is set
@@ -163,7 +164,7 @@ public class BodyApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testBodyMultipartFormdataSingleBinary(File myFile) throws ApiException {
+  public String testBodyMultipartFormdataSingleBinary(@javax.annotation.Nullable File myFile) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -203,7 +204,7 @@ public class BodyApi {
    * @return a {@code Pet}
    * @throws ApiException if fails to make API call
    */
-  public Pet testEchoBodyAllOfPet(Pet pet) throws ApiException {
+  public Pet testEchoBodyAllOfPet(@javax.annotation.Nullable Pet pet) throws ApiException {
     Object localVarPostBody = pet;
     
     // create path and map variables
@@ -241,7 +242,7 @@ public class BodyApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyFreeFormObjectResponseString(Object body) throws ApiException {
+  public String testEchoBodyFreeFormObjectResponseString(@javax.annotation.Nullable Object body) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -279,7 +280,7 @@ public class BodyApi {
    * @return a {@code Pet}
    * @throws ApiException if fails to make API call
    */
-  public Pet testEchoBodyPet(Pet pet) throws ApiException {
+  public Pet testEchoBodyPet(@javax.annotation.Nullable Pet pet) throws ApiException {
     Object localVarPostBody = pet;
     
     // create path and map variables
@@ -317,7 +318,7 @@ public class BodyApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyPetResponseString(Pet pet) throws ApiException {
+  public String testEchoBodyPetResponseString(@javax.annotation.Nullable Pet pet) throws ApiException {
     Object localVarPostBody = pet;
     
     // create path and map variables
@@ -349,13 +350,51 @@ public class BodyApi {
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
+   * Test string enum response body
+   * Test string enum response body
+   * @param body String enum (optional)
+   * @return a {@code StringEnumRef}
+   * @throws ApiException if fails to make API call
+   */
+  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body) throws ApiException {
+    Object localVarPostBody = body;
+    
+    // create path and map variables
+    String localVarPath = "/echo/body/string_enum".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    GenericType<StringEnumRef> localVarReturnType = new GenericType<StringEnumRef>() {};
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
+  /**
    * Test empty json (request body)
    * Test empty json (request body)
    * @param tag Tag object (optional)
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyTagResponseString(Tag tag) throws ApiException {
+  public String testEchoBodyTagResponseString(@javax.annotation.Nullable Tag tag) throws ApiException {
     Object localVarPostBody = tag;
     
     // create path and map variables

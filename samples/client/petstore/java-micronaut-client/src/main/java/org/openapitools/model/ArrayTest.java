@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +35,7 @@ import javax.annotation.Generated;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
 @JsonTypeName("ArrayTest")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @Introspected
 public class ArrayTest {
     public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
@@ -64,7 +65,7 @@ public class ArrayTest {
     /**
      * Get arrayOfString
      * @return arrayOfString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -94,7 +95,7 @@ public class ArrayTest {
     /**
      * Get arrayArrayOfInteger
      * @return arrayArrayOfInteger
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -124,7 +125,7 @@ public class ArrayTest {
     /**
      * Get arrayArrayOfModel
      * @return arrayArrayOfModel
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

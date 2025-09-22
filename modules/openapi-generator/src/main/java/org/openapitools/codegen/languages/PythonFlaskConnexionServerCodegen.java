@@ -56,5 +56,7 @@ public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionSe
     }
 
     @Override
-    public String generatorLanguageVersion() { return "3.5.2+"; };
+    public String generatorLanguageVersion() {
+        return "3.5.2+";
+    }
 }

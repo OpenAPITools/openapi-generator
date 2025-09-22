@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -12,6 +12,11 @@
 
 package org.openapitools.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -24,12 +29,14 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "Order", propOrder =
-    { "id", "petId", "quantity", "shipDate", "status", "complete"
-})
+@XmlType(name = "Order", propOrder =
+    { "id", "petId", "quantity", "shipDate", "status", "complete" }
+)
 
-@XmlRootElement(name="Order")
+
+@XmlRootElement(name = "Order")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Order")
 @JsonPropertyOrder({
   Order.JSON_PROPERTY_ID,
   Order.JSON_PROPERTY_PET_ID,
@@ -40,24 +47,24 @@ import jakarta.xml.bind.annotation.adapters.*;
 })
 /**
   * An order for a pets from the pet store
- **/
+  */
 
 public class Order  {
   
   public static final String JSON_PROPERTY_ID = "id";
-  @XmlElement(name="id")
+  @XmlElement(name = "id")
   private Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
-  @XmlElement(name="petId")
+  @XmlElement(name = "petId")
   private Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
-  @XmlElement(name="quantity")
+  @XmlElement(name = "quantity")
   private Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
-  @XmlElement(name="shipDate")
+  @XmlElement(name = "shipDate")
   private Date shipDate;
 
 @XmlType(name="StatusEnum")
@@ -94,21 +101,22 @@ public class Order  {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
-  @XmlElement(name="status")
+  @XmlElement(name = "status")
  /**
-   * Order Status
-  **/
+  * Order Status
+  */
   private StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
-  @XmlElement(name="complete")
+  @XmlElement(name = "complete")
   private Boolean complete = false;
 
- /**
+
+  /**
    * Get id
    * @return id
-  **/
-  @JsonProperty(JSON_PROPERTY_ID)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
   public Long getId() {
@@ -116,9 +124,9 @@ public class Order  {
   }
 
   /**
-    * Set id
-  **/
-  @JsonProperty(JSON_PROPERTY_ID)
+   * Set id
+   */
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
   public void setId(Long id) {
@@ -130,11 +138,11 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get petId
    * @return petId
-  **/
-  @JsonProperty(JSON_PROPERTY_PET_ID)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_PET_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "petId")
   public Long getPetId() {
@@ -142,9 +150,9 @@ public class Order  {
   }
 
   /**
-    * Set petId
-  **/
-  @JsonProperty(JSON_PROPERTY_PET_ID)
+   * Set petId
+   */
+  @JsonProperty(value = JSON_PROPERTY_PET_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "petId")
   public void setPetId(Long petId) {
@@ -156,11 +164,11 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get quantity
    * @return quantity
-  **/
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_QUANTITY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "quantity")
   public Integer getQuantity() {
@@ -168,9 +176,9 @@ public class Order  {
   }
 
   /**
-    * Set quantity
-  **/
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
+   * Set quantity
+   */
+  @JsonProperty(value = JSON_PROPERTY_QUANTITY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "quantity")
   public void setQuantity(Integer quantity) {
@@ -182,11 +190,11 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get shipDate
    * @return shipDate
-  **/
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_SHIP_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "shipDate")
   public Date getShipDate() {
@@ -194,9 +202,9 @@ public class Order  {
   }
 
   /**
-    * Set shipDate
-  **/
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+   * Set shipDate
+   */
+  @JsonProperty(value = JSON_PROPERTY_SHIP_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "shipDate")
   public void setShipDate(Date shipDate) {
@@ -208,11 +216,11 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Order Status
    * @return status
-  **/
-  @JsonProperty(JSON_PROPERTY_STATUS)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "status")
    public String getStatus() {
@@ -223,9 +231,9 @@ public class Order  {
   }
 
   /**
-    * Set status
-  **/
-  @JsonProperty(JSON_PROPERTY_STATUS)
+   * Set status
+   */
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "status")
   public void setStatus(StatusEnum status) {
@@ -237,11 +245,11 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get complete
    * @return complete
-  **/
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
+   **/
+  @JsonProperty(value = JSON_PROPERTY_COMPLETE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "complete")
   public Boolean getComplete() {
@@ -249,9 +257,9 @@ public class Order  {
   }
 
   /**
-    * Set complete
-  **/
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
+   * Set complete
+   */
+  @JsonProperty(value = JSON_PROPERTY_COMPLETE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "complete")
   public void setComplete(Boolean complete) {
@@ -263,10 +271,31 @@ public class Order  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Order order = (Order) o;
+    return Objects.equals(this.id, order.id) &&
+        Objects.equals(this.petId, order.petId) &&
+        Objects.equals(this.quantity, order.quantity) &&
+        Objects.equals(this.shipDate, order.shipDate) &&
+        Objects.equals(this.status, order.status) &&
+        Objects.equals(this.complete, order.complete);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+  }
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -293,3 +322,4 @@ public class Order  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

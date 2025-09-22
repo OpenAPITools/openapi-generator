@@ -31,7 +31,7 @@ Please file the pull request against the correct branch, e.g. `master` for non-b
 
 All the code generators can be found in [modules/openapi-generator/src/main/java/org/openapitools/codegen/languages](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages)
 
-If you want to add a new generator, follow the [new-generator](https://openapi-generator.tech/docs/new-generator) guide. 
+If you want to add a new generator, follow the [new-generator](https://openapi-generator.tech/docs/new-generator) guide.
 
 ### Templates
 
@@ -84,6 +84,26 @@ For [Vendor Extensions](https://github.com/OAI/OpenAPI-Specification/blob/master
 - For language-specified vendor extension, put it in the form of `x-{lang}-{extension-name}`. e.g. `x-objc-operation-id`, `x-java-feign-retry-limit`
 - For a list of existing vendor extensions in use, please refer to https://github.com/openapitools/openapi-generator/wiki/Vendor-Extensions. If you've added new vendor extensions as part of your PR, please update the wiki page.
 
+### Building
+
+The `openapi-generator-cli` can be built using the following command. This will generate the `openapi-generator-cli.jar` in the `modules/openapi-generator-cli/target` directory without running the tests and generating the Javadocs.
+
+```shell
+./mvnw clean install -DskipTests -Dmaven.javadoc.skip=true
+```
+
+Or on Windows:
+
+```shell
+mvnw.cmd clean install -DskipTests -Dmaven.javadoc.skip=true
+```
+
+The binary can run via `java -jar`. For example:
+
+```shell
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help
+```
+
 ### Testing
 
 To add test cases (optional) covering the change in the code generator, please refer to [modules/openapi-generator/src/test/java/org/openapitools/codegen](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/test/java/org/openapitools/codegen)
@@ -112,5 +132,5 @@ See [OpenAPI Tools wiki](https://github.com/OpenAPITools/openapi-generator/wiki/
 - File a PR with meaningful title, description and commit messages
 - Make sure the option "Allow edits from maintainers" in the PR is selected so that the maintainers can update your PRs with minor fixes, if needed.
 - Recommended git settings
-   - `git config core.autocrlf input` to tell Git convert CRLF to LF on commit but not the other way around 
+   - `git config core.autocrlf input` to tell Git convert CRLF to LF on commit but not the other way around
 - To close an issue (e.g. issue 1542) automatically after a PR is merged, use keywords "fix", "close", "resolve" in the PR description, e.g. `fix #1542`. (Ref: [closing issues using keywords](https://help.github.com/articles/closing-issues-using-keywords/))

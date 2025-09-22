@@ -1,0 +1,76 @@
+## PlayersApi
+
+### GET /players/{account_id}/counts
+## GET /players/{account_id}/counts
+GET https://api.opendota.com/api/players/{{account_id}}/counts?limit={{limit}}&offset={{offset}}&win={{win}}&patch={{patch}}&gameMode={{gameMode}}&lobbyType={{lobbyType}}&region={{region}}&date={{date}}&laneRole={{laneRole}}&heroId={{heroId}}&isRadiant={{isRadiant}}&includedAccountId={{includedAccountId}}&excludedAccountId={{excludedAccountId}}&withHeroId={{withHeroId}}&againstHeroId={{againstHeroId}}&significant={{significant}}&having={{having}}&sort={{sort}}
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}
+## GET /players/{account_id}
+GET https://api.opendota.com/api/players/{{account_id}}
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/heroes
+## GET /players/{account_id}/heroes
+GET https://api.opendota.com/api/players/{{account_id}}/heroes?limit={{limit}}&offset={{offset}}&win={{win}}&patch={{patch}}&gameMode={{gameMode}}&lobbyType={{lobbyType}}&region={{region}}&date={{date}}&laneRole={{laneRole}}&heroId={{heroId}}&isRadiant={{isRadiant}}&includedAccountId={{includedAccountId}}&excludedAccountId={{excludedAccountId}}&withHeroId={{withHeroId}}&againstHeroId={{againstHeroId}}&significant={{significant}}&having={{having}}&sort={{sort}}
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/histograms
+## GET /players/{account_id}/histograms
+GET https://api.opendota.com/api/players/{{account_id}}/histograms/{{field}}?limit={{limit}}&offset={{offset}}&win={{win}}&patch={{patch}}&gameMode={{gameMode}}&lobbyType={{lobbyType}}&region={{region}}&date={{date}}&laneRole={{laneRole}}&heroId={{heroId}}&isRadiant={{isRadiant}}&includedAccountId={{includedAccountId}}&excludedAccountId={{excludedAccountId}}&withHeroId={{withHeroId}}&againstHeroId={{againstHeroId}}&significant={{significant}}&having={{having}}&sort={{sort}}
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/matches
+## GET /players/{account_id}/matches
+GET https://api.opendota.com/api/players/{{account_id}}/matches?limit={{limit}}&offset={{offset}}&win={{win}}&patch={{patch}}&gameMode={{gameMode}}&lobbyType={{lobbyType}}&region={{region}}&date={{date}}&laneRole={{laneRole}}&heroId={{heroId}}&isRadiant={{isRadiant}}&includedAccountId={{includedAccountId}}&excludedAccountId={{excludedAccountId}}&withHeroId={{withHeroId}}&againstHeroId={{againstHeroId}}&significant={{significant}}&having={{having}}&sort={{sort}}&project={{project}}
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/peers
+## GET /players/{account_id}/peers
+GET https://api.opendota.com/api/players/{{account_id}}/peers?limit={{limit}}&offset={{offset}}&win={{win}}&patch={{patch}}&gameMode={{gameMode}}&lobbyType={{lobbyType}}&region={{region}}&date={{date}}&laneRole={{laneRole}}&heroId={{heroId}}&isRadiant={{isRadiant}}&includedAccountId={{includedAccountId}}&excludedAccountId={{excludedAccountId}}&withHeroId={{withHeroId}}&againstHeroId={{againstHeroId}}&significant={{significant}}&having={{having}}&sort={{sort}}
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/pros
+## GET /players/{account_id}/pros
+GET https://api.opendota.com/api/players/{{account_id}}/pros?limit={{limit}}&offset={{offset}}&win={{win}}&patch={{patch}}&gameMode={{gameMode}}&lobbyType={{lobbyType}}&region={{region}}&date={{date}}&laneRole={{laneRole}}&heroId={{heroId}}&isRadiant={{isRadiant}}&includedAccountId={{includedAccountId}}&excludedAccountId={{excludedAccountId}}&withHeroId={{withHeroId}}&againstHeroId={{againstHeroId}}&significant={{significant}}&having={{having}}&sort={{sort}}
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/rankings
+## GET /players/{account_id}/rankings
+GET https://api.opendota.com/api/players/{{account_id}}/rankings
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/ratings
+## GET /players/{account_id}/ratings
+GET https://api.opendota.com/api/players/{{account_id}}/ratings
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/recentMatches
+## GET /players/{account_id}/recentMatches
+GET https://api.opendota.com/api/players/{{account_id}}/recentMatches
+Accept: application/json; charset=utf-8
+
+### POST /players/{account_id}/refresh
+## POST /players/{account_id}/refresh
+POST https://api.opendota.com/api/players/{{account_id}}/refresh
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/totals
+## GET /players/{account_id}/totals
+GET https://api.opendota.com/api/players/{{account_id}}/totals?limit={{limit}}&offset={{offset}}&win={{win}}&patch={{patch}}&gameMode={{gameMode}}&lobbyType={{lobbyType}}&region={{region}}&date={{date}}&laneRole={{laneRole}}&heroId={{heroId}}&isRadiant={{isRadiant}}&includedAccountId={{includedAccountId}}&excludedAccountId={{excludedAccountId}}&withHeroId={{withHeroId}}&againstHeroId={{againstHeroId}}&significant={{significant}}&having={{having}}&sort={{sort}}
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/wardmap
+## GET /players/{account_id}/wardmap
+GET https://api.opendota.com/api/players/{{account_id}}/wardmap?limit={{limit}}&offset={{offset}}&win={{win}}&patch={{patch}}&gameMode={{gameMode}}&lobbyType={{lobbyType}}&region={{region}}&date={{date}}&laneRole={{laneRole}}&heroId={{heroId}}&isRadiant={{isRadiant}}&includedAccountId={{includedAccountId}}&excludedAccountId={{excludedAccountId}}&withHeroId={{withHeroId}}&againstHeroId={{againstHeroId}}&significant={{significant}}&having={{having}}&sort={{sort}}
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/wl
+## GET /players/{account_id}/wl
+GET https://api.opendota.com/api/players/{{account_id}}/wl?limit={{limit}}&offset={{offset}}&win={{win}}&patch={{patch}}&gameMode={{gameMode}}&lobbyType={{lobbyType}}&region={{region}}&date={{date}}&laneRole={{laneRole}}&heroId={{heroId}}&isRadiant={{isRadiant}}&includedAccountId={{includedAccountId}}&excludedAccountId={{excludedAccountId}}&withHeroId={{withHeroId}}&againstHeroId={{againstHeroId}}&significant={{significant}}&having={{having}}&sort={{sort}}
+Accept: application/json; charset=utf-8
+
+### GET /players/{account_id}/wordcloud
+## GET /players/{account_id}/wordcloud
+GET https://api.opendota.com/api/players/{{account_id}}/wordcloud?limit={{limit}}&offset={{offset}}&win={{win}}&patch={{patch}}&gameMode={{gameMode}}&lobbyType={{lobbyType}}&region={{region}}&date={{date}}&laneRole={{laneRole}}&heroId={{heroId}}&isRadiant={{isRadiant}}&includedAccountId={{includedAccountId}}&excludedAccountId={{excludedAccountId}}&withHeroId={{withHeroId}}&againstHeroId={{againstHeroId}}&significant={{significant}}&having={{having}}&sort={{sort}}
+Accept: application/json; charset=utf-8

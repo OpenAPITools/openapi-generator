@@ -2,7 +2,7 @@
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
 import {Configuration} from '../configuration';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
-import * as FormData from "form-data";
+import  FormData from "form-data";
 import { URLSearchParams } from 'url';
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
@@ -108,7 +108,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
-     * @param status Status values that need to be considered for filter
+     * @param status Status values that need to be considered for filter (@deprecated)
      */
     public async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
@@ -144,6 +144,8 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * @deprecated
+     *
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      * @param tags Tags to filter by

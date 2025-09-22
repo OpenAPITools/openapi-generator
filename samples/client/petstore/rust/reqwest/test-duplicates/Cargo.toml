@@ -1,0 +1,19 @@
+[package]
+name = "test-duplicates-reqwest"
+version = "1.0.0"
+authors = ["OpenAPI Generator team and contributors"]
+description = "To test duplicates"
+license = "Apache-2.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "^1.0", features = ["derive"] }
+serde_json = "^1.0"
+serde_repr = "^0.1"
+url = "^2.5"
+reqwest = { version = "^0.12", default-features = false, features = ["json", "blocking", "multipart"] }
+
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls-tls = ["reqwest/rustls-tls"]

@@ -34,6 +34,7 @@ import io.ktor.http.ParametersBuilder
     ) {
 
         /**
+        * POST /user
         * Create user
         * This can only be done by the logged in user.
          * @param user Created user object 
@@ -65,6 +66,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * POST /user/createWithArray
         * Creates list of users with given input array
         * 
          * @param user List of user object 
@@ -96,6 +98,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * POST /user/createWithList
         * Creates list of users with given input array
         * 
          * @param user List of user object 
@@ -127,6 +130,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * DELETE /user/{username}
         * Delete user
         * This can only be done by the logged in user.
          * @param username The name that needs to be deleted 
@@ -159,6 +163,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * GET /user/{username}
         * Get user by user name
         * 
          * @param username The name that needs to be fetched. Use user1 for testing. 
@@ -192,6 +197,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * GET /user/login
         * Logs user into the system
         * 
          * @param username The user name for login 
@@ -228,6 +234,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * GET /user/logout
         * Logs out current logged in user session
         * 
          * @return void
@@ -259,6 +266,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * PUT /user/{username}
         * Updated user
         * This can only be done by the logged in user.
          * @param username name that need to be deleted 

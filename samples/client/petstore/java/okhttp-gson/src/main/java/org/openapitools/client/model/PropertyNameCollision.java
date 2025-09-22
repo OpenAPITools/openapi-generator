@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -37,88 +38,91 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Locale;
 
 import org.openapitools.client.JSON;
 
 /**
  * PropertyNameCollision
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class PropertyNameCollision {
   public static final String SERIALIZED_NAME_UNDERSCORE_TYPE = "_type";
   @SerializedName(SERIALIZED_NAME_UNDERSCORE_TYPE)
+  @javax.annotation.Nullable
   private String underscoreType;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
+  @javax.annotation.Nullable
   private String type;
 
   public static final String SERIALIZED_NAME_TYPE_WITH_UNDERSCORE = "type_";
   @SerializedName(SERIALIZED_NAME_TYPE_WITH_UNDERSCORE)
+  @javax.annotation.Nullable
   private String typeWithUnderscore;
 
   public PropertyNameCollision() {
   }
 
-  public PropertyNameCollision underscoreType(String underscoreType) {
+  public PropertyNameCollision underscoreType(@javax.annotation.Nullable String underscoreType) {
     this.underscoreType = underscoreType;
     return this;
   }
 
-   /**
+  /**
    * Get underscoreType
    * @return underscoreType
-  **/
+   */
   @javax.annotation.Nullable
   public String getUnderscoreType() {
     return underscoreType;
   }
 
-  public void setUnderscoreType(String underscoreType) {
+  public void setUnderscoreType(@javax.annotation.Nullable String underscoreType) {
     this.underscoreType = underscoreType;
   }
 
 
-  public PropertyNameCollision type(String type) {
+  public PropertyNameCollision type(@javax.annotation.Nullable String type) {
     this.type = type;
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
   public String getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(@javax.annotation.Nullable String type) {
     this.type = type;
   }
 
 
-  public PropertyNameCollision typeWithUnderscore(String typeWithUnderscore) {
+  public PropertyNameCollision typeWithUnderscore(@javax.annotation.Nullable String typeWithUnderscore) {
     this.typeWithUnderscore = typeWithUnderscore;
     return this;
   }
 
-   /**
+  /**
    * Get typeWithUnderscore
    * @return typeWithUnderscore
-  **/
+   */
   @javax.annotation.Nullable
   public String getTypeWithUnderscore() {
     return typeWithUnderscore;
   }
 
-  public void setTypeWithUnderscore(String typeWithUnderscore) {
+  public void setTypeWithUnderscore(@javax.annotation.Nullable String typeWithUnderscore) {
     this.typeWithUnderscore = typeWithUnderscore;
   }
 
@@ -217,36 +221,33 @@ public class PropertyNameCollision {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("_type");
-    openapiFields.add("type");
-    openapiFields.add("type_");
+    openapiFields = new HashSet<String>(Arrays.asList("_type", "type", "type_"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to PropertyNameCollision
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to PropertyNameCollision
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!PropertyNameCollision.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in PropertyNameCollision is not found in the empty JSON string", PropertyNameCollision.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The required field(s) %s in PropertyNameCollision is not found in the empty JSON string", PropertyNameCollision.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("_type") != null && !jsonObj.get("_type").isJsonNull()) && !jsonObj.get("_type").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `_type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("_type").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `_type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("_type").toString()));
       }
       if ((jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) && !jsonObj.get("type").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
       }
       if ((jsonObj.get("type_") != null && !jsonObj.get("type_").isJsonNull()) && !jsonObj.get("type_").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `type_` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type_").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `type_` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type_").toString()));
       }
   }
 
@@ -278,7 +279,12 @@ public class PropertyNameCollision {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -302,7 +308,7 @@ public class PropertyNameCollision {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object
@@ -317,22 +323,22 @@ public class PropertyNameCollision {
     }
   }
 
- /**
-  * Create an instance of PropertyNameCollision given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of PropertyNameCollision
-  * @throws IOException if the JSON string is invalid with respect to PropertyNameCollision
-  */
+  /**
+   * Create an instance of PropertyNameCollision given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of PropertyNameCollision
+   * @throws IOException if the JSON string is invalid with respect to PropertyNameCollision
+   */
   public static PropertyNameCollision fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, PropertyNameCollision.class);
   }
 
- /**
-  * Convert an instance of PropertyNameCollision to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of PropertyNameCollision to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

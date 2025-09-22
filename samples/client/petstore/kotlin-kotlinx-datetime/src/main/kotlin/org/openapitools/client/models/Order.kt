@@ -43,7 +43,7 @@ data class Order (
     val quantity: kotlin.Int? = null,
 
     @Json(name = "shipDate")
-    val shipDate: kotlinx.datetime.Instant? = null,
+    val shipDate: kotlin.time.Instant? = null,
 
     /* Order Status */
     @Json(name = "status")
@@ -65,5 +65,6 @@ data class Order (
         @Json(name = "approved") approved("approved"),
         @Json(name = "delivered") delivered("delivered");
     }
+
 }
 

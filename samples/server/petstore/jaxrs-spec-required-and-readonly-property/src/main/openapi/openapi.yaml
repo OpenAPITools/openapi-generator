@@ -13,9 +13,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReadonlyAndRequiredProperties'
+                $ref: "#/components/schemas/ReadonlyAndRequiredProperties"
           description: success
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   schemas:
     ReadonlyAndRequiredProperties:

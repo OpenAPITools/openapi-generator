@@ -7,7 +7,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -17,11 +19,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 import okio.ByteString;
 import org.junit.jupiter.api.*;
@@ -39,6 +37,28 @@ public class JSONTest {
         apiClient = new ApiClient();
         json = apiClient.getJSON();
         order = new Order();
+    }
+
+    @Test
+    public void testOneOfFreeFormObject() {
+        final Map<String, Object> map = new LinkedHashMap<>();
+        map.put("someString", "abc");
+        map.put("someBoolean", false);
+
+        final String json1 = "{\"someString\":\"abc\",\"someBoolean\":false}";
+        final FreeFormObjectTestClassProperties properties = new FreeFormObjectTestClassProperties();
+        properties.setActualInstance(map);
+
+        assertEquals(json1, json.serialize(properties));
+        assertEquals(json.deserialize(json1, FreeFormObjectTestClassProperties.class), properties);
+
+
+        final String json2 = "\"abc\"";
+        final FreeFormObjectTestClassProperties properties2 = new FreeFormObjectTestClassProperties();
+        properties2.setActualInstance("abc");
+
+        assertEquals(json2, json.serialize(properties2));
+        assertEquals(json.deserialize(json2, FreeFormObjectTestClassProperties.class), properties2);
     }
 
     @Test
@@ -256,13 +276,13 @@ public class JSONTest {
         assertEquals(t2.getName(), "tag test 1");
         assertEquals(t2.getId(), null);
 
-        // with all required fields 
+        // with all required fields
         String json3 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"]}";
         Pet t3 = gson.fromJson(json3, Pet.class);
         assertEquals(t3.getName(), "pet test 1");
         assertEquals(t3.getId(), Long.valueOf(5847));
 
-        // with all required fields and tags (optional) 
+        // with all required fields and tags (optional)
         String json4 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"],\"tags\":[{\"id\":\"tag 123\"}]}";
         Pet t4 = gson.fromJson(json3, Pet.class);
         assertEquals(t4.getName(), "pet test 1");
@@ -599,5 +619,66 @@ public class JSONTest {
 	assertEquals(p.getCategory().getName(), "cat 1");
 	assertEquals(p.getTags().get(0).getId(), 777L);
 	assertEquals(p.getTags().get(0).getName(), "tag 1");
+    }
+
+    @Test
+    public void testAdditionalArrayProperties() throws IOException {
+        String str = "{ \"className\": \"zebra\", \"array\": [\"1\",\"2\",\"3\"], \"empty_array\": [], \"object_array\": [{\"id\": 34, \"name\": \"just a tag\"}] }";
+        Zebra z = Zebra.fromJson(str);
+        z.putAdditionalProperty("new_array", Arrays.asList("1", "2", "3"));
+        z.putAdditionalProperty("new_empty_array", new ArrayList<>());
+        org.openapitools.client.model.Tag t = new org.openapitools.client.model.Tag();
+        t.setId(34L);
+        t.setName("just a tag");
+        z.putAdditionalProperty("new_object_array", Arrays.asList(t));
+        assertEquals(z.toJson(), "{\"className\":\"zebra\",\"object_array\":[{\"id\":34.0,\"name\":\"just a tag\"}],\"empty_array\":[],\"array\":[\"1\",\"2\",\"3\"],\"new_array\":[\"1\",\"2\",\"3\"],\"new_empty_array\":[],\"new_object_array\":[{\"id\":34,\"name\":\"just a tag\"}]}");
+    }
+
+    /**
+     * Validate a oneOf, anyOf schema with array sub-schema can be deserialized into the expected class.
+     */
+    @Test
+    public void testOneOfAnyOfArray() throws Exception {
+        {
+            String str = "{\"oneof_prop\":23,\"anyof_prop\":45}";
+
+            ModelWithOneOfAnyOfProperties m = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            Integer anyofProp = (Integer) m.getAnyofProp().getActualInstance();
+            assertEquals(anyofProp, 45);
+            Integer oneofProp = (Integer) m.getOneofProp().getActualInstance();
+            assertEquals(oneofProp, 23);
+
+            String str2 = "{ \"oneof_prop\": [\"test oneof\"], \"anyof_prop\": [\"test anyof\"] }";
+
+            ModelWithOneOfAnyOfProperties m2 = json.getGson().fromJson(str2, ModelWithOneOfAnyOfProperties.class);
+            List<String> anyofProp2 = (List<String>) m2.getAnyofProp().getActualInstance();
+            assertEquals(anyofProp2, Arrays.asList("test anyof"));
+            List<String> oneofProp2 =  (List<String>) m2.getOneofProp().getActualInstance();
+            assertEquals(oneofProp2, Arrays.asList("test oneof"));
+        }
+        {
+            // incorrect payload results in exception
+            String str = "{ \"oneof_prop\": \"23\", \"anyof_prop\": \"45\" }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                ModelWithOneOfAnyOfProperties o = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            });
+            assertTrue(exception.getMessage().contains("java.io.IOException: The JSON string is invalid for"));
+        }
+        {
+            // incorrect payload (array item type mismatch) results in exception
+            String str = "{ \"oneof_prop\": [23], \"anyof_prop\": [true] }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                ModelWithOneOfAnyOfProperties o = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            });
+            assertTrue(exception.getMessage().contains("java.io.IOException: The JSON string is invalid for"));
+        }
+    }
+
+    @Test
+    public void testDeserializeInputStream() throws Exception {
+        final String str = "\"2016-09-09\"";
+        final InputStream inputStream = new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
+        final LocalDate date = LocalDate.of(2016, 9, 9);
+        assertEquals(date, json.deserialize(inputStream, LocalDate.class));
     }
 }

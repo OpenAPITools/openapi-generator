@@ -55,18 +55,18 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 {{/jackson}}
 
 {{#kotlinx_serialization}}
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import {{packageName}}.infrastructure.Serializer.kotlinxSerializationJson
 import okhttp3.MediaType.Companion.toMediaType
 {{/kotlinx_serialization}}
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     {{^kotlinx_serialization}}
-    private val serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},
+    private val serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = {{#generateOneOfAnyOfWrappers}}{{#gson}}registerTypeAdapterFactoryForAllModels({{/gson}}{{/generateOneOfAnyOfWrappers}}Serializer.{{#gson}}gsonBuilder{{/gson}}{{#generateOneOfAnyOfWrappers}}{{#gson}}){{/gson}}{{/generateOneOfAnyOfWrappers}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},
     {{/kotlinx_serialization}}
-    private val callFactory : Call.Factory? = null,
+    private val callFactory: Call.Factory? = null,
     private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
         {{#useRxJava}}
         RxJavaCallAdapterFactory.create(),
@@ -95,7 +95,7 @@ import okhttp3.MediaType.Companion.toMediaType
     )
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
-    var logger: ((String) -> Unit)? = null
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var logger: ((String) -> Unit)? = null
 
     private val retrofitBuilder: Retrofit.Builder by lazy {
         Retrofit.Builder()
@@ -129,7 +129,7 @@ import okhttp3.MediaType.Companion.toMediaType
     }
 
     {{#hasAuthMethods}}
-    constructor(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         {{^kotlinx_serialization}}serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},{{/kotlinx_serialization}}
@@ -148,12 +148,27 @@ import okhttp3.MediaType.Companion.toMediaType
                 addAuthorization(authName, auth)
             }
         }
+        {{#generateOneOfAnyOfWrappers}}
+        {{^kotlinx_serialization}}
+        {{#gson}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        serializerBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/gson}}
+        {{/kotlinx_serialization}}
+        {{/generateOneOfAnyOfWrappers}}
     }
 
     {{#authMethods}}
     {{#isBasic}}
     {{#isBasicBasic}}
-    constructor(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         {{^kotlinx_serialization}}serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},{{/kotlinx_serialization}}
@@ -166,7 +181,7 @@ import okhttp3.MediaType.Companion.toMediaType
 
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-    constructor(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         {{^kotlinx_serialization}}serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},{{/kotlinx_serialization}}
@@ -180,7 +195,7 @@ import okhttp3.MediaType.Companion.toMediaType
     {{/isBasic}}
     {{/authMethods}}
     {{#hasOAuthMethods}}
-    constructor(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         {{^kotlinx_serialization}}serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},{{/kotlinx_serialization}}
@@ -201,7 +216,7 @@ import okhttp3.MediaType.Companion.toMediaType
     {{#authMethods}}
     {{#isBasic}}
     {{#isBasicBasic}}
-    fun setCredentials(username: String, password: String): ApiClient {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun setCredentials(username: String, password: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, HttpBasicAuth> {
             setCredentials(username, password)
         }
@@ -216,7 +231,7 @@ import okhttp3.MediaType.Companion.toMediaType
     {{/isBasicBasic}}
     {{^isBasicBasic}}
     {{#hasOAuthMethods}}
-    fun setCredentials(username: String, password: String): ApiClient {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun setCredentials(username: String, password: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             tokenRequestBuilder.setUsername(username).setPassword(password)
         }
@@ -225,7 +240,7 @@ import okhttp3.MediaType.Companion.toMediaType
     {{/hasOAuthMethods}}
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-    fun setBearerToken(bearerToken: String): ApiClient {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun setBearerToken(bearerToken: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, HttpBearerAuth> {
             this.bearerToken = bearerToken
         }
@@ -238,10 +253,10 @@ import okhttp3.MediaType.Companion.toMediaType
     {{/hasAuthMethods}}
     {{#hasOAuthMethods}}
     /**
-    * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-    * @return Token request builder
-    */
-    fun getTokenEndPoint(): TokenRequestBuilder? {
+     * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+     * @return Token request builder
+     */
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun getTokenEndPoint(): TokenRequestBuilder? {
         var result: TokenRequestBuilder? = null
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             result = tokenRequestBuilder
@@ -250,10 +265,10 @@ import okhttp3.MediaType.Companion.toMediaType
     }
 
     /**
-    * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-    * @return Authentication request builder
-    */
-    fun getAuthorizationEndPoint(): AuthenticationRequestBuilder? {
+     * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+     * @return Authentication request builder
+     */
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun getAuthorizationEndPoint(): AuthenticationRequestBuilder? {
         var result: AuthenticationRequestBuilder? = null
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             result = authenticationRequestBuilder
@@ -262,11 +277,11 @@ import okhttp3.MediaType.Companion.toMediaType
     }
 
     /**
-    * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
-    * @param accessToken Access token
-    * @return ApiClient
-    */
-    fun setAccessToken(accessToken: String): ApiClient {
+     * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
+     * @param accessToken Access token
+     * @return ApiClient
+     */
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun setAccessToken(accessToken: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             setAccessToken(accessToken)
         }
@@ -274,13 +289,13 @@ import okhttp3.MediaType.Companion.toMediaType
     }
 
     /**
-    * Helper method to configure the oauth accessCode/implicit flow parameters
-    * @param clientId Client ID
-    * @param clientSecret Client secret
-    * @param redirectURI Redirect URI
-    * @return ApiClient
-    */
-    fun configureAuthorizationFlow(clientId: String, clientSecret: String, redirectURI: String): ApiClient {
+     * Helper method to configure the oauth accessCode/implicit flow parameters
+     * @param clientId Client ID
+     * @param clientSecret Client secret
+     * @param redirectURI Redirect URI
+     * @return ApiClient
+     */
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun configureAuthorizationFlow(clientId: String, clientSecret: String, redirectURI: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             tokenRequestBuilder
                 .setClientId(clientId)
@@ -294,11 +309,11 @@ import okhttp3.MediaType.Companion.toMediaType
     }
 
     /**
-    * Configures a listener which is notified when a new access token is received.
-    * @param accessTokenListener Access token listener
-    * @return ApiClient
-    */
-    fun registerAccessTokenListener(accessTokenListener: AccessTokenListener): ApiClient {
+     * Configures a listener which is notified when a new access token is received.
+     * @param accessTokenListener Access token listener
+     * @return ApiClient
+     */
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun registerAccessTokenListener(accessTokenListener: AccessTokenListener): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             registerAccessTokenListener(accessTokenListener)
         }
@@ -312,7 +327,7 @@ import okhttp3.MediaType.Companion.toMediaType
      * @param authorization Authorization interceptor
      * @return ApiClient
      */
-    fun addAuthorization(authName: String, authorization: Interceptor): ApiClient {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun addAuthorization(authName: String, authorization: Interceptor): ApiClient {
         if (apiAuthorizations.containsKey(authName)) {
             throw RuntimeException("auth name $authName already in api authorizations")
         }
@@ -321,16 +336,30 @@ import okhttp3.MediaType.Companion.toMediaType
         return this
     }
 
-    fun setLogger(logger: (String) -> Unit): ApiClient {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun setLogger(logger: (String) -> Unit): ApiClient {
         this.logger = logger
         return this
     }
 
-    fun <S> createService(serviceClass: Class<S>): S {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun <S> createService(serviceClass: Class<S>): S {
         val usedCallFactory = this.callFactory ?: clientBuilder.build()
         return retrofitBuilder.callFactory(usedCallFactory).build().create(serviceClass)
     }
 
+    {{#generateOneOfAnyOfWrappers}}
+    {{^kotlinx_serialization}}
+    {{#gson}}
+    /**
+     * Gets the serializer builder.
+     * @return serial builder
+     */
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun getSerializerBuilder(): GsonBuilder {
+        return serializerBuilder
+    }
+
+    {{/gson}}
+    {{/kotlinx_serialization}}
+    {{/generateOneOfAnyOfWrappers}}
     private fun normalizeBaseUrl() {
         if (!baseUrl.endsWith("/")) {
             baseUrl += "/"
@@ -339,20 +368,45 @@ import okhttp3.MediaType.Companion.toMediaType
 
     private inline fun <T, reified U> Iterable<T>.runOnFirst(callback: U.() -> Unit) {
         for (element in this) {
-            if (element is U)  {
+            if (element is U) {
                 callback.invoke(element)
                 break
             }
         }
     }
 
-    companion object {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
         @JvmStatic
-        protected val baseUrlKey = "{{packageName}}.baseUrl"
+        protected val baseUrlKey: String = "{{packageName}}.baseUrl"
 
         @JvmStatic
-        val defaultBasePath: String by lazy {
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val defaultBasePath: String by lazy {
             System.getProperties().getProperty(baseUrlKey, "{{{basePath}}}")
         }
     }
 }
+{{#generateOneOfAnyOfWrappers}}
+{{^kotlinx_serialization}}
+{{#gson}}
+
+/**
+ * Registers all models with the type adapter factory.
+ *
+ * @param gsonBuilder gson builder
+ * @return GSON builder
+ */
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun registerTypeAdapterFactoryForAllModels(gsonBuilder: GsonBuilder): GsonBuilder {
+    {{#models}}
+    {{#model}}
+    {{^isEnum}}
+    {{^hasChildren}}
+    gsonBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+    {{/hasChildren}}
+    {{/isEnum}}
+    {{/model}}
+    {{/models}}
+    return gsonBuilder
+}
+{{/gson}}
+{{/kotlinx_serialization}}
+{{/generateOneOfAnyOfWrappers}}

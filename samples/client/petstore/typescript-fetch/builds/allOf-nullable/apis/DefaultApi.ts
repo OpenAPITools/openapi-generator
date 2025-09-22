@@ -34,16 +34,23 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async listRaw(requestParameters: ListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Club>> {
-        if (requestParameters.personId === null || requestParameters.personId === undefined) {
-            throw new runtime.RequiredError('personId','Required parameter requestParameters.personId was null or undefined when calling list.');
+        if (requestParameters['personId'] == null) {
+            throw new runtime.RequiredError(
+                'personId',
+                'Required parameter "personId" was null or undefined when calling list().'
+            );
         }
 
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+
+        let urlPath = `/person/display/{personId}`;
+        urlPath = urlPath.replace(`{${"personId"}}`, encodeURIComponent(String(requestParameters['personId'])));
+
         const response = await this.request({
-            path: `/person/display/{personId}`.replace(`{${"personId"}}`, encodeURIComponent(String(requestParameters.personId))),
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

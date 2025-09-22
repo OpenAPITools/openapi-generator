@@ -1,6 +1,10 @@
 package org.openapitools.codegen.kotlin;
 
 import kotlin.script.experimental.jvm.util.KotlinJars;
+import lombok.Getter;
+import org.antlr.v4.runtime.BaseErrorListener;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Recognizer;
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys;
 import org.jetbrains.kotlin.cli.common.config.ContentRootsKt;
 import org.jetbrains.kotlin.cli.common.messages.MessageRenderer;
@@ -15,11 +19,14 @@ import org.jetbrains.kotlin.config.CommonConfigurationKeys;
 import org.jetbrains.kotlin.config.CompilerConfiguration;
 import org.jetbrains.kotlin.config.JVMConfigurationKeys;
 import org.jetbrains.kotlin.config.JvmTarget;
+import org.openapitools.codegen.antlr4.KotlinParser;
+import org.openapitools.codegen.antlr4.KotlinParserBaseListener;
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -51,12 +58,7 @@ public class KotlinTestUtils {
         CompilerConfiguration configuration = new CompilerConfiguration();
         configuration.put(CommonConfigurationKeys.MODULE_NAME, moduleName);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = null;
-        try {
-            ps = new PrintStream(baos, true, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        PrintStream ps = new PrintStream(baos, true, StandardCharsets.UTF_8);
         configuration.put(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, new PrintingMessageCollector(ps, MessageRenderer.PLAIN_FULL_PATHS, true));
         configuration.put(JVMConfigurationKeys.OUTPUT_DIRECTORY, saveClassesDir);
 //        configuration.put(JVMConfigurationKeys.RETAIN_OUTPUT_IN_MEMORY, true)
@@ -98,6 +100,35 @@ public class KotlinTestUtils {
 
         public boolean isDisposed() {
             return isDisposed;
+        }
+    }
+
+    public static class CustomKotlinParseListener extends KotlinParserBaseListener {
+        @Getter
+        private int stringReferenceCount = 0;
+
+        @Override
+        public void exitLineStringContent(KotlinParser.LineStringContentContext ctx) {
+            if(ctx.LineStrRef() != null) {
+                stringReferenceCount++;
+            }
+        }
+
+        @Override
+        public void exitMultiLineStringContent(KotlinParser.MultiLineStringContentContext ctx) {
+            if(ctx.MultiLineStrRef() != null) {
+                stringReferenceCount++;
+            }
+        }
+    }
+
+    public static class SyntaxErrorListener extends BaseErrorListener {
+
+        @Getter
+        private int syntaxErrorCount = 0;
+        @Override
+        public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+            syntaxErrorCount++;
         }
     }
 }

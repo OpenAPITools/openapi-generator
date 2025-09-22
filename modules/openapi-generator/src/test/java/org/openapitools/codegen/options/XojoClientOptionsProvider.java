@@ -19,9 +19,7 @@ package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.XojoClientCodegen;
 
-import java.io.File;
 import java.util.Map;
 
 public class XojoClientOptionsProvider implements OptionsProvider {

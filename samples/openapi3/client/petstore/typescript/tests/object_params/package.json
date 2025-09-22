@@ -12,14 +12,13 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/chai": "^4.0.1",
+    "@types/chai": "4.0.1 - 4.1.x",
     "@types/isomorphic-fetch": "0.0.34",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^8.10.38",
+    "@types/node": "^22",
     "chai": "^4.1.0",
     "mocha": "^5.2.0",
-    "ts-loader": "^2.3.0",
-    "typescript": "^2.4.1"
+    "typescript": "^4.0.0"
   },
   "name": "typescript-test",
   "version": "1.0.0",

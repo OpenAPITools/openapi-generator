@@ -1,0 +1,525 @@
+## OrgsApi
+
+### Add a security manager team
+## Add a security manager team
+PUT https://api.github.com/orgs/{{org}}/security-managers/teams/{{team_slug}}
+
+### Assign an organization role to a team
+## Assign an organization role to a team
+PUT https://api.github.com/orgs/{{org}}/organization-roles/teams/{{team_slug}}/{{role_id}}
+
+### Assign an organization role to a user
+## Assign an organization role to a user
+PUT https://api.github.com/orgs/{{org}}/organization-roles/users/{{username}}/{{role_id}}
+
+### Block a user from an organization
+## Block a user from an organization
+PUT https://api.github.com/orgs/{{org}}/blocks/{{username}}
+Accept: application/json
+
+### Cancel an organization invitation
+## Cancel an organization invitation
+DELETE https://api.github.com/orgs/{{org}}/invitations/{{invitation_id}}
+Accept: application/json
+
+### Check if a user is blocked by an organization
+## Check if a user is blocked by an organization
+GET https://api.github.com/orgs/{{org}}/blocks/{{username}}
+Accept: application/json
+
+### Check organization membership for a user
+## Check organization membership for a user
+GET https://api.github.com/orgs/{{org}}/members/{{username}}
+
+### Check public organization membership for a user
+## Check public organization membership for a user
+GET https://api.github.com/orgs/{{org}}/public_members/{{username}}
+
+### Convert an organization member to outside collaborator
+## Convert an organization member to outside collaborator
+PUT https://api.github.com/orgs/{{org}}/outside_collaborators/{{username}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "async" : true
+}
+
+
+### Create a custom organization role
+## Create a custom organization role
+POST https://api.github.com/orgs/{{org}}/organization-roles
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "Custom Role Manager",
+  "description" : "Permissions to manage custom roles within an org",
+  "permissions" : [ "write_organization_custom_repo_role", "write_organization_custom_org_role", "read_organization_custom_repo_role", "read_organization_custom_org_role" ]
+}
+
+
+### Create an organization invitation
+## Create an organization invitation
+POST https://api.github.com/orgs/{{org}}/invitations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email" : "octocat@github.com",
+  "role" : "direct_member",
+  "team_ids" : [ 12, 26 ]
+}
+
+
+### Create or update custom properties for an organization
+## Create or update custom properties for an organization
+PATCH https://api.github.com/orgs/{{org}}/properties/schema
+Content-Type: application/json
+Accept: application/json
+
+{
+  "properties" : [ {
+    "property_name" : "environment",
+    "value_type" : "single_select",
+    "required" : true,
+    "default_value" : "production",
+    "description" : "Prod or dev environment",
+    "allowed_values" : [ "production", "development" ],
+    "values_editable_by" : "org_actors"
+  }, {
+    "property_name" : "service",
+    "value_type" : "string"
+  }, {
+    "property_name" : "team",
+    "value_type" : "string",
+    "description" : "Team owning the repository"
+  } ]
+}
+
+
+### Create or update custom property values for organization repositories
+## 
+PATCH https://api.github.com/orgs/{{org}}/properties/values
+Content-Type: application/json
+Accept: application/json
+
+{
+  "repository_names" : [ "Hello-World", "octo-repo" ],
+  "properties" : [ {
+    "property_name" : "environment",
+    "value" : "production"
+  }, {
+    "property_name" : "service",
+    "value" : "web"
+  }, {
+    "property_name" : "team",
+    "value" : "octocat"
+  } ]
+}
+
+
+### Create or update a custom property for an organization
+## Create or update a custom property for an organization
+PUT https://api.github.com/orgs/{{org}}/properties/schema/{{custom_property_name}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "value_type" : "single_select",
+  "required" : true,
+  "default_value" : "production",
+  "description" : "Prod or dev environment",
+  "allowed_values" : [ "production", "development" ]
+}
+
+
+### Create an organization webhook
+## Create an organization webhook
+POST https://api.github.com/orgs/{{org}}/hooks
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "web",
+  "active" : true,
+  "events" : [ "push", "pull_request" ],
+  "config" : {
+    "url" : "http://example.com/webhook",
+    "content_type" : "json"
+  }
+}
+
+
+### Delete an organization
+## Delete an organization
+DELETE https://api.github.com/orgs/{{org}}
+Accept: application/json
+
+### Delete a custom organization role.
+## Delete a custom organization role.
+DELETE https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}
+
+### Delete an organization webhook
+## Delete an organization webhook
+DELETE https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}
+Accept: application/json
+
+
+### Get an organization
+## Get an organization
+GET https://api.github.com/orgs/{{org}}
+Accept: application/json
+
+### Get all custom properties for an organization
+## Get all custom properties for an organization
+GET https://api.github.com/orgs/{{org}}/properties/schema
+Accept: application/json
+
+### Get a custom property for an organization
+## Get a custom property for an organization
+GET https://api.github.com/orgs/{{org}}/properties/schema/{{custom_property_name}}
+Accept: application/json
+
+### Get an organization membership for the authenticated user
+## Get an organization membership for the authenticated user
+GET https://api.github.com/user/memberships/orgs/{{org}}
+Accept: application/json
+
+### Get organization membership for a user
+## Get organization membership for a user
+GET https://api.github.com/orgs/{{org}}/memberships/{{username}}
+Accept: application/json
+
+### Get an organization role
+## Get an organization role
+GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}
+Accept: application/json
+
+### Get an organization webhook
+## Get an organization webhook
+GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}
+Accept: application/json
+
+### Get a webhook configuration for an organization
+## Get a webhook configuration for an organization
+GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/config
+Accept: application/json
+
+### Get a webhook delivery for an organization webhook
+## Get a webhook delivery for an organization webhook
+GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/deliveries/{{delivery_id}}
+Accept: application/json
+Accept: application/scim+json
+
+### List organizations
+## List organizations
+GET https://api.github.com/organizations?since={{since}}&perPage={{perPage}}
+Accept: application/json
+
+### List app installations for an organization
+## List app installations for an organization
+GET https://api.github.com/orgs/{{org}}/installations?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List users blocked by an organization
+## List users blocked by an organization
+GET https://api.github.com/orgs/{{org}}/blocks?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List custom property values for organization repositories
+## List custom property values for organization repositories
+GET https://api.github.com/orgs/{{org}}/properties/values?perPage={{perPage}}&page={{page}}&repositoryQuery={{repositoryQuery}}
+Accept: application/json
+
+### List failed organization invitations
+## List failed organization invitations
+GET https://api.github.com/orgs/{{org}}/failed_invitations?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List organizations for the authenticated user
+## List organizations for the authenticated user
+GET https://api.github.com/user/orgs?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List organizations for a user
+## List organizations for a user
+GET https://api.github.com/users/{{username}}/orgs?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List organization invitation teams
+## List organization invitation teams
+GET https://api.github.com/orgs/{{org}}/invitations/{{invitation_id}}/teams?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List organization members
+## List organization members
+GET https://api.github.com/orgs/{{org}}/members?filter={{filter}}&role={{role}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List organization memberships for the authenticated user
+## List organization memberships for the authenticated user
+GET https://api.github.com/user/memberships/orgs?state={{state}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List teams that are assigned to an organization role
+## List teams that are assigned to an organization role
+GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}/teams?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List users that are assigned to an organization role
+## List users that are assigned to an organization role
+GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}/users?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Get all organization roles for an organization
+## Get all organization roles for an organization
+GET https://api.github.com/orgs/{{org}}/organization-roles
+Accept: application/json
+
+### List organization fine-grained permissions for an organization
+## List organization fine-grained permissions for an organization
+GET https://api.github.com/orgs/{{org}}/organization-fine-grained-permissions
+Accept: application/json
+
+### List outside collaborators for an organization
+## List outside collaborators for an organization
+GET https://api.github.com/orgs/{{org}}/outside_collaborators?filter={{filter}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repositories a fine-grained personal access token has access to
+## List repositories a fine-grained personal access token has access to
+GET https://api.github.com/orgs/{{org}}/personal-access-tokens/{{pat_id}}/repositories?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repositories requested to be accessed by a fine-grained personal access token
+## List repositories requested to be accessed by a fine-grained personal access token
+GET https://api.github.com/orgs/{{org}}/personal-access-token-requests/{{pat_request_id}}/repositories?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List requests to access organization resources with fine-grained personal access tokens
+## List requests to access organization resources with fine-grained personal access tokens
+GET https://api.github.com/orgs/{{org}}/personal-access-token-requests?perPage={{perPage}}&page={{page}}&sort={{sort}}&direction={{direction}}&owner={{owner}}&repository={{repository}}&permission={{permission}}&lastUsedBefore={{lastUsedBefore}}&lastUsedAfter={{lastUsedAfter}}
+Accept: application/json
+
+### List fine-grained personal access tokens with access to organization resources
+## List fine-grained personal access tokens with access to organization resources
+GET https://api.github.com/orgs/{{org}}/personal-access-tokens?perPage={{perPage}}&page={{page}}&sort={{sort}}&direction={{direction}}&owner={{owner}}&repository={{repository}}&permission={{permission}}&lastUsedBefore={{lastUsedBefore}}&lastUsedAfter={{lastUsedAfter}}
+Accept: application/json
+
+### List pending organization invitations
+## List pending organization invitations
+GET https://api.github.com/orgs/{{org}}/invitations?perPage={{perPage}}&page={{page}}&role={{role}}&invitationSource={{invitationSource}}
+Accept: application/json
+
+### List public organization members
+## List public organization members
+GET https://api.github.com/orgs/{{org}}/public_members?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List security manager teams
+## List security manager teams
+GET https://api.github.com/orgs/{{org}}/security-managers
+Accept: application/json
+
+### List deliveries for an organization webhook
+## List deliveries for an organization webhook
+GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/deliveries?perPage={{perPage}}&cursor={{cursor}}&redelivery={{redelivery}}
+Accept: application/json
+Accept: application/scim+json
+
+### List organization webhooks
+## List organization webhooks
+GET https://api.github.com/orgs/{{org}}/hooks?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Update a custom organization role
+## Update a custom organization role
+PATCH https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "description" : "Permissions to manage custom roles within an org."
+}
+
+
+### Ping an organization webhook
+## Ping an organization webhook
+POST https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/pings
+Accept: application/json
+
+### Redeliver a delivery for an organization webhook
+## Redeliver a delivery for an organization webhook
+POST https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/deliveries/{{delivery_id}}/attempts
+Accept: application/json
+Accept: application/scim+json
+
+### Remove a custom property for an organization
+## Remove a custom property for an organization
+DELETE https://api.github.com/orgs/{{org}}/properties/schema/{{custom_property_name}}
+Accept: application/json
+
+### Remove an organization member
+## Remove an organization member
+DELETE https://api.github.com/orgs/{{org}}/members/{{username}}
+Accept: application/json
+
+### Remove organization membership for a user
+## Remove organization membership for a user
+DELETE https://api.github.com/orgs/{{org}}/memberships/{{username}}
+Accept: application/json
+
+### Remove outside collaborator from an organization
+## Remove outside collaborator from an organization
+DELETE https://api.github.com/orgs/{{org}}/outside_collaborators/{{username}}
+Accept: application/json
+
+### Remove public organization membership for the authenticated user
+## Remove public organization membership for the authenticated user
+DELETE https://api.github.com/orgs/{{org}}/public_members/{{username}}
+
+### Remove a security manager team
+## Remove a security manager team
+DELETE https://api.github.com/orgs/{{org}}/security-managers/teams/{{team_slug}}
+
+### Review a request to access organization resources with a fine-grained personal access token
+## Review a request to access organization resources with a fine-grained personal access token
+POST https://api.github.com/orgs/{{org}}/personal-access-token-requests/{{pat_request_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "action" : "deny",
+  "reason" : "This request is denied because the access is too broad."
+}
+
+
+### Review requests to access organization resources with fine-grained personal access tokens
+## Review requests to access organization resources with fine-grained personal access tokens
+POST https://api.github.com/orgs/{{org}}/personal-access-token-requests
+Content-Type: application/json
+Accept: application/json
+
+{
+  "pat_request_ids" : [ 42, 73 ],
+  "action" : "deny",
+  "reason" : "Access is too broad."
+}
+
+
+### Remove all organization roles for a team
+## Remove all organization roles for a team
+DELETE https://api.github.com/orgs/{{org}}/organization-roles/teams/{{team_slug}}
+
+### Remove all organization roles for a user
+## Remove all organization roles for a user
+DELETE https://api.github.com/orgs/{{org}}/organization-roles/users/{{username}}
+
+### Remove an organization role from a team
+## Remove an organization role from a team
+DELETE https://api.github.com/orgs/{{org}}/organization-roles/teams/{{team_slug}}/{{role_id}}
+
+### Remove an organization role from a user
+## Remove an organization role from a user
+DELETE https://api.github.com/orgs/{{org}}/organization-roles/users/{{username}}/{{role_id}}
+
+### Set organization membership for a user
+## Set organization membership for a user
+PUT https://api.github.com/orgs/{{org}}/memberships/{{username}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "role" : "member"
+}
+
+
+### Set public organization membership for the authenticated user
+## Set public organization membership for the authenticated user
+PUT https://api.github.com/orgs/{{org}}/public_members/{{username}}
+Accept: application/json
+
+### Unblock a user from an organization
+## Unblock a user from an organization
+DELETE https://api.github.com/orgs/{{org}}/blocks/{{username}}
+
+### Update an organization
+## Update an organization
+PATCH https://api.github.com/orgs/{{org}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "billing_email" : "mona@github.com",
+  "company" : "GitHub",
+  "email" : "mona@github.com",
+  "twitter_username" : "github",
+  "location" : "San Francisco",
+  "name" : "github",
+  "description" : "GitHub, the company.",
+  "default_repository_permission" : "read",
+  "members_can_create_repositories" : true,
+  "members_allowed_repository_creation_type" : "all"
+}
+
+
+### Update an organization membership for the authenticated user
+## Update an organization membership for the authenticated user
+PATCH https://api.github.com/user/memberships/orgs/{{org}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "state" : "active"
+}
+
+
+### Update the access a fine-grained personal access token has to organization resources
+## Update the access a fine-grained personal access token has to organization resources
+POST https://api.github.com/orgs/{{org}}/personal-access-tokens/{{pat_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "action" : "revoke"
+}
+
+
+### Update the access to organization resources via fine-grained personal access tokens
+## Update the access to organization resources via fine-grained personal access tokens
+POST https://api.github.com/orgs/{{org}}/personal-access-tokens
+Content-Type: application/json
+Accept: application/json
+
+{
+  "action" : "revoke",
+  "pat_ids" : [ 1296269, 1296280 ]
+}
+
+
+### Update an organization webhook
+## Update an organization webhook
+PATCH https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "active" : true,
+  "events" : [ "pull_request" ]
+}
+
+
+### Update a webhook configuration for an organization
+## Update a webhook configuration for an organization
+PATCH https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/config
+Content-Type: application/json
+Accept: application/json
+
+{
+  "url" : "http://example.com/webhook",
+  "content_type" : "json",
+  "insecure_ssl" : "0",
+  "secret" : "********"
+}
+

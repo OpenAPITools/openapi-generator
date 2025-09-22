@@ -96,7 +96,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
         case .options, .post, .put, .patch, .delete, .trace, .connect:
             let contentType = headers["Content-Type"] ?? "application/json"
 
-            if contentType.hasPrefix("application/json") {
+            if contentType.hasPrefix("application/") && contentType.contains("json") {
                 encoding = JSONDataEncoding()
             } else if contentType.hasPrefix("multipart/form-data") {
                 encoding = nil
@@ -408,6 +408,8 @@ extension JSONDataEncoding: ParameterEncoding {
     public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         let urlRequest = try urlRequest.asURLRequest()
 
-        return encode(urlRequest, with: parameters)
+        // Alamofire 5.10 changed type of Parameters so that it is no longer equivalent to [String: Any]
+        // cast this type so that the call to encode is not recursive
+        return encode(urlRequest, with: parameters as [String: Any]?)
     }
 }

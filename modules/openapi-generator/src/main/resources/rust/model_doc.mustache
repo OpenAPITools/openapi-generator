@@ -1,4 +1,35 @@
 {{#models}}{{#model}}# {{{classname}}}
+{{#isEnum}}
+
+## Enum Variants
+
+| Name | Value |
+|---- | -----|{{#allowableValues}}{{#enumVars}}
+| {{name}} | {{value}} |{{/enumVars}}{{/allowableValues}}
+
+{{/isEnum}}
+{{#discriminator}}
+
+## Enum Variants
+
+| Name | Value |
+|---- | -----|{{#vendorExtensions}}{{#x-mapped-models}}
+| {{modelName}} | {{mappingName}} |{{/x-mapped-models}}{{/vendorExtensions}}
+{{#vendorExtensions}}
+{{#x-mapped-models}}
+
+## {{modelName}}
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+{{#vars}}**{{{name}}}** | {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{{complexType}}}.md){{/isPrimitiveType}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}} | {{{description}}} | {{^required}}[optional]{{/required}}{{#isReadOnly}}[readonly]{{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{/vars}}
+{{/x-mapped-models}}
+{{/vendorExtensions}}
+{{/discriminator}}
+{{^discriminator}}
+{{^isEnum}}
+{{#oneOf.isEmpty}}
 
 ## Properties
 
@@ -6,6 +37,17 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 {{#vars}}**{{{name}}}** | {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{{complexType}}}.md){{/isPrimitiveType}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}} | {{{description}}} | {{^required}}[optional]{{/required}}{{#isReadOnly}}[readonly]{{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
 {{/vars}}
+{{/oneOf.isEmpty}}
+{{^oneOf.isEmpty}}
+
+## Enum Variants
+
+| Name | Description |
+|---- | -----|{{#oneOf}}
+| {{{.}}} | {{description}} |{{/oneOf}}
+{{/oneOf.isEmpty}}
+{{/isEnum}}
+{{/discriminator}}
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

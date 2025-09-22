@@ -51,17 +51,17 @@ bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPref
     {{#required}}/* {{name}} */ {{/required}}{
         const {{{dataType}}}& value = m_{{name}};
         const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
-        {{> model-validation-body }}
+        {{> model-validation-body }}{{! prevent indent}}
     }
     {{/isArray}}{{^isArray}}{{#hasValidation}} {{! Only generate validation if necessary }}
     {{^required}}if ({{nameInCamelCase}}IsSet()){{/required}}
     {{#required}}/* {{name}} */ {{/required}}{
         const {{{dataType}}}& value = m_{{name}};
         const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
-        {{> model-validation-body }}
+        {{> model-validation-body }}{{! prevent indent}}
     }
     {{/hasValidation}}{{#required}}{{#isModel}}
-    if (!m_{{name}}.validate()) {
+    if (!m_{{name}}.validate(msg, _pathPrefix + ".{{nameInCamelCase}}")) {
         msg << _pathPrefix << ": {{name}} is invalid;";
         success = false;
     }{{/isModel}}{{/required}}{{/isArray}}{{/vars}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}

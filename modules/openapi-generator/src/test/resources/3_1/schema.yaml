@@ -51,3 +51,32 @@ components:
           type: object
           additionalProperties:
             type: string
+        anyof1:
+          anyOf:
+            - type: string
+            - type: number
+        anyof2:
+          anyOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        oneof1:
+          oneOf:
+            - type: string
+            - type: integer
+    ObjectSchema:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+    ComplexComposedSchema:
+      oneOf:
+        - type: string
+        - type: integer
+      anyOf:
+        - type: string
+        - type: number

@@ -21,7 +21,7 @@ print AdditionalPropertiesAnyType.to_json()
 # convert the object into a dict
 additional_properties_any_type_dict = additional_properties_any_type_instance.to_dict()
 # create an instance of AdditionalPropertiesAnyType from a dict
-additional_properties_any_type_form_dict = additional_properties_any_type.from_dict(additional_properties_any_type_dict)
+additional_properties_any_type_from_dict = AdditionalPropertiesAnyType.from_dict(additional_properties_any_type_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

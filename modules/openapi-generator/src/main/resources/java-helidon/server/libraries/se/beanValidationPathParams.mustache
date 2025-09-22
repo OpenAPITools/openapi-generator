@@ -1,2 +1,2 @@
 {{! PathParam is always required, no @NotNull necessary }}
-ValidatorUtils.checkNonNull({{paramName}});{{#isPrimitiveType}}{{>beanValidationCore}}{{/isPrimitiveType}}
+{{#x-helidon-v3}}ValidatorUtils.checkNonNull({{/x-helidon-v3}}{{^x-helidon-v3}}validator.require("{{paramName}}", {{/x-helidon-v3}}{{paramName}});{{#isPrimitiveType}}{{>beanValidationCore}}{{/isPrimitiveType}}

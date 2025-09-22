@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("BigCat")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class BigCat extends Cat implements Serializable {
   public enum KindEnum {
 
@@ -64,7 +64,7 @@ public class BigCat extends Cat implements Serializable {
     }
 }
 
-  private @Valid KindEnum kind;
+  private KindEnum kind;
 
   protected BigCat(BigCatBuilder<?, ?> b) {
     super(b);
@@ -72,6 +72,15 @@ public class BigCat extends Cat implements Serializable {
   }
 
   public BigCat() {
+  }
+
+  @JsonCreator
+  public BigCat(
+    @JsonProperty(required = true, value = "className") String className
+  ) {
+    super(
+      className
+    );
   }
 
   /**

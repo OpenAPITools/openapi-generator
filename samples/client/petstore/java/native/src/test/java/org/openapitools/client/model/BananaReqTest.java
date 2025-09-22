@@ -19,22 +19,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import java.util.Arrays;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for BananaReq
  */
-public class BananaReqTest {
+class BananaReqTest {
     private final BananaReq model = new BananaReq();
 
     /**
      * Model tests for BananaReq
      */
     @Test
-    public void testBananaReq() {
+    void testBananaReq() {
         // TODO: test BananaReq
     }
 
@@ -42,7 +42,7 @@ public class BananaReqTest {
      * Test the property 'lengthCm'
      */
     @Test
-    public void lengthCmTest() {
+    void lengthCmTest() {
         // TODO: test lengthCm
     }
 
@@ -50,7 +50,7 @@ public class BananaReqTest {
      * Test the property 'sweet'
      */
     @Test
-    public void sweetTest() {
+    void sweetTest() {
         // TODO: test sweet
     }
 

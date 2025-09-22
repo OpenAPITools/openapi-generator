@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  description: >-
+    This spec is mainly for testing Petstore server and contains fake endpoints,
+    models. Please do not use this for any other purpose. Special characters: "
+    \
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /foo:
+    get:
+      responses:
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                type: number
+        4XX:
+          description: client error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Foo'
+        404:
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Foo'
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        bar:
+          $ref: '#/components/schemas/Bar'
+    Bar:
+      type: string
+      default: bar

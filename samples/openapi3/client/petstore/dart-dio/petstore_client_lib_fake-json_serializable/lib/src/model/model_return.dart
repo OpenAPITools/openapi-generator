@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'model_return.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -25,7 +27,7 @@ class ModelReturn {
     
     name: r'return',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -33,13 +35,15 @@ class ModelReturn {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ModelReturn &&
-     other.return_ == return_;
 
-  @override
-  int get hashCode =>
-    return_.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ModelReturn &&
+      other.return_ == return_;
+
+    @override
+    int get hashCode =>
+        return_.hashCode;
 
   factory ModelReturn.fromJson(Map<String, dynamic> json) => _$ModelReturnFromJson(json);
 

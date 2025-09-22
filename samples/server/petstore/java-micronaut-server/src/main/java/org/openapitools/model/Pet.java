@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +41,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   Pet.JSON_PROPERTY_STATUS
 })
 @JsonTypeName("Pet")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @Introspected
 public class Pet {
     public static final String JSON_PROPERTY_ID = "id";
@@ -108,7 +109,7 @@ public class Pet {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
     @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_ID)
@@ -131,7 +132,7 @@ public class Pet {
     /**
      * Get category
      * @return category
-     **/
+     */
     @Valid
     @Nullable
     @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
@@ -155,7 +156,7 @@ public class Pet {
     /**
      * Get name
      * @return name
-     **/
+     */
     @NotNull
     @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty(JSON_PROPERTY_NAME)
@@ -183,7 +184,7 @@ public class Pet {
     /**
      * Get photoUrls
      * @return photoUrls
-     **/
+     */
     @NotNull
     @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
@@ -214,7 +215,7 @@ public class Pet {
     /**
      * Get tags
      * @return tags
-     **/
+     */
     @Nullable
     @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_TAGS)
@@ -237,7 +238,7 @@ public class Pet {
     /**
      * pet status in the store
      * @return status
-     **/
+     */
     @Nullable
     @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_STATUS)

@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -29,26 +30,27 @@ import org.hibernate.validator.constraints.*;
 /**
  * Dog
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class Dog extends Animal {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
+  @javax.annotation.Nullable
   private String breed;
 
   public Dog() {
 
   }
 
-  public Dog breed(String breed) {
+  public Dog breed(@javax.annotation.Nullable String breed) {
     
     this.breed = breed;
     return this;
   }
 
-   /**
+  /**
    * Get breed
    * @return breed
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -57,18 +59,18 @@ public class Dog extends Animal {
   }
 
 
-  public void setBreed(String breed) {
+  public void setBreed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
   }
 
   @Override
-  public Dog className(String className) {
+  public Dog className(@javax.annotation.Nonnull String className) {
     this.setClassName(className);
     return this;
   }
 
   @Override
-  public Dog color(String color) {
+  public Dog color(@javax.annotation.Nullable String color) {
     this.setColor(color);
     return this;
   }

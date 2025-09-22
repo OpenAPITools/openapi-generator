@@ -27,16 +27,6 @@
                 <version>1.6.0</version>
                 <executions>
                     <execution>
-                        <id>install-pistache</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>./install_pistache.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>build-pistache</id>
                         <phase>integration-test</phase>
                         <goals>

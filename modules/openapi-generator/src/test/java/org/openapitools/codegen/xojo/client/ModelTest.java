@@ -1,11 +1,11 @@
 package org.openapitools.codegen.xojo.client;
 
-import org.openapitools.codegen.*;
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.LongProperty;
+import io.swagger.models.properties.StringProperty;
+import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.XojoClientCodegen;
-import io.swagger.models.*;
-import io.swagger.models.properties.*;
-
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")

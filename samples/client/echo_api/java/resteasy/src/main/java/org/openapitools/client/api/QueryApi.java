@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class QueryApi {
   private ApiClient apiClient;
 
@@ -48,7 +48,7 @@ public class QueryApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+  public String testEnumRefString(@javax.annotation.Nullable String enumNonrefStringQuery, @javax.annotation.Nullable StringEnumRef enumRefStringQuery) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -90,7 +90,7 @@ public class QueryApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testQueryDatetimeDateString(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery) throws ApiException {
+  public String testQueryDatetimeDateString(@javax.annotation.Nullable OffsetDateTime datetimeQuery, @javax.annotation.Nullable LocalDate dateQuery, @javax.annotation.Nullable String stringQuery) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -133,7 +133,7 @@ public class QueryApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testQueryIntegerBooleanString(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws ApiException {
+  public String testQueryIntegerBooleanString(@javax.annotation.Nullable Integer integerQuery, @javax.annotation.Nullable Boolean booleanQuery, @javax.annotation.Nullable String stringQuery) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -174,7 +174,7 @@ public class QueryApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleDeepObjectExplodeTrueObject(Pet queryObject) throws ApiException {
+  public String testQueryStyleDeepObjectExplodeTrueObject(@javax.annotation.Nullable Pet queryObject) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -213,7 +213,7 @@ public class QueryApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
+  public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -252,7 +252,7 @@ public class QueryApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeFalseArrayInteger(List<Integer> queryObject) throws ApiException {
+  public String testQueryStyleFormExplodeFalseArrayInteger(@javax.annotation.Nullable List<Integer> queryObject) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -291,7 +291,7 @@ public class QueryApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeFalseArrayString(List<String> queryObject) throws ApiException {
+  public String testQueryStyleFormExplodeFalseArrayString(@javax.annotation.Nullable List<String> queryObject) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -330,7 +330,7 @@ public class QueryApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeTrueArrayString(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws ApiException {
+  public String testQueryStyleFormExplodeTrueArrayString(@javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -369,7 +369,7 @@ public class QueryApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeTrueObject(Pet queryObject) throws ApiException {
+  public String testQueryStyleFormExplodeTrueObject(@javax.annotation.Nullable Pet queryObject) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -408,7 +408,7 @@ public class QueryApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeTrueObjectAllOf(DataQuery queryObject) throws ApiException {
+  public String testQueryStyleFormExplodeTrueObjectAllOf(@javax.annotation.Nullable DataQuery queryObject) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -421,6 +421,47 @@ public class QueryApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "query_object", queryObject));
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    GenericType<String> localVarReturnType = new GenericType<String>() {};
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param jsonSerializedObjectRefStringQuery  (optional)
+   * @param jsonSerializedObjectArrayRefStringQuery  (optional)
+   * @return a {@code String}
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleJsonSerializationObject(@javax.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @javax.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/query/style_jsonSerialization/object".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
 
     
     

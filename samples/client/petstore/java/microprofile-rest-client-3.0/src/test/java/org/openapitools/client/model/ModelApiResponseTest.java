@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -13,22 +13,21 @@
 
 package org.openapitools.client.model;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for ModelApiResponse
  */
-public class ModelApiResponseTest {
+class ModelApiResponseTest {
     private final ModelApiResponse model = new ModelApiResponse();
 
     /**
      * Model tests for ModelApiResponse
      */
     @Test
-    public void testModelApiResponse() {
+    void testModelApiResponse() {
         // TODO: test ModelApiResponse
     }
 
@@ -36,7 +35,7 @@ public class ModelApiResponseTest {
      * Test the property 'code'
      */
     @Test
-    public void codeTest() {
+    void codeTest() {
         // TODO: test code
     }
 
@@ -44,7 +43,7 @@ public class ModelApiResponseTest {
      * Test the property 'type'
      */
     @Test
-    public void typeTest() {
+    void typeTest() {
         // TODO: test type
     }
 
@@ -52,7 +51,7 @@ public class ModelApiResponseTest {
      * Test the property 'message'
      */
     @Test
-    public void messageTest() {
+    void messageTest() {
         // TODO: test message
     }
 

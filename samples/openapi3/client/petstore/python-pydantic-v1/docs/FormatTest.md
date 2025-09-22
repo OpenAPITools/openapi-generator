@@ -37,7 +37,7 @@ print FormatTest.to_json()
 # convert the object into a dict
 format_test_dict = format_test_instance.to_dict()
 # create an instance of FormatTest from a dict
-format_test_form_dict = format_test.from_dict(format_test_dict)
+format_test_from_dict = FormatTest.from_dict(format_test_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

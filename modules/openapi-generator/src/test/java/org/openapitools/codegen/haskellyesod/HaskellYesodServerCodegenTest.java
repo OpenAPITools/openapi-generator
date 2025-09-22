@@ -1,10 +1,13 @@
 package org.openapitools.codegen.haskellyesod;
 
-import java.util.*;
-import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.HaskellYesodServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HaskellYesodServerCodegenTest {
 

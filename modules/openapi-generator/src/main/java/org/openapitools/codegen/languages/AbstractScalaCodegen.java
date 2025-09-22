@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +19,10 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -48,8 +47,9 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
 
-    protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
-    protected String invokerPackage = "org.openapitools.client";
+    @Getter protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
+    @Setter protected String invokerPackage = "org.openapitools.client";
+    @Getter @Setter
     protected String sourceFolder = "src/main/scala";
     protected String appName = "OpenAPI Sample";
     protected String appDescription = "A sample openapi server";
@@ -59,7 +59,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     protected String licenseUrl = "http://apache.org/licenses/LICENSE-2.0.html";
     protected String apiVersion = "1.0";
     protected boolean stripPackageName = true;
-    protected String dateLibrary = DateLibraries.java8.name();
+    @Getter protected String dateLibrary = DateLibraries.java8.name();
 
     protected enum DateLibraries {
         java8("Java 8 native JSR310 (preferred for JDK 1.8+)"),
@@ -191,6 +191,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (StringUtils.isEmpty(System.getenv("SCALA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable SCALA_POST_PROCESS_FILE not defined so the Scala code may not be properly formatted. To define it, try 'export SCALA_POST_PROCESS_FILE=/usr/local/bin/scalafmt' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'SCALA_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         this.appName = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getTitle()).filter(t -> t != null).orElse(this.appName);
@@ -255,10 +257,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         throw new IllegalArgumentException("Invalid dateLibrary. Must be 'java8' or 'joda'");
     }
 
-    public String getDateLibrary() {
-        return this.dateLibrary;
-    }
-
     public void setModelPropertyNaming(String naming) {
         try {
             this.modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(naming).name();
@@ -267,10 +265,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                     naming + "'. Must be 'original', 'camelCase', " +
                     "'PascalCase' or 'snake_case'");
         }
-    }
-
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
     }
 
 
@@ -314,14 +308,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                         name + "'. Must be 'original', 'camelCase', " +
                         "'PascalCase' or 'snake_case'");
         }
-    }
-
-    public String getSourceFolder() {
-        return sourceFolder;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
     }
 
     @Override
@@ -371,7 +357,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = ModelUtils.getSchemaItems(schema);
             return getSchemaType(target) + "[" + getTypeDeclaration(items) + "]";
         } else if (ModelUtils.isMapSchema(target)) {
             Schema<?> inner = ModelUtils.getAdditionalProperties(target);
@@ -404,9 +390,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return instantiationTypes.get("map") + "[String, " + inner + "]";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
-            return (ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array")) + "[" + inner + "]";
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
+            return (ModelUtils.isSet(p) ? instantiationTypes.get("set") : instantiationTypes.get("array")) + "[" + inner + "]";
         } else {
             return null;
         }
@@ -433,10 +418,9 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "new HashMap[String, " + inner + "]() ";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             String genericType;
-            if (ModelUtils.isSet(ap)) {
+            if (ModelUtils.isSet(p)) {
                 genericType = instantiationTypes.get("set");
             } else {
                 genericType = instantiationTypes.get("array");
@@ -475,8 +459,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty prop = super.fromProperty(name, p, required);
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema as = (ArraySchema) p;
-            if (ModelUtils.isSet(as)) {
+            if (ModelUtils.isSet(p)) {
                 prop.containerType = "set";
             }
         }
@@ -545,6 +528,21 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (identifier.matches("[a-zA-Z_$][\\w_$]+") && !isReservedWord(identifier)) {
             return identifier;
         }
+
+        // below code block only for scala-sttp4-jsoniter for backward copmatibility
+        if (this instanceof ScalaSttp4JsoniterClientCodegen) {
+            if (identifier.matches("[0-9]*")) {
+                return escapeReservedWord(identifier);
+            }
+            if (!capitalized || StringUtils.isNumeric(name)) {
+                // starts with a small letter, could be a keyword or a number
+                return escapeReservedWord(identifier);
+            } else {
+                // no keywords start with large letter
+                return identifier;
+            }
+        }
+
         return escapeReservedWord(identifier);
     }
 
@@ -564,6 +562,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -575,20 +574,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         // only process files with scala extension
         if ("scala".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = scalaPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{scalaPostProcessFile, file.toString()});
         }
     }
 
@@ -615,10 +601,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         }
 
         return operationId;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
     }
 
     @Override

@@ -1,0 +1,401 @@
+openapi: 3.1.0
+info:
+  title: 'Encoding / Decoding Test'
+  description: 'A spec to ensure encoding and decoding of types (both primitive and compound) works as expected'
+  version: latest
+paths:
+  /test/decode/primitive/boolean:
+    get:
+      responses:
+        '200':
+          description: 'Decodes a boolean'
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /test/decode/primitive/integer:
+    get:
+      responses:
+        '200':
+          description: 'Decodes an integer'
+          content:
+            application/json:
+              schema:
+                type: integer
+  /test/decode/primitive/number:
+    get:
+      responses:
+        '200':
+          description: 'Decodes a number'
+          content:
+            application/json:
+              schema:
+                type: number
+  /test/decode/primitive/string:
+    get:
+      responses:
+        '200':
+          description: 'Decodes a string'
+          content:
+            application/json:
+              schema:
+                type: string
+  /test/decode/nullable:
+    get:
+      responses:
+        '200':
+          description: 'Decodes a nullable type'
+          content:
+            application/json:
+              schema:
+                type: [string, 'null']
+  /test/decode/array-of:
+    get:
+      responses:
+        '200':
+          description: 'Decodes an array of primitive types'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /test/decode/array-of/nullable:
+    get:
+      responses:
+        '200':
+          description: 'Decodes an array of nullable types'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: [string, 'null']
+  /test/decode/nullable-array:
+    get:
+      responses:
+        '200':
+          description: 'Decodes a nullable array'
+          content:
+            application/json:
+              schema:
+                type: [array, 'null']
+                items:
+                  type: string
+  /test/decode/array-of-arrays:
+    get:
+      responses:
+        '200':
+          description: 'Decodes an array of arrays'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: string
+  /test/decode/object:
+    get:
+      responses:
+        '200':
+          description: 'Decodes an object'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplexObject'
+  /test/decode/map-of/primitive:
+    get:
+      responses:
+        '200':
+          description: 'Decodes a map of primitive types'
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+  /test/decode/map-of/objects:
+    get:
+      responses:
+        '200':
+          description: 'Decodes a map of objects'
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/ComplexObject'
+  /test/decode/map-of/maps-of/objects:
+    get:
+      responses:
+        '200':
+          description: 'Decodes a map of maps of objects'
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/ComplexObject'
+  /test/decode/array-of/maps-of/objects:
+    get:
+      responses:
+        '200':
+          description: 'Decodes an array of maps of complex objects'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/ComplexObject'
+  /test/decode/array-of/nullable-objects:
+    get:
+      responses:
+        '200':
+          description: 'Decodes an array of nullable objects'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/ComplexObject'
+                    - type: 'null'
+  /test/decode/composite-objects:
+    get:
+      responses:
+        '200':
+          description: 'Decodes a composite object'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompositeObject'
+  /test/encode/primitive/boolean:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: boolean
+      responses:
+        '200':
+          description: 'Encodes a boolean'
+  /test/encode/primitive/integer:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: integer
+      responses:
+        '200':
+          description: 'Encodes an integer'
+  /test/encode/primitive/number:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: number
+      responses:
+        '200':
+          description: 'Encodes a number'
+  /test/encode/primitive/string:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: 'Encodes a string'
+  /test/encode/nullable:
+    post:
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: [string, 'null']
+      responses:
+        '200':
+          description: 'Encodes a nullable type'
+  /test/encode/array-of:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '200':
+          description: 'Encodes an array of primitive types'
+  /test/encode/array-of/nullable:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: [string, 'null']
+      responses:
+        '200':
+          description: 'Encodes an array of nullable types'
+  /test/encode/nullable-array:
+    post:
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: [array, 'null']
+              items:
+                type: string
+      responses:
+        '200':
+          description: 'Encodes a nullable array'
+  /test/encode/array-of-arrays:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  type: string
+      responses:
+        '200':
+          description: 'Encodes an array of arrays'
+  /test/encode/object:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComplexObject'
+      responses:
+        '200':
+          description: 'Encodes an object'
+  /test/encode/map-of/primitive:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+      responses:
+        '200':
+          description: 'Encodes a map of primitive types'
+  /test/encode/map-of/objects:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/ComplexObject'
+      responses:
+        '200':
+          description: 'Encodes a map of objects'
+  /test/encode/map-of/maps-of/objects:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/ComplexObject'
+      responses:
+        '200':
+          description: 'Encodes a map of maps of objects'
+  /test/encode/array-of/maps-of/objects:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/ComplexObject'
+      responses:
+        '200':
+          description: 'Encodes an array of maps of complex objects'
+  /test/encode/array-of/nullable-objects:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                oneOf:
+                  - $ref: '#/components/schemas/ComplexObject'
+                  - type: 'null'
+      responses:
+        '200':
+          description: 'Encodes an array of nullable objects'
+  /test/encode/composite-objects:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompositeObject'
+      responses:
+        '200':
+          description: 'Encodes a composite object'
+components:
+  schemas:
+    ComplexObject:
+      type: object
+      required:
+        - required_property
+        - required_nullable_property
+      properties:
+        required_property:
+          type: string
+        required_nullable_property:
+          type: [string, 'null']
+        optional_property:
+          type: string
+        optional_nullable_property:
+          type: [string, 'null']
+    CompositeObject:
+      type: object
+      properties:
+        optional_nullable_inner_object:
+          oneOf:
+            - $ref: '#/components/schemas/ComplexObject'
+            - type: 'null'

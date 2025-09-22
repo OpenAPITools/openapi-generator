@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ import javax.annotation.Generated;
  * Capitalization
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class Capitalization {
 
   private Optional<String> smallCamel = Optional.empty();
@@ -35,14 +36,14 @@ public class Capitalization {
   private Optional<String> ATT_NAME = Optional.empty();
 
   public Capitalization smallCamel(String smallCamel) {
-    this.smallCamel = Optional.of(smallCamel);
+    this.smallCamel = Optional.ofNullable(smallCamel);
     return this;
   }
 
   /**
    * Get smallCamel
    * @return smallCamel
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("smallCamel")
@@ -55,14 +56,14 @@ public class Capitalization {
   }
 
   public Capitalization capitalCamel(String capitalCamel) {
-    this.capitalCamel = Optional.of(capitalCamel);
+    this.capitalCamel = Optional.ofNullable(capitalCamel);
     return this;
   }
 
   /**
    * Get capitalCamel
    * @return capitalCamel
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
@@ -75,14 +76,14 @@ public class Capitalization {
   }
 
   public Capitalization smallSnake(String smallSnake) {
-    this.smallSnake = Optional.of(smallSnake);
+    this.smallSnake = Optional.ofNullable(smallSnake);
     return this;
   }
 
   /**
    * Get smallSnake
    * @return smallSnake
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
@@ -95,14 +96,14 @@ public class Capitalization {
   }
 
   public Capitalization capitalSnake(String capitalSnake) {
-    this.capitalSnake = Optional.of(capitalSnake);
+    this.capitalSnake = Optional.ofNullable(capitalSnake);
     return this;
   }
 
   /**
    * Get capitalSnake
    * @return capitalSnake
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
@@ -115,14 +116,14 @@ public class Capitalization {
   }
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
-    this.scAETHFlowPoints = Optional.of(scAETHFlowPoints);
+    this.scAETHFlowPoints = Optional.ofNullable(scAETHFlowPoints);
     return this;
   }
 
   /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
@@ -135,14 +136,14 @@ public class Capitalization {
   }
 
   public Capitalization ATT_NAME(String ATT_NAME) {
-    this.ATT_NAME = Optional.of(ATT_NAME);
+    this.ATT_NAME = Optional.ofNullable(ATT_NAME);
     return this;
   }
 
   /**
    * Name of the pet 
    * @return ATT_NAME
-  */
+   */
   
   @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")
@@ -200,5 +201,93 @@ public class Capitalization {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Capitalization instance;
+
+    public Builder() {
+      this(new Capitalization());
+    }
+
+    protected Builder(Capitalization instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Capitalization value) { 
+      this.instance.setSmallCamel(value.smallCamel);
+      this.instance.setCapitalCamel(value.capitalCamel);
+      this.instance.setSmallSnake(value.smallSnake);
+      this.instance.setCapitalSnake(value.capitalSnake);
+      this.instance.setScAETHFlowPoints(value.scAETHFlowPoints);
+      this.instance.setATTNAME(value.ATT_NAME);
+      return this;
+    }
+
+    public Capitalization.Builder smallCamel(String smallCamel) {
+      this.instance.smallCamel(smallCamel);
+      return this;
+    }
+    
+    public Capitalization.Builder capitalCamel(String capitalCamel) {
+      this.instance.capitalCamel(capitalCamel);
+      return this;
+    }
+    
+    public Capitalization.Builder smallSnake(String smallSnake) {
+      this.instance.smallSnake(smallSnake);
+      return this;
+    }
+    
+    public Capitalization.Builder capitalSnake(String capitalSnake) {
+      this.instance.capitalSnake(capitalSnake);
+      return this;
+    }
+    
+    public Capitalization.Builder scAETHFlowPoints(String scAETHFlowPoints) {
+      this.instance.scAETHFlowPoints(scAETHFlowPoints);
+      return this;
+    }
+    
+    public Capitalization.Builder ATT_NAME(String ATT_NAME) {
+      this.instance.ATT_NAME(ATT_NAME);
+      return this;
+    }
+    
+    /**
+    * returns a built Capitalization instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Capitalization build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Capitalization.Builder builder() {
+    return new Capitalization.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Capitalization.Builder toBuilder() {
+    Capitalization.Builder builder = new Capitalization.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

@@ -1074,4 +1074,51 @@ export default class FakeApi {
     }
 
 
+    /**
+     * test referenced string map
+     * 
+     * @param {Object.<String, {String: String}>} requestBody request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testStringMapReferenceWithHttpInfo(requestBody) {
+      let postBody = requestBody;
+      // verify the required parameter 'requestBody' is set
+      if (requestBody === undefined || requestBody === null) {
+        throw new Error("Missing the required parameter 'requestBody' when calling testStringMapReference");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/stringMap-reference', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * test referenced string map
+     * 
+     * @param {Object.<String, {String: String}>} requestBody request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testStringMapReference(requestBody) {
+      return this.testStringMapReferenceWithHttpInfo(requestBody)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
 }

@@ -1,0 +1,32 @@
+openapi: 3.0.1
+info:
+  title: Test form
+  version: 1.0.0
+servers:
+  - url: https://where.am.i
+paths:
+  /add:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - id
+                - quantity
+              properties:
+                name:
+                  type: string
+                  pattern: '^[[:print:]]+$'
+                quantity:
+                  type: integer
+                  minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean

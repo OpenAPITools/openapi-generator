@@ -26,7 +26,10 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
-import java.util.*;
+import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Locale;
 
 public class PhpLumenServerCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
@@ -38,6 +41,7 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
      * @return the CodegenType for this generator
      * @see org.openapitools.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -48,6 +52,7 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "php-lumen";
     }
@@ -58,6 +63,7 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a PHP Lumen server library.";
     }

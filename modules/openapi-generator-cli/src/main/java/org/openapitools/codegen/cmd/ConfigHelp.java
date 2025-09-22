@@ -20,11 +20,7 @@ package org.openapitools.codegen.cmd;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConfigLoader;
-import org.openapitools.codegen.GeneratorNotFoundException;
-import org.openapitools.codegen.VendorExtension;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +33,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
-@SuppressWarnings({"unused","java:S106", "java:S1192"})
+@SuppressWarnings({"unused", "java:S106", "java:S1192"})
 @Command(name = "config-help", description = "Config help for chosen lang")
 public class ConfigHelp extends OpenApiGeneratorCommand {
 
@@ -49,7 +45,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     private static final String FORMAT_TEXT = "text";
     private static final String FORMAT_MARKDOWN = "markdown";
     private static final String FORMAT_YAMLSAMPLE = "yamlsample";
-    private static final int FEATURE_SET_DISPLAY_WIDTH= 20;
+    private static final int FEATURE_SET_DISPLAY_WIDTH = 20;
 
     @Option(name = {"-g",
             "--generator-name"}, title = "generator name", description = "generator to get config help for")
@@ -92,6 +88,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     @Option(name = {"--enum-name-mappings"}, title = "enum name mappings", description = "displays the enum name mappings (none)")
     private Boolean enumNameMappings;
 
+    @Option(name = {"--operation-id-name-mappings"}, title = "operation id name mappings", description = "displays the operation id name mappings (none)")
+    private Boolean operationIdNameMappings;
+
     @Option(name = {"--openapi-normalizer"}, title = "openapi normalizer rules", description = "displays the OpenAPI normalizer rules (none)")
     private Boolean openapiNormalizer;
 
@@ -118,7 +117,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     private Boolean markdownHeader;
 
     @Option(name = {
-        "--supported-vendor-extensions"}, title = "supported vendor extensions", description = "List supported vendor extensions")
+            "--supported-vendor-extensions"}, title = "supported vendor extensions", description = "List supported vendor extensions")
     private Boolean supportedVendorExtensions;
 
     @Option(name = {"--full-details"}, title = "full generator details", description = "displays CLI options as well as other configs/mappings (implies --instantiation-types, --reserved-words, --language-specific-primitives, --import-mappings, --feature-set)")
@@ -238,16 +237,16 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         }
 
         sb
-            .append(newline).append("## SUPPORTED VENDOR EXTENSIONS").append(newline).append(newline)
-            .append("| Extension name | Description | Applicable for | Default value |").append(newline)
-            .append("| -------------- | ----------- | -------------- | ------------- |").append(newline);
+                .append(newline).append("## SUPPORTED VENDOR EXTENSIONS").append(newline).append(newline)
+                .append("| Extension name | Description | Applicable for | Default value |").append(newline)
+                .append("| -------------- | ----------- | -------------- | ------------- |").append(newline);
 
         supportedVendorExtensions.forEach(
-            extension -> sb.append("|").append(extension.getName())
-                .append("|").append(extension.getDescription())
-                .append("|").append(extension.getLevels().stream().map(Objects::toString).collect(Collectors.joining(", ")))
-                .append("|").append(extension.getDefaultValue())
-                .append(newline)
+                extension -> sb.append("|").append(extension.getName())
+                        .append("|").append(extension.getDescription())
+                        .append("|").append(extension.getLevels().stream().map(Objects::toString).collect(Collectors.joining(", ")))
+                        .append("|").append(extension.getDefaultValue())
+                        .append(newline)
         );
         sb.append(newline);
     }
@@ -356,17 +355,17 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
 
         sb.append("| Property | Value | Notes |").append(newline);
         sb.append("| -------- | ----- | ----- |").append(newline);
-        sb.append("| generator name | "+config.getName()+" | pass this to the generate command after -g |").append(newline);
-        sb.append("| generator stability | "+config.getGeneratorMetadata().getStability()+" | |").append(newline);
-        sb.append("| generator type | "+config.getTag()+" | |").append(newline);
+        sb.append("| generator name | " + config.getName() + " | pass this to the generate command after -g |").append(newline);
+        sb.append("| generator stability | " + config.getGeneratorMetadata().getStability() + " | |").append(newline);
+        sb.append("| generator type | " + config.getTag() + " | |").append(newline);
         if (config.generatorLanguage() != null) {
-            sb.append("| generator language | "+config.generatorLanguage().toString()+" | |").append(newline);
+            sb.append("| generator language | " + config.generatorLanguage().toString() + " | |").append(newline);
         }
         if (config.generatorLanguageVersion() != null) {
-            sb.append("| generator language version | "+config.generatorLanguageVersion()+" | |").append(newline);
+            sb.append("| generator language version | " + config.generatorLanguageVersion() + " | |").append(newline);
         }
-        sb.append("| generator default templating engine | "+config.defaultTemplatingEngine()+" | |").append(newline);
-        sb.append("| helpTxt | "+config.getHelp()+" | |").append(newline);
+        sb.append("| generator default templating engine | " + config.defaultTemplatingEngine() + " | |").append(newline);
+        sb.append("| helpTxt | " + config.getHelp() + " | |").append(newline);
 
         sb.append(newline);
     }
@@ -557,6 +556,18 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
                         throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
                     }, TreeMap::new));
             writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "enum name", "Mapped to");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(operationIdNameMappings)) {
+            sb.append(newline).append("OPERATION ID MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.operationIdNameMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "operation id name", "Mapped to");
             sb.append(newline);
         }
 

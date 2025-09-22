@@ -4,13 +4,8 @@ import 'package:analyzer/dart/ast/token.dart';
 
 main() {
   // save keywords to a text file
-  final txtFile = File(
+  final output = File(
       '../../../modules/openapi-generator/src/main/resources/dart/dart-keywords.txt');
-  String txtString = '';
-  for (String keyword in Keyword.keywords.keys.toList()) {
-    txtString += keyword + '\n';
-  }
-  txtString =
-      txtString.substring(0, txtString.length - 1); // remove last newline
-  txtFile.writeAsStringSync(txtString);
+  final keywords = Keyword.keywords.keys.join('\n');
+  output.writeAsStringSync(keywords);
 }

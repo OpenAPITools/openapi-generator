@@ -5,19 +5,52 @@
 {{/vars}}
  */{{#discriminator}}
 {{>typeInfoAnnotation}}{{/discriminator}}
+{{#additionalModelTypeAnnotations}}
+    {{{.}}}
+{{/additionalModelTypeAnnotations}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{.}}}
+{{/vendorExtensions.x-class-extra-annotation}}
 {{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-) {{/discriminator}}{{#parent}}: {{{.}}}{{/parent}}{
+){{/discriminator}}{{! no newline
+}}{{#parent}} : {{{.}}}{{! no newline
+    }}{{#serializableModel}}{{! no newline
+      }}{{^vendorExtensions.x-kotlin-implements}}, Serializable{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+      }}{{#vendorExtensions.x-kotlin-implements}}, Serializable, {{! no newline
+      }}{{#-first}} {{{.}}}{{/-first}}{{! no newline
+      }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
+      }}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+  }}{{/serializableModel}}{{! no newline
+  }}{{^serializableModel}}{{! no newline
+      }}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+  }}{{/serializableModel}}{{! no newline
+}}{{/parent}}{{! no newline
+}}{{^parent}}{{! no newline
+  }}{{#serializableModel}}{{! no newline
+      }}{{^vendorExtensions.x-kotlin-implements}} : Serializable{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+      }}{{#vendorExtensions.x-kotlin-implements}}{{! no newline
+      }}{{#-first}} : Serializable, {{{.}}}{{/-first}}{{! no newline
+      }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
+      }}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+  }}{{/serializableModel}}{{! no newline
+  }}{{^serializableModel}}{{! no newline
+    }}{{#vendorExtensions.x-kotlin-implements}}{{! no newline
+    }}{{#-first}} : {{{.}}}{{/-first}}{{! no newline
+      }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
+    }}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+  }}{{/serializableModel}}{{! no newline
+}}{{/parent}} {
 {{#discriminator}}
     {{#requiredVars}}
-        {{>interfaceReqVar}}
+        {{>interfaceReqVar}}{{! prevent indent}}
     {{/requiredVars}}
     {{#optionalVars}}
-        {{>interfaceOptVar}}
+        {{>interfaceOptVar}}{{! prevent indent}}
     {{/optionalVars}}
 {{/discriminator}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
@@ -25,9 +58,23 @@
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
-    enum class {{{nameInCamelCase}}}(val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
+    enum class {{{nameInPascalCase}}}(@get:JsonValue val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
 {{#allowableValues}}{{#enumVars}}
-        @JsonProperty({{{value}}}) {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+        {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}};
+
+        companion object {
+            @JvmStatic
+            @JsonCreator
+            fun forValue(value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}): {{{nameInPascalCase}}} {
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{classname}}'")
+            }
+        }
     }
 {{/isEnum}}{{/vars}}{{/hasEnums}}
+{{#serializableModel}}
+    companion object {
+        private const val serialVersionUID: kotlin.Long = 1
+    }
+{{/serializableModel}}
 }

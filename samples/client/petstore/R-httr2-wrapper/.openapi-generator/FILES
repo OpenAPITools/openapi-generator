@@ -28,6 +28,7 @@ R/one_of_primitive_type_test.R
 R/order.R
 R/pet.R
 R/pet_api.R
+R/pet_map.R
 R/petstore_api.R
 R/pig.R
 R/special.R
@@ -59,6 +60,7 @@ docs/OneOfPrimitiveTypeTest.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
+docs/PetMap.md
 docs/Pig.md
 docs/Special.md
 docs/StoreApi.md

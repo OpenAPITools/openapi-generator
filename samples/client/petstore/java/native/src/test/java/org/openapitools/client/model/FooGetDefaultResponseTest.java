@@ -18,23 +18,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import org.openapitools.client.model.Foo;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for FooGetDefaultResponse
  */
-public class FooGetDefaultResponseTest {
+class FooGetDefaultResponseTest {
     private final FooGetDefaultResponse model = new FooGetDefaultResponse();
 
     /**
      * Model tests for FooGetDefaultResponse
      */
     @Test
-    public void testFooGetDefaultResponse() {
+    void testFooGetDefaultResponse() {
         // TODO: test FooGetDefaultResponse
     }
 
@@ -42,7 +42,7 @@ public class FooGetDefaultResponseTest {
      * Test the property 'string'
      */
     @Test
-    public void stringTest() {
+    void stringTest() {
         // TODO: test string
     }
 

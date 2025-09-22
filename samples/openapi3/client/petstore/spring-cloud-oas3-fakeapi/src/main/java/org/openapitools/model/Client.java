@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -18,12 +19,12 @@ import javax.annotation.Generated;
  * Client
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class Client {
 
-  private String client;
+  private @Nullable String client;
 
-  public Client client(String client) {
+  public Client client(@Nullable String client) {
     this.client = client;
     return this;
   }
@@ -31,15 +32,15 @@ public class Client {
   /**
    * Get client
    * @return client
-  */
+   */
   
   @Schema(name = "client", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("client")
-  public String getClient() {
+  public @Nullable String getClient() {
     return client;
   }
 
-  public void setClient(String client) {
+  public void setClient(@Nullable String client) {
     this.client = client;
   }
 

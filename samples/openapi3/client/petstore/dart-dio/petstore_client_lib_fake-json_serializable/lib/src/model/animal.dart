@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'animal.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -27,7 +29,7 @@ class Animal {
     
     name: r'className',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -39,7 +41,7 @@ class Animal {
     defaultValue: 'red',
     name: r'color',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -47,15 +49,17 @@ class Animal {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Animal &&
-     other.className == className &&
-     other.color == color;
 
-  @override
-  int get hashCode =>
-    className.hashCode +
-    color.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Animal &&
+      other.className == className &&
+      other.color == color;
+
+    @override
+    int get hashCode =>
+        className.hashCode +
+        color.hashCode;
 
   factory Animal.fromJson(Map<String, dynamic> json) => _$AnimalFromJson(json);
 

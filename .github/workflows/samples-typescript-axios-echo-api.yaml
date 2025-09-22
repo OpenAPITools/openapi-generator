@@ -20,16 +20,16 @@ jobs:
           - 18
           - 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: Run echo server
         run: |
           git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
-          (cd http-echo-server && npm install && npm start &)
+          (cd http-echo-server && git checkout 15a684c41d4de692878636f47fcc1670af309a0f && npm install && npm start &)
 
       - name: Install
         working-directory: ${{ matrix.sample }}

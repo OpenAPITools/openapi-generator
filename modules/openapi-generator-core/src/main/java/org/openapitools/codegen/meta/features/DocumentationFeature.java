@@ -38,5 +38,5 @@ public enum DocumentationFeature {
      * Generated output includes documentation for all generated APIs.
      */
     @ToolingExtension
-    Api;
+    Api
 }

@@ -16,7 +16,7 @@
 
 | Name | Value |
 |---- | -----|
-| CHILDCAT | &quot;ChildCat&quot; |
+| CHILD_CAT | &quot;ChildCat&quot; |
 
 
 

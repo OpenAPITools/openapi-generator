@@ -7,14 +7,68 @@ use validator::Validate;
 use crate::header;
 use crate::{models, types::*};
 
+#[allow(dead_code)]
+pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
+    if ammonia::is_html(v) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
+    if v.iter().any(|i| ammonia::is_html(i)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_string(
+    v: &std::collections::HashMap<String, String>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_nested<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError>
+where
+    T: validator::Validate,
+{
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfGetQueryParams {
     /// list of any of objects
     #[serde(rename = "any-of")]
     #[validate(length(min = 1))]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub any_of: Option<Vec<models::AnyOfObject>>,
+    #[serde(default)]
+    pub any_of: Vec<models::AnyOfObject>,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -28,8 +82,8 @@ pub struct CallbackWithHeaderPostQueryParams {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ComplexQueryParamGetQueryParams {
     #[serde(rename = "list-of-strings")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub list_of_strings: Option<Vec<models::StringObject>>,
+    #[serde(default)]
+    pub list_of_strings: Vec<models::StringObject>,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -40,16 +94,40 @@ pub struct EnumInPathPathParamGetPathParams {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct ExamplesTestQueryParams {
+    /// A list of IDs to get
+    #[serde(rename = "ids")]
+    #[serde(default)]
+    pub ids: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct GetWithBooleanParameterQueryParams {
+    /// Let's check apostrophes get encoded properly!
+    #[serde(rename = "iambool")]
+    pub iambool: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct JsonComplexQueryParamGetQueryParams {
     #[serde(rename = "list-of-strings")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub list_of_strings: Option<Vec<models::StringObject>>,
+    #[serde(default)]
+    pub list_of_strings: Vec<models::StringObject>,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MandatoryRequestHeaderGetHeaderParams {
     pub x_header: String,
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams {
+    pub path_param_a: String,
+    pub path_param_b: String,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -65,8 +143,8 @@ pub struct ParamgetGetQueryParams {
     pub some_object: Option<crate::types::Object>,
     /// Some list to pass as query parameter
     #[serde(rename = "someList")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub some_list: Option<Vec<models::MyId>>,
+    #[serde(default)]
+    pub some_list: Vec<models::MyId>,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -78,8 +156,80 @@ pub struct RegisterCallbackPostQueryParams {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct TwoFirstLetterHeadersHeaderParams {
+    pub x_header_one: Option<bool>,
+    pub x_header_two: Option<bool>,
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetRepoInfoPathParams {
     pub repo_id: String,
+}
+
+/// Check that an object with only additional properties that references another object (e.g. an anyOf object) isn't treated as freeForm
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AdditionalPropertiesReferencedAnyOfObject(
+    std::collections::HashMap<String, models::AnyOfProperty>,
+);
+
+impl validator::Validate for AdditionalPropertiesReferencedAnyOfObject {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
+impl std::convert::From<std::collections::HashMap<String, models::AnyOfProperty>>
+    for AdditionalPropertiesReferencedAnyOfObject
+{
+    fn from(x: std::collections::HashMap<String, models::AnyOfProperty>) -> Self {
+        AdditionalPropertiesReferencedAnyOfObject(x)
+    }
+}
+
+impl std::convert::From<AdditionalPropertiesReferencedAnyOfObject>
+    for std::collections::HashMap<String, models::AnyOfProperty>
+{
+    fn from(x: AdditionalPropertiesReferencedAnyOfObject) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for AdditionalPropertiesReferencedAnyOfObject {
+    type Target = std::collections::HashMap<String, models::AnyOfProperty>;
+    fn deref(&self) -> &std::collections::HashMap<String, models::AnyOfProperty> {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for AdditionalPropertiesReferencedAnyOfObject {
+    fn deref_mut(&mut self) -> &mut std::collections::HashMap<String, models::AnyOfProperty> {
+        &mut self.0
+    }
+}
+
+/// Converts the AdditionalPropertiesReferencedAnyOfObject value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for AdditionalPropertiesReferencedAnyOfObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Skipping additionalProperties in query parameter serialization
+        write!(f, "")
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AdditionalPropertiesReferencedAnyOfObject value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for AdditionalPropertiesReferencedAnyOfObject {
+    type Err = &'static str;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Err(
+            "Parsing additionalProperties for AdditionalPropertiesReferencedAnyOfObject is not supported",
+        )
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
@@ -124,10 +274,10 @@ impl std::ops::DerefMut for AdditionalPropertiesWithList {
 /// Converts the AdditionalPropertiesWithList value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for AdditionalPropertiesWithList {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for AdditionalPropertiesWithList {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         // Skipping additionalProperties in query parameter serialization
-        "".to_string()
+        write!(f, "")
     }
 }
 
@@ -141,6 +291,157 @@ impl ::std::str::FromStr for AdditionalPropertiesWithList {
         std::result::Result::Err(
             "Parsing additionalProperties for AdditionalPropertiesWithList is not supported",
         )
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AdditionalPropertiesWithNullable {
+    #[serde(rename = "nullableString")]
+    #[serde(deserialize_with = "deserialize_optional_nullable")]
+    #[serde(default = "default_optional_nullable")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub nullable_string: Option<Nullable<String>>,
+
+    #[serde(rename = "nullableMap")]
+    #[validate(custom(function = "check_xss_map_nested"))]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub nullable_map: Option<std::collections::HashMap<String, models::NullableObject>>,
+}
+
+impl AdditionalPropertiesWithNullable {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new() -> AdditionalPropertiesWithNullable {
+        AdditionalPropertiesWithNullable {
+            nullable_string: None,
+            nullable_map: None,
+        }
+    }
+}
+
+/// Converts the AdditionalPropertiesWithNullable value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for AdditionalPropertiesWithNullable {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            self.nullable_string.as_ref().map(|nullable_string| {
+                [
+                    "nullableString".to_string(),
+                    nullable_string
+                        .as_ref()
+                        .map_or("null".to_string(), |x| x.to_string()),
+                ]
+                .join(",")
+            }),
+            // Skipping nullableMap in query parameter serialization
+        ];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AdditionalPropertiesWithNullable value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for AdditionalPropertiesWithNullable {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub nullable_string: Vec<String>,
+            pub nullable_map: Vec<std::collections::HashMap<String, models::NullableObject>>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing AdditionalPropertiesWithNullable".to_string(),
+                    );
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    "nullableString" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in AdditionalPropertiesWithNullable".to_string()),
+                    "nullableMap" => return std::result::Result::Err("Parsing a container in this style is not supported in AdditionalPropertiesWithNullable".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing AdditionalPropertiesWithNullable".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(AdditionalPropertiesWithNullable {
+            nullable_string: std::result::Result::Err(
+                "Nullable types not supported in AdditionalPropertiesWithNullable".to_string(),
+            )?,
+            nullable_map: intermediate_rep.nullable_map.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<AdditionalPropertiesWithNullable> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<AdditionalPropertiesWithNullable>>
+    for HeaderValue
+{
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<AdditionalPropertiesWithNullable>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for AdditionalPropertiesWithNullable - value: {hdr_value} is invalid {e}"#
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue>
+    for header::IntoHeaderValue<AdditionalPropertiesWithNullable>
+{
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => {
+                match <AdditionalPropertiesWithNullable as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
+                    }
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into AdditionalPropertiesWithNullable - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
     }
 }
 
@@ -215,12 +516,16 @@ impl std::ops::DerefMut for AnotherXmlArray {
 /// Converts the AnotherXmlArray value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for AnotherXmlArray {
-    fn to_string(&self) -> String {
-        self.iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<_>>()
-            .join(",")
+impl std::fmt::Display for AnotherXmlArray {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            self.iter()
+                .map(|x| x.to_string())
+                .collect::<Vec<_>>()
+                .join(",")
+        )
     }
 }
 
@@ -252,8 +557,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<AnotherXmlArray>> for HeaderV
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for AnotherXmlArray - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for AnotherXmlArray - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -271,14 +575,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnotherXmlAr
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into AnotherXmlArray - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into AnotherXmlArray - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -300,9 +602,9 @@ impl std::convert::From<String> for AnotherXmlInner {
     }
 }
 
-impl std::string::ToString for AnotherXmlInner {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for AnotherXmlInner {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.0)
     }
 }
 
@@ -333,11 +635,11 @@ impl std::ops::DerefMut for AnotherXmlInner {
 }
 
 /// An XML object
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnotherXmlObject {
     #[serde(rename = "inner_string")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub inner_string: Option<String>,
 }
@@ -352,14 +654,18 @@ impl AnotherXmlObject {
 /// Converts the AnotherXmlObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for AnotherXmlObject {
-    fn to_string(&self) -> String {
-        let params: Vec<Option<String>> = vec![self
-            .inner_string
-            .as_ref()
-            .map(|inner_string| ["inner_string".to_string(), inner_string.to_string()].join(","))];
+impl std::fmt::Display for AnotherXmlObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> =
+            vec![self.inner_string.as_ref().map(|inner_string| {
+                ["inner_string".to_string(), inner_string.to_string()].join(",")
+            })];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -389,7 +695,7 @@ impl std::str::FromStr for AnotherXmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AnotherXmlObject".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -403,7 +709,7 @@ impl std::str::FromStr for AnotherXmlObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing AnotherXmlObject".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -432,8 +738,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<AnotherXmlObject>> for Header
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for AnotherXmlObject - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for AnotherXmlObject - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -451,14 +756,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnotherXmlOb
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into AnotherXmlObject - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into AnotherXmlObject - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -493,8 +796,37 @@ impl PartialEq for AnyOfGet202Response {
     }
 }
 
-/// Test a model containing an anyOf
+/// Test a model containing an anyOf of a hash map
+/// Any of:
+/// - String
+/// - std::collections::HashMap<String, String>
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct AnyOfHashMapObject(Box<serde_json::value::RawValue>);
 
+impl validator::Validate for AnyOfHashMapObject {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AnyOfHashMapObject value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for AnyOfHashMapObject {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
+    }
+}
+
+impl PartialEq for AnyOfHashMapObject {
+    fn eq(&self, other: &Self) -> bool {
+        self.0.get() == other.0.get()
+    }
+}
+
+/// Test a model containing an anyOf
 /// Any of:
 /// - String
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -524,14 +856,15 @@ impl PartialEq for AnyOfObject {
 }
 
 /// Test containing an anyOf object
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfProperty {
     #[serde(rename = "requiredAnyOf")]
+    #[validate(nested)]
     pub required_any_of: models::AnyOfObject,
 
     #[serde(rename = "optionalAnyOf")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub optional_any_of: Option<models::Model12345AnyOfObject>,
 }
@@ -549,8 +882,8 @@ impl AnyOfProperty {
 /// Converts the AnyOfProperty value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for AnyOfProperty {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for AnyOfProperty {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping requiredAnyOf in query parameter serialization
 
@@ -558,7 +891,11 @@ impl std::string::ToString for AnyOfProperty {
 
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -589,7 +926,7 @@ impl std::str::FromStr for AnyOfProperty {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AnyOfProperty".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -609,7 +946,7 @@ impl std::str::FromStr for AnyOfProperty {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing AnyOfProperty".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -643,8 +980,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<AnyOfProperty>> for HeaderVal
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for AnyOfProperty - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for AnyOfProperty - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -662,29 +998,28 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnyOfPropert
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into AnyOfProperty - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into AnyOfProperty - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
 }
 
 /// An XML object
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DuplicateXmlObject {
     #[serde(rename = "inner_string")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub inner_string: Option<String>,
 
     #[serde(rename = "inner_array")]
+    #[validate(nested)]
     pub inner_array: models::XmlArray,
 }
 
@@ -701,8 +1036,8 @@ impl DuplicateXmlObject {
 /// Converts the DuplicateXmlObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for DuplicateXmlObject {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for DuplicateXmlObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.inner_string.as_ref().map(|inner_string| {
                 ["inner_string".to_string(), inner_string.to_string()].join(",")
@@ -710,7 +1045,11 @@ impl std::string::ToString for DuplicateXmlObject {
             // Skipping inner_array in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -741,7 +1080,7 @@ impl std::str::FromStr for DuplicateXmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing DuplicateXmlObject".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -760,7 +1099,7 @@ impl std::str::FromStr for DuplicateXmlObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing DuplicateXmlObject".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -794,8 +1133,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<DuplicateXmlObject>> for Head
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for DuplicateXmlObject - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for DuplicateXmlObject - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -813,14 +1151,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<DuplicateXml
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into DuplicateXmlObject - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into DuplicateXmlObject - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -845,6 +1181,12 @@ pub enum EnumWithStarObject {
     Star,
 }
 
+impl validator::Validate for EnumWithStarObject {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
 impl std::fmt::Display for EnumWithStarObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
@@ -863,7 +1205,7 @@ impl std::str::FromStr for EnumWithStarObject {
             "FOO" => std::result::Result::Ok(EnumWithStarObject::Foo),
             "BAR" => std::result::Result::Ok(EnumWithStarObject::Bar),
             "*" => std::result::Result::Ok(EnumWithStarObject::Star),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!(r#"Value not valid: {s}"#)),
         }
     }
 }
@@ -884,9 +1226,9 @@ impl std::convert::From<String> for Err {
     }
 }
 
-impl std::string::ToString for Err {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for Err {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.0)
     }
 }
 
@@ -932,9 +1274,9 @@ impl std::convert::From<String> for Error {
     }
 }
 
-impl std::string::ToString for Error {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.0)
     }
 }
 
@@ -964,8 +1306,151 @@ impl std::ops::DerefMut for Error {
     }
 }
 
-/// Test a model containing an anyOf that starts with a number
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct FormTestRequest {
+    #[serde(rename = "requiredArray")]
+    #[validate(custom(function = "check_xss_vec_string"))]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub required_array: Option<Vec<String>>,
+}
 
+impl FormTestRequest {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new() -> FormTestRequest {
+        FormTestRequest {
+            required_array: None,
+        }
+    }
+}
+
+/// Converts the FormTestRequest value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for FormTestRequest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> =
+            vec![self.required_array.as_ref().map(|required_array| {
+                [
+                    "requiredArray".to_string(),
+                    required_array
+                        .iter()
+                        .map(|x| x.to_string())
+                        .collect::<Vec<_>>()
+                        .join(","),
+                ]
+                .join(",")
+            })];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a FormTestRequest value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for FormTestRequest {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub required_array: Vec<Vec<String>>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing FormTestRequest".to_string(),
+                    );
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    "requiredArray" => {
+                        return std::result::Result::Err(
+                            "Parsing a container in this style is not supported in FormTestRequest"
+                                .to_string(),
+                        );
+                    }
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing FormTestRequest".to_string(),
+                        );
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(FormTestRequest {
+            required_array: intermediate_rep.required_array.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<FormTestRequest> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<FormTestRequest>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<FormTestRequest>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for FormTestRequest - value: {hdr_value} is invalid {e}"#
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FormTestRequest> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => {
+                match <FormTestRequest as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
+                    }
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into FormTestRequest - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
+    }
+}
+
+/// Test a model containing an anyOf that starts with a number
 /// Any of:
 /// - String
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -998,6 +1483,7 @@ impl PartialEq for Model12345AnyOfObject {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultigetGet201Response {
     #[serde(rename = "foo")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub foo: Option<String>,
 }
@@ -1012,14 +1498,19 @@ impl MultigetGet201Response {
 /// Converts the MultigetGet201Response value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MultigetGet201Response {
-    fn to_string(&self) -> String {
-        let params: Vec<Option<String>> = vec![self
-            .foo
-            .as_ref()
-            .map(|foo| ["foo".to_string(), foo.to_string()].join(","))];
+impl std::fmt::Display for MultigetGet201Response {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            self.foo
+                .as_ref()
+                .map(|foo| ["foo".to_string(), foo.to_string()].join(",")),
+        ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -1049,7 +1540,7 @@ impl std::str::FromStr for MultigetGet201Response {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultigetGet201Response".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1063,7 +1554,7 @@ impl std::str::FromStr for MultigetGet201Response {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing MultigetGet201Response".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1092,8 +1583,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MultigetGet201Response>> for 
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for MultigetGet201Response - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for MultigetGet201Response - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -1111,14 +1601,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MultigetGet2
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into MultigetGet201Response - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into MultigetGet201Response - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -1230,12 +1718,16 @@ impl std::ops::DerefMut for MyIdList {
 /// Converts the MyIdList value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MyIdList {
-    fn to_string(&self) -> String {
-        self.iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<_>>()
-            .join(",")
+impl std::fmt::Display for MyIdList {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            self.iter()
+                .map(|x| x.to_string())
+                .collect::<Vec<_>>()
+                .join(",")
+        )
     }
 }
 
@@ -1267,8 +1759,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MyIdList>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for MyIdList - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for MyIdList - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -1286,16 +1777,62 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MyIdList> {
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into MyIdList - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into MyIdList - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct NullableObject(String);
+
+impl validator::Validate for NullableObject {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
+impl std::convert::From<String> for NullableObject {
+    fn from(x: String) -> Self {
+        NullableObject(x)
+    }
+}
+
+impl std::fmt::Display for NullableObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.0)
+    }
+}
+
+impl std::str::FromStr for NullableObject {
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(NullableObject(x.to_string()))
+    }
+}
+
+impl std::convert::From<NullableObject> for String {
+    fn from(x: NullableObject) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for NullableObject {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for NullableObject {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
     }
 }
 
@@ -1351,7 +1888,7 @@ impl NullableTest {
         NullableTest {
             nullable,
             nullable_with_null_default: None,
-            nullable_with_present_default: Some(Nullable::Present("default".to_string())),
+            nullable_with_present_default: Some(Nullable::Present(r#"default"#.to_string())),
             nullable_with_no_default: None,
             nullable_array: None,
             min_item_test: None,
@@ -1364,8 +1901,8 @@ impl NullableTest {
 /// Converts the NullableTest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for NullableTest {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for NullableTest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("nullable".to_string()),
             Some(
@@ -1453,7 +1990,11 @@ impl std::string::ToString for NullableTest {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -1490,7 +2031,7 @@ impl std::str::FromStr for NullableTest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing NullableTest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1517,30 +2058,30 @@ impl std::str::FromStr for NullableTest {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "min_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "max_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "min_max_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing NullableTest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1586,8 +2127,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<NullableTest>> for HeaderValu
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for NullableTest - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for NullableTest - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -1605,14 +2145,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<NullableTest
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into NullableTest - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into NullableTest - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -1642,8 +2180,8 @@ impl ObjectHeader {
 /// Converts the ObjectHeader value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ObjectHeader {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ObjectHeader {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("requiredObjectHeader".to_string()),
             Some(self.required_object_header.to_string()),
@@ -1658,7 +2196,11 @@ impl std::string::ToString for ObjectHeader {
                 }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -1689,7 +2231,7 @@ impl std::str::FromStr for ObjectHeader {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectHeader".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1707,7 +2249,7 @@ impl std::str::FromStr for ObjectHeader {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ObjectHeader".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1741,8 +2283,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ObjectHeader>> for HeaderValu
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for ObjectHeader - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for ObjectHeader - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -1760,14 +2301,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ObjectHeader
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into ObjectHeader - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into ObjectHeader - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -1797,8 +2336,8 @@ impl ObjectParam {
 /// Converts the ObjectParam value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ObjectParam {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ObjectParam {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("requiredParam".to_string()),
             Some(self.required_param.to_string()),
@@ -1807,7 +2346,11 @@ impl std::string::ToString for ObjectParam {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -1838,7 +2381,7 @@ impl std::str::FromStr for ObjectParam {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectParam".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1856,7 +2399,7 @@ impl std::str::FromStr for ObjectParam {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ObjectParam".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1890,8 +2433,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ObjectParam>> for HeaderValue
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for ObjectParam - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for ObjectParam - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -1909,14 +2451,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ObjectParam>
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into ObjectParam - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into ObjectParam - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -1958,8 +2498,8 @@ impl ObjectUntypedProps {
 /// Converts the ObjectUntypedProps value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ObjectUntypedProps {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ObjectUntypedProps {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping required_untyped in query parameter serialization
 
@@ -1971,7 +2511,11 @@ impl std::string::ToString for ObjectUntypedProps {
 
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -2004,7 +2548,7 @@ impl std::str::FromStr for ObjectUntypedProps {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectUntypedProps".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2058,8 +2602,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ObjectUntypedProps>> for Head
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for ObjectUntypedProps - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for ObjectUntypedProps - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -2077,14 +2620,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ObjectUntype
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into ObjectUntypedProps - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into ObjectUntypedProps - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -2094,6 +2635,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ObjectUntype
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectWithArrayOfObjects {
     #[serde(rename = "objectArray")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub object_array: Option<Vec<models::StringObject>>,
 }
@@ -2108,8 +2650,8 @@ impl ObjectWithArrayOfObjects {
 /// Converts the ObjectWithArrayOfObjects value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ObjectWithArrayOfObjects {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ObjectWithArrayOfObjects {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![self.object_array.as_ref().map(|object_array| {
             [
                 "objectArray".to_string(),
@@ -2122,7 +2664,11 @@ impl std::string::ToString for ObjectWithArrayOfObjects {
             .join(",")
         })];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -2152,7 +2698,7 @@ impl std::str::FromStr for ObjectWithArrayOfObjects {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectWithArrayOfObjects".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2188,8 +2734,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ObjectWithArrayOfObjects>> fo
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for ObjectWithArrayOfObjects - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for ObjectWithArrayOfObjects - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -2207,14 +2752,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ObjectWithAr
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into ObjectWithArrayOfObjects - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into ObjectWithArrayOfObjects - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -2236,9 +2779,9 @@ impl std::convert::From<String> for Ok {
     }
 }
 
-impl std::string::ToString for Ok {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for Ok {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.0)
     }
 }
 
@@ -2268,15 +2811,31 @@ impl std::ops::DerefMut for Ok {
     }
 }
 
-/// One of:
-/// - Vec<String>
-/// - i32
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct OneOfGet200Response(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types)]
+pub enum OneOfGet200Response {
+    I32(Box<i32>),
+    VecOfString(Box<Vec<String>>),
+}
 
 impl validator::Validate for OneOfGet200Response {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::I32(_) => std::result::Result::Ok(()),
+            Self::VecOfString(_) => std::result::Result::Ok(()),
+        }
+    }
+}
+
+impl From<i32> for OneOfGet200Response {
+    fn from(value: i32) -> Self {
+        Self::I32(Box::new(value))
+    }
+}
+impl From<Vec<String>> for OneOfGet200Response {
+    fn from(value: Vec<String>) -> Self {
+        Self::VecOfString(Box::new(value))
     }
 }
 
@@ -2288,12 +2847,6 @@ impl std::str::FromStr for OneOfGet200Response {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
-    }
-}
-
-impl PartialEq for OneOfGet200Response {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
     }
 }
 
@@ -2383,9 +2936,9 @@ impl std::convert::From<String> for Result {
     }
 }
 
-impl std::string::ToString for Result {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.0)
     }
 }
 
@@ -2431,6 +2984,12 @@ pub enum StringEnum {
     Bar,
 }
 
+impl validator::Validate for StringEnum {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
 impl std::fmt::Display for StringEnum {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
@@ -2447,7 +3006,7 @@ impl std::str::FromStr for StringEnum {
         match s {
             "FOO" => std::result::Result::Ok(StringEnum::Foo),
             "BAR" => std::result::Result::Ok(StringEnum::Bar),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!(r#"Value not valid: {s}"#)),
         }
     }
 }
@@ -2468,9 +3027,9 @@ impl std::convert::From<String> for StringObject {
     }
 }
 
-impl std::string::ToString for StringObject {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for StringObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.0)
     }
 }
 
@@ -2607,12 +3166,16 @@ impl std::ops::DerefMut for XmlArray {
 /// Converts the XmlArray value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for XmlArray {
-    fn to_string(&self) -> String {
-        self.iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<_>>()
-            .join(",")
+impl std::fmt::Display for XmlArray {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            self.iter()
+                .map(|x| x.to_string())
+                .collect::<Vec<_>>()
+                .join(",")
+        )
     }
 }
 
@@ -2644,8 +3207,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<XmlArray>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for XmlArray - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for XmlArray - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -2663,14 +3225,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<XmlArray> {
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into XmlArray - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into XmlArray - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -2692,9 +3252,9 @@ impl std::convert::From<String> for XmlInner {
     }
 }
 
-impl std::string::ToString for XmlInner {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for XmlInner {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.0)
     }
 }
 
@@ -2725,11 +3285,11 @@ impl std::ops::DerefMut for XmlInner {
 }
 
 /// An XML object
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct XmlObject {
     #[serde(rename = "innerString")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub inner_string: Option<String>,
 
@@ -2751,8 +3311,8 @@ impl XmlObject {
 /// Converts the XmlObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for XmlObject {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for XmlObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.inner_string.as_ref().map(|inner_string| {
                 ["innerString".to_string(), inner_string.to_string()].join(",")
@@ -2766,7 +3326,11 @@ impl std::string::ToString for XmlObject {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -2797,7 +3361,7 @@ impl std::str::FromStr for XmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing XmlObject".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2815,7 +3379,7 @@ impl std::str::FromStr for XmlObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing XmlObject".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2845,8 +3409,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<XmlObject>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for XmlObject - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for XmlObject - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -2864,14 +3427,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<XmlObject> {
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into XmlObject - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into XmlObject - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }

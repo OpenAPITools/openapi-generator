@@ -9,16 +9,16 @@ type {{classname}}
 type alias {{#discriminator}}Base{{/discriminator}}{{classname}} =
 {{#lambda.indented}}
     { {{#parent}}{{#allOf}}{{^-first}}, {{/-first}}{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}: {{.}}
-{{/allOf}}, {{/parent}}{{#vars}}{{^-first}}, {{/-first}}{{name}} : {{#isCircularReference}}{{classname}}{{nameInCamelCase}}{{/isCircularReference}}{{^isCircularReference}}{{>recordField}}{{/isCircularReference}}
+{{/allOf}}, {{/parent}}{{#vars}}{{^-first}}, {{/-first}}{{name}} : {{#isCircularReference}}{{classname}}{{nameInPascalCase}}{{/isCircularReference}}{{^isCircularReference}}{{>recordField}}{{/isCircularReference}}
 {{/vars}}
 }{{/lambda.indented}}{{#vars}}{{#isCircularReference}}
 
 
-type {{classname}}{{nameInCamelCase}} = {{classname}}{{nameInCamelCase}} ({{>recordField}})
+type {{classname}}{{nameInPascalCase}} = {{classname}}{{nameInPascalCase}} ({{>recordField}})
 
 
-unwrap{{classname}}{{nameInCamelCase}} : {{classname}}{{nameInCamelCase}} -> {{>recordField}}
-unwrap{{classname}}{{nameInCamelCase}} ({{classname}}{{nameInCamelCase}} {{name}}) = {{name}}{{/isCircularReference}}{{/vars}}{{#vars}}{{#isEnum}}
+unwrap{{classname}}{{nameInPascalCase}} : {{classname}}{{nameInPascalCase}} -> {{>recordField}}
+unwrap{{classname}}{{nameInPascalCase}} ({{classname}}{{nameInPascalCase}} {{name}}) = {{name}}{{/isCircularReference}}{{/vars}}{{#vars}}{{#isEnum}}
 
 
 {{>customType}}{{/isEnum}}{{/vars}}

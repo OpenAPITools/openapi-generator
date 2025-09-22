@@ -18,22 +18,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import java.util.Arrays;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for ScaleneTriangle
  */
-public class ScaleneTriangleTest {
+class ScaleneTriangleTest {
     private final ScaleneTriangle model = new ScaleneTriangle();
 
     /**
      * Model tests for ScaleneTriangle
      */
     @Test
-    public void testScaleneTriangle() {
+    void testScaleneTriangle() {
         // TODO: test ScaleneTriangle
     }
 
@@ -41,7 +41,7 @@ public class ScaleneTriangleTest {
      * Test the property 'shapeType'
      */
     @Test
-    public void shapeTypeTest() {
+    void shapeTypeTest() {
         // TODO: test shapeType
     }
 
@@ -49,7 +49,7 @@ public class ScaleneTriangleTest {
      * Test the property 'triangleType'
      */
     @Test
-    public void triangleTypeTest() {
+    void triangleTypeTest() {
         // TODO: test triangleType
     }
 

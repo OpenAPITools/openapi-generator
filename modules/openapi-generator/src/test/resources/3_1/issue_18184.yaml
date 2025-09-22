@@ -1,0 +1,77 @@
+---
+openapi: 3.1.0
+info:
+  title: simplify-oneof-anyof bug repro
+  version: 0.1.0
+paths:
+  "/items/{item_id}":
+    put:
+      operationId: update_item
+      summary: Update Item
+      parameters:
+      - in: path
+        name: item_id
+        required: true
+        schema:
+          title: Item Id
+          type: integer
+      - in: query
+        name: q
+        required: false
+        schema:
+          title: Q
+          anyOf:
+          - type: string
+          - type: 'null'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Item"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UpdateResponse"
+components:
+  schemas:
+    Item:
+      title: Item
+      type: object
+      properties:
+        is_offer:
+          title: Is Offer
+          anyOf:
+          - type: boolean
+          - type: 'null'
+        my_enum:
+          anyOf:
+          - "$ref": "#/components/schemas/MyEnum"
+          - type: 'null'
+        name:
+          title: Name
+          type: string
+      required:
+      - name
+    MyEnum:
+      title: MyEnum
+      type: string
+      enum:
+      - value-1
+      - value-2
+    UpdateResponse:
+      properties:
+        id:
+          title: Item Id
+          type: integer
+        name:
+          title: Item Name
+          type: string
+      required:
+      - name
+      - id
+      title: UpdateResponse
+      type: object

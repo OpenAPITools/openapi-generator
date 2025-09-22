@@ -51,6 +51,9 @@ To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline
 cd /var/tmp/perl/petstore
 /bin/sh ./git_push.sh
 ```
+
+To use openapi-generator as part of Github workflows, the blog post ["Autogenerating Clients with FastAPI and Github Actions"](https://www.propelauth.com/post/autogenerating-clients-with-fastapi-and-github-actions) by Andrew Israel is a good starting point.
+
 ### CI/CD
 
 Some generators also generate CI/CD configuration files (.travis.yml) so that the output will be ready to be tested by the CI (e.g. Travis)

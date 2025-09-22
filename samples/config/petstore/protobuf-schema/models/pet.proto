@@ -23,17 +23,18 @@ message Pet {
 
   string name = 3373707;
 
-  repeated string photoUrls = 311086539;
+  repeated string photo_urls = 507546927;
 
   repeated Tag tags = 3552281;
 
   // pet status in the store
-  enum StatusEnum {
-    StatusEnum_AVAILABLE = 0;
-    StatusEnum_PENDING = 1;
-    StatusEnum_SOLD = 2;
+  enum Status {
+    STATUS_AVAILABLE = 0;
+    STATUS_PENDING = 1;
+    STATUS_SOLD = 2;
   }
 
-  StatusEnum status = 355610639;
+  Status status = 355610639;
 
 }
+

@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.OuterEnum;
 import com.fasterxml.jackson.annotation.*;
@@ -34,7 +35,7 @@ import javax.annotation.Generated;
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
 @JsonTypeName("Enum_Test")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 @Introspected
 public class EnumTest {
     /**
@@ -196,7 +197,7 @@ public class EnumTest {
     /**
      * Get enumString
      * @return enumString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ENUM_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -218,7 +219,7 @@ public class EnumTest {
     /**
      * Get enumStringRequired
      * @return enumStringRequired
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -240,7 +241,7 @@ public class EnumTest {
     /**
      * Get enumInteger
      * @return enumInteger
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -262,7 +263,7 @@ public class EnumTest {
     /**
      * Get enumNumber
      * @return enumNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -284,7 +285,7 @@ public class EnumTest {
     /**
      * Get outerEnum
      * @return outerEnum
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

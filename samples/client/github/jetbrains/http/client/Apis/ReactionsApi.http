@@ -1,0 +1,173 @@
+## ReactionsApi
+
+### Create reaction for a commit comment
+## Create reaction for a commit comment
+POST https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}/reactions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content" : "heart"
+}
+
+
+### Create reaction for an issue
+## Create reaction for an issue
+POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/reactions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content" : "heart"
+}
+
+
+### Create reaction for an issue comment
+## Create reaction for an issue comment
+POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}/reactions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content" : "heart"
+}
+
+
+### Create reaction for a pull request review comment
+## Create reaction for a pull request review comment
+POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}}/reactions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content" : "heart"
+}
+
+
+### Create reaction for a release
+## Create reaction for a release
+POST https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/reactions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content" : "heart"
+}
+
+
+### Create reaction for a team discussion comment
+## Create reaction for a team discussion comment
+POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content" : "heart"
+}
+
+
+### Create reaction for a team discussion comment (Legacy)
+## Create reaction for a team discussion comment (Legacy)
+POST https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content" : "heart"
+}
+
+
+### Create reaction for a team discussion
+## Create reaction for a team discussion
+POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/reactions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content" : "heart"
+}
+
+
+### Create reaction for a team discussion (Legacy)
+## Create reaction for a team discussion (Legacy)
+POST https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/reactions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content" : "heart"
+}
+
+
+### Delete a commit comment reaction
+## Delete a commit comment reaction
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}/reactions/{{reaction_id}}
+
+### Delete an issue reaction
+## Delete an issue reaction
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/reactions/{{reaction_id}}
+
+### Delete an issue comment reaction
+## Delete an issue comment reaction
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}/reactions/{{reaction_id}}
+
+### Delete a pull request comment reaction
+## Delete a pull request comment reaction
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}}/reactions/{{reaction_id}}
+
+### Delete a release reaction
+## Delete a release reaction
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/reactions/{{reaction_id}}
+
+### Delete team discussion reaction
+## Delete team discussion reaction
+DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/reactions/{{reaction_id}}
+
+### Delete team discussion comment reaction
+## Delete team discussion comment reaction
+DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions/{{reaction_id}}
+
+### List reactions for a commit comment
+## List reactions for a commit comment
+GET https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}/reactions?content={{content}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List reactions for an issue
+## List reactions for an issue
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/reactions?content={{content}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List reactions for an issue comment
+## List reactions for an issue comment
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}/reactions?content={{content}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List reactions for a pull request review comment
+## List reactions for a pull request review comment
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}}/reactions?content={{content}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List reactions for a release
+## List reactions for a release
+GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/reactions?content={{content}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List reactions for a team discussion comment
+## List reactions for a team discussion comment
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions?content={{content}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List reactions for a team discussion comment (Legacy)
+## List reactions for a team discussion comment (Legacy)
+GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions?content={{content}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List reactions for a team discussion
+## List reactions for a team discussion
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/reactions?content={{content}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List reactions for a team discussion (Legacy)
+## List reactions for a team discussion (Legacy)
+GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/reactions?content={{content}}&perPage={{perPage}}&page={{page}}
+Accept: application/json

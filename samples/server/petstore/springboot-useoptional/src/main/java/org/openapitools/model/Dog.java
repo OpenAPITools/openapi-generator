@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class Dog extends Animal {
 
   private Optional<String> breed = Optional.empty();
@@ -41,14 +42,14 @@ public class Dog extends Animal {
   }
 
   public Dog breed(String breed) {
-    this.breed = Optional.of(breed);
+    this.breed = Optional.ofNullable(breed);
     return this;
   }
 
   /**
    * Get breed
    * @return breed
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
@@ -108,5 +109,78 @@ public class Dog extends Animal {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Animal.Builder {
+
+    private Dog instance;
+
+    public Builder() {
+      this(new Dog());
+    }
+
+    protected Builder(Dog instance) {
+      super(instance); // the parent builder shares the same instance
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Dog value) { 
+      super.copyOf(value);
+      this.instance.setBreed(value.breed);
+      return this;
+    }
+
+    public Dog.Builder breed(String breed) {
+      this.instance.breed(breed);
+      return this;
+    }
+    
+    @Override
+    public Dog.Builder className(String className) {
+      this.instance.className(className);
+      return this;
+    }
+    
+    @Override
+    public Dog.Builder color(String color) {
+      this.instance.color(color);
+      return this;
+    }
+    
+    /**
+    * returns a built Dog instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Dog build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Dog.Builder builder() {
+    return new Dog.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Dog.Builder toBuilder() {
+    Dog.Builder builder = new Dog.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

@@ -13,20 +13,19 @@
 
 package org.openapitools.client.model;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for OuterEnumInteger
  */
-public class OuterEnumIntegerTest {
+class OuterEnumIntegerTest {
     /**
      * Model tests for OuterEnumInteger
      */
     @Test
-    public void testOuterEnumInteger() {
+    void testOuterEnumInteger() {
         // TODO: test OuterEnumInteger
     }
 

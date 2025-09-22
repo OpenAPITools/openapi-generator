@@ -2,6 +2,7 @@ package org.openapitools.api;
 
 import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.ModelApiResponse;
+import org.springframework.lang.Nullable;
 import org.springframework.data.domain.Pageable;
 import org.openapitools.model.Pet;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link PetApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public interface PetApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -89,13 +90,15 @@ public interface PetApiDelegate {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
      * @param tags Tags to filter by (required)
+     * @param size A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used. (optional)
      * @return successful operation (status code 200)
      *         or Invalid tag value (status code 400)
      * @deprecated
      * @see PetApi#findPetsByTags
      */
     @Deprecated
-    default ResponseEntity<List<Pet>> findPetsByTags(List<String> tags, final Pageable pageable) {
+    default ResponseEntity<List<Pet>> findPetsByTags(List<String> tags,
+        String size, final Pageable pageable) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

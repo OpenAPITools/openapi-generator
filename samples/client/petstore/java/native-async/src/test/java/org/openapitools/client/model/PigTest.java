@@ -21,24 +21,24 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import org.openapitools.client.model.BasquePig;
 import org.openapitools.client.model.DanishPig;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Pig
  */
-public class PigTest {
+class PigTest {
     private final Pig model = new Pig();
 
     /**
      * Model tests for Pig
      */
     @Test
-    public void testPig() {
+    void testPig() {
         // TODO: test Pig
     }
 
@@ -46,7 +46,7 @@ public class PigTest {
      * Test the property 'className'
      */
     @Test
-    public void classNameTest() {
+    void classNameTest() {
         // TODO: test className
     }
 

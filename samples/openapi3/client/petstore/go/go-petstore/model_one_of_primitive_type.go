@@ -13,6 +13,7 @@ package petstore
 import (
 	"encoding/json"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // OneOfPrimitiveType - struct for OneOfPrimitiveType
@@ -55,7 +56,11 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		if string(jsonOneOfPrimitiveTypeChild) == "{}" { // empty struct
 			dst.OneOfPrimitiveTypeChild = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.OneOfPrimitiveTypeChild); err != nil {
+				dst.OneOfPrimitiveTypeChild = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.OneOfPrimitiveTypeChild = nil
@@ -68,7 +73,11 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		if string(jsonArrayOfString) == "{}" { // empty struct
 			dst.ArrayOfString = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.ArrayOfString); err != nil {
+				dst.ArrayOfString = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.ArrayOfString = nil
@@ -81,7 +90,11 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		if string(jsonInt32) == "{}" { // empty struct
 			dst.Int32 = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.Int32); err != nil {
+				dst.Int32 = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.Int32 = nil
@@ -133,6 +146,24 @@ func (obj *OneOfPrimitiveType) GetActualInstance() (interface{}) {
 
 	if obj.Int32 != nil {
 		return obj.Int32
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj OneOfPrimitiveType) GetActualInstanceValue() (interface{}) {
+	if obj.OneOfPrimitiveTypeChild != nil {
+		return *obj.OneOfPrimitiveTypeChild
+	}
+
+	if obj.ArrayOfString != nil {
+		return *obj.ArrayOfString
+	}
+
+	if obj.Int32 != nil {
+		return *obj.Int32
 	}
 
 	// all schemas are nil

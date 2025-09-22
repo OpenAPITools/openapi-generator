@@ -14,20 +14,19 @@
 package org.openapitools.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for OuterEnum
  */
-public class OuterEnumTest {
+class OuterEnumTest {
     /**
      * Model tests for OuterEnum
      */
     @Test
-    public void testOuterEnum() {
+    void testOuterEnum() {
         // TODO: test OuterEnum
     }
 

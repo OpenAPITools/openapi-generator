@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe Petstore do
+Spectator.describe Petstore do
   describe "#configure" do
     it "works" do
       Petstore.configure do |config|
@@ -9,8 +9,8 @@ describe Petstore do
 
       config = Petstore.configure
 
-      config.should eq Petstore::Configuration.default
-      config.username.should eq "xxx"
+      expect(config).to eq Petstore::Configuration.default
+      expect(config.username).to eq "xxx"
 
       # Clean up
       Petstore::Configuration.default.username = nil

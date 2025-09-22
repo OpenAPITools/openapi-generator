@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -30,10 +30,8 @@ export interface DeprecatedObject {
 /**
  * Check if a given object implements the DeprecatedObject interface.
  */
-export function instanceOfDeprecatedObject(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfDeprecatedObject(value: object): value is DeprecatedObject {
+    return true;
 }
 
 export function DeprecatedObjectFromJSON(json: any): DeprecatedObject {
@@ -41,25 +39,27 @@ export function DeprecatedObjectFromJSON(json: any): DeprecatedObject {
 }
 
 export function DeprecatedObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): DeprecatedObject {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'name': !exists(json, 'name') ? undefined : json['name'],
+        'name': json['name'] == null ? undefined : json['name'],
     };
 }
 
-export function DeprecatedObjectToJSON(value?: DeprecatedObject | null): any {
-    if (value === undefined) {
-        return undefined;
+export function DeprecatedObjectToJSON(json: any): DeprecatedObject {
+    return DeprecatedObjectToJSONTyped(json, false);
+}
+
+export function DeprecatedObjectToJSONTyped(value?: DeprecatedObject | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'name': value.name,
+        'name': value['name'],
     };
 }
 

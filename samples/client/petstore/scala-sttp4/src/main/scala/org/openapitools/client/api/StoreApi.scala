@@ -35,7 +35,7 @@ class StoreApi(baseUrl: String) {
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
-      .response(asJson[Unit])
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
    * Returns a map of status codes to quantities
@@ -46,11 +46,11 @@ class StoreApi(baseUrl: String) {
    * Available security schemes:
    *   api_key (apiKey)
    */
-  def getInventory(apiKey: String)(): Request[Either[ResponseException[String, Exception], Map[String, Int]]] =
+  def getInventory(apiKeyHeader: String)(): Request[Either[ResponseException[String, Exception], Map[String, Int]]] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/inventory")
       .contentType("application/json")
-      .header("api_key", apiKey)
+      .header("api_key", apiKeyHeader)
       .response(asJson[Map[String, Int]])
 
   /**

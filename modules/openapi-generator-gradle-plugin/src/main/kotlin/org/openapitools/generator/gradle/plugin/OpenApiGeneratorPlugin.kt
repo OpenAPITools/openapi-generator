@@ -85,6 +85,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
 
                     inputSpec.set(validate.inputSpec)
                     recommend.set(validate.recommend)
+                    treatWarningsAsErrors.set(validate.treatWarningsAsErrors)
                 }
 
                 register("openApiGenerate", GenerateTask::class.java).configure {
@@ -98,8 +99,10 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     outputDir.set(generate.outputDir)
                     inputSpec.set(generate.inputSpec)
                     inputSpecRootDirectory.set(generate.inputSpecRootDirectory)
+                    inputSpecRootDirectorySkipMerge.set(generate.inputSpecRootDirectorySkipMerge)
                     remoteInputSpec.set(generate.remoteInputSpec)
                     templateDir.set(generate.templateDir)
+                    templateResourcePath.set(generate.templateResourcePath)
                     auth.set(generate.auth)
                     globalProperties.set(generate.globalProperties)
                     configFile.set(generate.configFile)
@@ -115,6 +118,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     additionalProperties.set(generate.additionalProperties)
                     serverVariables.set(generate.serverVariables)
                     languageSpecificPrimitives.set(generate.languageSpecificPrimitives)
+                    openapiGeneratorIgnoreList.set(generate.openapiGeneratorIgnoreList)
                     importMappings.set(generate.importMappings)
                     schemaMappings.set(generate.schemaMappings)
                     inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
@@ -144,7 +148,6 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     generateModelDocumentation.set(generate.generateModelDocumentation)
                     generateApiTests.set(generate.generateApiTests)
                     generateApiDocumentation.set(generate.generateApiDocumentation)
-                    withXml.set(generate.withXml)
                     configOptions.set(generate.configOptions)
                     logToStderr.set(generate.logToStderr)
                     enablePostProcessFile.set(generate.enablePostProcessFile)

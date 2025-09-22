@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,38 +38,43 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class TypeHolderDefault {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
+  @javax.annotation.Nonnull
   private String stringItem = "what";
 
   public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
+  @javax.annotation.Nonnull
   private BigDecimal numberItem;
 
   public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
+  @javax.annotation.Nonnull
   private Integer integerItem;
 
   public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
+  @javax.annotation.Nonnull
   private Boolean boolItem = true;
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
+  @javax.annotation.Nonnull
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault() {
   }
 
-  public TypeHolderDefault stringItem(String stringItem) {
+  public TypeHolderDefault stringItem(@javax.annotation.Nonnull String stringItem) {
     
     this.stringItem = stringItem;
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_STRING_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getStringItem() {
@@ -76,25 +82,24 @@ public class TypeHolderDefault {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_STRING_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setStringItem(String stringItem) {
+  public void setStringItem(@javax.annotation.Nonnull String stringItem) {
     this.stringItem = stringItem;
   }
 
-
-  public TypeHolderDefault numberItem(BigDecimal numberItem) {
+  public TypeHolderDefault numberItem(@javax.annotation.Nonnull BigDecimal numberItem) {
     
     this.numberItem = numberItem;
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getNumberItem() {
@@ -102,25 +107,24 @@ public class TypeHolderDefault {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(@javax.annotation.Nonnull BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
-
-  public TypeHolderDefault integerItem(Integer integerItem) {
+  public TypeHolderDefault integerItem(@javax.annotation.Nonnull Integer integerItem) {
     
     this.integerItem = integerItem;
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getIntegerItem() {
@@ -128,25 +132,24 @@ public class TypeHolderDefault {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setIntegerItem(Integer integerItem) {
+  public void setIntegerItem(@javax.annotation.Nonnull Integer integerItem) {
     this.integerItem = integerItem;
   }
 
-
-  public TypeHolderDefault boolItem(Boolean boolItem) {
+  public TypeHolderDefault boolItem(@javax.annotation.Nonnull Boolean boolItem) {
     
     this.boolItem = boolItem;
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_BOOL_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Boolean getBoolItem() {
@@ -154,14 +157,13 @@ public class TypeHolderDefault {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_BOOL_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setBoolItem(Boolean boolItem) {
+  public void setBoolItem(@javax.annotation.Nonnull Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
-
-  public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
+  public TypeHolderDefault arrayItem(@javax.annotation.Nonnull List<Integer> arrayItem) {
     
     this.arrayItem = arrayItem;
     return this;
@@ -175,12 +177,12 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public List<Integer> getArrayItem() {
@@ -188,9 +190,9 @@ public class TypeHolderDefault {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setArrayItem(List<Integer> arrayItem) {
+  public void setArrayItem(@javax.annotation.Nonnull List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
 

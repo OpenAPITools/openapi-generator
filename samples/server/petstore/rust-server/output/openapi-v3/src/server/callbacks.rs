@@ -1,10 +1,12 @@
 use async_trait::async_trait;
+use bytes::Bytes;
 use futures::{Stream, future, future::BoxFuture, stream, future::TryFutureExt, future::FutureExt, stream::StreamExt};
+use http_body_util::{combinators::BoxBody, Full};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
-use hyper::{Body, Request, Response, service::Service, Uri};
+use hyper::{body::{Body, Incoming}, Request, Response, service::Service, Uri};
 use percent_encoding::{utf8_percent_encode, AsciiSet};
 use std::borrow::Cow;
-use std::convert::TryInto;
+use std::convert::{TryInto, Infallible};
 use std::io::{ErrorKind, Read};
 use std::error::Error;
 use std::future::Future;
@@ -18,6 +20,7 @@ use std::string::ToString;
 use std::task::{Context, Poll};
 use swagger::{ApiError, AuthData, BodyExt, Connector, DropContextService, Has, XSpanIdString};
 use url::form_urlencoded;
+use tower_service::Service as _;
 
 
 use crate::models;
@@ -42,9 +45,8 @@ use crate::CallbackCallbackPostResponse;
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
-           Error=hyper::Error> + Clone + Send + Sync,
+        (Request<BoxBody<Bytes, Infallible>>, C),
+        Response=Response<Incoming>> + Send + Sync + Clone,
     S::Future: Send + 'static,
     C: Clone + Send + Sync + 'static
 {
@@ -57,9 +59,8 @@ pub struct Client<S, C> where
 
 impl<S, C> fmt::Debug for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
-           Error=hyper::Error> + Clone + Send + Sync,
+        (Request<BoxBody<Bytes, Infallible>>, C),
+        Response=Response<Incoming>> + Send + Sync + Clone,
     S::Future: Send + 'static,
     C: Clone + Send + Sync + 'static
 {
@@ -70,9 +71,8 @@ impl<S, C> fmt::Debug for Client<S, C> where
 
 impl<S, C> Clone for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
-           Error=hyper::Error> + Clone + Send + Sync,
+        (Request<BoxBody<Bytes, Infallible>>, C),
+        Response=Response<Incoming>> + Send + Sync + Clone,
     S::Future: Send + 'static,
     C: Clone + Send + Sync + 'static
 {
@@ -84,8 +84,8 @@ impl<S, C> Clone for Client<S, C> where
     }
 }
 
-impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Body>, C>, C> where
-    Connector: hyper::client::connect::Connect + Clone + Send + Sync + 'static,
+impl<Connector, C> Client<DropContextService<hyper_util::service::TowerToHyperService<hyper_util::client::legacy::Client<Connector, BoxBody<Bytes, Infallible>>>, C>, C> where
+    Connector: hyper_util::client::legacy::connect::Connect + Clone + Send + Sync + 'static,
     C: Clone + Send + Sync + 'static
 {
     /// Create a client with a custom implementation of hyper::client::Connect.
@@ -99,10 +99,11 @@ impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Bo
     ///
     /// # Arguments
     ///
-    /// * `connector` - Implementation of `hyper::client::Connect` to use for the client
+    /// * `connector` - Implementation of `hyper_util::client::legacy::Client` to use for the client
     pub fn new_with_connector(connector: Connector) -> Self
     {
-        let client_service = hyper::client::Client::builder().build(connector);
+        let client_service = hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector);
+        let client_service = hyper_util::service::TowerToHyperService::new(client_service);
         let client_service = DropContextService::new(client_service);
 
         Self {
@@ -112,7 +113,7 @@ impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Bo
     }
 }
 
-impl<C> Client<DropContextService<hyper::client::Client<hyper::client::HttpConnector, Body>, C>, C> where
+impl<C> Client<DropContextService<hyper_util::service::TowerToHyperService<hyper_util::client::legacy::Client<hyper_util::client::legacy::connect::HttpConnector, BoxBody<Bytes, Infallible>>>, C>, C> where
     C: Clone + Send + Sync + 'static
 {
     /// Create an HTTP client.
@@ -123,12 +124,12 @@ impl<C> Client<DropContextService<hyper::client::Client<hyper::client::HttpConne
 }
 
 #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
-type HttpsConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
+type HttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;
+type HttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
-impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C>, C> where
+impl<C> Client<DropContextService<hyper_util::service::TowerToHyperService<hyper_util::client::legacy::Client<HttpsConnector, BoxBody<Bytes, Infallible>>>, C>, C> where
     C: Clone + Send + Sync + 'static
 {
     /// Create a client with a TLS connection to the server.
@@ -192,9 +193,8 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
 
 impl<S, C> Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
-           Error=hyper::Error> + Clone + Send + Sync,
+            (Request<BoxBody<Bytes, Infallible>>, C),
+            Response=Response<Incoming>> + Send + Sync + Clone,
     S::Future: Send + 'static,
     C: Clone + Send + Sync + 'static
 {
@@ -214,21 +214,14 @@ impl<S, C> Client<S, C> where
 #[async_trait]
 impl<S, C> CallbackApi<C> for Client<S, C> where
     S: Service<
-           (Request<Body>, C),
-           Response=Response<Body>,
-           Error=hyper::Error> + Clone + Send + Sync,
+            (Request<BoxBody<Bytes, Infallible>>, C),
+            Response=Response<Incoming>> + Send + Sync + Clone,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
     C: Has<XSpanIdString> + Has<Option<AuthData>> + Clone + Send + Sync,
 {
-    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), crate::ServiceError>> {
-        match self.client_service.clone().poll_ready(cx) {
-            Poll::Ready(Err(e)) => Poll::Ready(Err(Box::new(e))),
-            Poll::Ready(Ok(o)) => Poll::Ready(Ok(o)),
-            Poll::Pending => Poll::Pending,
-        }
-    }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn callback_callback_with_header_post(
         &self,
         callback_request_query_url: String,
@@ -236,6 +229,7 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
         context: &C) -> Result<CallbackCallbackWithHeaderPostResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
             "{request_query_url}/callback-with-header"
             ,request_query_url=callback_request_query_url
@@ -253,21 +247,21 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
         };
 
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
 
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
         });
 
         // Header parameters
@@ -276,12 +270,12 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
             Some(param_information) => {
         request.headers_mut().append(
             HeaderName::from_static("information"),
-            #[allow(clippy::redundant_clone)]
+            #[allow(clippy::redundant_clone, clippy::clone_on_copy)]
             match header::IntoHeaderValue(param_information.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
                     return Err(ApiError(format!(
-                        "Invalid header information - {}", e)));
+                        "Invalid header information - {e}")));
                 },
             });
             },
@@ -289,7 +283,7 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
         }
 
         let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
 
         match response.status().as_u16() {
             204 => {
@@ -299,30 +293,30 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
-                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
-                    code,
-                    headers,
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }
         }
     }
 
+    #[allow(clippy::vec_init_then_push)]
     async fn callback_callback_post(
         &self,
         callback_request_query_url: String,
         context: &C) -> Result<CallbackCallbackPostResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
+        #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
             "{request_query_url}/callback"
             ,request_query_url=callback_request_query_url
@@ -340,25 +334,25 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {err}"))),
         };
 
         let mut request = match Request::builder()
             .method("POST")
             .uri(uri)
-            .body(Body::empty()) {
+            .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+                Err(e) => return Err(ApiError(format!("Unable to create request: {e}")))
         };
 
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {e}")))
         });
 
         let response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+            .map_err(|e| ApiError(format!("No response received: {e}"))).await?;
 
         match response.status().as_u16() {
             204 => {
@@ -368,18 +362,16 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
             }
             code => {
                 let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .into_raw().await;
-                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
-                    code,
-                    headers,
+                let body = http_body_util::BodyExt::collect(response.into_body())
+                        .await
+                        .map(|f| f.to_bytes().to_vec());
+                Err(ApiError(format!("Unexpected response code {code}:\n{headers:?}\n\n{}",
                     match body {
                         Ok(body) => match String::from_utf8(body) {
                             Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                            Err(e) => format!("<Body was not UTF8: {e:?}>"),
                         },
-                        Err(e) => format!("<Failed to read body: {}>", e),
+                        Err(e) => format!("<Failed to read body: {}>", Into::<crate::ServiceError>::into(e)),
                     }
                 )))
             }

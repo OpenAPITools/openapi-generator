@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -42,420 +43,437 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Locale;
 
 import org.openapitools.client.JSON;
 
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
+  @javax.annotation.Nullable
   private Integer integer;
 
   public static final String SERIALIZED_NAME_INT32 = "int32";
   @SerializedName(SERIALIZED_NAME_INT32)
+  @javax.annotation.Nullable
   private Integer int32;
 
   public static final String SERIALIZED_NAME_INT64 = "int64";
   @SerializedName(SERIALIZED_NAME_INT64)
+  @javax.annotation.Nullable
   private Long int64;
 
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
+  @javax.annotation.Nonnull
   private BigDecimal number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
   @SerializedName(SERIALIZED_NAME_FLOAT)
+  @javax.annotation.Nullable
   private Float _float;
 
   public static final String SERIALIZED_NAME_DOUBLE = "double";
   @SerializedName(SERIALIZED_NAME_DOUBLE)
+  @javax.annotation.Nullable
   private Double _double;
 
   public static final String SERIALIZED_NAME_DECIMAL = "decimal";
   @SerializedName(SERIALIZED_NAME_DECIMAL)
+  @javax.annotation.Nullable
   private BigDecimal decimal;
 
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
+  @javax.annotation.Nullable
   private String string;
 
   public static final String SERIALIZED_NAME_BYTE = "byte";
   @SerializedName(SERIALIZED_NAME_BYTE)
+  @javax.annotation.Nonnull
   private byte[] _byte;
 
   public static final String SERIALIZED_NAME_BINARY = "binary";
   @SerializedName(SERIALIZED_NAME_BINARY)
+  @javax.annotation.Nullable
   private File binary;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
+  @javax.annotation.Nonnull
   private LocalDate date;
 
   public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
   @SerializedName(SERIALIZED_NAME_DATE_TIME)
+  @javax.annotation.Nullable
   private OffsetDateTime dateTime;
 
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
+  @javax.annotation.Nullable
   private UUID uuid;
 
   public static final String SERIALIZED_NAME_UUID_WITH_DEFAULT = "uuid_with_default";
   @SerializedName(SERIALIZED_NAME_UUID_WITH_DEFAULT)
+  @javax.annotation.Nullable
   private UUID uuidWithDefault = UUID.fromString("11111111-206d-4f12-9f12-3d1e525a8e84");
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
   @SerializedName(SERIALIZED_NAME_PASSWORD)
+  @javax.annotation.Nonnull
   private String password;
 
   public static final String SERIALIZED_NAME_PATTERN_WITH_DIGITS = "pattern_with_digits";
   @SerializedName(SERIALIZED_NAME_PATTERN_WITH_DIGITS)
+  @javax.annotation.Nullable
   private String patternWithDigits;
 
   public static final String SERIALIZED_NAME_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
   @SerializedName(SERIALIZED_NAME_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  @javax.annotation.Nullable
   private String patternWithDigitsAndDelimiter;
 
   public FormatTest() {
   }
 
-  public FormatTest integer(Integer integer) {
+  public FormatTest integer(@javax.annotation.Nullable Integer integer) {
     this.integer = integer;
     return this;
   }
 
-   /**
+  /**
    * Get integer
    * minimum: 10
    * maximum: 100
    * @return integer
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getInteger() {
     return integer;
   }
 
-  public void setInteger(Integer integer) {
+  public void setInteger(@javax.annotation.Nullable Integer integer) {
     this.integer = integer;
   }
 
 
-  public FormatTest int32(Integer int32) {
+  public FormatTest int32(@javax.annotation.Nullable Integer int32) {
     this.int32 = int32;
     return this;
   }
 
-   /**
+  /**
    * Get int32
    * minimum: 20
    * maximum: 200
    * @return int32
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getInt32() {
     return int32;
   }
 
-  public void setInt32(Integer int32) {
+  public void setInt32(@javax.annotation.Nullable Integer int32) {
     this.int32 = int32;
   }
 
 
-  public FormatTest int64(Long int64) {
+  public FormatTest int64(@javax.annotation.Nullable Long int64) {
     this.int64 = int64;
     return this;
   }
 
-   /**
+  /**
    * Get int64
    * @return int64
-  **/
+   */
   @javax.annotation.Nullable
   public Long getInt64() {
     return int64;
   }
 
-  public void setInt64(Long int64) {
+  public void setInt64(@javax.annotation.Nullable Long int64) {
     this.int64 = int64;
   }
 
 
-  public FormatTest number(BigDecimal number) {
+  public FormatTest number(@javax.annotation.Nonnull BigDecimal number) {
     this.number = number;
     return this;
   }
 
-   /**
+  /**
    * Get number
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  **/
+   */
   @javax.annotation.Nonnull
   public BigDecimal getNumber() {
     return number;
   }
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(@javax.annotation.Nonnull BigDecimal number) {
     this.number = number;
   }
 
 
-  public FormatTest _float(Float _float) {
+  public FormatTest _float(@javax.annotation.Nullable Float _float) {
     this._float = _float;
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  **/
+   */
   @javax.annotation.Nullable
   public Float getFloat() {
     return _float;
   }
 
-  public void setFloat(Float _float) {
+  public void setFloat(@javax.annotation.Nullable Float _float) {
     this._float = _float;
   }
 
 
-  public FormatTest _double(Double _double) {
+  public FormatTest _double(@javax.annotation.Nullable Double _double) {
     this._double = _double;
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  **/
+   */
   @javax.annotation.Nullable
   public Double getDouble() {
     return _double;
   }
 
-  public void setDouble(Double _double) {
+  public void setDouble(@javax.annotation.Nullable Double _double) {
     this._double = _double;
   }
 
 
-  public FormatTest decimal(BigDecimal decimal) {
+  public FormatTest decimal(@javax.annotation.Nullable BigDecimal decimal) {
     this.decimal = decimal;
     return this;
   }
 
-   /**
+  /**
    * Get decimal
    * @return decimal
-  **/
+   */
   @javax.annotation.Nullable
   public BigDecimal getDecimal() {
     return decimal;
   }
 
-  public void setDecimal(BigDecimal decimal) {
+  public void setDecimal(@javax.annotation.Nullable BigDecimal decimal) {
     this.decimal = decimal;
   }
 
 
-  public FormatTest string(String string) {
+  public FormatTest string(@javax.annotation.Nullable String string) {
     this.string = string;
     return this;
   }
 
-   /**
+  /**
    * Get string
    * @return string
-  **/
+   */
   @javax.annotation.Nullable
   public String getString() {
     return string;
   }
 
-  public void setString(String string) {
+  public void setString(@javax.annotation.Nullable String string) {
     this.string = string;
   }
 
 
-  public FormatTest _byte(byte[] _byte) {
+  public FormatTest _byte(@javax.annotation.Nonnull byte[] _byte) {
     this._byte = _byte;
     return this;
   }
 
-   /**
+  /**
    * Get _byte
    * @return _byte
-  **/
+   */
   @javax.annotation.Nonnull
   public byte[] getByte() {
     return _byte;
   }
 
-  public void setByte(byte[] _byte) {
+  public void setByte(@javax.annotation.Nonnull byte[] _byte) {
     this._byte = _byte;
   }
 
 
-  public FormatTest binary(File binary) {
+  public FormatTest binary(@javax.annotation.Nullable File binary) {
     this.binary = binary;
     return this;
   }
 
-   /**
+  /**
    * Get binary
    * @return binary
-  **/
+   */
   @javax.annotation.Nullable
   public File getBinary() {
     return binary;
   }
 
-  public void setBinary(File binary) {
+  public void setBinary(@javax.annotation.Nullable File binary) {
     this.binary = binary;
   }
 
 
-  public FormatTest date(LocalDate date) {
+  public FormatTest date(@javax.annotation.Nonnull LocalDate date) {
     this.date = date;
     return this;
   }
 
-   /**
+  /**
    * Get date
    * @return date
-  **/
+   */
   @javax.annotation.Nonnull
   public LocalDate getDate() {
     return date;
   }
 
-  public void setDate(LocalDate date) {
+  public void setDate(@javax.annotation.Nonnull LocalDate date) {
     this.date = date;
   }
 
 
-  public FormatTest dateTime(OffsetDateTime dateTime) {
+  public FormatTest dateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @javax.annotation.Nullable
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
 
-  public FormatTest uuid(UUID uuid) {
+  public FormatTest uuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   public UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
 
-  public FormatTest uuidWithDefault(UUID uuidWithDefault) {
+  public FormatTest uuidWithDefault(@javax.annotation.Nullable UUID uuidWithDefault) {
     this.uuidWithDefault = uuidWithDefault;
     return this;
   }
 
-   /**
+  /**
    * Get uuidWithDefault
    * @return uuidWithDefault
-  **/
+   */
   @javax.annotation.Nullable
   public UUID getUuidWithDefault() {
     return uuidWithDefault;
   }
 
-  public void setUuidWithDefault(UUID uuidWithDefault) {
+  public void setUuidWithDefault(@javax.annotation.Nullable UUID uuidWithDefault) {
     this.uuidWithDefault = uuidWithDefault;
   }
 
 
-  public FormatTest password(String password) {
+  public FormatTest password(@javax.annotation.Nonnull String password) {
     this.password = password;
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nonnull
   public String getPassword() {
     return password;
   }
 
-  public void setPassword(String password) {
+  public void setPassword(@javax.annotation.Nonnull String password) {
     this.password = password;
   }
 
 
-  public FormatTest patternWithDigits(String patternWithDigits) {
+  public FormatTest patternWithDigits(@javax.annotation.Nullable String patternWithDigits) {
     this.patternWithDigits = patternWithDigits;
     return this;
   }
 
-   /**
+  /**
    * A string that is a 10 digit number. Can have leading zeros.
    * @return patternWithDigits
-  **/
+   */
   @javax.annotation.Nullable
   public String getPatternWithDigits() {
     return patternWithDigits;
   }
 
-  public void setPatternWithDigits(String patternWithDigits) {
+  public void setPatternWithDigits(@javax.annotation.Nullable String patternWithDigits) {
     this.patternWithDigits = patternWithDigits;
   }
 
 
-  public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+  public FormatTest patternWithDigitsAndDelimiter(@javax.annotation.Nullable String patternWithDigitsAndDelimiter) {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
     return this;
   }
 
-   /**
+  /**
    * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
    * @return patternWithDigitsAndDelimiter
-  **/
+   */
   @javax.annotation.Nullable
   public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;
   }
 
-  public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+  public void setPatternWithDigitsAndDelimiter(@javax.annotation.Nullable String patternWithDigitsAndDelimiter) {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
@@ -582,70 +600,49 @@ public class FormatTest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("integer");
-    openapiFields.add("int32");
-    openapiFields.add("int64");
-    openapiFields.add("number");
-    openapiFields.add("float");
-    openapiFields.add("double");
-    openapiFields.add("decimal");
-    openapiFields.add("string");
-    openapiFields.add("byte");
-    openapiFields.add("binary");
-    openapiFields.add("date");
-    openapiFields.add("dateTime");
-    openapiFields.add("uuid");
-    openapiFields.add("uuid_with_default");
-    openapiFields.add("password");
-    openapiFields.add("pattern_with_digits");
-    openapiFields.add("pattern_with_digits_and_delimiter");
+    openapiFields = new HashSet<String>(Arrays.asList("integer", "int32", "int64", "number", "float", "double", "decimal", "string", "byte", "binary", "date", "dateTime", "uuid", "uuid_with_default", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("number");
-    openapiRequiredFields.add("byte");
-    openapiRequiredFields.add("date");
-    openapiRequiredFields.add("password");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("number", "byte", "date", "password"));
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to FormatTest
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to FormatTest
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!FormatTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in FormatTest is not found in the empty JSON string", FormatTest.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The required field(s) %s in FormatTest is not found in the empty JSON string", FormatTest.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : FormatTest.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("string") != null && !jsonObj.get("string").isJsonNull()) && !jsonObj.get("string").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string").toString()));
       }
       if ((jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonNull()) && !jsonObj.get("uuid").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
       }
       if ((jsonObj.get("uuid_with_default") != null && !jsonObj.get("uuid_with_default").isJsonNull()) && !jsonObj.get("uuid_with_default").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `uuid_with_default` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid_with_default").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `uuid_with_default` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid_with_default").toString()));
       }
       if (!jsonObj.get("password").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `password` to be a primitive type in the JSON string but got `%s`", jsonObj.get("password").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `password` to be a primitive type in the JSON string but got `%s`", jsonObj.get("password").toString()));
       }
       if ((jsonObj.get("pattern_with_digits") != null && !jsonObj.get("pattern_with_digits").isJsonNull()) && !jsonObj.get("pattern_with_digits").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `pattern_with_digits` to be a primitive type in the JSON string but got `%s`", jsonObj.get("pattern_with_digits").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `pattern_with_digits` to be a primitive type in the JSON string but got `%s`", jsonObj.get("pattern_with_digits").toString()));
       }
       if ((jsonObj.get("pattern_with_digits_and_delimiter") != null && !jsonObj.get("pattern_with_digits_and_delimiter").isJsonNull()) && !jsonObj.get("pattern_with_digits_and_delimiter").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `pattern_with_digits_and_delimiter` to be a primitive type in the JSON string but got `%s`", jsonObj.get("pattern_with_digits_and_delimiter").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `pattern_with_digits_and_delimiter` to be a primitive type in the JSON string but got `%s`", jsonObj.get("pattern_with_digits_and_delimiter").toString()));
       }
   }
 
@@ -677,7 +674,12 @@ public class FormatTest {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -701,7 +703,7 @@ public class FormatTest {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object
@@ -716,22 +718,22 @@ public class FormatTest {
     }
   }
 
- /**
-  * Create an instance of FormatTest given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of FormatTest
-  * @throws IOException if the JSON string is invalid with respect to FormatTest
-  */
+  /**
+   * Create an instance of FormatTest given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of FormatTest
+   * @throws IOException if the JSON string is invalid with respect to FormatTest
+   */
   public static FormatTest fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, FormatTest.class);
   }
 
- /**
-  * Convert an instance of FormatTest to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of FormatTest to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

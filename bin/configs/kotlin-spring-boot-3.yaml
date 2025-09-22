@@ -11,3 +11,4 @@ additionalProperties:
   serializableModel: "true"
   beanValidations: "true"
   useSpringBoot3: "true"
+  requestMappingMode: api_interface

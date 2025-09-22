@@ -78,7 +78,8 @@ paths:
       - '@RequestHeader final HttpHeaders headers'
       - Principal principal
       - '@Qualifier("jacksonObjectMapper") ObjectMapper mapper'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/logout:
@@ -97,7 +98,8 @@ paths:
       - '@RequestHeader final HttpHeaders headers'
       - Principal principal
       - '@Qualifier("jacksonObjectMapper") ObjectMapper mapper'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
 components:
@@ -128,7 +130,7 @@ components:
           format: int64
           type: integer
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         name:
           example: doggie
           type: string
@@ -142,7 +144,7 @@ components:
             wrapped: true
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
           xml:
             wrapped: true

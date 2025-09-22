@@ -1,0 +1,5 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-bigdecimal-default
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_14584_bigdecimal_default.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring

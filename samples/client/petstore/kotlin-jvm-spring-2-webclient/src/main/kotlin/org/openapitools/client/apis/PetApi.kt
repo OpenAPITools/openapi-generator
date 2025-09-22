@@ -117,11 +117,11 @@ class PetApi(client: WebClient) : ApiClient(client) {
     /**
      * enum for parameter status
      */
-     enum class StatusFindPetsByStatus(val value: kotlin.String) {
-         @JsonProperty(value = "available") available("available"),
-         @JsonProperty(value = "pending") pending("pending"),
-         @JsonProperty(value = "sold") sold("sold"),
-     }
+    enum class StatusFindPetsByStatus(val value: kotlin.String) {
+        @JsonProperty(value = "available") available("available"),
+        @JsonProperty(value = "pending") pending("pending"),
+        @JsonProperty(value = "sold") sold("sold"),
+    }
 
 
     @Throws(WebClientResponseException::class)

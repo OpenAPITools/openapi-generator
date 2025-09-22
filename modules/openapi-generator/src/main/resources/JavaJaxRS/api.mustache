@@ -36,6 +36,7 @@ import {{javaxPackage}}.validation.Valid;
 {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
 @io.swagger.annotations.Api(description = "the {{{baseName}}} API")
 {{>generatedAnnotation}}
+
 {{#operations}}
 public class {{classname}}  {
    private final {{classname}}Service delegate;
@@ -47,7 +48,7 @@ public class {{classname}}  {
          String implClass = servletContext.getInitParameter("{{classname}}.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = ({{classname}}Service) Class.forName(implClass).newInstance();
+               delegate = ({{classname}}Service) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }

@@ -29,6 +29,30 @@ namespace Org.OpenAPITools.Controllers
     public class FakeApiController : ControllerBase
     { 
         /// <summary>
+        /// Fake endpoint to test nullable example (object)
+        /// </summary>
+        /// <response code="200">Successful operation</response>
+        [HttpGet]
+        [Route("/v2/fake/nullable_example_test")]
+        [ValidateModelState]
+        [SwaggerOperation("FakeNullableExampleTest")]
+        [SwaggerResponse(statusCode: 200, type: typeof(TestNullable), description: "Successful operation")]
+        public virtual IActionResult FakeNullableExampleTest()
+        {
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default);
+            string exampleJson = null;
+            exampleJson = "{\n  \"nullableName\" : \"nullableName\",\n  \"name\" : \"name\"\n}";
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<TestNullable>(exampleJson)
+            : default;
+            //TODO: Change the data returned
+            return new ObjectResult(example);
+        }
+
+        /// <summary>
         /// fake endpoint to test parameter example (object)
         /// </summary>
         /// <param name="data"></param>

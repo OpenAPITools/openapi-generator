@@ -1,0 +1,14 @@
+{{^vendorExtensions.x-helidon-hasEnumClass}}{{!
+}}{{^isString}}{{#isDecimal}}BigDecimal::new{{/isDecimal}}{{!
+}}{{#isNumber}}BigDecimal::new{{/isNumber}}{{!
+}}{{#isDate}}LocalDate::parse{{/isDate}}{{#isDateTime}}OffsetDateTime::parse{{/isDateTime}}{{!
+}}{{#isByteArray}}HexFormat.of()::parseHex{{/isByteArray}}{{!
+}}{{^isDecimal}}{{^isNumber}}{{^isDate}}{{^isDateTime}}{{^isByteArray}}{{#isContainer}}{{baseType}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}::valueOf{{/isByteArray}}{{/isDateTime}}{{/isDate}}{{/isNumber}}{{/isDecimal}}{{/isString}}{{!
+}}{{#isString}}String::valueOf{{/isString}}{{!
+}}{{/vendorExtensions.x-helidon-hasEnumClass}}{{!
+}}{{!
+
+  Some enums are specified using a $ref to a type; to those the code adds the x-helidon-hasEnumClass boolean set to true.
+  Others are described in-line in the OpenAPI document and those do not have x-helidon-hasEnumClass.
+
+}}{{#vendorExtensions.x-helidon-hasEnumClass}}{{baseType}}::fromValue{{/vendorExtensions.x-helidon-hasEnumClass}}

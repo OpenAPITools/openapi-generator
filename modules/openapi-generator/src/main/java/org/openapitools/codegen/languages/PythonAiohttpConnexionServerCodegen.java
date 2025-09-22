@@ -77,5 +77,7 @@ public class PythonAiohttpConnexionServerCodegen extends AbstractPythonConnexion
     }
 
     @Override
-    public String generatorLanguageVersion() { return "3.5.2+"; };
+    public String generatorLanguageVersion() {
+        return "3.5.2+";
+    }
 }

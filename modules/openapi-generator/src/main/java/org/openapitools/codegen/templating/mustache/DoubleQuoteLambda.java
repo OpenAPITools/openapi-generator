@@ -22,16 +22,14 @@ import com.samskivert.mustache.Template;
 import java.io.IOException;
 import java.io.Writer;
 
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
 /**
  * Double quote the text if it's not already the case.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("doublequote", new DoubleQuoteLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#doublequote}}{{summary}}{{/doublequote}}

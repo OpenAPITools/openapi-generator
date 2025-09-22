@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,20 +24,20 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesString
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class AdditionalPropertiesString {
 
   private Optional<String> name = Optional.empty();
 
   public AdditionalPropertiesString name(String name) {
-    this.name = Optional.of(name);
+    this.name = Optional.ofNullable(name);
     return this;
   }
 
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
@@ -124,5 +125,68 @@ public class AdditionalPropertiesString {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private AdditionalPropertiesString instance;
+
+    public Builder() {
+      this(new AdditionalPropertiesString());
+    }
+
+    protected Builder(AdditionalPropertiesString instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(AdditionalPropertiesString value) { 
+      this.instance.setName(value.name);
+      return this;
+    }
+
+    public AdditionalPropertiesString.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public AdditionalPropertiesString.Builder additionalProperties(Map<String, String> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
+    /**
+    * returns a built AdditionalPropertiesString instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public AdditionalPropertiesString build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static AdditionalPropertiesString.Builder builder() {
+    return new AdditionalPropertiesString.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AdditionalPropertiesString.Builder toBuilder() {
+    AdditionalPropertiesString.Builder builder = new AdditionalPropertiesString.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

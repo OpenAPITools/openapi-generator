@@ -18,28 +18,26 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for XmlItem
  */
-public class XmlItemTest {
+class XmlItemTest {
     private final XmlItem model = new XmlItem();
 
     /**
      * Model tests for XmlItem
      */
     @Test
-    public void testXmlItem() {
+    void testXmlItem() {
         // TODO: test XmlItem
     }
 
@@ -47,7 +45,7 @@ public class XmlItemTest {
      * Test the property 'attributeString'
      */
     @Test
-    public void attributeStringTest() {
+    void attributeStringTest() {
         // TODO: test attributeString
     }
 
@@ -55,7 +53,7 @@ public class XmlItemTest {
      * Test the property 'attributeNumber'
      */
     @Test
-    public void attributeNumberTest() {
+    void attributeNumberTest() {
         // TODO: test attributeNumber
     }
 
@@ -63,7 +61,7 @@ public class XmlItemTest {
      * Test the property 'attributeInteger'
      */
     @Test
-    public void attributeIntegerTest() {
+    void attributeIntegerTest() {
         // TODO: test attributeInteger
     }
 
@@ -71,7 +69,7 @@ public class XmlItemTest {
      * Test the property 'attributeBoolean'
      */
     @Test
-    public void attributeBooleanTest() {
+    void attributeBooleanTest() {
         // TODO: test attributeBoolean
     }
 
@@ -79,7 +77,7 @@ public class XmlItemTest {
      * Test the property 'wrappedArray'
      */
     @Test
-    public void wrappedArrayTest() {
+    void wrappedArrayTest() {
         // TODO: test wrappedArray
     }
 
@@ -87,7 +85,7 @@ public class XmlItemTest {
      * Test the property 'nameString'
      */
     @Test
-    public void nameStringTest() {
+    void nameStringTest() {
         // TODO: test nameString
     }
 
@@ -95,7 +93,7 @@ public class XmlItemTest {
      * Test the property 'nameNumber'
      */
     @Test
-    public void nameNumberTest() {
+    void nameNumberTest() {
         // TODO: test nameNumber
     }
 
@@ -103,7 +101,7 @@ public class XmlItemTest {
      * Test the property 'nameInteger'
      */
     @Test
-    public void nameIntegerTest() {
+    void nameIntegerTest() {
         // TODO: test nameInteger
     }
 
@@ -111,7 +109,7 @@ public class XmlItemTest {
      * Test the property 'nameBoolean'
      */
     @Test
-    public void nameBooleanTest() {
+    void nameBooleanTest() {
         // TODO: test nameBoolean
     }
 
@@ -119,7 +117,7 @@ public class XmlItemTest {
      * Test the property 'nameArray'
      */
     @Test
-    public void nameArrayTest() {
+    void nameArrayTest() {
         // TODO: test nameArray
     }
 
@@ -127,7 +125,7 @@ public class XmlItemTest {
      * Test the property 'nameWrappedArray'
      */
     @Test
-    public void nameWrappedArrayTest() {
+    void nameWrappedArrayTest() {
         // TODO: test nameWrappedArray
     }
 
@@ -135,7 +133,7 @@ public class XmlItemTest {
      * Test the property 'prefixString'
      */
     @Test
-    public void prefixStringTest() {
+    void prefixStringTest() {
         // TODO: test prefixString
     }
 
@@ -143,7 +141,7 @@ public class XmlItemTest {
      * Test the property 'prefixNumber'
      */
     @Test
-    public void prefixNumberTest() {
+    void prefixNumberTest() {
         // TODO: test prefixNumber
     }
 
@@ -151,7 +149,7 @@ public class XmlItemTest {
      * Test the property 'prefixInteger'
      */
     @Test
-    public void prefixIntegerTest() {
+    void prefixIntegerTest() {
         // TODO: test prefixInteger
     }
 
@@ -159,7 +157,7 @@ public class XmlItemTest {
      * Test the property 'prefixBoolean'
      */
     @Test
-    public void prefixBooleanTest() {
+    void prefixBooleanTest() {
         // TODO: test prefixBoolean
     }
 
@@ -167,7 +165,7 @@ public class XmlItemTest {
      * Test the property 'prefixArray'
      */
     @Test
-    public void prefixArrayTest() {
+    void prefixArrayTest() {
         // TODO: test prefixArray
     }
 
@@ -175,7 +173,7 @@ public class XmlItemTest {
      * Test the property 'prefixWrappedArray'
      */
     @Test
-    public void prefixWrappedArrayTest() {
+    void prefixWrappedArrayTest() {
         // TODO: test prefixWrappedArray
     }
 
@@ -183,7 +181,7 @@ public class XmlItemTest {
      * Test the property 'namespaceString'
      */
     @Test
-    public void namespaceStringTest() {
+    void namespaceStringTest() {
         // TODO: test namespaceString
     }
 
@@ -191,7 +189,7 @@ public class XmlItemTest {
      * Test the property 'namespaceNumber'
      */
     @Test
-    public void namespaceNumberTest() {
+    void namespaceNumberTest() {
         // TODO: test namespaceNumber
     }
 
@@ -199,7 +197,7 @@ public class XmlItemTest {
      * Test the property 'namespaceInteger'
      */
     @Test
-    public void namespaceIntegerTest() {
+    void namespaceIntegerTest() {
         // TODO: test namespaceInteger
     }
 
@@ -207,7 +205,7 @@ public class XmlItemTest {
      * Test the property 'namespaceBoolean'
      */
     @Test
-    public void namespaceBooleanTest() {
+    void namespaceBooleanTest() {
         // TODO: test namespaceBoolean
     }
 
@@ -215,7 +213,7 @@ public class XmlItemTest {
      * Test the property 'namespaceArray'
      */
     @Test
-    public void namespaceArrayTest() {
+    void namespaceArrayTest() {
         // TODO: test namespaceArray
     }
 
@@ -223,7 +221,7 @@ public class XmlItemTest {
      * Test the property 'namespaceWrappedArray'
      */
     @Test
-    public void namespaceWrappedArrayTest() {
+    void namespaceWrappedArrayTest() {
         // TODO: test namespaceWrappedArray
     }
 
@@ -231,7 +229,7 @@ public class XmlItemTest {
      * Test the property 'prefixNsString'
      */
     @Test
-    public void prefixNsStringTest() {
+    void prefixNsStringTest() {
         // TODO: test prefixNsString
     }
 
@@ -239,7 +237,7 @@ public class XmlItemTest {
      * Test the property 'prefixNsNumber'
      */
     @Test
-    public void prefixNsNumberTest() {
+    void prefixNsNumberTest() {
         // TODO: test prefixNsNumber
     }
 
@@ -247,7 +245,7 @@ public class XmlItemTest {
      * Test the property 'prefixNsInteger'
      */
     @Test
-    public void prefixNsIntegerTest() {
+    void prefixNsIntegerTest() {
         // TODO: test prefixNsInteger
     }
 
@@ -255,7 +253,7 @@ public class XmlItemTest {
      * Test the property 'prefixNsBoolean'
      */
     @Test
-    public void prefixNsBooleanTest() {
+    void prefixNsBooleanTest() {
         // TODO: test prefixNsBoolean
     }
 
@@ -263,7 +261,7 @@ public class XmlItemTest {
      * Test the property 'prefixNsArray'
      */
     @Test
-    public void prefixNsArrayTest() {
+    void prefixNsArrayTest() {
         // TODO: test prefixNsArray
     }
 
@@ -271,7 +269,7 @@ public class XmlItemTest {
      * Test the property 'prefixNsWrappedArray'
      */
     @Test
-    public void prefixNsWrappedArrayTest() {
+    void prefixNsWrappedArrayTest() {
         // TODO: test prefixNsWrappedArray
     }
 

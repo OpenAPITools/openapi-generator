@@ -1,0 +1,26 @@
+generatorName: swift6
+outputDir: samples/client/petstore/swift6/resultLibrary
+inputSpec: modules/openapi-generator/src/test/resources/2_0/swift/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/swift6
+generateAliasAsModel: true
+additionalProperties:
+  responseAs: Result
+  useSPMFileStructure: false
+  podAuthors: ""
+  podSummary: PetstoreClient
+  sortParamsByRequiredFlag: false
+  enumUnknownDefaultCase: true
+  nonPublicApi: true
+  readonlyProperties: true
+  hashableModels: false
+  projectName: PetstoreClient
+  podHomepage: https://github.com/openapitools/openapi-generator
+nameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+  -type: dashType
+parameterNameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+  -type: dashType
+

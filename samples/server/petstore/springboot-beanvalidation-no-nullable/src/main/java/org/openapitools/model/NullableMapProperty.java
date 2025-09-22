@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -20,13 +21,13 @@ import javax.annotation.Generated;
  * NullableMapProperty
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
 public class NullableMapProperty {
 
   @Valid
-  private Map<String, String> languageValues;
+  private @Nullable Map<String, String> languageValues;
 
-  public NullableMapProperty languageValues(Map<String, String> languageValues) {
+  public NullableMapProperty languageValues(@Nullable Map<String, String> languageValues) {
     this.languageValues = languageValues;
     return this;
   }
@@ -42,15 +43,15 @@ public class NullableMapProperty {
   /**
    * Get languageValues
    * @return languageValues
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("languageValues")
-  public Map<String, String> getLanguageValues() {
+  public @Nullable Map<String, String> getLanguageValues() {
     return languageValues;
   }
 
-  public void setLanguageValues(Map<String, String> languageValues) {
+  public void setLanguageValues(@Nullable Map<String, String> languageValues) {
     this.languageValues = languageValues;
   }
 

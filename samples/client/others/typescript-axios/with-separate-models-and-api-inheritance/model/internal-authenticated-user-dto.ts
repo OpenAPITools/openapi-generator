@@ -15,14 +15,13 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { AbstractUserDto } from './abstract-user-dto';
+import type { AbstractUserDto } from './abstract-user-dto';
 // May contain unused imports in some cases
 // @ts-ignore
-import { BranchDto } from './branch-dto';
+import type { BranchDto } from './branch-dto';
 
 /**
  * @type InternalAuthenticatedUserDto
- * @export
  */
 export type InternalAuthenticatedUserDto = AbstractUserDto;
 

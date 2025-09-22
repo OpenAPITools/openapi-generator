@@ -24,6 +24,7 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
+
 /**
  * An enum with complex-ish naming
  *
@@ -68,7 +69,6 @@ enum class PetEnum(val value: kotlin.String) {
     }
 }
 
-@Serializer(forClass = PetEnum::class)
 internal object PetEnumSerializer : KSerializer<PetEnum> {
     override val descriptor = kotlin.String.serializer().descriptor
 
@@ -82,4 +82,5 @@ internal object PetEnumSerializer : KSerializer<PetEnum> {
         encoder.encodeSerializableValue(kotlin.String.serializer(), value.value)
     }
 }
+
 

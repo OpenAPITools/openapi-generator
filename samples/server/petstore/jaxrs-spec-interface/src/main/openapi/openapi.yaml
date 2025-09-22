@@ -25,10 +25,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Pet'
+              $ref: "#/components/schemas/Pet"
           application/xml:
             schema:
-              $ref: '#/components/schemas/Pet'
+              $ref: "#/components/schemas/Pet"
         description: Pet object that needs to be added to the store
         required: true
       responses:
@@ -47,7 +47,8 @@ paths:
       - pet
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
     put:
@@ -56,10 +57,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Pet'
+              $ref: "#/components/schemas/Pet"
           application/xml:
             schema:
-              $ref: '#/components/schemas/Pet'
+              $ref: "#/components/schemas/Pet"
         description: Pet object that needs to be added to the store
         required: true
       responses:
@@ -84,7 +85,8 @@ paths:
       - pet
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
   /pet/findByStatus:
@@ -113,12 +115,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -131,7 +133,9 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: pet
   /pet/findByTags:
@@ -158,13 +162,13 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
                 uniqueItems: true
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
                 uniqueItems: true
           description: successful operation
@@ -178,7 +182,9 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: pet
   /pet/{petId}:
@@ -210,7 +216,8 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
     get:
@@ -229,10 +236,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           content: {}
@@ -245,7 +252,9 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: pet
     post:
@@ -262,7 +271,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/updatePetWithForm_request'
+              $ref: "#/components/schemas/updatePetWithForm_request"
       responses:
         "405":
           content: {}
@@ -275,7 +284,8 @@ paths:
       tags:
       - pet
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
   /pet/{petId}/uploadImage:
@@ -293,13 +303,13 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFile_request'
+              $ref: "#/components/schemas/uploadFile_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       security:
       - petstore_auth:
@@ -309,7 +319,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
   /store/inventory:
@@ -331,7 +342,8 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: store
   /store/order:
@@ -341,7 +353,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: "#/components/schemas/Order"
         description: order placed for purchasing the pet
         required: true
       responses:
@@ -349,10 +361,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           content: {}
@@ -362,7 +374,9 @@ paths:
       - store
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: store
   /store/order/{order_id}:
@@ -387,7 +401,8 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: store
     get:
@@ -409,10 +424,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           content: {}
@@ -423,7 +438,9 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: store
   /user:
@@ -434,7 +451,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Created user object
         required: true
       responses:
@@ -446,7 +463,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/createWithArray:
@@ -457,7 +475,7 @@ paths:
           '*/*':
             schema:
               items:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
               type: array
         description: List of user object
         required: true
@@ -470,7 +488,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/createWithList:
@@ -481,7 +500,7 @@ paths:
           '*/*':
             schema:
               items:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
               type: array
         description: List of user object
         required: true
@@ -494,7 +513,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/login:
@@ -540,7 +560,9 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: user
   /user/logout:
@@ -553,7 +575,8 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/{username}:
@@ -577,7 +600,8 @@ paths:
       summary: Delete user
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
     get:
@@ -594,10 +618,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
           description: successful operation
         "400":
           content: {}
@@ -608,7 +632,9 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
       x-tags:
       - tag: user
     put:
@@ -625,7 +651,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Updated user object
         required: true
       responses:
@@ -640,7 +666,8 @@ paths:
       - user
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /fake_classname_test:
@@ -651,7 +678,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Client'
+              $ref: "#/components/schemas/Client"
         description: client model
         required: true
       responses:
@@ -659,7 +686,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
           description: successful operation
       security:
       - api_key_query: []
@@ -668,7 +695,8 @@ paths:
       - fake_classname_tags 123#$%^
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake_classname_tags 123#$%^
   /fake:
@@ -719,7 +747,8 @@ paths:
       tags:
       - fake
       x-group-parameters: true
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
     get:
@@ -794,7 +823,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testEnumParameters_request'
+              $ref: "#/components/schemas/testEnumParameters_request"
       responses:
         "400":
           content: {}
@@ -806,7 +835,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
     patch:
@@ -816,7 +846,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Client'
+              $ref: "#/components/schemas/Client"
         description: client model
         required: true
       responses:
@@ -824,14 +854,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
           description: successful operation
       summary: To test "client" model
       tags:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
     post:
@@ -845,7 +876,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testEndpointParameters_request'
+              $ref: "#/components/schemas/testEndpointParameters_request"
         required: true
       responses:
         "400":
@@ -864,7 +895,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/outer/number:
@@ -875,7 +907,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/OuterNumber'
+              $ref: "#/components/schemas/OuterNumber"
         description: Input number as post body
         required: false
       responses:
@@ -883,13 +915,14 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterNumber'
+                $ref: "#/components/schemas/OuterNumber"
           description: Output number
       tags:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/outer/string:
@@ -900,7 +933,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/OuterString'
+              $ref: "#/components/schemas/OuterString"
         description: Input string as post body
         required: false
       responses:
@@ -908,13 +941,14 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterString'
+                $ref: "#/components/schemas/OuterString"
           description: Output string
       tags:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/outer/boolean:
@@ -925,7 +959,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/OuterBoolean'
+              $ref: "#/components/schemas/OuterBoolean"
         description: Input boolean as post body
         required: false
       responses:
@@ -933,13 +967,14 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterBoolean'
+                $ref: "#/components/schemas/OuterBoolean"
           description: Output boolean
       tags:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/outer/composite:
@@ -950,7 +985,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/OuterComposite'
+              $ref: "#/components/schemas/OuterComposite"
         description: Input composite as post body
         required: false
       responses:
@@ -958,13 +993,14 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterComposite'
+                $ref: "#/components/schemas/OuterComposite"
           description: Output composite
       tags:
       - fake
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: '*/*'
+      x-accepts:
+      - '*/*'
       x-tags:
       - tag: fake
   /fake/jsonFormData:
@@ -974,7 +1010,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testJsonFormData_request'
+              $ref: "#/components/schemas/testJsonFormData_request"
         required: true
       responses:
         "200":
@@ -984,7 +1020,8 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/inline-additionalProperties:
@@ -1008,7 +1045,8 @@ paths:
       - fake
       x-codegen-request-body-name: param
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/body-with-query-params:
@@ -1024,7 +1062,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         required: true
       responses:
         "200":
@@ -1034,7 +1072,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/create_xml_item:
@@ -1045,22 +1084,22 @@ paths:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/XmlItem'
+              $ref: "#/components/schemas/XmlItem"
           application/xml; charset=utf-8:
             schema:
-              $ref: '#/components/schemas/XmlItem'
+              $ref: "#/components/schemas/XmlItem"
           application/xml; charset=utf-16:
             schema:
-              $ref: '#/components/schemas/XmlItem'
+              $ref: "#/components/schemas/XmlItem"
           text/xml:
             schema:
-              $ref: '#/components/schemas/XmlItem'
+              $ref: "#/components/schemas/XmlItem"
           text/xml; charset=utf-8:
             schema:
-              $ref: '#/components/schemas/XmlItem'
+              $ref: "#/components/schemas/XmlItem"
           text/xml; charset=utf-16:
             schema:
-              $ref: '#/components/schemas/XmlItem'
+              $ref: "#/components/schemas/XmlItem"
         description: XmlItem Body
         required: true
       responses:
@@ -1072,7 +1111,8 @@ paths:
       - fake
       x-codegen-request-body-name: XmlItem
       x-content-type: application/xml
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /another-fake/dummy:
@@ -1091,7 +1131,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Client'
+              $ref: "#/components/schemas/Client"
         description: client model
         required: true
       responses:
@@ -1099,14 +1139,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
           description: successful operation
       summary: To test special tags
       tags:
       - $another-fake?
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: $another-fake?
   /fake/body-with-file-schema:
@@ -1118,7 +1159,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FileSchemaTestClass'
+              $ref: "#/components/schemas/FileSchemaTestClass"
         required: true
       responses:
         "200":
@@ -1128,7 +1169,8 @@ paths:
       - fake
       x-codegen-request-body-name: body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/test-query-parameters:
@@ -1184,7 +1226,8 @@ paths:
           description: Success
       tags:
       - fake
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: fake
   /fake/{petId}/uploadImageWithRequiredFile:
@@ -1202,14 +1245,14 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFileWithRequiredFile_request'
+              $ref: "#/components/schemas/uploadFileWithRequiredFile_request"
         required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       security:
       - petstore_auth:
@@ -1219,7 +1262,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: pet
 components:
@@ -1343,7 +1387,7 @@ components:
           type: integer
           x-is-unique: true
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         name:
           example: doggie
           type: string
@@ -1357,7 +1401,7 @@ components:
             wrapped: true
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
           xml:
             name: tag
@@ -1445,21 +1489,21 @@ components:
       type: object
     Dog:
       allOf:
-      - $ref: '#/components/schemas/Animal'
+      - $ref: "#/components/schemas/Animal"
       - properties:
           breed:
             type: string
         type: object
     Cat:
       allOf:
-      - $ref: '#/components/schemas/Animal'
+      - $ref: "#/components/schemas/Animal"
       - properties:
           declawed:
             type: boolean
         type: object
     BigCat:
       allOf:
-      - $ref: '#/components/schemas/Cat'
+      - $ref: "#/components/schemas/Cat"
       - properties:
           kind:
             enum:
@@ -1483,7 +1527,7 @@ components:
       type: object
     AnimalFarm:
       items:
-        $ref: '#/components/schemas/Animal'
+        $ref: "#/components/schemas/Animal"
       type: array
     format_test:
       properties:
@@ -1581,7 +1625,7 @@ components:
           format: double
           type: number
         outerEnum:
-          $ref: '#/components/schemas/OuterEnum'
+          $ref: "#/components/schemas/OuterEnum"
       required:
       - enum_string_required
       type: object
@@ -1704,7 +1748,7 @@ components:
           type: string
         map:
           additionalProperties:
-            $ref: '#/components/schemas/Animal'
+            $ref: "#/components/schemas/Animal"
           type: object
       type: object
     List:
@@ -1793,7 +1837,7 @@ components:
         array_array_of_model:
           items:
             items:
-              $ref: '#/components/schemas/ReadOnlyFirst'
+              $ref: "#/components/schemas/ReadOnlyFirst"
             type: array
           type: array
       type: object
@@ -1873,10 +1917,10 @@ components:
         - sourceURI: sourceURI
       properties:
         file:
-          $ref: '#/components/schemas/File'
+          $ref: "#/components/schemas/File"
         files:
           items:
-            $ref: '#/components/schemas/File'
+            $ref: "#/components/schemas/File"
           type: array
       type: object
     File:

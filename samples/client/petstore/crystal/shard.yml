@@ -8,13 +8,16 @@ crystal: ">= 0.35.1"
 dependencies:
   crest:
     github: mamantoha/crest
-    version: ~> 0.26.0
+    version: ~> 1.3.13
 
 development_dependencies:
   kemal:
     github: kemalcr/kemal
-    version: ~>0.27.0
+    version: ~>1.5.0
   ameba:
     github: crystal-ameba/ameba
+  spectator:
+    gitlab: arctic-fox/spectator
+    version: ~> 0.12.0
 
 license: 

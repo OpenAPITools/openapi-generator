@@ -47,5 +47,8 @@ data class Apa (
 
     @SerialName(value = "gepa") val gepa: kotlin.Double? = null
 
-)
+) {
+
+
+}
 

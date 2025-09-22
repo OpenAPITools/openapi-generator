@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  description: >-
+    Example created
+  version: 1.0.0
+  title: OpenAPI Stuff API created to reproduce issue
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /healthcheck:
+    get:
+      summary: Health check endpoint.
+      operationId: healthcheck
+      responses:
+        204:
+          description: Successful health check
+        default:
+          description: Unexpected error
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+components:
+  schemas:
+    ApiError:
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          enum:
+            - 0
+            - 100
+          x-enum-varnames:
+            - OK
+            - ERROR
+        reasonCode:
+          $ref: '#/components/schemas/ReasonCode'
+    ReasonCode:
+      type: integer
+      enum:
+        - 10
+        - 20

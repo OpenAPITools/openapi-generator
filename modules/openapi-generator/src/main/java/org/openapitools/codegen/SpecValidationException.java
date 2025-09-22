@@ -1,8 +1,13 @@
 package org.openapitools.codegen;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Optional;
 import java.util.Set;
 
+@Getter
+@Setter
 public class SpecValidationException extends RuntimeException {
 
     private Set<String> errors;
@@ -81,22 +86,6 @@ public class SpecValidationException extends RuntimeException {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
-    public Set<String> getErrors() {
-        return errors;
-    }
-
-    public Set<String> getWarnings() {
-        return warnings;
-    }
-
-    public void setErrors(Set<String> errors) {
-        this.errors = errors;
-    }
-
-    public void setWarnings(Set<String> warnings) {
-        this.warnings = warnings;
-    }
-
     /**
      * Returns the detail message string of this throwable.
      *
@@ -112,8 +101,8 @@ public class SpecValidationException extends RuntimeException {
 
         StringBuilder sb = new StringBuilder();
         sb.append(System.lineSeparator())
-            .append("Errors: ")
-            .append(System.lineSeparator());
+                .append("Errors: ")
+                .append(System.lineSeparator());
 
         Optional.ofNullable(errors).ifPresent(_errors -> {
             for (String msg : errors) {

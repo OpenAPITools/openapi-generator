@@ -25,7 +25,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
     """
     Minimal object  # noqa: E501
     """
-    var_property: Optional[StrictBool] = Field(False, alias="property", description="Property")
+    var_property: Optional[StrictBool] = Field(default=False, alias="property", description="Property")
     __properties = ["property"]
 
     class Config:

@@ -99,6 +99,12 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
         // remove these from primitive types to make the output works
         languageSpecificPrimitives.remove("\\DateTime");
         languageSpecificPrimitives.remove("\\SplFileObject");
+        // fix date and date-time mapping to support both DateTime and DateTimeImmutable
+        typeMapping.put("date", "\\DateTimeInterface");
+        typeMapping.put("Date", "\\DateTimeInterface");
+        typeMapping.put("DateTime", "\\DateTimeInterface");
+        // TODO provide proper support for "file" string format
+        typeMapping.put("file", "string");
 
         apiTemplateFiles.clear();
         apiTestTemplateFiles.clear();
@@ -108,7 +114,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
 
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, "1.0.0");
         //Register custom CLI options
-        addSwitch(OPT_MODERN, "use modern language features (generated code will require PHP 8.0)", useModernSyntax);
+        addSwitch(OPT_MODERN, "use modern language features (generated code will require PHP 8.1)", useModernSyntax);
     }
 
     @Override
@@ -154,12 +160,25 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
     }
 
     @Override
+    public String toRegularExpression(String pattern) {
+        String result = super.toRegularExpression(pattern);
+        if ((result != null) && (!useModernSyntax)) {
+            //Doctrine Annotations have different string escape rules compared to PHP code
+            result = result
+                    .replace("\\\\", "\\")
+                    .replace("\\\"", "\"\"")
+            ;
+        }
+        return result;
+    }
+
+    @Override
     public String getTypeDeclaration(Schema p) {
         String result;
         Map<String, Object> extensions = p.getExtensions();
         if ((extensions != null) && extensions.containsKey(VEN_CONTAINER_DATA_TYPE)) {
             result = (String) extensions.get(VEN_CONTAINER_DATA_TYPE);
-        } else if (useModernSyntax && (ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p))) {
+        } else if (ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p)) {
             result = "array";
         } else {
             result = super.getTypeDeclaration(p);
@@ -252,7 +271,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
         Schema parameterSchema = ModelUtils.getReferencedSchema(openAPI, parameter.getSchema());
         // array
         if (ModelUtils.isArraySchema(parameterSchema)) {
-            Schema itemSchema = ((ArraySchema) parameterSchema).getItems();
+            Schema itemSchema = ModelUtils.getSchemaItems(parameterSchema);
             ArraySchema arraySchema = new ArraySchema();
             arraySchema.setMinItems(parameterSchema.getMinItems());
             arraySchema.setMaxItems(parameterSchema.getMaxItems());
@@ -375,9 +394,9 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
     /**
      * Generate additional model definitions for containers in specified schema
      *
-     * @param openAPI OpenAPI object
+     * @param openAPI        OpenAPI object
      * @param visitedSchemas Set of Schemas that have been processed already
-     * @param schema  OAS schema to process
+     * @param schema         OAS schema to process
      */
     protected void generateContainerSchemas(OpenAPI openAPI, Set<Schema> visitedSchemas, Schema schema) {
         if (visitedSchemas.contains(schema)) {
@@ -400,7 +419,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                 }
             } else if (ModelUtils.isArraySchema(schema)) {
                 //Recursively process schema of array items
-                generateContainerSchemas(openAPI, visitedSchemas, ((ArraySchema) schema).getItems());
+                generateContainerSchemas(openAPI, visitedSchemas, ModelUtils.getSchemaItems(schema));
                 isContainer = Boolean.TRUE;
             } else if (ModelUtils.isMapSchema(schema)) {
                 //Recursively process schema of map items

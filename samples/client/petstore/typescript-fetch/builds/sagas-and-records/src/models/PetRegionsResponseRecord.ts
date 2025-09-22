@@ -47,15 +47,15 @@ knownRecordFactories.set(PetRegionsResponseRecordProps.recType, PetRegionsRespon
 class PetRegionsResponseRecordUtils extends ApiRecordUtils<PetRegionsResponse, PetRegionsResponseRecord> {
     public normalize(apiObject: PetRegionsResponse, asEntity?: boolean): PetRegionsResponse {
         (apiObject as any).recType = PetRegionsResponseRecordProps.recType;
-        responseMetaRecordUtils.normalize(apiObject.meta);
-        if (apiObject.data) { (apiObject as any).data = apiObject.data.map(item => item.map(item2 => item2?.toString())); } 
+        responseMetaRecordUtils.normalize(apiObject['meta']);
+        if (apiObject['data']) { (apiObject as any)['data'] = apiObject['data'].map(item => item.map(item2 => item2?.toString())); } 
         return apiObject;
     }
 
     public toApi(record: PetRegionsResponseRecord): PetRegionsResponse {
         const apiObject = super.toApi(record);
-        apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
-        if (record.data) { apiObject.data = record.data.map(item => item.toArray().map(item2 => (item2 ? parseFloat(item2) : null) as number)).toArray(); } 
+        apiObject['meta'] = responseMetaRecordUtils.toApi(record['meta']);
+        if (record['data']) { apiObject['data'] = record['data'].map(item => item.toArray().map(item2 => (item2 ? parseFloat(item2) : null) as number)).toArray(); } 
         return apiObject;
     }
 

@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.DecimalMax
@@ -15,8 +16,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * A User who is purchasing from the pet store
- * @param id 
  * @param username 
+ * @param id 
  * @param firstName 
  * @param lastName 
  * @param email 
@@ -26,11 +27,11 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class User(
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @Schema(example = "null", required = true, description = "")
+    @get:JsonProperty("username", required = true) val username: kotlin.String,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("username") val username: kotlin.String? = null,
+    @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
