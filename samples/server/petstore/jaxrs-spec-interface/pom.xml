@@ -99,12 +99,12 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jackson-version>2.17.1</jackson-version>
+    <jackson-version>2.19.2</jackson-version>
     <junit-version>4.13.2</junit-version>
     <joda-version>2.10.13</joda-version>
     <javax.annotation-api-version>1.3.2</javax.annotation-api-version>
     <beanvalidation-version>2.0.2</beanvalidation-version>
     <jakarta.ws.rs-version>2.1.6</jakarta.ws.rs-version>
-    <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
+    <jackson-databind-nullable-version>0.2.7</jackson-databind-nullable-version>
   </properties>
 </project>

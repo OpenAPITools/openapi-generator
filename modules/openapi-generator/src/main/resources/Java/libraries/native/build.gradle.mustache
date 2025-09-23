@@ -72,7 +72,7 @@ ext {
     {{#swagger2AnnotationLibrary}}
     swagger_annotations_version = "2.2.9"
     {{/swagger2AnnotationLibrary}}
-    jackson_version = "2.17.1"
+    jackson_version = "2.19.2"
     {{#useJakartaEe}}
     jakarta_annotation_version = "2.1.1"
     beanvalidation_version = "3.0.2"
@@ -102,7 +102,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    implementation "org.openapitools:jackson-databind-nullable:0.2.1"
+    implementation "org.openapitools:jackson-databind-nullable:0.2.7"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     {{#useBeanValidation}}
     implementation "jakarta.validation:jakarta.validation-api:$beanvalidation_version"
