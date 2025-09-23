@@ -116,6 +116,15 @@ public class CodegenOperation {
     }
 
     /**
+     * Check if there's at least one optional body parameter
+     *
+     * @return true if optional body parameter exists, false otherwise
+     */
+    public boolean getHasOptionalBodyParam() {
+        return nonEmpty(bodyParams) && nonEmpty(optionalParams) && bodyParams.stream().anyMatch(optionalParams::contains);
+    }
+
+    /**
      * Check if there's at least one query parameter
      *
      * @return true if query parameter exists, false otherwise
