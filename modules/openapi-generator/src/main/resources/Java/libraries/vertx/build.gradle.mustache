@@ -30,12 +30,12 @@ task execute(type:JavaExec) {
 
 ext {
     swagger_annotations_version = "1.5.21"
-    jackson_version = "2.17.1"
-    jackson_databind_version = "2.17.1"
+    jackson_version = "2.19.2"
+    jackson_databind_version = "2.19.2"
     vertx_version = "{{#supportVertxFuture}}4.0.0{{/supportVertxFuture}}{{^supportVertxFuture}}3.5.2{{/supportVertxFuture}}"
     junit_version = "5.10.3"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.6"
+    jackson_databind_nullable_version = "0.2.7"
     {{/openApiNullable}}
     jakarta_annotation_version = "1.3.5"
 }

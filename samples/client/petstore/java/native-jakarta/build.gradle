@@ -66,7 +66,7 @@ artifacts {
 
 
 ext {
-    jackson_version = "2.17.1"
+    jackson_version = "2.19.2"
     jakarta_annotation_version = "2.1.1"
     beanvalidation_version = "3.0.2"
     junit_version = "5.10.2"
@@ -79,7 +79,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    implementation "org.openapitools:jackson-databind-nullable:0.2.1"
+    implementation "org.openapitools:jackson-databind-nullable:0.2.7"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     implementation "org.apache.httpcomponents:httpmime:$httpmime_version"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
