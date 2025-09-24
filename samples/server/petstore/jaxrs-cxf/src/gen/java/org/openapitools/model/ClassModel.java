@@ -1,21 +1,22 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
-  * Model for testing model with \"_class\" property
- **/
+ * Model for testing model with \"_class\" property
+ */
 @ApiModel(description="Model for testing model with \"_class\" property")
 
 public class ClassModel  {
   
   @ApiModelProperty(value = "")
+
   private String propertyClass;
  /**
    * Get propertyClass
