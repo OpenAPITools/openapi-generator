@@ -59,6 +59,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Extension name | Description | Applicable for | Default value |
 | -------------- | ----------- | -------------- | ------------- |
+|x-kotlin-implements|Ability to specify interfaces that model must implement|MODEL|empty array
+|x-kotlin-implements-fields|Specify attributes that are implemented by the interface(s) added via `x-kotlin-implements`|MODEL|empty array
 |x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
 

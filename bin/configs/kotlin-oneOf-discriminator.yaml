@@ -1,0 +1,11 @@
+generatorName: kotlin
+library: jvm-spring-restclient
+outputDir: samples/client/others/kotlin-oneOf-discriminator
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/oneOf-with-discriminator-mapping.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-oneOf-discriminator
+  serializableModel: "false"
+  dateLibrary: java8
+  useSpringBoot3: true
+  serializationLibrary: jackson

@@ -47,6 +47,8 @@ import static org.openapitools.codegen.CodegenConstants.*;
 @SuppressWarnings("static-method")
 public class KotlinClientCodegenModelTest {
 
+    private static final String GENERATOR = "kotlin";
+
     private Schema<?> getArrayTestSchema() {
         return new ObjectSchema()
                 .description("a sample model")
@@ -367,7 +369,7 @@ public class KotlinClientCodegenModelTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("kotlin")
+                .setGeneratorName(GENERATOR)
                 .setLibrary("jvm-retrofit2")
                 .setAdditionalProperties(properties)
                 .setInputSpec("src/test/resources/3_0/issue4808.yaml")
@@ -384,24 +386,22 @@ public class KotlinClientCodegenModelTest {
     }
 
     @Test
-    public void testOmitGradleWrapperDoesNotGenerateWrapper() throws IOException {
-        File output = Files.createTempDirectory("test").toFile();
-        String path = output.getAbsolutePath();
-        output.deleteOnExit();
+    public void testOmitGradleWrapperDoesNotGenerateWrapper() {
+        final Path output = TestUtils.newTempFolder();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("kotlin")
+                .setGeneratorName(GENERATOR)
                 .setInputSpec("src/test/resources/3_0/ping.yaml")
                 .addAdditionalProperty("omitGradleWrapper", true)
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setOutputDir(output.toString().replace("\\", "/"));
         DefaultGenerator generator = new DefaultGenerator();
 
         generator.opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileNotExists(Paths.get(path, "gradlew"));
-        TestUtils.assertFileNotExists(Paths.get(path, "gradlew.bat"));
-        TestUtils.assertFileNotExists(Paths.get(path, "gradle", "wrapper", "gradle-wrapper.properties"));
-        TestUtils.assertFileNotExists(Paths.get(path, "gradle", "wrapper", "gradle-wrapper.jar"));
+        TestUtils.assertFileNotExists(Paths.get(output.toString(), "gradlew"));
+        TestUtils.assertFileNotExists(Paths.get(output.toString(), "gradlew.bat"));
+        TestUtils.assertFileNotExists(Paths.get(output.toString(), "gradle", "wrapper", "gradle-wrapper.properties"));
+        TestUtils.assertFileNotExists(Paths.get(output.toString(), "gradle", "wrapper", "gradle-wrapper.jar"));
     }
 
     @Test
@@ -444,12 +444,10 @@ public class KotlinClientCodegenModelTest {
 
     @Test(dataProvider = "gsonClientLibraries")
     public void testLocalVariablesUseSanitizedDataTypeNamesForOneOfProperty_19942(ClientLibrary clientLibrary) throws IOException {
-        File output = Files.createTempDirectory("test").toFile();
-        String path = output.getAbsolutePath();
-        output.deleteOnExit();
+        final Path output = TestUtils.newTempFolder();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("kotlin")
+                .setGeneratorName(GENERATOR)
                 .setLibrary(clientLibrary.getLibraryName())
                 .setInputSpec("src/test/resources/3_0/issue_19942.json")
                 .addAdditionalProperty("omitGradleWrapper", true)
@@ -457,23 +455,21 @@ public class KotlinClientCodegenModelTest {
                 .addAdditionalProperty("dateLibrary", "kotlinx-datetime")
                 .addAdditionalProperty("useSpringBoot3", "true")
                 .addAdditionalProperty("generateOneOfAnyOfWrappers", true)
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setOutputDir(output.toString().replace("\\", "/"));
         DefaultGenerator generator = new DefaultGenerator();
 
         generator.opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileNotContains(Paths.get(path + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexOneOfId.kt"),
+        TestUtils.assertFileNotContains(Paths.get(output + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexOneOfId.kt"),
                 "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
     }
 
     @Test(dataProvider = "gsonClientLibraries")
     public void testLocalVariablesUseSanitizedDataTypeNamesForAnyOfProperty_19942(ClientLibrary clientLibrary) throws IOException {
-        File output = Files.createTempDirectory("test").toFile();
-        String path = output.getAbsolutePath();
-        output.deleteOnExit();
+        final Path output = TestUtils.newTempFolder();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("kotlin")
+                .setGeneratorName(GENERATOR)
                 .setLibrary(clientLibrary.getLibraryName())
                 .setInputSpec("src/test/resources/3_0/issue_19942.json")
                 .addAdditionalProperty("omitGradleWrapper", true)
@@ -481,22 +477,21 @@ public class KotlinClientCodegenModelTest {
                 .addAdditionalProperty("dateLibrary", "kotlinx-datetime")
                 .addAdditionalProperty("useSpringBoot3", "true")
                 .addAdditionalProperty("generateOneOfAnyOfWrappers", true)
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setOutputDir(output.toString().replace("\\", "/"));
         DefaultGenerator generator = new DefaultGenerator();
 
         generator.opts(configurator.toClientOptInput()).generate();
 
-        TestUtils.assertFileNotContains(Paths.get(path + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexAnyOfId.kt"),
+        TestUtils.assertFileNotContains(Paths.get(output + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexAnyOfId.kt"),
                 "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
     }
 
     @Test(description = "Issue #20960")
     private void givenSchemaObjectPropertyNameContainsDollarSignWhenGenerateThenDollarSignIsProperlyEscapedInAnnotation() throws Exception {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
+        final Path output = TestUtils.newTempFolder();
 
         KotlinClientCodegen codegen = new KotlinClientCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOutputDir(output.toString());
         Map<String, Object> properties = new HashMap<>();
 //        properties.put(CodegenConstants.LIBRARY, ClientLibrary.JVM_KTOR);
         properties.put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE.toString());
@@ -512,7 +507,7 @@ public class KotlinClientCodegenModelTest {
                         .config(codegen))
                 .generate();
 
-        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/com/toasttab/service/scim";
+        String outputPath = output + "/src/main/kotlin/com/toasttab/service/scim";
         Path baseGroupModel = Paths.get(outputPath + "/models/BaseGroupMembersInner.kt");
         String baseGroupModelContent = Files.readString(baseGroupModel);
         KotlinLexer kotlinLexer = new KotlinLexer(CharStreams.fromString(baseGroupModelContent));
@@ -530,19 +525,18 @@ public class KotlinClientCodegenModelTest {
     }
 
     @Test(description = "generate polymorphic kotlinx_serialization model")
-    public void polymorphicKotlinxSerialization() throws IOException {
-        File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+    public void polymorphicKotlinxSerialization() {
+        final Path output = TestUtils.newTempFolder();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("kotlin")
+                .setGeneratorName(GENERATOR)
                 .setLibrary("jvm-retrofit2")
                 .setAdditionalProperties(new HashMap<>() {{
                     put(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization");
                     put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
                 }})
                 .setInputSpec("src/test/resources/3_0/kotlin/polymorphism.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setOutputDir(output.toString().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -563,7 +557,7 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(animalKt, "import kotlinx.serialization.json.JsonClassDiscriminator");
 
         final Path birdKt = Paths.get(output + "/src/main/kotlin/xyz/abcdef/model/Bird.kt");
-        // derived doesn't contain disciminator
+        // derived doesn't contain discriminator
         TestUtils.assertFileNotContains(birdKt, "val discriminator");
         // derived has serial name set to mapping key
         TestUtils.assertFileContains(birdKt, "@SerialName(value = \"BIRD\")");
@@ -571,18 +565,17 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "generate polymorphic jackson model")
     public void polymorphicJacksonSerialization() throws IOException {
-        File output = Files.createTempDirectory("test").toFile();
-//        output.deleteOnExit();
+        final Path output = TestUtils.newTempFolder();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("kotlin")
+                .setGeneratorName(GENERATOR)
                 .setLibrary("jvm-okhttp4")
                 .setAdditionalProperties(new HashMap<>() {{
                     put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
                     put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
                 }})
                 .setInputSpec("src/test/resources/3_0/kotlin/polymorphism.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setOutputDir(output.toString().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -613,8 +606,37 @@ public class KotlinClientCodegenModelTest {
         // derived properties are overridden
         TestUtils.assertFileContains(birdKt, "override val id");
         TestUtils.assertFileContains(birdKt, "override val optionalProperty");
-        // derived doesn't contain disciminator
+        // derived doesn't contain discriminator
         TestUtils.assertFileNotContains(birdKt, "val discriminator");
+    }
+
+    @Test
+    public void oneOfWithXKotlinImplementsVendorExtension() {
+        final Path output = TestUtils.newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(GENERATOR)
+                .setLibrary("jvm-spring-restclient")
+                .setAdditionalProperties(new HashMap<>() {{
+                    put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+                    put("useSpringBoot3", true);
+                    put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
+                }})
+                .setInputSpec("src/test/resources/3_0/kotlin/oneOf-with-discriminator-mapping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Assert.assertEquals(files.size(), 40);
+
+        Path child1 = output.resolve("src/main/kotlin/xyz/abcdef/model/Child1.kt");
+        Path child2 = output.resolve("src/main/kotlin/xyz/abcdef/model/Child2.kt");
+
+        TestUtils.assertFileContains(child1, "data class Child1 (");
+        TestUtils.assertFileContains(child1, ") : WithoutAllOfEndpoint200Response {");
+        TestUtils.assertFileContains(child1, "override val jobType: kotlin.String? = null");
+        TestUtils.assertFileContains(child2, "data class Child2 (");
+        TestUtils.assertFileContains(child2, ") : WithoutAllOfEndpoint200Response {");
+        TestUtils.assertFileContains(child2, "override val jobType: kotlin.String? = null");
     }
 
     private static class ModelNameTest {

@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: some
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local server
+paths:
+  "/one-of-with-without-all-of-inheritance":
+    get:
+      operationId: WithoutAllOfEndpoint
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - "$ref": "#/components/schemas/Child1"
+                  - "$ref": "#/components/schemas/Child2"
+                discriminator:
+                  propertyName: jobType
+                  mapping:
+                    Child1: "#/components/schemas/Child1"
+                    Child2: "#/components/schemas/Child2"
+  "/one-of-with-all-of-inheritance":
+    get:
+      operationId: WithAllOfEndpoint
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - "$ref": "#/components/schemas/AllOfChild1"
+                  - "$ref": "#/components/schemas/AllOfChild2"
+                discriminator:
+                  propertyName: jobType
+                  mapping:
+                    AllOfChild1: "#/components/schemas/AllOfChild1"
+                    AllOfChild2: "#/components/schemas/AllOfChild2"
+components:
+  schemas:
+    Child1:
+      x-kotlin-implements: [ "WithoutAllOfEndpoint200Response" ]
+      x-kotlin-implements-fields: [ "jobType" ]
+      type: object
+      properties:
+        jobType:
+          type: string
+        property1:
+          type: string
+    Child2:
+      x-kotlin-implements: [ "WithoutAllOfEndpoint200Response" ]
+      x-kotlin-implements-fields: [ "jobType" ]
+      type: object
+      properties:
+        jobType:
+          type: string
+        property2:
+          type: string
+    Parent:
+      type: object
+      properties:
+        jobType:
+          type: string
+      discriminator:
+        propertyName: jobType
+    AllOfChild1:
+      allOf:
+        - $ref: "#/components/schemas/Parent"
+        - type: object
+          properties:
+            property1:
+              type: string
+    AllOfChild2:
+      allOf:
+        - $ref: "#/components/schemas/Parent"
+        - type: object
+          properties:
+            property2:
+              type: string

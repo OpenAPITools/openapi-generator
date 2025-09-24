@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 README.md
 build.gradle
 docs/Animal.md
@@ -29,3 +30,6 @@ src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/UUIDAdapter.kt
 src/main/kotlin/org/openapitools/client/models/Animal.kt
 src/main/kotlin/org/openapitools/client/models/Bird.kt
+src/test/kotlin/org/openapitools/client/apis/BirdApiTest.kt
+src/test/kotlin/org/openapitools/client/models/AnimalTest.kt
+src/test/kotlin/org/openapitools/client/models/BirdTest.kt

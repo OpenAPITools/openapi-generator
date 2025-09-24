@@ -1128,6 +1128,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Override
     public List<VendorExtension> getSupportedVendorExtensions() {
         var extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS);
+        extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS);
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         return extensions;

@@ -828,23 +828,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected boolean needToImport(String type) {
         // provides extra protection against improperly trying to import language primitives and java types
         return !type.startsWith("kotlin.") && !type.startsWith("java.") &&
-                !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type) &&
-                !type.contains(".");
+               !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type) &&
+               !type.contains(".");
     }
 
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
         CodegenModel m = super.fromModel(name, schema);
-        List<String> implementedInterfacesClasses = (List<String>) m.getVendorExtensions().getOrDefault(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), List.of());
-        List<String> implementedInterfacesFields = Optional.ofNullable((List<String>) m.getVendorExtensions().get(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName()))
-                .map(xKotlinImplementsFields -> {
-                    if (implementedInterfacesClasses.isEmpty() && !xKotlinImplementsFields.isEmpty()) {
-                        LOGGER.warn("Annotating {} with {} without {} is not supported. {} will be ignored.",
-                                name, VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName(), VendorExtension.X_KOTLIN_IMPLEMENTS.getName(),
-                                VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName());
-                    }
-                    return xKotlinImplementsFields;
-                }).orElse(List.of());
         m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
         // Update allVars/requiredVars/optionalVars with isInherited
         // Each of these lists contains elements that are similar, but they are all cloned
@@ -860,11 +850,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // Update any other vars (requiredVars, optionalVars)
         Stream.of(m.requiredVars, m.optionalVars)
                 .flatMap(List::stream)
-                .filter(p -> allVarsMap.containsKey(p.baseName)
-                             || implementedInterfacesFields.contains(p.baseName)
-                )
+                .filter(p -> allVarsMap.containsKey(p.baseName))
                 .forEach(p -> p.isInherited = true);
-        return m;
+        return addIsInheritedBasedOnImplementsVendorExtension(name, m);
     }
 
     @Override
@@ -1171,5 +1159,45 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 dataTypeAssigner.setReturnContainer("Map");
             }
         }
+    }
+
+    /**
+     * Uses the x-kotlin-implements and the x-kotlin-implements-fields vendor extensions to set the isInherited CodegenProperty field.
+     * Will log a warning if an invalid vendor extension combination is used.
+     * @param name The name
+     * @param codegenModel The codegenModel
+     * @return The modified CodegenModel where isInherited has been added to the var CodegenProperty
+     */
+    private CodegenModel addIsInheritedBasedOnImplementsVendorExtension(String name, CodegenModel codegenModel) {
+        String warningMessage = "Annotating {} with {} without {} is not supported. {} will be ignored.";
+        String kotlinImplements = VendorExtension.X_KOTLIN_IMPLEMENTS.getName();
+        String kotlinImplementsFields = VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName();
+        Map<String, Object> vendorExtensions = codegenModel.getVendorExtensions();
+        List<String> implementedInterfacesClasses = (List<String>) vendorExtensions.getOrDefault(kotlinImplements, List.of());
+        List<String> implementedInterfacesFields = Optional.ofNullable((List<String>) vendorExtensions.get(kotlinImplementsFields))
+                .map(xKotlinImplementsFields -> {
+                    if (implementedInterfacesClasses.isEmpty() && !xKotlinImplementsFields.isEmpty()) {
+                        LOGGER.warn(warningMessage, name,
+                                kotlinImplementsFields,
+                                kotlinImplements,
+                                kotlinImplementsFields
+                        );
+                    }
+                    return xKotlinImplementsFields;
+                })
+                .orElse(List.of());
+        codegenModel.optionalVars.stream()
+                .filter(p -> implementedInterfacesFields.contains(p.baseName))
+                .forEach(p -> p.isInherited = true);
+        codegenModel.requiredVars.stream()
+                .filter(p -> implementedInterfacesFields.contains(p.baseName))
+                .forEach(p -> p.isInherited = true);
+        codegenModel.allVars.stream()
+                .filter(p -> implementedInterfacesFields.contains(p.baseName))
+                .forEach(p -> p.isInherited = true);
+        codegenModel.vars.stream()
+                .filter(p -> implementedInterfacesFields.contains(p.baseName))
+                .forEach(p -> p.isInherited = true);
+        return codegenModel;
     }
 }
