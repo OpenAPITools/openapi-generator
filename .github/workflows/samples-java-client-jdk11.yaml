@@ -5,6 +5,7 @@ on:
     paths:
       - 'samples/client/petstore/java/**'
       - samples/client/petstore/jaxrs-cxf-client/**
+      - samples/client/petstore/jaxrs-cxf-client-swagger2/**
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
@@ -27,6 +28,7 @@ on:
     paths:
       - 'samples/client/petstore/java/**'
       - samples/client/petstore/jaxrs-cxf-client/**
+      - samples/client/petstore/jaxrs-cxf-client-swagger2/**
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
@@ -54,9 +56,10 @@ jobs:
       matrix:
         sample:
           # clients
+          - samples/client/petstore/jaxrs-cxf-client-swagger2
           - samples/client/petstore/jaxrs-cxf-client
           - samples/client/petstore/java/native
-          - samples/client/petstore/java/native-async
+          - samples/client/petstore/java/native-asyn
           - samples/client/petstore/java/native-jakarta
           - samples/client/petstore/java/retrofit2
           - samples/client/petstore/java/retrofit2rx2
