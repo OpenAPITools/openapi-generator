@@ -28,7 +28,6 @@ import javax.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
@@ -39,7 +38,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="pet-api")
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("")
 public interface PetApi  {
 
@@ -52,7 +50,7 @@ public interface PetApi  {
     @POST
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
-    void addPet(Pet pet) throws ApiException, ProcessingException;
+    void addPet(Pet pet) throws WebApplicationException, ProcessingException;
 
     /**
      * Deletes a pet
@@ -62,7 +60,7 @@ public interface PetApi  {
      */
     @DELETE
     @Path("/pet/{petId}")
-    void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")  String apiKey) throws ApiException, ProcessingException;
+    void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")  String apiKey) throws WebApplicationException, ProcessingException;
 
     /**
      * Finds Pets by status
@@ -73,7 +71,7 @@ public interface PetApi  {
     @GET
     @Path("/pet/findByStatus")
     @Produces({ "application/xml", "application/json" })
-    List<Pet> findPetsByStatus(@QueryParam("status") List<String> status) throws ApiException, ProcessingException;
+    List<Pet> findPetsByStatus(@QueryParam("status") List<String> status) throws WebApplicationException, ProcessingException;
 
     /**
      * Finds Pets by tags
@@ -86,7 +84,7 @@ public interface PetApi  {
     @GET
     @Path("/pet/findByTags")
     @Produces({ "application/xml", "application/json" })
-    Set<Pet> findPetsByTags(@QueryParam("tags") Set<String> tags) throws ApiException, ProcessingException;
+    Set<Pet> findPetsByTags(@QueryParam("tags") Set<String> tags) throws WebApplicationException, ProcessingException;
 
     /**
      * Find pet by ID
@@ -97,7 +95,7 @@ public interface PetApi  {
     @GET
     @Path("/pet/{petId}")
     @Produces({ "application/xml", "application/json" })
-    Pet getPetById(@PathParam("petId") Long petId) throws ApiException, ProcessingException;
+    Pet getPetById(@PathParam("petId") Long petId) throws WebApplicationException, ProcessingException;
 
     /**
      * Update an existing pet
@@ -108,7 +106,7 @@ public interface PetApi  {
     @PUT
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
-    void updatePet(Pet pet) throws ApiException, ProcessingException;
+    void updatePet(Pet pet) throws WebApplicationException, ProcessingException;
 
     /**
      * Updates a pet in the store with form data
@@ -119,7 +117,7 @@ public interface PetApi  {
     @POST
     @Path("/pet/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
-    void updatePetWithForm(@PathParam("petId") Long petId, @Multipart(value = "name", required = false)  String name, @Multipart(value = "status", required = false)  String status) throws ApiException, ProcessingException;
+    void updatePetWithForm(@PathParam("petId") Long petId, @Multipart(value = "name", required = false)  String name, @Multipart(value = "status", required = false)  String status) throws WebApplicationException, ProcessingException;
 
     /**
      * uploads an image
@@ -131,7 +129,7 @@ public interface PetApi  {
     @Path("/pet/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment _fileDetail) throws ApiException, ProcessingException;
+    ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment _fileDetail) throws WebApplicationException, ProcessingException;
 
     /**
      * uploads an image (required)
@@ -143,5 +141,5 @@ public interface PetApi  {
     @Path("/fake/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @Multipart(value = "requiredFile" ) Attachment requiredFileDetail, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata) throws ApiException, ProcessingException;
+    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @Multipart(value = "requiredFile" ) Attachment requiredFileDetail, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata) throws WebApplicationException, ProcessingException;
 }

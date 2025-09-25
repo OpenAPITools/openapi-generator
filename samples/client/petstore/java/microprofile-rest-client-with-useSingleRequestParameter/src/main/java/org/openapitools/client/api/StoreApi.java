@@ -25,7 +25,6 @@ import jakarta.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
@@ -36,7 +35,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="petstore")
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("/store")
 public interface StoreApi  {
 
@@ -48,7 +46,7 @@ public interface StoreApi  {
      */
     @DELETE
     @Path("/order/{orderId}")
-    void deleteOrder(@BeanParam DeleteOrderRequest request) throws ApiException, ProcessingException;
+    void deleteOrder(@BeanParam DeleteOrderRequest request) throws WebApplicationException, ProcessingException;
     public class DeleteOrderRequest {
 
         private @PathParam("orderId") String orderId;
@@ -80,7 +78,7 @@ public interface StoreApi  {
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
-    Map<String, Integer> getInventory() throws ApiException, ProcessingException;
+    Map<String, Integer> getInventory() throws WebApplicationException, ProcessingException;
 
     /**
      * Find purchase order by ID
@@ -91,7 +89,7 @@ public interface StoreApi  {
     @GET
     @Path("/order/{orderId}")
     @Produces({ "application/xml", "application/json" })
-    Order getOrderById(@BeanParam GetOrderByIdRequest request) throws ApiException, ProcessingException;
+    Order getOrderById(@BeanParam GetOrderByIdRequest request) throws WebApplicationException, ProcessingException;
     public class GetOrderByIdRequest {
 
         private @PathParam("orderId") Long orderId;
@@ -124,5 +122,5 @@ public interface StoreApi  {
     @Path("/order")
     @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
-    Order placeOrder(Order order) throws ApiException, ProcessingException;
+    Order placeOrder(Order order) throws WebApplicationException, ProcessingException;
 }

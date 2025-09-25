@@ -27,7 +27,6 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 import io.smallrye.mutiny.Uni;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
@@ -38,7 +37,6 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="petstore")
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("/user")
 public interface UserApi  {
 
@@ -51,7 +49,7 @@ public interface UserApi  {
     @POST
     
     @Consumes({ "application/json" })
-    Uni<Void> createUser(User user) throws ApiException, ProcessingException;
+    Uni<Void> createUser(User user) throws WebApplicationException, ProcessingException;
 
     /**
      * Creates list of users with given input array
@@ -62,7 +60,7 @@ public interface UserApi  {
     @POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
-    Uni<Void> createUsersWithArrayInput(List<User> user) throws ApiException, ProcessingException;
+    Uni<Void> createUsersWithArrayInput(List<User> user) throws WebApplicationException, ProcessingException;
 
     /**
      * Creates list of users with given input array
@@ -73,7 +71,7 @@ public interface UserApi  {
     @POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
-    Uni<Void> createUsersWithListInput(List<User> user) throws ApiException, ProcessingException;
+    Uni<Void> createUsersWithListInput(List<User> user) throws WebApplicationException, ProcessingException;
 
     /**
      * Delete user
@@ -83,7 +81,7 @@ public interface UserApi  {
      */
     @DELETE
     @Path("/{username}")
-    Uni<Void> deleteUser(@PathParam("username") String username) throws ApiException, ProcessingException;
+    Uni<Void> deleteUser(@PathParam("username") String username) throws WebApplicationException, ProcessingException;
 
     /**
      * Get user by user name
@@ -94,7 +92,7 @@ public interface UserApi  {
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    Uni<User> getUserByName(@PathParam("username") String username) throws ApiException, ProcessingException;
+    Uni<User> getUserByName(@PathParam("username") String username) throws WebApplicationException, ProcessingException;
 
     /**
      * Logs user into the system
@@ -105,7 +103,7 @@ public interface UserApi  {
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    Uni<String> loginUser(@QueryParam("username") String username, @QueryParam("password") String password) throws ApiException, ProcessingException;
+    Uni<String> loginUser(@QueryParam("username") String username, @QueryParam("password") String password) throws WebApplicationException, ProcessingException;
 
     /**
      * Logs out current logged in user session
@@ -115,7 +113,7 @@ public interface UserApi  {
      */
     @GET
     @Path("/logout")
-    Uni<Void> logoutUser() throws ApiException, ProcessingException;
+    Uni<Void> logoutUser() throws WebApplicationException, ProcessingException;
 
     /**
      * Updated user
@@ -126,5 +124,5 @@ public interface UserApi  {
     @PUT
     @Path("/{username}")
     @Consumes({ "application/json" })
-    Uni<Void> updateUser(@PathParam("username") String username, User user) throws ApiException, ProcessingException;
+    Uni<Void> updateUser(@PathParam("username") String username, User user) throws WebApplicationException, ProcessingException;
 }

@@ -38,7 +38,6 @@ import javax.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
@@ -49,14 +48,13 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="fake-api")
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("/fake")
 public interface FakeApi  {
 
     @GET
     @Path("/BigDecimalMap")
     @Produces({ "*/*" })
-    FakeBigDecimalMap200Response fakeBigDecimalMap() throws ApiException, ProcessingException;
+    FakeBigDecimalMap200Response fakeBigDecimalMap() throws WebApplicationException, ProcessingException;
 
     /**
      * Health check endpoint
@@ -65,7 +63,7 @@ public interface FakeApi  {
     @GET
     @Path("/health")
     @Produces({ "application/json" })
-    HealthCheckResult fakeHealthGet() throws ApiException, ProcessingException;
+    HealthCheckResult fakeHealthGet() throws WebApplicationException, ProcessingException;
 
     /**
      * test http signature authentication
@@ -74,37 +72,37 @@ public interface FakeApi  {
     @GET
     @Path("/http-signature-test")
     @Consumes({ "application/json", "application/xml" })
-    void fakeHttpSignatureTest(Pet pet, @QueryParam("query_1") String query1, @HeaderParam("header_1")  String header1) throws ApiException, ProcessingException;
+    void fakeHttpSignatureTest(Pet pet, @QueryParam("query_1") String query1, @HeaderParam("header_1")  String header1) throws WebApplicationException, ProcessingException;
 
     @POST
     @Path("/outer/boolean")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException, ProcessingException;
+    Boolean fakeOuterBooleanSerialize(Boolean body) throws WebApplicationException, ProcessingException;
 
     @POST
     @Path("/outer/composite")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws ApiException, ProcessingException;
+    OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws WebApplicationException, ProcessingException;
 
     @POST
     @Path("/outer/number")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException, ProcessingException;
+    BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws WebApplicationException, ProcessingException;
 
     @POST
     @Path("/outer/string")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    String fakeOuterStringSerialize(String body) throws ApiException, ProcessingException;
+    String fakeOuterStringSerialize(String body) throws WebApplicationException, ProcessingException;
 
     @POST
     @Path("/property/enum-int")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws ApiException, ProcessingException;
+    OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws WebApplicationException, ProcessingException;
 
     /**
      * test referenced additionalProperties
@@ -115,22 +113,22 @@ public interface FakeApi  {
     @POST
     @Path("/additionalProperties-reference")
     @Consumes({ "application/json" })
-    void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws ApiException, ProcessingException;
+    void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws WebApplicationException, ProcessingException;
 
     @PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })
-    void testBodyWithBinary(File body) throws ApiException, ProcessingException;
+    void testBodyWithBinary(File body) throws WebApplicationException, ProcessingException;
 
     @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
-    void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws ApiException, ProcessingException;
+    void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws WebApplicationException, ProcessingException;
 
     @PUT
     @Path("/body-with-query-params")
     @Consumes({ "application/json" })
-    void testBodyWithQueryParams(@QueryParam("query") String query, User user) throws ApiException, ProcessingException;
+    void testBodyWithQueryParams(@QueryParam("query") String query, User user) throws WebApplicationException, ProcessingException;
 
     /**
      * To test \&quot;client\&quot; model
@@ -142,7 +140,7 @@ public interface FakeApi  {
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    Client testClientModel(Client client) throws ApiException, ProcessingException;
+    Client testClientModel(Client client) throws WebApplicationException, ProcessingException;
 
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -153,7 +151,7 @@ public interface FakeApi  {
     @POST
     
     @Consumes({ "application/x-www-form-urlencoded" })
-    void testEndpointParameters(@Multipart(value = "number")  BigDecimal number, @Multipart(value = "double")  Double _double, @Multipart(value = "pattern_without_delimiter")  String patternWithoutDelimiter, @Multipart(value = "byte")  byte[] _byte, @Multipart(value = "integer", required = false)  Integer integer, @Multipart(value = "int32", required = false)  Integer int32, @Multipart(value = "int64", required = false)  Long int64, @Multipart(value = "float", required = false)  Float _float, @Multipart(value = "string", required = false)  String string,  @Multipart(value = "binary" , required = false) Attachment binaryDetail, @Multipart(value = "date", required = false)  Date date, @Multipart(value = "dateTime", required = false)  Date dateTime, @Multipart(value = "password", required = false)  String password, @Multipart(value = "callback", required = false)  String paramCallback) throws ApiException, ProcessingException;
+    void testEndpointParameters(@Multipart(value = "number")  BigDecimal number, @Multipart(value = "double")  Double _double, @Multipart(value = "pattern_without_delimiter")  String patternWithoutDelimiter, @Multipart(value = "byte")  byte[] _byte, @Multipart(value = "integer", required = false)  Integer integer, @Multipart(value = "int32", required = false)  Integer int32, @Multipart(value = "int64", required = false)  Long int64, @Multipart(value = "float", required = false)  Float _float, @Multipart(value = "string", required = false)  String string,  @Multipart(value = "binary" , required = false) Attachment binaryDetail, @Multipart(value = "date", required = false)  Date date, @Multipart(value = "dateTime", required = false)  Date dateTime, @Multipart(value = "password", required = false)  String password, @Multipart(value = "callback", required = false)  String paramCallback) throws WebApplicationException, ProcessingException;
 
     /**
      * To test enum parameters
@@ -164,7 +162,7 @@ public interface FakeApi  {
     @GET
     
     @Consumes({ "application/x-www-form-urlencoded" })
-    void testEnumParameters(@HeaderParam("enum_header_string_array")  List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")  String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @QueryParam("enum_query_model_array") List<EnumClass> enumQueryModelArray, @Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString) throws ApiException, ProcessingException;
+    void testEnumParameters(@HeaderParam("enum_header_string_array")  List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")  String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @QueryParam("enum_query_model_array") List<EnumClass> enumQueryModelArray, @Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString) throws WebApplicationException, ProcessingException;
 
     /**
      * Fake endpoint to test group parameters (optional)
@@ -174,7 +172,7 @@ public interface FakeApi  {
      */
     @DELETE
     
-    void testGroupParameters(@QueryParam("required_string_group") Integer requiredStringGroup, @HeaderParam("required_boolean_group")  Boolean requiredBooleanGroup, @QueryParam("required_int64_group") Long requiredInt64Group, @QueryParam("string_group") Integer stringGroup, @HeaderParam("boolean_group")  Boolean booleanGroup, @QueryParam("int64_group") Long int64Group) throws ApiException, ProcessingException;
+    void testGroupParameters(@QueryParam("required_string_group") Integer requiredStringGroup, @HeaderParam("required_boolean_group")  Boolean requiredBooleanGroup, @QueryParam("required_int64_group") Long requiredInt64Group, @QueryParam("string_group") Integer stringGroup, @HeaderParam("boolean_group")  Boolean booleanGroup, @QueryParam("int64_group") Long int64Group) throws WebApplicationException, ProcessingException;
 
     /**
      * test inline additionalProperties
@@ -185,7 +183,7 @@ public interface FakeApi  {
     @POST
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
-    void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException, ProcessingException;
+    void testInlineAdditionalProperties(Map<String, String> requestBody) throws WebApplicationException, ProcessingException;
 
     /**
      * test inline free-form additionalProperties
@@ -196,7 +194,7 @@ public interface FakeApi  {
     @POST
     @Path("/inline-freeform-additionalProperties")
     @Consumes({ "application/json" })
-    void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException, ProcessingException;
+    void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebApplicationException, ProcessingException;
 
     /**
      * test json serialization of form data
@@ -207,7 +205,7 @@ public interface FakeApi  {
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    void testJsonFormData(@Multipart(value = "param")  String param, @Multipart(value = "param2")  String param2) throws ApiException, ProcessingException;
+    void testJsonFormData(@Multipart(value = "param")  String param, @Multipart(value = "param2")  String param2) throws WebApplicationException, ProcessingException;
 
     /**
      * test nullable parent property
@@ -218,11 +216,11 @@ public interface FakeApi  {
     @POST
     @Path("/nullable")
     @Consumes({ "application/json" })
-    void testNullable(ChildWithNullable childWithNullable) throws ApiException, ProcessingException;
+    void testNullable(ChildWithNullable childWithNullable) throws WebApplicationException, ProcessingException;
 
     @PUT
     @Path("/test-query-parameters")
-    void testQueryParameterCollectionFormat(@QueryParam("pipe") List<String> pipe, @QueryParam("ioutil") List<String> ioutil, @QueryParam("http") List<String> http, @QueryParam("url") List<String> url, @QueryParam("context") List<String> context, @QueryParam("allowEmpty") String allowEmpty, @QueryParam("language") Map<String, String> language) throws ApiException, ProcessingException;
+    void testQueryParameterCollectionFormat(@QueryParam("pipe") List<String> pipe, @QueryParam("ioutil") List<String> ioutil, @QueryParam("http") List<String> http, @QueryParam("url") List<String> url, @QueryParam("context") List<String> context, @QueryParam("allowEmpty") String allowEmpty, @QueryParam("language") Map<String, String> language) throws WebApplicationException, ProcessingException;
 
     /**
      * test referenced string map
@@ -233,5 +231,5 @@ public interface FakeApi  {
     @POST
     @Path("/stringMap-reference")
     @Consumes({ "application/json" })
-    void testStringMapReference(Map<String, String> requestBody) throws ApiException, ProcessingException;
+    void testStringMapReference(Map<String, String> requestBody) throws WebApplicationException, ProcessingException;
 }
