@@ -48,6 +48,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
@@ -5043,5 +5044,41 @@ public class DefaultCodegenTest {
     private List<String> getNames(List<CodegenProperty> props) {
         if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
+    }
+
+    @Test
+    public void testRequestBodyWithStringEnumSchema() {
+        // Given
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_21407.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String path = "/v1/resource-class/send-using-schema";
+
+        // When
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        // Then
+        assertThat(codegenOperation.bodyParam).satisfies(bodyParam -> {
+            assertThat(bodyParam).isNotNull();
+            assertThat(bodyParam.getDataType()).isEqualTo("Letter");
+        });
+    }
+
+    @Test
+    public void testRequestBodyWithStringSchema() {
+        // Given
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_21407.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String path = "/v1/resource-class/send-using-string";
+
+        // When
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        // Then
+        assertThat(codegenOperation.bodyParam).satisfies(bodyParam -> {
+            assertThat(bodyParam).isNotNull();
+            assertThat(bodyParam.getDataType()).isEqualTo("String");
+        });
     }
 }
