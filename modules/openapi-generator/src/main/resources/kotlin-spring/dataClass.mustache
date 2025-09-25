@@ -18,7 +18,7 @@
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
 ){{/discriminator}}{{! no newline
-}}{{#parent}} : {{{.}}}{{! no newline
+}}{{#parent}} : {{{.}}}{{#vendorExtensions.x-is-parent-ctor-call-needed}}(){{/vendorExtensions.x-is-parent-ctor-call-needed}}{{! no newline
     }}{{#serializableModel}}{{! no newline
       }}{{^vendorExtensions.x-kotlin-implements}}, Serializable{{/vendorExtensions.x-kotlin-implements}}{{! no newline
       }}{{#vendorExtensions.x-kotlin-implements}}, Serializable, {{! no newline
