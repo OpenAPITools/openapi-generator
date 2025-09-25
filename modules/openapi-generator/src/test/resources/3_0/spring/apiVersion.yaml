@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  title: x-spring-api-version test
+  version: 1.0.0
+paths:
+  /versions:
+    get:
+      tags:
+        - Test
+      operationId: getVersions
+  /overrides:
+    get:
+      tags:
+        - Test
+      operationId: getOverrides
+      x-spring-api-version: '2+'
+  /nones:
+    get:
+      tags:
+        - Test
+      operationId: getNones
+      x-spring-api-version: ''
+

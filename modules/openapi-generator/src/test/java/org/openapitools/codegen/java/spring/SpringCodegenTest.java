@@ -5738,4 +5738,25 @@ public class SpringCodegenTest {
                 .isInterface()
                 .assertTypeAnnotations().containsWithName("SuppressWarnings");
     }
+
+    @Test
+    public void testApiVersion() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/apiVersion.yaml", SPRING_BOOT,
+                Map.of(SpringCodegen.USE_SPRING_API_VERSION, "v1",
+                        USE_TAGS, true));
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+                .assertMethod("getVersions")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("RequestMapping", Map.of("version", "\"v1\""))
+                .toMethod().toFileAssert()
+
+                .assertMethod("getOverrides")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("RequestMapping", Map.of("version", "\"2+\""))
+                .toMethod().toFileAssert()
+
+                .assertMethod("getNones")
+                .assertMethodAnnotations()
+                .containsWithNameAndDoesContainAttributes("RequestMapping", List.of("version"));
+    }
 }
