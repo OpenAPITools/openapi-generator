@@ -63,7 +63,8 @@ class RESTClientObject:
         self.pool_manager: Optional[httpx.AsyncClient] = None
 
     async def close(self):
-        await self.pool_manager.aclose()
+        if self.pool_manager is not None:
+            await self.pool_manager.aclose()
 
     async def request(
             self,
