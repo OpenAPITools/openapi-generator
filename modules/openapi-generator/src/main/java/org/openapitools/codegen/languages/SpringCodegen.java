@@ -857,8 +857,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private void prepareVersioningParameters(List<CodegenOperation> operations) {
-        String apiVersion = String.valueOf(additionalProperties.get(USE_SPRING_API_VERSION));
-        boolean hasApiVersion = isNotEmpty(apiVersion);
+        Object apiVersion = additionalProperties.get(USE_SPRING_API_VERSION);
+        boolean hasApiVersion = apiVersion != null;
         for (CodegenOperation operation : operations) {
             if (operation.getHasHeaderParams()) {
                 List<CodegenParameter> versionParams = operation.headerParams.stream()
