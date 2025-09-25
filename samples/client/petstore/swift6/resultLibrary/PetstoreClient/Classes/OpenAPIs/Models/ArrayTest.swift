@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct ArrayTest: Sendable, Codable, ParameterConvertible {
+internal struct ArrayTest: Sendable, Codable {
 
     internal private(set) var arrayOfString: [String]?
     internal private(set) var arrayArrayOfInteger: [[Int64]]?
