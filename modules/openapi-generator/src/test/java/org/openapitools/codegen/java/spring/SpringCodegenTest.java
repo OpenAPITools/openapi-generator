@@ -5730,4 +5730,12 @@ public class SpringCodegenTest {
         javaFileAssert
                 .hasImports("java.util.concurrent.atomic.AtomicInteger");
     }
+
+    @Test
+    public void testOneOfInterfaceWithAnnotation() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", SPRING_BOOT);
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .isInterface()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
+    }
 }
