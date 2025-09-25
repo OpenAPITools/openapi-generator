@@ -6,4 +6,6 @@ export * from './TestA';
 export * from './TestArrayResponse';
 export * from './TestB';
 export * from './TestDiscriminatorResponse';
+export * from './TestPrimitiveResponse';
 export * from './TestResponse';
+export * from './TestWithDateResponse';
