@@ -5742,7 +5742,7 @@ public class SpringCodegenTest {
     @Test
     public void testApiVersion() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/apiVersion.yaml", SPRING_BOOT,
-                Map.of(SpringCodegen.USE_SPRING_API_VERSION, "v1",
+                Map.of(SpringCodegen.SPRING_API_VERSION, "v1",
                         USE_TAGS, true));
         JavaFileAssert.assertThat(files.get("TestApi.java"))
                 .assertMethod("getVersions")
