@@ -1121,7 +1121,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Properly set the default valuef or enum (reference).
+     * Properly set the default value for enum (reference).
      *
      * @param param codegen parameter
      */
