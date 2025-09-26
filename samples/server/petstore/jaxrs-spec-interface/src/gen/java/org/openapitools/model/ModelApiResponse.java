@@ -83,7 +83,7 @@ public class ModelApiResponse  implements Serializable {
     this.message = message;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -111,6 +111,7 @@ public class ModelApiResponse  implements Serializable {
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

@@ -259,6 +259,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE, this::setUseGzipFeature);
+        supportsAdditionalPropertiesWithComposedSchema = true;
     }
 
     @Override

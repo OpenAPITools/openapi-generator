@@ -47,7 +47,7 @@ public class ChildWithNullable extends ParentWithNullable implements Serializabl
     this.otherProperty = otherProperty;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -72,6 +72,7 @@ public class ChildWithNullable extends ParentWithNullable implements Serializabl
     sb.append("class ChildWithNullable {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    otherProperty: ").append(toIndentedString(otherProperty)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

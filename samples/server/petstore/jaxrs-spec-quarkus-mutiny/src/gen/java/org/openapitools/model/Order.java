@@ -198,7 +198,7 @@ public class Order  implements Serializable {
     this.complete = complete;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -232,6 +232,7 @@ public class Order  implements Serializable {
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }

@@ -388,7 +388,7 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.anytype3 = anytype3;
   }
 
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -432,6 +432,7 @@ public class AdditionalPropertiesClass  implements Serializable {
     sb.append("    anytype1: ").append(toIndentedString(anytype1)).append("\n");
     sb.append("    anytype2: ").append(toIndentedString(anytype2)).append("\n");
     sb.append("    anytype3: ").append(toIndentedString(anytype3)).append("\n");
+    sb.append("}");
     sb.append("}");
     return sb.toString();
   }
