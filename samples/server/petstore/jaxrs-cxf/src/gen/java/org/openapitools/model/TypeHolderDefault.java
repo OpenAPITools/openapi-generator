@@ -15,19 +15,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TypeHolderDefault  {
   
   @ApiModelProperty(required = true, value = "")
+
   private String stringItem = "what";
 
   @ApiModelProperty(required = true, value = "")
+
   @Valid
+
   private BigDecimal numberItem;
 
   @ApiModelProperty(required = true, value = "")
+
   private Integer integerItem;
 
   @ApiModelProperty(required = true, value = "")
+
   private Boolean boolItem = true;
 
   @ApiModelProperty(required = true, value = "")
+
   private List<Integer> arrayItem = new ArrayList<>();
  /**
    * Get stringItem

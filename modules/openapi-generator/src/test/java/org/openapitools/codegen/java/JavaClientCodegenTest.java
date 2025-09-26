@@ -3481,6 +3481,64 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test
+    public void annotationLibraryDoesNotCauseImportConflicts() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("annotationLibrary", "none");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName(JAVA_GENERATOR)
+            .setLibrary(JavaClientCodegen.NATIVE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("Schema.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
+            "import io.swagger.v3.oas.annotations.media.Schema;"
+        );
+    }
+
+    @Test
+    public void annotationLibraryGeneratesCorrectImports() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("annotationLibrary", "swagger2");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName(JAVA_GENERATOR)
+            .setLibrary(JavaClientCodegen.NATIVE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("Schema.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileContains(
+            "import io.swagger.v3.oas.annotations.media.Schema;"
+        );
+    }
+
 
     /**
      * This checks that the async client is not affected by this fix.
@@ -3923,5 +3981,22 @@ public class JavaClientCodegenTest {
             }
         }
         assertTrue(speciesSeen);
+    }
+
+    @Test
+    public void testOneOfClassWithAnnotation() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT);
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
+    }
+
+    @Test
+    public void testOneOfInterfaceWithAnnotation() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT,
+                Map.of(USE_ONE_OF_INTERFACES, "true"));
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .isInterface()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
     }
 }

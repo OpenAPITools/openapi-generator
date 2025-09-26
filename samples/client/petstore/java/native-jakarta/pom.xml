@@ -253,8 +253,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <jackson-version>2.17.1</jackson-version>
-        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
+        <jackson-version>2.19.2</jackson-version>
+        <jackson-databind-nullable-version>0.2.7</jackson-databind-nullable-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <beanvalidation-version>3.0.2</beanvalidation-version>
         <httpmime-version>4.5.14</httpmime-version>

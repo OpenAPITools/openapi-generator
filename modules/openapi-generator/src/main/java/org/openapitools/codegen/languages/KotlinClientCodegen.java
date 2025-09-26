@@ -996,6 +996,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
         return objs;
     }
+
     private Stream<List<CodegenProperty>> getAllVarProperties(CodegenModel model) {
         return Stream.of(model.vars, model.allVars, model.optionalVars, model.requiredVars, model.readOnlyVars, model.readWriteVars);
     }
@@ -1111,6 +1112,27 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             return "multipart/form-data".equals(firstType.get("mediaType"));
         }
         return false;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        adjustEnumRefDefault(parameter);
+    }
+
+    /**
+     * Properly set the default value for enum (reference).
+     *
+     * @param param codegen parameter
+     */
+    private void adjustEnumRefDefault(CodegenParameter param) {
+        if (StringUtils.isEmpty(param.defaultValue) || !(param.isEnum || param.isEnumRef)) {
+            return;
+        }
+
+        String type = StringUtils.defaultIfEmpty(param.datatypeWithEnum, param.dataType);
+        param.enumDefaultValue = toEnumVarName(param.defaultValue, type);
+        param.defaultValue = type + "." + param.enumDefaultValue;
     }
 
     @Override
