@@ -146,11 +146,10 @@ class TestPetApiTests(unittest.IsolatedAsyncioTestCase):
             pet_id=self.pet.id
         )
         self.assertIsInstance(fetched, httpx.Response)
-        read = await fetched.content.read()
-        self.assertTrue(fetched.closed)
-        self.assertTrue(fetched.content._eof)
+        read = await fetched.aread()
+        self.assertTrue(fetched.is_closed)
         self.assertIsInstance(read, bytes)
-        self.assertEqual(await fetched.content.read(), b"")
+        self.assertEqual(await fetched.aread(), b"")
         self.assertTrue(read.decode("utf-8").startswith('{"id":'))
 
     async def test_update_pet(self):
