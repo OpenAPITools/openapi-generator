@@ -51,7 +51,7 @@ data class User(
 
     @ApiModelProperty(example = "null", value = "User Status")
     @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
-    ) : Serializable{
+) : Serializable {
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

@@ -13,7 +13,7 @@ For more information, please visit [https://example.org](https://example.org)
 
 ## Requires
 
-* Kotlin 1.5.10
+* Kotlin 2.2.20
 
 ## Build
 

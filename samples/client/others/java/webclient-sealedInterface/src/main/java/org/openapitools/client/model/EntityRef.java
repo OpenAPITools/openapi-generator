@@ -76,7 +76,7 @@ public class EntityRef {
   protected String atBaseType;
 
   public static final String JSON_PROPERTY_AT_TYPE = "@type";
-  @javax.annotation.Nonnull
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
   protected String atType;
 
   public EntityRef() {

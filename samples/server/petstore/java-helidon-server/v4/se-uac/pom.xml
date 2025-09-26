@@ -17,7 +17,7 @@
 
     <properties>
         <mainClass>org.openapitools.server.Main</mainClass>
-        <version.jackson.databind.nullable>0.2.6</version.jackson.databind.nullable>
+        <version.jackson.databind.nullable>0.2.7</version.jackson.databind.nullable>
     </properties>
 
     <dependencies>

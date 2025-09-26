@@ -1,0 +1,14 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-x-kotlin-implements
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: none
+  annotationLibrary: none
+  useSwaggerUI: "false"
+  serviceImplementation: "false"
+  skipDefaultInterface: "true"
+  interfaceOnly: "true"
+  serializableModel: "true"
+  beanValidations: "true"

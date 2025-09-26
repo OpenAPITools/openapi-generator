@@ -75,7 +75,7 @@ ctx = context.WithValue(context.Background(), petstore.ContextOperationServerVar
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://localhost/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -214,7 +214,7 @@ Authentication schemes defined for the API:
 
 - **Type**: OAuth
 - **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Authorization URL**: http://localhost/api/oauth/dialog
 - **Scopes**: 
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets

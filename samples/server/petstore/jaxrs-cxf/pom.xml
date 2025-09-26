@@ -223,7 +223,7 @@ for this project used jakarta.validation-api -->
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
-    <swagger-core-version>1.5.22</swagger-core-version>
+    <swagger-core-version>1.6.6</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <junit-version>4.13.2</junit-version>
     <logback-version>1.5.13</logback-version>
