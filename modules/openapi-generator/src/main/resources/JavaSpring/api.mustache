@@ -252,7 +252,8 @@ public interface {{classname}} {
         produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }{{/hasConsumes}}{{/singleContentTypes}}{{#hasVersionHeaders}},
         headers = { {{#vendorExtensions.versionHeaderParamsList}}"{{baseName}}{{#defaultValue}}={{{.}}}{{/defaultValue}}"{{^-last}}, {{/-last}}{{/vendorExtensions.versionHeaderParamsList}} } {{/hasVersionHeaders}}{{#hasVersionQueryParams}},
-        params = { {{#vendorExtensions.versionQueryParamsList}}"{{baseName}}{{#defaultValue}}={{{.}}}{{/defaultValue}}"{{^-last}}, {{/-last}}{{/vendorExtensions.versionQueryParamsList}} } {{/hasVersionQueryParams}}
+        params = { {{#vendorExtensions.versionQueryParamsList}}"{{baseName}}{{#defaultValue}}={{{.}}}{{/defaultValue}}"{{^-last}}, {{/-last}}{{/vendorExtensions.versionQueryParamsList}} } {{/hasVersionQueryParams}}{{#vendorExtensions.x-spring-api-version}},
+        version = "{{{vendorExtensions.x-spring-api-version}}}"{{/vendorExtensions.x-spring-api-version}}
     )
     {{^useResponseEntity}}
     @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
