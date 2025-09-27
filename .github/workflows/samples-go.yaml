@@ -6,13 +6,13 @@ on:
       - 'samples/server/petstore/go-echo-server/**'
       - 'samples/server/petstore/go-api-server/**'
       - 'samples/server/petstore/go-chi-server/**'
-      - 'samples/server/others/go-server/no-body-path-params/**'
+      - 'samples/server/others/go-server/**'
   pull_request:
     paths:
       - 'samples/server/petstore/go-echo-server/**'
       - 'samples/server/petstore/go-api-server/**'
       - 'samples/server/petstore/go-chi-server/**'
-      - 'samples/server/others/go-server/no-body-path-params/**'
+      - 'samples/server/others/go-server/**'
 
 jobs:
   build:
