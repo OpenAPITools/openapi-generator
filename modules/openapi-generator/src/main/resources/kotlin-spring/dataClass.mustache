@@ -18,7 +18,7 @@
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
 ){{/discriminator}}{{! no newline
-}}{{#parent}} : {{{.}}}{{! no newline
+}}{{#parent}} : {{{.}}}{{#isMap}}(){{/isMap}}{{! no newline
     }}{{#serializableModel}}{{! no newline
       }}{{^vendorExtensions.x-kotlin-implements}}, Serializable{{/vendorExtensions.x-kotlin-implements}}{{! no newline
       }}{{#vendorExtensions.x-kotlin-implements}}, Serializable, {{! no newline
