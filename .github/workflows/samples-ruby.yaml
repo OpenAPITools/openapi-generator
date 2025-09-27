@@ -17,7 +17,7 @@ on:
 jobs:
   build:
     name: Build Ruby
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
