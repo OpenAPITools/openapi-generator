@@ -767,15 +767,20 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnotherXmlOb
     }
 }
 
-/// Any of:
-/// - String
-/// - uuid::Uuid
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct AnyOfGet202Response(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum AnyOfGet202Response {
+    String(String),
+    Uuid(uuid::Uuid),
+}
 
 impl validator::Validate for AnyOfGet202Response {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::String(_) => std::result::Result::Ok(()),
+            Self::Uuid(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -790,22 +795,32 @@ impl std::str::FromStr for AnyOfGet202Response {
     }
 }
 
-impl PartialEq for AnyOfGet202Response {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
+impl From<String> for AnyOfGet202Response {
+    fn from(value: String) -> Self {
+        Self::String(value)
+    }
+}
+impl From<uuid::Uuid> for AnyOfGet202Response {
+    fn from(value: uuid::Uuid) -> Self {
+        Self::Uuid(value)
     }
 }
 
 /// Test a model containing an anyOf of a hash map
-/// Any of:
-/// - String
-/// - std::collections::HashMap<String, String>
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct AnyOfHashMapObject(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum AnyOfHashMapObject {
+    String(String),
+    HashMapOfStringString(std::collections::HashMap<String, String>),
+}
 
 impl validator::Validate for AnyOfHashMapObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::String(_) => std::result::Result::Ok(()),
+            Self::HashMapOfStringString(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -820,21 +835,32 @@ impl std::str::FromStr for AnyOfHashMapObject {
     }
 }
 
-impl PartialEq for AnyOfHashMapObject {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
+impl From<String> for AnyOfHashMapObject {
+    fn from(value: String) -> Self {
+        Self::String(value)
+    }
+}
+impl From<std::collections::HashMap<String, String>> for AnyOfHashMapObject {
+    fn from(value: std::collections::HashMap<String, String>) -> Self {
+        Self::HashMapOfStringString(value)
     }
 }
 
 /// Test a model containing an anyOf
-/// Any of:
-/// - String
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct AnyOfObject(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum AnyOfObject {
+    String(String),
+    String1(String),
+}
 
 impl validator::Validate for AnyOfObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::String(_) => std::result::Result::Ok(()),
+            Self::String1(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -846,12 +872,6 @@ impl std::str::FromStr for AnyOfObject {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
-    }
-}
-
-impl PartialEq for AnyOfObject {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
     }
 }
 
@@ -1166,7 +1186,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<DuplicateXml
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
@@ -1451,14 +1471,20 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FormTestRequ
 }
 
 /// Test a model containing an anyOf that starts with a number
-/// Any of:
-/// - String
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct Model12345AnyOfObject(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum Model12345AnyOfObject {
+    String(String),
+    String1(String),
+}
 
 impl validator::Validate for Model12345AnyOfObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::String(_) => std::result::Result::Ok(()),
+            Self::String1(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -1470,12 +1496,6 @@ impl std::str::FromStr for Model12345AnyOfObject {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
-    }
-}
-
-impl PartialEq for Model12345AnyOfObject {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
     }
 }
 
@@ -2319,8 +2339,9 @@ pub struct ObjectParam {
     pub required_param: bool,
 
     #[serde(rename = "optionalParam")]
+    #[validate(range(min = 1u64, max = 10000000000000000000u64))]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub optional_param: Option<i32>,
+    pub optional_param: Option<u64>,
 }
 
 impl ObjectParam {
@@ -2366,7 +2387,7 @@ impl std::str::FromStr for ObjectParam {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub required_param: Vec<bool>,
-            pub optional_param: Vec<i32>,
+            pub optional_param: Vec<u64>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -2394,7 +2415,7 @@ impl std::str::FromStr for ObjectParam {
                     ),
                     #[allow(clippy::redundant_clone)]
                     "optionalParam" => intermediate_rep.optional_param.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                        <u64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     _ => {
                         return std::result::Result::Err(
@@ -2813,10 +2834,10 @@ impl std::ops::DerefMut for Ok {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum OneOfGet200Response {
-    I32(Box<i32>),
-    VecOfString(Box<Vec<String>>),
+    I32(i32),
+    VecOfString(Vec<String>),
 }
 
 impl validator::Validate for OneOfGet200Response {
@@ -2828,17 +2849,6 @@ impl validator::Validate for OneOfGet200Response {
     }
 }
 
-impl From<i32> for OneOfGet200Response {
-    fn from(value: i32) -> Self {
-        Self::I32(Box::new(value))
-    }
-}
-impl From<Vec<String>> for OneOfGet200Response {
-    fn from(value: Vec<String>) -> Self {
-        Self::VecOfString(Box::new(value))
-    }
-}
-
 /// Converts Query Parameters representation (style=form, explode=false) to a OneOfGet200Response value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
@@ -2847,6 +2857,17 @@ impl std::str::FromStr for OneOfGet200Response {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
+    }
+}
+
+impl From<i32> for OneOfGet200Response {
+    fn from(value: i32) -> Self {
+        Self::I32(value)
+    }
+}
+impl From<Vec<String>> for OneOfGet200Response {
+    fn from(value: Vec<String>) -> Self {
+        Self::VecOfString(value)
     }
 }
 
@@ -2971,7 +2992,7 @@ impl std::ops::DerefMut for Result {
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
