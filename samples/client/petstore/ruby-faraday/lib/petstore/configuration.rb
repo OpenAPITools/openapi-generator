@@ -156,8 +156,8 @@ module Petstore
     attr_accessor :force_ending_format
 
     def initialize
-      @scheme = 'http'
-      @host = 'petstore.swagger.io'
+      @scheme = 'https'
+      @host = '127.0.0.1'
       @base_path = '/v2'
       @server_index = nil
       @server_operation_index = {}
@@ -291,6 +291,10 @@ module Petstore
     def server_settings
       [
         {
+          url: "https://127.0.0.1/v2",
+          description: "The local server without variables",
+        },
+        {
           url: "http://{server}.swagger.io:{port}/v2",
           description: "petstore server",
           variables: {
@@ -328,10 +332,6 @@ module Petstore
             }
         },
         {
-          url: "https://127.0.0.1/no_varaible",
-          description: "The local server without variables",
-        },
-        {
           url: "http://server.{version}.openapi-generator.tech",
           description: "The openapi-generator test server",
           variables: {
@@ -351,6 +351,10 @@ module Petstore
     def operation_server_settings
       {
         "PetApi.add_pet": [
+          {
+          url: "http://127.0.0.1/v2",
+          description: "No description provided",
+          },
           {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
@@ -399,6 +403,10 @@ module Petstore
         ],
         "PetApi.delete_pet": [
           {
+          url: "http://127.0.0.1/v2",
+          description: "No description provided",
+          },
+          {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
           },
@@ -445,6 +453,10 @@ module Petstore
           }
         ],
         "PetApi.get_pet_by_id": [
+          {
+          url: "http://127.0.0.1/v2",
+          description: "No description provided",
+          },
           {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
@@ -493,6 +505,10 @@ module Petstore
         ],
         "PetApi.update_pet": [
           {
+          url: "http://127.0.0.1/v2",
+          description: "No description provided",
+          },
+          {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
           },
@@ -539,6 +555,10 @@ module Petstore
           }
         ],
         "PetApi.update_pet_with_form": [
+          {
+          url: "http://127.0.0.1/v2",
+          description: "No description provided",
+          },
           {
           url: "http://petstore.swagger.io/v2",
           description: "No description provided",
