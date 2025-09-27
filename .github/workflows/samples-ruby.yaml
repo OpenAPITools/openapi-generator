@@ -36,10 +36,10 @@ jobs:
           SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v5
-      - name: Add hosts to /etc/hosts
-        run: |
-            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
-            cat /etc/hosts
+      #- name: Add hosts to /etc/hosts
+      #  run: |
+      #      sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
+      #      cat /etc/hosts
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.4' # Not needed with a .ruby-version, .tool-versions or mise.toml
