@@ -88,7 +88,7 @@ class ApiClient:
         self.user_agent = '{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/python{{/httpUserAgent}}'
         self.client_side_validation = configuration.client_side_validation
 
-{{#asyncio}}
+{{#async}}
     async def __aenter__(self):
         return self
 
@@ -97,14 +97,14 @@ class ApiClient:
 
     async def close(self):
         await self.rest_client.close()
-{{/asyncio}}
-{{^asyncio}}
+{{/async}}
+{{^async}}
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         pass
-{{/asyncio}}
+{{/async}}
 
     @property
     def user_agent(self):
@@ -257,7 +257,7 @@ class ApiClient:
     {{#tornado}}
     @tornado.gen.coroutine
     {{/tornado}}
-    {{#asyncio}}async {{/asyncio}}def call_api(
+    {{#async}}async {{/async}}def call_api(
         self,
         method,
         url,
@@ -280,7 +280,7 @@ class ApiClient:
 
         try:
             # perform request and return response
-            response_data = {{#asyncio}}await {{/asyncio}}{{#tornado}}yield {{/tornado}}self.rest_client.request(
+            response_data = {{#async}}await {{/async}}{{#tornado}}yield {{/tornado}}self.rest_client.request(
                 method, url,
                 headers=header_params,
                 body=body, post_params=post_params,

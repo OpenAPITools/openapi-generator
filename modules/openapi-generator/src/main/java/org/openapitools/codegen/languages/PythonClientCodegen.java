@@ -157,7 +157,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
         supportedLibraries.put("tornado", "tornado-based client (deprecated)");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado (deprecated), urllib3");
+        supportedLibraries.put("httpx", "httpx-based client");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado (deprecated), urllib3, httpx");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -330,10 +331,15 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if ("asyncio".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
+            additionalProperties.put("async", "true");
             additionalProperties.put("asyncio", "true");
         } else if ("tornado".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("tornado", "true");
+        } else if ("httpx".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("httpx/rest.mustache", packagePath(), "rest.py"));
+            additionalProperties.put("async", "true");
+            additionalProperties.put("httpx", "true");
         } else {
             supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
         }
