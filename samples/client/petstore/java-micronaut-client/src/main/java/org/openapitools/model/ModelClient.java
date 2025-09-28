@@ -30,7 +30,7 @@ import javax.annotation.Generated;
   ModelClient.JSON_PROPERTY_CLIENT
 })
 @JsonTypeName("Client")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @Introspected
 public class ModelClient {
     public static final String JSON_PROPERTY_CLIENT = "client";

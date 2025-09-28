@@ -38,7 +38,7 @@ import javax.annotation.Generated;
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
 @JsonTypeName("TypeHolderExample")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @Introspected
 public class TypeHolderExample {
     public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
