@@ -62,7 +62,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @JsonDeserialize(using=MammalAnyof.MammalAnyofDeserializer.class)
 @JsonSerialize(using = MammalAnyof.MammalAnyofSerializer.class)
 public class MammalAnyof extends AbstractOpenApiSchema {

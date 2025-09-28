@@ -42,7 +42,7 @@ import org.openapitools.client.ApiClient;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_ID,
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   @javax.annotation.Nullable

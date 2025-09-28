@@ -39,7 +39,7 @@ import org.openapitools.client.ApiClient;
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME,
   SpecialModelName.JSON_PROPERTY_SPECIAL_MODEL_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @javax.annotation.Nullable
