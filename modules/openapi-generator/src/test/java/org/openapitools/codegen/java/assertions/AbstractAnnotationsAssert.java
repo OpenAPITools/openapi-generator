@@ -60,7 +60,7 @@ public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotatio
     private static boolean hasNotAttributes(final AnnotationExpr annotation, final List<String> attributes) {
         final Map<String, String> actualAttributes = getAttributes(annotation);
 
-        return actualAttributes.entrySet().stream()
+        return actualAttributes.keySet().stream()
                 .noneMatch(attribute -> attributes.contains(attribute));
     }
 

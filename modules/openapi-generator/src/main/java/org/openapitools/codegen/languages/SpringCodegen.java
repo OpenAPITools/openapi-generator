@@ -882,9 +882,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 operation.vendorExtensions.put("versionQueryParamsList", versionParams);
             }
             if (hasApiVersion) {
-                if (!operation.vendorExtensions.remove(VendorExtension.X_SPRING_API_VERSION.getName(), "")) {
-                    operation.vendorExtensions.putIfAbsent(VendorExtension.X_SPRING_API_VERSION.getName(), apiVersion);
-                }
+                operation.vendorExtensions.putIfAbsent(VendorExtension.X_SPRING_API_VERSION.getName(), apiVersion);
             }
         }
     }
