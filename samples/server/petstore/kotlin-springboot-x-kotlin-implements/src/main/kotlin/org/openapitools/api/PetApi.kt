@@ -95,5 +95,5 @@ interface PetApi {
             produces = ["application/json"],
             consumes = ["multipart/form-data"]
     )
-    fun uploadFile( @PathVariable("petId") petId: kotlin.Long, @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? , @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile?): ResponseEntity<ModelApiResponse>
+    fun uploadFile( @PathVariable("petId") petId: kotlin.Long, @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? , @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile): ResponseEntity<ModelApiResponse>
 }
