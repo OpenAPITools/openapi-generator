@@ -18,5 +18,6 @@ export interface Item {
      * The age
      */
     age: number;
+    nicknames: Array<string>;
 }
 

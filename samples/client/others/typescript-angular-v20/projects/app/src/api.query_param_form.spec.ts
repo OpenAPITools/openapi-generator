@@ -5,8 +5,8 @@ import {HttpTestingController, provideHttpClientTesting} from '@angular/common/h
 import {DefaultService, Filter, provideApi} from '@swagger/typescript-angular-query-param-form'
 
 const ids: number[] = [4, 5];
-const filter: Filter = {name: 'John', age: 37};
-const filterWithSpecialCharacters: Filter = {name: 'Éléonore &,|+', age: 42};
+const filter: Filter = {name: 'John', age: 37, nicknames: ['Joe', 'Joey']};
+const filterWithSpecialCharacters: Filter = {name: 'Éléonore &,|+', age: 42, nicknames: ['Elé', 'Ellie']};
 const country: string = "Belgium";
 
 describe('Form Query Param testing', () => {
@@ -36,13 +36,13 @@ describe('Form Query Param testing', () => {
 
   it('should separate the query parameter with ampersands (all set)', async () => {
     service.searchExplode(ids, filter, country).subscribe();
-    const req = httpTesting.expectOne('http://localhost/search_explode?ids=4&ids=5&name=John&age=37&country=Belgium');
+    const req = httpTesting.expectOne('http://localhost/search_explode?ids=4&ids=5&name=John&age=37&nicknames=Joe&nicknames=Joey&country=Belgium');
     expect(req.request.method).toEqual('GET');
   });
 
   it('should separate the query parameter with ampersands (all set) - special characters', async () => {
     service.searchExplode(ids, filterWithSpecialCharacters, country).subscribe();
-    const req = httpTesting.expectOne('http://localhost/search_explode?ids=4&ids=5&name=%C3%89l%C3%A9onore%20%26%2C%7C%2B&age=42&country=Belgium');
+    const req = httpTesting.expectOne('http://localhost/search_explode?ids=4&ids=5&name=%C3%89l%C3%A9onore%20%26%2C%7C%2B&age=42&nicknames=El%C3%A9&nicknames=Ellie&country=Belgium');
     expect(req.request.method).toEqual('GET');
   });
 
@@ -70,7 +70,7 @@ describe('Form Query Param testing', () => {
   it('should separate the query parameter with ampersands (object only)', async () => {
     service.searchExplode(undefined, filter, undefined).subscribe();
 
-    const req = httpTesting.expectOne('http://localhost/search_explode?name=John&age=37');
+    const req = httpTesting.expectOne('http://localhost/search_explode?name=John&age=37&nicknames=Joe&nicknames=Joey');
     expect(req.request.method).toEqual('GET');
   });
 
@@ -82,13 +82,13 @@ describe('Form Query Param testing', () => {
 
   it('should separate the query parameter with comma (all set)', async () => {
     service.searchNotExplode(ids, filter, country).subscribe();
-    const req = httpTesting.expectOne('http://localhost/search_not_explode?ids=4,5&filter=name,John,age,37&country=Belgium');
+    const req = httpTesting.expectOne('http://localhost/search_not_explode?ids=4,5&filter=name,John,age,37,nicknames,Joe,Joey&country=Belgium');
     expect(req.request.method).toEqual('GET');
   });
 
   it('should separate the query parameter with comma (all set) - special characters', async () => {
     service.searchNotExplode(ids, filterWithSpecialCharacters, country).subscribe();
-    const req = httpTesting.expectOne('http://localhost/search_not_explode?ids=4,5&filter=name,%C3%89l%C3%A9onore%20%26%2C%7C%2B,age,42&country=Belgium');
+    const req = httpTesting.expectOne('http://localhost/search_not_explode?ids=4,5&filter=name,%C3%89l%C3%A9onore%20%26%2C%7C%2B,age,42,nicknames,El%C3%A9,Ellie&country=Belgium');
     expect(req.request.method).toEqual('GET');
   });
 
@@ -116,7 +116,7 @@ describe('Form Query Param testing', () => {
   it('should separate the query parameter with comma (object only)', async () => {
     service.searchNotExplode(undefined, filter, undefined).subscribe();
 
-    const req = httpTesting.expectOne('http://localhost/search_not_explode?filter=name,John,age,37');
+    const req = httpTesting.expectOne('http://localhost/search_not_explode?filter=name,John,age,37,nicknames,Joe,Joey');
     expect(req.request.method).toEqual('GET');
   });
 

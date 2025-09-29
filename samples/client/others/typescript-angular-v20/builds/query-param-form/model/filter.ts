@@ -18,5 +18,6 @@ export interface Filter {
      * The age
      */
     age?: number;
+    nicknames?: Array<string>;
 }
 

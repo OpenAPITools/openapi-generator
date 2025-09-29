@@ -86,6 +86,7 @@ components:
       required:
         - name
         - age
+        - nicknames
       properties:
         name:
           type: string
@@ -96,6 +97,10 @@ components:
           default: 5
           nullable: false
           description: The age
+        nicknames:
+          type: array
+          items:
+            type: string
 
     Response:
       type: object
@@ -121,3 +126,9 @@ components:
           default: 5
           nullable: false
           description: The age
+        nicknames:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            example: Nick
