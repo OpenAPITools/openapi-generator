@@ -31,6 +31,7 @@ paths:
                   type: string
                   description: File to upload
                   format: binary
+                  nullable: true
                 jsonPayload:
                   type: object
                   description: simple json payload
@@ -67,6 +68,78 @@ paths:
                     type: string
                     description: File to upload
                     format: binary
+                  nullable: true
+                jsonPayload:
+                  type: object
+                  description: simple json payload
+                  properties:
+                    name:
+                      type: string
+              required:
+                - jsonPayload
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid status value
+  /non-nullable-multipartfile:
+    post:
+      tags:
+        - multipartfile
+      summary: simple non nullable multipartfile
+      operationId: testNonNullableMultipartfile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: File to upload
+                  format: binary
+                  nullable: false
+                jsonPayload:
+                  type: object
+                  description: simple json payload
+                  properties:
+                    name:
+                      type: string
+              required:
+                - jsonPayload
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid status value
+
+  /non-nullable-multipartfile-array:
+    post:
+      tags:
+        - multipartfile
+      summary: simple non nullable multipartfile
+      operationId: testNonNullableMultipartfile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    description: File to upload
+                    format: binary
+                  nullable: false
                 jsonPayload:
                   type: object
                   description: simple json payload
