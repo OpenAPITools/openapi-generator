@@ -13,6 +13,7 @@ Generator version: 7.17.0-SNAPSHOT
 # Common files
 require 'x_auth_id_alias/api_client'
 require 'x_auth_id_alias/api_error'
+require 'x_auth_id_alias/api_model_base'
 require 'x_auth_id_alias/version'
 require 'x_auth_id_alias/configuration'
 
