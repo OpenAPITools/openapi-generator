@@ -66,7 +66,7 @@ public class OpenAPINormalizerTest {
         assertEquals(schema5.getExtensions().get(X_PARENT), "abstract");
 
         // Verify that all allOf refs gets marked as parents
-        Schema<?>schemaWithTwoParents = openAPI.getComponents().getSchemas().get("SchemaWithTwoParents");
+        Schema<?>schemaWithTwoParents = openAPI.getComponents().getSchemas().get("SchemaWithTwoAllOfRefs");
         assertNull(schemaWithTwoParents.getExtensions());
         Schema<?>personA = openAPI.getComponents().getSchemas().get("PersonA");
         assertEquals(personA.getExtensions().get(X_PARENT), true);
