@@ -37,6 +37,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenVendorExtension.X_PARENT;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
@@ -1083,10 +1084,10 @@ public class OpenAPINormalizer {
                     refSchema.setExtensions(new HashMap<>());
                 }
 
-                if (refSchema.getExtensions().containsKey("x-parent")) {
+                if (refSchema.getExtensions().containsKey(X_PARENT.getName())) {
                     // doing nothing as x-parent already exists
                 } else {
-                    refSchema.getExtensions().put("x-parent", true);
+                    refSchema.getExtensions().put(X_PARENT.getName(), true);
                 }
 
                 LOGGER.debug("processUseAllOfRefAsParent added `x-parent: true` to {}", refSchema);

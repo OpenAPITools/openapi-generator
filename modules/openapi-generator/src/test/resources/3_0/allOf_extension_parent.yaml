@@ -37,6 +37,17 @@ components:
           type: string
         firstName:
           type: string
+    PersonA:
+      type: object
+      properties:
+        lastName:
+          type: string
+    PersonB:
+      description:
+      type: object
+      properties:
+        firstName:
+          type: string
     Adult:
       description: A representation of an adult
       allOf:
@@ -65,6 +76,16 @@ components:
               type: integer
               format: int32
         - $ref: '#/components/schemas/AnotherPerson'
+    SchemaWithTwoParents:
+      description: A schema that has two allOfs with refs
+      allOf:
+        - type: object
+          properties:
+            age:
+              type: integer
+              format: int32
+        - $ref: '#/components/schemas/PersonA'
+        - $ref: '#/components/schemas/PersonB'
     AnotherPerson:
       description: person object without x-parent extension
       type: object
