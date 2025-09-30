@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum CodegenVendorExtension {
 
-    X_PARENT("x-parent");
+    X_PARENT("x-parent"),
+    X_INTERNAL("x-internal");
 
     private final String name;
 

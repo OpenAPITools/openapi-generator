@@ -37,6 +37,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenVendorExtension.X_INTERNAL;
 import static org.openapitools.codegen.CodegenVendorExtension.X_PARENT;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
@@ -128,7 +129,6 @@ public class OpenAPINormalizer {
 
     // when set to true, remove x-internal: true from models, operations
     final String REMOVE_X_INTERNAL = "REMOVE_X_INTERNAL";
-    final String X_INTERNAL = "x-internal";
     boolean removeXInternal;
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
@@ -432,17 +432,17 @@ public class OpenAPINormalizer {
             for (Operation operation : operations) {
                 if (operationIdFilters.size() > 0) {
                     if (operationIdFilters.contains(operation.getOperationId())) {
-                        operation.addExtension("x-internal", false);
+                        operation.addExtension(X_INTERNAL.getName(), false);
                     } else {
                         LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the operationId FILTER", operation.getOperationId());
-                        operation.addExtension("x-internal", true);
+                        operation.addExtension(X_INTERNAL.getName(), true);
                     }
                 } else if (!tagFilters.isEmpty()) {
                     if (operation.getTags().stream().anyMatch(tagFilters::contains)) {
-                        operation.addExtension("x-internal", false);
+                        operation.addExtension(X_INTERNAL.getName(), false);
                     } else {
                         LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the tag FILTER", operation.getOperationId());
-                        operation.addExtension("x-internal", true);
+                        operation.addExtension(X_INTERNAL.getName(), true);
                     }
                 }
 
@@ -1109,8 +1109,8 @@ public class OpenAPINormalizer {
             return;
         }
 
-        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get("x-internal")))) {
-            operation.getExtensions().remove(X_INTERNAL);
+        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get(X_INTERNAL.getName())))) {
+            operation.getExtensions().remove(X_INTERNAL.getName());
         }
     }
 

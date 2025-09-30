@@ -90,6 +90,7 @@ import java.util.stream.Stream;
 
 import static org.openapitools.codegen.CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER;
 import static org.openapitools.codegen.CodegenConstants.UNSUPPORTED_V310_SPEC_MSG;
+import static org.openapitools.codegen.CodegenVendorExtension.X_INTERNAL;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -5197,7 +5198,7 @@ public class DefaultCodegen implements CodegenConfig {
                         String method = p.getKey();
                         Operation op = p.getValue();
 
-                        if (op.getExtensions() != null && Boolean.TRUE.equals(op.getExtensions().get("x-internal"))) {
+                        if (op.getExtensions() != null && Boolean.TRUE.equals(op.getExtensions().get(X_INTERNAL.getName()))) {
                             // skip operation if x-internal sets to true
                             LOGGER.info("Operation ({} {} - {}) not generated since x-internal is set to true",
                                     method, expression, op.getOperationId());
