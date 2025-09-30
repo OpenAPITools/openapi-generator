@@ -56,7 +56,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenVendorExtension.X_PARENT;
+import static org.openapitools.codegen.CodegenConstants.X_PARENT;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class ModelUtils {
@@ -1717,7 +1717,7 @@ public class ModelUtils {
             return false;
         }
 
-        Object xParent = schema.getExtensions().get(X_PARENT.getName());
+        Object xParent = schema.getExtensions().get(X_PARENT);
         if (xParent == null) {
             return false;
         } else if (xParent instanceof Boolean) {

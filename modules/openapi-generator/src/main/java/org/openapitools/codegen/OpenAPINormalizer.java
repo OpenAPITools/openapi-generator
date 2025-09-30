@@ -37,8 +37,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenVendorExtension.X_INTERNAL;
-import static org.openapitools.codegen.CodegenVendorExtension.X_PARENT;
+import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
+import static org.openapitools.codegen.CodegenConstants.X_PARENT;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
@@ -432,17 +432,17 @@ public class OpenAPINormalizer {
             for (Operation operation : operations) {
                 if (operationIdFilters.size() > 0) {
                     if (operationIdFilters.contains(operation.getOperationId())) {
-                        operation.addExtension(X_INTERNAL.getName(), false);
+                        operation.addExtension(X_INTERNAL, false);
                     } else {
                         LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the operationId FILTER", operation.getOperationId());
-                        operation.addExtension(X_INTERNAL.getName(), true);
+                        operation.addExtension(X_INTERNAL, true);
                     }
                 } else if (!tagFilters.isEmpty()) {
                     if (operation.getTags().stream().anyMatch(tagFilters::contains)) {
-                        operation.addExtension(X_INTERNAL.getName(), false);
+                        operation.addExtension(X_INTERNAL, false);
                     } else {
                         LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the tag FILTER", operation.getOperationId());
-                        operation.addExtension(X_INTERNAL.getName(), true);
+                        operation.addExtension(X_INTERNAL, true);
                     }
                 }
 
@@ -1084,10 +1084,10 @@ public class OpenAPINormalizer {
                     refSchema.setExtensions(new HashMap<>());
                 }
 
-                if (refSchema.getExtensions().containsKey(X_PARENT.getName())) {
+                if (refSchema.getExtensions().containsKey(X_PARENT)) {
                     // doing nothing as x-parent already exists
                 } else {
-                    refSchema.getExtensions().put(X_PARENT.getName(), true);
+                    refSchema.getExtensions().put(X_PARENT, true);
                 }
 
                 LOGGER.debug("processUseAllOfRefAsParent added `x-parent: true` to {}", refSchema);
@@ -1109,8 +1109,8 @@ public class OpenAPINormalizer {
             return;
         }
 
-        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get(X_INTERNAL.getName())))) {
-            operation.getExtensions().remove(X_INTERNAL.getName());
+        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get(X_INTERNAL)))) {
+            operation.getExtensions().remove(X_INTERNAL);
         }
     }
 
