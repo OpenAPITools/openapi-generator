@@ -41,8 +41,8 @@ class TestModelWithEnumDefault(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['A', 'B', 'C']):
-            raise ValueError("must be one of enum values ('A', 'B', 'C')")
+        if value not in set(['A', 'B', 'C', 'unknown_default_open_api']):
+            raise ValueError("must be one of enum values ('A', 'B', 'C', 'unknown_default_open_api')")
         return value
 
     model_config = ConfigDict(

@@ -29,10 +29,16 @@ class EnumStringVendorExt(str, Enum):
     FOO_XEnumVarname = 'FOO'
     BarVar_XEnumVarname = 'Bar'
     bazVar_XEnumVarname = 'baz'
+    'unknown_default_open_api' = 'unknown_default_open_api'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of EnumStringVendorExt from a JSON string"""
         return cls(json.loads(json_str))
+
+    @classmethod
+    def _missing_(cls, value):
+        """Handle unknown enum values"""
+        return cls.UNKNOWN_DEFAULT_OPEN_API
 
 

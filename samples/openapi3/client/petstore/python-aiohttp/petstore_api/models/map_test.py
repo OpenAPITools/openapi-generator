@@ -39,8 +39,8 @@ class MapTest(BaseModel):
             return value
 
         for i in value.values():
-            if i not in set(['UPPER', 'lower']):
-                raise ValueError("dict values must be one of enum values ('UPPER', 'lower')")
+            if i not in set(['UPPER', 'lower', 'unknown_default_open_api']):
+                raise ValueError("dict values must be one of enum values ('UPPER', 'lower', 'unknown_default_open_api')")
         return value
 
     model_config = ConfigDict(
