@@ -1791,11 +1791,13 @@ public class JavaClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertThat(files).hasSize(33);
+        assertThat(files).hasSize(42);
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
                 .content().contains("public class Child extends Person {");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Adult.java"))
                 .content().contains("public class Adult extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/SchemaWithTwoParents.java"))
+                .content().contains("public class SchemaWithTwoParents {");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/AnotherChild.java"))
                 .content().contains("public class AnotherChild {");
     }
