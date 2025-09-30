@@ -45,14 +45,14 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                {{#useJakartaEe}}
+                {{#java17}}
                     <source>17</source>
                     <target>17</target>
-                {{/useJakartaEe}}
-                {{^useJakartaEe}}
+                {{/java17}}
+                {{^java17}}
                     <source>1.8</source>
                     <target>1.8</target>
-                {{/useJakartaEe}}
+                {{/java17}}
                 </configuration>
             </plugin>
             <plugin>
@@ -167,10 +167,10 @@
         {{#swagger2AnnotationLibrary}}
         <swagger-annotations-version>2.2.15</swagger-annotations-version>
         {{/swagger2AnnotationLibrary}}
-        <jackson-version>2.17.1</jackson-version>
-        <jackson-databind-version>2.17.1</jackson-databind-version>
+        <jackson-version>2.19.2</jackson-version>
+        <jackson-databind-version>2.19.2</jackson-databind-version>
         {{#openApiNullable}}
-        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.7</jackson-databind-nullable-version>
         {{/openApiNullable}}
         {{#useJakartaEe}}
         <spring-boot-version>3.0.12</spring-boot-version>

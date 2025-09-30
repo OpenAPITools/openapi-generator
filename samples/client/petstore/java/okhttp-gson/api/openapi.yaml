@@ -2715,7 +2715,7 @@ components:
       description: Value object
       example:
         name: variable_1
-        value: Scalar
+        value: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         name:
           example: variable_1
@@ -2732,12 +2732,16 @@ components:
     Scalar:
       description: Values of scalar type
       oneOf:
+      - format: uuid
+        type: string
       - maxLength: 1089
         type: string
       - type: number
       - type: boolean
     ScalarAnyOf:
       anyOf:
+      - format: uuid
+        type: string
       - maxLength: 1089
         type: string
       - type: number
@@ -2915,6 +2919,27 @@ components:
           $ref: "#/components/schemas/ArrayOneOf"
         anyof_prop:
           $ref: "#/components/schemas/ArrayAnyOf"
+      type: object
+    NestedArrayWithDefaultValues:
+      properties:
+        nestedArray:
+          default:
+          - - h1
+            - Header 1
+          - - h2
+            - Header 2
+          - - h3
+            - Header 3
+          - - h4
+            - Header 4
+          items:
+            default:
+            - value1
+            - value2
+            items:
+              type: string
+            type: array
+          type: array
       type: object
     _foo_get_default_response:
       example:

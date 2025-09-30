@@ -28,7 +28,7 @@ import javax.validation.Valid;
 @Api(description = "the pet API")
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 
 public class PetApi  {
 

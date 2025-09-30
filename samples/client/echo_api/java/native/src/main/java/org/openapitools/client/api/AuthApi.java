@@ -42,10 +42,31 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Locale;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AuthApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
+  private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
@@ -67,6 +88,7 @@ public class AuthApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
     String body = response.body() == null ? null : new String(response.body().readAllBytes());
@@ -136,7 +158,18 @@ public class AuthApi {
    * @throws ApiException if fails to make API call
    */
   public String testAuthHttpBasic() throws ApiException {
-    ApiResponse<String> localVarResponse = testAuthHttpBasicWithHttpInfo();
+    return testAuthHttpBasic(null);
+  }
+
+  /**
+   * To test HTTP basic authentication
+   * To test HTTP basic authentication
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testAuthHttpBasic(Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testAuthHttpBasicWithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -147,7 +180,18 @@ public class AuthApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<String> testAuthHttpBasicWithHttpInfo() throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testAuthHttpBasicRequestBuilder();
+    return testAuthHttpBasicWithHttpInfo(null);
+  }
+
+  /**
+   * To test HTTP basic authentication
+   * To test HTTP basic authentication
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testAuthHttpBasicWithHttpInfo(Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testAuthHttpBasicRequestBuilder(headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -183,7 +227,7 @@ public class AuthApi {
     }
   }
 
-  private HttpRequest.Builder testAuthHttpBasicRequestBuilder() throws ApiException {
+  private HttpRequest.Builder testAuthHttpBasicRequestBuilder(Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -197,6 +241,8 @@ public class AuthApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -210,7 +256,18 @@ public class AuthApi {
    * @throws ApiException if fails to make API call
    */
   public String testAuthHttpBearer() throws ApiException {
-    ApiResponse<String> localVarResponse = testAuthHttpBearerWithHttpInfo();
+    return testAuthHttpBearer(null);
+  }
+
+  /**
+   * To test HTTP bearer authentication
+   * To test HTTP bearer authentication
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testAuthHttpBearer(Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testAuthHttpBearerWithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -221,7 +278,18 @@ public class AuthApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<String> testAuthHttpBearerWithHttpInfo() throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testAuthHttpBearerRequestBuilder();
+    return testAuthHttpBearerWithHttpInfo(null);
+  }
+
+  /**
+   * To test HTTP bearer authentication
+   * To test HTTP bearer authentication
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testAuthHttpBearerWithHttpInfo(Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testAuthHttpBearerRequestBuilder(headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -257,7 +325,7 @@ public class AuthApi {
     }
   }
 
-  private HttpRequest.Builder testAuthHttpBearerRequestBuilder() throws ApiException {
+  private HttpRequest.Builder testAuthHttpBearerRequestBuilder(Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -271,6 +339,8 @@ public class AuthApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

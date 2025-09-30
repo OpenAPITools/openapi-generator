@@ -40,7 +40,7 @@ data class Order (
 
     @SerialName(value = "quantity") val quantity: kotlin.Int? = null,
 
-    @SerialName(value = "shipDate") val shipDate: kotlinx.datetime.Instant? = null,
+    @SerialName(value = "shipDate") val shipDate: kotlin.time.Instant? = null,
 
     /* Order Status */
     @SerialName(value = "status") val status: Order.Status? = null,

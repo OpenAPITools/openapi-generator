@@ -1,0 +1,26 @@
+openapi: 3.0.1
+info:
+  title: Enum default test
+  version: 1.0.0
+paths:
+  /status:
+    get:
+      tags:
+        - Status
+      operationId: getStatus
+      parameters:
+        - name: state
+          in: query
+          schema:
+            $ref: '#/components/schemas/PetStatus'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    PetStatus:
+      type: string
+      enum:
+        - available
+        - pending
+      default: available

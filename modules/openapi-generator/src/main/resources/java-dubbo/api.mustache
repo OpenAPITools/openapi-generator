@@ -1,0 +1,45 @@
+package {{interfacePackage}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+{{#hasModel}}
+import {{modelPackage}}.*;
+{{/hasModel}}
+import java.util.List;
+import java.util.Map;
+import java.time.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+{{#async}}
+import java.util.concurrent.CompletableFuture;
+{{/async}}
+import javax.annotation.Generated;
+
+
+{{>generatedAnnotation}}
+{{#operations}}
+public interface {{serviceName}} {
+{{#operation}}
+
+    /**
+     * {{summary}}
+     * {{notes}}
+     *
+{{#allParams}}
+     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+     * @return {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     */
+{{#async}}
+    CompletableFuture<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}(
+{{/async}}
+{{^async}}
+    {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}}(
+{{/async}}
+{{#allParams}}
+        {{{dataType}}} {{paramName}}{{^-last}},{{/-last}}
+{{/allParams}}
+    );
+{{/operation}}
+}
+{{/operations}}

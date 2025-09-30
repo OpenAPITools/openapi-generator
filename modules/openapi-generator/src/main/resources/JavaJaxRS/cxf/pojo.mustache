@@ -1,4 +1,12 @@
+{{#swagger1AnnotationLibrary}}
+{{#description}}
+import io.swagger.annotations.ApiModel;
+{{/description}}
 import io.swagger.annotations.ApiModelProperty;
+{{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.media.Schema;
+{{/swagger2AnnotationLibrary}}
 import java.util.Objects;
 {{#withXml}}
 import {{javaxPackage}}.xml.bind.annotation.XmlElement;
@@ -13,9 +21,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 {{#description}}
 /**
-  * {{{description}}}
- **/
+ * {{{description}}}
+ */
+{{#swagger1AnnotationLibrary}}
 @ApiModel(description="{{{description}}}")
+{{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+@Schema(description="{{{description}}}")
+{{/swagger2AnnotationLibrary}}
 {{/description}}
 {{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
 {{#vendorExtensions.x-class-extra-annotation}}
@@ -25,16 +38,23 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
+{{#description}}
+ /**
+  * {{{.}}}
+  */
+{{/description}}
 {{#withXml}}
   @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
 {{/withXml}}
-  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
-  @Valid{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
-{{#description}}
- /**
-   * {{{.}}}
-  **/
-{{/description}}
+{{#swagger1AnnotationLibrary}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+  @Schema(description = "{{{description}}}"{{#example}}, example = "{{{example}}}"{{/example}}{{#required}}, requiredMode = Schema.RequiredMode.REQUIRED{{/required}})
+{{/swagger2AnnotationLibrary}}
+{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
+  @Valid
+{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
 {{#vendorExtensions.x-field-extra-annotation}}
 {{{vendorExtensions.x-field-extra-annotation}}}
 {{/vendorExtensions.x-field-extra-annotation}}

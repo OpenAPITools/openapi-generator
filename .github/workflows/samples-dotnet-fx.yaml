@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     name: Build .Net projects
-    runs-on: windows-2019
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
@@ -33,7 +33,7 @@ jobs:
           - samples/client/petstore/csharp/generichost/net4.8/Petstore
           - samples/client/petstore/csharp/generichost/net4.8/UseDateTimeForDate
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: dotnet build Org.OpenAPITools.sln

@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/parent_with_nullable.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'child_with_nullable.g.dart';
@@ -11,6 +12,7 @@ part 'child_with_nullable.g.dart';
 // ignore_for_file: unused_import
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -33,11 +35,10 @@ class ChildWithNullable {
     name: r'type',
     required: false,
     includeIfNull: false,
-  unknownEnumValue: ChildWithNullableTypeEnum.unknownDefaultOpenApi,
   )
 
 
-  final ChildWithNullableTypeEnum? type;
+  final String? type;
 
 
 
@@ -89,20 +90,4 @@ class ChildWithNullable {
   }
 
 }
-
-
-enum ChildWithNullableTypeEnum {
-@JsonValue(r'ChildWithNullable')
-childWithNullable(r'ChildWithNullable'),
-@JsonValue(r'unknown_default_open_api')
-unknownDefaultOpenApi(r'unknown_default_open_api');
-
-const ChildWithNullableTypeEnum(this.value);
-
-final String value;
-
-@override
-String toString() => value;
-}
-
 

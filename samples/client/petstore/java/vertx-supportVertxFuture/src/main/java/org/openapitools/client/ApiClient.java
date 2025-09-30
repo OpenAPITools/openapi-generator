@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toMap;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
 
     protected static final Pattern CONTENT_DISPOSITION_PATTERN = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
@@ -530,7 +530,7 @@ public class ApiClient extends JavaTimeFormatter {
       String delimiter = "";
       for (final Map.Entry<String, String> entry : cookies.entries()) {
           if (entry.getValue() != null) {
-              cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
+              cookieValue.append(String.format(Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
               delimiter = "; ";
           }
       }

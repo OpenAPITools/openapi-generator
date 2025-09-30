@@ -6,13 +6,13 @@ on:
       - 'samples/server/petstore/go-echo-server/**'
       - 'samples/server/petstore/go-api-server/**'
       - 'samples/server/petstore/go-chi-server/**'
-      - 'samples/server/others/go-server/no-body-path-params/**'
+      - 'samples/server/others/go-server/**'
   pull_request:
     paths:
       - 'samples/server/petstore/go-echo-server/**'
       - 'samples/server/petstore/go-api-server/**'
       - 'samples/server/petstore/go-chi-server/**'
-      - 'samples/server/others/go-server/no-body-path-params/**'
+      - 'samples/server/others/go-server/**'
 
 jobs:
   build:
@@ -26,9 +26,10 @@ jobs:
           - samples/server/petstore/go-api-server/
           - samples/server/petstore/go-chi-server/
           - samples/server/others/go-server/no-body-path-params/
+          - samples/server/others/go-server/optional-body/
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
           go-version: "stable"
       - run: go version
@@ -47,9 +48,9 @@ jobs:
         go-version:
           - "1.18"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.go-version }}
       - name: Install Dependencies

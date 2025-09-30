@@ -4,9 +4,15 @@ on:
   push:
     paths:
       - 'samples/client/petstore/ocaml/**'
+      - 'samples/client/petstore/ocaml-fake-petstore/**'
+      - 'samples/client/petstore/ocaml-oneOf-primitive/**'
+      - 'samples/client/petstore/ocaml-additional-properties/**'
   pull_request:
     paths:
       - 'samples/client/petstore/ocaml/**'
+      - 'samples/client/petstore/ocaml-fake-petstore/**'
+      - 'samples/client/petstore/ocaml-oneOf-primitive/**'
+      - 'samples/client/petstore/ocaml-additional-properties/**'
 
 jobs:
   build:
@@ -17,8 +23,11 @@ jobs:
       matrix:
         sample:
           - 'samples/client/petstore/ocaml/'
+          - 'samples/client/petstore/ocaml-fake-petstore/'
+          - 'samples/client/petstore/ocaml-oneOf-primitive/'
+          - 'samples/client/petstore/ocaml-additional-properties/'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set-up OCaml
         uses: ocaml/setup-ocaml@v3
         with:

@@ -158,7 +158,7 @@ public class ApiClient {
   public ApiClient() {
     this.builder = createDefaultHttpClientBuilder();
     this.mapper = createDefaultObjectMapper();
-    updateBaseUri(getDefaultBaseUri());
+    updateBaseUri("{{{basePath}}}");
     interceptor = null;
     readTimeout = null;
     connectTimeout = null;
@@ -176,7 +176,7 @@ public class ApiClient {
   public ApiClient(HttpClient.Builder builder, ObjectMapper mapper, String baseUri) {
     this.builder = builder;
     this.mapper = mapper;
-    updateBaseUri(baseUri != null ? baseUri : getDefaultBaseUri());
+    updateBaseUri(baseUri != null ? baseUri : "{{{basePath}}}");
     interceptor = null;
     readTimeout = null;
     connectTimeout = null;
@@ -201,8 +201,8 @@ public class ApiClient {
     return mapper;
   }
 
-  protected String getDefaultBaseUri() {
-    return "{{{basePath}}}";
+  protected final String getDefaultBaseUri() {
+    return basePath;
   }
 
   public static HttpClient.Builder createDefaultHttpClientBuilder() {

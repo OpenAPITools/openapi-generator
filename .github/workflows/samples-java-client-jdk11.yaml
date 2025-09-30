@@ -5,6 +5,7 @@ on:
     paths:
       - 'samples/client/petstore/java/**'
       - samples/client/petstore/jaxrs-cxf-client/**
+      - samples/client/petstore/jaxrs-cxf-client-swagger2/**
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
@@ -17,12 +18,17 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
+      - samples/client/petstore/java/jersey3-oneOf/**
+      - samples/client/others/java/okhttp-gson-streaming/**
+      - samples/client/others/java/resteasy/**
+      - samples/client/others/java/apache-httpclient/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
       - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
   pull_request:
     paths:
       - 'samples/client/petstore/java/**'
       - samples/client/petstore/jaxrs-cxf-client/**
+      - samples/client/petstore/jaxrs-cxf-client-swagger2/**
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
@@ -35,6 +41,10 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
+      - samples/client/petstore/java/jersey3-oneOf/**
+      - samples/client/others/java/okhttp-gson-streaming/**
+      - samples/client/others/java/resteasy/**
+      - samples/client/others/java/apache-httpclient/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
       - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
 jobs:
@@ -46,6 +56,7 @@ jobs:
       matrix:
         sample:
           # clients
+          - samples/client/petstore/jaxrs-cxf-client-swagger2
           - samples/client/petstore/jaxrs-cxf-client
           - samples/client/petstore/java/native
           - samples/client/petstore/java/native-async
@@ -97,9 +108,13 @@ jobs:
           - samples/client/others/java/jersey2-oneOf-Mixed/
           - samples/client/others/java/resttemplate-list-schema-validation/
           - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/
+          - samples/client/petstore/java/jersey3-oneOf/
+          - samples/client/others/java/okhttp-gson-streaming/
+          - samples/client/petstore/java/resteasy/
+          - samples/client/petstore/java/apache-httpclient/
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: 11

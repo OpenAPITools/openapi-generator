@@ -51,7 +51,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * <p>The setter methods of this class return the current object to facilitate
  * a fluent style of configuration.</p>
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ApiClient {
 
   protected HttpClient.Builder builder;
@@ -166,7 +166,7 @@ public class ApiClient {
   public ApiClient() {
     this.builder = createDefaultHttpClientBuilder();
     this.mapper = createDefaultObjectMapper();
-    updateBaseUri(getDefaultBaseUri());
+    updateBaseUri("http://petstore.swagger.io/v2");
     interceptor = null;
     readTimeout = null;
     connectTimeout = null;
@@ -184,7 +184,7 @@ public class ApiClient {
   public ApiClient(HttpClient.Builder builder, ObjectMapper mapper, String baseUri) {
     this.builder = builder;
     this.mapper = mapper;
-    updateBaseUri(baseUri != null ? baseUri : getDefaultBaseUri());
+    updateBaseUri(baseUri != null ? baseUri : "http://petstore.swagger.io/v2");
     interceptor = null;
     readTimeout = null;
     connectTimeout = null;
@@ -207,8 +207,8 @@ public class ApiClient {
     return mapper;
   }
 
-  protected String getDefaultBaseUri() {
-    return "http://petstore.swagger.io/v2";
+  protected final String getDefaultBaseUri() {
+    return basePath;
   }
 
   public static HttpClient.Builder createDefaultHttpClientBuilder() {

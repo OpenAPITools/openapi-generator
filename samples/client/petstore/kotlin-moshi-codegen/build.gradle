@@ -2,13 +2,13 @@ group 'org.openapitools'
 version '1.0.0'
 
 wrapper {
-    gradleVersion = '8.7'
+    gradleVersion = '8.14.3'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = '1.9.23'
-    ext.spotless_version = "6.25.0"
+    ext.kotlin_version = '2.2.20'
+    ext.spotless_version = "7.2.1"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -16,11 +16,12 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.diffplug.spotless:spotless-plugin-gradle:$spotless_version"
+        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:2.2.20-2.0.3"
     }
 }
 
 apply plugin: 'kotlin'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.devtools.ksp'
 apply plugin: 'maven-publish'
 apply plugin: 'com.diffplug.spotless'
 
@@ -55,9 +56,9 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "com.squareup.moshi:moshi:1.15.1"
-    implementation "com.squareup.moshi:moshi-adapters:1.15.1"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.15.1"
-    implementation "com.squareup.okhttp3:okhttp:4.12.0"
+    implementation "com.squareup.moshi:moshi:1.15.2"
+    implementation "com.squareup.moshi:moshi-adapters:1.15.2"
+    ksp "com.squareup.moshi:moshi-kotlin-codegen:1.15.2"
+    implementation "com.squareup.okhttp3:okhttp:5.1.0"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }

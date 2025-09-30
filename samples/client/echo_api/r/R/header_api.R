@@ -100,10 +100,25 @@ HeaderApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`integer_header`) && is.null(`integer_header`)) {
+        stop("Invalid value for `integer_header` when calling HeaderApi$TestHeaderIntegerBooleanStringEnums, `integer_header` is not nullable")
+      }
 
+      if (!missing(`boolean_header`) && is.null(`boolean_header`)) {
+        stop("Invalid value for `boolean_header` when calling HeaderApi$TestHeaderIntegerBooleanStringEnums, `boolean_header` is not nullable")
+      }
 
+      if (!missing(`string_header`) && is.null(`string_header`)) {
+        stop("Invalid value for `string_header` when calling HeaderApi$TestHeaderIntegerBooleanStringEnums, `string_header` is not nullable")
+      }
 
+      if (!missing(`enum_nonref_string_header`) && is.null(`enum_nonref_string_header`)) {
+        stop("Invalid value for `enum_nonref_string_header` when calling HeaderApi$TestHeaderIntegerBooleanStringEnums, `enum_nonref_string_header` is not nullable")
+      }
 
+      if (!missing(`enum_ref_string_header`) && is.null(`enum_ref_string_header`)) {
+        stop("Invalid value for `enum_ref_string_header` when calling HeaderApi$TestHeaderIntegerBooleanStringEnums, `enum_ref_string_header` is not nullable")
+      }
 
       header_params["integer_header"] <- `integer_header`
 

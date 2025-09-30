@@ -34,6 +34,7 @@ class GenerateTaskDslTest : TestBase() {
     @Test
     fun `openApiGenerate should create an expected file structure from URL config`() {
         val specUrl = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/b6b8c0db872fb4a418ae496e89c7e656e14be165/modules/openapi-generator-gradle-plugin/src/test/resources/specs/petstore-v3.0.yaml"
+        val urlParams ="?meaningless=params&amp;so=it&amp;results=in&amp;illegal=filenames&amp;on=windows"
         // Arrange
         val buildContents = """
          plugins {
@@ -41,7 +42,7 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            remoteInputSpec = "$specUrl"
+            remoteInputSpec = "$specUrl$urlParams"
             outputDir = file("build/kotlin").absolutePath
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"

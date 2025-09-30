@@ -1,29 +1,33 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
 import java.util.Date;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
-  * An order for a pets from the pet store
- **/
+ * An order for a pets from the pet store
+ */
 @ApiModel(description="An order for a pets from the pet store")
 
 public class Order  {
   
   @ApiModelProperty(value = "")
+
   private Long id;
 
   @ApiModelProperty(value = "")
+
   private Long petId;
 
   @ApiModelProperty(value = "")
+
   private Integer quantity;
 
   @ApiModelProperty(value = "")
+
   private Date shipDate;
 
 public enum StatusEnum {
@@ -56,13 +60,15 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
     }
 }
 
-  @ApiModelProperty(value = "Order Status")
  /**
-   * Order Status
-  **/
+  * Order Status
+  */
+  @ApiModelProperty(value = "Order Status")
+
   private StatusEnum status;
 
   @ApiModelProperty(value = "")
+
   private Boolean complete = false;
  /**
    * Get id

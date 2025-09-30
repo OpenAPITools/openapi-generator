@@ -44,7 +44,7 @@ import org.openapitools.client.auth.OauthPasswordGrant;
 import org.openapitools.client.auth.OauthClientCredentialsGrant;
 import feign.Retryer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ApiClient {
   protected static final Logger log = Logger.getLogger(ApiClient.class.getName());
 

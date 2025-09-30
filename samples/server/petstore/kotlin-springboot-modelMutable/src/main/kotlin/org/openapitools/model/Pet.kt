@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -48,7 +49,7 @@ data class Pet(
 
     @Schema(example = "null", description = "pet status in the store")
     @get:JsonProperty("status") var status: Pet.Status? = null
-    ) : Serializable{
+) : Serializable {
 
     /**
     * pet status in the store
@@ -64,7 +65,8 @@ data class Pet(
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): Status {
-                return values().first{it -> it.value == value}
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Pet'")
             }
         }
     }

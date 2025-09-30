@@ -40,7 +40,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -214,7 +214,6 @@ public class FakeApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_1", query1));
-        
 
         if (header1 != null)
         headerParams.add("header_1", apiClient.parameterToString(header1));
@@ -869,7 +868,7 @@ public class FakeApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
-        
+
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
@@ -1195,7 +1194,6 @@ public class FakeApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_model_array", enumQueryModelArray));
-        
 
         if (enumHeaderStringArray != null)
         headerParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
@@ -1320,7 +1318,6 @@ public class FakeApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
-        
 
         if (requiredBooleanGroup != null)
         headerParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
@@ -1735,7 +1732,7 @@ public class FakeApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "language", language));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "allowEmpty", allowEmpty));
-        
+
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { };

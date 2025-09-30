@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import lombok.Getter;
@@ -425,6 +424,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
         importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
+        importMapping.put("JsonIgnoreProperties", "com.fasterxml.jackson.annotation.JsonIgnoreProperties");
         // import JsonCreator if JsonProperty is imported
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
@@ -827,7 +827,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         if (model.discriminator != null && additionalProperties.containsKey("jackson")) {
-            model.imports.addAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo"));
+            model.imports.addAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties"));
         }
     }
 
@@ -881,6 +881,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
                         doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
                             @Override
+                            public void setIsVoid(Boolean isVoid) {
+                                resp.isVoid = isVoid;
+                            }
+
+                            @Override
                             public void setReturnType(final String returnType) {
                                 resp.dataType = returnType;
                             }
@@ -904,6 +909,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 }
 
                 doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
+                    @Override
+                    public void setIsVoid(Boolean isVoid) {
+                        operation.isVoid = isVoid;
+                    }
 
                     @Override
                     public void setReturnType(final String returnType) {
@@ -1003,6 +1012,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
+        extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS);
+        extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS);
         return extensions;
     }
 

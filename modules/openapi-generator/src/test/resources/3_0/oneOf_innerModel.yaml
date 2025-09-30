@@ -1,0 +1,70 @@
+---
+openapi: 3.0.3
+info:
+  title: randimals
+  version: "1.0"
+paths:
+  /random-animals:
+    get:
+      tags:
+        - Random Animals Resource
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RandomAnimalsResponse'
+components:
+  schemas:
+    RandomAnimalsResponse:
+      type: object
+      properties:
+        animals:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/Dog'
+              - $ref: '#/components/schemas/Cat'
+              - $ref: '#/components/schemas/Mouse'
+      required:
+        - animals
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            dogId:
+              type: string
+      required:
+        - dogId
+    Animal:
+      discriminator:
+        propertyName: species
+        mapping:
+          Dog: '#/components/schemas/Dog'
+          Cat: '#/components/schemas/Cat'
+          Mouse: '#/components/schemas/Mouse'
+      properties:
+        species:
+          type: string
+      required:
+        - species
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            catId:
+              type: string
+      required:
+        - catId
+    Mouse:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            mouseId:
+              type: string
+      required:
+        - mouseId

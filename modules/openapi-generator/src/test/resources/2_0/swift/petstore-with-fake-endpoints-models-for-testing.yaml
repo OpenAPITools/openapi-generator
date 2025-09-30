@@ -1362,6 +1362,9 @@ definitions:
         enum:
           - 1.1
           - -1.2
+        x-enum-descriptions:
+          - Description for 1.1
+          - Description for -1.2
       outerEnum:
         $ref: '#/definitions/OuterEnum'
   AdditionalPropertiesClass:
@@ -1547,6 +1550,10 @@ definitions:
     - "placed"
     - "approved"
     - "delivered"
+    x-enum-descriptions:
+    - Description for placed
+    - Description for approved
+    - Description for delivered
   OuterComposite:
     type: object
     properties:

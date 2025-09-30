@@ -30,7 +30,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class QueryApi {
     private ApiClient apiClient;
 
@@ -71,7 +71,7 @@ public class QueryApi {
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_nonref_string_query", enumNonrefStringQuery));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_ref_string_query", enumRefStringQuery));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -149,7 +149,7 @@ public class QueryApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "datetime_query", datetimeQuery));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "date_query", dateQuery));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -230,7 +230,7 @@ public class QueryApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "integer_query", integerQuery));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "boolean_query", booleanQuery));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -312,7 +312,7 @@ public class QueryApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -383,7 +383,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -454,7 +454,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -525,7 +525,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -596,7 +596,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "values", queryObject.getValues()));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -672,7 +672,7 @@ public class QueryApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -743,7 +743,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
-        
+
         final String[] localVarAccepts = { 
             "text/plain"
         };
@@ -793,5 +793,81 @@ public class QueryApi {
      */
     public ResponseSpec testQueryStyleFormExplodeTrueObjectAllOfWithResponseSpec(@jakarta.annotation.Nullable DataQuery queryObject) throws RestClientResponseException {
         return testQueryStyleFormExplodeTrueObjectAllOfRequestCreation(queryObject);
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param jsonSerializedObjectRefStringQuery The jsonSerializedObjectRefStringQuery parameter
+     * @param jsonSerializedObjectArrayRefStringQuery The jsonSerializedObjectArrayRefStringQuery parameter
+     * @return String
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec testQueryStyleJsonSerializationObjectRequestCreation(@jakarta.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @jakarta.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientResponseException {
+        Object postBody = null;
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
+
+        queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
+
+        final String[] localVarAccepts = { 
+            "text/plain"
+        };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/query/style_jsonSerialization/object", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param jsonSerializedObjectRefStringQuery The jsonSerializedObjectRefStringQuery parameter
+     * @param jsonSerializedObjectArrayRefStringQuery The jsonSerializedObjectArrayRefStringQuery parameter
+     * @return String
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public String testQueryStyleJsonSerializationObject(@jakarta.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @jakarta.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientResponseException {
+        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return testQueryStyleJsonSerializationObjectRequestCreation(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery).body(localVarReturnType);
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param jsonSerializedObjectRefStringQuery The jsonSerializedObjectRefStringQuery parameter
+     * @param jsonSerializedObjectArrayRefStringQuery The jsonSerializedObjectArrayRefStringQuery parameter
+     * @return ResponseEntity&lt;String&gt;
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<String> testQueryStyleJsonSerializationObjectWithHttpInfo(@jakarta.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @jakarta.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientResponseException {
+        ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return testQueryStyleJsonSerializationObjectRequestCreation(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param jsonSerializedObjectRefStringQuery The jsonSerializedObjectRefStringQuery parameter
+     * @param jsonSerializedObjectArrayRefStringQuery The jsonSerializedObjectArrayRefStringQuery parameter
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testQueryStyleJsonSerializationObjectWithResponseSpec(@jakarta.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @jakarta.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientResponseException {
+        return testQueryStyleJsonSerializationObjectRequestCreation(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery);
     }
 }

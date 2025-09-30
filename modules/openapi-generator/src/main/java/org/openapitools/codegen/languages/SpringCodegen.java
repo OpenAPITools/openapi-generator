@@ -99,6 +99,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_SEALED = "useSealed";
     public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
+    public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
 
     @Getter
     public enum RequestMappingMode {
@@ -159,6 +160,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean optionalAcceptNullable = true;
     @Getter @Setter
     protected boolean useSpringBuiltInValidation = false;
+    @Getter @Setter
+    protected boolean useDeductionForOneOfInterfaces = false;
 
     public SpringCodegen() {
         super();
@@ -187,6 +190,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+
+        // Enable discriminator-based oneOf interface generation by default
+        useOneOfInterfaces = true;
+        legacyDiscriminatorBehavior = false;
+        updateOption(USE_ONE_OF_INTERFACES, String.valueOf(useOneOfInterfaces));
+        updateOption(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, String.valueOf(legacyDiscriminatorBehavior));
 
         apiTestTemplateFiles.clear(); // TODO: add test template
 
@@ -276,6 +285,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use `ofNullable` instead of just `of` to accept null values when using Optional.",
                 optionalAcceptNullable));
 
+        cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "whether to use deduction for generated oneOf interfaces", useDeductionForOneOfInterfaces));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -365,9 +375,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToTypeAndWriteBack(REQUEST_MAPPING_OPTION, RequestMappingMode::valueOf, this::setRequestMappingMode);
 
-        useOneOfInterfaces = true;
-        legacyDiscriminatorBehavior = false;
-
         // Please refrain from updating values of Config Options after super.ProcessOpts() is called
         super.processOpts();
 
@@ -446,6 +453,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         convertPropertyToBooleanAndWriteBack(OPTIONAL_ACCEPT_NULLABLE, this::setOptionalAcceptNullable);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
+        convertPropertyToBooleanAndWriteBack(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
@@ -1034,6 +1042,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsClassSet.isEmpty()) {
             codegenOperation.imports.addAll(provideArgsClassSet);
+        }
+
+        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
+        if (getName().contains("spring")) {
+          codegenOperation.allParams.stream().filter(CodegenParameter::notRequiredOrIsNullable).findAny()
+              .ifPresent(p -> codegenOperation.imports.add("Nullable"));
         }
 
         if (reactive) {

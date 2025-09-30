@@ -56,11 +56,6 @@ elif [ "$NODE_INDEX" = "2" ]; then
   sudo ./setup-cpp-x64-linux --compiler llvm --cmake true --ninja true
   source ~/.cpprc # activate cpp environment variables
 
-  # run go integration tests
-  (cd samples/client/petstore/go && mvn integration-test)
-  (cd samples/openapi3/client/petstore/go && mvn integration-test)
-  (cd samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false && mvn integration-test)
-  (cd samples/client/others/go/allof_multiple_ref_and_discriminator && mvn integration-test)
   (cd samples/client/petstore/cpp-restsdk/client && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "3" ]; then
@@ -115,27 +110,10 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/javascript-flowtyped && mvn integration-test)
   (cd samples/client/petstore/javascript-es6 && mvn integration-test)
   (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)
+  (cd samples/server/petstore/typescript-nestjs-server && mvn integration-test)
 
 else
   echo "Running node $NODE_INDEX ..."
   java -version
-
-  (cd samples/client/petstore/scala-akka && mvn integration-test)
-  (cd samples/client/petstore/scala-sttp && mvn integration-test)
-  (cd samples/client/petstore/scala-sttp-circe && mvn integration-test)
-  (cd samples/client/petstore/scala-sttp4 && mvn integration-test)
-  (cd samples/client/petstore/clojure && mvn integration-test)
-  (cd samples/client/petstore/java/jersey2-java8 && mvn integration-test)
-  (cd samples/openapi3/client/petstore/java/jersey2-java8 && mvn integration-test)
-  (cd samples/client/petstore/java/jersey3 && mvn integration-test)
-  (cd samples/client/petstore/java/jersey3-oneOf && mvn integration-test)
-  (cd samples/client/others/java/okhttp-gson-streaming && mvn integration-test)
-  (cd samples/client/petstore/java/okhttp-gson && mvn integration-test)
-  (cd samples/client/petstore/java/okhttp-gson-3.1 && mvn integration-test)
-  (cd samples/client/petstore/java/okhttp-gson-dynamicOperations && mvn integration-test)
-  (cd samples/client/petstore/java/resteasy && mvn integration-test)
-  (cd samples/client/petstore/java-micronaut-client && mvn integration-test)
-  (cd samples/client/petstore/java/apache-httpclient && mvn integration-test)
-  (cd samples/client/petstore/java/resttemplate-jakarta && mvn integration-test)
 
 fi

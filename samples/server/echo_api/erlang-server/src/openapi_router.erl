@@ -235,5 +235,12 @@ get_operations() ->
             path => "/query/style_form/explode_true/object/allOf",
             method => <<"GET">>,
             handler => 'openapi_query_handler'
+        },
+       'test/query/style_jsonSerialization/object' => #{
+            servers => [],
+            base_path => "",
+            path => "/query/style_jsonSerialization/object",
+            method => <<"GET">>,
+            handler => 'openapi_query_handler'
         }
     }.

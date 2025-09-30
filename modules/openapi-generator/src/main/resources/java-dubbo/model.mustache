@@ -1,0 +1,92 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import java.util.Objects;
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
+import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.annotation.Generated;
+import java.time.*;
+import java.math.*;
+{{#models}}
+{{#model}}
+{{>generatedAnnotation}}
+{{#description}}
+/**
+ * {{.}}
+ */
+{{/description}}
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#serializableModel}}implements Serializable{{/serializableModel}}{{/parent}} {
+{{#serializableModel}}
+  private static final long serialVersionUID = 1L;
+{{/serializableModel}}
+
+{{#vars}}
+{{#description}}
+  /**
+   * {{.}}
+   */
+{{/description}}
+  @JsonProperty("{{baseName}}")
+  private {{{dataType}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+
+{{/vars}}
+{{#vars}}
+  /**
+   * {{description}}
+   * @return {{name}}
+   */
+  public {{{dataType}}} {{getter}}() {
+    return {{name}};
+  }
+
+  public void {{setter}}({{{dataType}}} {{name}}) {
+    this.{{name}} = {{name}};
+  }
+
+{{/vars}}
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }{{#hasVars}}
+    {{classname}} {{classVarName}} = ({{classname}}) o;
+    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{/vars}}{{#parent}} && super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+    return true;{{/hasVars}}
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
+    {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+    {{/vars}}sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+}
+{{/model}}
+{{/models}}

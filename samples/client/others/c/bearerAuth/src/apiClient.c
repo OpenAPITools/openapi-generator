@@ -10,6 +10,8 @@ apiClient_t *apiClient_create() {
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     apiClient->basePath = strdup("http://api.example.com/v1");
     apiClient->sslConfig = NULL;
+    apiClient->curlConfig = NULL;
+    apiClient->curl_pre_invoke_func = NULL;
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
     apiClient->data_callback_func = NULL;
@@ -37,6 +39,13 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
         apiClient->sslConfig = NULL;
     }
 
+    apiClient->curlConfig = malloc(sizeof(curlConfig_t));
+    apiClient->curlConfig->verbose = 0;
+    apiClient->curlConfig->keepalive = 0;
+    apiClient->curlConfig->keepidle = 120;
+    apiClient->curlConfig->keepintvl = 60;
+
+    apiClient->curl_pre_invoke_func = NULL;
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
     apiClient->data_callback_func = NULL;
@@ -58,6 +67,14 @@ void apiClient_free(apiClient_t *apiClient) {
     if(apiClient->accessToken) {
         free(apiClient->accessToken);
     }
+
+    if(apiClient->curlConfig) {
+        free(apiClient->curlConfig);
+        apiClient->curlConfig = NULL;
+    }
+
+    apiClient->curl_pre_invoke_func = NULL;
+
     free(apiClient);
 }
 
@@ -391,11 +408,23 @@ void apiClient_invoke(apiClient_t    *apiClient,
                          CURLOPT_WRITEDATA,
                          apiClient);
         curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
-        curl_easy_setopt(handle, CURLOPT_VERBOSE, 0); // to get curl debug msg 0: to disable, 1L:to enable
 
 
         if(bodyParameters != NULL) {
             postData(handle, bodyParameters, bodyParametersLength);
+        }
+
+        if(apiClient->curlConfig != NULL) {
+            if(apiClient->curlConfig->keepalive == 1) {
+                curl_easy_setopt(handle, CURLOPT_TCP_KEEPALIVE, 1L);
+                curl_easy_setopt(handle, CURLOPT_TCP_KEEPIDLE, apiClient->curlConfig->keepidle);
+                curl_easy_setopt(handle, CURLOPT_TCP_KEEPINTVL, apiClient->curlConfig->keepintvl);
+            }
+            curl_easy_setopt(handle, CURLOPT_VERBOSE, apiClient->curlConfig->verbose);
+        }
+
+        if(apiClient->curl_pre_invoke_func) {
+            apiClient->curl_pre_invoke_func(handle);
         }
 
         res = curl_easy_perform(handle);

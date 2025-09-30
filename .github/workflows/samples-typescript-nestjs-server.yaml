@@ -1,0 +1,35 @@
+name: TypeScript NestJS Server
+
+on:
+  pull_request:
+    paths:
+      - samples/server/petstore/typescript-nestjs-server/**
+      - .github/workflows/samples-typescript-nestjs-server.yaml
+jobs:
+  build:
+    name: Test TypeScript NestJS Server
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # clients
+          - samples/server/petstore/typescript-nestjs-server
+        node-version:
+          - 20
+          - 22
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install
+        working-directory: ${{ matrix.sample }}
+        run: |
+          npm i
+
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: npm run test

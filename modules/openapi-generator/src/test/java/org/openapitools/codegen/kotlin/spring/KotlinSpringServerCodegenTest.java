@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import java.util.HashMap;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
@@ -15,13 +16,14 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -944,10 +946,80 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
         assertFileContains(
-                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt"),
+                path,
                 "import java.io.Serializable",
-                ") : Serializable{",
+                ") : Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
+    @Test
+    public void generateSerializableModelWithXimplements() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                path,
+                "import java.io.Serializable",
+                "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
+                ") : Pet, Serializable,  com.some.pack.Fetchable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
+
+    @Test
+    public void generateNonSerializableModelWithXimplements() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                path,
+                "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
+                ") : Pet, com.some.pack.Fetchable {"
+        );
+        assertFileNotContains(
+                path,
+                "import java.io.Serializable",
+                ") : Pet, Serializable,  com.some.pack.Fetchable {",
+                ") : Pet, Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
@@ -1230,6 +1302,79 @@ public class KotlinSpringServerCodegenTest {
                 "@NotNull", "@Valid");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApi.kt"),
                 "@NotNull", "@Valid", "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$\")");
+    }
+
+    @DataProvider
+    public Object[][] issue17997DocumentationProviders() {
+        return new Object[][]{
+            {DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = [\"0\", \"1\"], defaultValue = \"0\"",
+                        "@PathVariable"
+                    ),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
+                        "@PathVariable"
+                    )
+            },
+            {DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = \"0, 1\", defaultValue = \"0\"",
+                        "@PathVariable"
+                    ),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = \"sleeping, awake\"", "@PathVariable",
+                        "@PathVariable"
+                    )
+            }
+        };
+    }
+
+    @Test(dataProvider = "issue17997DocumentationProviders")
+    public void testDocumentationAnnotationInPathParams_Issue17997(
+        String documentProvider,
+        Consumer<Path> intEnumAssertFunction,
+        Consumer<Path> stringEnumAssertFunction
+    ) throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(DOCUMENTATION_PROVIDER, documentProvider);
+
+        Map<String, String> generatorPropertyDefaults = new HashMap<>();
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_TESTS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.MODEL_DOCS, "false");
+        generatorPropertyDefaults.put(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/issue_6762.yaml",
+            additionalProperties,
+            generatorPropertyDefaults
+        );
+
+        Stream.of(
+            "ZebrasApiController.kt",
+            "GiraffesApiController.kt"
+        ).forEach(filename -> {
+            File file = files.get(filename);
+            assertThat(file).isNotNull();
+            intEnumAssertFunction.accept(file.toPath());
+        });
+
+        Stream.of(
+            "BearsApiController.kt",
+            "CamelsApiController.kt"
+        ).forEach(filename -> {
+            File file = files.get(filename);
+            assertThat(file).isNotNull();
+            stringEnumAssertFunction.accept(file.toPath());
+        });
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {
