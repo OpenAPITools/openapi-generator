@@ -65,6 +65,7 @@ import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
 public class SpringCodegenTest {
@@ -5758,5 +5759,73 @@ public class SpringCodegenTest {
                 .assertMethod("getNones")
                 .assertMethodAnnotations()
                 .containsWithNameAndDoesContainAttributes("RequestMapping", List.of("version"));
+    }
+
+    @Test
+    public void annotationLibraryDoesNotCauseImportConflictsInSpring() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("documentationProvider", "source");
+        properties.put("annotationLibrary", "none");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/java/native/issue21991.yaml");
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().putAll(properties);
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("Schema.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
+            "import io.swagger.v3.oas.annotations.media.Schema;"
+        );
+    }
+
+    @Test
+    public void annotationLibraryDoesNotCauseImportConflictsInSpringWithAnnotationLibrary() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("documentationProvider", "source");
+        properties.put("annotationLibrary", "swagger2");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/java/native/issue21991.yaml");
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().putAll(properties);
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("Schema.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileContains(
+            "import io.swagger.v3.oas.annotations.media.Schema;"
+        );
     }
 }

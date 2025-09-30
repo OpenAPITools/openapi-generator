@@ -988,6 +988,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenModel.imports.remove("ApiModel");
         }
 
+        if (getAnnotationLibrary() != AnnotationLibrary.SWAGGER2) {
+            // remove swagger imports
+            codegenModel.imports.remove("Schema");
+        }
+
         return codegenModel;
     }
 
