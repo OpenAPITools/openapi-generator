@@ -79,10 +79,10 @@ public class OpenAPINormalizerTest {
         // to test the both REF_AS_PARENT_IN_ALLOF and REFACTOR_ALLOF_WITH_PROPERTIES_ONLY
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_extension_parent.yaml");
 
-        Schema schema = openAPI.getComponents().getSchemas().get("Child");
+        Schema<?> schema = openAPI.getComponents().getSchemas().get("Child");
         assertNull(schema.getExtensions());
 
-        Schema schema2 = openAPI.getComponents().getSchemas().get("Ancestor");
+        Schema<?> schema2 = openAPI.getComponents().getSchemas().get("Ancestor");
         assertNull(schema2.getExtensions());
 
         Map<String, String> options = new HashMap<>();
@@ -91,10 +91,10 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        Schema schema3 = openAPI.getComponents().getSchemas().get("Ancestor");
+        Schema<?> schema3 = openAPI.getComponents().getSchemas().get("Ancestor");
         assertEquals(schema3.getExtensions().get(X_PARENT), true);
 
-        Schema schema4 = openAPI.getComponents().getSchemas().get("Child");
+        Schema<?> schema4 = openAPI.getComponents().getSchemas().get("Child");
         assertNull(schema4.getExtensions());
     }
 
