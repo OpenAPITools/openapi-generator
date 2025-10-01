@@ -37,6 +37,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
+import static org.openapitools.codegen.CodegenConstants.X_PARENT;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
@@ -127,7 +129,6 @@ public class OpenAPINormalizer {
 
     // when set to true, remove x-internal: true from models, operations
     final String REMOVE_X_INTERNAL = "REMOVE_X_INTERNAL";
-    final String X_INTERNAL = "x-internal";
     boolean removeXInternal;
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
@@ -431,17 +432,17 @@ public class OpenAPINormalizer {
             for (Operation operation : operations) {
                 if (operationIdFilters.size() > 0) {
                     if (operationIdFilters.contains(operation.getOperationId())) {
-                        operation.addExtension("x-internal", false);
+                        operation.addExtension(X_INTERNAL, false);
                     } else {
                         LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the operationId FILTER", operation.getOperationId());
-                        operation.addExtension("x-internal", true);
+                        operation.addExtension(X_INTERNAL, true);
                     }
                 } else if (!tagFilters.isEmpty()) {
                     if (operation.getTags().stream().anyMatch(tagFilters::contains)) {
-                        operation.addExtension("x-internal", false);
+                        operation.addExtension(X_INTERNAL, false);
                     } else {
                         LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the tag FILTER", operation.getOperationId());
-                        operation.addExtension("x-internal", true);
+                        operation.addExtension(X_INTERNAL, true);
                     }
                 }
 
@@ -1083,10 +1084,10 @@ public class OpenAPINormalizer {
                     refSchema.setExtensions(new HashMap<>());
                 }
 
-                if (refSchema.getExtensions().containsKey("x-parent")) {
+                if (refSchema.getExtensions().containsKey(X_PARENT)) {
                     // doing nothing as x-parent already exists
                 } else {
-                    refSchema.getExtensions().put("x-parent", true);
+                    refSchema.getExtensions().put(X_PARENT, true);
                 }
 
                 LOGGER.debug("processUseAllOfRefAsParent added `x-parent: true` to {}", refSchema);
@@ -1108,7 +1109,7 @@ public class OpenAPINormalizer {
             return;
         }
 
-        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get("x-internal")))) {
+        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get(X_INTERNAL)))) {
             operation.getExtensions().remove(X_INTERNAL);
         }
     }
