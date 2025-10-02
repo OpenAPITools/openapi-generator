@@ -2,10 +2,20 @@
 package {{apiPackage}};
 
 import {{rootJavaEEPackage}}.ws.rs.core.Response;
+{{#useRuntimeException}}
+import {{rootJavaEEPackage}}.ws.rs.WebApplicationException;
+{{/useRuntimeException}}
 
-public class ApiException extends{{#useRuntimeException}} RuntimeException {{/useRuntimeException}}{{^useRuntimeException}} Exception {{/useRuntimeException}}{
+public class ApiException extends{{#useRuntimeException}} WebApplicationException {{/useRuntimeException}}{{^useRuntimeException}} Exception {{/useRuntimeException}}{
 
   private static final long serialVersionUID = 1L;
+{{#useRuntimeException}}
+
+  public ApiException(Response response) {
+    super(response);
+  }
+{{/useRuntimeException}}
+{{^useRuntimeException}}
   private Response response;
 
   public ApiException() {
@@ -20,4 +30,5 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
   public Response getResponse() {
     return this.response;
   }
+{{/useRuntimeException}}
 }

@@ -25,7 +25,6 @@ import jakarta.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
@@ -36,12 +35,11 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 
 @RegisterRestClient(configKey="petstore")
-@RegisterProvider(ApiExceptionMapper.class)
 @Path("/foo")
 public interface DefaultApi  {
 
     @GET
     
     @Produces({ "application/json" })
-    FooGetDefaultResponse fooGet() throws ApiException, ProcessingException;
+    FooGetDefaultResponse fooGet() throws WebApplicationException, ProcessingException;
 }
