@@ -327,7 +327,12 @@ using System.Net.Http.Headers;
                 return null;
 
             if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
-                return [MediaTypeWithQualityHeaderValue.Parse("application/json")];
+                {{#net80OrLater}}
+                    return [MediaTypeWithQualityHeaderValue.Parse("application/json")];
+                {{/net80OrLater}}
+                {{^net80OrLater}}
+                    return new [] { MediaTypeWithQualityHeaderValue.Parse("application/json") };
+                {{/net80OrLater}}
 
             return accepts.Select(MediaTypeWithQualityHeaderValue.Parse);
         }
