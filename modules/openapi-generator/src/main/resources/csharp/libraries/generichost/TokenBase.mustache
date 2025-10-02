@@ -19,8 +19,8 @@ namespace {{packageName}}.{{clientPackage}}
 
 
         internal TimeSpan? Timeout { get; set; }
-        internal delegate void TokenBecameAvailableEventHandler(object sender);
-        internal event TokenBecameAvailableEventHandler{{nrt?}} TokenBecameAvailable;
+        public delegate void TokenBecameAvailableEventHandler(object sender);
+        public event TokenBecameAvailableEventHandler{{nrt?}} TokenBecameAvailable;
 
 
         /// <summary>
