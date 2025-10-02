@@ -67,7 +67,7 @@ class  Fake_classname_testResource: public restbed::Resource
 {
 public:
     Fake_classname_testResource(const std::string& context = "/v2");
-    virtual ~Fake_classname_testResource() = default;
+    virtual ~Fake_classname_testResource();
 
     Fake_classname_testResource(
         const Fake_classname_testResource& other) = default; // copy constructor

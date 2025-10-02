@@ -39,6 +39,7 @@ ReadOnlyFirst::ReadOnlyFirst(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+ReadOnlyFirst::~ReadOnlyFirst = default;
 
 std::string ReadOnlyFirst::toJsonString(bool prettyJson /* = false */) const
 {

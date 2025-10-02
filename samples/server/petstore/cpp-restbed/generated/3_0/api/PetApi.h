@@ -71,7 +71,7 @@ class  PetResource: public restbed::Resource
 {
 public:
     PetResource(const std::string& context = "/v2");
-    virtual ~PetResource() = default;
+    virtual ~PetResource();
 
     PetResource(
         const PetResource& other) = default; // copy constructor
@@ -141,7 +141,7 @@ class  PetPetIdResource: public restbed::Resource
 {
 public:
     PetPetIdResource(const std::string& context = "/v2");
-    virtual ~PetPetIdResource() = default;
+    virtual ~PetPetIdResource();
 
     PetPetIdResource(
         const PetPetIdResource& other) = default; // copy constructor
@@ -219,7 +219,7 @@ class  PetFindByStatusResource: public restbed::Resource
 {
 public:
     PetFindByStatusResource(const std::string& context = "/v2");
-    virtual ~PetFindByStatusResource() = default;
+    virtual ~PetFindByStatusResource();
 
     PetFindByStatusResource(
         const PetFindByStatusResource& other) = default; // copy constructor
@@ -281,7 +281,7 @@ class  PetFindByTagsResource: public restbed::Resource
 {
 public:
     PetFindByTagsResource(const std::string& context = "/v2");
-    virtual ~PetFindByTagsResource() = default;
+    virtual ~PetFindByTagsResource();
 
     PetFindByTagsResource(
         const PetFindByTagsResource& other) = default; // copy constructor
@@ -343,7 +343,7 @@ class  PetPetIdUploadImageResource: public restbed::Resource
 {
 public:
     PetPetIdUploadImageResource(const std::string& context = "/v2");
-    virtual ~PetPetIdUploadImageResource() = default;
+    virtual ~PetPetIdUploadImageResource();
 
     PetPetIdUploadImageResource(
         const PetPetIdUploadImageResource& other) = default; // copy constructor
@@ -405,7 +405,7 @@ class  FakePetIdUploadImageWithRequiredFileResource: public restbed::Resource
 {
 public:
     FakePetIdUploadImageWithRequiredFileResource(const std::string& context = "/v2");
-    virtual ~FakePetIdUploadImageWithRequiredFileResource() = default;
+    virtual ~FakePetIdUploadImageWithRequiredFileResource();
 
     FakePetIdUploadImageWithRequiredFileResource(
         const FakePetIdUploadImageWithRequiredFileResource& other) = default; // copy constructor

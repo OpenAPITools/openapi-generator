@@ -39,6 +39,7 @@ MixedPropertiesAndAdditionalPropertiesClass::MixedPropertiesAndAdditionalPropert
         fromPropertyTree(pt);
 }
 
+MixedPropertiesAndAdditionalPropertiesClass::~MixedPropertiesAndAdditionalPropertiesClass = default;
 
 std::string MixedPropertiesAndAdditionalPropertiesClass::toJsonString(bool prettyJson /* = false */) const
 {

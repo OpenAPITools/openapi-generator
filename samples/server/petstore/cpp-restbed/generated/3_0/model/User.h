@@ -40,7 +40,7 @@ class  User
 public:
     User() = default;
     explicit User(boost::property_tree::ptree const& pt);
-    virtual ~User() = default;
+    virtual ~User();
 
     User(const User& other) = default; // copy constructor
     User(User&& other) noexcept = default; // move constructor

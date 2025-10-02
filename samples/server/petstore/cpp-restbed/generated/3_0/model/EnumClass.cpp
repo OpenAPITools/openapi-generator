@@ -39,6 +39,7 @@ EnumClass::EnumClass(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+EnumClass::~EnumClass = default;
 
 std::string EnumClass::toJsonString(bool prettyJson /* = false */) const
 {

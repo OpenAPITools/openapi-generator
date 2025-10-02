@@ -25,6 +25,8 @@ Vaccine::Vaccine()
     
 }
 
+Vaccine::~Vaccine() = default;
+
 void Vaccine::validate() const
 {
     std::stringstream msg;
