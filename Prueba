@@ -1,0 +1,28 @@
+import requests
+from requests.auth import HTTPBasicAuth
+
+# Replace these with your actual credentials and parameters
+receiver_id = '506089'
+secret = 'a95ef49f-1987-42a7-aec6-6b9d2215a3ea'
+url = 'https://khipu.com/api/3.0/payments'
+
+data = {
+    "receiver_id": receiver_id,
+    "subject": "Test Payment",
+    "body": "Description of the payment.",
+    "amount": 1000,  # Amount in CLP ($10.00)
+    "currency": "CLP",
+    "transaction_id": "TX12345",
+    "return_url": "https://yourdomain.com/return",
+    "cancel_url": "https://yourdomain.com/cancel",
+    "picture_url": "https://yourdomain.com/image.png",
+}
+
+# Khipu uses HTTP Basic Authentication with receiver_id and secret
+response = requests.post(url, data=data, auth=HTTPBasicAuth(receiver_id, secret))
+
+if response.status_code == 200:
+    print("Payment created successfully!")
+    print(response.json())
+else:
+    print("Failed to create payment:", response.status_code, response.text)
