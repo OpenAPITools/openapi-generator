@@ -2935,6 +2935,16 @@ components:
           description: list of named parameters for current message
           additionalProperties:
             type: string
+        list:
+          type: array
+          items:
+            type: string
+        deepList:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
     TestResult:
       type: object
       allOf:
