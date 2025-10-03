@@ -724,15 +724,17 @@ public class OpenAPINormalizer {
         if (skipNormalization(schema, visitedSchemas)) {
             return schema;
         }
+
+        if (ModelUtils.isNullTypeSchema(openAPI, schema)) {
+            return schema;
+        }
+
         markSchemaAsVisited(schema, visitedSchemas);
 
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
             normalizeSchema(result.getItems(), visitedSchemas);
             return result;
-        } else if (schema.getAdditionalProperties() instanceof Schema) { // map
-            normalizeMapSchema(schema);
-            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
             return normalizeOneOf(schema, visitedSchemas);
         } else if (ModelUtils.isAnyOf(schema)) { // anyOf
@@ -769,6 +771,9 @@ public class OpenAPINormalizer {
             return schema;
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
+        } else if (schema.getAdditionalProperties() instanceof Schema) { // map
+            normalizeMapSchema(schema);
+            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof IntegerSchema) {
@@ -1012,6 +1017,7 @@ public class OpenAPINormalizer {
         if (schema.getAnyOf() == null) {
             return schema;
         }
+
         for (int i = 0; i < schema.getAnyOf().size(); i++) {
             // normalize anyOf sub schemas one by one
             Object item = schema.getAnyOf().get(i);

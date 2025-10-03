@@ -971,6 +971,11 @@ public class OpenAPINormalizerTest {
         Schema schema21 = openAPI.getComponents().getSchemas().get("SingleAnyOfTest");
         assertEquals(schema21.getAnyOf().size(), 1);
 
+        Schema schema23 = openAPI.getComponents().getSchemas().get("PropertiesWithAnyOf");
+        assertEquals(((Schema) schema23.getProperties().get("anyof_nullable_string")).getAnyOf().size(), 2);
+        assertEquals(((Schema) schema23.getProperties().get("anyof_nullable_number")).getAnyOf().size(), 2);
+
+        // start the normalization
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
@@ -1025,6 +1030,14 @@ public class OpenAPINormalizerTest {
         assertEquals(schema22.getAnyOf(), null);
         assertEquals(schema22.getTypes(), Set.of("string"));
         assertEquals(schema22.getEnum().size(), 2);
+
+        Schema schema24 = openAPI.getComponents().getSchemas().get("PropertiesWithAnyOf");
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_string")).getAnyOf(), null);
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_string")).getNullable(), true);
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_string")).getTypes().size(), 1);
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_number")).getAnyOf(), null);
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_number")).getNullable(), true);
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_number")).getTypes().size(), 1);
     }
 
     @Test
