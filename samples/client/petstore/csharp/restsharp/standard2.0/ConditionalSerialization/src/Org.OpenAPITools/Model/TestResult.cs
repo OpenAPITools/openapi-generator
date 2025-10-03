@@ -64,7 +64,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="code">code.</param>
         /// <param name="uuid">Result unique identifier.</param>
         /// <param name="data">list of named parameters for current message.</param>
-        public TestResult(TestResultCode? code = default, string uuid = default, Dictionary<string, string> data = default)
+        /// <param name="list">list.</param>
+        /// <param name="deepList">deepList.</param>
+        public TestResult(TestResultCode? code = default, string uuid = default, Dictionary<string, string> data = default, List<string> list = default, List<List<string>> deepList = default)
         {
             this._Code = code;
             if (this.Code != null)
@@ -80,6 +82,16 @@ namespace Org.OpenAPITools.Model
             if (this.Data != null)
             {
                 this._flagData = true;
+            }
+            this._List = list;
+            if (this.List != null)
+            {
+                this._flagList = true;
+            }
+            this._DeepList = deepList;
+            if (this.DeepList != null)
+            {
+                this._flagDeepList = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -135,6 +147,54 @@ namespace Org.OpenAPITools.Model
             return _flagData;
         }
         /// <summary>
+        /// Gets or Sets List
+        /// </summary>
+        [DataMember(Name = "list", EmitDefaultValue = false)]
+        public List<string> List
+        {
+            get{ return _List;}
+            set
+            {
+                _List = value;
+                _flagList = true;
+            }
+        }
+        private List<string> _List;
+        private bool _flagList;
+
+        /// <summary>
+        /// Returns false as List should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeList()
+        {
+            return _flagList;
+        }
+        /// <summary>
+        /// Gets or Sets DeepList
+        /// </summary>
+        [DataMember(Name = "deepList", EmitDefaultValue = false)]
+        public List<List<string>> DeepList
+        {
+            get{ return _DeepList;}
+            set
+            {
+                _DeepList = value;
+                _flagDeepList = true;
+            }
+        }
+        private List<List<string>> _DeepList;
+        private bool _flagDeepList;
+
+        /// <summary>
+        /// Returns false as DeepList should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeDeepList()
+        {
+            return _flagDeepList;
+        }
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -151,6 +211,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  Data: ").Append(Data).Append("\n");
+            sb.Append("  List: ").Append(List).Append("\n");
+            sb.Append("  DeepList: ").Append(DeepList).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -202,6 +264,14 @@ namespace Org.OpenAPITools.Model
                 if (this.Data != null)
                 {
                     hashCode = (hashCode * 59) + this.Data.GetHashCode();
+                }
+                if (this.List != null)
+                {
+                    hashCode = (hashCode * 59) + this.List.GetHashCode();
+                }
+                if (this.DeepList != null)
+                {
+                    hashCode = (hashCode * 59) + this.DeepList.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {
