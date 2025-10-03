@@ -50,23 +50,40 @@ public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotatio
         return myself();
     }
 
+    public ACTUAL containsWithNameAndDoesContainAttributes(final String name, final List<String> attributes) {
+        super
+                .withFailMessage("Should have annotation with name: " + name + " and no attributes: " + attributes + ", but was: " + actual)
+                .anyMatch(annotation -> annotation.getNameAsString().equals(name) && hasNotAttributes(annotation, attributes));
+        return myself();
+    }
+
+    private static boolean hasNotAttributes(final AnnotationExpr annotation, final List<String> attributes) {
+        final Map<String, String> actualAttributes = getAttributes(annotation);
+
+        return actualAttributes.keySet().stream()
+                .noneMatch(attribute -> attributes.contains(attribute));
+    }
+
     private static boolean hasAttributes(final AnnotationExpr annotation, final Map<String, String> expectedAttributesToContains) {
-        final Map<String, String> actualAttributes;
-        if (annotation instanceof SingleMemberAnnotationExpr) {
-            actualAttributes = ImmutableMap.of(
-                    "value", ((SingleMemberAnnotationExpr) annotation).getMemberValue().toString()
-            );
-        } else if (annotation instanceof NormalAnnotationExpr) {
-            actualAttributes = ((NormalAnnotationExpr) annotation).getPairs().stream()
-                    .collect(Collectors.toMap(NodeWithSimpleName::getNameAsString, pair -> pair.getValue().toString()));
-        } else if (annotation instanceof MarkerAnnotationExpr) {
-            actualAttributes = new HashMap<>();
-        } else {
-            throw new IllegalArgumentException("Unexpected annotation expression type for: " + annotation);
-        }
+        final Map<String, String> actualAttributes = getAttributes(annotation);
 
         return expectedAttributesToContains.entrySet().stream()
                 .allMatch(expected -> Objects.equals(actualAttributes.get(expected.getKey()), expected.getValue()));
+    }
+
+    private static Map<String, String> getAttributes(final AnnotationExpr annotation) {
+        if (annotation instanceof SingleMemberAnnotationExpr) {
+            return ImmutableMap.of(
+                    "value", ((SingleMemberAnnotationExpr) annotation).getMemberValue().toString()
+            );
+        } else if (annotation instanceof NormalAnnotationExpr) {
+            return ((NormalAnnotationExpr) annotation).getPairs().stream()
+                    .collect(Collectors.toMap(NodeWithSimpleName::getNameAsString, pair -> pair.getValue().toString()));
+        } else if (annotation instanceof MarkerAnnotationExpr) {
+            return new HashMap<>();
+        } else {
+            throw new IllegalArgumentException("Unexpected annotation expression type for: " + annotation);
+        }
     }
 
     @SuppressWarnings("unchecked")

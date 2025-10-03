@@ -100,6 +100,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
     public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
+    public static final String SPRING_API_VERSION = "springApiVersion";
 
     @Getter
     public enum RequestMappingMode {
@@ -286,6 +287,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 optionalAcceptNullable));
 
         cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "whether to use deduction for generated oneOf interfaces", useDeductionForOneOfInterfaces));
+        cliOptions.add(CliOption.newString(SPRING_API_VERSION, "Value for 'version' attribute in @RequestMapping (for Spring 7 and above)."));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -855,6 +857,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private void prepareVersioningParameters(List<CodegenOperation> operations) {
+        Object apiVersion = additionalProperties.get(SPRING_API_VERSION);
+        boolean hasApiVersion = apiVersion != null;
         for (CodegenOperation operation : operations) {
             if (operation.getHasHeaderParams()) {
                 List<CodegenParameter> versionParams = operation.headerParams.stream()
@@ -876,6 +880,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                         .collect(Collectors.toList());
                 operation.hasVersionQueryParams = !versionParams.isEmpty();
                 operation.vendorExtensions.put("versionQueryParamsList", versionParams);
+            }
+            if (hasApiVersion) {
+                operation.vendorExtensions.putIfAbsent(VendorExtension.X_SPRING_API_VERSION.getName(), apiVersion);
             }
         }
     }
@@ -1205,6 +1212,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
         extensions.add(VendorExtension.X_VERSION_PARAM);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
+        extensions.add(VendorExtension.X_SPRING_API_VERSION);
         return extensions;
     }
 }
