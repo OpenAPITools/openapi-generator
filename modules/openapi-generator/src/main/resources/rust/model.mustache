@@ -189,6 +189,29 @@ pub enum {{classname}} {
 {{/composedSchemas.oneOf}}
 }
 
+{{^anyOf.isEmpty}}
+{{#description}}
+/// {{{.}}}
+{{/description}}
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum {{classname}} {
+{{#composedSchemas.anyOf}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    {{{name}}}({{#isModel}}{{^avoidBoxedModels}}Box<{{/avoidBoxedModels}}{{/isModel}}{{{dataType}}}{{#isModel}}{{^avoidBoxedModels}}>{{/avoidBoxedModels}}{{/isModel}}),
+{{/composedSchemas.anyOf}}
+}
+
+impl Default for {{classname}} {
+    fn default() -> Self {
+        {{#composedSchemas.anyOf}}{{#-first}}Self::{{{name}}}(Default::default()){{/-first}}{{/composedSchemas.anyOf}}
+    }
+}
+{{/anyOf.isEmpty}}
+
+
 impl Default for {{classname}} {
     fn default() -> Self {
         {{#composedSchemas.oneOf}}{{#-first}}Self::{{{name}}}(Default::default()){{/-first}}{{/composedSchemas.oneOf}}

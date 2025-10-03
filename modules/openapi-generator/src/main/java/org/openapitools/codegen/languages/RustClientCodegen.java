@@ -250,69 +250,76 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel mdl = super.fromModel(name, model);
 
-        // set correct names and baseNames to oneOf in composed-schema to use as enum variant names & mapping
-        if (mdl.getComposedSchemas() != null && mdl.getComposedSchemas().getOneOf() != null
-                && !mdl.getComposedSchemas().getOneOf().isEmpty()) {
-
-            List<CodegenProperty> newOneOfs = mdl.getComposedSchemas().getOneOf().stream()
-                    .map(CodegenProperty::clone)
-                    .collect(Collectors.toList());
-            List<Schema> schemas = ModelUtils.getInterfaces(model);
-            if (newOneOfs.size() != schemas.size()) {
-                // For safety reasons, this should never happen unless there is an error in the code
-                throw new RuntimeException("oneOf size does not match the model");
-            }
-
-            Map<String, String> refsMapping = Optional.ofNullable(model.getDiscriminator())
-                    .map(Discriminator::getMapping).orElse(Collections.emptyMap());
-
-            // Reverse mapped references to use as baseName for oneOF, but different keys may point to the same $ref.
-            // Thus, we group them by the value
-            Map<String, List<String>> mappedNamesByRef = refsMapping.entrySet().stream()
-                    .collect(Collectors.groupingBy(Map.Entry::getValue,
-                            Collectors.mapping(Map.Entry::getKey, Collectors.toList())
-                    ));
-
-            for (int i = 0; i < newOneOfs.size(); i++) {
-                CodegenProperty oneOf = newOneOfs.get(i);
-                Schema schema = schemas.get(i);
-
-                if (mappedNamesByRef.containsKey(schema.get$ref())) {
-                    // prefer mapped names if present
-                    // remove mapping not in order not to reuse for the next occurrence of the ref
-                    List<String> names = mappedNamesByRef.get(schema.get$ref());
-                    String mappedName = names.remove(0);
-                    oneOf.setBaseName(mappedName);
-                    oneOf.setName(toModelName(mappedName));
-                } else if (!org.apache.commons.lang3.StringUtils.isEmpty(schema.get$ref())) {
-                    // use $ref if it's reference
-                    String refName = ModelUtils.getSimpleRef(schema.get$ref());
-                    if (refName != null) {
-                        String modelName = toModelName(refName);
-                        oneOf.setName(modelName);
-                        oneOf.setBaseName(refName);
-                    }
-                } else if (oneOf.isArray) {
-                    // If the type is an array, extend the name with the inner type to prevent name collisions
-                    // in case multiple arrays with different types are defined. If the user has manually specified
-                    // a name, use that name instead.
-                    String collectionWithTypeName = toModelName(schema.getType()) + oneOf.containerTypeMapped + oneOf.items.dataType;
-                    String oneOfName = Optional.ofNullable(schema.getTitle()).orElse(collectionWithTypeName);
-                    oneOf.setName(oneOfName);
-                }
-                else {
-                    // In-placed type (primitive), because there is no mapping or ref for it.
-                    // use camelized `title` if present, otherwise use `type`
-                    String oneOfName = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
-                    oneOf.setName(toModelName(oneOfName));
-                }
-            }
-
-            mdl.getComposedSchemas().setOneOf(newOneOfs);
+        if (mdl.getComposedSchemas() != null) {
+            processComposedSchemas(model, mdl, "oneOf");
+            processComposedSchemas(model, mdl, "anyOf");
         }
 
         return mdl;
     }
+
+    private void processComposedSchemas(Schema model, CodegenModel mdl, String type) {
+        List<CodegenProperty> schemasList = null;
+
+        if ("oneOf".equals(type)) {
+            schemasList = mdl.getComposedSchemas().getOneOf();
+        } else if ("anyOf".equals(type)) {
+            schemasList = mdl.getComposedSchemas().getAnyOf();
+        }
+
+        if (schemasList == null || schemasList.isEmpty()) return;
+
+        List<CodegenProperty> newComposed = schemasList.stream()
+            .map(CodegenProperty::clone)
+            .collect(Collectors.toList());
+
+        List<Schema> schemas = ModelUtils.getInterfaces(model);
+        if (newComposed.size() != schemas.size()) {
+            throw new RuntimeException(type + " size does not match the model");
+        }
+
+        Map<String, String> refsMapping = Optional.ofNullable(model.getDiscriminator())
+            .map(Discriminator::getMapping).orElse(Collections.emptyMap());
+
+        Map<String, List<String>> mappedNamesByRef = refsMapping.entrySet().stream()
+            .collect(Collectors.groupingBy(Map.Entry::getValue,
+                Collectors.mapping(Map.Entry::getKey, Collectors.toList())
+            ));
+
+        for (int i = 0; i < newComposed.size(); i++) {
+            CodegenProperty variant = newComposed.get(i);
+            Schema schema = schemas.get(i);
+
+            if (mappedNamesByRef.containsKey(schema.get$ref())) {
+                List<String> names = mappedNamesByRef.get(schema.get$ref());
+                String mappedName = names.remove(0);
+                variant.setBaseName(mappedName);
+                variant.setName(toModelName(mappedName));
+            } else if (!org.apache.commons.lang3.StringUtils.isEmpty(schema.get$ref())) {
+                String refName = ModelUtils.getSimpleRef(schema.get$ref());
+                if (refName != null) {
+                    String modelName = toModelName(refName);
+                    variant.setName(modelName);
+                    variant.setBaseName(refName);
+                }
+            } else if (variant.isArray) {
+                String collectionWithTypeName = toModelName(schema.getType()) + variant.containerTypeMapped + variant.items.dataType;
+                String name = Optional.ofNullable(schema.getTitle()).orElse(collectionWithTypeName);
+                variant.setName(name);
+            } else {
+                String name = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
+                variant.setName(toModelName(name));
+            }
+        }
+
+        // Set the composed schema correctly
+        if ("oneOf".equals(type)) {
+            mdl.getComposedSchemas().setOneOf(newComposed);
+        } else if ("anyOf".equals(type)) {
+            mdl.getComposedSchemas().setAnyOf(newComposed);
+        }
+    }
+
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
