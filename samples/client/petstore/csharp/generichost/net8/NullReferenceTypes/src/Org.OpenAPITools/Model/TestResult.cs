@@ -36,12 +36,16 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="code">code</param>
         /// <param name="data">list of named parameters for current message</param>
+        /// <param name="deepList">deepList</param>
+        /// <param name="list">list</param>
         /// <param name="uuid">Result unique identifier</param>
         [JsonConstructor]
-        public TestResult(Option<TestResultCode?> code = default, Option<Dictionary<string, string>?> data = default, Option<string?> uuid = default)
+        public TestResult(Option<TestResultCode?> code = default, Option<Dictionary<string, string>?> data = default, Option<List<List<string>>?> deepList = default, Option<List<string>?> list = default, Option<string?> uuid = default)
         {
             CodeOption = code;
             DataOption = data;
+            DeepListOption = deepList;
+            ListOption = list;
             UuidOption = uuid;
             OnCreated();
         }
@@ -76,6 +80,32 @@ namespace Org.OpenAPITools.Model
         public Dictionary<string, string>? Data { get { return this.DataOption; } set { this.DataOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of DeepList
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<List<List<string>>?> DeepListOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets DeepList
+        /// </summary>
+        [JsonPropertyName("deepList")]
+        public List<List<string>>? DeepList { get { return this.DeepListOption; } set { this.DeepListOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of List
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<List<string>?> ListOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets List
+        /// </summary>
+        [JsonPropertyName("list")]
+        public List<string>? List { get { return this.ListOption; } set { this.ListOption = new(value); } }
+
+        /// <summary>
         /// Used to track the state of Uuid
         /// </summary>
         [JsonIgnore]
@@ -105,6 +135,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("class TestResult {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Data: ").Append(Data).Append("\n");
+            sb.Append("  DeepList: ").Append(DeepList).Append("\n");
+            sb.Append("  List: ").Append(List).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -146,6 +178,8 @@ namespace Org.OpenAPITools.Model
 
             Option<TestResultCode?> code = default;
             Option<Dictionary<string, string>?> data = default;
+            Option<List<List<string>>?> deepList = default;
+            Option<List<string>?> list = default;
             Option<string?> uuid = default;
 
             while (utf8JsonReader.Read())
@@ -171,6 +205,12 @@ namespace Org.OpenAPITools.Model
                         case "data":
                             data = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
+                        case "deepList":
+                            deepList = new Option<List<List<string>>?>(JsonSerializer.Deserialize<List<List<string>>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
+                        case "list":
+                            list = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
                         case "uuid":
                             uuid = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
@@ -186,10 +226,16 @@ namespace Org.OpenAPITools.Model
             if (data.IsSet && data.Value == null)
                 throw new ArgumentNullException(nameof(data), "Property is not nullable for class TestResult.");
 
+            if (deepList.IsSet && deepList.Value == null)
+                throw new ArgumentNullException(nameof(deepList), "Property is not nullable for class TestResult.");
+
+            if (list.IsSet && list.Value == null)
+                throw new ArgumentNullException(nameof(list), "Property is not nullable for class TestResult.");
+
             if (uuid.IsSet && uuid.Value == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class TestResult.");
 
-            return new TestResult(code, data, uuid);
+            return new TestResult(code, data, deepList, list, uuid);
         }
 
         /// <summary>
@@ -219,6 +265,12 @@ namespace Org.OpenAPITools.Model
             if (testResult.DataOption.IsSet && testResult.Data == null)
                 throw new ArgumentNullException(nameof(testResult.Data), "Property is required for class TestResult.");
 
+            if (testResult.DeepListOption.IsSet && testResult.DeepList == null)
+                throw new ArgumentNullException(nameof(testResult.DeepList), "Property is required for class TestResult.");
+
+            if (testResult.ListOption.IsSet && testResult.List == null)
+                throw new ArgumentNullException(nameof(testResult.List), "Property is required for class TestResult.");
+
             if (testResult.UuidOption.IsSet && testResult.Uuid == null)
                 throw new ArgumentNullException(nameof(testResult.Uuid), "Property is required for class TestResult.");
 
@@ -231,6 +283,16 @@ namespace Org.OpenAPITools.Model
             {
                 writer.WritePropertyName("data");
                 JsonSerializer.Serialize(writer, testResult.Data, jsonSerializerOptions);
+            }
+            if (testResult.DeepListOption.IsSet)
+            {
+                writer.WritePropertyName("deepList");
+                JsonSerializer.Serialize(writer, testResult.DeepList, jsonSerializerOptions);
+            }
+            if (testResult.ListOption.IsSet)
+            {
+                writer.WritePropertyName("list");
+                JsonSerializer.Serialize(writer, testResult.List, jsonSerializerOptions);
             }
             if (testResult.UuidOption.IsSet)
                 writer.WriteString("uuid", testResult.Uuid);

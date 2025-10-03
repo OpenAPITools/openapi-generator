@@ -368,11 +368,19 @@ public class CSharpModelTest {
     public void nullablePropertyWithNullableReferenceTypesTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT)
+                        .nullable(true))
                 .addProperties("urls", new ArraySchema()
-                        .items(new StringSchema()).nullable(true))
+                        .items(new StringSchema())
+                        .nullable(true))
                 .addProperties("name", new StringSchema().nullable(true))
-                .addProperties("subObject", new Schema().addProperties("name", new StringSchema()).nullable(true))
+                .addProperties("subObject", new Schema().addProperties("name", new StringSchema())
+                        .nullable(true))
+                .addProperties("deepAliasArray", new ArraySchema()
+                        .items(new ArraySchema()
+                                .items(new StringSchema())
+                                .nullable(true))
+                        .nullable(true))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new AspNetServerCodegen();
         codegen.processOpts();
@@ -385,7 +393,7 @@ public class CSharpModelTest {
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 4);
+        Assert.assertEquals(cm.vars.size(), 5);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
@@ -398,7 +406,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.dataType, "List?<string>");
+        Assert.assertEquals(property2.dataType, "List<string>");
         Assert.assertEquals(property2.name, "Urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "List?");
@@ -424,6 +432,17 @@ public class CSharpModelTest {
         Assert.assertEquals(property4.baseType, "Object?");
         Assert.assertFalse(property4.required);
         Assert.assertFalse(property4.isPrimitiveType);
+
+        final CodegenProperty property5 = cm.vars.get(4);
+        Assert.assertEquals(property5.baseName, "deepAliasArray");
+        Assert.assertEquals(property5.dataType, "List<List<string>>");
+        Assert.assertEquals(property5.name, "DeepAliasArray");
+        Assert.assertNull(property5.defaultValue);
+        Assert.assertEquals(property5.baseType, "List?");
+        Assert.assertEquals(property5.containerType, "array");
+        Assert.assertFalse(property5.required);
+        Assert.assertFalse(property5.isPrimitiveType);
+        Assert.assertTrue(property5.isContainer);
     }
 
     @Test(description = "convert a model with list property")

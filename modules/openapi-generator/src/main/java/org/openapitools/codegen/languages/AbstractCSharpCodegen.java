@@ -1628,7 +1628,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems(schema);
-            return getSchemaType(target) + "<" + getTypeDeclarationForArray(items) + ">";
+            return typeMapping.get("array") + "<" + getTypeDeclarationForArray(items) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
             Schema<?> inner = ModelUtils.getAdditionalProperties(p);
