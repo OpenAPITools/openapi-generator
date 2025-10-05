@@ -1,8 +1,8 @@
 package {{packageName}}.auth
 
-class ApiKeyAuth(private val location: String, val paramName: String) : Authentication {
-    var apiKey: String? = null
-    var apiKeyPrefix: String? = null
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class ApiKeyAuth(private val location: String, {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val paramName: String) : Authentication {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var apiKey: String? = null
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var apiKeyPrefix: String? = null
 
     override fun apply(query: MutableMap<String, List<String>>, headers: MutableMap<String, String>) {
         val key: String = apiKey ?: return

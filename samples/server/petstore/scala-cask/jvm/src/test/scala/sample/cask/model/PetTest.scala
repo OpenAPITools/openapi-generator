@@ -13,8 +13,6 @@
 
 // this model was generated using modelTest.mustache
 package sample.cask.model
-import sample.cask.model.Category
-import sample.cask.model.Tag
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -22,16 +20,17 @@ import scala.util.*
 
 class PetTest extends AnyWordSpec with Matchers {
 
+
     "Pet.fromJson" should {
         """not parse invalid json""" in {
            val Failure(err) = Try(PetData.fromJsonString("invalid jason"))
            err.getMessage should startWith ("Error parsing json 'invalid jason'")
         }
         """parse """ ignore {
-           val Failure(err : ValidationErrors) = PetData.fromJsonString("""""").validated()
+           val d8a = PetData.fromJsonString("""""")
+           val Failure(err : ValidationErrors) = PetData.validated(d8a, true)
 
            sys.error("TODO")
         }
     }
-
 }

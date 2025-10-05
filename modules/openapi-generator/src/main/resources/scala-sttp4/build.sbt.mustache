@@ -2,8 +2,8 @@ version := "{{artifactVersion}}"
 name := "{{artifactId}}"
 organization := "{{groupId}}"
 
-scalaVersion := "2.13.10"
-crossScalaVersions := Seq(scalaVersion.value, "2.12.17")
+scalaVersion := "2.13.16"
+crossScalaVersions := Seq(scalaVersion.value, "2.12.20")
 
 libraryDependencies ++= Seq(
   "com.softwaremill.sttp.client4" %% "core" % "{{sttpClientVersion}}",

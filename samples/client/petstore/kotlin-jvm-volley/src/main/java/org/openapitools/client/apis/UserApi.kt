@@ -34,6 +34,7 @@ class UserApi (
     private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     /**
+     * POST /user
      * Create user
      * This can only be done by the logged in user.
      * @param body Created user object
@@ -95,6 +96,7 @@ class UserApi (
         }
     }
     /**
+     * POST /user/createWithArray
      * Creates list of users with given input array
      * 
      * @param body List of user object
@@ -156,6 +158,7 @@ class UserApi (
         }
     }
     /**
+     * POST /user/createWithList
      * Creates list of users with given input array
      * 
      * @param body List of user object
@@ -217,6 +220,7 @@ class UserApi (
         }
     }
     /**
+     * DELETE /user/{username}
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
@@ -278,6 +282,7 @@ class UserApi (
         }
     }
     /**
+     * GET /user/{username}
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing.
@@ -339,6 +344,7 @@ class UserApi (
         }
     }
     /**
+     * GET /user/login
      * Logs user into the system
      * 
      * @param username The user name for login
@@ -404,6 +410,7 @@ class UserApi (
         }
     }
     /**
+     * GET /user/logout
      * Logs out current logged in user session
      * 
      * @return void
@@ -464,6 +471,7 @@ class UserApi (
         }
     }
     /**
+     * PUT /user/{username}
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted

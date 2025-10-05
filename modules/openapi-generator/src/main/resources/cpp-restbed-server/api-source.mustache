@@ -104,9 +104,9 @@ std::string convertMapResponse(const std::map<KEY_T, VAL_T>& map)
 
 namespace {{classname}}Resources {
 {{#operation}}
-{{vendorExtensions.x-codegen-resource-name}}Resource::{{vendorExtensions.x-codegen-resource-name}}Resource(const std::string& context /* = "{{contextPath}}" */)
+{{vendorExtensions.x-codegen-resource-name}}Resource::{{vendorExtensions.x-codegen-resource-name}}Resource(const std::string& context /* = "{{{contextPath}}}" */)
 {
-	this->set_path(context + "{{path}}");
+	this->set_path(context + "{{{path}}}");
 	this->set_method_handler("{{httpMethod}}",
 		std::bind(&{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal, this,
 			std::placeholders::_1));
@@ -151,7 +151,7 @@ void {{vendorExtensions.x-codegen-resource-name}}Resource::defaultSessionClose(c
 void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session)
 {
     {{#lambda.indented}}
-    {{>api-source-HandlerBody}}
+    {{>api-source-HandlerBody}}{{! prevent indent}}
     {{/lambda.indented}}
 
 }
@@ -160,7 +160,7 @@ void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}
 // x-extension
 void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session) {
     {{#lambda.indented}}
-    {{>api-source-HandlerBody}}
+    {{>api-source-HandlerBody}}{{! prevent indent}}
     {{/lambda.indented}}
 
 }

@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,24 +23,25 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * Cat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
+  @javax.annotation.Nullable
   protected Boolean declawed;
 
   public Cat() {
 
   }
 
-  public Cat declawed(Boolean declawed) {
+  public Cat declawed(@javax.annotation.Nullable Boolean declawed) {
     
     this.declawed = declawed;
     return this;
@@ -57,18 +59,18 @@ public class Cat extends Animal {
   }
 
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {
     this.declawed = declawed;
   }
 
   @Override
-  public Cat className(String className) {
+  public Cat className(@javax.annotation.Nonnull String className) {
     this.setClassName(className);
     return this;
   }
 
   @Override
-  public Cat color(String color) {
+  public Cat color(@javax.annotation.Nullable String color) {
     this.setColor(color);
     return this;
   }

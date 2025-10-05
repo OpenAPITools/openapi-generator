@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.math.BigDecimal;
 import org.openapitools.model.Entity;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -32,10 +33,10 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = PizzaSpeziale.class, name = "PizzaSpeziale")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Pizza extends Entity {
 
-  private BigDecimal pizzaSize;
+  private @Nullable BigDecimal pizzaSize;
 
   public Pizza() {
     super();
@@ -48,7 +49,7 @@ public class Pizza extends Entity {
     super(atType);
   }
 
-  public Pizza pizzaSize(BigDecimal pizzaSize) {
+  public Pizza pizzaSize(@Nullable BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;
     return this;
   }
@@ -60,11 +61,11 @@ public class Pizza extends Entity {
   @Valid 
   @Schema(name = "pizzaSize", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("pizzaSize")
-  public BigDecimal getPizzaSize() {
+  public @Nullable BigDecimal getPizzaSize() {
     return pizzaSize;
   }
 
-  public void setPizzaSize(BigDecimal pizzaSize) {
+  public void setPizzaSize(@Nullable BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;
   }
 
@@ -146,7 +147,7 @@ public class Pizza extends Entity {
     }
 
     protected Builder copyOf(Pizza value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setPizzaSize(value.pizzaSize);
       return this;
     }

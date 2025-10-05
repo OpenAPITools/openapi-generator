@@ -6,12 +6,10 @@ import (
 	{{#hasBodyParams}}
 	"encoding/json"
 	{{/hasBodyParams}}
-	{{#isBodyParam}}
-	    {{^required}}
+	{{#hasOptionalBodyParams}}
 	"errors"
 	"io"
-	    {{/required}}
-	{{/isBodyParam}}
+	{{/hasOptionalBodyParams}}
 	"net/http"
 	"strings"
 {{#imports}}	"{{import}}"
@@ -66,6 +64,7 @@ func (c *{{classname}}Controller) Routes() Routes {
 {{#operations}}
 	{{#operation}}
 		"{{operationId}}": Route{
+			"{{{operationId}}}",
 			strings.ToUpper("{{httpMethod}}"),
 			"{{{basePathWithoutHost}}}{{{path}}}",
 			c.{{operationId}},
@@ -73,7 +72,25 @@ func (c *{{classname}}Controller) Routes() Routes {
 	{{/operation}}
 {{/operations}}
 	}
-}{{#operations}}{{#operation}}
+}
+
+// OrderedRoutes returns all the api routes in a deterministic order for the {{classname}}Controller
+func (c *{{classname}}Controller) OrderedRoutes() []Route {
+	return []Route{
+{{#operations}}
+	{{#operation}}
+		Route{
+			"{{{operationId}}}",
+			strings.ToUpper("{{httpMethod}}"),
+			"{{{basePathWithoutHost}}}{{{path}}}",
+			c.{{operationId}},
+		},
+	{{/operation}}
+{{/operations}}
+	}
+}
+
+{{#operations}}{{#operation}}
 
 // {{nickname}} - {{{summary}}}
 {{#isDeprecated}}
@@ -591,7 +608,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{paramName}}Param := r.Header.Get("{{baseName}}")
 	{{/isHeaderParam}}
 	{{#isBodyParam}}
-	{{paramName}}Param := {{dataType}}{}
+	var {{paramName}}Param {{dataType}}
 	d := json.NewDecoder(r.Body)
 	{{^isAdditionalPropertiesTrue}}
 	d.DisallowUnknownFields()
@@ -624,7 +641,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isArray}}
 	{{/isBodyParam}}
 	{{/allParams}}
-	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{paramName}}Param{{/allParams}})
+	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isNullable}}{{#isBodyParam}}&{{/isBodyParam}}{{/isNullable}}{{paramName}}Param{{/allParams}})
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

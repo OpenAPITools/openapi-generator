@@ -1,14 +1,14 @@
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.util.List;
-
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+
+import java.io.File;
+import java.util.List;
 
 public class JavaMicroprofileServerCodegen extends JavaClientCodegen {
     public static final String PROJECT_NAME = "projectName";
@@ -40,6 +40,7 @@ public class JavaMicroprofileServerCodegen extends JavaClientCodegen {
     public String getHelp() {
         return "Generates a microprofile server.";
     }
+
     @Override
     public void processOpts() {
         super.processOpts();

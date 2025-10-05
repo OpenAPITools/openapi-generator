@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   description: "This is a sample server Petstore server. For this sample, you can\
     \ use the api key `special-key` to test the authorization filters."
@@ -7,6 +7,9 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: OpenAPI Petstore
   version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
 servers:
 - url: http://petstore.swagger.io/v2
 tags:
@@ -19,20 +22,21 @@ tags:
 paths:
   /pet:
     post:
+      description: ""
       operationId: addPet
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        description: Pet object that needs to be added to the store
-        required: true
+        $ref: "#/components/requestBodies/Pet"
       responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Pet"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+          description: successful operation
         "405":
-          content: {}
           description: Invalid input
       security:
       - petstore_auth:
@@ -41,28 +45,29 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-codegen-request-body-name: body
     put:
+      description: ""
+      externalDocs:
+        description: API documentation for the updatePet operation
+        url: http://petstore.swagger.io/v2/doc/updatePet
       operationId: updatePet
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        description: Pet object that needs to be added to the store
-        required: true
+        $ref: "#/components/requestBodies/Pet"
       responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Pet"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+          description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Pet not found
         "405":
-          content: {}
           description: Validation exception
       security:
       - petstore_auth:
@@ -71,13 +76,13 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-      x-codegen-request-body-name: body
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
       parameters:
-      - description: Status values that need to be considered for filter
+      - deprecated: true
+        description: Status values that need to be considered for filter
         explode: false
         in: query
         name: status
@@ -98,20 +103,18 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
-          content: {}
           description: Invalid status value
       security:
       - petstore_auth:
-        - write:pets
         - read:pets
       summary: Finds Pets by status
       tags:
@@ -139,42 +142,45 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
-          content: {}
           description: Invalid tag value
       security:
       - petstore_auth:
-        - write:pets
         - read:pets
       summary: Finds Pets by tags
       tags:
       - pet
   /pet/{petId}:
     delete:
+      description: ""
       operationId: deletePet
       parameters:
-      - in: header
+      - explode: false
+        in: header
         name: api_key
+        required: false
         schema:
           type: string
+        style: simple
       - description: Pet id to delete
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "400":
-          content: {}
           description: Invalid pet value
       security:
       - petstore_auth:
@@ -188,27 +194,27 @@ paths:
       operationId: getPetById
       parameters:
       - description: ID of pet to return
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "200":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Pet not found
       security:
       - api_key: []
@@ -216,23 +222,25 @@ paths:
       tags:
       - pet
     post:
+      description: ""
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/updatePetWithForm_request'
+              $ref: "#/components/schemas/updatePetWithForm_request"
       responses:
         "405":
-          content: {}
           description: Invalid input
       security:
       - petstore_auth:
@@ -243,26 +251,29 @@ paths:
       - pet
   /pet/{petId}/uploadImage:
     post:
+      description: ""
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFile_request'
+              $ref: "#/components/schemas/uploadFile_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       security:
       - petstore_auth:
@@ -292,12 +303,13 @@ paths:
       - store
   /store/order:
     post:
+      description: ""
       operationId: placeOrder
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: "#/components/schemas/Order"
         description: order placed for purchasing the pet
         required: true
       responses:
@@ -305,18 +317,16 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
-          content: {}
           description: Invalid Order
       summary: Place an order for a pet
       tags:
       - store
-      x-codegen-request-body-name: body
   /store/order/{orderId}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -324,17 +334,17 @@ paths:
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
+        explode: false
         in: path
         name: orderId
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Order not found
       summary: Delete purchase order by ID
       tags:
@@ -345,6 +355,7 @@ paths:
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
+        explode: false
         in: path
         name: orderId
         required: true
@@ -353,21 +364,20 @@ paths:
           maximum: 5
           minimum: 1
           type: integer
+        style: simple
       responses:
         "200":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Order not found
       summary: Find purchase order by ID
       tags:
@@ -378,75 +388,69 @@ paths:
       operationId: createUser
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Created user object
         required: true
       responses:
         default:
-          content: {}
           description: successful operation
+      security:
+      - api_key: []
       summary: Create user
       tags:
       - user
-      x-codegen-request-body-name: body
   /user/createWithArray:
     post:
+      description: ""
       operationId: createUsersWithArrayInput
       requestBody:
-        content:
-          '*/*':
-            schema:
-              items:
-                $ref: '#/components/schemas/User'
-              type: array
-        description: List of user object
-        required: true
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
-          content: {}
           description: successful operation
+      security:
+      - api_key: []
       summary: Creates list of users with given input array
       tags:
       - user
-      x-codegen-request-body-name: body
   /user/createWithList:
     post:
+      description: ""
       operationId: createUsersWithListInput
       requestBody:
-        content:
-          '*/*':
-            schema:
-              items:
-                $ref: '#/components/schemas/User'
-              type: array
-        description: List of user object
-        required: true
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
-          content: {}
           description: successful operation
+      security:
+      - api_key: []
       summary: Creates list of users with given input array
       tags:
       - user
-      x-codegen-request-body-name: body
   /user/login:
     get:
+      description: ""
       operationId: loginUser
       parameters:
       - description: The user name for login
+        explode: true
         in: query
         name: username
         required: true
         schema:
+          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
+        style: form
       - description: The password for login in clear text
+        explode: true
         in: query
         name: password
         required: true
         schema:
           type: string
+        style: form
       responses:
         "200":
           content:
@@ -458,29 +462,42 @@ paths:
                 type: string
           description: successful operation
           headers:
+            Set-Cookie:
+              description: Cookie authentication key for use with the `api_key` apiKey
+                authentication.
+              explode: false
+              schema:
+                example: AUTH_KEY=abcde12345; Path=/; HttpOnly
+                type: string
+              style: simple
             X-Rate-Limit:
               description: calls per hour allowed by the user
+              explode: false
               schema:
                 format: int32
                 type: integer
+              style: simple
             X-Expires-After:
               description: date in UTC when token expires
+              explode: false
               schema:
                 format: date-time
                 type: string
+              style: simple
         "400":
-          content: {}
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
       - user
   /user/logout:
     get:
+      description: ""
       operationId: logoutUser
       responses:
         default:
-          content: {}
           description: successful operation
+      security:
+      - api_key: []
       summary: Logs out current logged in user session
       tags:
       - user
@@ -490,45 +507,48 @@ paths:
       operationId: deleteUser
       parameters:
       - description: The name that needs to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
-          content: {}
           description: Invalid username supplied
         "404":
-          content: {}
           description: User not found
+      security:
+      - api_key: []
       summary: Delete user
       tags:
       - user
     get:
+      description: ""
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "200":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
           description: successful operation
         "400":
-          content: {}
           description: Invalid username supplied
         "404":
-          content: {}
           description: User not found
       summary: Get user by user name
       tags:
@@ -538,30 +558,51 @@ paths:
       operationId: updateUser
       parameters:
       - description: name that need to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Updated user object
         required: true
       responses:
         "400":
-          content: {}
           description: Invalid user supplied
         "404":
-          content: {}
           description: User not found
+      security:
+      - api_key: []
       summary: Updated user
       tags:
       - user
-      x-codegen-request-body-name: body
 components:
+  requestBodies:
+    UserArray:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: "#/components/schemas/User"
+            type: array
+      description: List of user object
+      required: true
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Pet"
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/Pet"
+      description: Pet object that needs to be added to the store
+      required: true
   schemas:
     Order:
       description: An order for a pets from the pet store
@@ -609,6 +650,7 @@ components:
           format: int64
           type: integer
         name:
+          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
       title: Pet category
       type: object
@@ -686,7 +728,7 @@ components:
           format: int64
           type: integer
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         name:
           example: doggie
           type: string
@@ -699,12 +741,13 @@ components:
             wrapped: true
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
           xml:
             name: tag
             wrapped: true
         status:
+          deprecated: true
           description: pet status in the store
           enum:
           - available
@@ -766,4 +809,3 @@ components:
       in: header
       name: api_key
       type: apiKey
-x-original-swagger-version: "2.0"

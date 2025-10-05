@@ -6,7 +6,9 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 #include "../model/api_response.h"
+#include "../model/bit.h"
 #include "../model/pet.h"
+#include "../model/preference.h"
 
 // Enum STATUS for PetAPI_findPetsByStatus
 typedef enum  { openapi_petstore_findPetsByStatus_STATUS_NULL = 0, openapi_petstore_findPetsByStatus_STATUS_available, openapi_petstore_findPetsByStatus_STATUS_pending, openapi_petstore_findPetsByStatus_STATUS_sold } openapi_petstore_findPetsByStatus_status_e;
@@ -40,12 +42,44 @@ list_t*
 PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags);
 
 
+// Number of days since the last time a pet maimed someone at the store
+//
+int
+PetAPI_getDaysWithoutIncident(apiClient_t *apiClient);
+
+
 // Find pet by ID
 //
 // Returns a single pet
 //
 pet_t*
 PetAPI_getPetById(apiClient_t *apiClient, long petId);
+
+
+// Get a random picture of someone else's pet
+//
+binary_t*
+PetAPI_getPicture(apiClient_t *apiClient);
+
+
+// Is this pet still available?
+//
+openapi_petstore_bit__e
+PetAPI_isPetAvailable(apiClient_t *apiClient, long petId);
+
+
+// Send a picture of your happy pet
+//
+char*
+PetAPI_sharePicture(apiClient_t *apiClient, binary_t* picture);
+
+
+// Specialty of the shop
+//
+// Returns the kind of pet the store specializes in
+//
+openapi_petstore_preference__e
+PetAPI_specialtyPet(apiClient_t *apiClient);
 
 
 // Update an existing pet

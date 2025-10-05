@@ -11,7 +11,6 @@ import org.openapitools.codegen.languages.PostmanCollectionCodegen;
 import org.testng.annotations.Test;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -673,7 +672,7 @@ public class PostmanCollectionCodegenTest {
     }
 
     @Test
-    public void testAddToList()  {
+    public void testAddToList() {
 
         PostmanCollectionCodegen postmanCollectionCodegen = new PostmanCollectionCodegen();
 
@@ -739,6 +738,52 @@ public class PostmanCollectionCodegenTest {
         // verify tag 'default' is used
         assertEquals(1, postmanV2Generator.codegenOperationsByTag.size());
         assertEquals(true, postmanV2Generator.codegenOperationsByTag.containsKey("default"));
+    }
+
+    @Test
+    public void testResponses() throws IOException {
+
+        File output = Files.createTempDirectory("postmantest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        System.out.println(files);
+        //files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/postman.json");
+        TestUtils.assertFileExists(path);
+
+        TestUtils.assertFileContains(path,  "\"response\": [\n" +
+                "                                        {\"name\": \"User Updated\",\n" +
+                "                                        \"code\": 200,\n" +
+                "                                        \"status\": \"OK\",\n" +
+                "                                        \"header\": [{\n" +
+                "                                        \"key\": \"Content-Type\",\n" +
+                "                                        \"value\": \"application/json\"}\n" +
+                "                                        ],\n" +
+                "                                        \"_postman_previewlanguage\": \"json\",\n" +
+                "                                        \"cookie\": [],\n" +
+                "                                        \"body\" : \"{\\n  \\\"id\\\" : 1,\\n");
+
+        TestUtils.assertFileContains(path,  "\"response\": [\n" +
+                "                                        {\"name\": \"User Updated\",\n" +
+                "                                        \"code\": 200,\n" +
+                "                                        \"status\": \"OK\",\n" +
+                "                                        \"header\": [{\n" +
+                "                                        \"key\": \"Content-Type\",\n" +
+                "                                        \"value\": \"application/json\"}\n" +
+                "                                        ],\n" +
+                "                                        \"_postman_previewlanguage\": \"json\",\n" +
+                "                                        \"cookie\": [],\n" +
+                "                                        \"body\" : \"{\\n  \\\"id\\\" : 2,\\n");
+
     }
 
 }

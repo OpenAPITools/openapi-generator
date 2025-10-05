@@ -1,0 +1,48 @@
+name: Samples PHP (Server) Syntax Checker
+
+on:
+  push:
+    paths:
+      - samples/server/petstore/php-symfony/SymfonyBundle-php/**
+      #- samples/server/petstore/php-laravel/**
+      - samples/server/petstore/php-flight/**
+      - samples/server/petstore/php-mezzio-ph-modern/**
+      - samples/server/petstore/php-mezzio-ph/**
+      - samples/server/petstore/php-slim4/**
+  pull_request:
+    paths:
+      - samples/server/petstore/php-symfony/SymfonyBundle-php/**
+      #- samples/server/petstore/php-laravel/**
+      - samples/server/petstore/php-flight/**
+      - samples/server/petstore/php-mezzio-ph-modern/**
+      - samples/server/petstore/php-mezzio-ph/**
+      - samples/server/petstore/php-slim4/**
+jobs:
+  build:
+    name: Build PHP projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - "8.1"
+          - "8.2"
+          - "8.3"
+          - "8.4"
+        sample:
+          # servers
+          - samples/server/petstore/php-symfony/SymfonyBundle-php/
+          #- samples/server/petstore/php-laravel/
+          - samples/server/petstore/php-flight/
+          - samples/server/petstore/php-mezzio-ph-modern/
+          - samples/server/petstore/php-mezzio-ph/
+          - samples/server/petstore/php-slim4/
+    steps:
+      - uses: actions/checkout@v5
+      - name: Setup PHP with tools
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php }}"
+      - name: php -l
+        working-directory: ${{ matrix.sample }}
+        run: find . -name "*.php" -exec php -l {} +

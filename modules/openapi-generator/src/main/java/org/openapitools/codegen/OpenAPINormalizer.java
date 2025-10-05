@@ -20,27 +20,36 @@ package org.openapitools.codegen;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Constructor;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
+import static org.openapitools.codegen.CodegenConstants.X_PARENT;
+import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
+import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
+
 public class OpenAPINormalizer {
-    private OpenAPI openAPI;
+    protected OpenAPI openAPI;
     private Map<String, String> inputRules = new HashMap<>();
     private Map<String, Boolean> rules = new HashMap<>();
 
     private TreeSet<String> anyTypeTreeSet = new TreeSet<>();
 
-    final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
 
     Set<String> ruleNames = new TreeSet<>();
     Set<String> rulesDefaultToTrue = new TreeSet<>();
@@ -53,6 +62,9 @@ public class OpenAPINormalizer {
     // when set to true, all rules (true or false) are disabled
     final String DISABLE_ALL = "DISABLE_ALL";
     boolean disableAll;
+
+    // when defined, use the class name to instantiate the normalizer
+    static final String NORMALIZER_CLASS = "NORMALIZER_CLASS";
 
     // when set to true, $ref in allOf is treated as parent so that x-parent: true will be added
     // to the schema in $ref (if x-parent is not present)
@@ -78,6 +90,9 @@ public class OpenAPINormalizer {
     // when set to true, boolean enum will be converted to just boolean
     final String SIMPLIFY_BOOLEAN_ENUM = "SIMPLIFY_BOOLEAN_ENUM";
 
+    // when set to true, oneOf/anyOf with enum sub-schemas containing single values will be converted to a single enum
+    final String SIMPLIFY_ONEOF_ANYOF_ENUM = "SIMPLIFY_ONEOF_ANYOF_ENUM";
+
     // when set to a string value, tags in all operations will be reset to the string value provided
     final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
     String setTagsForAllOperations;
@@ -86,6 +101,20 @@ public class OpenAPINormalizer {
     // is empty
     final String SET_TAGS_TO_OPERATIONID = "SET_TAGS_TO_OPERATIONID";
     String setTagsToOperationId;
+
+    // when set to a string value, tags will be set to the value of the provided vendor extension
+    final String SET_TAGS_TO_VENDOR_EXTENSION = "SET_TAGS_TO_VENDOR_EXTENSION";
+    String setTagsToVendorExtension;
+
+    // when set to true, tags in all operations will be set to operationId or "default" if operationId
+    // is empty
+    final String FIX_DUPLICATED_OPERATIONID = "FIX_DUPLICATED_OPERATIONID";
+    String fixDuplicatedOperationId;
+    HashSet<String> operationIdSet = new HashSet<>();
+
+    // when set to true, if a securityScheme is found with the specified name, it will be converted to bearerAuth
+    final String SET_BEARER_AUTH_FOR_NAME = "SET_BEARER_AUTH_FOR_NAME";
+    String bearerAuthSecuritySchemeName;
 
     // when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1)
     // by adding x-unsigned to the schema
@@ -100,12 +129,14 @@ public class OpenAPINormalizer {
 
     // when set to true, remove x-internal: true from models, operations
     final String REMOVE_X_INTERNAL = "REMOVE_X_INTERNAL";
-    final String X_INTERNAL = "x-internal";
     boolean removeXInternal;
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String FILTER = "FILTER";
     HashSet<String> operationIdFilters = new HashSet<>();
+    HashSet<String> methodFilters = new HashSet<>();
+
+    HashSet<String> tagFilters = new HashSet<>();
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String SET_CONTAINER_TO_NULLABLE = "SET_CONTAINER_TO_NULLABLE";
@@ -125,6 +156,25 @@ public class OpenAPINormalizer {
     // ============= end of rules =============
 
     /**
+     * Factory constructor for OpenAPINormalizer.
+     *
+     * Default can be overriden by setting the NORMALIZER_CLASS rule
+     */
+    public static OpenAPINormalizer createNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
+        if (inputRules.containsKey(NORMALIZER_CLASS)) {
+            try {
+                Class clazz = Class.forName(inputRules.get(NORMALIZER_CLASS));
+                Constructor constructor = clazz.getConstructor(OpenAPI.class, Map.class);
+                return (OpenAPINormalizer) constructor.newInstance(openAPI, inputRules);
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return new OpenAPINormalizer(openAPI, inputRules);
+        }
+    }
+
+    /**
      * Initializes OpenAPI Normalizer with a set of rules
      *
      * @param openAPI    OpenAPI
@@ -140,6 +190,7 @@ public class OpenAPINormalizer {
         }
 
         // a set of ruleNames
+        ruleNames.add(NORMALIZER_CLASS);
         ruleNames.add(REF_AS_PARENT_IN_ALLOF);
         ruleNames.add(REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY);
         ruleNames.add(SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING);
@@ -148,6 +199,9 @@ public class OpenAPINormalizer {
         ruleNames.add(KEEP_ONLY_FIRST_TAG_IN_OPERATION);
         ruleNames.add(SET_TAGS_FOR_ALL_OPERATIONS);
         ruleNames.add(SET_TAGS_TO_OPERATIONID);
+        ruleNames.add(SET_TAGS_TO_VENDOR_EXTENSION);
+        ruleNames.add(FIX_DUPLICATED_OPERATIONID);
+        ruleNames.add(SET_BEARER_AUTH_FOR_NAME);
         ruleNames.add(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE);
         ruleNames.add(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY);
         ruleNames.add(NORMALIZE_31SPEC);
@@ -155,11 +209,12 @@ public class OpenAPINormalizer {
         ruleNames.add(FILTER);
         ruleNames.add(SET_CONTAINER_TO_NULLABLE);
         ruleNames.add(SET_PRIMITIVE_TYPES_TO_NULLABLE);
-
+        ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
+        rules.put(SIMPLIFY_ONEOF_ANYOF_ENUM, true);
 
         processRules(inputRules);
 
@@ -213,17 +268,35 @@ public class OpenAPINormalizer {
             rules.put(SET_TAGS_FOR_ALL_OPERATIONS, true);
         }
 
+        setTagsToVendorExtension = inputRules.get(SET_TAGS_TO_VENDOR_EXTENSION);
+        if (setTagsToVendorExtension != null) {
+            rules.put(SET_TAGS_TO_VENDOR_EXTENSION, true);
+        }
+
         if (inputRules.get(FILTER) != null) {
             rules.put(FILTER, true);
 
             String[] filterStrs = inputRules.get(FILTER).split(":");
             if (filterStrs.length != 2) { // only support operationId with : at the moment
-                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
+                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
             } else {
                 if ("operationId".equals(filterStrs[0])) {
-                    operationIdFilters = new HashSet<>(Arrays.asList(filterStrs[1].split("[|]")));
+                    operationIdFilters = Arrays.stream(filterStrs[1].split("[|]"))
+                            .filter(Objects::nonNull)
+                            .map(String::trim)
+                            .collect(Collectors.toCollection(HashSet::new));
+                } else if ("method".equals(filterStrs[0])) {
+                    methodFilters = Arrays.stream(filterStrs[1].split("[|]"))
+                            .filter(Objects::nonNull)
+                            .map(String::trim)
+                            .collect(Collectors.toCollection(HashSet::new));
+                } else if ("tag".equals(filterStrs[0])) {
+                    tagFilters = Arrays.stream(filterStrs[1].split("[|]"))
+                            .filter(Objects::nonNull)
+                            .map(String::trim)
+                            .collect(Collectors.toCollection(HashSet::new));
                 } else {
-                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
+                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
                 }
             }
         }
@@ -264,13 +337,18 @@ public class OpenAPINormalizer {
                 LOGGER.error("SET_PRIMITIVE_TYPES_TO_NULLABLE rule must be in the form of `string|integer|number|boolean`, e.g. `string`, `integer|number`: {}", inputRules.get(SET_PRIMITIVE_TYPES_TO_NULLABLE));
             }
         }
+
+        bearerAuthSecuritySchemeName = inputRules.get(SET_BEARER_AUTH_FOR_NAME);
+        if (bearerAuthSecuritySchemeName != null) {
+            rules.put(SET_BEARER_AUTH_FOR_NAME, true);
+        }
     }
 
     /**
      * Normalizes the OpenAPI input, which may not perfectly conform to
      * the specification.
      */
-    void normalize() {
+    protected void normalize() {
         if (rules == null || rules.isEmpty() || disableAll) {
             return;
         }
@@ -283,14 +361,30 @@ public class OpenAPINormalizer {
             this.openAPI.getComponents().setSchemas(new HashMap<String, Schema>());
         }
 
+        normalizeInfo();
         normalizePaths();
+        normalizeComponentsSecuritySchemes();
         normalizeComponentsSchemas();
+        normalizeComponentsResponses();
+    }
+
+    /**
+     * Pre-populate info if it's not defined.
+     */
+    protected void normalizeInfo() {
+        if (this.openAPI.getInfo() == null) {
+            Info info = new Info();
+            info.setTitle("OpenAPI");
+            info.setVersion("0.0.1");
+            info.setDescription("OpenAPI");
+            this.openAPI.setInfo(info);
+        }
     }
 
     /**
      * Normalizes inline models in Paths
      */
-    private void normalizePaths() {
+    protected void normalizePaths() {
         Paths paths = openAPI.getPaths();
         if (paths == null) {
             return;
@@ -299,6 +393,27 @@ public class OpenAPINormalizer {
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             PathItem path = pathsEntry.getValue();
             List<Operation> operations = new ArrayList<>(path.readOperations());
+
+            Map<String, Function<PathItem, Operation>> methodMap = Map.of(
+                    "get", PathItem::getGet,
+                    "put", PathItem::getPut,
+                    "head", PathItem::getHead,
+                    "post", PathItem::getPost,
+                    "delete", PathItem::getDelete,
+                    "patch", PathItem::getPatch,
+                    "options", PathItem::getOptions,
+                    "trace", PathItem::getTrace
+            );
+
+            // Iterates over each HTTP method in methodMap, retrieves the corresponding Operation from the PathItem,
+            // and marks it as internal (`x-internal`) if the method is not in methodFilters.
+            methodMap.forEach((method, getter) -> {
+                Operation operation = getter.apply(path);
+                if (operation != null && !methodFilters.isEmpty()) {
+                    LOGGER.info("operation `{}` marked internal only (x-internal: `{}`) by the method FILTER", operation.getOperationId(), !methodFilters.contains(method));
+                    operation.addExtension("x-internal", !methodFilters.contains(method));
+                }
+            });
 
             // Include callback operation as well
             for (Operation operation : path.readOperations()) {
@@ -317,10 +432,17 @@ public class OpenAPINormalizer {
             for (Operation operation : operations) {
                 if (operationIdFilters.size() > 0) {
                     if (operationIdFilters.contains(operation.getOperationId())) {
-                        operation.addExtension("x-internal", false);
+                        operation.addExtension(X_INTERNAL, false);
                     } else {
-                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the FILTER", operation.getOperationId());
-                        operation.addExtension("x-internal", true);
+                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the operationId FILTER", operation.getOperationId());
+                        operation.addExtension(X_INTERNAL, true);
+                    }
+                } else if (!tagFilters.isEmpty()) {
+                    if (operation.getTags().stream().anyMatch(tagFilters::contains)) {
+                        operation.addExtension(X_INTERNAL, false);
+                    } else {
+                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the tag FILTER", operation.getOperationId());
+                        operation.addExtension(X_INTERNAL, true);
                     }
                 }
 
@@ -337,7 +459,7 @@ public class OpenAPINormalizer {
      *
      * @param operation Operation
      */
-    private void normalizeOperation(Operation operation) {
+    protected void normalizeOperation(Operation operation) {
         processRemoveXInternalFromOperation(operation);
 
         processKeepOnlyFirstTagInOperation(operation);
@@ -345,6 +467,10 @@ public class OpenAPINormalizer {
         processSetTagsForAllOperations(operation);
 
         processSetTagsToOperationId(operation);
+
+        processSetTagsToVendorExtension(operation);
+
+        processFixDuplicatedOperationId(operation);
     }
 
     /**
@@ -352,7 +478,7 @@ public class OpenAPINormalizer {
      *
      * @param content target content
      */
-    private void normalizeContent(Content content) {
+    protected void normalizeContent(Content content) {
         if (content == null || content.isEmpty()) {
             return;
         }
@@ -376,7 +502,7 @@ public class OpenAPINormalizer {
      *
      * @param operation target operation
      */
-    private void normalizeRequestBody(Operation operation) {
+    protected void normalizeRequestBody(Operation operation) {
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody == null) {
             return;
@@ -400,7 +526,7 @@ public class OpenAPINormalizer {
      *
      * @param parameters List parameters
      */
-    private void normalizeParameters(List<Parameter> parameters) {
+    protected void normalizeParameters(List<Parameter> parameters) {
         if (parameters == null) {
             return;
         }
@@ -411,9 +537,7 @@ public class OpenAPINormalizer {
                 parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
             }
 
-            if (parameter.getSchema() == null) {
-                continue;
-            } else {
+            if (parameter.getSchema() != null) {
                 Schema newSchema = normalizeSchema(parameter.getSchema(), new HashSet<>());
                 parameter.setSchema(newSchema);
             }
@@ -425,19 +549,26 @@ public class OpenAPINormalizer {
      *
      * @param operation target operation
      */
-    private void normalizeResponses(Operation operation) {
+    protected void normalizeResponses(Operation operation) {
         ApiResponses responses = operation.getResponses();
         if (responses == null) {
             return;
         }
 
         for (Map.Entry<String, ApiResponse> responsesEntry : responses.entrySet()) {
-            if (responsesEntry.getValue() == null) {
-                continue;
-            } else {
-                normalizeContent(ModelUtils.getReferencedApiResponse(openAPI, responsesEntry.getValue()).getContent());
-                normalizeHeaders(ModelUtils.getReferencedApiResponse(openAPI, responsesEntry.getValue()).getHeaders());
-            }
+            normalizeResponse(responsesEntry.getValue());
+        }
+    }
+
+    /**
+     * Normalizes schemas in ApiResponse
+     *
+     * @param apiResponse API response
+     */
+    protected void normalizeResponse(ApiResponse apiResponse) {
+        if (apiResponse != null) {
+            normalizeContent(ModelUtils.getReferencedApiResponse(openAPI, apiResponse).getContent());
+            normalizeHeaders(ModelUtils.getReferencedApiResponse(openAPI, apiResponse).getHeaders());
         }
     }
 
@@ -446,7 +577,7 @@ public class OpenAPINormalizer {
      *
      * @param headers a map of headers
      */
-    private void normalizeHeaders(Map<String, Header> headers) {
+    protected void normalizeHeaders(Map<String, Header> headers) {
         if (headers == null || headers.isEmpty()) {
             return;
         }
@@ -459,9 +590,39 @@ public class OpenAPINormalizer {
     }
 
     /**
+     * Normalizes securitySchemes in components
+     */
+    protected void normalizeComponentsSecuritySchemes() {
+         if (StringUtils.isEmpty(bearerAuthSecuritySchemeName)) {
+             return;
+         }
+
+        Map<String, SecurityScheme> schemes = openAPI.getComponents().getSecuritySchemes();
+        if (schemes == null) {
+            return;
+        }
+
+        for (String schemeKey : schemes.keySet()) {
+            if (schemeKey.equals(bearerAuthSecuritySchemeName)) {
+                SecurityScheme scheme = schemes.get(schemeKey);
+                scheme.setType(SecurityScheme.Type.HTTP);
+                scheme.setScheme("bearer");
+                scheme.setIn(null);
+                scheme.setName(null);
+                scheme.setBearerFormat(null);
+                scheme.setFlows(null);
+                scheme.setOpenIdConnectUrl(null);
+                scheme.setExtensions(null);
+                scheme.set$ref(null);
+                schemes.put(schemeKey, scheme);
+            }
+        }
+    }
+
+    /**
      * Normalizes schemas in components
      */
-    private void normalizeComponentsSchemas() {
+    protected void normalizeComponentsSchemas() {
         Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
         if (schemas == null) {
             return;
@@ -471,7 +632,7 @@ public class OpenAPINormalizer {
         for (String schemaName : schemaNames) {
             Schema schema = schemas.get(schemaName);
             if (schema == null) {
-                LOGGER.warn("{} not fount found in openapi/components/schemas.", schemaName);
+                LOGGER.warn("{} not found in openapi/components/schemas.", schemaName);
             } else {
                 // remove x-internal if needed
                 if (schema.getExtensions() != null && getRule(REMOVE_X_INTERNAL)) {
@@ -480,9 +641,75 @@ public class OpenAPINormalizer {
                     }
                 }
 
+                // auto fix self reference schema to avoid stack overflow
+                fixSelfReferenceSchema(schemaName, schema);
+
                 // normalize the schemas
                 schemas.put(schemaName, normalizeSchema(schema, new HashSet<>()));
             }
+        }
+    }
+
+    /**
+     * Normalizes schemas in component's responses.
+     */
+    protected void normalizeComponentsResponses() {
+        Map<String, ApiResponse> apiResponses = openAPI.getComponents().getResponses();
+        if (apiResponses == null) {
+            return;
+        }
+
+        for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
+            normalizeResponse(entry.getValue());
+        }
+    }
+
+    /**
+     * Auto fix a self referencing schema using any type to replace the self-referencing sub-item.
+     *
+     * @param name   Schema name
+     * @param schema Schema
+     */
+    public void fixSelfReferenceSchema(String name, Schema schema) {
+        if (ModelUtils.isArraySchema(schema)) {
+            if (isSelfReference(name, schema.getItems())) {
+                LOGGER.error("Array schema {} has a sub-item referencing itself. Worked around the self-reference schema using any type instead.", name);
+                schema.setItems(new Schema<>());
+            }
+        }
+
+        if (ModelUtils.isOneOf(schema)) {
+            for (int i = 0; i < schema.getOneOf().size(); i++) {
+                if (isSelfReference(name, (Schema) schema.getOneOf().get(i))) {
+                    LOGGER.error("oneOf schema {} has a sub-item referencing itself. Worked around the self-reference schema by removing it.", name);
+                    schema.getOneOf().remove(i);
+                }
+            }
+        }
+
+        if (ModelUtils.isAnyOf(schema)) {
+            for (int i = 0; i < schema.getAnyOf().size(); i++) {
+                if (isSelfReference(name, (Schema) schema.getAnyOf().get(i))) {
+                    LOGGER.error("anyOf schema {} has a sub-item referencing itself. Worked around the self-reference schema by removing it.", name);
+                    schema.getAnyOf().remove(i);
+                }
+            }
+        }
+
+        if (schema.getAdditionalProperties() != null && schema.getAdditionalProperties() instanceof Schema) {
+            if (isSelfReference(name, (Schema) schema.getAdditionalProperties())) {
+                LOGGER.error("Schema {} (with additional properties) has a sub-item referencing itself. Worked around the self-reference schema using any type instead.", name);
+                schema.setAdditionalProperties(new Schema<>());
+            }
+        }
+
+    }
+
+    protected boolean isSelfReference(String name, Schema subSchema) {
+        if (subSchema != null && name.equals(ModelUtils.getSimpleRef(subSchema.get$ref()))) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -494,35 +721,26 @@ public class OpenAPINormalizer {
      * @return Schema
      */
     public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
-        if (schema == null) {
+        if (skipNormalization(schema, visitedSchemas)) {
             return schema;
         }
 
-        if (StringUtils.isNotEmpty(schema.get$ref())) {
-            // no need to process $ref
+        if (ModelUtils.isNullTypeSchema(openAPI, schema)) {
             return schema;
         }
 
-        if ((visitedSchemas.contains(schema))) {
-            return schema; // skip due to circular reference
-        } else {
-            visitedSchemas.add(schema);
-        }
+        markSchemaAsVisited(schema, visitedSchemas);
 
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
             normalizeSchema(result.getItems(), visitedSchemas);
             return result;
-        } else if (schema.getAdditionalProperties() instanceof Schema) { // map
-            normalizeMapSchema(schema);
-            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
             return normalizeOneOf(schema, visitedSchemas);
         } else if (ModelUtils.isAnyOf(schema)) { // anyOf
             return normalizeAnyOf(schema, visitedSchemas);
         } else if (ModelUtils.isAllOfWithProperties(schema)) { // allOf with properties
             schema = normalizeAllOfWithProperties(schema, visitedSchemas);
-            normalizeSchema(schema, visitedSchemas);
         } else if (ModelUtils.isAllOf(schema)) { // allOf
             return normalizeAllOf(schema, visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) { // composed schema
@@ -553,6 +771,9 @@ public class OpenAPINormalizer {
             return schema;
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
+        } else if (schema.getAdditionalProperties() instanceof Schema) { // map
+            normalizeMapSchema(schema);
+            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof IntegerSchema) {
@@ -562,35 +783,73 @@ public class OpenAPINormalizer {
         } else {
             throw new RuntimeException("Unknown schema type found in normalizer: " + schema);
         }
-
         return schema;
     }
 
-    private Schema normalizeArraySchema(Schema schema) {
+
+    /**
+     * Check if normalization is needed.
+     *
+     * No normalization needed if the schema is null or is a $ref or already processed.
+     *
+     * @param schema         Schema
+     * @param visitedSchemas a set of visited schemas
+     * @return false if normalization is needed
+     */
+    protected boolean skipNormalization(Schema schema, Set<Schema> visitedSchemas) {
+        if (schema == null) {
+            return true;
+        }
+
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            // no need to process $ref
+            return true;
+        }
+
+        if (visitedSchemas.contains(schema)) {
+            return true; // skip due to circular reference
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Add the schema to the collection of visited schemas.
+     *
+     * @param schema schema to add
+     * @param visitedSchemas current visited schemas
+     */
+    protected void markSchemaAsVisited(Schema schema, Set<Schema> visitedSchemas) {
+        if (schema != null) {
+            visitedSchemas.add(schema);
+        }
+    }
+
+    protected Schema normalizeArraySchema(Schema schema) {
         Schema result = processNormalize31Spec(schema, new HashSet<>());
         return processSetArraytoNullable(result);
     }
 
-    private Schema normalizeMapSchema(Schema schema) {
+    protected Schema normalizeMapSchema(Schema schema) {
         return processSetMapToNullable(schema);
     }
 
-    private Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
+    protected Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
         Schema result = processNormalize31Spec(schema, visitedSchemas);
         return processSetPrimitiveTypesToNullable(result);
     }
 
-    private void normalizeBooleanSchema(Schema schema, Set<Schema> visitedSchemas) {
+    protected void normalizeBooleanSchema(Schema schema, Set<Schema> visitedSchemas) {
         processSimplifyBooleanEnum(schema);
         processSetPrimitiveTypesToNullable(schema);
     }
 
-    private void normalizeIntegerSchema(Schema schema, Set<Schema> visitedSchemas) {
+    protected void normalizeIntegerSchema(Schema schema, Set<Schema> visitedSchemas) {
         processAddUnsignedToIntegerWithInvalidMaxValue(schema);
         processSetPrimitiveTypesToNullable(schema);
     }
 
-    private void normalizeProperties(Map<String, Schema> properties, Set<Schema> visitedSchemas) {
+    protected void normalizeProperties(Map<String, Schema> properties, Set<Schema> visitedSchemas) {
         if (properties == null) {
             return;
         }
@@ -601,7 +860,89 @@ public class OpenAPINormalizer {
         }
     }
 
-    private Schema normalizeAllOf(Schema schema, Set<Schema> visitedSchemas) {
+    protected void refactorAllOfWithMetadataOnlySchemas(Schema schema) {
+        if (schema.getAllOf() == null) {
+            return;
+        }
+
+        // Check if there are metadata schemas.
+        // For example, there may be an `description` only schema that is used to override the descrption.
+        List<Schema> nonMetadataOnlySchemas = new ArrayList<>();
+        List<Schema> metadataOnlySchemas = new ArrayList<>();
+
+        for (Object s: schema.getAllOf()) {
+            if (s instanceof Schema) {
+                if (ModelUtils.isMetadataOnlySchema((Schema) s)) {
+                    metadataOnlySchemas.add((Schema) s);
+                } else {
+                    nonMetadataOnlySchemas.add((Schema) s);
+                }
+            }
+        }
+
+        //      ReferenceNumber:
+        //       allOf:
+        //       - $ref: '#/components/schemas/IEAN8'
+        //       - description: Product Ref
+        //       - example: IEAN1234
+        //
+        // becomes the following after the following code block
+        //
+        //     ReferenceNumber:
+        //      allOf:
+        //      - $ref: '#/components/schemas/IEAN8'
+        //      description: Product Ref
+        //      example: IEAN1234
+        //
+        // which can be further processed by the generator
+        if (nonMetadataOnlySchemas.size() > 0) {
+            // keep the non metadata schema(s)
+            schema.setAllOf(nonMetadataOnlySchemas);
+
+            // copy metadata to the allOf schema
+            for (Schema metadataOnlySchema: metadataOnlySchemas) {
+                ModelUtils.copyMetadata(metadataOnlySchema, schema);
+            }
+        }
+    }
+
+    /*
+     * Remove unsupported schemas (e.g. if, then) from allOf.
+     *
+     * @param schema Schema
+     */
+    protected void removeUnsupportedSchemasFromAllOf(Schema schema) {
+        if (schema.getAllOf() == null) {
+            return;
+        }
+
+        Iterator<Schema> iterator = schema.getAllOf().iterator();
+        while (iterator.hasNext()) {
+            Schema item = iterator.next();
+
+            // remove unsupported schemas (e.g. if, then)
+            if (ModelUtils.isUnsupportedSchema(openAPI, item)) {
+                LOGGER.debug("Removed allOf sub-schema that's not yet supported: {}", item);
+                iterator.remove();
+            }
+        }
+
+        if (schema.getAllOf().size() == 0) {
+            // no more schema in allOf so reset to null instead
+            LOGGER.info("Unset/Removed allOf after cleaning up allOf sub-schemas that are not yet supported.");
+            schema.setAllOf(null);
+        }
+    }
+
+    protected Schema normalizeAllOf(Schema schema, Set<Schema> visitedSchemas) {
+        removeUnsupportedSchemasFromAllOf(schema);
+
+        refactorAllOfWithMetadataOnlySchemas(schema);
+
+        if (schema.getAllOf() == null) {
+            return schema;
+        }
+
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
@@ -609,13 +950,23 @@ public class OpenAPINormalizer {
             // normalize allOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
+
         // process rules here
         processUseAllOfRefAsParent(schema);
 
         return schema;
     }
 
-    private Schema normalizeAllOfWithProperties(Schema schema, Set<Schema> visitedSchemas) {
+    protected Schema normalizeAllOfWithProperties(Schema schema, Set<Schema> visitedSchemas) {
+        removeUnsupportedSchemasFromAllOf(schema);
+
+        if (schema.getAllOf() == null) {
+            return schema;
+        }
+
+        // process rule to refactor properties into allOf sub-schema
+        schema = processRefactorAllOfWithPropertiesOnly(schema);
+
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
@@ -623,31 +974,54 @@ public class OpenAPINormalizer {
             // normalize allOf sub schemas one by one
             normalizeSchema((Schema) item, visitedSchemas);
         }
-        // process rules here
-        schema = processRefactorAllOfWithPropertiesOnly(schema);
 
         return schema;
     }
 
-    private Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
-        for (Object item : schema.getOneOf()) {
-            if (item == null) {
-                continue;
-            }
-            if (!(item instanceof Schema)) {
-                throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
-            }
-            // normalize oenOf sub schemas one by one
-            normalizeSchema((Schema) item, visitedSchemas);
-        }
-        // process rules here
+    protected Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
+        // Remove duplicate oneOf entries
+        ModelUtils.deduplicateOneOfSchema(schema);
+
+        schema = processSimplifyOneOfEnum(schema);
+
+        // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
 
+        // if it's still a oneOf, loop through the sub-schemas
+        if (schema.getOneOf() != null) {
+            for (int i = 0; i < schema.getOneOf().size(); i++) {
+                // normalize oneOf sub schemas one by one
+                Object item = schema.getOneOf().get(i);
+
+                if (item == null) {
+                    continue;
+                }
+                if (!(item instanceof Schema)) {
+                    throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
+                }
+
+                // update sub-schema with the updated schema
+                schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
+            }
+        } else {
+            // normalize it as it's no longer an oneOf
+            schema = normalizeSchema(schema, visitedSchemas);
+        }
+
         return schema;
     }
 
-    private Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
-        for (Object item : schema.getAnyOf()) {
+    protected Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
+        //transform anyOf into enums if needed
+        schema = processSimplifyAnyOfEnum(schema);
+        if (schema.getAnyOf() == null) {
+            return schema;
+        }
+
+        for (int i = 0; i < schema.getAnyOf().size(); i++) {
+            // normalize anyOf sub schemas one by one
+            Object item = schema.getAnyOf().get(i);
+
             if (item == null) {
                 continue;
             }
@@ -655,18 +1029,19 @@ public class OpenAPINormalizer {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! anyOf schema is not of the type Schema: " + item);
             }
-            // normalize anyOf sub schemas one by one
-            normalizeSchema((Schema) item, visitedSchemas);
+
+            // update sub-schema with the updated schema
+            schema.getAnyOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
         }
 
         // process rules here
         schema = processSimplifyAnyOf(schema);
 
         // last rule to process as the schema may become String schema (not "anyOf") after the completion
-        return processSimplifyAnyOfStringAndEnumString(schema);
+        return normalizeSchema(processSimplifyAnyOfStringAndEnumString(schema), visitedSchemas);
     }
 
-    private Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
+    protected Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
         // loop through properties, if any
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
@@ -674,18 +1049,18 @@ public class OpenAPINormalizer {
 
         processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);
 
-        return schema;
+        return normalizeSchema(schema, visitedSchemas);
     }
 
     // ===================== a list of rules =====================
-    // all rules (fuctions) start with the word "process"
+    // all rules (functions ) start with the word "process"
 
     /**
      * Child schemas in `allOf` is considered a parent if it's a `$ref` (instead of inline schema).
      *
      * @param schema Schema
      */
-    private void processUseAllOfRefAsParent(Schema schema) {
+    protected void processUseAllOfRefAsParent(Schema schema) {
         if (!getRule(REF_AS_PARENT_IN_ALLOF)) {
             return;
         }
@@ -715,10 +1090,10 @@ public class OpenAPINormalizer {
                     refSchema.setExtensions(new HashMap<>());
                 }
 
-                if (refSchema.getExtensions().containsKey("x-parent")) {
+                if (refSchema.getExtensions().containsKey(X_PARENT)) {
                     // doing nothing as x-parent already exists
                 } else {
-                    refSchema.getExtensions().put("x-parent", true);
+                    refSchema.getExtensions().put(X_PARENT, true);
                 }
 
                 LOGGER.debug("processUseAllOfRefAsParent added `x-parent: true` to {}", refSchema);
@@ -727,12 +1102,11 @@ public class OpenAPINormalizer {
     }
 
     /**
-     * Keep only first tag in the operation if the operation has more than
-     * one tag.
+     * Remove/hide the x-internal in operations and model.
      *
      * @param operation Operation
      */
-    private void processRemoveXInternalFromOperation(Operation operation) {
+    protected void processRemoveXInternalFromOperation(Operation operation) {
         if (!getRule(REMOVE_X_INTERNAL)) {
             return;
         }
@@ -741,7 +1115,7 @@ public class OpenAPINormalizer {
             return;
         }
 
-        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get("x-internal")))) {
+        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get(X_INTERNAL)))) {
             operation.getExtensions().remove(X_INTERNAL);
         }
     }
@@ -752,7 +1126,7 @@ public class OpenAPINormalizer {
      *
      * @param operation Operation
      */
-    private void processKeepOnlyFirstTagInOperation(Operation operation) {
+    protected void processKeepOnlyFirstTagInOperation(Operation operation) {
         if (!getRule(KEEP_ONLY_FIRST_TAG_IN_OPERATION)) {
             return;
         }
@@ -770,7 +1144,7 @@ public class OpenAPINormalizer {
      *
      * @param operation Operation
      */
-    private void processSetTagsForAllOperations(Operation operation) {
+    protected void processSetTagsForAllOperations(Operation operation) {
         if (StringUtils.isEmpty(setTagsForAllOperations)) {
             return;
         }
@@ -784,7 +1158,7 @@ public class OpenAPINormalizer {
      *
      * @param operation Operation
      */
-    private void processSetTagsToOperationId(Operation operation) {
+    protected void processSetTagsToOperationId(Operation operation) {
         if (!getRule(SET_TAGS_TO_OPERATIONID)) {
             return;
         }
@@ -798,12 +1172,58 @@ public class OpenAPINormalizer {
     }
 
     /**
+     * Set the tag name to the value of the provided vendor extension
+     *
+     * @param operation Operation
+     */
+    protected void processSetTagsToVendorExtension(Operation operation) {
+        if (StringUtils.isEmpty(setTagsToVendorExtension)) {
+            return;
+        }
+
+        if (operation.getExtensions() == null) {
+            return;
+        }
+
+        if (operation.getExtensions().containsKey(setTagsToVendorExtension)) {
+            operation.setTags(null);
+            Object argObj = operation.getExtensions().get(setTagsToVendorExtension);
+            if (argObj instanceof List) {
+                List<String> tags = (List<String>) argObj;
+                for (String tag : tags) {
+                    operation.addTagsItem(tag);
+                }
+            } else {
+                operation.addTagsItem(String.valueOf(argObj));
+            }
+        }
+    }
+
+    protected void processFixDuplicatedOperationId(Operation operation) {
+        if (!getRule(FIX_DUPLICATED_OPERATIONID)) {
+            return;
+        }
+
+        // skip null as default codegen will automatically generate one using path, http verb, etc
+        if (operation.getOperationId() == null) {
+            return;
+        }
+
+        String uniqueName = getUniqueString(operationIdSet, operation.getOperationId());
+
+        if (!uniqueName.equals(operation.getOperationId())) {
+            LOGGER.info("operationId {} renamed to {} to ensure uniqueness (enabled by openapi normalizer rule `FIX_DUPLICATED_OPERATIONID`)", operation.getOperationId(), uniqueName);
+            operation.setOperationId(uniqueName);
+        }
+    }
+
+    /**
      * If the schema contains anyOf/oneOf and properties, remove oneOf/anyOf as these serve as rules to
      * ensure inter-dependency between properties. It's a workaround as such validation is not supported at the moment.
      *
      * @param schema Schema
      */
-    private void processRemoveAnyOfOneOfAndKeepPropertiesOnly(Schema schema) {
+    protected void processRemoveAnyOfOneOfAndKeepPropertiesOnly(Schema schema) {
         if (!getRule(REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY)) {
             return;
         }
@@ -825,7 +1245,7 @@ public class OpenAPINormalizer {
      * @param schema Schema
      * @return Schema
      */
-    private Schema processSimplifyAnyOfStringAndEnumString(Schema schema) {
+    protected Schema processSimplifyAnyOfStringAndEnumString(Schema schema) {
         if (!getRule(SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING)) {
             return schema;
         }
@@ -872,57 +1292,161 @@ public class OpenAPINormalizer {
         return result;
     }
 
+
     /**
-     * Check if the schema is of type 'null'
-     * <p>
-     * Return true if the schema's type is 'null' or not specified
+     * If the schema is anyOf and all sub-schemas are enums (with one or more values),
+     * then simplify it to a single enum schema containing all the values.
      *
      * @param schema Schema
+     * @return Schema
      */
-    public boolean isNullTypeSchema(Schema schema) {
-        if (schema == null) {
-            return true;
+    protected Schema processSimplifyAnyOfEnum(Schema schema) {
+        if (!getRule(SIMPLIFY_ONEOF_ANYOF_ENUM)) {
+            return schema;
         }
 
-        if (ModelUtils.hasAllOf(schema) || ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema)) {
-            return false;
+        if (schema.getAnyOf() == null || schema.getAnyOf().isEmpty()) {
+            return schema;
+        }
+        if(schema.getOneOf() != null && !schema.getOneOf().isEmpty() ||
+            schema.getAllOf() != null && !schema.getAllOf().isEmpty() ||
+            schema.getNot() != null) {
+            //only convert to enum if anyOf is the only composition
+            return schema;
         }
 
-        if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
-            // 3.1 spec
-            if (schema.getTypes().size() == 1) { // 1 type only
-                String type = (String) schema.getTypes().iterator().next();
-                return type == null || "null".equals(type);
-            } else { // more than 1 type so must not be just null
-                return false;
-            }
-        }
-
-        if (schema instanceof JsonSchema) { // 3.1 spec
-            if (Boolean.TRUE.equals(schema.getNullable())) {
-                return true;
-            }
-
-            // for `type: null`
-            if (schema.getTypes() == null && schema.get$ref() == null) {
-                return true;
-            }
-        } else { // 3.0.x or 2.x spec
-            if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
-                return true;
-            }
-        }
-
-        // convert referenced enum of null only to `nullable:true`
-        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, schema);
-        if (referencedSchema.getEnum() != null && referencedSchema.getEnum().size() == 1) {
-            if ("null".equals(String.valueOf(referencedSchema.getEnum().get(0)))) {
-                return true;
-            }
-        }
-
-        return false;
+        return simplifyComposedSchemaWithEnums(schema, schema.getAnyOf(), "anyOf");
     }
+
+    /**
+     * If the schema is oneOf and all sub-schemas are enums (with one or more values),
+     * then simplify it to a single enum schema containing all the values.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    protected Schema processSimplifyOneOfEnum(Schema schema) {
+        if (!getRule(SIMPLIFY_ONEOF_ANYOF_ENUM)) {
+            return schema;
+        }
+
+        if (schema.getOneOf() == null || schema.getOneOf().isEmpty()) {
+            return schema;
+        }
+        if(schema.getAnyOf() != null && !schema.getAnyOf().isEmpty() ||
+                schema.getAllOf() != null && !schema.getAllOf().isEmpty() ||
+                schema.getNot() != null) {
+            //only convert to enum if oneOf is the only composition
+            return schema;
+        }
+
+        return simplifyComposedSchemaWithEnums(schema, schema.getOneOf(), "oneOf");
+    }
+
+    /**
+     * Simplifies a composed schema (oneOf/anyOf) where all sub-schemas are enums
+     * to a single enum schema containing all the values.
+     *
+     * @param schema Schema to modify
+     * @param subSchemas List of sub-schemas to check
+     * @param schemaType Type of composed schema ("oneOf" or "anyOf")
+     * @return Simplified schema
+     */
+    protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
+        Map<Object, String> enumValues = new LinkedHashMap<>();
+
+        if(schema.getTypes() != null && schema.getTypes().size() > 1) {
+            // we cannot handle enums with multiple types
+            return schema;
+        }
+
+        if(subSchemas.size() < 2) {
+            //do not process if there's less than 2 sub-schemas. It will be normalized later, and this prevents
+            //named enum schemas from being converted to inline enum schemas
+            return schema;
+        }
+        String schemaType = ModelUtils.getType(schema);
+
+        for (Object item : subSchemas) {
+            if (!(item instanceof Schema)) {
+                return schema;
+            }
+
+            Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
+
+            // Check if this sub-schema has an enum (with one or more values)
+            if (subSchema.getEnum() == null || subSchema.getEnum().isEmpty()) {
+                return schema;
+            }
+
+            // Ensure all sub-schemas have the same type (if type is specified)
+            if(subSchema.getTypes() != null && subSchema.getTypes().size() > 1) {
+                // we cannot handle enums with multiple types
+                return schema;
+            }
+            String subSchemaType = ModelUtils.getType(subSchema);
+            if (subSchemaType != null) {
+                if (schemaType == null) {
+                    schemaType = subSchemaType;
+                } else if (!schemaType.equals(subSchema.getType())) {
+                    return schema;
+                }
+            }
+            // Add all enum values from this sub-schema to our collection
+            if(subSchema.getEnum().size() == 1) {
+                String description = subSchema.getTitle() == null ? "" : subSchema.getTitle();
+                if(subSchema.getDescription() != null) {
+                    if(!description.isEmpty()) {
+                        description += " - ";
+                    }
+                    description += subSchema.getDescription();
+                }
+                enumValues.put(subSchema.getEnum().get(0), description);
+            } else {
+                for(Object e: subSchema.getEnum()) {
+                    enumValues.put(e, "");
+                }
+            }
+
+        }
+
+        return createSimplifiedEnumSchema(schema, enumValues, schemaType, composedType);
+    }
+
+
+    /**
+     * Creates a simplified enum schema from collected enum values.
+     *
+     * @param originalSchema Original schema to modify
+     * @param enumValues Collected enum values
+     * @param schemaType Consistent type across sub-schemas
+     * @param composedType Type of composed schema being simplified
+     * @return Simplified enum schema
+     */
+    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, String schemaType, String composedType) {
+        // Clear the composed schema type
+        if ("oneOf".equals(composedType)) {
+            originalSchema.setOneOf(null);
+        } else if ("anyOf".equals(composedType)) {
+            originalSchema.setAnyOf(null);
+        }
+
+        if (ModelUtils.getType(originalSchema) == null && schemaType != null) {
+            //if type was specified in subschemas, keep it in the main schema
+            ModelUtils.setType(originalSchema, schemaType);
+        }
+
+        originalSchema.setEnum(new ArrayList<>(enumValues.keySet()));
+        if(enumValues.values().stream().anyMatch(e -> !e.isEmpty())) {
+            //set x-enum-descriptions only if there's at least one non-empty description
+            originalSchema.addExtension("x-enum-descriptions", new ArrayList<>(enumValues.values()));
+        }
+
+        LOGGER.debug("Simplified {} with enum sub-schemas to single enum: {}", composedType, originalSchema);
+
+        return originalSchema;
+    }
+
 
     /**
      * If the schema is oneOf and the sub-schemas is null, set `nullable: true`
@@ -932,7 +1456,7 @@ public class OpenAPINormalizer {
      * @param schema Schema
      * @return Schema
      */
-    private Schema processSimplifyOneOf(Schema schema) {
+    protected Schema processSimplifyOneOf(Schema schema) {
         if (!getRule(SIMPLIFY_ONEOF_ANYOF)) {
             return schema;
         }
@@ -942,7 +1466,7 @@ public class OpenAPINormalizer {
             // simplify any type with 6 sub-schemas (string, integer, etc) in oneOf
             if (oneOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
-                for (Schema s: oneOfSchemas) {
+                for (Schema s : oneOfSchemas) {
                     s = ModelUtils.getReferencedSchema(openAPI, s);
                     String type = ModelUtils.getType(s);
                     if (type == null) {
@@ -966,16 +1490,11 @@ public class OpenAPINormalizer {
                 }
             }
 
-            if (oneOfSchemas.removeIf(oneOf -> isNullTypeSchema(oneOf))) {
-                schema.setNullable(true);
+            schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
 
-                // if only one element left, simplify to just the element (schema)
-                if (oneOfSchemas.size() == 1) {
-                    if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting
-                        ((Schema) oneOfSchemas.get(0)).setNullable(true);
-                    }
-                    return (Schema) oneOfSchemas.get(0);
-                }
+            if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
+                // TODO convert oneOf const to enum
+                schema.setOneOf(null);
             }
         }
 
@@ -988,7 +1507,7 @@ public class OpenAPINormalizer {
      * @param schema Schema
      * @return Schema
      */
-    private Schema processSetArraytoNullable(Schema schema) {
+    protected Schema processSetArraytoNullable(Schema schema) {
         if (!getRule(SET_CONTAINER_TO_NULLABLE)) {
             return schema;
         }
@@ -1012,7 +1531,7 @@ public class OpenAPINormalizer {
      * @param schema Schema
      * @return Schema
      */
-    private Schema processSetPrimitiveTypesToNullable(Schema schema) {
+    protected Schema processSetPrimitiveTypesToNullable(Schema schema) {
         if (!getRule(SET_PRIMITIVE_TYPES_TO_NULLABLE)) {
             return schema;
         }
@@ -1030,7 +1549,7 @@ public class OpenAPINormalizer {
         return schema;
     }
 
-    private Schema setNullable(Schema schema) {
+    protected Schema setNullable(Schema schema) {
         if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey("x-nullable"))) {
             // already set, don't overwrite
             return schema;
@@ -1038,13 +1557,14 @@ public class OpenAPINormalizer {
         schema.setNullable(true);
         return schema;
     }
+
     /**
      * Set nullable to true in map if needed.
      *
      * @param schema Schema
      * @return Schema
      */
-    private Schema processSetMapToNullable(Schema schema) {
+    protected Schema processSetMapToNullable(Schema schema) {
         if (!getRule(SET_CONTAINER_TO_NULLABLE)) {
             return schema;
         }
@@ -1063,7 +1583,7 @@ public class OpenAPINormalizer {
      * @param schema Schema
      * @return Schema
      */
-    private Schema processSimplifyAnyOf(Schema schema) {
+    protected Schema processSimplifyAnyOf(Schema schema) {
         if (!getRule(SIMPLIFY_ONEOF_ANYOF)) {
             return schema;
         }
@@ -1073,7 +1593,7 @@ public class OpenAPINormalizer {
             // simplify any type with 6 sub-schemas (string, integer, etc) in anyOf
             if (anyOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
-                for (Schema s: anyOfSchemas) {
+                for (Schema s : anyOfSchemas) {
                     s = ModelUtils.getReferencedSchema(openAPI, s);
                     String type = ModelUtils.getType(s);
                     if (type == null) {
@@ -1097,17 +1617,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            if (anyOfSchemas.removeIf(anyOf -> isNullTypeSchema(anyOf))) {
-                schema.setNullable(true);
-            }
-
-            // if only one element left, simplify to just the element (schema)
-            if (anyOfSchemas.size() == 1) {
-                if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting
-                    ((Schema) anyOfSchemas.get(0)).setNullable(true);
-                }
-                return (Schema) anyOfSchemas.get(0);
-            }
+            schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, anyOfSchemas);
         }
 
         return schema;
@@ -1118,9 +1628,8 @@ public class OpenAPINormalizer {
      * then simply it to just boolean.
      *
      * @param schema Schema
-     * @return Schema
      */
-    private void processSimplifyBooleanEnum(Schema schema) {
+    protected void processSimplifyBooleanEnum(Schema schema) {
         if (!getRule(SIMPLIFY_BOOLEAN_ENUM)) {
             return;
         }
@@ -1138,9 +1647,8 @@ public class OpenAPINormalizer {
      * then add x-unsigned to use unsigned integer/long instead.
      *
      * @param schema Schema
-     * @return Schema
      */
-    private void processAddUnsignedToIntegerWithInvalidMaxValue(Schema schema) {
+    protected void processAddUnsignedToIntegerWithInvalidMaxValue(Schema schema) {
         if (!getRule(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE)) {
             return;
         }
@@ -1167,7 +1675,7 @@ public class OpenAPINormalizer {
      * @param schema Schema
      * @return Schema
      */
-    private Schema processRefactorAllOfWithPropertiesOnly(Schema schema) {
+    protected Schema processRefactorAllOfWithPropertiesOnly(Schema schema) {
         if (!getRule(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY)) {
             return schema;
         }
@@ -1196,9 +1704,8 @@ public class OpenAPINormalizer {
         schema.setTitle(null);
 
         // at this point the schema becomes a simple allOf (no properties) with an additional schema containing
-        // the properties
-
-        return schema;
+        // the properties. Normalize it before returning.
+        return normalizeSchema(schema, new HashSet<>());
     }
 
     /**
@@ -1208,7 +1715,7 @@ public class OpenAPINormalizer {
      * @param visitedSchemas a set of visited schemas
      * @return Schema
      */
-    private Schema processNormalize31Spec(Schema schema, Set<Schema> visitedSchemas) {
+    protected Schema processNormalize31Spec(Schema schema, Set<Schema> visitedSchemas) {
         if (!getRule(NORMALIZE_31SPEC)) {
             return schema;
         }
@@ -1238,6 +1745,12 @@ public class OpenAPINormalizer {
             schema.getTypes().remove("null");
         }
 
+        // process const
+        if (schema.getConst() != null) {
+            schema.setEnum(Arrays.asList(schema.getConst()));
+            schema.setConst(null);
+        }
+
         // only one item (type) left
         if (schema.getTypes().size() == 1) {
             String type = String.valueOf(schema.getTypes().iterator().next());
@@ -1255,6 +1768,7 @@ public class OpenAPINormalizer {
                 as.setMaxItems(schema.getMaxItems());
                 as.setExtensions(schema.getExtensions());
                 as.setXml(schema.getXml());
+                as.setNullable(schema.getNullable());
                 as.setUniqueItems(schema.getUniqueItems());
                 if (schema.getItems() != null) {
                     // `items` is also a json schema
@@ -1266,6 +1780,9 @@ public class OpenAPINormalizer {
                         Schema updatedItems = normalizeSchema(schema.getItems(), visitedSchemas);
                         as.setItems(updatedItems);
                     }
+                } else {
+                    // when items is not defined, default to any type
+                    as.setItems(new Schema());
                 }
 
                 return as;

@@ -79,7 +79,7 @@ export function *getFakePetPartTypeSagaImp(_action_: Action<PayloadGetFakePetPar
             yield put(getFakePetPartTypeSuccess(successReturnValue));
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getFakePetPartTypeFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -147,7 +147,7 @@ export function *getMatchingPartsSagaImp(_action_: Action<PayloadGetMatchingPart
         }
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getMatchingPartsFailure({error, requestPayload: _action_.payload}));
         return error;

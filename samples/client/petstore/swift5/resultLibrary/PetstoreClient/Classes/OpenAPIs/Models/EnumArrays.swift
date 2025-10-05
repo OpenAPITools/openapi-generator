@@ -10,32 +10,34 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct EnumArrays: Codable, JSONEncodable, Hashable {
+internal struct EnumArrays: Codable, JSONEncodable {
 
-    public enum JustSymbol: String, Codable, CaseIterable {
+    internal enum JustSymbol: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
+        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public enum ArrayEnum: String, Codable, CaseIterable {
+    internal enum ArrayEnum: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case fish = "fish"
         case crab = "crab"
+        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public var justSymbol: JustSymbol?
-    public var arrayEnum: [ArrayEnum]?
+    internal private(set) var justSymbol: JustSymbol?
+    internal private(set) var arrayEnum: [ArrayEnum]?
 
-    public init(justSymbol: JustSymbol? = nil, arrayEnum: [ArrayEnum]? = nil) {
+    internal init(justSymbol: JustSymbol? = nil, arrayEnum: [ArrayEnum]? = nil) {
         self.justSymbol = justSymbol
         self.arrayEnum = arrayEnum
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case justSymbol = "just_symbol"
         case arrayEnum = "array_enum"
     }
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(justSymbol, forKey: .justSymbol)
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)

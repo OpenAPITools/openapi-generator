@@ -1,8 +1,9 @@
-.cargo/config
+.cargo/config.toml
 .gitignore
 Cargo.toml
 README.md
 api/openapi.yaml
+bin/cli.rs
 docs/MultipartRelatedRequest.md
 docs/MultipartRequestObjectField.md
 docs/MultipleIdenticalMimeTypesPostRequest.md

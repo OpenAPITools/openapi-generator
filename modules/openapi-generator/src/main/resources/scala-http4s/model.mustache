@@ -1,0 +1,71 @@
+{{>licenseInfo}}
+package {{modelPackage}}
+
+import io.circe.*
+import io.circe.syntax.*
+import io.circe.{Decoder, Encoder}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+/** {{{description}}}
+{{#vars}}
+  * @param {{name}} {{{description}}}
+{{/vars}}
+  */
+{{#isEnum}}
+enum {{classname}}(val value: String) {
+  {{#allowableValues}}
+  {{#values}}
+  case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{classname}}("{{.}}")
+  {{/values}}
+  {{/allowableValues}}
+}
+
+object {{classname}} {
+
+  def withValueOpt(value: String): Option[{{classname}}] = {{classname}}.values.find(_.value == value)
+  def withValue(value: String): {{classname}} =
+    withValueOpt(value).getOrElse(throw java.lang.IllegalArgumentException(s"{{classname}} enum case not found: $value"))
+
+  given decoder{{classname}}: Decoder[{{classname}}] = Decoder.decodeString.map(withValue)
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.encodeString.contramap[{{classname}}](_.value)
+
+}
+{{/isEnum}}
+{{^isEnum}}
+case class {{classname}}(
+{{#vars}}
+    {{name}}: {{^required}}Option[{{{dataType}}}] = None{{/required}}{{#required}}{{{dataType}}}{{/required}}{{^-last}},{{/-last}}
+{{/vars}}
+)
+  
+object {{classname}} {
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        {{#vars}}
+        {{#required}}Some("{{baseName}}" -> t.{{name}}.asJson){{/required}}{{^required}}t.{{name}}.map(v => "{{baseName}}" -> v.asJson){{/required}}{{^-last}},{{/-last}}
+        {{/vars}}
+      ).flatten
+    }
+  }
+  given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { c =>
+    for {
+      {{#vars}}
+      {{name}} <- {{#isEnumOrRef}}{{^required}}mapEmptyStringToNull(c.downField("{{baseName}}")){{/required}}{{#required}}c.downField("{{baseName}}"){{/required}}{{/isEnumOrRef}}{{^isEnumOrRef}}c.downField("{{baseName}}"){{/isEnumOrRef}}.as[{{^required}}Option[{{{dataType}}}]{{/required}}{{#required}}{{{dataType}}}{{/required}}]
+      {{/vars}}
+    } yield {{classname}}(
+      {{#vars}}
+      {{name}} = {{name}}{{^-last}},{{/-last}}
+      {{/vars}}
+    )
+  }
+}
+{{/isEnum}}
+{{/model}}
+{{/models}}
+

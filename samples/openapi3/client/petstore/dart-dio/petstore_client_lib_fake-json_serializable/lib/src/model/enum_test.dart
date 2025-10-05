@@ -7,11 +7,13 @@ import 'package:openapi/src/model/outer_enum.dart';
 import 'package:openapi/src/model/outer_enum_default_value.dart';
 import 'package:openapi/src/model/outer_enum_integer.dart';
 import 'package:openapi/src/model/outer_enum_integer_default_value.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'enum_test.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -43,7 +45,8 @@ class EnumTest {
     
     name: r'enum_string',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: EnumTestEnumStringEnum.unknownDefaultOpenApi,
   )
 
 
@@ -55,7 +58,8 @@ class EnumTest {
     
     name: r'enum_string_required',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: EnumTestEnumStringRequiredEnum.unknownDefaultOpenApi,
   )
 
 
@@ -67,7 +71,8 @@ class EnumTest {
     
     name: r'enum_integer',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: EnumTestEnumIntegerEnum.unknownDefaultOpenApi,
   )
 
 
@@ -79,7 +84,8 @@ class EnumTest {
     
     name: r'enum_number',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: EnumTestEnumNumberEnum.unknownDefaultOpenApi,
   )
 
 
@@ -91,7 +97,8 @@ class EnumTest {
     
     name: r'outerEnum',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: OuterEnum.unknownDefaultOpenApi,
   )
 
 
@@ -103,7 +110,8 @@ class EnumTest {
     
     name: r'outerEnumInteger',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: OuterEnumInteger.unknownDefaultOpenApi,
   )
 
 
@@ -115,7 +123,8 @@ class EnumTest {
     
     name: r'outerEnumDefaultValue',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: OuterEnumDefaultValue.unknownDefaultOpenApi,
   )
 
 
@@ -127,7 +136,8 @@ class EnumTest {
     
     name: r'outerEnumIntegerDefaultValue',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: OuterEnumIntegerDefaultValue.unknownDefaultOpenApi,
   )
 
 
@@ -172,49 +182,77 @@ class EnumTest {
 
 
 enum EnumTestEnumStringEnum {
-  @JsonValue(r'UPPER')
-  UPPER,
-  @JsonValue(r'lower')
-  lower,
-  @JsonValue(r'')
-  empty,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+@JsonValue(r'UPPER')
+UPPER(r'UPPER'),
+@JsonValue(r'lower')
+lower(r'lower'),
+@JsonValue(r'')
+empty(r''),
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const EnumTestEnumStringEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 
 
 enum EnumTestEnumStringRequiredEnum {
-  @JsonValue(r'UPPER')
-  UPPER,
-  @JsonValue(r'lower')
-  lower,
-  @JsonValue(r'')
-  empty,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+@JsonValue(r'UPPER')
+UPPER(r'UPPER'),
+@JsonValue(r'lower')
+lower(r'lower'),
+@JsonValue(r'')
+empty(r''),
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const EnumTestEnumStringRequiredEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 
 
 enum EnumTestEnumIntegerEnum {
-  @JsonValue(1)
-  number1,
-  @JsonValue(-1)
-  numberNegative1,
-  @JsonValue(11184809)
-  unknownDefaultOpenApi,
+@JsonValue(1)
+number1('1'),
+@JsonValue(-1)
+numberNegative1('-1'),
+@JsonValue(11184809)
+unknownDefaultOpenApi('11184809');
+
+const EnumTestEnumIntegerEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 
 
 enum EnumTestEnumNumberEnum {
-  @JsonValue('1.1')
-  number1Period1,
-  @JsonValue('-1.2')
-  numberNegative1Period2,
-  @JsonValue('11184809')
-  unknownDefaultOpenApi,
+@JsonValue('1.1')
+number1Period1(''1.1''),
+@JsonValue('-1.2')
+numberNegative1Period2(''-1.2''),
+@JsonValue('11184809')
+unknownDefaultOpenApi(''11184809'');
+
+const EnumTestEnumNumberEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 

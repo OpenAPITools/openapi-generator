@@ -1,0 +1,58 @@
+{{>licenseInfo}}
+{{#operations}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H_
+#define {{classname}}_H_
+
+{{{defaultInclude}}}
+
+#include "oatpp/web/server/api/ApiController.hpp"
+#include "oatpp/core/macro/codegen.hpp"
+#include "oatpp/core/macro/component.hpp"
+#include "oatpp/core/Types.hpp"
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+#include OATPP_CODEGEN_BEGIN(ApiController) ///< Begin ApiController codegen section
+
+namespace {{apiNamespace}}
+{
+
+class {{classname}} : public oatpp::web::server::api::ApiController {
+public:
+
+  {{classname}}(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper) /* Inject object mapper */)
+    : oatpp::web::server::api::ApiController(objectMapper) 
+  {}
+
+  {{#operation}}
+  /// <summary>
+  /// {{summary}}
+  /// </summary>
+  /// <remarks>
+  /// {{notes}}
+  /// </remarks>
+  /// <param name="request">HTTP Request</param>
+  {{#allParams}}
+  {{#isPathParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isPathParam}}{{#isQueryParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isQueryParam}}{{#isBodyParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isBodyParam}}{{#isHeaderParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isHeaderParam}}
+  {{/allParams}}
+  virtual std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> {{operationIdSnakeCase}}(const std::shared_ptr<IncomingRequest> &request{{#allParams}}{{#isPathParam}}, const {{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}} &{{paramName}}{{/isPathParam}}{{#isQueryParam}}, const {{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}} &{{paramName}}{{/isQueryParam}}{{#isBodyParam}}, const {{#isModel}}oatpp::Object<{{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}}>{{/isModel}}{{^isModel}}{{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}}{{/isModel}} &{{paramName}}{{/isBodyParam}}{{#isHeaderParam}}, const {{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}} &{{paramName}}{{/isHeaderParam}}{{/allParams}}) = 0;
+
+  ENDPOINT("{{httpMethod}}", "{{{vendorExtensions.x-codegen-oatpp-path}}}", {{operationIdSnakeCase}}_handler, REQUEST(std::shared_ptr<IncomingRequest>, request){{#allParams}}{{#isPathParam}}, PATH({{#isModel}}{{modelNamespace}}::{{/isModel}}{{&dataType}}, {{paramName}}){{/isPathParam}}{{#isQueryParam}}, QUERY({{#isModel}}{{modelNamespace}}::{{/isModel}}{{&dataType}}, {{paramName}}){{/isQueryParam}}{{#isBodyParam}}, BODY_DTO({{#isModel}}oatpp::Object<{{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}}>{{/isModel}}{{^isModel}}{{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}}{{/isModel}}, {{paramName}}){{/isBodyParam}}{{#isHeaderParam}}, HEADER({{{dataType}}}, {{paramName}}, "{{paramName}}"){{/isHeaderParam}}{{/allParams}}) {
+      return {{operationIdSnakeCase}}(request{{#allParams}}{{#isPathParam}}, {{paramName}}{{/isPathParam}}{{#isQueryParam}}, {{paramName}}{{/isQueryParam}}{{#isBodyParam}}, {{paramName}}{{/isBodyParam}}{{#isHeaderParam}}, {{paramName}}{{/isHeaderParam}}{{/allParams}});
+  }
+  {{/operation}}
+};
+
+#include OATPP_CODEGEN_END(ApiController) ///< End ApiController codegen section
+
+} // namespace {{apiNamespace}}
+
+#endif /* {{classname}}_H_ */
+
+{{/operations}}

@@ -16,9 +16,13 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
-
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.exceptions.ProtoBufIndexComputationException;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -31,9 +35,6 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import org.apache.commons.lang3.StringUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +42,9 @@ import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import com.google.common.base.CaseFormat;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -50,21 +54,60 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     private static final String IMPORTS = "imports";
 
+    private static final String ARRAY_SUFFIX = "Array";
+
+    private static final String MAP_SUFFIX = "Map";
+
     public static final String NUMBERED_FIELD_NUMBER_LIST = "numberedFieldNumberList";
 
-    public static final String START_ENUMS_WITH_UNKNOWN = "startEnumsWithUnknown";
+    public static final String START_ENUMS_WITH_UNSPECIFIED = "startEnumsWithUnspecified";
+
+    public static final String ADD_JSON_NAME_ANNOTATION = "addJsonNameAnnotation";
+
+    public static final String WRAP_COMPLEX_TYPE = "wrapComplexType";
+
+    public static final String USE_SIMPLIFIED_ENUM_NAMES = "useSimplifiedEnumNames";
+
+    public static final String AGGREGATE_MODELS_NAME = "aggregateModelsName";
+
+    public static final String CUSTOM_OPTIONS_API = "customOptionsApi";
+
+    public static final String CUSTOM_OPTIONS_MODEL = "customOptionsModel";
+
+    public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     @Setter protected String packageName = "openapitools";
 
+    @Setter protected String aggregateModelsName = null;
+
+    @SuppressWarnings("unused")
+    @Setter protected String customOptionsApi = null;
+
+    @SuppressWarnings("unused")
+    @Setter protected String customOptionsModel = null;
+
     private boolean numberedFieldNumberList = false;
 
-    private boolean startEnumsWithUnknown = false;
+    private boolean startEnumsWithUnspecified = false;
+
+    private boolean addJsonNameAnnotation = false;
+
+    private boolean wrapComplexType = true;
+
+    private boolean useSimplifiedEnumNames = false;
+
+    private boolean supportMultipleResponses = true;
 
     @Override
     public CodegenType getTag() {
         return CodegenType.SCHEMA;
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return StringUtils.capitalize(property.name);
     }
 
     @Override
@@ -164,7 +207,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         cliOptions.clear();
 
         addSwitch(NUMBERED_FIELD_NUMBER_LIST, "Field numbers in order.", numberedFieldNumberList);
-        addSwitch(START_ENUMS_WITH_UNKNOWN, "Introduces \"UNKNOWN\" as the first element of enumerations.", startEnumsWithUnknown);
+        addSwitch(START_ENUMS_WITH_UNSPECIFIED, "Introduces \"UNSPECIFIED\" as the first element of enumerations.", startEnumsWithUnspecified);
+        addSwitch(ADD_JSON_NAME_ANNOTATION, "Append \"json_name\" annotation to message field when the specification name differs from the protobuf field name", addJsonNameAnnotation);
+        addSwitch(WRAP_COMPLEX_TYPE, "Generate Additional message for complex type", wrapComplexType);
+        addSwitch(USE_SIMPLIFIED_ENUM_NAMES, "Use a simple name for enums", useSimplifiedEnumNames);
+        addSwitch(SUPPORT_MULTIPLE_RESPONSES, "Support multiple responses", supportMultipleResponses);
+        addOption(AGGREGATE_MODELS_NAME, "Aggregated model filename. If set, all generated models will be combined into this single file.", null);
+        addOption(CUSTOM_OPTIONS_API, "Custom options for the api files.", null);
+        addOption(CUSTOM_OPTIONS_MODEL, "Custom options for the model files.", null);
     }
 
     @Override
@@ -191,12 +241,42 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
-        if (additionalProperties.containsKey(this.NUMBERED_FIELD_NUMBER_LIST)) {
+        if (additionalProperties.containsKey(NUMBERED_FIELD_NUMBER_LIST)) {
             this.numberedFieldNumberList = convertPropertyToBooleanAndWriteBack(NUMBERED_FIELD_NUMBER_LIST);
         }
 
-        if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNKNOWN)) {
-            this.startEnumsWithUnknown = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNKNOWN);
+        if (additionalProperties.containsKey(START_ENUMS_WITH_UNSPECIFIED)) {
+            this.startEnumsWithUnspecified = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNSPECIFIED);
+        }
+
+        if (additionalProperties.containsKey(ADD_JSON_NAME_ANNOTATION)) {
+            this.addJsonNameAnnotation = convertPropertyToBooleanAndWriteBack(ADD_JSON_NAME_ANNOTATION);
+        }
+
+        if (additionalProperties.containsKey(WRAP_COMPLEX_TYPE)) {
+            this.wrapComplexType = convertPropertyToBooleanAndWriteBack(WRAP_COMPLEX_TYPE);
+        }
+
+        if (additionalProperties.containsKey(USE_SIMPLIFIED_ENUM_NAMES)) {
+            this.useSimplifiedEnumNames = convertPropertyToBooleanAndWriteBack(USE_SIMPLIFIED_ENUM_NAMES);
+        }
+
+        if (additionalProperties.containsKey(AGGREGATE_MODELS_NAME)) {
+            this.setAggregateModelsName((String) additionalProperties.get(AGGREGATE_MODELS_NAME));
+        }
+
+        if (additionalProperties.containsKey(CUSTOM_OPTIONS_API)) {
+            this.setCustomOptionsApi((String) additionalProperties.get(CUSTOM_OPTIONS_API));
+        }
+
+        if (additionalProperties.containsKey(CUSTOM_OPTIONS_MODEL)) {
+            this.setCustomOptionsModel((String) additionalProperties.get(CUSTOM_OPTIONS_MODEL));
+        }
+
+        if (additionalProperties.containsKey(this.SUPPORT_MULTIPLE_RESPONSES)) {
+            this.supportMultipleResponses = convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_RESPONSES);
+        } else {
+            additionalProperties.put(this.SUPPORT_MULTIPLE_RESPONSES, this.supportMultipleResponses);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -219,6 +299,222 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     /**
+     * Creates an array schema from the provided object schema.
+     *
+     *  @param objectSchema the schema of the object to be wrapped in an array schema
+     *  @return the created array schema
+     */
+    private Schema createArraySchema(Schema objectSchema) {
+        ArraySchema arraySchema = new ArraySchema();
+        arraySchema.items(objectSchema);
+        return arraySchema;
+    }
+
+
+    /**
+     * Creates a map schema from the provided object schema.
+     *
+     *  @param objectSchema the schema of the object to be wrapped in a map schema
+     *  @return the created map schema
+     */
+    private Schema createMapSchema(Schema objectSchema) {
+        MapSchema mapSchema = new MapSchema();
+        mapSchema.additionalProperties(objectSchema);
+        return mapSchema;
+    }
+
+    /**
+     * Adds a new schema to the OpenAPI components.
+     *
+     * @param schema the schema to be added
+     * @param schemaName the name of the schema
+     * @param visitedSchema a set of schemas that have already been visited
+     * @return the reference schema
+     */
+    private Schema addSchemas(Schema schema, String schemaName, Set<Schema> visitedSchema) {
+        LOGGER.info("Generating new model: {}", schemaName);
+
+        ObjectSchema model = new ObjectSchema();
+        model.setName(schemaName);
+
+        Map<String, Schema> properties = new HashMap<>();
+        properties.put(toVarName(schemaName), schema);
+        model.setProperties(properties);
+
+        Schema refSchema = new Schema();
+        refSchema.set$ref("#/components/schemas/" + schemaName);
+        refSchema.setName(schemaName);
+
+        visitedSchema.add(refSchema);
+
+        openAPI.getComponents().addSchemas(schemaName, model);
+
+        return refSchema;
+    }
+
+    /**
+     * Derive name from schema primitive type
+     *
+     *  @param schema the schema to derive the name from
+     *  @return the derived name
+     */
+    private String getNameFromSchemaPrimitiveType(Schema schema) {
+        if (!ModelUtils.isPrimitiveType(schema)) return "";
+        if(ModelUtils.isNumberSchema(schema)) {
+            if(schema.getFormat() != null) {
+                return schema.getFormat();
+            } else if (typeMapping.get(schema.getType()) != null) {
+                return typeMapping.get(schema.getType());
+            }
+        }
+        return ModelUtils.getType(schema);
+    }
+
+    /**
+     * Recursively generates schemas for nested maps and arrays.
+     * @param schema the schema to be processed
+     * @param visitedSchemas a set of schemas that have already been visited
+     * @return the processed schema
+     */
+    private Schema generateNestedSchema(Schema schema, Set<Schema> visitedSchemas) {
+        if (visitedSchemas.contains(schema)) {
+            LOGGER.warn("Skipping recursive schema");
+            return schema;
+        }
+
+        if(ModelUtils.isArraySchema(schema)) {
+            Schema itemsSchema = ModelUtils.getSchemaItems(schema);
+            itemsSchema = ModelUtils.getReferencedSchema(openAPI, itemsSchema);
+            if(ModelUtils.isModel(itemsSchema)) {
+                String newSchemaName = ModelUtils.getSimpleRef(ModelUtils.getSchemaItems(schema).get$ref()) + ARRAY_SUFFIX;
+                return addSchemas(schema, newSchemaName, visitedSchemas);
+            }else if (ModelUtils.isPrimitiveType(itemsSchema)){
+                String newSchemaName = getNameFromSchemaPrimitiveType(itemsSchema) + ARRAY_SUFFIX;
+                return addSchemas(schema, newSchemaName, visitedSchemas);
+            } else {
+                Schema childSchema = generateNestedSchema(itemsSchema, visitedSchemas);
+                String newSchemaName = childSchema.getName() + ARRAY_SUFFIX;
+                Schema arrayModel = createArraySchema(childSchema);
+                return addSchemas(arrayModel, newSchemaName, visitedSchemas);
+            }
+        } else if(ModelUtils.isMapSchema(schema)) {
+            Schema mapValueSchema = ModelUtils.getAdditionalProperties(schema);
+            mapValueSchema = ModelUtils.getReferencedSchema(openAPI, mapValueSchema);
+            if(ModelUtils.isModel(mapValueSchema) ) {
+                String newSchemaName = ModelUtils.getSimpleRef(ModelUtils.getAdditionalProperties(schema).get$ref()) + MAP_SUFFIX;
+                return addSchemas(schema, newSchemaName, visitedSchemas);
+            }else if (ModelUtils.isPrimitiveType(mapValueSchema)){
+                String newSchemaName = getNameFromSchemaPrimitiveType(mapValueSchema) + MAP_SUFFIX;
+                return addSchemas(schema, newSchemaName, visitedSchemas);
+            } else {
+                Schema innerSchema = generateNestedSchema(mapValueSchema, visitedSchemas);
+                String newSchemaName = innerSchema.getName() + MAP_SUFFIX;
+                Schema mapModel = createMapSchema(innerSchema);
+                return addSchemas(mapModel, newSchemaName, visitedSchemas);
+            }
+        }
+        return schema;
+    }
+
+    /**
+     * Processes nested schemas for complex type(map, array, oneOf)
+     *
+     *  @param schema the schema to be processed
+     *  @param visitedSchemas a set of schemas that have already been visited
+     */
+    private void processNestedSchemas(Schema schema, Set<Schema> visitedSchemas) {
+        if (ModelUtils.isMapSchema(schema) && ModelUtils.getAdditionalProperties(schema) != null) {
+            Schema mapValueSchema = ModelUtils.getAdditionalProperties(schema);
+            mapValueSchema = ModelUtils.getReferencedSchema(openAPI, mapValueSchema);
+            if (ModelUtils.isArraySchema(mapValueSchema) || (ModelUtils.isMapSchema(mapValueSchema) && !ModelUtils.isModel(mapValueSchema))) {
+                Schema innerSchema = generateNestedSchema(mapValueSchema, visitedSchemas);
+                schema.setAdditionalProperties(innerSchema);
+
+            }
+        } else if (ModelUtils.isArraySchema(schema) && ModelUtils.getSchemaItems(schema) != null) {
+            Schema arrayItemSchema = ModelUtils.getSchemaItems(schema);
+            arrayItemSchema = ModelUtils.getReferencedSchema(openAPI, arrayItemSchema);
+            if ((ModelUtils.isMapSchema(arrayItemSchema) && !ModelUtils.isModel(arrayItemSchema)) || ModelUtils.isArraySchema(arrayItemSchema)) {
+                Schema innerSchema = generateNestedSchema(arrayItemSchema, visitedSchemas);
+                schema.setItems(innerSchema);
+            }
+        } else if (ModelUtils.isOneOf(schema) && schema.getOneOf() != null) {
+            List<Schema> oneOfs = schema.getOneOf();
+            List<Schema> newOneOfs = new ArrayList<>();
+            for (Schema oneOf : oneOfs) {
+                Schema oneOfSchema = ModelUtils.getReferencedSchema(openAPI, oneOf);
+                if (ModelUtils.isArraySchema(oneOfSchema)) {
+                    Schema innerSchema = generateNestedSchema(oneOfSchema, visitedSchemas);
+                    innerSchema.setTitle(oneOf.getTitle());
+                    newOneOfs.add(innerSchema);
+                } else if (ModelUtils.isMapSchema(oneOfSchema) && !ModelUtils.isModel(oneOfSchema)) {
+                    Schema innerSchema = generateNestedSchema(oneOfSchema, visitedSchemas);
+                    innerSchema.setTitle(oneOf.getTitle());
+                    newOneOfs.add(innerSchema);
+                } else {
+                    newOneOfs.add(oneOf);
+                }
+            }
+            schema.setOneOf(newOneOfs);
+        }
+    }
+
+    /**
+     * Traverses models and properties to wrap nested schemas.
+     */
+    private void wrapModels() {
+        Map<String, Schema> models = openAPI.getComponents().getSchemas();
+        Set<Schema> visitedSchema = new HashSet<>();
+        List<String> modelNames = new ArrayList<String>(models.keySet());
+        for (String modelName: modelNames) {
+            Schema schema = models.get(modelName);
+            processNestedSchemas(schema, visitedSchema);
+            if (ModelUtils.isModel(schema) && schema.getProperties() != null) {
+                Map<String, Schema> properties = schema.getProperties();
+                for (Map.Entry<String, Schema> propertyEntry : properties.entrySet()) {
+                    Schema propertySchema = propertyEntry.getValue();
+                    processNestedSchemas(propertySchema, visitedSchema);
+                }
+            }  else if (ModelUtils.isAllOf(schema)) {
+                wrapComposedChildren(schema.getAllOf(), visitedSchema);
+            } else if (ModelUtils.isOneOf(schema)) {
+                wrapComposedChildren(schema.getOneOf(), visitedSchema);
+            } else if (ModelUtils.isAnyOf(schema)) {
+                wrapComposedChildren(schema.getAnyOf(), visitedSchema);
+            }
+        }
+    }
+
+    /**
+     * Traverses a composed schema and its properties to wrap nested schemas.
+     *
+     * @param children the list of child schemas to be processed
+     * @param visitedSchema a set of schemas that have already been visited
+     */
+    private void wrapComposedChildren(List<Schema> children, Set<Schema> visitedSchema) {
+        if (children == null || children.isEmpty()) {
+            return;
+        }
+        for(Schema child: children) {
+            child = ModelUtils.getReferencedSchema(openAPI, child);
+            Map<String, Schema> properties = child.getProperties();
+            if(properties == null || properties.isEmpty()) continue;
+            for(Map.Entry<String, Schema> propertyEntry : properties.entrySet()) {
+                Schema propertySchema = propertyEntry.getValue();
+                processNestedSchemas(propertySchema, visitedSchema);
+            }
+        }
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+        if (wrapComplexType) {
+            wrapModels();
+        }
+    }
+
+    /**
      * Adds prefix to the enum allowable values
      * NOTE: Enum values use C++ scoping rules, meaning that enum values are siblings of their type, not children of it. Therefore, enum value must be unique
      *
@@ -228,18 +524,18 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix) {
         if (allowableValues.containsKey("enumVars")) {
             List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
-
+            prefix = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, prefix);
             for (Map<String, Object> value : enumVars) {
                 String name = (String) value.get("name");
-                value.put("name", prefix + "_" + name);
-                value.put("value", "\"" + prefix + "_" + name + "\"");
+                value.put("name", useSimplifiedEnumNames ? name : prefix + "_" + name);
+                value.put("value", useSimplifiedEnumNames ? name : "\"" + prefix + "_" + name + "\"");
             }
         }
 
         if (allowableValues.containsKey("values")) {
             List<Object> values = (List<Object>) allowableValues.get("values");
             for (Object value : values) {
-                value = prefix + "_" + String.valueOf(value);
+                value = useSimplifiedEnumNames ? value : prefix + "_" + value;
             }
         }
     }
@@ -249,22 +545,33 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      *
      * @param allowableValues allowable values
      */
-    public void addUnknownToAllowableValues(Map<String, Object> allowableValues) {
-        if (startEnumsWithUnknown) {
+    public void addUnspecifiedToAllowableValues(Map<String, Object> allowableValues) {
+
+        final String UNSPECIFIED = "UNSPECIFIED";
+
+        if (startEnumsWithUnspecified) {
             if (allowableValues.containsKey("enumVars")) {
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
-
-                HashMap<String, Object> unknown = new HashMap<String, Object>();
-                unknown.put("name", "UNKNOWN");
-                unknown.put("isString", "false");
-                unknown.put("value", "\"UNKNOWN\"");
-
-                enumVars.add(0, unknown);
+                boolean unspecifiedPresent = enumVars.stream()
+                        .anyMatch(e -> {
+                            return UNSPECIFIED.equals(e.get("name"));
+                        });
+                if (!unspecifiedPresent) {
+                    HashMap<String, Object> unspecifiedEnum = new HashMap<String, Object>();
+                    unspecifiedEnum.put("name", UNSPECIFIED);
+                    unspecifiedEnum.put("isString", "false");
+                    unspecifiedEnum.put("value", "\"" + UNSPECIFIED + "\"");
+                    enumVars.add(0, unspecifiedEnum);
+                }
             }
 
             if (allowableValues.containsKey("values")) {
                 List<String> values = (List<String>) allowableValues.get("values");
-                values.add(0, "UNKNOWN");
+                if (!values.contains(UNSPECIFIED)) {
+                    List<String> modifiableValues = new ArrayList<>(values);
+                    modifiableValues.add(0, UNSPECIFIED);
+                    allowableValues.put("values", modifiableValues);
+                }
             }
         }
     }
@@ -282,6 +589,34 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
     }
 
+    public List<CodegenProperty> processOneOfAnyOfItems(List<CodegenProperty> composedSchemasProperty) {
+        for(CodegenProperty cd: composedSchemasProperty) {
+            cd.name = resolveVarName(cd);
+            cd.baseName = resolveVarName(cd);
+        }
+        return composedSchemasProperty;
+    }
+
+
+    private String resolveVarName(CodegenProperty property) {
+        if(property.getTitle() != null) {
+            return toVarName(property.getTitle());
+        } else {
+            return getNameFromDataType(property);
+        }
+    }
+
+    public String getNameFromDataType(CodegenProperty property) {
+        if (Boolean.TRUE.equals(property.getIsArray())){
+            return toVarName(property.mostInnerItems.dataType + ARRAY_SUFFIX);
+        } else if (Boolean.TRUE.equals(property.getIsMap())) {
+            return toVarName(property.mostInnerItems.dataType + MAP_SUFFIX);
+        } else {
+            return toVarName(property.dataType);
+        }
+    }
+
+
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = postProcessModelsEnum(objs);
@@ -291,7 +626,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
             if (cm.isEnum) {
                 Map<String, Object> allowableValues = cm.getAllowableValues();
-                addUnknownToAllowableValues(allowableValues);
+                addUnspecifiedToAllowableValues(allowableValues);
                 addEnumValuesPrefix(allowableValues, cm.getClassname());
                 if (allowableValues.containsKey("enumVars")) {
                     List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
@@ -299,6 +634,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
             }
 
+            if(cm.oneOf != null && !cm.oneOf.isEmpty()){
+                cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getOneOf());
+            } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
+                cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getAnyOf());
+            }
             int index = 1;
             for (CodegenProperty var : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array
@@ -319,7 +659,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
 
                 if (var.isEnum) {
-                    addUnknownToAllowableValues(var.allowableValues);
+                    addUnspecifiedToAllowableValues(var.allowableValues);
                     addEnumValuesPrefix(var.allowableValues, var.getEnumName());
 
                     if (var.allowableValues.containsKey("enumVars")) {
@@ -339,6 +679,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         LOGGER.error("Exception when assigning a index to a protobuf field", e);
                         var.vendorExtensions.putIfAbsent("x-protobuf-index", "Generated field number is in reserved range (19000, 19999)");
                     }
+                }
+
+                if (addJsonNameAnnotation && !var.baseName.equals(var.name)) {
+                    var.vendorExtensions.put("x-protobuf-json-name", var.baseName);
                 }
             }
         }
@@ -370,7 +714,35 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         .forEach(importFromList -> this.addImport(objs, parentCM, importFromList));
             }
         }
-        return objs;
+        return aggregateModelsName == null ? objs : aggregateModels(objs);
+    }
+
+    /**
+     * Aggregates all individual model definitions into a single entry.
+     *
+     * @param objs the original map of model names to their respective entries
+     * @return a new {@link Map} containing a single entry keyed by {@code aggregateModelsName} with
+     *         combined models and imports from all provided entries
+     */
+    public Map<String, ModelsMap> aggregateModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> objects = new HashMap<>();
+        ModelsMap aggregateObj = objs.values().stream()
+                .findFirst()
+                .orElse(new ModelsMap());
+
+        List<ModelMap> models = objs.values().stream()
+                .flatMap(modelsMap -> modelsMap.getModels().stream())
+                .collect(Collectors.toList());
+
+        Set<Map<String, String>> imports = objs.values().stream()
+                .flatMap(modelsMap -> modelsMap.getImports().stream())
+                .filter(importMap -> !importMap.get("import").startsWith("models/"))
+                .collect(Collectors.toSet());
+
+        aggregateObj.setModels(models);
+        aggregateObj.setImports(new ArrayList<>(imports));
+        objects.put(this.aggregateModelsName, aggregateObj);
+        return objects;
     }
 
     public void addImport(Map<String, ModelsMap> objs, CodegenModel cm, String importValue) {
@@ -495,8 +867,36 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String toVarName(final String name) {
+    public String toVarName(String name) {
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+        // sanitize name
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        // if it's all upper case, convert to lower case
+        if (name.matches("^[A-Z_]*$")) {
+            name = name.toLowerCase(Locale.ROOT);
+        }
+
+        // underscore the variable name
+        // petId => pet_id
+        name = underscore(name);
+
+        // remove leading underscore
+        name = name.replaceAll("^_*", "");
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
         return name;
+    }
+
+    @Override
+    public String toParamName(String name) {
+        return toVarName(name);
     }
 
     @Override
@@ -573,6 +973,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
+                if (addJsonNameAnnotation && !p.baseName.equals(p.paramName) && !p.isBodyParam) {
+                    p.vendorExtensions.put("x-protobuf-json-name", p.baseName);
+                }
+
                 p.vendorExtensions.putIfAbsent("x-protobuf-index", index);
                 index++;
             }
@@ -593,14 +997,52 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
             }
+
+            if(this.supportMultipleResponses) {
+                int responseIdx = 1;
+                op.vendorExtensions.put("x-grpc-response", op.operationId+"Response");
+                for (CodegenResponse r : op.responses) {
+                    if (r.returnProperty == null) {
+                        r.vendorExtensions.put("x-oneOf-response-type", "google.protobuf.Empty");
+                        r.vendorExtensions.put("x-oneOf-response-name", "empty");
+                    } else if (r.isMap && r.additionalProperties != null) {
+                        r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.additionalProperties.dataType);
+                        r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty.additionalProperties));
+                        LOGGER.warn("Mapping responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.", op.operationId);
+                    } else if (r.isArray && r.items != null) {
+                        r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.items.dataType);
+                        r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty.items));
+                        LOGGER.warn("Array responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.", op.operationId);
+                    }
+                    else {
+                        r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.dataType);
+                        r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty));
+                    }
+                    r.vendorExtensions.put("x-oneOf-response-index", responseIdx++);
+                }
+            }
         }
 
+        if (this.aggregateModelsName != null) {
+            List<Map<String, String>> imports = objs.getImports().stream()
+                    .filter(importMap -> !importMap.get("import").startsWith("models/"))
+                    .collect(Collectors.toList());
+
+            List<Map<String, String>> aggregate_imports = Collections.singletonList(Collections
+                    .singletonMap(IMPORT, toModelImport(this.aggregateModelsName)));
+            imports.addAll(aggregate_imports);
+            objs.setImports(imports);
+        }
         return objs;
     }
 
     @Override
     public String toModelImport(String name) {
-        return underscore(name);
+        if ("".equals(modelPackage())) {
+            return name;
+        } else {
+            return modelPackage() + "/" + underscore(name);
+        }
     }
 
     @Override
@@ -647,5 +1089,43 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.PROTOBUF;
+    }
+
+
+/**
+ * Handles additionalProperties defined in composed schemas (e.g., allOf) by injecting into the model's properties.
+ * Example:
+ *  components:
+ *    schemas:
+ *      Dog:
+ *        allOf:
+ *          - $ref: '#/components/schemas/DogBase'
+ *          - type: object
+ *            additionalProperties:
+ *              title: pet
+ *              $ref: '#/components/schemas/Pet'
+ * In this case, the second allOf that defines a map with string keys and Pet values will be part of model's property.
+ */
+    @Override
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas){
+        super.addProperties(properties, required, schema, visitedSchemas);
+        if(schema.getAdditionalProperties() != null) {
+            String addtionalPropertiesName = "default_map";
+            if(schema.getTitle() != null) {
+                addtionalPropertiesName = schema.getTitle();
+            } else {
+                Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+                if(additionalProperties == null) {
+                   return; 
+                } else if (additionalProperties.getTitle() != null) {
+                    addtionalPropertiesName = additionalProperties.getTitle();
+                } else if (additionalProperties.get$ref() != null) {
+                    String ref = ModelUtils.getSimpleRef(additionalProperties.get$ref());
+                    addtionalPropertiesName = toVarName(toModelName(ref));
+                }
+            }
+            
+            properties.put(addtionalPropertiesName, schema);        
+        }
     }
 }

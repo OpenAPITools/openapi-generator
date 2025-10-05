@@ -6,7 +6,7 @@ import okhttp3.Interceptor
 import okhttp3.Interceptor.Chain
 import okhttp3.Response
 
-class HttpBearerAuth(
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class HttpBearerAuth(
     private var schema: String = "",
     var bearerToken: String = ""
 ) : Interceptor {

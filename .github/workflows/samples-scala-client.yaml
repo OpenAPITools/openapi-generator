@@ -1,0 +1,70 @@
+name: Samples Scala/sbt client
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/scalaz/**
+      - samples/client/petstore/scala-pekko/**
+      - samples/client/petstore/scala-http4s/**
+      - samples/client/petstore/scala-sttp4-jsoniter/**
+      - samples/client/petstore/scala-akka/**
+      - samples/client/petstore/scala-sttp/**
+      - samples/client/petstore/scala-sttp-circe/**
+      - samples/client/petstore/scala-sttp4/**
+  pull_request:
+    paths:
+      - samples/client/petstore/scalaz/**
+      - samples/client/petstore/scala-pekko/**
+      - samples/client/petstore/scala-http4s/**
+      - samples/client/petstore/scala-sttp4-jsoniter/**
+      - samples/client/petstore/scala-akka/**
+      - samples/client/petstore/scala-sttp/**
+      - samples/client/petstore/scala-sttp-circe/**
+      - samples/client/petstore/scala-sttp4/**
+jobs:
+  build:
+    name: Build sbt/Scala
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # clients
+          - samples/client/petstore/scalaz
+          - samples/client/petstore/scala-pekko
+          - samples/client/petstore/scala-http4s
+          - samples/client/petstore/scala-sttp4-jsoniter
+          - samples/client/petstore/scala-akka
+          - samples/client/petstore/scala-sttp
+          - samples/client/petstore/scala-sttp-circe
+          - samples/client/petstore/scala-sttp4
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+    steps:
+      - uses: actions/checkout@v5
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: 11
+      - name: Setup sbt launcher
+        uses: sbt/setup-sbt@v1
+      - name: Cache maven dependencies
+        uses: actions/cache@v4
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.ivy2
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/build.sbt') }}
+      - name: Build and test
+        working-directory: ${{ matrix.sample }}
+        run: sbt -v test

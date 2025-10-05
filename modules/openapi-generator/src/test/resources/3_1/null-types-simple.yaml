@@ -1,0 +1,37 @@
+openapi: 3.1.0
+info:
+  title: ""
+  version: ""
+components:
+  schemas:
+    WithNullableType:
+      type: object
+      required:
+        # This simplifies the output
+        - arrayDataOrNull
+        - stringDataOrNull
+        - oneofOrNull
+      properties:
+        arrayDataOrNull:
+          items:
+            $ref: "#/components/schemas/SomeObject"
+          type:
+            - array
+            - 'null'
+        # This was working when this fixture was introduced,
+        # but we need to make sure we don't regress
+        stringDataOrNull:
+          type:
+            - string
+            - 'null'
+        # This was working when this fixture was introduced,
+        # but we need to make sure we don't regress
+        oneofOrNull:
+          oneOf:
+            - $ref: "#/components/schemas/SomeObject"
+            - type: 'null'
+    SomeObject:
+      type: object
+      properties:
+        data:
+          type: string

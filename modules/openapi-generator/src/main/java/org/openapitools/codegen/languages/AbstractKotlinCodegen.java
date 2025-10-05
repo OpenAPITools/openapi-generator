@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -364,7 +363,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = ModelUtils.getSchemaItems( schema);
+            Schema<?> items = ModelUtils.getSchemaItems(schema);
             return getSchemaType(target) + "<" + getItemsTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
@@ -432,6 +431,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (StringUtils.isEmpty(System.getenv("KOTLIN_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable KOTLIN_POST_PROCESS_FILE not defined so the Kotlin code may not be properly formatted. To define it, try 'export KOTLIN_POST_PROCESS_FILE=\"/usr/local/bin/ktlint -F\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'KOTLIN_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(MODEL_MUTABLE)) {
@@ -571,7 +572,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (value.isEmpty()) {
             modified = "EMPTY";
         } else {
-            modified = value;
+            modified = value.replaceAll("-", "_");
             modified = sanitizeKotlinSpecificNames(modified);
         }
 
@@ -834,6 +835,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
         CodegenModel m = super.fromModel(name, schema);
+        List<String> implementedInterfacesClasses = (List<String>) m.getVendorExtensions().getOrDefault(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), List.of());
+        List<String> implementedInterfacesFields = Optional.ofNullable((List<String>) m.getVendorExtensions().get(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName()))
+                .map(xKotlinImplementsFields -> {
+                    if (implementedInterfacesClasses.isEmpty() && !xKotlinImplementsFields.isEmpty()) {
+                        LOGGER.warn("Annotating {} with {} without {} is not supported. {} will be ignored.",
+                                name, VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName(), VendorExtension.X_KOTLIN_IMPLEMENTS.getName(),
+                                VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName());
+                    }
+                    return xKotlinImplementsFields;
+                }).orElse(List.of());
         m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
         // Update allVars/requiredVars/optionalVars with isInherited
         // Each of these lists contains elements that are similar, but they are all cloned
@@ -849,7 +860,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // Update any other vars (requiredVars, optionalVars)
         Stream.of(m.requiredVars, m.optionalVars)
                 .flatMap(List::stream)
-                .filter(p -> allVarsMap.containsKey(p.baseName))
+                .filter(p -> allVarsMap.containsKey(p.baseName)
+                             || implementedInterfacesFields.contains(p.baseName)
+                )
                 .forEach(p -> p.isInherited = true);
         return m;
     }
@@ -964,6 +977,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -975,21 +989,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         // only process files with kt extension
         if ("kt".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = kotlinPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                int exitValue = p.exitValue();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{kotlinPostProcessFile, file.toString()});
         }
     }
 
@@ -1024,18 +1024,15 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             if (schema.getDefault() != null) {
                 return fixNumberValue(schema.getDefault().toString(), schema);
             }
-        }
-        else if (ModelUtils.isIntegerSchema(schema)) {
+        } else if (ModelUtils.isIntegerSchema(schema)) {
             if (schema.getDefault() != null) {
                 return fixNumberValue(schema.getDefault().toString(), schema);
             }
-        }
-        else if (ModelUtils.isURISchema(schema)) {
+        } else if (ModelUtils.isURISchema(schema)) {
             if (schema.getDefault() != null) {
                 return importMapping.get("URI") + ".create(\"" + schema.getDefault() + "\")";
             }
-        }
-        else if (ModelUtils.isArraySchema(schema)) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             return toArrayDefaultValue(cp, schema);
         } else if (ModelUtils.isStringSchema(schema)) {
             if (schema.getDefault() != null) {
@@ -1117,7 +1114,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             addAdditionPropertiesToCodeGenModel(m, schema);
         } else {
             m.setIsMap(false);
-            if (ModelUtils.isFreeFormObject(schema)) {
+            if (ModelUtils.isFreeFormObject(schema, openAPI)) {
                 // non-composed object type with no properties + additionalProperties
                 // additionalProperties must be null, ObjectSchema, or empty Schema
                 addAdditionPropertiesToCodeGenModel(m, schema);
@@ -1134,6 +1131,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     protected interface DataTypeAssigner {
+        void setIsVoid(Boolean isVoid);
+
         void setReturnType(String returnType);
 
         void setReturnContainer(String returnContainer);
@@ -1146,6 +1145,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
         if (returnType == null) {
             dataTypeAssigner.setReturnType("Unit");
+            dataTypeAssigner.setIsVoid(true);
         } else if (returnType.startsWith("kotlin.collections.List")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {

@@ -29,6 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |framework|Specify the framework which should be used in the client code.|<dl><dt>**fetch-api**</dt><dd>fetch-api</dd><dt>**jquery**</dt><dd>jquery</dd></dl>|fetch-api|
 |importFileExtension|File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html). Defaults to '.ts' when 'platform' is set to 'deno'.| |null|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|licenseName|The name of the license| |Unlicense|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
@@ -41,6 +42,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
+|useErasableSyntax|Use erasable syntax for the generated code. This is a temporary feature and will be removed in the future.| |false|
 |useInversify|Enable this to generate decorators and service identifiers for the InversifyJS inversion of control container. If you set 'deno' as 'platform', the generator will process this value as 'disable'.| |false|
 |useObjectParameters|Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.| |false|
 |useRxJS|Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.| |false|
@@ -62,19 +64,41 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>Array</li>
+<li>Awaited</li>
 <li>Boolean</li>
+<li>Capitalize</li>
+<li>ConstructorParameters</li>
 <li>Date</li>
 <li>Double</li>
 <li>Error</li>
+<li>Exclude</li>
+<li>Extract</li>
 <li>File</li>
 <li>Float</li>
+<li>InstanceType</li>
 <li>Integer</li>
 <li>Long</li>
+<li>Lowercase</li>
 <li>Map</li>
+<li>NoInfer</li>
+<li>NonNullable</li>
 <li>Object</li>
+<li>Omit</li>
+<li>OmitThisParameter</li>
+<li>Parameters</li>
+<li>Partial</li>
+<li>Pick</li>
+<li>Readonly</li>
 <li>ReadonlyArray</li>
+<li>Record</li>
+<li>Required</li>
+<li>ReturnType</li>
 <li>Set</li>
 <li>String</li>
+<li>ThisParameterType</li>
+<li>ThisType</li>
+<li>Uncapitalize</li>
+<li>Uppercase</li>
 <li>any</li>
 <li>boolean</li>
 <li>number</li>

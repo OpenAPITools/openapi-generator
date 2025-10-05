@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: 'http://petstore.swagger.io/v2'
+  - url: 'http://localhost/v2'
 info:
   description: >-
     This is a sample server Petstore server. For this sample, you can use the api key
@@ -18,12 +18,55 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /pets:
+    post:
+      tags:
+        - pet
+      summary: List all pets
+      description: Returns a list of pets
+      parameters:
+        - name: page
+          in: query
+          description: The page number
+          required: false
+          schema:
+            $ref: '#/components/schemas/Page'
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid page number
+  /pets/explode:
+    post:
+      tags:
+        - pet
+      summary: List all pets
+      description: Returns a list of pets
+      parameters:
+        - $ref: '#/components/parameters/PageExplode'
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid page number
   /pet:
     post:
       tags:
         - pet
       summary: Add a new pet to the store
-      description: ''
+      description: This is the description for the addPet operation
       operationId: addPet
       responses:
         '200':
@@ -76,13 +119,31 @@ paths:
       tags:
         - pet
       summary: Finds Pets by status
-      description: Multiple status values can be provided with comma separated strings
+      description: |
+        Multiple status values can be provided with comma separated strings.
+        This is also a multi-line description to test rust doc comments
       operationId: findPetsByStatus
       parameters:
         - name: status
           in: query
           description: Status values that need to be considered for filter
           required: true
+          style: form
+          explode: false
+          deprecated: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - available
+                - pending
+                - sold
+              default: available
+        - name: type
+          in: query
+          description: Make sure that Rust keywords like type work as query params
+          required: false
           style: form
           explode: false
           deprecated: true
@@ -477,6 +538,10 @@ paths:
             application/json:
               schema:
                 type: string
+            text/plain:
+              schema:
+                type: string
+
         '400':
           description: Invalid username/password supplied
   /user/logout:
@@ -566,7 +631,7 @@ paths:
           description: User not found
       security:
         - api_key: []
-  '/fake/user/{username}':
+  '/fake/user/{user-name}':
     get:
       tags:
         - fake
@@ -574,7 +639,7 @@ paths:
       description: ''
       operationId: test_nullable_required_param
       parameters:
-        - name: username
+        - name: user-name
           in: path
           description: The name that needs to be fetched. Use user1 for testing.
           required: true
@@ -592,6 +657,16 @@ paths:
           description: To test parameter names in upper case
           schema:
             type: string
+        - name: content
+          in: query
+          description: To test escaping of parameters in rust code works
+          schema:
+            type: string
+        # For testing `isAnyType` types
+        - name: anyType
+          in: query
+          required: true
+          schema: {}
       responses:
         '200':
           description: successful operation
@@ -624,6 +699,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TypeTesting'
+  '/tests/allOfWithOneModel':
+    get:
+      tags:
+        - testing
+      summary: 'Test for allOf with a single option. (One of the issues in #20500)'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/Person'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -839,6 +934,7 @@ components:
         - boolean
         - uuid
         - bytes
+        - decimal
       properties:
         int32:
           type: integer
@@ -862,6 +958,13 @@ components:
         bytes:
           type: string
           format: byte
+        nullableBytes: # Regression test for bug report in #20500
+          type: string
+          format: byte
+          nullable: true
+        decimal:
+          type: string
+          format: number
     Return:
       description: Test using keywords
       type: object
@@ -973,3 +1076,74 @@ components:
       properties:
         dummy:
           type: string
+    AnyTypeTest:
+      type: object
+      properties:
+        foo: {}
+      required: ["foo"]
+    Person:
+      type: object
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+      required:
+       - type
+       - name
+    Vehicle:
+      type: object
+      properties:
+        type:
+          type: string
+        speed:
+          type: number
+      required:
+       - type
+       - speed
+    existing_tags_array:
+      type: array
+      items:
+        type: string
+      nullable: true
+      description: 'existing_tags_array'
+      example:
+        - base-image
+        - prod
+    TestAllOfWithMultiMetadataOnly:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        foo:
+          allOf:
+            - $ref: '#/components/schemas/existing_tags_array'
+            - description: This is a test for allOf with metadata only fields
+    WithInnerOneOf:
+      type: object
+      properties:
+        foo:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/Order'
+            - $ref: '#/components/schemas/Order'
+    Page:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        perPage:
+          type: integer
+          format: int32
+  parameters:
+    PageExplode:
+      name: pageExplode
+      in: query
+      description: Object containing page `size` and page `number`.
+      required: false
+      style: deepObject
+      explode: true
+      schema:
+        $ref: '#/components/schemas/Page'

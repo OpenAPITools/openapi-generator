@@ -145,4 +145,17 @@ func (obj *{{classname}}) GetActualInstance() (interface{}) {
 	return nil
 }
 
+// Get the actual instance value
+func (obj {{classname}}) GetActualInstanceValue() (interface{}) {
+{{#oneOf}}
+	if obj.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} != nil {
+		return *obj.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}
+	}
+
+{{/oneOf}}
+	// all schemas are nil
+	return nil
+}
+
 {{>nullable_model}}
+

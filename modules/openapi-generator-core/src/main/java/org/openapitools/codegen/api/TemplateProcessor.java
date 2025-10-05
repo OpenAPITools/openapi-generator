@@ -12,10 +12,9 @@ public interface TemplateProcessor {
     /**
      * Writes data to a compiled template
      *
-     * @param data Input data
+     * @param data     Input data
      * @param template Input template location
-     * @param target The targeted file output location
-     *
+     * @param target   The targeted file output location
      * @return The actual file
      * @throws IOException If file cannot be written.
      */
@@ -34,7 +33,7 @@ public interface TemplateProcessor {
     /**
      * Allow a caller to mark a path as ignored with accompanying reason
      *
-     * @param path The ignored path
+     * @param path    The ignored path
      * @param context The reason for ignoring this path
      */
     void ignore(Path path, String context);
@@ -42,7 +41,7 @@ public interface TemplateProcessor {
     /**
      * Allow a caller to mark a path as skipped with accompanying reason
      *
-     * @param path The skipped path
+     * @param path    The skipped path
      * @param context The reason for skipping this path
      */
     void skip(Path path, String context);
@@ -50,8 +49,9 @@ public interface TemplateProcessor {
     /**
      * Allow a caller to mark a path having errored during processing with accompanying reason
      *
-     * @param path The path which has caused an error
+     * @param path    The path which has caused an error
      * @param context The reason for the error
      */
-    default void error(Path path, String context) { }
+    default void error(Path path, String context) {
+    }
 }

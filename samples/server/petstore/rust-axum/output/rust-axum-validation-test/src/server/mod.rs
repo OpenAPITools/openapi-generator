@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
 use bytes::Bytes;
-use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
+use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
@@ -13,20 +13,21 @@ use crate::{header, types::*};
 use crate::{apis, models};
 
 /// Setup API Server.
-pub fn new<I, A>(api_impl: I) -> Router
+pub fn new<I, A, E>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: apis::default::Default + 'static,
+    A: apis::default::Default<E> + Send + Sync + 'static,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     // build our application with a route
     Router::new()
-        .route("/mail", put(mail_put::<I, A>))
+        .route("/mail", put(mail_put::<I, A, E>))
         .with_state(api_impl)
 }
 
 /// MailPut - PUT /mail
 #[tracing::instrument(skip_all)]
-async fn mail_put<I, A>(
+async fn mail_put<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -35,11 +36,12 @@ async fn mail_put<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let result = api_impl
         .as_ref()
-        .mail_put(method, host, cookies, body)
+        .mail_put(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -51,10 +53,13 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
         }
     };
 
@@ -62,4 +67,13 @@ where
         error!(error = ?e);
         StatusCode::INTERNAL_SERVER_ERROR
     })
+}
+
+#[allow(dead_code)]
+#[inline]
+fn response_with_status_code_only(code: StatusCode) -> Result<Response, StatusCode> {
+    Response::builder()
+        .status(code)
+        .body(Body::empty())
+        .map_err(|_| code)
 }

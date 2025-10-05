@@ -33,6 +33,7 @@ class DefaultApi (
     private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     /**
+     * GET /{ids}
      * 
      * 
      * @param ids 

@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Test
         {
             // set timeout to 10 seconds
             Configuration c1 = new Configuration();
-            c1.Timeout = 10000;
+            c1.Timeout = TimeSpan.FromSeconds(10);
             c1.UserAgent = "TEST_USER_AGENT";
 
             PetApi petApi = new PetApi(c1);

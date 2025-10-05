@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -43,13 +44,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Locale;
 
 import org.openapitools.client.JSON;
 
 /**
  * SomeObj
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class SomeObj implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -58,7 +60,7 @@ public class SomeObj implements Serializable {
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
-    SOME_OBJ_IDENTIFIER("SomeObjIdentifier");
+    SOMEOBJIDENTIFIER("SomeObjIdentifier");
 
     private String value;
 
@@ -105,28 +107,33 @@ public class SomeObj implements Serializable {
 
   public static final String SERIALIZED_NAME_$_TYPE = "$_type";
   @SerializedName(SERIALIZED_NAME_$_TYPE)
-  private TypeEnum $type = TypeEnum.SOME_OBJ_IDENTIFIER;
+  @javax.annotation.Nullable
+  private TypeEnum $type = TypeEnum.SOMEOBJIDENTIFIER;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public static final String SERIALIZED_NAME_ACTIVE = "active";
   @SerializedName(SERIALIZED_NAME_ACTIVE)
+  @javax.annotation.Nullable
   private Boolean active;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
+  @javax.annotation.Nullable
   private String type;
 
   public SomeObj() {
   }
 
-  public SomeObj $type(TypeEnum $type) {
+  public SomeObj $type(@javax.annotation.Nullable TypeEnum $type) {
     this.$type = $type;
     return this;
   }
@@ -140,12 +147,12 @@ public class SomeObj implements Serializable {
     return $type;
   }
 
-  public void set$Type(TypeEnum $type) {
+  public void set$Type(@javax.annotation.Nullable TypeEnum $type) {
     this.$type = $type;
   }
 
 
-  public SomeObj id(Long id) {
+  public SomeObj id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -159,12 +166,12 @@ public class SomeObj implements Serializable {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public SomeObj name(String name) {
+  public SomeObj name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -178,12 +185,12 @@ public class SomeObj implements Serializable {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 
 
-  public SomeObj active(Boolean active) {
+  public SomeObj active(@javax.annotation.Nullable Boolean active) {
     this.active = active;
     return this;
   }
@@ -197,12 +204,12 @@ public class SomeObj implements Serializable {
     return active;
   }
 
-  public void setActive(Boolean active) {
+  public void setActive(@javax.annotation.Nullable Boolean active) {
     this.active = active;
   }
 
 
-  public SomeObj type(String type) {
+  public SomeObj type(@javax.annotation.Nullable String type) {
     this.type = type;
     return this;
   }
@@ -216,7 +223,7 @@ public class SomeObj implements Serializable {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(@javax.annotation.Nullable String type) {
     this.type = type;
   }
 
@@ -273,15 +280,10 @@ public class SomeObj implements Serializable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("$_type");
-    openapiFields.add("id");
-    openapiFields.add("name");
-    openapiFields.add("active");
-    openapiFields.add("type");
+    openapiFields = new HashSet<String>(Arrays.asList("$_type", "id", "name", "active", "type"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -293,7 +295,7 @@ public class SomeObj implements Serializable {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!SomeObj.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in SomeObj is not found in the empty JSON string", SomeObj.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The required field(s) %s in SomeObj is not found in the empty JSON string", SomeObj.openapiRequiredFields.toString()));
         }
       }
 
@@ -301,22 +303,22 @@ public class SomeObj implements Serializable {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!SomeObj.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `SomeObj` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(Locale.ROOT, "The field `%s` in the JSON string is not defined in the `SomeObj` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("$_type") != null && !jsonObj.get("$_type").isJsonNull()) && !jsonObj.get("$_type").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `$_type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("$_type").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `$_type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("$_type").toString()));
       }
       // validate the optional field `$_type`
       if (jsonObj.get("$_type") != null && !jsonObj.get("$_type").isJsonNull()) {
         TypeEnum.validateJsonElement(jsonObj.get("$_type"));
       }
       if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
       if ((jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) && !jsonObj.get("type").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
       }
   }
 

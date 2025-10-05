@@ -1,0 +1,10 @@
+firstItem:
+  stringConfig: 'Hello'
+  numberConfig: 42
+  objectConfig:
+    attribut: 'openapi'
+  arrayConfig:
+    - 'one'
+    - 'two'
+secondItem:
+  stringConfig: 'World'

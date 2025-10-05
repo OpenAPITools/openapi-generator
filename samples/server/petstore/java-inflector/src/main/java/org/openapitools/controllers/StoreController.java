@@ -13,7 +13,7 @@ import org.openapitools.model.*;
 import java.util.Map;
 import org.openapitools.model.Order;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class StoreController  {
   /**
    * Uncomment and implement as you see fit.  These operations will map

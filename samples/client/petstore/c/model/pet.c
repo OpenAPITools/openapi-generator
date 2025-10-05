@@ -22,7 +22,7 @@ openapi_petstore_pet_STATUS_e pet_status_FromString(char* status){
     return 0;
 }
 
-pet_t *pet_create(
+static pet_t *pet_create_internal(
     long id,
     category_t *category,
     char *name,
@@ -41,12 +41,34 @@ pet_t *pet_create(
     pet_local_var->tags = tags;
     pet_local_var->status = status;
 
+    pet_local_var->_library_owned = 1;
     return pet_local_var;
 }
 
+__attribute__((deprecated)) pet_t *pet_create(
+    long id,
+    category_t *category,
+    char *name,
+    list_t *photo_urls,
+    list_t *tags,
+    openapi_petstore_pet_STATUS_e status
+    ) {
+    return pet_create_internal (
+        id,
+        category,
+        name,
+        photo_urls,
+        tags,
+        status
+        );
+}
 
 void pet_free(pet_t *pet) {
     if(NULL == pet){
+        return ;
+    }
+    if(pet->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "pet_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -119,7 +141,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 
     listEntry_t *photo_urlsListEntry;
     list_ForEach(photo_urlsListEntry, pet->photo_urls) {
-    if(cJSON_AddStringToObject(photo_urls, "", (char*)photo_urlsListEntry->data) == NULL)
+    if(cJSON_AddStringToObject(photo_urls, "", photo_urlsListEntry->data) == NULL)
     {
         goto fail;
     }
@@ -148,7 +170,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 
     // pet->status
     if(pet->status != openapi_petstore_pet_STATUS_NULL) {
-    if(cJSON_AddStringToObject(item, "status", statuspet_ToString(pet->status)) == NULL)
+    if(cJSON_AddStringToObject(item, "status", pet_status_ToString(pet->status)) == NULL)
     {
     goto fail; //Enum
     }
@@ -177,6 +199,9 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(petJSON, "id");
+    if (cJSON_IsNull(id)) {
+        id = NULL;
+    }
     if (id) { 
     if(!cJSON_IsNumber(id))
     {
@@ -186,12 +211,18 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->category
     cJSON *category = cJSON_GetObjectItemCaseSensitive(petJSON, "category");
+    if (cJSON_IsNull(category)) {
+        category = NULL;
+    }
     if (category) { 
     category_local_nonprim = category_parseFromJSON(category); //nonprimitive
     }
 
     // pet->name
     cJSON *name = cJSON_GetObjectItemCaseSensitive(petJSON, "name");
+    if (cJSON_IsNull(name)) {
+        name = NULL;
+    }
     if (!name) {
         goto end;
     }
@@ -204,6 +235,9 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->photo_urls
     cJSON *photo_urls = cJSON_GetObjectItemCaseSensitive(petJSON, "photoUrls");
+    if (cJSON_IsNull(photo_urls)) {
+        photo_urls = NULL;
+    }
     if (!photo_urls) {
         goto end;
     }
@@ -226,6 +260,9 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->tags
     cJSON *tags = cJSON_GetObjectItemCaseSensitive(petJSON, "tags");
+    if (cJSON_IsNull(tags)) {
+        tags = NULL;
+    }
     if (tags) { 
     cJSON *tags_local_nonprimitive = NULL;
     if(!cJSON_IsArray(tags)){
@@ -247,6 +284,9 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->status
     cJSON *status = cJSON_GetObjectItemCaseSensitive(petJSON, "status");
+    if (cJSON_IsNull(status)) {
+        status = NULL;
+    }
     openapi_petstore_pet_STATUS_e statusVariable;
     if (status) { 
     if(!cJSON_IsString(status))
@@ -257,7 +297,7 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
     }
 
 
-    pet_local_var = pet_create (
+    pet_local_var = pet_create_internal (
         id ? id->valuedouble : 0,
         category ? category_local_nonprim : NULL,
         strdup(name->valuestring),

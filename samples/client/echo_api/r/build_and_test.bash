@@ -23,4 +23,4 @@ mkdir $R_LIBS_USER || true
 #
 R CMD build .
 R CMD check *tar.gz --no-manual
-R CMD install --preclean *tar.gz
+R CMD INSTALL --preclean *tar.gz

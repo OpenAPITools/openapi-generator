@@ -1,5 +1,6 @@
 =begin
 {{> api_info}}
+
 =end
 
 module {{moduleName}}
@@ -103,12 +104,15 @@ module {{moduleName}}
 
 {{#isTyphoeus}}
 {{> configuration_typhoeus_partial}}
+
 {{/isTyphoeus}}
 {{#isFaraday}}
 {{> configuration_faraday_partial}}
+
 {{/isFaraday}}
 {{#isHttpx}}
 {{> configuration_httpx_partial}}
+
 {{/isHttpx}}
 
     attr_accessor :inject_format
@@ -231,7 +235,7 @@ module {{moduleName}}
             type: 'api_key',
             in: {{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}},
             key: '{{keyParamName}}',
-            value: api_key_with_prefix('{{name}}'{{#vendorExtensions.x-auth-id-alias}}, '{{.}}'{{/vendorExtensions.x-auth-id-alias}})
+            value: api_key_with_prefix('{{keyParamName}}'{{#vendorExtensions.x-auth-id-alias}}, '{{.}}'{{/vendorExtensions.x-auth-id-alias}})
           },
 {{/isApiKey}}
 {{#isBasic}}

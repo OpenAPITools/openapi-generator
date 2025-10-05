@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::{CookieJar, Host};
 use bytes::Bytes;
 use http::Method;
 use serde::{Deserialize, Serialize};
@@ -10,14 +10,22 @@ use crate::{models, types::*};
 {{#operations}}
 {{#operation}}
 {{>response}}
+
 {{/operation}}
 {{/operations}}
 
 {{#operations}}
+
+{{>authorization}}
+
 /// {{classnamePascalCase}}
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait {{classnamePascalCase}} {
+pub trait {{classnamePascalCase}}<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
+{{#havingAuthMethod}}
+    type Claims;
+
+{{/havingAuthMethod}}
 {{#operation}}
   {{#summary}}
     /// {{{.}}}.
@@ -27,31 +35,37 @@ pub trait {{classnamePascalCase}} {
     /// {{{operationId}}} - {{{httpMethod}}} {{{basePathWithoutHost}}}{{{path}}}
     async fn {{{x-operation-id}}}(
     &self,
-    method: Method,
-    host: Host,
-    cookies: CookieJar,
+    {{#basicAnalytic}}event: &mut super::event::Event,{{/basicAnalytic}}
+    method: {{^ownedRequest}}&{{/ownedRequest}}Method,
+    host: {{^ownedRequest}}&{{/ownedRequest}}Host,
+    cookies: {{^ownedRequest}}&{{/ownedRequest}}CookieJar,
+    {{#vendorExtensions}}
+      {{#x-has-auth-methods}}
+        claims: {{^ownedRequest}}&{{/ownedRequest}}Self::Claims,
+      {{/x-has-auth-methods}}
+    {{/vendorExtensions}}
     {{#headerParams.size}}
-      header_params: models::{{{operationIdCamelCase}}}HeaderParams,
+      header_params: {{^ownedRequest}}&{{/ownedRequest}}models::{{{operationIdCamelCase}}}HeaderParams,
     {{/headerParams.size}}
     {{#pathParams.size}}
-      path_params: models::{{{operationIdCamelCase}}}PathParams,
+      path_params: {{^ownedRequest}}&{{/ownedRequest}}models::{{{operationIdCamelCase}}}PathParams,
     {{/pathParams.size}}
     {{#queryParams.size}}
-      query_params: models::{{{operationIdCamelCase}}}QueryParams,
+      query_params: {{^ownedRequest}}&{{/ownedRequest}}models::{{{operationIdCamelCase}}}QueryParams,
     {{/queryParams.size}}
     {{^x-consumes-multipart-related}}
     {{^x-consumes-multipart}}
       {{#bodyParam}}
       {{#vendorExtensions}}
         {{^x-consumes-plain-text}}
-            body: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
+            body: {{^ownedRequest}}&{{/ownedRequest}}{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
         {{/x-consumes-plain-text}}
         {{#x-consumes-plain-text}}
           {{#isString}}
-            body: String,
+            body: {{^ownedRequest}}&{{/ownedRequest}}String,
           {{/isString}}
           {{^isString}}
-            body: Bytes,
+            body: {{^ownedRequest}}&{{/ownedRequest}}Bytes,
           {{/isString}}
         {{/x-consumes-plain-text}}
       {{/vendorExtensions}}
@@ -59,12 +73,12 @@ pub trait {{classnamePascalCase}} {
     {{/x-consumes-multipart}}
     {{/x-consumes-multipart-related}}
     {{#x-consumes-multipart}}
-        body: Multipart,
+    body: Multipart,
     {{/x-consumes-multipart}}
     {{#x-consumes-multipart-related}}
-        body: axum::body::Body,
+    body: axum::body::Body,
     {{/x-consumes-multipart-related}}
-    ) -> Result<{{{operationId}}}Response, String>;
+    ) -> Result<{{{operationId}}}Response, E>;
   {{/vendorExtensions}}
   {{^-last}}
 

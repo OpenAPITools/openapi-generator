@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -21,14 +22,14 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Model200Response {
 
-  private Integer name;
+  private @Nullable Integer name;
 
-  private String propertyClass;
+  private @Nullable String propertyClass;
 
-  public Model200Response name(Integer name) {
+  public Model200Response name(@Nullable Integer name) {
     this.name = name;
     return this;
   }
@@ -40,15 +41,15 @@ public class Model200Response {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public Integer getName() {
+  public @Nullable Integer getName() {
     return name;
   }
 
-  public void setName(Integer name) {
+  public void setName(@Nullable Integer name) {
     this.name = name;
   }
 
-  public Model200Response propertyClass(String propertyClass) {
+  public Model200Response propertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
     return this;
   }
@@ -60,11 +61,11 @@ public class Model200Response {
   
   @ApiModelProperty(value = "")
   @JsonProperty("class")
-  public String getPropertyClass() {
+  public @Nullable String getPropertyClass() {
     return propertyClass;
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
 

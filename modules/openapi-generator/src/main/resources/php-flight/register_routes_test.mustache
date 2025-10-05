@@ -2,6 +2,7 @@
 
 {{>licenseInfo}}
 
+
 {{#apiInfo}}
 namespace {{testPackage}};
 
@@ -26,7 +27,7 @@ class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
         {{/operations}}
         };
         \{{invokerPackage}}\RegisterRoutes::registerRoutes($handler);
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 {{/apis}}
 {{#models}}
@@ -41,7 +42,7 @@ class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
         {{/-first}}
         {{/enumVars}}
         {{/allowableValues}}
-        $this->assertEquals(
+        self::assertEquals(
             parseParam($value, '\\{{escapedModelPackage}}\\{{classname}}'),
             \{{modelPackage}}\{{classname}}::{{#allowableValues}}{{#enumVars}}{{#-first}}{{{name}}}{{/-first}}{{/enumVars}}{{/allowableValues}}
         );

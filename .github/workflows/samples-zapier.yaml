@@ -18,9 +18,9 @@ jobs:
         sample:
           - samples/client/petstore/zapier
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Setup node
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
     - name: Install dependencies
       working-directory: ${{ matrix.sample }}
       run: |

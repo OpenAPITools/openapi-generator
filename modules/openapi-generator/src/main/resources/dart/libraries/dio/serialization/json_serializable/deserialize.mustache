@@ -52,13 +52,13 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
               .toSet() as ReturnType;
           }
           if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
-            targetType = match![1]!; // ignore: parameter_assignments
-            return Map<dynamic, BaseType>.fromIterables(
-              value.keys,
+            targetType = match![1]!.trim(); // ignore: parameter_assignments
+            return Map<String, BaseType>.fromIterables(
+              value.keys as Iterable<String>,
               value.values.map((dynamic v) => deserialize<BaseType, BaseType>(v, targetType, growable: growable)),
             ) as ReturnType;
           }
           break;
-    } 
+    }
     throw Exception('Cannot deserialize');
   }

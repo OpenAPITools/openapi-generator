@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,10 +22,10 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("_special_model.name_")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class SpecialModelName {
 
-  private Long $specialPropertyName;
+  private @Nullable Long $specialPropertyName;
 
   public SpecialModelName() {
     super();
@@ -33,11 +34,11 @@ public class SpecialModelName {
   /**
    * Constructor with all args parameters
    */
-  public SpecialModelName(Long $specialPropertyName) {
+  public SpecialModelName(@Nullable Long $specialPropertyName) {
       this.$specialPropertyName = $specialPropertyName;
   }
 
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+  public SpecialModelName $specialPropertyName(@Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -49,11 +50,11 @@ public class SpecialModelName {
   
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
-  public Long get$SpecialPropertyName() {
+  public @Nullable Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
 
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
+  public void set$SpecialPropertyName(@Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 

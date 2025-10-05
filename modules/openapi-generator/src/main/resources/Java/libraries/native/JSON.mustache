@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 {{>generatedAnnotation}}
+
 public class JSON {
   private ObjectMapper mapper;
 
@@ -30,7 +31,12 @@ public class JSON {
     mapper = JsonMapper.builder()
         .serializationInclusion(JsonInclude.Include.NON_NULL)
         .disable(MapperFeature.ALLOW_COERCION_OF_SCALARS)
+        {{#failOnUnknownProperties}}
         .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        {{/failOnUnknownProperties}}
+        {{^failOnUnknownProperties}}
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        {{/failOnUnknownProperties}}
         .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
         .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
@@ -83,7 +89,7 @@ public class JSON {
   /**
    * Helper class to register the discriminator mappings.
    */
-  {{>generatedAnnotation}}
+  {{>generatedAnnotation}}{{! prevent indent}}
   private static class ClassDiscriminatorMapping {
     // The model class name.
     Class<?> modelClass;

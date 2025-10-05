@@ -40,7 +40,10 @@ doc/ModelReturn.md
 doc/Name.md
 doc/NullableClass.md
 doc/NumberOnly.md
+doc/ObjectThatReferencesObjectsWithDuplicateInlineEnums.md
 doc/ObjectWithDeprecatedFields.md
+doc/ObjectWithDuplicateInlineEnum.md
+doc/ObjectWithInlineEnum.md
 doc/Order.md
 doc/OuterComposite.md
 doc/OuterEnum.md
@@ -56,7 +59,9 @@ doc/SingleRefType.md
 doc/SpecialModelName.md
 doc/StoreApi.md
 doc/Tag.md
+doc/TestEnum.md
 doc/TestInlineFreeformAdditionalPropertiesRequest.md
+doc/TestItem.md
 doc/User.md
 doc/UserApi.md
 git_push.sh
@@ -110,7 +115,10 @@ lib/model/model_return.dart
 lib/model/name.dart
 lib/model/nullable_class.dart
 lib/model/number_only.dart
+lib/model/object_that_references_objects_with_duplicate_inline_enums.dart
 lib/model/object_with_deprecated_fields.dart
+lib/model/object_with_duplicate_inline_enum.dart
+lib/model/object_with_inline_enum.dart
 lib/model/order.dart
 lib/model/outer_composite.dart
 lib/model/outer_enum.dart
@@ -124,6 +132,8 @@ lib/model/read_only_first.dart
 lib/model/single_ref_type.dart
 lib/model/special_model_name.dart
 lib/model/tag.dart
+lib/model/test_enum.dart
 lib/model/test_inline_freeform_additional_properties_request.dart
+lib/model/test_item.dart
 lib/model/user.dart
 pubspec.yaml

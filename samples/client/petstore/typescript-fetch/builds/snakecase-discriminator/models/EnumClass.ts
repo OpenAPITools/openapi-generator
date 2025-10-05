@@ -48,3 +48,7 @@ export function EnumClassToJSON(value?: EnumClass | null): any {
     return value as any;
 }
 
+export function EnumClassToJSONTyped(value: any, ignoreDiscriminator: boolean): EnumClass {
+    return value as EnumClass;
+}
+

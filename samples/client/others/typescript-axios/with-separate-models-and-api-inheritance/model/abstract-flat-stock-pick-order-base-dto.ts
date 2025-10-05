@@ -14,65 +14,15 @@
 
 
 
-/**
- * 
- * @export
- * @interface AbstractFlatStockPickOrderBaseDto
- */
 export interface AbstractFlatStockPickOrderBaseDto {
-    /**
-     * 
-     * @type {number}
-     * @memberof AbstractFlatStockPickOrderBaseDto
-     */
     'id': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AbstractFlatStockPickOrderBaseDto
-     */
     'created'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AbstractFlatStockPickOrderBaseDto
-     */
     'lastModified'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof AbstractFlatStockPickOrderBaseDto
-     */
     'warehouseId': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AbstractFlatStockPickOrderBaseDto
-     */
     'quantity': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AbstractFlatStockPickOrderBaseDto
-     */
     'stockLocation'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AbstractFlatStockPickOrderBaseDto
-     */
     'barcode'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof AbstractFlatStockPickOrderBaseDto
-     */
     'pickedQuantity': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AbstractFlatStockPickOrderBaseDto
-     */
     'type': string;
 }
 

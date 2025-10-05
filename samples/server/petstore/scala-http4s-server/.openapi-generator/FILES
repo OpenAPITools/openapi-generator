@@ -1,6 +1,7 @@
 build.sbt
 project/build.properties
 src/main/scala/org/openapitools/api.scala
+src/main/scala/org/openapitools/apis/FakeApi.scala
 src/main/scala/org/openapitools/apis/PetApi.scala
 src/main/scala/org/openapitools/apis/StoreApi.scala
 src/main/scala/org/openapitools/apis/UserApi.scala

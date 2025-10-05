@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import lombok.Setter;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
@@ -172,29 +173,29 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         supportingFiles.add(new SupportingFile("server/pom.mustache", "", "pom.xml")
-            .doNotOverwrite());
+                .doNotOverwrite());
 
         supportingFiles.add(new SupportingFile("server/openapi-generator-ignore.mustache", "", ".openapi-generator-ignore")
-            .doNotOverwrite());
+                .doNotOverwrite());
 
         if (this.generateSpringApplication) {
             supportingFiles.add(new SupportingFile("server/readme.md", "", "readme.md")
-                .doNotOverwrite());
+                    .doNotOverwrite());
             supportingFiles.add(new SupportingFile("server/ApplicationContext.xml.mustache",
                     ("src/main/resources"), "ApplicationContext.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
             supportingFiles.add(new SupportingFile("server/web.mustache",
                     ("src/main/webapp/WEB-INF"), "web.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
             supportingFiles.add(new SupportingFile("server/context.xml.mustache",
                     ("src/main/webapp/WEB-INF"), "context.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
 
             // Jboss
             if (generateJbossDeploymentDescriptor) {
                 supportingFiles.add(new SupportingFile("server/jboss-web.xml.mustache",
                         ("src/main/webapp/WEB-INF"), "jboss-web.xml")
-                    .doNotOverwrite());
+                        .doNotOverwrite());
 
             }
 
@@ -202,10 +203,10 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
             if (this.generateSpringBootApplication) {
                 supportingFiles.add(new SupportingFile("server/SpringBootApplication.mustache",
                         (testFolder + '/' + apiPackage).replace(".", "/"), "SpringBootApplication.java")
-                    .doNotOverwrite());
+                        .doNotOverwrite());
                 supportingFiles.add(new SupportingFile("server/application.properties.mustache",
                         (testResourcesFolder + '/'), "application.properties")
-                    .doNotOverwrite());
+                        .doNotOverwrite());
 
             }
         }
@@ -213,7 +214,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         if (this.generateNonSpringApplication) {
             supportingFiles.add(new SupportingFile("server/nonspring-web.mustache",
                     ("src/main/webapp/WEB-INF"), "web.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
         }
     }
 
@@ -223,12 +224,34 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
+    public List<DocumentationProvider> supportedDocumentationProvider() {
+        return List.of(DocumentationProvider.NONE, DocumentationProvider.SWAGGER1, DocumentationProvider.SWAGGER2);
+    }
+
+    @Override
+    public List<AnnotationLibrary> supportedAnnotationLibraries() {
+        return List.of(AnnotationLibrary.NONE, AnnotationLibrary.SWAGGER1, AnnotationLibrary.SWAGGER2);
+    }
+
+    @Override
+    public DocumentationProvider defaultDocumentationProvider() {
+        return DocumentationProvider.SWAGGER1;
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel m = super.fromModel(name, model);
+        m.imports.remove("ApiModel");
+        return m;
+    }
+
+    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
-        model.imports.remove("JsonSerialize");
-        model.imports.remove("ToStringSerializer");
+        model.imports.remove("JsonFormat");
+        model.imports.remove("JsonTypeName");
 
         //Add imports for Jackson when model has inner enum
         if (isJackson()) {

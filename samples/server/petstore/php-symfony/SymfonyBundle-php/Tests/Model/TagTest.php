@@ -27,8 +27,9 @@
  * Please update the test case below to test the model.
  */
 
-namespace OpenAPI\Server\Model;
+namespace OpenAPI\Server\Tests\Model;
 
+use OpenAPI\Server\Model\Tag;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -58,7 +59,7 @@ class TagTest extends TestCase
      */
     public function setUp(): void
     {
-         $this->object = $this->getMockBuilder(Tag::class)->getMockForAbstractClass();
+        $this->object = $this->getMockBuilder(Tag::class)->getMockForAbstractClass();
     }
 
     /**

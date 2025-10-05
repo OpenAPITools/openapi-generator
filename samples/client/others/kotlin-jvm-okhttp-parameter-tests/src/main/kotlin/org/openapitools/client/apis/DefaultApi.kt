@@ -99,18 +99,19 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
      }
 
     /**
+     * GET /test/parameters/{path_default}/{path_nullable}
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param pathDefault path default
      * @param pathNullable path_nullable
      * @param queryDefault query default (optional, default to "available")
-     * @param queryDefaultEnum query default enum (optional, default to B)
+     * @param queryDefaultEnum query default enum (optional, default to QueryDefaultEnum.B)
      * @param queryDefaultInt query default int (optional, default to 3)
      * @param headerDefault header default (optional, default to "available")
-     * @param headerDefaultEnum header default enum (optional, default to B)
+     * @param headerDefaultEnum header default enum (optional, default to HeaderDefaultEnum.B)
      * @param headerDefaultInt header default int (optional, default to 3)
      * @param cookieDefault cookie default (optional, default to "available")
-     * @param cookieDefaultEnum cookie default enum (optional, default to B)
+     * @param cookieDefaultEnum cookie default enum (optional, default to CookieDefaultEnum.B)
      * @param cookieDefaultInt cookie default int (optional, default to 3)
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)
@@ -143,18 +144,19 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     }
 
     /**
+     * GET /test/parameters/{path_default}/{path_nullable}
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param pathDefault path default
      * @param pathNullable path_nullable
      * @param queryDefault query default (optional, default to "available")
-     * @param queryDefaultEnum query default enum (optional, default to B)
+     * @param queryDefaultEnum query default enum (optional, default to QueryDefaultEnum.B)
      * @param queryDefaultInt query default int (optional, default to 3)
      * @param headerDefault header default (optional, default to "available")
-     * @param headerDefaultEnum header default enum (optional, default to B)
+     * @param headerDefaultEnum header default enum (optional, default to HeaderDefaultEnum.B)
      * @param headerDefaultInt header default int (optional, default to 3)
      * @param cookieDefault cookie default (optional, default to "available")
-     * @param cookieDefaultEnum cookie default enum (optional, default to B)
+     * @param cookieDefaultEnum cookie default enum (optional, default to CookieDefaultEnum.B)
      * @param cookieDefaultInt cookie default int (optional, default to 3)
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)
@@ -179,13 +181,13 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
      * @param pathDefault path default
      * @param pathNullable path_nullable
      * @param queryDefault query default (optional, default to "available")
-     * @param queryDefaultEnum query default enum (optional, default to B)
+     * @param queryDefaultEnum query default enum (optional, default to QueryDefaultEnum.B)
      * @param queryDefaultInt query default int (optional, default to 3)
      * @param headerDefault header default (optional, default to "available")
-     * @param headerDefaultEnum header default enum (optional, default to B)
+     * @param headerDefaultEnum header default enum (optional, default to HeaderDefaultEnum.B)
      * @param headerDefaultInt header default int (optional, default to 3)
      * @param cookieDefault cookie default (optional, default to "available")
-     * @param cookieDefaultEnum cookie default enum (optional, default to B)
+     * @param cookieDefaultEnum cookie default enum (optional, default to CookieDefaultEnum.B)
      * @param cookieDefaultInt cookie default int (optional, default to 3)
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)

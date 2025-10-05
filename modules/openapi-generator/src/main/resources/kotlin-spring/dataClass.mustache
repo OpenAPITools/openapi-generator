@@ -17,13 +17,40 @@
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-    ) {{/discriminator}}{{#parent}}: {{{.}}}{{#serializableModel}}, Serializable{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}: Serializable{{/serializableModel}}{{/parent}}{
+){{/discriminator}}{{! no newline
+}}{{#parent}} : {{{.}}}{{#isMap}}(){{/isMap}}{{! no newline
+    }}{{#serializableModel}}{{! no newline
+      }}{{^vendorExtensions.x-kotlin-implements}}, Serializable{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+      }}{{#vendorExtensions.x-kotlin-implements}}, Serializable, {{! no newline
+      }}{{#-first}} {{{.}}}{{/-first}}{{! no newline
+      }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
+      }}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+  }}{{/serializableModel}}{{! no newline
+  }}{{^serializableModel}}{{! no newline
+      }}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+  }}{{/serializableModel}}{{! no newline
+}}{{/parent}}{{! no newline
+}}{{^parent}}{{! no newline
+  }}{{#serializableModel}}{{! no newline
+      }}{{^vendorExtensions.x-kotlin-implements}} : Serializable{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+      }}{{#vendorExtensions.x-kotlin-implements}}{{! no newline
+      }}{{#-first}} : Serializable, {{{.}}}{{/-first}}{{! no newline
+      }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
+      }}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+  }}{{/serializableModel}}{{! no newline
+  }}{{^serializableModel}}{{! no newline
+    }}{{#vendorExtensions.x-kotlin-implements}}{{! no newline
+    }}{{#-first}} : {{{.}}}{{/-first}}{{! no newline
+      }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
+    }}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+  }}{{/serializableModel}}{{! no newline
+}}{{/parent}} {
 {{#discriminator}}
     {{#requiredVars}}
-        {{>interfaceReqVar}}
+        {{>interfaceReqVar}}{{! prevent indent}}
     {{/requiredVars}}
     {{#optionalVars}}
-        {{>interfaceOptVar}}
+        {{>interfaceOptVar}}{{! prevent indent}}
     {{/optionalVars}}
 {{/discriminator}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
@@ -39,7 +66,8 @@
             @JvmStatic
             @JsonCreator
             fun forValue(value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}): {{{nameInPascalCase}}} {
-                return values().first{it -> it.value == value}
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{classname}}'")
             }
         }
     }

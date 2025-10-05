@@ -63,3 +63,7 @@ export function ErrorCodeToJSON(value?: ErrorCode | null): any {
     return value as any;
 }
 
+export function ErrorCodeToJSONTyped(value: any, ignoreDiscriminator: boolean): ErrorCode {
+    return value as ErrorCode;
+}
+

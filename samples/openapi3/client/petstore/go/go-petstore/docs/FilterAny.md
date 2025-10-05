@@ -4,7 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Type** | **string** |  | 
+**Type** | Pointer to **string** |  | [optional] 
+**Date** | Pointer to **time.Time** |  | [optional] 
 **Regex** | Pointer to **string** |  | [optional] 
 **Data** | Pointer to **[]string** |  | [optional] 
 
@@ -12,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewFilterAny
 
-`func NewFilterAny(type_ string, ) *FilterAny`
+`func NewFilterAny() *FilterAny`
 
 NewFilterAny instantiates a new FilterAny object
 This constructor will assign default values to properties that have it defined,
@@ -46,6 +47,36 @@ and a boolean to check if the value has been set.
 
 SetType sets Type field to given value.
 
+### HasType
+
+`func (o *FilterAny) HasType() bool`
+
+HasType returns a boolean if a field has been set.
+
+### GetDate
+
+`func (o *FilterAny) GetDate() time.Time`
+
+GetDate returns the Date field if non-nil, zero value otherwise.
+
+### GetDateOk
+
+`func (o *FilterAny) GetDateOk() (*time.Time, bool)`
+
+GetDateOk returns a tuple with the Date field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDate
+
+`func (o *FilterAny) SetDate(v time.Time)`
+
+SetDate sets Date field to given value.
+
+### HasDate
+
+`func (o *FilterAny) HasDate() bool`
+
+HasDate returns a boolean if a field has been set.
 
 ### GetRegex
 

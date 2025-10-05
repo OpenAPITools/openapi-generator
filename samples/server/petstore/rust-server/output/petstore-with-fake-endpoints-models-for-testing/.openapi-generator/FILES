@@ -1,8 +1,9 @@
-.cargo/config
+.cargo/config.toml
 .gitignore
 Cargo.toml
 README.md
 api/openapi.yaml
+bin/cli.rs
 docs/AdditionalPropertiesClass.md
 docs/Animal.md
 docs/AnimalFarm.md
@@ -16,7 +17,7 @@ docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/Dog.md
-docs/DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket.md
+docs/DollarSpecialLeftSquareBracketModelNameRightSquareBracket.md
 docs/EnumArrays.md
 docs/EnumArraysArrayArrayEnumInnerInner.md
 docs/EnumArraysArrayEnumInner.md

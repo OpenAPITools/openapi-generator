@@ -57,3 +57,7 @@ export function DeploymentRequestStatusToJSON(value?: DeploymentRequestStatus | 
     return value as any;
 }
 
+export function DeploymentRequestStatusToJSONTyped(value: any, ignoreDiscriminator: boolean): DeploymentRequestStatus {
+    return value as DeploymentRequestStatus;
+}
+

@@ -36,7 +36,7 @@ class ApiClient extends OAGAC\AbstractApiClient
 {{>api_arg_declaration
 }}    ): ResponseInterface
     {
-        $request = $this->createRequest('{{httpMethod}}', '{{path}}', {{#pathParams.0}}$this->getPathParameters($parameters){{/pathParams.0}}{{^pathParams.0}}[]{{/pathParams.0}}, {{#queryParams.0}}$this->getQueryParameters($parameters){{/queryParams.0}}{{^queryParams.0}}[]{{/queryParams.0}});
+        $request = $this->createRequest('{{httpMethod}}', '{{{path}}}', {{#pathParams.0}}$this->getPathParameters($parameters){{/pathParams.0}}{{^pathParams.0}}[]{{/pathParams.0}}, {{#queryParams.0}}$this->getQueryParameters($parameters){{/queryParams.0}}{{^queryParams.0}}[]{{/queryParams.0}});
 {{#headerParams.0}}
         $request = $this->addCustomHeaders($request, $parameters);
 {{/headerParams.0}}

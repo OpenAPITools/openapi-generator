@@ -24,7 +24,7 @@
     },
     {
       "name": "shipDate",
-      "type": ["null", "string"],
+      "type": ["null", { "type": "long", "logicalType": "timestamp-nanos" }],
       "doc": "",
       "default": null
     },
@@ -44,9 +44,9 @@
     },
     {
       "name": "complete",
-      "type": ["null", "boolean"],
+      "type": ["boolean", "null"],
       "doc": "",
-      "default": null
+      "default": false
     }
   ]
 

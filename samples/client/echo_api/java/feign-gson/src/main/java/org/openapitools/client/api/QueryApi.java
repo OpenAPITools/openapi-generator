@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public interface QueryApi extends ApiClient.Api {
 
 
@@ -33,7 +33,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testEnumRefString(@Param("enumNonrefStringQuery") String enumNonrefStringQuery, @Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
+  String testEnumRefString(@Param("enumNonrefStringQuery") @javax.annotation.Nullable String enumNonrefStringQuery, @Param("enumRefStringQuery") @javax.annotation.Nullable StringEnumRef enumRefStringQuery);
 
   /**
    * Test query parameter(s)
@@ -47,7 +47,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testEnumRefStringWithHttpInfo(@Param("enumNonrefStringQuery") String enumNonrefStringQuery, @Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
+  ApiResponse<String> testEnumRefStringWithHttpInfo(@Param("enumNonrefStringQuery") @javax.annotation.Nullable String enumNonrefStringQuery, @Param("enumRefStringQuery") @javax.annotation.Nullable StringEnumRef enumRefStringQuery);
 
 
   /**
@@ -97,11 +97,11 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testEnumRefString</code> method in a fluent style.
    */
   public static class TestEnumRefStringQueryParams extends HashMap<String, Object> {
-    public TestEnumRefStringQueryParams enumNonrefStringQuery(final String value) {
+    public TestEnumRefStringQueryParams enumNonrefStringQuery(@javax.annotation.Nullable final String value) {
       put("enum_nonref_string_query", EncodingUtils.encode(value));
       return this;
     }
-    public TestEnumRefStringQueryParams enumRefStringQuery(final StringEnumRef value) {
+    public TestEnumRefStringQueryParams enumRefStringQuery(@javax.annotation.Nullable final StringEnumRef value) {
       put("enum_ref_string_query", EncodingUtils.encode(value));
       return this;
     }
@@ -119,7 +119,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testQueryDatetimeDateString(@Param("datetimeQuery") OffsetDateTime datetimeQuery, @Param("dateQuery") LocalDate dateQuery, @Param("stringQuery") String stringQuery);
+  String testQueryDatetimeDateString(@Param("datetimeQuery") @javax.annotation.Nullable OffsetDateTime datetimeQuery, @Param("dateQuery") @javax.annotation.Nullable LocalDate dateQuery, @Param("stringQuery") @javax.annotation.Nullable String stringQuery);
 
   /**
    * Test query parameter(s)
@@ -134,7 +134,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testQueryDatetimeDateStringWithHttpInfo(@Param("datetimeQuery") OffsetDateTime datetimeQuery, @Param("dateQuery") LocalDate dateQuery, @Param("stringQuery") String stringQuery);
+  ApiResponse<String> testQueryDatetimeDateStringWithHttpInfo(@Param("datetimeQuery") @javax.annotation.Nullable OffsetDateTime datetimeQuery, @Param("dateQuery") @javax.annotation.Nullable LocalDate dateQuery, @Param("stringQuery") @javax.annotation.Nullable String stringQuery);
 
 
   /**
@@ -186,15 +186,15 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testQueryDatetimeDateString</code> method in a fluent style.
    */
   public static class TestQueryDatetimeDateStringQueryParams extends HashMap<String, Object> {
-    public TestQueryDatetimeDateStringQueryParams datetimeQuery(final OffsetDateTime value) {
+    public TestQueryDatetimeDateStringQueryParams datetimeQuery(@javax.annotation.Nullable final OffsetDateTime value) {
       put("datetime_query", EncodingUtils.encode(value));
       return this;
     }
-    public TestQueryDatetimeDateStringQueryParams dateQuery(final LocalDate value) {
+    public TestQueryDatetimeDateStringQueryParams dateQuery(@javax.annotation.Nullable final LocalDate value) {
       put("date_query", EncodingUtils.encode(value));
       return this;
     }
-    public TestQueryDatetimeDateStringQueryParams stringQuery(final String value) {
+    public TestQueryDatetimeDateStringQueryParams stringQuery(@javax.annotation.Nullable final String value) {
       put("string_query", EncodingUtils.encode(value));
       return this;
     }
@@ -212,7 +212,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testQueryIntegerBooleanString(@Param("integerQuery") Integer integerQuery, @Param("booleanQuery") Boolean booleanQuery, @Param("stringQuery") String stringQuery);
+  String testQueryIntegerBooleanString(@Param("integerQuery") @javax.annotation.Nullable Integer integerQuery, @Param("booleanQuery") @javax.annotation.Nullable Boolean booleanQuery, @Param("stringQuery") @javax.annotation.Nullable String stringQuery);
 
   /**
    * Test query parameter(s)
@@ -227,7 +227,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testQueryIntegerBooleanStringWithHttpInfo(@Param("integerQuery") Integer integerQuery, @Param("booleanQuery") Boolean booleanQuery, @Param("stringQuery") String stringQuery);
+  ApiResponse<String> testQueryIntegerBooleanStringWithHttpInfo(@Param("integerQuery") @javax.annotation.Nullable Integer integerQuery, @Param("booleanQuery") @javax.annotation.Nullable Boolean booleanQuery, @Param("stringQuery") @javax.annotation.Nullable String stringQuery);
 
 
   /**
@@ -279,15 +279,15 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testQueryIntegerBooleanString</code> method in a fluent style.
    */
   public static class TestQueryIntegerBooleanStringQueryParams extends HashMap<String, Object> {
-    public TestQueryIntegerBooleanStringQueryParams integerQuery(final Integer value) {
+    public TestQueryIntegerBooleanStringQueryParams integerQuery(@javax.annotation.Nullable final Integer value) {
       put("integer_query", EncodingUtils.encode(value));
       return this;
     }
-    public TestQueryIntegerBooleanStringQueryParams booleanQuery(final Boolean value) {
+    public TestQueryIntegerBooleanStringQueryParams booleanQuery(@javax.annotation.Nullable final Boolean value) {
       put("boolean_query", EncodingUtils.encode(value));
       return this;
     }
-    public TestQueryIntegerBooleanStringQueryParams stringQuery(final String value) {
+    public TestQueryIntegerBooleanStringQueryParams stringQuery(@javax.annotation.Nullable final String value) {
       put("string_query", EncodingUtils.encode(value));
       return this;
     }
@@ -303,7 +303,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testQueryStyleDeepObjectExplodeTrueObject(@Param("queryObject") Pet queryObject);
+  String testQueryStyleDeepObjectExplodeTrueObject(@Param("queryObject") @javax.annotation.Nullable Pet queryObject);
 
   /**
    * Test query parameter(s)
@@ -316,7 +316,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(@Param("queryObject") Pet queryObject);
+  ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(@Param("queryObject") @javax.annotation.Nullable Pet queryObject);
 
 
   /**
@@ -364,7 +364,7 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testQueryStyleDeepObjectExplodeTrueObject</code> method in a fluent style.
    */
   public static class TestQueryStyleDeepObjectExplodeTrueObjectQueryParams extends HashMap<String, Object> {
-    public TestQueryStyleDeepObjectExplodeTrueObjectQueryParams queryObject(final Pet value) {
+    public TestQueryStyleDeepObjectExplodeTrueObjectQueryParams queryObject(@javax.annotation.Nullable final Pet value) {
       put("query_object", EncodingUtils.encode(value));
       return this;
     }
@@ -380,7 +380,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@Param("queryObject") TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject);
+  String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@Param("queryObject") @javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject);
 
   /**
    * Test query parameter(s)
@@ -393,7 +393,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(@Param("queryObject") TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject);
+  ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(@Param("queryObject") @javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject);
 
 
   /**
@@ -441,7 +441,7 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testQueryStyleDeepObjectExplodeTrueObjectAllOf</code> method in a fluent style.
    */
   public static class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams extends HashMap<String, Object> {
-    public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams queryObject(final TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter value) {
+    public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams queryObject(@javax.annotation.Nullable final TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter value) {
       put("query_object", EncodingUtils.encode(value));
       return this;
     }
@@ -457,7 +457,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testQueryStyleFormExplodeFalseArrayInteger(@Param("queryObject") List<Integer> queryObject);
+  String testQueryStyleFormExplodeFalseArrayInteger(@Param("queryObject") @javax.annotation.Nullable List<Integer> queryObject);
 
   /**
    * Test query parameter(s)
@@ -470,7 +470,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(@Param("queryObject") List<Integer> queryObject);
+  ApiResponse<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(@Param("queryObject") @javax.annotation.Nullable List<Integer> queryObject);
 
 
   /**
@@ -518,7 +518,7 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testQueryStyleFormExplodeFalseArrayInteger</code> method in a fluent style.
    */
   public static class TestQueryStyleFormExplodeFalseArrayIntegerQueryParams extends HashMap<String, Object> {
-    public TestQueryStyleFormExplodeFalseArrayIntegerQueryParams queryObject(final List<Integer> value) {
+    public TestQueryStyleFormExplodeFalseArrayIntegerQueryParams queryObject(@javax.annotation.Nullable final List<Integer> value) {
       put("query_object", EncodingUtils.encodeCollection(value, "csv"));
       return this;
     }
@@ -534,7 +534,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testQueryStyleFormExplodeFalseArrayString(@Param("queryObject") List<String> queryObject);
+  String testQueryStyleFormExplodeFalseArrayString(@Param("queryObject") @javax.annotation.Nullable List<String> queryObject);
 
   /**
    * Test query parameter(s)
@@ -547,7 +547,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(@Param("queryObject") List<String> queryObject);
+  ApiResponse<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(@Param("queryObject") @javax.annotation.Nullable List<String> queryObject);
 
 
   /**
@@ -595,7 +595,7 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testQueryStyleFormExplodeFalseArrayString</code> method in a fluent style.
    */
   public static class TestQueryStyleFormExplodeFalseArrayStringQueryParams extends HashMap<String, Object> {
-    public TestQueryStyleFormExplodeFalseArrayStringQueryParams queryObject(final List<String> value) {
+    public TestQueryStyleFormExplodeFalseArrayStringQueryParams queryObject(@javax.annotation.Nullable final List<String> value) {
       put("query_object", EncodingUtils.encodeCollection(value, "csv"));
       return this;
     }
@@ -611,7 +611,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testQueryStyleFormExplodeTrueArrayString(@Param("queryObject") TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject);
+  String testQueryStyleFormExplodeTrueArrayString(@Param("queryObject") @javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject);
 
   /**
    * Test query parameter(s)
@@ -624,7 +624,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(@Param("queryObject") TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject);
+  ApiResponse<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(@Param("queryObject") @javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject);
 
 
   /**
@@ -672,7 +672,7 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testQueryStyleFormExplodeTrueArrayString</code> method in a fluent style.
    */
   public static class TestQueryStyleFormExplodeTrueArrayStringQueryParams extends HashMap<String, Object> {
-    public TestQueryStyleFormExplodeTrueArrayStringQueryParams queryObject(final TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter value) {
+    public TestQueryStyleFormExplodeTrueArrayStringQueryParams queryObject(@javax.annotation.Nullable final TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter value) {
       put("query_object", EncodingUtils.encode(value));
       return this;
     }
@@ -688,7 +688,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testQueryStyleFormExplodeTrueObject(@Param("queryObject") Pet queryObject);
+  String testQueryStyleFormExplodeTrueObject(@Param("queryObject") @javax.annotation.Nullable Pet queryObject);
 
   /**
    * Test query parameter(s)
@@ -701,7 +701,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(@Param("queryObject") Pet queryObject);
+  ApiResponse<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(@Param("queryObject") @javax.annotation.Nullable Pet queryObject);
 
 
   /**
@@ -749,7 +749,7 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testQueryStyleFormExplodeTrueObject</code> method in a fluent style.
    */
   public static class TestQueryStyleFormExplodeTrueObjectQueryParams extends HashMap<String, Object> {
-    public TestQueryStyleFormExplodeTrueObjectQueryParams queryObject(final Pet value) {
+    public TestQueryStyleFormExplodeTrueObjectQueryParams queryObject(@javax.annotation.Nullable final Pet value) {
       put("query_object", EncodingUtils.encode(value));
       return this;
     }
@@ -765,7 +765,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testQueryStyleFormExplodeTrueObjectAllOf(@Param("queryObject") DataQuery queryObject);
+  String testQueryStyleFormExplodeTrueObjectAllOf(@Param("queryObject") @javax.annotation.Nullable DataQuery queryObject);
 
   /**
    * Test query parameter(s)
@@ -778,7 +778,7 @@ public interface QueryApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(@Param("queryObject") DataQuery queryObject);
+  ApiResponse<String> testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(@Param("queryObject") @javax.annotation.Nullable DataQuery queryObject);
 
 
   /**
@@ -826,8 +826,93 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testQueryStyleFormExplodeTrueObjectAllOf</code> method in a fluent style.
    */
   public static class TestQueryStyleFormExplodeTrueObjectAllOfQueryParams extends HashMap<String, Object> {
-    public TestQueryStyleFormExplodeTrueObjectAllOfQueryParams queryObject(final DataQuery value) {
+    public TestQueryStyleFormExplodeTrueObjectAllOfQueryParams queryObject(@javax.annotation.Nullable final DataQuery value) {
       put("query_object", EncodingUtils.encode(value));
+      return this;
+    }
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param jsonSerializedObjectRefStringQuery  (optional)
+   * @param jsonSerializedObjectArrayRefStringQuery  (optional)
+   * @return String
+   */
+  @RequestLine("GET /query/style_jsonSerialization/object?json_serialized_object_ref_string_query={jsonSerializedObjectRefStringQuery}&json_serialized_object_array_ref_string_query={jsonSerializedObjectArrayRefStringQuery}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  String testQueryStyleJsonSerializationObject(@Param("jsonSerializedObjectRefStringQuery") @javax.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @Param("jsonSerializedObjectArrayRefStringQuery") @javax.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery);
+
+  /**
+   * Test query parameter(s)
+   * Similar to <code>testQueryStyleJsonSerializationObject</code> but it also returns the http response headers .
+   * Test query parameter(s)
+   * @param jsonSerializedObjectRefStringQuery  (optional)
+   * @param jsonSerializedObjectArrayRefStringQuery  (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /query/style_jsonSerialization/object?json_serialized_object_ref_string_query={jsonSerializedObjectRefStringQuery}&json_serialized_object_array_ref_string_query={jsonSerializedObjectArrayRefStringQuery}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testQueryStyleJsonSerializationObjectWithHttpInfo(@Param("jsonSerializedObjectRefStringQuery") @javax.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @Param("jsonSerializedObjectArrayRefStringQuery") @javax.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery);
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * Note, this is equivalent to the other <code>testQueryStyleJsonSerializationObject</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link TestQueryStyleJsonSerializationObjectQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>jsonSerializedObjectRefStringQuery -  (optional)</li>
+   *   <li>jsonSerializedObjectArrayRefStringQuery -  (optional)</li>
+   *   </ul>
+   * @return String
+   */
+  @RequestLine("GET /query/style_jsonSerialization/object?json_serialized_object_ref_string_query={jsonSerializedObjectRefStringQuery}&json_serialized_object_array_ref_string_query={jsonSerializedObjectArrayRefStringQuery}")
+  @Headers({
+  "Accept: text/plain",
+  })
+  String testQueryStyleJsonSerializationObject(@QueryMap(encoded=true) TestQueryStyleJsonSerializationObjectQueryParams queryParams);
+
+  /**
+  * Test query parameter(s)
+  * Test query parameter(s)
+  * Note, this is equivalent to the other <code>testQueryStyleJsonSerializationObject</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>jsonSerializedObjectRefStringQuery -  (optional)</li>
+          *   <li>jsonSerializedObjectArrayRefStringQuery -  (optional)</li>
+      *   </ul>
+          * @return String
+      */
+      @RequestLine("GET /query/style_jsonSerialization/object?json_serialized_object_ref_string_query={jsonSerializedObjectRefStringQuery}&json_serialized_object_array_ref_string_query={jsonSerializedObjectArrayRefStringQuery}")
+      @Headers({
+    "Accept: text/plain",
+      })
+   ApiResponse<String> testQueryStyleJsonSerializationObjectWithHttpInfo(@QueryMap(encoded=true) TestQueryStyleJsonSerializationObjectQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>testQueryStyleJsonSerializationObject</code> method in a fluent style.
+   */
+  public static class TestQueryStyleJsonSerializationObjectQueryParams extends HashMap<String, Object> {
+    public TestQueryStyleJsonSerializationObjectQueryParams jsonSerializedObjectRefStringQuery(@javax.annotation.Nullable final Pet value) {
+      put("json_serialized_object_ref_string_query", EncodingUtils.encode(value));
+      return this;
+    }
+    public TestQueryStyleJsonSerializationObjectQueryParams jsonSerializedObjectArrayRefStringQuery(@javax.annotation.Nullable final List<Pet> value) {
+      put("json_serialized_object_array_ref_string_query", EncodingUtils.encodeCollection(value, "csv"));
       return this;
     }
   }

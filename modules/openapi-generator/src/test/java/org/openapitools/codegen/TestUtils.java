@@ -24,7 +24,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.testng.Assert.*;
 
@@ -45,7 +50,7 @@ public class TestUtils {
 
     /**
      * Helper method for parsing specs into an intermediary OpenAPI structure for pre-processing.
-     *
+     * <p>
      * Use this method only for tests targeting processing helpers such as {@link org.openapitools.codegen.utils.ModelUtils}
      * or {@link InlineModelResolver}. Using this for testing generators will mean you're not testing the OpenAPI document
      * in a state the generator will be presented at runtime.
@@ -104,10 +109,10 @@ public class TestUtils {
     }
 
     public static void validatePomXmlFiles(final List<File> files) {
-        if (files == null 
-            || files.isEmpty() 
-            || files.stream().noneMatch(f -> f.getName().equals("pom.xml"))) return;
-        
+        if (files == null
+                || files.isEmpty()
+                || files.stream().noneMatch(f -> f.getName().equals("pom.xml"))) return;
+
         final XmlMapper mapper = new XmlMapper();
         for (File file : files) {
             if (!"pom.xml".equals(file.getName())) continue;
@@ -118,7 +123,8 @@ public class TestUtils {
             } catch (IOException exception) {
                 throw new RuntimeException(exception);
             }
-        };
+        }
+        ;
     }
 
     private static void assertValidPomXml(final JsonNode pom) {
@@ -130,16 +136,16 @@ public class TestUtils {
     }
 
     public static void validateJavaSourceFiles(Map<String, String> fileMap) {
-        fileMap.forEach( (fileName, fileContents) -> {
-                if (fileName.endsWith(".java")) {
-                    assertValidJavaSourceCode(fileContents);
+        fileMap.forEach((fileName, fileContents) -> {
+                    if (fileName.endsWith(".java")) {
+                        assertValidJavaSourceCode(fileContents);
+                    }
                 }
-            }
         );
     }
 
     public static void validateJavaSourceFiles(List<File> files) {
-        files.forEach( f -> {
+        files.forEach(f -> {
                     if (f.getName().endsWith(".java")) {
                         String fileContents = "";
                         try {
@@ -171,6 +177,21 @@ public class TestUtils {
         } catch (IOException e) {
             fail("Unable to evaluate file " + path);
         }
+    }
+
+    /**
+     * Count occurrences of the given text
+     * @param content content of the file
+     * @param text text to find
+     * @return
+     */
+    public static int countOccurrences(String content, String text) {
+        Matcher matcher = Pattern.compile(text).matcher(content);
+        int count = 0;
+        while (matcher.find()) {
+            count++;
+        }
+        return count;
     }
 
     public static String linearize(String target) {
@@ -214,98 +235,98 @@ public class TestUtils {
 
         JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/EmployeeEntity.java"))
                 .assertTypeAnnotations()
-                    .containsWithName("javax.persistence.Entity")
-                    .containsWithNameAndAttributes("javax.persistence.Table", ImmutableMap.of("name", "\"employees\""))
+                .containsWithName("javax.persistence.Entity")
+                .containsWithNameAndAttributes("javax.persistence.Table", ImmutableMap.of("name", "\"employees\""))
                 .toType()
                 .assertProperty("assignments")
-                    .assertPropertyAnnotations()
-                    .containsWithNameAndAttributes("javax.persistence.OneToMany", ImmutableMap.of("mappedBy", "\"employee\""))
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithNameAndAttributes("javax.persistence.OneToMany", ImmutableMap.of("mappedBy", "\"employee\""))
+                .toProperty()
                 .toType();
 
         JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/Employee.java"))
                 .assertTypeAnnotations()
-                    .containsWithName("javax.persistence.MappedSuperclass")
+                .containsWithName("javax.persistence.MappedSuperclass")
                 .toType()
                 .assertProperty("id")
-                    .assertPropertyAnnotations()
-                    .containsWithName("javax.persistence.Id")
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithName("javax.persistence.Id")
+                .toProperty()
                 .toType()
                 .assertProperty("email")
-                    .assertPropertyAnnotations()
-                    .containsWithName("org.hibernate.annotations.Formula")
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithName("org.hibernate.annotations.Formula")
+                .toProperty()
                 .toType()
                 .assertProperty("hasAcceptedTerms")
-                    .assertPropertyAnnotations()
-                    .containsWithName("javax.persistence.Transient")
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithName("javax.persistence.Transient")
+                .toProperty()
                 .toType();
 
         JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/SurveyGroupEntity.java"))
                 .assertTypeAnnotations()
-                    .containsWithName("javax.persistence.Entity")
-                    .containsWithNameAndAttributes("javax.persistence.Table", ImmutableMap.of("name", "\"survey_groups\""))
+                .containsWithName("javax.persistence.Entity")
+                .containsWithNameAndAttributes("javax.persistence.Table", ImmutableMap.of("name", "\"survey_groups\""))
                 .toType()
                 .assertProperty("assignments")
-                    .assertPropertyAnnotations()
-                    .containsWithName("javax.persistence.OneToMany")
-                    .containsWithNameAndAttributes("javax.persistence.JoinColumn", ImmutableMap.of("name", "\"survey_group_id\""))
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithName("javax.persistence.OneToMany")
+                .containsWithNameAndAttributes("javax.persistence.JoinColumn", ImmutableMap.of("name", "\"survey_group_id\""))
+                .toProperty()
                 .toType()
                 .assertProperty("disabled")
-                    .assertPropertyAnnotations()
-                    .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("nullable", "false"))
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("nullable", "false"))
+                .toProperty()
                 .toType();
 
         JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/SurveyGroup.java"))
                 .assertTypeAnnotations()
-                    .containsWithName("javax.persistence.MappedSuperclass")
-                    .containsWithName("javax.persistence.EntityListeners")
+                .containsWithName("javax.persistence.MappedSuperclass")
+                .containsWithName("javax.persistence.EntityListeners")
                 .toType()
                 .assertProperty("id")
-                    .assertPropertyAnnotations()
-                    .containsWithName("javax.persistence.Id")
-                    .containsWithNameAndAttributes("javax.persistence.GeneratedValue", ImmutableMap.of("generator", "\"UUID\""))
-                    .containsWithNameAndAttributes("org.hibernate.annotations.GenericGenerator", ImmutableMap.of("name", "\"UUID\"","strategy", "\"org.hibernate.id.UUIDGenerator\""))
-                    .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("name", "\"id\"","updatable", "false","nullable", "false"))
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithName("javax.persistence.Id")
+                .containsWithNameAndAttributes("javax.persistence.GeneratedValue", ImmutableMap.of("generator", "\"UUID\""))
+                .containsWithNameAndAttributes("org.hibernate.annotations.GenericGenerator", ImmutableMap.of("name", "\"UUID\"", "strategy", "\"org.hibernate.id.UUIDGenerator\""))
+                .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("name", "\"id\"", "updatable", "false", "nullable", "false"))
+                .toProperty()
                 .toType()
                 .assertProperty("createdDate")
-                    .assertPropertyAnnotations()
-                    .containsWithName("org.springframework.data.annotation.CreatedDate")
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithName("org.springframework.data.annotation.CreatedDate")
+                .toProperty()
                 .toType()
                 .assertProperty("createdBy")
-                    .assertPropertyAnnotations()
-                    .containsWithName("org.springframework.data.annotation.CreatedBy")
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithName("org.springframework.data.annotation.CreatedBy")
+                .toProperty()
                 .toType()
                 .assertProperty("modifiedDate")
-                    .assertPropertyAnnotations()
-                    .containsWithName("org.springframework.data.annotation.LastModifiedDate")
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithName("org.springframework.data.annotation.LastModifiedDate")
+                .toProperty()
                 .toType()
                 .assertProperty("modifiedBy")
-                    .assertPropertyAnnotations()
-                    .containsWithName("org.springframework.data.annotation.LastModifiedBy")
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithName("org.springframework.data.annotation.LastModifiedBy")
+                .toProperty()
                 .toType()
                 .assertProperty("opportunityId")
-                    .assertPropertyAnnotations()
-                    .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("unique", "true"))
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithNameAndAttributes("javax.persistence.Column", ImmutableMap.of("unique", "true"))
+                .toProperty()
                 .toType()
                 .assertProperty("submissionStatus")
-                    .assertPropertyAnnotations()
-                    .containsWithName("javax.persistence.Transient")
-                    .toProperty()
+                .assertPropertyAnnotations()
+                .containsWithName("javax.persistence.Transient")
+                .toProperty()
                 .toType();
 
         JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/CompanyDto.java"))
-            .assertProperty("priceCategory")
+                .assertProperty("priceCategory")
                 .assertPropertyAnnotations()
                 .containsWithNameAndAttributes("IgnoreForRoles", ImmutableMap.of("value", "\"MEDIA_ADMIN\""));
     }

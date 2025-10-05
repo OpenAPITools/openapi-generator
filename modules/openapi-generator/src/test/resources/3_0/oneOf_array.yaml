@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: oneOf with array inside
+  version: 1.0.0
+paths:
+  /myExample:
+    get:
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      "$ref": "#/components/schemas/OneOf1"
+                  - type: object
+                    "$ref": "#/components/schemas/OneOf1"
+components:
+  schemas:
+    OneOf1:
+      type: object
+      properties:
+        message1:
+          type: string

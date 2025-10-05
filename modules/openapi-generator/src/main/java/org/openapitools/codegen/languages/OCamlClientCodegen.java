@@ -18,7 +18,9 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.Setter;
@@ -35,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -49,8 +50,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public static final String PACKAGE_VERSION = "packageVersion";
 
     static final String X_MODEL_MODULE = "x-model-module";
-
-    public static final String CO_HTTP = "cohttp";
 
     @Setter protected String packageName = "openapi";
     @Setter protected String packageVersion = "1.0.0";
@@ -96,11 +95,14 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf
+                )
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
         );
-
 
         outputFolder = "generated-code/ocaml";
         modelTemplateFiles.put("model.mustache", ".ml");
@@ -132,6 +134,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         supportingFiles.add(new SupportingFile("dune.mustache", "", "dune"));
         supportingFiles.add(new SupportingFile("dune-project.mustache", "", "dune-project"));
         supportingFiles.add(new SupportingFile("readme.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("ocamlformat.mustache", "", ".ocamlformat"));
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -170,6 +173,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("short", "int");
         typeMapping.put("char", "char");
         typeMapping.put("float", "float");
+        typeMapping.put("decimal", "string");
         typeMapping.put("double", "float");
         typeMapping.put("integer", "int32");
         typeMapping.put("number", "float");
@@ -178,6 +182,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("any", "Yojson.Safe.t");
         typeMapping.put("file", "string");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("AnyType", "Yojson.Safe.t");
         // lib
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
@@ -185,15 +190,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("set", "`Set");
         typeMapping.put("password", "string");
         typeMapping.put("DateTime", "string");
-
-//        supportedLibraries.put(CO_HTTP, "HTTP client: CoHttp.");
-//
-//        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
-//        libraryOption.setEnum(supportedLibraries);
-//        // set hyper as the default
-//        libraryOption.setDefault(CO_HTTP);
-//        cliOptions.add(libraryOption);
-//        setLibrary(CO_HTTP);
     }
 
     @Override
@@ -201,13 +197,12 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         List<String> toRemove = new ArrayList<>();
 
         for (Map.Entry<String, ModelsMap> modelEntry : superobjs.entrySet()) {
-            // process enum in models
             List<ModelMap> models = modelEntry.getValue().getModels();
             for (ModelMap mo : models) {
                 CodegenModel cm = mo.getModel();
 
                 // for enum model
-                if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                if (cm.isEnum && cm.allowableValues != null) {
                     toRemove.add(modelEntry.getKey());
                 } else {
                     enrichPropertiesWithEnumDefaultValues(cm.getAllVars());
@@ -217,6 +212,15 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     enrichPropertiesWithEnumDefaultValues(cm.getOptionalVars());
                     enrichPropertiesWithEnumDefaultValues(cm.getVars());
                     enrichPropertiesWithEnumDefaultValues(cm.getParentVars());
+                }
+
+                if (!cm.oneOf.isEmpty()) {
+                    // Add a boolean if it is a `oneOf`, because Mustache does not let us check if a list is non-empty
+                    cm.getVendorExtensions().put("x-ocaml-isOneOf", true);
+                }
+                if (!cm.anyOf.isEmpty()) {
+                    // Add a boolean if it is a `anyOf`, because Mustache does not let us check if a list is non-empty
+                    cm.getVendorExtensions().put("x-ocaml-isAnyOf", true);
                 }
             }
         }
@@ -241,8 +245,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
-                || Boolean.TRUE.equals(baseItem.isArray))) {
+        while (baseItem != null && (baseItem.isMap || baseItem.isArray)) {
             baseItem = baseItem.items;
         }
 
@@ -259,8 +262,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
-                || Boolean.TRUE.equals(baseItem.isArray))) {
+        while (baseItem != null && (baseItem.isMap || baseItem.isArray)) {
             baseItem = baseItem.items;
         }
         if (baseItem != null) {
@@ -311,19 +313,17 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
             collectEnumSchemas(parentName, sName, schema);
 
+            String pName = parentName != null ? parentName + "_" + sName : sName;
             if (schema.getProperties() != null) {
-                String pName = parentName != null ? parentName + "_" + sName : sName;
                 collectEnumSchemas(pName, schema.getProperties());
             }
 
             if (schema.getAdditionalProperties() != null && schema.getAdditionalProperties() instanceof Schema) {
-                String pName = parentName != null ? parentName + "_" + sName : sName;
                 collectEnumSchemas(pName, (Schema) schema.getAdditionalProperties());
             }
 
             if (ModelUtils.isArraySchema(schema)) {
                 if (ModelUtils.getSchemaItems(schema) != null) {
-                    String pName = parentName != null ? parentName + "_" + sName : sName;
                     collectEnumSchemas(pName, ModelUtils.getSchemaItems(schema));
                 }
             }
@@ -346,7 +346,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             if (operation.getResponses() != null) {
                 for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
                     String s = operationGetResponsesEntry.getKey();
-                    ApiResponse apiResponse = operationGetResponsesEntry.getValue();
+                    ApiResponse apiResponse = ModelUtils.getReferencedApiResponse(openAPI, operationGetResponsesEntry.getValue());
                     if (apiResponse.getContent() != null) {
                         Content content = apiResponse.getContent();
                         for (String p : content.keySet()) {
@@ -676,7 +676,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public String toEnumValueName(String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
+        } else if (name.chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
             return escape(name, specialCharReplacements, Collections.singletonList("_"), null);
         } else {
             return name;
@@ -722,8 +722,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         List<CodegenOperation> operations = objectMap.getOperation();
 
         for (CodegenOperation operation : operations) {
-            // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
-            //if (CO_HTTP.equals(getLibrary())) {
             for (CodegenParameter param : operation.bodyParams) {
                 if (param.isModel && param.dataType.endsWith(".t")) {
                     param.vendorExtensions.put(X_MODEL_MODULE, param.dataType.substring(0, param.dataType.lastIndexOf('.')));
@@ -806,23 +804,12 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
         // only process files with ml or mli extension
         if ("ml".equals(FilenameUtils.getExtension(file.toString())) || "mli".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = ocamlPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{ocamlPostProcessFile, file.toString()});
         }
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.OCAML; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.OCAML;
+    }
 }

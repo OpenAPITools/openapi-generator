@@ -48,10 +48,15 @@ export function FooFromJSONTyped(json: any, ignoreDiscriminator: boolean): Foo {
     };
 }
 
-export function FooToJSON(value?: Foo | null): any {
+export function FooToJSON(json: any): Foo {
+    return FooToJSONTyped(json, false);
+}
+
+export function FooToJSONTyped(value?: Foo | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'bar': value['bar'],

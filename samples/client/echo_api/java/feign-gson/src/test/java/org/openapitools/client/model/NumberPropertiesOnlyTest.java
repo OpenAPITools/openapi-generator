@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for NumberPropertiesOnly
  */

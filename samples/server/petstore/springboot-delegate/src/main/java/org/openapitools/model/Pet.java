@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -28,12 +29,12 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Pet {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private Category category;
+  private @Nullable Category category;
 
   private String name;
 
@@ -53,7 +54,7 @@ public class Pet {
     
     SOLD("sold");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -81,7 +82,7 @@ public class Pet {
   }
 
   @Deprecated
-  private StatusEnum status;
+  private @Nullable StatusEnum status;
 
   public Pet() {
     super();
@@ -98,7 +99,7 @@ public class Pet {
   /**
    * Constructor with all args parameters
    */
-  public Pet(Long id, Category category, String name, Set<String> photoUrls, List<@Valid Tag> tags, StatusEnum status) {
+  public Pet(@Nullable Long id, @Nullable Category category, String name, Set<String> photoUrls, List<@Valid Tag> tags, @Nullable StatusEnum status) {
       this.id = id;
       this.category = category;
       this.name = name;
@@ -107,7 +108,7 @@ public class Pet {
       this.status = status;
   }
 
-  public Pet id(Long id) {
+  public Pet id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -119,15 +120,15 @@ public class Pet {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public Pet category(Category category) {
+  public Pet category(@Nullable Category category) {
     this.category = category;
     return this;
   }
@@ -139,11 +140,11 @@ public class Pet {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("category")
-  public Category getCategory() {
+  public @Nullable Category getCategory() {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(@Nullable Category category) {
     this.category = category;
   }
 
@@ -224,7 +225,7 @@ public class Pet {
     this.tags = tags;
   }
 
-  public Pet status(StatusEnum status) {
+  public Pet status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -238,7 +239,7 @@ public class Pet {
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   @Deprecated
-  public StatusEnum getStatus() {
+  public @Nullable StatusEnum getStatus() {
     return status;
   }
 
@@ -246,7 +247,7 @@ public class Pet {
    * @deprecated
    */
   @Deprecated
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
 

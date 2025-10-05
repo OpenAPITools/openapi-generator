@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -26,7 +27,7 @@ import javax.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   @Valid
@@ -53,11 +54,11 @@ public class AdditionalPropertiesClass {
   @Valid
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
-  private Object anytype1;
+  private @Nullable Object anytype1;
 
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
-  private Object anytype3;
+  private @Nullable Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;
@@ -283,7 +284,7 @@ public class AdditionalPropertiesClass {
     this.mapMapAnytype = mapMapAnytype;
   }
 
-  public AdditionalPropertiesClass anytype1(Object anytype1) {
+  public AdditionalPropertiesClass anytype1(@Nullable Object anytype1) {
     this.anytype1 = anytype1;
     return this;
   }
@@ -295,11 +296,11 @@ public class AdditionalPropertiesClass {
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_1")
-  public Object getAnytype1() {
+  public @Nullable Object getAnytype1() {
     return anytype1;
   }
 
-  public void setAnytype1(Object anytype1) {
+  public void setAnytype1(@Nullable Object anytype1) {
     this.anytype1 = anytype1;
   }
 
@@ -323,7 +324,7 @@ public class AdditionalPropertiesClass {
     this.anytype2 = anytype2;
   }
 
-  public AdditionalPropertiesClass anytype3(Object anytype3) {
+  public AdditionalPropertiesClass anytype3(@Nullable Object anytype3) {
     this.anytype3 = anytype3;
     return this;
   }
@@ -335,11 +336,11 @@ public class AdditionalPropertiesClass {
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_3")
-  public Object getAnytype3() {
+  public @Nullable Object getAnytype3() {
     return anytype3;
   }
 
-  public void setAnytype3(Object anytype3) {
+  public void setAnytype3(@Nullable Object anytype3) {
     this.anytype3 = anytype3;
   }
 

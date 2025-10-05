@@ -11,8 +11,9 @@
     "openapi-client",
     "openapi-generator"
   ],
-  "license": "Unlicense",
+  "license": "{{licenseName}}",
   "scripts": {
+    "prepare": "npm run build",
     "build": "ng-packagr -p ng-package.json"
   },
   "peerDependencies": {

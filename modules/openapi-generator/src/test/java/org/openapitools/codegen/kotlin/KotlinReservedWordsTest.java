@@ -25,7 +25,8 @@ import static org.testng.Assert.assertEquals;
 public class KotlinReservedWordsTest {
     OpenAPI openAPI;
 
-    @BeforeTest void loadOpenApi() {
+    @BeforeTest
+    void loadOpenApi() {
         openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/reserved_words.yaml");
     }
 
@@ -160,9 +161,9 @@ public class KotlinReservedWordsTest {
         File resultSourcePath = new File(output, "src/main/kotlin");
 
         assertFileContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "DefaultApi.kt"),
-               "fun test(`value`: kotlin.String) : Unit {",
-               "fun testWithHttpInfo(`value`: kotlin.String) : ApiResponse<Unit?> {",
-               "fun testRequestConfig(`value`: kotlin.String) : RequestConfig<Unit> {"
+                "fun test(`value`: kotlin.String) : Unit {",
+                "fun testWithHttpInfo(`value`: kotlin.String) : ApiResponse<Unit?> {",
+                "fun testRequestConfig(`value`: kotlin.String) : RequestConfig<Unit> {"
         );
 
         assertFileNotContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "DefaultApi.kt"),
@@ -190,8 +191,8 @@ public class KotlinReservedWordsTest {
         File resultSourcePath = new File(output, "src/main/kotlin");
 
         assertFileContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "AnnotationsApiController.kt"),
-               "fun annotationsPost(@Parameter(description = \"\", required = true) @Valid @RequestBody `annotation`: Annotation",
-               "return ResponseEntity(service.annotationsPost(`annotation`), HttpStatus.valueOf(200))"
+                "fun annotationsPost(@Parameter(description = \"\", required = true) @Valid @RequestBody `annotation`: Annotation",
+                "return ResponseEntity(service.annotationsPost(`annotation`), HttpStatus.valueOf(200))"
         );
 
         assertFileNotContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "AnnotationsApiController.kt"),
@@ -199,8 +200,8 @@ public class KotlinReservedWordsTest {
         );
 
         assertFileContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "AnnotationsApiService.kt"),
-               "* @param `annotation`  (required)",
-               "fun annotationsPost(`annotation`: Annotation): Unit"
+                "* @param `annotation`  (required)",
+                "fun annotationsPost(`annotation`: Annotation): Unit"
         );
 
         assertFileNotContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "AnnotationsApiService.kt"),

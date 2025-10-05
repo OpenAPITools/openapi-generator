@@ -9,6 +9,9 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       AnyOfGetResponse,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
+                      ExamplesTestResponse,
+                      FormTestResponse,
+                      GetWithBooleanParameterResponse,
                       JsonComplexQueryParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
@@ -22,6 +25,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
                       Rfc7807GetResponse,
+                      TwoFirstLetterHeadersResponse,
                       UntypedPropertyGetResponse,
                       UuidGetResponse,
                       XmlExtraPostResponse,
@@ -30,10 +34,11 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       XmlPostResponse,
                       XmlPutResponse,
                       EnumInPathPathParamGetResponse,
+                      MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse,
                       CreateRepoResponse,
                       GetRepoInfoResponse,
                      };
-use clap::{App, Arg};
+use clap::{Command, Arg};
 
 // NOTE: Set environment variable RUST_LOG to the name of the executable (or "cargo run") to activate console logging for all loglevels.
 //     See https://docs.rs/env_logger/latest/env_logger/  for more details
@@ -56,13 +61,16 @@ use client_auth::build_token;
 fn main() {
     env_logger::init();
 
-    let matches = App::new("client")
-        .arg(Arg::with_name("operation")
+    let matches = Command::new("client")
+        .arg(Arg::new("operation")
             .help("Sets the operation to run")
-            .possible_values(&[
+            .value_parser([
                 "AnyOfGet",
                 "CallbackWithHeaderPost",
                 "ComplexQueryParamGet",
+                "ExamplesTest",
+                "FormTest",
+                "GetWithBooleanParameter",
                 "JsonComplexQueryParamGet",
                 "MandatoryRequestHeaderGet",
                 "MergePatchJsonGet",
@@ -76,6 +84,7 @@ fn main() {
                 "RequiredOctetStreamPut",
                 "ResponsesWithHeadersGet",
                 "Rfc7807Get",
+                "TwoFirstLetterHeaders",
                 "UntypedPropertyGet",
                 "UuidGet",
                 "XmlExtraPost",
@@ -83,22 +92,22 @@ fn main() {
                 "XmlOtherPut",
                 "XmlPost",
                 "XmlPut",
+                "EnumInPathPathParamGet",
+                "MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet",
                 "CreateRepo",
                 "GetRepoInfo",
             ])
             .required(true)
             .index(1))
-        .arg(Arg::with_name("https")
+        .arg(Arg::new("https")
             .long("https")
             .help("Whether to use HTTPS or not"))
-        .arg(Arg::with_name("host")
+        .arg(Arg::new("host")
             .long("host")
-            .takes_value(true)
             .default_value("localhost")
             .help("Hostname to contact"))
-        .arg(Arg::with_name("port")
+        .arg(Arg::new("port")
             .long("port")
-            .takes_value(true)
             .default_value("8080")
             .help("Port to contact"))
         .get_matches();
@@ -120,27 +129,29 @@ fn main() {
                   [
                             "test.read",
                             "test.write",
+                            "additional.test.read",
+                            "additional.test.write",
                   ].join::<&str>(", ")
             },
             b"secret").unwrap();
 
     let auth_data = if !auth_token.is_empty() {
-        Some(AuthData::Bearer(swagger::auth::Bearer { token: auth_token}))
+        Some(AuthData::Bearer(auth_token))
     } else {
         // No Bearer-token available, so return None
         None
     };
 
-    let is_https = matches.is_present("https");
+    let is_https = matches.contains_id("https");
     let base_url = format!("{}://{}:{}",
         if is_https { "https" } else { "http" },
-        matches.value_of("host").unwrap(),
-        matches.value_of("port").unwrap());
+        matches.get_one::<String>("host").unwrap(),
+        matches.get_one::<u16>("port").unwrap());
 
     let context: ClientContext =
         swagger::make_context!(ContextBuilder, EmptyContext, auth_data, XSpanIdString::default());
 
-    let mut client : Box<dyn ApiNoContext<ClientContext>> = if matches.is_present("https") {
+    let mut client : Box<dyn ApiNoContext<ClientContext>> = if is_https {
         // Using Simple HTTPS
         let client = Box::new(Client::try_new_https(&base_url)
             .expect("Failed to create HTTPS client"));
@@ -158,7 +169,7 @@ fn main() {
     // We could do HTTPS here, but for simplicity we don't
     rt.spawn(server::create("127.0.0.1:8081", false));
 
-    match matches.value_of("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
         Some("AnyOfGet") => {
             let result = rt.block_on(client.any_of_get(
                   Some(&Vec::new())
@@ -174,6 +185,24 @@ fn main() {
         Some("ComplexQueryParamGet") => {
             let result = rt.block_on(client.complex_query_param_get(
                   Some(&Vec::new())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("ExamplesTest") => {
+            let result = rt.block_on(client.examples_test(
+                  Some(&vec!["foo".to_string()])
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("FormTest") => {
+            let result = rt.block_on(client.form_test(
+                  Some(&Vec::new())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("GetWithBooleanParameter") => {
+            let result = rt.block_on(client.get_with_boolean_parameter(
+                  true
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -249,6 +278,13 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        Some("TwoFirstLetterHeaders") => {
+            let result = rt.block_on(client.two_first_letter_headers(
+                  Some(true),
+                  Some(true)
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("UntypedPropertyGet") => {
             let result = rt.block_on(client.untyped_property_get(
                   None
@@ -298,6 +334,13 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+        Some("MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet") => {
+            let result = rt.block_on(client.multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+                  "path_param_a_example".to_string(),
+                  "path_param_b_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("CreateRepo") => {
             let result = rt.block_on(client.create_repo(
                   serde_json::from_str::<models::ObjectParam>(r#"{"requiredParam":true}"#).expect("Failed to parse JSON example")

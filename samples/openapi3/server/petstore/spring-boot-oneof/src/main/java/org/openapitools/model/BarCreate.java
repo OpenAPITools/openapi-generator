@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.Entity;
 import org.openapitools.model.FooRefOrValue;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -26,14 +27,14 @@ import javax.annotation.Generated;
 
 
 @JsonTypeName("Bar_Create")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class BarCreate extends Entity {
 
-  private String barPropA;
+  private @Nullable String barPropA;
 
-  private String fooPropB;
+  private @Nullable String fooPropB;
 
-  private FooRefOrValue foo;
+  private @Nullable FooRefOrValue foo;
 
   public BarCreate() {
     super();
@@ -46,7 +47,7 @@ public class BarCreate extends Entity {
     super(atType);
   }
 
-  public BarCreate barPropA(String barPropA) {
+  public BarCreate barPropA(@Nullable String barPropA) {
     this.barPropA = barPropA;
     return this;
   }
@@ -58,15 +59,15 @@ public class BarCreate extends Entity {
   
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("barPropA")
-  public String getBarPropA() {
+  public @Nullable String getBarPropA() {
     return barPropA;
   }
 
-  public void setBarPropA(String barPropA) {
+  public void setBarPropA(@Nullable String barPropA) {
     this.barPropA = barPropA;
   }
 
-  public BarCreate fooPropB(String fooPropB) {
+  public BarCreate fooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
     return this;
   }
@@ -78,15 +79,15 @@ public class BarCreate extends Entity {
   
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
-  public String getFooPropB() {
+  public @Nullable String getFooPropB() {
     return fooPropB;
   }
 
-  public void setFooPropB(String fooPropB) {
+  public void setFooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
   }
 
-  public BarCreate foo(FooRefOrValue foo) {
+  public BarCreate foo(@Nullable FooRefOrValue foo) {
     this.foo = foo;
     return this;
   }
@@ -98,11 +99,11 @@ public class BarCreate extends Entity {
   @Valid 
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
-  public FooRefOrValue getFoo() {
+  public @Nullable FooRefOrValue getFoo() {
     return foo;
   }
 
-  public void setFoo(FooRefOrValue foo) {
+  public void setFoo(@Nullable FooRefOrValue foo) {
     this.foo = foo;
   }
 
@@ -188,7 +189,7 @@ public class BarCreate extends Entity {
     }
 
     protected Builder copyOf(BarCreate value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setBarPropA(value.barPropA);
       this.instance.setFooPropB(value.fooPropB);
       this.instance.setFoo(value.foo);

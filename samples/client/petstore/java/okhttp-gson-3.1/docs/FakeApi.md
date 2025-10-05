@@ -11,6 +11,8 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 | [**op2**](FakeApi.md#op2) | **POST** /fake/api/changename | op2 |
 | [**op3**](FakeApi.md#op3) | **POST** /fake/api/query/enum | op3 |
 | [**refToRefParameter**](FakeApi.md#refToRefParameter) | **GET** /ref/ref_to_parameter |  |
+| [**refToRefParameterAnyof**](FakeApi.md#refToRefParameterAnyof) | **GET** /ref/ref_to_operation_level_parameter_oneof |  |
+| [**refToRefParameterOneof**](FakeApi.md#refToRefParameterOneof) | **GET** /ref/ref_to_path_level_parameter_oneof |  |
 | [**responseNoRef**](FakeApi.md#responseNoRef) | **GET** /no_ref |  |
 | [**responseRefToNoRef**](FakeApi.md#responseRefToNoRef) | **GET** /ref/no_ref |  |
 | [**responseRefToRef**](FakeApi.md#responseRefToRef) | **GET** /ref/ref |  |
@@ -415,7 +417,129 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** |  |  -  |
+| **200** | required to pass validation |  -  |
+
+<a id="refToRefParameterAnyof"></a>
+# **refToRefParameterAnyof**
+> refToRefParameterAnyof(refToAnyof)
+
+
+
+to test $ref to operation level parameters
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    RefToRefParameterAnyofRefToAnyofParameter refToAnyof = new RefToRefParameterAnyofRefToAnyofParameter(); // RefToRefParameterAnyofRefToAnyofParameter | to test ref to parameter (anyof)
+    try {
+      apiInstance.refToRefParameterAnyof(refToAnyof);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#refToRefParameterAnyof");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **refToAnyof** | [**RefToRefParameterAnyofRefToAnyofParameter**](.md)| to test ref to parameter (anyof) | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+
+<a id="refToRefParameterOneof"></a>
+# **refToRefParameterOneof**
+> refToRefParameterOneof(refToOneof)
+
+
+
+to test $ref to path level parameters
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    RefRefToPathLevelParameterOneofRefToOneofParameter refToOneof = new RefRefToPathLevelParameterOneofRefToOneofParameter(); // RefRefToPathLevelParameterOneofRefToOneofParameter | to test ref to parameter (oneof)
+    try {
+      apiInstance.refToRefParameterOneof(refToOneof);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#refToRefParameterOneof");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **refToOneof** | [**RefRefToPathLevelParameterOneofRefToOneofParameter**](.md)| to test ref to parameter (oneof) | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
 
 <a id="responseNoRef"></a>
 # **responseNoRef**
@@ -527,7 +651,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** |  |  -  |
+| **200** | required to pass validation |  -  |
 
 <a id="responseRefToRef"></a>
 # **responseRefToRef**
@@ -583,5 +707,5 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** |  |  -  |
+| **200** | required to pass validation |  -  |
 

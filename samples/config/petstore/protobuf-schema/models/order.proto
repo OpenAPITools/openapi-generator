@@ -12,26 +12,30 @@ syntax = "proto3";
 
 package petstore;
 
+import public "google/protobuf/struct.proto";
 
 message Order {
 
   int64 id = 3355;
 
-  int64 petId = 106557082;
+  int64 pet_id = 454805446;
 
   int32 quantity = 211262327;
 
-  string shipDate = 517554166;
+  string ship_date = 86954963;
 
   // Order Status
-  enum StatusEnum {
-    StatusEnum_PLACED = 0;
-    StatusEnum_APPROVED = 1;
-    StatusEnum_DELIVERED = 2;
+  enum Status {
+    STATUS_PLACED = 0;
+    STATUS_APPROVED = 1;
+    STATUS_DELIVERED = 2;
   }
 
-  StatusEnum status = 355610639;
+  Status status = 355610639;
 
   bool complete = 62574280;
 
+  google.protobuf.Struct meta = 3347973;
+
 }
+

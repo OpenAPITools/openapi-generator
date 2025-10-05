@@ -430,6 +430,9 @@ class ObjectSerializerTest extends TestCase
             'form 0 bool, explode on, required false' => [
                 0, 'field', 'bool', 'form', true, false, 'field=0',
             ],
+            'form string "0", explode on, required true' => [
+                '0', 'field', 'string', 'form', true, true, 'field=0',
+            ],
         ];
     }
 

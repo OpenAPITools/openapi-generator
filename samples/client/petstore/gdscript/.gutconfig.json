@@ -1,0 +1,32 @@
+{
+ "background_color": null,
+ "compact_mode": null,
+ "dirs": [
+  "res://test/integration"
+ ],
+ "disable_colors": null,
+ "double_strategy": null,
+ "font_color": null,
+ "font_name": null,
+ "font_size": null,
+ "gut_on_top": null,
+ "hide_orphans": null,
+ "ignore_pause": null,
+ "include_subdirs": null,
+ "inner_class": null,
+ "junit_xml_file": null,
+ "junit_xml_timestamp": null,
+ "log_level": null,
+ "opacity": null,
+ "paint_after": null,
+ "post_run_script": null,
+ "pre_run_script": null,
+ "prefix": null,
+ "selected": null,
+ "should_exit": true,
+ "should_exit_on_success": null,
+ "should_maximize": null,
+ "suffix": null,
+ "tests": null,
+ "unit_test_name": null
+}

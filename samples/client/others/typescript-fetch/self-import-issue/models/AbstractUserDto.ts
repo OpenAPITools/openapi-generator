@@ -18,10 +18,11 @@ import {
     BranchDtoFromJSON,
     BranchDtoFromJSONTyped,
     BranchDtoToJSON,
+    BranchDtoToJSONTyped,
 } from './BranchDto';
 
-import { InternalAuthenticatedUserDtoFromJSONTyped } from './InternalAuthenticatedUserDto';
-import { RemoteAuthenticatedUserDtoFromJSONTyped } from './RemoteAuthenticatedUserDto';
+import { type InternalAuthenticatedUserDto, InternalAuthenticatedUserDtoFromJSONTyped, InternalAuthenticatedUserDtoToJSON, InternalAuthenticatedUserDtoToJSONTyped } from './InternalAuthenticatedUserDto';
+import { type RemoteAuthenticatedUserDto, RemoteAuthenticatedUserDtoFromJSONTyped, RemoteAuthenticatedUserDtoToJSON, RemoteAuthenticatedUserDtoToJSONTyped } from './RemoteAuthenticatedUserDto';
 /**
  * 
  * @export
@@ -65,10 +66,10 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     if (!ignoreDiscriminator) {
         if (json['type'] === 'internal-authenticated') {
-            return InternalAuthenticatedUserDtoFromJSONTyped(json, true);
+            return InternalAuthenticatedUserDtoFromJSONTyped(json, ignoreDiscriminator);
         }
         if (json['type'] === 'remote-authenticated') {
-            return RemoteAuthenticatedUserDtoFromJSONTyped(json, true);
+            return RemoteAuthenticatedUserDtoFromJSONTyped(json, ignoreDiscriminator);
         }
     }
     return {
@@ -79,10 +80,26 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function AbstractUserDtoToJSON(value?: AbstractUserDto | null): any {
+export function AbstractUserDtoToJSON(json: any): AbstractUserDto {
+    return AbstractUserDtoToJSONTyped(json, false);
+}
+
+export function AbstractUserDtoToJSONTyped(value?: AbstractUserDto | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
+    if (!ignoreDiscriminator) {
+        switch (value['type']) {
+            case 'internal-authenticated':
+                return InternalAuthenticatedUserDtoToJSONTyped(value as InternalAuthenticatedUserDto, ignoreDiscriminator);
+            case 'remote-authenticated':
+                return RemoteAuthenticatedUserDtoToJSONTyped(value as RemoteAuthenticatedUserDto, ignoreDiscriminator);
+            default:
+                return value;
+        }
+    }
+
     return {
         
         'username': value['username'],

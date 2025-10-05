@@ -22,30 +22,18 @@ import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import lombok.*;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.VendorExtension;
+import lombok.Getter;
+import lombok.Setter;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.meta.features.ParameterFeature;
-import org.openapitools.codegen.meta.features.SchemaSupportFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
-import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,14 +42,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -105,7 +86,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
-    public static final String APPEND_REQUEST_TO_HANDLER = "appendRequestToHandler";
+    public static final String USE_FLOW_FOR_ARRAY_RETURN_TYPE = "useFlowForArrayReturnType";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
@@ -146,6 +127,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean serviceImplementation = false;
     @Getter @Setter
     private boolean reactive = false;
+    @Getter @Setter
+    private boolean useFlowForArrayReturnType = true;
     @Setter private boolean interfaceOnly = false;
     @Setter protected boolean useFeignClientUrl = true;
     @Setter protected boolean useFeignClient = false;
@@ -236,7 +219,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "@RestController annotations. May be used to prevent bean names clash if multiple generated libraries" +
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
-        addSwitch(APPEND_REQUEST_TO_HANDLER, "Append ServerHttpRequest to handler method for getting request stuff", false);
+        addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -250,7 +233,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         CliOption requestMappingOpt = new CliOption(REQUEST_MAPPING_OPTION,
                 "Where to generate the class level @RequestMapping annotation.")
                 .defaultValue(requestMappingMode.name());
-        for (RequestMappingMode mode: RequestMappingMode.values()) {
+        for (RequestMappingMode mode : RequestMappingMode.values()) {
             requestMappingOpt.addEnum(mode.name(), mode.getDescription());
         }
         cliOptions.add(requestMappingOpt);
@@ -356,10 +339,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return this.useBeanValidation;
     }
 
-    public boolean isAppendRequestToHandler() {
-        return Boolean.parseBoolean(additionalProperties.getOrDefault(APPEND_REQUEST_TO_HANDLER, false).toString());
-    }
-
     @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
@@ -435,10 +414,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             typeMapping.put("map", "kotlin.collections.MutableMap");
         }
 
-        // optional jackson mappings for BigDecimal support
-        importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
-        importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
-
         // Swagger import mappings
         importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
         importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
@@ -449,6 +424,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
         importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
+        importMapping.put("JsonIgnoreProperties", "com.fasterxml.jackson.annotation.JsonIgnoreProperties");
         // import JsonCreator if JsonProperty is imported
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
@@ -537,10 +513,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 this.setReactive(convertPropertyToBoolean(REACTIVE));
                 // spring webflux doesn't support @ControllerAdvice
                 this.setExceptionHandler(false);
+
+                if (additionalProperties.containsKey(USE_FLOW_FOR_ARRAY_RETURN_TYPE)) {
+                    this.setUseFlowForArrayReturnType(convertPropertyToBoolean(USE_FLOW_FOR_ARRAY_RETURN_TYPE));
+                }
             }
         }
         writePropertyBack(REACTIVE, reactive);
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
+        writePropertyBack(USE_FLOW_FOR_ARRAY_RETURN_TYPE, useFlowForArrayReturnType);
 
         if (additionalProperties.containsKey(BEAN_QUALIFIERS) && library.equals(SPRING_BOOT)) {
             this.setBeanQualifiers(convertPropertyToBoolean(BEAN_QUALIFIERS));
@@ -649,6 +630,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
+
+                String gradleWrapperPackage = "gradle.wrapper";
+                supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+                supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
             }
 
             if (!this.interfaceOnly) {
@@ -687,6 +676,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
+
+                String gradleWrapperPackage = "gradle.wrapper";
+                supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+                supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
             }
 
             // @RequestMapping not supported with spring cloud openfeign.
@@ -773,6 +770,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
 
+        if (SPRING_BOOT.equals(library) && ModelUtils.containsEnums(this.openAPI)) {
+            supportingFiles.add(new SupportingFile("converter.mustache",
+                (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.kt"));
+        }
+
         if (!additionalProperties.containsKey(TITLE)) {
             // The purpose of the title is for:
             // - README documentation
@@ -825,7 +827,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         if (model.discriminator != null && additionalProperties.containsKey("jackson")) {
-            model.imports.addAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo"));
+            model.imports.addAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties"));
         }
     }
 
@@ -879,6 +881,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
                         doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
                             @Override
+                            public void setIsVoid(Boolean isVoid) {
+                                resp.isVoid = isVoid;
+                            }
+
+                            @Override
                             public void setReturnType(final String returnType) {
                                 resp.dataType = returnType;
                             }
@@ -893,9 +900,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
                 final List<CodegenParameter> allParams = operation.allParams;
                 if (allParams != null) {
-                    if (this.isAppendRequestToHandler()) {
-                        allParams.add(new RequestCodegenParameter());
-                    }
                     allParams.forEach(param ->
                             // This is necessary in case 'modelMutable' is enabled,
                             // to prevent Spring Request handlers from being generated with
@@ -905,6 +909,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 }
 
                 doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
+                    @Override
+                    public void setIsVoid(Boolean isVoid) {
+                        operation.isVoid = isVoid;
+                    }
 
                     @Override
                     public void setReturnType(final String returnType) {
@@ -987,22 +995,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return !type.startsWith("org.springframework.") && super.needToImport(type);
     }
 
-    @AllArgsConstructor
-    @Data
-    @EqualsAndHashCode(callSuper = true)
-    static class RequestCodegenParameter extends CodegenParameter {
-
-        boolean isRequestObject = true;
-
-        public RequestCodegenParameter() {
-            this.isOptional = false;
-            this.required = true;
-            this.paramName = "serverHttpRequest";
-            this.dataType = "ServerHttpRequest";
-        }
-
-    }
-
     public RequestMappingMode getRequestMappingMode() {
         return requestMappingMode;
     }
@@ -1020,6 +1012,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
+        extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS);
+        extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS);
         return extensions;
     }
 

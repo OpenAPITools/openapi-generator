@@ -52,6 +52,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.Locale;
 
 import java.net.URLEncoder;
 
@@ -76,9 +77,9 @@ import {{invokerPackage}}.auth.OAuth;
 
 {{>generatedAnnotation}}
 public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
-  private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private Map<String, String> defaultCookieMap = new HashMap<String, String>();
-  private String basePath = "{{{basePath}}}";
+  protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+  protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
+  protected String basePath = "{{{basePath}}}";
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>({{#servers}}{{#-first}}Arrays.asList(
 {{/-first}}    new ServerConfiguration(
       "{{{url}}}",
@@ -106,18 +107,18 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   ){{/-last}}{{/servers}});
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
-  private boolean debugging = false;
-  private int connectionTimeout = 0;
+  protected boolean debugging = false;
+  protected int connectionTimeout = 0;
 
-  private Client httpClient;
-  private ObjectMapper objectMapper;
+  protected Client httpClient;
+  protected ObjectMapper objectMapper;
 
-  private Map<String, Authentication> authentications;
+  protected Map<String, Authentication> authentications;
 
-  private int statusCode;
-  private Map<String, List<String>> responseHeaders;
+  protected int statusCode;
+  protected Map<String, List<String>> responseHeaders;
 
-  private DateFormat dateFormat;
+  protected DateFormat dateFormat;
 
   public ApiClient() {
     objectMapper = new ObjectMapper();
@@ -706,11 +707,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @param collectionQueryParams The collection query parameters
    * @return The full URL
    */
-  private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams) {
+  protected String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams) {
     String baseURL;
     if (serverIndex != null) {
       if (serverIndex < 0 || serverIndex >= servers.size()) {
         throw new ArrayIndexOutOfBoundsException(String.format(
+          Locale.ROOT,
           "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
         ));
       }
@@ -759,7 +761,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     return url.toString();
   }
 
-  private ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
+  protected ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
     if (body != null && !formParams.isEmpty()) {
       throw new ApiException(500, "Cannot have body and form params");
     }
@@ -872,7 +874,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @param headerParams Header parameters
    * @param cookieParams Cookie parameters
    */
-  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
+  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
@@ -885,7 +887,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @param formParams Form parameters
    * @return HTTP form encoded parameters
    */
-  private String getXWWWFormUrlencodedParams(Map<String, Object> formParams) {
+  protected String getXWWWFormUrlencodedParams(Map<String, Object> formParams) {
     StringBuilder formParamBuilder = new StringBuilder();
 
     for (Entry<String, Object> param : formParams.entrySet()) {

@@ -80,7 +80,8 @@ public class DefaultApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful response </td><td>  -  </td></tr>
      </table>
@@ -141,7 +142,8 @@ public class DefaultApi {
      * @return FakeAnyOfWIthSameErasureGet200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful response </td><td>  -  </td></tr>
      </table>
@@ -157,7 +159,8 @@ public class DefaultApi {
      * @return ApiResponse&lt;FakeAnyOfWIthSameErasureGet200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful response </td><td>  -  </td></tr>
      </table>
@@ -175,7 +178,8 @@ public class DefaultApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful response </td><td>  -  </td></tr>
      </table>
@@ -195,12 +199,13 @@ public class DefaultApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fakeFreeFormQueryParametersGetCall(String fixed, Object freeForm, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call fakeFreeFormQueryParametersGetCall(@javax.annotation.Nullable String fixed, @javax.annotation.Nullable Object freeForm, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -252,7 +257,7 @@ public class DefaultApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call fakeFreeFormQueryParametersGetValidateBeforeCall(String fixed, Object freeForm, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call fakeFreeFormQueryParametersGetValidateBeforeCall(@javax.annotation.Nullable String fixed, @javax.annotation.Nullable Object freeForm, final ApiCallback _callback) throws ApiException {
         return fakeFreeFormQueryParametersGetCall(fixed, freeForm, _callback);
 
     }
@@ -264,12 +269,13 @@ public class DefaultApi {
      * @param freeForm  (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public void fakeFreeFormQueryParametersGet(String fixed, Object freeForm) throws ApiException {
+    public void fakeFreeFormQueryParametersGet(@javax.annotation.Nullable String fixed, @javax.annotation.Nullable Object freeForm) throws ApiException {
         fakeFreeFormQueryParametersGetWithHttpInfo(fixed, freeForm);
     }
 
@@ -281,12 +287,13 @@ public class DefaultApi {
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> fakeFreeFormQueryParametersGetWithHttpInfo(String fixed, Object freeForm) throws ApiException {
+    public ApiResponse<Void> fakeFreeFormQueryParametersGetWithHttpInfo(@javax.annotation.Nullable String fixed, @javax.annotation.Nullable Object freeForm) throws ApiException {
         okhttp3.Call localVarCall = fakeFreeFormQueryParametersGetValidateBeforeCall(fixed, freeForm, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -300,12 +307,13 @@ public class DefaultApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fakeFreeFormQueryParametersGetAsync(String fixed, Object freeForm, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call fakeFreeFormQueryParametersGetAsync(@javax.annotation.Nullable String fixed, @javax.annotation.Nullable Object freeForm, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = fakeFreeFormQueryParametersGetValidateBeforeCall(fixed, freeForm, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -317,7 +325,8 @@ public class DefaultApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful response </td><td>  -  </td></tr>
      </table>
@@ -378,7 +387,8 @@ public class DefaultApi {
      * @return FakeOneOfWIthSameErasureGet200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful response </td><td>  -  </td></tr>
      </table>
@@ -394,7 +404,8 @@ public class DefaultApi {
      * @return ApiResponse&lt;FakeOneOfWIthSameErasureGet200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful response </td><td>  -  </td></tr>
      </table>
@@ -412,7 +423,8 @@ public class DefaultApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> successful response </td><td>  -  </td></tr>
      </table>
@@ -430,7 +442,8 @@ public class DefaultApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
@@ -491,7 +504,8 @@ public class DefaultApi {
      * @return FooGetDefaultResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
@@ -507,7 +521,8 @@ public class DefaultApi {
      * @return ApiResponse&lt;FooGetDefaultResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
@@ -525,7 +540,8 @@ public class DefaultApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @http.response.details
-     <table summary="Response Details" border="1">
+     <table border="1">
+       <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>

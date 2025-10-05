@@ -52,51 +52,115 @@ func NewUserAPIController(s UserAPIServicer, opts ...UserAPIOption) *UserAPICont
 func (c *UserAPIController) Routes() Routes {
 	return Routes{
 		"CreateUser": Route{
+			"CreateUser",
 			strings.ToUpper("Post"),
 			"/v2/user",
 			c.CreateUser,
 		},
 		"CreateUsersWithArrayInput": Route{
+			"CreateUsersWithArrayInput",
 			strings.ToUpper("Post"),
 			"/v2/user/createWithArray",
 			c.CreateUsersWithArrayInput,
 		},
 		"CreateUsersWithListInput": Route{
+			"CreateUsersWithListInput",
 			strings.ToUpper("Post"),
 			"/v2/user/createWithList",
 			c.CreateUsersWithListInput,
 		},
-		"DeleteUser": Route{
-			strings.ToUpper("Delete"),
-			"/v2/user/{username}",
-			c.DeleteUser,
-		},
-		"GetUserByName": Route{
-			strings.ToUpper("Get"),
-			"/v2/user/{username}",
-			c.GetUserByName,
-		},
 		"LoginUser": Route{
+			"LoginUser",
 			strings.ToUpper("Get"),
 			"/v2/user/login",
 			c.LoginUser,
 		},
 		"LogoutUser": Route{
+			"LogoutUser",
 			strings.ToUpper("Get"),
 			"/v2/user/logout",
 			c.LogoutUser,
 		},
+		"GetUserByName": Route{
+			"GetUserByName",
+			strings.ToUpper("Get"),
+			"/v2/user/{username}",
+			c.GetUserByName,
+		},
 		"UpdateUser": Route{
+			"UpdateUser",
 			strings.ToUpper("Put"),
 			"/v2/user/{username}",
 			c.UpdateUser,
 		},
+		"DeleteUser": Route{
+			"DeleteUser",
+			strings.ToUpper("Delete"),
+			"/v2/user/{username}",
+			c.DeleteUser,
+		},
 	}
 }
 
+// OrderedRoutes returns all the api routes in a deterministic order for the UserAPIController
+func (c *UserAPIController) OrderedRoutes() []Route {
+	return []Route{
+		Route{
+			"CreateUser",
+			strings.ToUpper("Post"),
+			"/v2/user",
+			c.CreateUser,
+		},
+		Route{
+			"CreateUsersWithArrayInput",
+			strings.ToUpper("Post"),
+			"/v2/user/createWithArray",
+			c.CreateUsersWithArrayInput,
+		},
+		Route{
+			"CreateUsersWithListInput",
+			strings.ToUpper("Post"),
+			"/v2/user/createWithList",
+			c.CreateUsersWithListInput,
+		},
+		Route{
+			"LoginUser",
+			strings.ToUpper("Get"),
+			"/v2/user/login",
+			c.LoginUser,
+		},
+		Route{
+			"LogoutUser",
+			strings.ToUpper("Get"),
+			"/v2/user/logout",
+			c.LogoutUser,
+		},
+		Route{
+			"GetUserByName",
+			strings.ToUpper("Get"),
+			"/v2/user/{username}",
+			c.GetUserByName,
+		},
+		Route{
+			"UpdateUser",
+			strings.ToUpper("Put"),
+			"/v2/user/{username}",
+			c.UpdateUser,
+		},
+		Route{
+			"DeleteUser",
+			strings.ToUpper("Delete"),
+			"/v2/user/{username}",
+			c.DeleteUser,
+		},
+	}
+}
+
+
+
 // CreateUser - Create user
 func (c *UserAPIController) CreateUser(w http.ResponseWriter, r *http.Request) {
-	userParam := User{}
+	var userParam User
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&userParam); err != nil {
@@ -123,7 +187,7 @@ func (c *UserAPIController) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
 func (c *UserAPIController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
-	userParam := []User{}
+	var userParam []User
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&userParam); err != nil {
@@ -148,7 +212,7 @@ func (c *UserAPIController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 
 // CreateUsersWithListInput - Creates list of users with given input array
 func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
-	userParam := []User{}
+	var userParam []User
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&userParam); err != nil {
@@ -162,59 +226,6 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 		}
 	}
 	result, err := c.service.CreateUsersWithListInput(r.Context(), userParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-}
-
-// DeleteUser - Delete user
-func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
-	query, err := parseQuery(r.URL.RawQuery)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	usernameParam := chi.URLParam(r, "username")
-	if usernameParam == "" {
-		c.errorHandler(w, r, &RequiredError{"username"}, nil)
-		return
-	}
-	var booleanTestParam bool
-	if query.Has("boolean_test") {
-		param, err := parseBoolParameter(
-			query.Get("boolean_test"),
-			WithParse[bool](parseBool),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Param: "boolean_test", Err: err}, nil)
-			return
-		}
-
-		booleanTestParam = param
-	} else {
-	}
-	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-}
-
-// GetUserByName - Get user by user name
-func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
-	usernameParam := chi.URLParam(r, "username")
-	if usernameParam == "" {
-		c.errorHandler(w, r, &RequiredError{"username"}, nil)
-		return
-	}
-	result, err := c.service.GetUserByName(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -341,6 +352,23 @@ func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
+// GetUserByName - Get user by user name
+func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
+	usernameParam := chi.URLParam(r, "username")
+	if usernameParam == "" {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return
+	}
+	result, err := c.service.GetUserByName(r.Context(), usernameParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
 // UpdateUser - Updated user
 func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	usernameParam := chi.URLParam(r, "username")
@@ -348,7 +376,7 @@ func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
-	userParam := User{}
+	var userParam User
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&userParam); err != nil {
@@ -364,6 +392,42 @@ func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	result, err := c.service.UpdateUser(r.Context(), usernameParam, userParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// DeleteUser - Delete user
+func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	usernameParam := chi.URLParam(r, "username")
+	if usernameParam == "" {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return
+	}
+	var booleanTestParam bool
+	if query.Has("boolean_test") {
+		param, err := parseBoolParameter(
+			query.Get("boolean_test"),
+			WithParse[bool](parseBool),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Param: "boolean_test", Err: err}, nil)
+			return
+		}
+
+		booleanTestParam = param
+	} else {
+	}
+	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

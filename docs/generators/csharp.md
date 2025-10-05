@@ -28,7 +28,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |equatable|Overrides Equals and GetHashCode methods.| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |interfacePrefix|Prefix interfaces with a community standard or widely accepted prefix.| |I|
-|library|HTTP library template (sub-template) to use|<dl><dt>**generichost**</dt><dd>HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) (Experimental. Subject to breaking changes without notice.)</dd><dt>**httpclient**</dt><dd>HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) (Experimental. Subject to breaking changes without notice.)</dd><dt>**unityWebRequest**</dt><dd>UnityWebRequest (...) (Experimental. Subject to breaking changes without notice.)</dd><dt>**restsharp**</dt><dd>RestSharp (https://github.com/restsharp/RestSharp)</dd></dl>|restsharp|
+|library|HTTP library template (sub-template) to use|<dl><dt>**generichost**</dt><dd>HttpClient, Generic Host integration, and System.Text.Json (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host)</dd><dt>**httpclient**</dt><dd>HttpClient and Newtonsoft (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) (Experimental. Subject to breaking changes without notice.)</dd><dt>**unityWebRequest**</dt><dd>UnityWebRequest (...) (Experimental. Subject to breaking changes without notice.)</dd><dt>**restsharp**</dt><dd>RestSharp (https://github.com/restsharp/RestSharp)</dd></dl>|generichost|
 |licenseId|The identifier of the license| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |PascalCase|
 |modelPropertySorting|One of legacy, alphabetical, default.| |default|
@@ -44,17 +44,25 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
 |packageTags|Tags to identify the package| |null|
 |packageVersion|C# package version.| |1.0.0|
-|releaseNote|Release note, default to 'Minor update'.| |Minor update|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sourceFolder|source folder for generated code| |src|
-|targetFramework|The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.1`|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0</dd><dt>**netstandard2.1**</dt><dd>.NET Standard 2.1</dd><dt>**net47**</dt><dd>.NET Framework 4.7</dd><dt>**net48**</dt><dd>.NET Framework 4.8</dd><dt>**net6.0**</dt><dd>.NET 6.0 (End of Support 12 November 2024)</dd><dt>**net7.0**</dt><dd>.NET 7.0</dd><dt>**net8.0**</dt><dd>.NET 8.0</dd></dl>|net8.0|
+|targetFramework|The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.1`|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0</dd><dt>**netstandard2.1**</dt><dd>.NET Standard 2.1</dd><dt>**net47**</dt><dd>.NET Framework 4.7</dd><dt>**net48**</dt><dd>.NET Framework 4.8</dd><dt>**net8.0**</dt><dd>.NET 8.0 (End of Support 10 November 2026)</dd><dt>**net9.0**</dt><dd>.NET 9.0 (End of Support 12 May 2026)</dd></dl>|net9.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeForDate|Use DateTime to model date properties even if DateOnly supported. (.net 6.0+ only)| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
+|useIntForTimeout|Use int for Timeout (fall back to v7.9.0 templates). This option (for restsharp only) will be deprecated so please migrated to TimeSpan instead.| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 |useSourceGeneration|Use source generation where available (only `generichost` library supports this option).| |false|
+|useVirtualForHooks|Generate code that exposes public virtual hooks on ApiClient to customize low-level HTTP requests (only `restsharp`. `httpclient` libraries support this option).| |false|
 |validatable|Generates self-validatable models.| |true|
 |zeroBasedEnums|Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.| |null|
+
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-zero-based-enum|When used on an enum, the index will not be generated and the default numbering will be used, zero-based|MODEL|false
+
 
 ## IMPORT MAPPING
 

@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -60,7 +61,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
         supportsInheritance = true;
 
-        sourceFolder = "src"+ File.separator +"gen"+ File.separator +"java";
+        sourceFolder = "src" + File.separator + "gen" + File.separator + "java";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-client";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
@@ -107,7 +108,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-            .doNotOverwrite());
+                .doNotOverwrite());
     }
 
     @Override
@@ -115,6 +116,20 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         return "jaxrs-cxf-client";
     }
 
+    @Override
+    public List<DocumentationProvider> supportedDocumentationProvider() {
+        return List.of(DocumentationProvider.NONE, DocumentationProvider.SWAGGER1, DocumentationProvider.SWAGGER2);
+    }
+
+    @Override
+    public List<AnnotationLibrary> supportedAnnotationLibraries() {
+        return List.of(AnnotationLibrary.NONE, AnnotationLibrary.SWAGGER1, AnnotationLibrary.SWAGGER2);
+    }
+
+    @Override
+    public DocumentationProvider defaultDocumentationProvider() {
+        return DocumentationProvider.SWAGGER1;
+    }
 
     @Override
     public CodegenType getTag() {
@@ -128,13 +143,18 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel m = super.fromModel(name, model);
+        m.imports.remove("ApiModel");
+        return m;
+    }
+
+    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
-        model.imports.remove("JsonSerialize");
-        model.imports.remove("ToStringSerializer");
-
+        model.imports.remove("JsonTypeName");
 
         if (jackson) {
             //Add jackson imports when model has inner enum
@@ -148,7 +168,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
                 if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
                     property.getVendorExtensions().put("x-is-jackson-optional-nullable", true);
                     findByName(property.name, model.readOnlyVars)
-                        .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
+                            .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
                     model.imports.add("JsonNullable");
                     model.imports.add("JsonIgnore");
                 }

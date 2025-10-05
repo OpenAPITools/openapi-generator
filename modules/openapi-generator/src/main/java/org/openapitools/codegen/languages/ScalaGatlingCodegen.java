@@ -368,9 +368,9 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
             operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "Feeder");
             try {
                 FileUtils.writeStringToFile(
-                    new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + parameterType.toLowerCase(Locale.ROOT) + "Params.csv"),
-                    StringUtils.join(parameterNames, ","),
-                    StandardCharsets.UTF_8
+                        new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + parameterType.toLowerCase(Locale.ROOT) + "Params.csv"),
+                        StringUtils.join(parameterNames, ","),
+                        StandardCharsets.UTF_8
                 );
             } catch (IOException ioe) {
                 LOGGER.error("Could not create feeder file for operationId" + operation.getOperationId(), ioe);

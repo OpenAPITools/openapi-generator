@@ -17,13 +17,11 @@ AnyOfPrimitiveTypeTest <- R6::R6Class(
     actual_type = NULL,
     #' @field one_of  a list of types defined in the oneOf schema.
     one_of = list("character", "integer"),
-    #' Initialize a new AnyOfPrimitiveTypeTest.
-    #'
+
     #' @description
     #' Initialize a new AnyOfPrimitiveTypeTest.
     #'
     #' @param instance an instance of the object defined in the oneOf schemas: "character", "integer"
-    #' @export
     initialize = function(instance = NULL) {
       if (is.null(instance)) {
         # do nothing
@@ -38,26 +36,24 @@ AnyOfPrimitiveTypeTest <- R6::R6Class(
                    get(class(instance)[[1]], pos = -1)$classname))
       }
     },
-    #' Deserialize JSON string into an instance of AnyOfPrimitiveTypeTest.
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of AnyOfPrimitiveTypeTest.
     #' An alias to the method `fromJSON` .
     #'
     #' @param input The input JSON.
+    #'
     #' @return An instance of AnyOfPrimitiveTypeTest.
-    #' @export
     fromJSONString = function(input) {
       self$fromJSON(input)
     },
-    #' Deserialize JSON string into an instance of AnyOfPrimitiveTypeTest.
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of AnyOfPrimitiveTypeTest.
     #'
     #' @param input The input JSON.
+    #'
     #' @return An instance of AnyOfPrimitiveTypeTest.
-    #' @export
     fromJSON = function(input) {
       matched <- 0 # match counter
       matched_schemas <- list() #names of matched schemas
@@ -112,42 +108,46 @@ AnyOfPrimitiveTypeTest <- R6::R6Class(
 
       self
     },
-    #' Serialize AnyOfPrimitiveTypeTest to JSON string.
-    #'
+
     #' @description
     #' Serialize AnyOfPrimitiveTypeTest to JSON string.
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return JSON string representation of the AnyOfPrimitiveTypeTest.
-    #' @export
-    toJSONString = function() {
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
       if (!is.null(self$actual_instance)) {
-        as.character(jsonlite::minify(self$actual_instance$toJSONString()))
+        json <- jsonlite::toJSON(simple, auto_unbox = TRUE, ...)
+        return(as.character(jsonlite::minify(json)))
       } else {
-        NULL
+        return(NULL)
       }
     },
-    #' Serialize AnyOfPrimitiveTypeTest to JSON.
-    #'
+
     #' @description
-    #' Serialize AnyOfPrimitiveTypeTest to JSON.
-    #'
-    #' @return JSON representation of the AnyOfPrimitiveTypeTest.
-    #' @export
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert AnyOfPrimitiveTypeTest to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       if (!is.null(self$actual_instance)) {
-        self$actual_instance$toJSON()
+        return(self$actual_instance$toSimpleType())
       } else {
-        NULL
+        return(NULL)
       }
     },
-    #' Validate the input JSON with respect to AnyOfPrimitiveTypeTest.
-    #'
+
     #' @description
     #' Validate the input JSON with respect to AnyOfPrimitiveTypeTest and
     #' throw exception if invalid.
     #'
     #' @param input The input JSON.
-    #' @export
     validateJSON = function(input) {
       # backup current values
       actual_instance_bak <- self$actual_instance
@@ -160,13 +160,11 @@ AnyOfPrimitiveTypeTest <- R6::R6Class(
       self$actual_instance <- actual_instance_bak
       self$actual_type <- actual_type_bak
     },
-    #' Returns the string representation of the instance.
-    #'
+
     #' @description
     #' Returns the string representation of the instance.
     #'
     #' @return The string representation of the instance.
-    #' @export
     toString = function() {
       jsoncontent <- c(
         sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) NULL else self$actual_instance$toJSONString()),
@@ -176,12 +174,9 @@ AnyOfPrimitiveTypeTest <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       as.character(jsonlite::prettify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

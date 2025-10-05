@@ -15,7 +15,7 @@
     }
 
     protected Builder copyOf({{classname}} value) { {{#parentModel}}
-      super.copyOf(instance);{{/parentModel}}{{#vars}}
+      super.copyOf(value);{{/parentModel}}{{#vars}}
       this.instance.{{setter}}(value.{{name}});{{/vars}}
       return this;
     }
@@ -24,12 +24,12 @@
     {{#deprecated}}
     @Deprecated
     {{/deprecated}}
-    public {{classname}}.Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    public {{classname}}.Builder {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) {
       this.instance.{{name}}({{name}});
       return this;
     }
     {{#openApiNullable}}{{#isNullable}}
-    public {{classname}}.Builder {{name}}(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+    public {{classname}}.Builder {{name}}(JsonNullable<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}> {{name}}) {
       this.instance.{{name}} = {{name}};
       return this;
     }
@@ -37,12 +37,12 @@
 {{/vars}}
 {{#parentVars}}
     @Override
-    public {{classname}}.Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    public {{classname}}.Builder {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) {
       this.instance.{{name}}({{name}});
       return this;
     }
     {{#openApiNullable}}{{#isNullable}}
-    public {{classname}}.Builder {{name}}(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+    public {{classname}}.Builder {{name}}(JsonNullable<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}> {{name}}) {
       this.instance.{{setter}}({{name}});
       return this;
     }

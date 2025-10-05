@@ -8,6 +8,9 @@
 #ifndef {{modelHeaderGuardPrefix}}_{{classname}}_H_
 #define {{modelHeaderGuardPrefix}}_{{classname}}_H_
 
+{{#hasEnums}}
+#include <stdexcept>
+{{/hasEnums}}
 {{#oneOf}}
 {{#-first}}
 #include <variant>
@@ -89,6 +92,15 @@ class {{declspec}} {{classname}}
 {
 public:
     {{classname}}();
+    {{classname}}(utility::string_t str);
+    operator utility::string_t() const {
+        return enumToStrMap.at(getValue());
+    }
+
+    {{! operator std::string() const {
+        return enumToStrMap.at(getValue());
+    } }}
+
     virtual ~{{classname}}();
 
     /////////////////////////////////////////////
@@ -111,7 +123,7 @@ public:
         /// {{.}}
         /// </summary>
         {{/enumDescription}}
-        {{classname}}_{{{name}}}{{^last}},{{/last}}
+        {{{name}}}{{^last}},{{/last}}
         {{/enumVars}}
         {{/allowableValues}}
     };
@@ -121,13 +133,30 @@ public:
 
     protected:
         e{{classname}} m_value;
+        std::map<e{{classname}},utility::string_t> enumToStrMap = {
+        {{#allowableValues}}
+        {{#enumVars}}
+        { e{{classname}}::{{{name}}}, _XPLATSTR("{{{name}}}") }{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+};
+        std::map<utility::string_t,e{{classname}}> strToEnumMap = {
+        {{#allowableValues}}
+        {{#enumVars}}
+        { _XPLATSTR("{{{name}}}"), e{{classname}}::{{{name}}} }{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+};
+
 };
 {{/isEnum}}
 {{^isEnum}}
 
+{{#description}}
 /// <summary>
 /// {{description}}
 /// </summary>
+{{/description}}
 class {{declspec}} {{classname}}
     : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
 {
@@ -146,35 +175,104 @@ public:
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
     bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
+
     /////////////////////////////////////////////
     /// {{classname}} members
 
+    {{! ENUM DEFINITIONS }}
     {{#vars}}
     {{^isInherited}}
+    {{#isEnum}}
+    enum class {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}
+    {
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{{name}}}{{^last}},{{/last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+    };
+    {{#description}}
     /// <summary>
     /// {{description}}
     /// </summary>
-    {{#isContainer}}{{{dataType}}}& {{getter}}();
-    {{/isContainer}}{{^isContainer}}{{{dataType}}} {{getter}}() const;
-    {{/isContainer}}bool {{nameInCamelCase}}IsSet() const;
-    void unset{{name}}();
+    {{/description}}
+    {{/isEnum}}
+    {{/isInherited}}
+    {{/vars}}
+    {{#vars}}
+    {{^isInherited}}
+    {{#isEnum}}
+    {{#isContainer}}
+    {{! ENUM CONVERSIONS }}
+    {{{enumName}}} to{{{enumName}}}(const utility::string_t& value) const;
+    const utility::string_t from{{{enumName}}}(const {{{enumName}}} value) const;
+    {{#isArray}}
+    {{{datatypeWithEnum}}} to{{{enumName}}}(const {{{dataType}}}& value) const;
+    {{{dataType}}} from{{{enumName}}}(const {{{datatypeWithEnum}}}& value) const;
+    {{/isArray}}{{/isContainer}}{{^isContainer}}
+    {{{datatypeWithEnum}}} to{{{datatypeWithEnum}}}(const utility::string_t& value) const;
+    const utility::string_t from{{{datatypeWithEnum}}}(const {{{datatypeWithEnum}}} value) const;
+    {{/isContainer}}
 
+    {{/isEnum}}
+    {{/isInherited}}
+    {{/vars}}
+
+    {{! SETTER AND GETTERS }}
+    {{#vars}}
+    {{^isInherited}}
+    {{#description}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    {{/description}}
+    {{#isContainer}}
+    {{^isEnum}}
+    {{{dataType}}} {{getter}}() const;
+    {{/isEnum}}
+    {{/isContainer}}
+    {{^isContainer}}
+    {{^isEnum}}
+    {{{dataType}}} {{getter}}() const;
+    {{/isEnum}}
+    {{/isContainer}}
+    {{#isEnum}}
+    {{^isMap}}
+    {{{datatypeWithEnum}}} {{getter}}() const;
+    {{/isMap}}
+    {{#isMap}}
+    {{{dataType}}} {{getter}}() const;
+    {{/isMap}}
+    {{/isEnum}}
+    bool {{nameInCamelCase}}IsSet() const;
+    void unset{{name}}();
     {{#isPrimitiveType}}
     void {{setter}}({{{dataType}}} value);
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
+    {{^isEnum}}
     void {{setter}}(const {{{dataType}}}& value);
+    {{/isEnum}}
     {{/isPrimitiveType}}
-
+    {{#isEnum}}
+    void {{setter}}(const {{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} value);
+    {{/isEnum}}
     {{/isInherited}}
+
     {{/vars}}
 
 protected:
     {{#vars}}
     {{^isInherited}}
+    {{^isEnum}}
     {{{dataType}}} m_{{name}};
+    {{/isEnum}}
+    {{#isEnum}}
+    {{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} m_{{name}};
+    {{/isEnum}}
     bool m_{{name}}IsSet;
     {{/isInherited}}
+
     {{/vars}}
 };
 

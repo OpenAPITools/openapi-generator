@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.annotation.JsonCreator
@@ -27,7 +28,8 @@ enum class ReasonCode(@get:JsonValue val value: kotlin.Int) {
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.Int): ReasonCode {
-                return values().first{it -> it.value == value}
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'ReasonCode'")
         }
     }
 }

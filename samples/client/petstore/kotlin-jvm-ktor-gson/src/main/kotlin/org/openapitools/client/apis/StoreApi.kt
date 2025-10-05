@@ -39,6 +39,7 @@ import java.text.DateFormat
     ) {
 
         /**
+        * DELETE /store/order/{orderId}
         * Delete purchase order by ID
         * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
          * @param orderId ID of the order that needs to be deleted 
@@ -71,6 +72,7 @@ import java.text.DateFormat
             }
 
         /**
+        * GET /store/inventory
         * Returns pet inventories by status
         * Returns a map of status codes to quantities
          * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
@@ -103,6 +105,7 @@ import java.text.DateFormat
             }
 
         /**
+        * GET /store/order/{orderId}
         * Find purchase order by ID
         * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
          * @param orderId ID of pet that needs to be fetched 
@@ -136,17 +139,18 @@ import java.text.DateFormat
             }
 
         /**
+        * POST /store/order
         * Place an order for a pet
         * 
-         * @param body order placed for purchasing the pet 
+         * @param order order placed for purchasing the pet 
          * @return Order
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun placeOrder(body: Order): HttpResponse<Order> {
+        open suspend fun placeOrder(order: Order): HttpResponse<Order> {
 
             val localVariableAuthNames = listOf<String>()
 
-            val localVariableBody = body
+            val localVariableBody = order
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 

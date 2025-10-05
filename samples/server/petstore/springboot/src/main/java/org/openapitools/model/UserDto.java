@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,26 +22,26 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("User")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class UserDto {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private String username;
+  private @Nullable String username;
 
-  private String firstName;
+  private @Nullable String firstName;
 
-  private String lastName;
+  private @Nullable String lastName;
 
-  private String email;
+  private @Nullable String email;
 
-  private String password;
+  private @Nullable String password;
 
-  private String phone;
+  private @Nullable String phone;
 
-  private Integer userStatus;
+  private @Nullable Integer userStatus;
 
-  public UserDto id(Long id) {
+  public UserDto id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -52,15 +53,15 @@ public class UserDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public UserDto username(String username) {
+  public UserDto username(@Nullable String username) {
     this.username = username;
     return this;
   }
@@ -72,15 +73,15 @@ public class UserDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("username")
-  public String getUsername() {
+  public @Nullable String getUsername() {
     return username;
   }
 
-  public void setUsername(String username) {
+  public void setUsername(@Nullable String username) {
     this.username = username;
   }
 
-  public UserDto firstName(String firstName) {
+  public UserDto firstName(@Nullable String firstName) {
     this.firstName = firstName;
     return this;
   }
@@ -92,15 +93,15 @@ public class UserDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
-  public String getFirstName() {
+  public @Nullable String getFirstName() {
     return firstName;
   }
 
-  public void setFirstName(String firstName) {
+  public void setFirstName(@Nullable String firstName) {
     this.firstName = firstName;
   }
 
-  public UserDto lastName(String lastName) {
+  public UserDto lastName(@Nullable String lastName) {
     this.lastName = lastName;
     return this;
   }
@@ -112,15 +113,15 @@ public class UserDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
-  public String getLastName() {
+  public @Nullable String getLastName() {
     return lastName;
   }
 
-  public void setLastName(String lastName) {
+  public void setLastName(@Nullable String lastName) {
     this.lastName = lastName;
   }
 
-  public UserDto email(String email) {
+  public UserDto email(@Nullable String email) {
     this.email = email;
     return this;
   }
@@ -132,15 +133,15 @@ public class UserDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("email")
-  public String getEmail() {
+  public @Nullable String getEmail() {
     return email;
   }
 
-  public void setEmail(String email) {
+  public void setEmail(@Nullable String email) {
     this.email = email;
   }
 
-  public UserDto password(String password) {
+  public UserDto password(@Nullable String password) {
     this.password = password;
     return this;
   }
@@ -152,15 +153,15 @@ public class UserDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("password")
-  public String getPassword() {
+  public @Nullable String getPassword() {
     return password;
   }
 
-  public void setPassword(String password) {
+  public void setPassword(@Nullable String password) {
     this.password = password;
   }
 
-  public UserDto phone(String phone) {
+  public UserDto phone(@Nullable String phone) {
     this.phone = phone;
     return this;
   }
@@ -172,15 +173,15 @@ public class UserDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
-  public String getPhone() {
+  public @Nullable String getPhone() {
     return phone;
   }
 
-  public void setPhone(String phone) {
+  public void setPhone(@Nullable String phone) {
     this.phone = phone;
   }
 
-  public UserDto userStatus(Integer userStatus) {
+  public UserDto userStatus(@Nullable Integer userStatus) {
     this.userStatus = userStatus;
     return this;
   }
@@ -192,11 +193,11 @@ public class UserDto {
   
   @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")
-  public Integer getUserStatus() {
+  public @Nullable Integer getUserStatus() {
     return userStatus;
   }
 
-  public void setUserStatus(Integer userStatus) {
+  public void setUserStatus(@Nullable Integer userStatus) {
     this.userStatus = userStatus;
   }
 

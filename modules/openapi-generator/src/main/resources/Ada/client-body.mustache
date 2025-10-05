@@ -51,7 +51,7 @@ package body {{package}}.Clients is
       URI.Add_Param ("{{baseName}}", {{paramName}});{{/isLong}}{{#isContainer}}
       URI.Add_Param ("{{baseName}}", {{paramName}});{{/isContainer}}{{#isDateTime}}
       URI.Add_Param ("{{baseName}}", {{paramName}});{{/isDateTime}}{{/isQueryParam}}{{/queryParams}}
-      URI.Set_Path ("{{path}}");{{#pathParams}}
+      URI.Set_Path ("{{{path}}}");{{#pathParams}}
       URI.Set_Path_Param ("{{baseName}}", {{^isString}}{{#vendorExtensions.x-is-model-type}}{{package}}.Models{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{openApiPackageName}}{{/vendorExtensions.x-is-model-type}}.To_String ({{/isString}}{{paramName}}{{^isString}}){{/isString}});{{/pathParams}}
       Client.Call ({{openApiPackageName}}.Clients.{{httpMethod}}, URI{{#hasBodyParam}}, Req{{/hasBodyParam}}{{#hasFormParams}}, Req{{/hasFormParams}}{{#returnType}}, Reply{{/returnType}});
       {{#returnProperty}}

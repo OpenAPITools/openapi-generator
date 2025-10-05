@@ -3,11 +3,13 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'capitalization.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -35,7 +37,7 @@ class Capitalization {
     
     name: r'smallCamel',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -47,7 +49,7 @@ class Capitalization {
     
     name: r'CapitalCamel',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -59,7 +61,7 @@ class Capitalization {
     
     name: r'small_Snake',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -71,7 +73,7 @@ class Capitalization {
     
     name: r'Capital_Snake',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -83,7 +85,7 @@ class Capitalization {
     
     name: r'SCA_ETH_Flow_Points',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -96,7 +98,7 @@ class Capitalization {
     
     name: r'ATT_NAME',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 

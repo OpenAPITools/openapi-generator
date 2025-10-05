@@ -5,16 +5,24 @@ on:
     paths:
       - samples/openapi3/client/petstore/spring-cloud-3-with-optional
       - samples/openapi3/server/petstore/springboot-3
+      - samples/server/petstore/springboot-api-response-examples
       - samples/server/petstore/springboot-lombok-data
       - samples/server/petstore/springboot-lombok-tostring
       - samples/server/petstore/springboot-file-delegate-optional
+      - samples/server/petstore/springboot-petstore-with-api-response-examples
+      - samples/server/petstore/spring-boot-oneof-sealed
+      - samples/openapi3/server/petstore/spring-boot-oneof-interface
   pull_request:
     paths:
       - samples/openapi3/client/petstore/spring-cloud-3-with-optional
       - samples/openapi3/server/petstore/springboot-3
+      - samples/server/petstore/springboot-api-response-examples
       - samples/server/petstore/springboot-lombok-data
       - samples/server/petstore/springboot-lombok-tostring
       - samples/server/petstore/springboot-file-delegate-optional
+      - samples/server/petstore/springboot-petstore-with-api-response-examples
+      - samples/server/petstore/spring-boot-oneof-sealed
+      - samples/openapi3/server/petstore/spring-boot-oneof-interface
 jobs:
   build:
     name: Build Java Spring (JDK17)
@@ -27,12 +35,16 @@ jobs:
           - samples/openapi3/client/petstore/spring-cloud-3-with-optional
           # servers
           - samples/openapi3/server/petstore/springboot-3
+          - samples/server/petstore/springboot-api-response-examples
           - samples/server/petstore/springboot-lombok-data
           - samples/server/petstore/springboot-lombok-tostring
           - samples/server/petstore/springboot-file-delegate-optional
+          - samples/server/petstore/springboot-petstore-with-api-response-examples
+          - samples/server/petstore/spring-boot-oneof-sealed
+          - samples/openapi3/server/petstore/spring-boot-oneof-interface
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: 17

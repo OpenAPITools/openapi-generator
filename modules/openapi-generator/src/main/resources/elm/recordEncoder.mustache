@@ -32,4 +32,5 @@ encode{{classname}} model =
     {{#parent}}{{#allOf}}{{#lambda.camelcase}}encode{{.}}Pairs{{/lambda.camelcase}} model.{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}} ++ {{/allOf}}{{/parent}}pairs{{#vars}}{{#isEnum}}
 
 {{>customTypeEncoder}}
+
 {{/isEnum}}{{/vars}}

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Entity;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,10 +24,10 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Pasta extends Entity {
 
-  private String vendor;
+  private @Nullable String vendor;
 
   public Pasta() {
     super();
@@ -39,7 +40,7 @@ public class Pasta extends Entity {
     super(atType);
   }
 
-  public Pasta vendor(String vendor) {
+  public Pasta vendor(@Nullable String vendor) {
     this.vendor = vendor;
     return this;
   }
@@ -51,11 +52,11 @@ public class Pasta extends Entity {
   
   @Schema(name = "vendor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("vendor")
-  public String getVendor() {
+  public @Nullable String getVendor() {
     return vendor;
   }
 
-  public void setVendor(String vendor) {
+  public void setVendor(@Nullable String vendor) {
     this.vendor = vendor;
   }
 
@@ -137,7 +138,7 @@ public class Pasta extends Entity {
     }
 
     protected Builder copyOf(Pasta value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setVendor(value.vendor);
       return this;
     }

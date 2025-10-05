@@ -4,3 +4,7 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/protobuf/petstore.ya
 templateDir: modules/openapi-generator/src/main/resources/protobuf-schema
 additionalProperties:
   packageName: petstore
+typeMappings:
+  object: "google.protobuf.Struct"
+importMappings:
+  google.protobuf.Struct: "google/protobuf/struct"

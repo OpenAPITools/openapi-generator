@@ -38,6 +38,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -68,6 +69,10 @@ public class CodeGenMojoTest extends BaseTestCase {
         testCommonConfiguration("jar");
     }
 
+    public void testCommonConfigurationWithRemoteInputSpec() throws Exception {
+        testCommonConfiguration("remote");
+    }
+
     @SuppressWarnings("unchecked")
     private void testCommonConfiguration(String profile) throws Exception {
         CodeGenMojo mojo = loadMojo(newTempFolder(), "src/test/resources/default", profile);
@@ -84,6 +89,17 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertEquals("joda", configOptions.get("dateLibrary"));
     }
 
+    public void testMinimalUpdateConfiguration() throws Exception {
+        // GIVEN
+        CodeGenMojo mojo = loadMojo(newTempFolder(), "src/test/resources/minimal-update", null);
+
+        // WHEN
+        mojo.execute();
+
+        // THEN
+        assertEquals(Boolean.TRUE, getVariableValueFromObject(mojo, "minimalUpdate"));
+    }
+
     public void testHashGenerationFileContainsExecutionId() throws Exception {
         // GIVEN
         final Path tempDir = newTempFolder();
@@ -94,13 +110,13 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         // THEN
         assertTrue(Files.exists(tempDir.resolve(
-            "target/generated-sources/common-maven/remote-openapi/.openapi-generator/petstore.yaml-executionId.sha256"
+                "target/generated-sources/common-maven/remote-openapi/.openapi-generator/petstore.yaml-executionId.sha256"
         )));
     }
 
     /**
      * For a Pom file which refers to an input file which will be on the classpath, as opposed to a file path,
-     * test that the spec is not regenerated when the hash has not changed. 
+     * test that the spec is not regenerated when the hash has not changed.
      */
     public void testSkipRegenerationForClasspathSpecFileNoChange() throws Exception {
         //GIVEN
@@ -114,7 +130,7 @@ public class CodeGenMojoTest extends BaseTestCase {
         /* Check the hash file was created */
         final Path generatedDir = tempDir.resolve("target/generated-sources/common-maven/remote-openapi");
         assertTrue(Files.exists(
-            generatedDir.resolve(".openapi-generator/petstore-on-classpath.yaml-executionId.sha256")
+                generatedDir.resolve(".openapi-generator/petstore-on-classpath.yaml-executionId.sha256")
         ));
 
         /* Remove the generated source */
@@ -132,9 +148,53 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertFalse("src directory should not have been regenerated", Files.exists(generatedDir.resolve("src")));
     }
 
+    public void testMinimalUpdate() throws Exception {
+        //GIVEN
+        /* Set up the mojo */
+        final Path tempDir = newTempFolder();
+        final CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/minimal-update", null, "executionId");
+
+        /* Perform an initial generation */
+        mojo.execute();
+
+        /* Collect last modified times of generated files */
+        final Path generatedDir = tempDir.resolve("target/generated-sources/minimal-update");
+        assertTrue("Generated directory should exist", Files.exists(generatedDir));
+
+        Map<Path, Long> lastModifiedTimes = new HashMap<>();
+        try (Stream<Path> files = Files.walk(generatedDir)) {
+            files
+                .filter(Files::isRegularFile)
+                .filter(path -> !path.getFileName().toString().endsWith(".sha256"))
+                .filter(path -> !path.getFileName().toString().equals("FILES"))
+                .forEach(file -> {
+                    try {
+                        lastModifiedTimes.put(file, Files.getLastModifiedTime(file).toMillis());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+        }
+        assertTrue("Should have recorded last modified times for more than 3 files", lastModifiedTimes.size() > 3);
+
+        // WHEN
+        /* Execute the mojo again */
+        mojo.execute();
+
+        // THEN
+        /* Verify that file modification times haven't changed (files weren't touched) */
+        for (Map.Entry<Path, Long> entry : lastModifiedTimes.entrySet()) {
+            Path file = entry.getKey();
+            Long originalTime = entry.getValue();
+            Long currentTime = Files.getLastModifiedTime(file).toMillis();
+            assertEquals("File " + file + " should not have been modified (minimal update should skip unchanged files)",
+                originalTime, currentTime);
+        }
+    }
+
     /**
      * For a Pom file which refers to an input file which will be on the classpath, as opposed to a file path,
-     * test that the generated source is regenerated when the hash has changed. 
+     * test that the generated source is regenerated when the hash has changed.
      */
     public void testSkipRegenerationForClasspathSpecFileWithChange() throws Exception {
         //GIVEN
@@ -151,12 +211,12 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         /* Update the hash contents to be a different value, simulating a spec change */
         Files.write(
-            generatedDir.resolve(".openapi-generator/petstore-on-classpath.yaml-executionId.sha256"),
-            List.of("bd1bf4a953c858f9d47b67ed6029daacf1707e5cbd3d2e4b01383ba30363366f")
+                generatedDir.resolve(".openapi-generator/petstore-on-classpath.yaml-executionId.sha256"),
+                List.of("bd1bf4a953c858f9d47b67ed6029daacf1707e5cbd3d2e4b01383ba30363366f")
         );
 
         /* Remove the generated source */
-        try(Stream<Path> files = Files.walk(generatedDir.resolve("src"))) {
+        try (Stream<Path> files = Files.walk(generatedDir.resolve("src"))) {
             //noinspection ResultOfMethodCallIgnored
             files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
         }
@@ -181,7 +241,7 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         // THEN
         assertTrue(Files.exists(
-            tempDir.resolve("target/generated-sources/common-maven/remote-openapi/petstore-full-spec.yaml")
+                tempDir.resolve("target/generated-sources/common-maven/remote-openapi/petstore-full-spec.yaml")
         ));
     }
 
@@ -194,8 +254,8 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         // THEN
         List<Artifact> matchingArtifacts = mojo.mavenProject.getAttachedArtifacts().stream()
-            .filter(artifact -> artifact.getFile().getName().equals("petstore-full-spec.yaml"))
-            .collect(Collectors.toList());
+                .filter(artifact -> artifact.getFile().getName().equals("petstore-full-spec.yaml"))
+                .collect(Collectors.toList());
         assertEquals(1, matchingArtifacts.size());
     }
 
@@ -238,11 +298,11 @@ public class CodeGenMojoTest extends BaseTestCase {
         final Path generatedDir = tempDir.resolve("target/generated-sources/issue-16489");
         final Path hashFile = generatedDir.resolve(".openapi-generator/petstore.yaml-default.sha256");
         final CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/issue-16489", null);
-        mojo.execute(); // Perform an initial generation 
+        mojo.execute(); // Perform an initial generation
         var currentHash = Files.readString(hashFile);   // read hash
         FileUtils.deleteDirectory(generatedDir.resolve("src").toFile());    // Remove the generated source
         Files.writeString(  // change schema definition in external file
-            tempDir.resolve("schemas/Pet.yaml"),"\n  wrapped: true", StandardOpenOption.APPEND
+                tempDir.resolve("schemas/Pet.yaml"), "\n  wrapped: true", StandardOpenOption.APPEND
         );
 
         // WHEN
@@ -250,8 +310,8 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         // THEN
         assertNotEquals(
-            Files.readString(hashFile), currentHash, "Checksum should not be the same after external file change"
-        );         
+                Files.readString(hashFile), currentHash, "Checksum should not be the same after external file change"
+        );
         assertTrue("Src directory should have been regenerated", Files.exists(generatedDir.resolve("src")));
     }
 
@@ -269,7 +329,7 @@ public class CodeGenMojoTest extends BaseTestCase {
     }
 
     private MojoExecution copyWithExecutionId(String executionId, MojoExecution execution) {
-        MojoExecution executionWithId  = new MojoExecution(execution.getMojoDescriptor(), executionId);
+        MojoExecution executionWithId = new MojoExecution(execution.getMojoDescriptor(), executionId);
         executionWithId.setConfiguration(execution.getConfiguration());
         return executionWithId;
     }
@@ -278,18 +338,18 @@ public class CodeGenMojoTest extends BaseTestCase {
         LocalRepository localRepo = new LocalRepository(basedir.resolve("local-repo").toFile());
         DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
         session.setLocalRepositoryManager(
-            new SimpleLocalRepositoryManagerFactory(new DefaultLocalPathComposer()).newInstance(session, localRepo)
+                new SimpleLocalRepositoryManagerFactory(new DefaultLocalPathComposer()).newInstance(session, localRepo)
         );
         MavenExecutionRequest request = new DefaultMavenExecutionRequest().setBaseDirectory(basedir.toFile());
         if (profile != null) {
             request.addActiveProfile(profile);
         }
         ProjectBuildingRequest configuration = request.getProjectBuildingRequest()
-            .setRepositorySession(session)
-            .setResolveDependencies(true);
+                .setRepositorySession(session)
+                .setResolveDependencies(true);
         MavenProject project = lookup(ProjectBuilder.class)
-            .build(basedir.resolve("pom.xml").toFile(), configuration)
-            .getProject();
+                .build(basedir.resolve("pom.xml").toFile(), configuration)
+                .getProject();
         assertNotNull(project);
         return project;
     }

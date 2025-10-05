@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,10 +25,10 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Dog extends Animal {
 
-  private String breed;
+  private @Nullable String breed;
 
   public Dog() {
     super();
@@ -43,12 +44,12 @@ public class Dog extends Animal {
   /**
    * Constructor with all args parameters
    */
-  public Dog(String breed, String className, String color) {
+  public Dog(@Nullable String breed, String className, String color) {
       super(className, color);
       this.breed = breed;
   }
 
-  public Dog breed(String breed) {
+  public Dog breed(@Nullable String breed) {
     this.breed = breed;
     return this;
   }
@@ -60,11 +61,11 @@ public class Dog extends Animal {
   
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
-  public String getBreed() {
+  public @Nullable String getBreed() {
     return breed;
   }
 
-  public void setBreed(String breed) {
+  public void setBreed(@Nullable String breed) {
     this.breed = breed;
   }
 

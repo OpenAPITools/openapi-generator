@@ -18,6 +18,30 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /pets:
+    post:
+      tags:
+        - pet
+      summary: List all pets
+      description: Returns a list of pets
+      parameters:
+        - name: page
+          in: query
+          description: The page number
+          required: false
+          schema:
+            $ref: '#/components/schemas/Page'
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid page number
   /pet:
     post:
       tags:
@@ -114,6 +138,34 @@ paths:
                   $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid status value
+      security:
+        - petstore_auth:
+            - 'read:pets'
+  /pet/findByColor:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by color
+      description: Returns pets filtered by color.
+      operationId: findPetsByColor
+      parameters:
+        - name: color
+          in: query
+          description: Color of the pet to filter by
+          required: false
+          schema:
+            $ref: '#/components/schemas/Color'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid color value
       security:
         - petstore_auth:
             - 'read:pets'
@@ -746,6 +798,20 @@ components:
             - available
             - pending
             - sold
+        metadata:
+          type: object
+      xml:
+        name: Pet
+    Color:
+      title: Pet Color
+      description: pet color in the store
+      type: string
+      enum:
+        - black
+        - white
+        - brown
+        - golden
+        - mixed
       xml:
         name: Pet
     ApiResponse:
@@ -792,3 +858,22 @@ components:
                   boosterRequired:
                     type: boolean
                     description: true if a booster is still needed to complete the vaccination
+    Page:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        perPage:
+          type: integer
+          format: int32
+        reference_test:
+          type: array
+          readOnly: true
+          items: 
+            $ref: "#/components/schemas/UUID"
+    UUID:
+      format: "uuid"
+      pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+      type: "string"
+        

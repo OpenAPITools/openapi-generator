@@ -51,20 +51,20 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * <p>The setter methods of this class return the current object to facilitate
  * a fluent style of configuration.</p>
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ApiClient {
 
-  private HttpClient.Builder builder;
-  private ObjectMapper mapper;
-  private String scheme;
-  private String host;
-  private int port;
-  private String basePath;
-  private Consumer<HttpRequest.Builder> interceptor;
-  private Consumer<HttpResponse<InputStream>> responseInterceptor;
-  private Consumer<HttpResponse<String>> asyncResponseInterceptor;
-  private Duration readTimeout;
-  private Duration connectTimeout;
+  protected HttpClient.Builder builder;
+  protected ObjectMapper mapper;
+  protected String scheme;
+  protected String host;
+  protected int port;
+  protected String basePath;
+  protected Consumer<HttpRequest.Builder> interceptor;
+  protected Consumer<HttpResponse<InputStream>> responseInterceptor;
+  protected Consumer<HttpResponse<String>> asyncResponseInterceptor;
+  protected Duration readTimeout;
+  protected Duration connectTimeout;
 
   public static String valueToString(Object value) {
     if (value == null) {
@@ -166,7 +166,7 @@ public class ApiClient {
   public ApiClient() {
     this.builder = createDefaultHttpClientBuilder();
     this.mapper = createDefaultObjectMapper();
-    updateBaseUri(getDefaultBaseUri());
+    updateBaseUri("http://localhost:3000");
     interceptor = null;
     readTimeout = null;
     connectTimeout = null;
@@ -184,7 +184,7 @@ public class ApiClient {
   public ApiClient(HttpClient.Builder builder, ObjectMapper mapper, String baseUri) {
     this.builder = builder;
     this.mapper = mapper;
-    updateBaseUri(baseUri != null ? baseUri : getDefaultBaseUri());
+    updateBaseUri(baseUri != null ? baseUri : "http://localhost:3000");
     interceptor = null;
     readTimeout = null;
     connectTimeout = null;
@@ -192,7 +192,7 @@ public class ApiClient {
     asyncResponseInterceptor = null;
   }
 
-  protected ObjectMapper createDefaultObjectMapper() {
+  public static ObjectMapper createDefaultObjectMapper() {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -203,18 +203,19 @@ public class ApiClient {
     mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
     mapper.registerModule(new JavaTimeModule());
     mapper.registerModule(new JsonNullableModule());
+    mapper.registerModule(new RFC3339JavaTimeModule());
     return mapper;
   }
 
-  protected String getDefaultBaseUri() {
-    return "http://localhost:3000";
+  protected final String getDefaultBaseUri() {
+    return basePath;
   }
 
-  protected HttpClient.Builder createDefaultHttpClientBuilder() {
+  public static HttpClient.Builder createDefaultHttpClientBuilder() {
     return HttpClient.newBuilder();
   }
 
-  public void updateBaseUri(String baseUri) {
+  public final void updateBaseUri(String baseUri) {
     URI uri = URI.create(baseUri);
     scheme = uri.getScheme();
     host = uri.getHost();

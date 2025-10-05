@@ -49,6 +49,25 @@ pub enum ComplexQueryParamGetResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum ExamplesTestResponse {
+    /// OK
+    OK
+    (models::AdditionalPropertiesReferencedAnyOfObject)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum FormTestResponse {
+    /// OK
+    OK
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum GetWithBooleanParameterResponse {
+    /// OK
+    OK
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum JsonComplexQueryParamGetResponse {
     /// Success
     Success
@@ -196,6 +215,12 @@ pub enum Rfc7807GetResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum TwoFirstLetterHeadersResponse {
+    /// OK
+    OK
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UntypedPropertyGetResponse {
     /// Check that untyped properties works
     CheckThatUntypedPropertiesWorks
@@ -266,6 +291,12 @@ pub enum EnumInPathPathParamGetResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CreateRepoResponse {
     /// Success
     Success
@@ -282,10 +313,6 @@ pub enum GetRepoInfoResponse {
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait Api<C: Send + Sync> {
-    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
-        Poll::Ready(Ok(()))
-    }
-
     async fn any_of_get(
         &self,
         any_of: Option<&Vec<models::AnyOfObject>>,
@@ -300,6 +327,23 @@ pub trait Api<C: Send + Sync> {
         &self,
         list_of_strings: Option<&Vec<models::StringObject>>,
         context: &C) -> Result<ComplexQueryParamGetResponse, ApiError>;
+
+    /// Test examples
+    async fn examples_test(
+        &self,
+        ids: Option<&Vec<String>>,
+        context: &C) -> Result<ExamplesTestResponse, ApiError>;
+
+    /// Test a Form Post
+    async fn form_test(
+        &self,
+        required_array: Option<&Vec<String>>,
+        context: &C) -> Result<FormTestResponse, ApiError>;
+
+    async fn get_with_boolean_parameter(
+        &self,
+        iambool: bool,
+        context: &C) -> Result<GetWithBooleanParameterResponse, ApiError>;
 
     async fn json_complex_query_param_get(
         &self,
@@ -362,6 +406,12 @@ pub trait Api<C: Send + Sync> {
         &self,
         context: &C) -> Result<Rfc7807GetResponse, ApiError>;
 
+    async fn two_first_letter_headers(
+        &self,
+        x_header_one: Option<bool>,
+        x_header_two: Option<bool>,
+        context: &C) -> Result<TwoFirstLetterHeadersResponse, ApiError>;
+
     async fn untyped_property_get(
         &self,
         object_untyped_props: Option<models::ObjectUntypedProps>,
@@ -386,7 +436,7 @@ pub trait Api<C: Send + Sync> {
         another_xml_array: Option<models::AnotherXmlArray>,
         context: &C) -> Result<XmlOtherPutResponse, ApiError>;
 
-    /// Post an array
+    /// Post an array.  It's important we test apostrophes, so include one here.
     async fn xml_post(
         &self,
         xml_array: Option<models::XmlArray>,
@@ -401,6 +451,12 @@ pub trait Api<C: Send + Sync> {
         &self,
         path_param: models::StringEnum,
         context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>;
+
+    async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+        &self,
+        path_param_a: String,
+        path_param_b: String,
+        context: &C) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, ApiError>;
 
     async fn create_repo(
         &self,
@@ -419,8 +475,6 @@ pub trait Api<C: Send + Sync> {
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait ApiNoContext<C: Send + Sync> {
 
-    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
-
     fn context(&self) -> &C;
 
     async fn any_of_get(
@@ -437,6 +491,23 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         list_of_strings: Option<&Vec<models::StringObject>>,
         ) -> Result<ComplexQueryParamGetResponse, ApiError>;
+
+    /// Test examples
+    async fn examples_test(
+        &self,
+        ids: Option<&Vec<String>>,
+        ) -> Result<ExamplesTestResponse, ApiError>;
+
+    /// Test a Form Post
+    async fn form_test(
+        &self,
+        required_array: Option<&Vec<String>>,
+        ) -> Result<FormTestResponse, ApiError>;
+
+    async fn get_with_boolean_parameter(
+        &self,
+        iambool: bool,
+        ) -> Result<GetWithBooleanParameterResponse, ApiError>;
 
     async fn json_complex_query_param_get(
         &self,
@@ -499,6 +570,12 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         ) -> Result<Rfc7807GetResponse, ApiError>;
 
+    async fn two_first_letter_headers(
+        &self,
+        x_header_one: Option<bool>,
+        x_header_two: Option<bool>,
+        ) -> Result<TwoFirstLetterHeadersResponse, ApiError>;
+
     async fn untyped_property_get(
         &self,
         object_untyped_props: Option<models::ObjectUntypedProps>,
@@ -523,7 +600,7 @@ pub trait ApiNoContext<C: Send + Sync> {
         another_xml_array: Option<models::AnotherXmlArray>,
         ) -> Result<XmlOtherPutResponse, ApiError>;
 
-    /// Post an array
+    /// Post an array.  It's important we test apostrophes, so include one here.
     async fn xml_post(
         &self,
         xml_array: Option<models::XmlArray>,
@@ -538,6 +615,12 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         path_param: models::StringEnum,
         ) -> Result<EnumInPathPathParamGetResponse, ApiError>;
+
+    async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+        &self,
+        path_param_a: String,
+        path_param_b: String,
+        ) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, ApiError>;
 
     async fn create_repo(
         &self,
@@ -566,10 +649,6 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ContextWrapperExt<C> for T
 
 #[async_trait]
 impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for ContextWrapper<T, C> {
-    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
-        self.api().poll_ready(cx)
-    }
-
     fn context(&self) -> &C {
         ContextWrapper::context(self)
     }
@@ -599,6 +678,35 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().complex_query_param_get(list_of_strings, &context).await
+    }
+
+    /// Test examples
+    async fn examples_test(
+        &self,
+        ids: Option<&Vec<String>>,
+        ) -> Result<ExamplesTestResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().examples_test(ids, &context).await
+    }
+
+    /// Test a Form Post
+    async fn form_test(
+        &self,
+        required_array: Option<&Vec<String>>,
+        ) -> Result<FormTestResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().form_test(required_array, &context).await
+    }
+
+    async fn get_with_boolean_parameter(
+        &self,
+        iambool: bool,
+        ) -> Result<GetWithBooleanParameterResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().get_with_boolean_parameter(iambool, &context).await
     }
 
     async fn json_complex_query_param_get(
@@ -714,6 +822,16 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().rfc7807_get(&context).await
     }
 
+    async fn two_first_letter_headers(
+        &self,
+        x_header_one: Option<bool>,
+        x_header_two: Option<bool>,
+        ) -> Result<TwoFirstLetterHeadersResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().two_first_letter_headers(x_header_one, x_header_two, &context).await
+    }
+
     async fn untyped_property_get(
         &self,
         object_untyped_props: Option<models::ObjectUntypedProps>,
@@ -758,7 +876,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().xml_other_put(another_xml_array, &context).await
     }
 
-    /// Post an array
+    /// Post an array.  It's important we test apostrophes, so include one here.
     async fn xml_post(
         &self,
         xml_array: Option<models::XmlArray>,
@@ -784,6 +902,16 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().enum_in_path_path_param_get(path_param, &context).await
+    }
+
+    async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+        &self,
+        path_param_a: String,
+        path_param_b: String,
+        ) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(path_param_a, path_param_b, &context).await
     }
 
     async fn create_repo(
@@ -823,9 +951,6 @@ pub enum CallbackCallbackPostResponse {
 /// Callback API
 #[async_trait]
 pub trait CallbackApi<C: Send + Sync> {
-    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
-        Poll::Ready(Ok(()))
-    }
 
     async fn callback_callback_with_header_post(
         &self,
@@ -843,7 +968,6 @@ pub trait CallbackApi<C: Send + Sync> {
 /// Callback API without a `Context`
 #[async_trait]
 pub trait CallbackApiNoContext<C: Send + Sync> {
-    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
 
     fn context(&self) -> &C;
 
@@ -874,9 +998,6 @@ impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackContextWra
 
 #[async_trait]
 impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackApiNoContext<C> for ContextWrapper<T, C> {
-    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
-        self.api().poll_ready(cx)
-    }
 
     fn context(&self) -> &C {
         ContextWrapper::context(self)

@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.TestFormObjectMultipartRequestMarker;
@@ -48,10 +49,31 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Locale;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FormApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
+  private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
@@ -61,7 +83,7 @@ public class FormApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public FormApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public FormApi(ApiClient apiClient) {
@@ -73,6 +95,7 @@ public class FormApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
     String body = response.body() == null ? null : new String(response.body().readAllBytes());
@@ -88,6 +111,54 @@ public class FormApi {
   }
 
   /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
+  }
+
+  /**
    * Test form parameter(s)
    * Test form parameter(s)
    * @param integerForm  (optional)
@@ -96,8 +167,22 @@ public class FormApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
-    ApiResponse<String> localVarResponse = testFormIntegerBooleanStringWithHttpInfo(integerForm, booleanForm, stringForm);
+  public String testFormIntegerBooleanString(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws ApiException {
+    return testFormIntegerBooleanString(integerForm, booleanForm, stringForm, null);
+  }
+
+  /**
+   * Test form parameter(s)
+   * Test form parameter(s)
+   * @param integerForm  (optional)
+   * @param booleanForm  (optional)
+   * @param stringForm  (optional)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testFormIntegerBooleanString(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm, Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testFormIntegerBooleanStringWithHttpInfo(integerForm, booleanForm, stringForm, headers);
     return localVarResponse.getData();
   }
 
@@ -110,8 +195,22 @@ public class FormApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testFormIntegerBooleanStringWithHttpInfo(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testFormIntegerBooleanStringRequestBuilder(integerForm, booleanForm, stringForm);
+  public ApiResponse<String> testFormIntegerBooleanStringWithHttpInfo(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws ApiException {
+    return testFormIntegerBooleanStringWithHttpInfo(integerForm, booleanForm, stringForm, null);
+  }
+
+  /**
+   * Test form parameter(s)
+   * Test form parameter(s)
+   * @param integerForm  (optional)
+   * @param booleanForm  (optional)
+   * @param stringForm  (optional)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testFormIntegerBooleanStringWithHttpInfo(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testFormIntegerBooleanStringRequestBuilder(integerForm, booleanForm, stringForm, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -147,7 +246,7 @@ public class FormApi {
     }
   }
 
-  private HttpRequest.Builder testFormIntegerBooleanStringRequestBuilder(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
+  private HttpRequest.Builder testFormIntegerBooleanStringRequestBuilder(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -181,6 +280,8 @@ public class FormApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -194,8 +295,20 @@ public class FormApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormObjectMultipart(TestFormObjectMultipartRequestMarker marker) throws ApiException {
-    ApiResponse<String> localVarResponse = testFormObjectMultipartWithHttpInfo(marker);
+  public String testFormObjectMultipart(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws ApiException {
+    return testFormObjectMultipart(marker, null);
+  }
+
+  /**
+   * Test form parameter(s) for multipart schema
+   * Test form parameter(s) for multipart schema
+   * @param marker  (required)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testFormObjectMultipart(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker, Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testFormObjectMultipartWithHttpInfo(marker, headers);
     return localVarResponse.getData();
   }
 
@@ -206,8 +319,20 @@ public class FormApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testFormObjectMultipartWithHttpInfo(TestFormObjectMultipartRequestMarker marker) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testFormObjectMultipartRequestBuilder(marker);
+  public ApiResponse<String> testFormObjectMultipartWithHttpInfo(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws ApiException {
+    return testFormObjectMultipartWithHttpInfo(marker, null);
+  }
+
+  /**
+   * Test form parameter(s) for multipart schema
+   * Test form parameter(s) for multipart schema
+   * @param marker  (required)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testFormObjectMultipartWithHttpInfo(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testFormObjectMultipartRequestBuilder(marker, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -243,7 +368,7 @@ public class FormApi {
     }
   }
 
-  private HttpRequest.Builder testFormObjectMultipartRequestBuilder(TestFormObjectMultipartRequestMarker marker) throws ApiException {
+  private HttpRequest.Builder testFormObjectMultipartRequestBuilder(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'marker' is set
     if (marker == null) {
       throw new ApiException(400, "Missing the required parameter 'marker' when calling testFormObjectMultipart");
@@ -259,7 +384,9 @@ public class FormApi {
 
     MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
     boolean hasFiles = false;
-    multiPartBuilder.addTextBody("marker", marker.toString());
+    if (marker != null) {
+        multiPartBuilder.addTextBody("marker", marker.toString());
+    }
     HttpEntity entity = multiPartBuilder.build();
     HttpRequest.BodyPublisher formDataPublisher;
     if (hasFiles) {
@@ -293,6 +420,8 @@ public class FormApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -311,8 +440,25 @@ public class FormApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormOneof(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
-    ApiResponse<String> localVarResponse = testFormOneofWithHttpInfo(form1, form2, form3, form4, id, name);
+  public String testFormOneof(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws ApiException {
+    return testFormOneof(form1, form2, form3, form4, id, name, null);
+  }
+
+  /**
+   * Test form parameter(s) for oneOf schema
+   * Test form parameter(s) for oneOf schema
+   * @param form1  (optional)
+   * @param form2  (optional)
+   * @param form3  (optional)
+   * @param form4  (optional)
+   * @param id  (optional)
+   * @param name  (optional)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testFormOneof(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name, Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testFormOneofWithHttpInfo(form1, form2, form3, form4, id, name, headers);
     return localVarResponse.getData();
   }
 
@@ -328,8 +474,25 @@ public class FormApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testFormOneofWithHttpInfo(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testFormOneofRequestBuilder(form1, form2, form3, form4, id, name);
+  public ApiResponse<String> testFormOneofWithHttpInfo(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws ApiException {
+    return testFormOneofWithHttpInfo(form1, form2, form3, form4, id, name, null);
+  }
+
+  /**
+   * Test form parameter(s) for oneOf schema
+   * Test form parameter(s) for oneOf schema
+   * @param form1  (optional)
+   * @param form2  (optional)
+   * @param form3  (optional)
+   * @param form4  (optional)
+   * @param id  (optional)
+   * @param name  (optional)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testFormOneofWithHttpInfo(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testFormOneofRequestBuilder(form1, form2, form3, form4, id, name, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -365,7 +528,7 @@ public class FormApi {
     }
   }
 
-  private HttpRequest.Builder testFormOneofRequestBuilder(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
+  private HttpRequest.Builder testFormOneofRequestBuilder(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -408,6 +571,8 @@ public class FormApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
