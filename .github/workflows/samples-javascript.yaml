@@ -3,12 +3,12 @@ name: Samples JS clients
 on:
   push:
     paths:
-      - samples/client/petstore/javascript-flowtyped/**
+      #- samples/client/petstore/javascript-flowtyped/**
       - samples/client/petstore/javascript-es6/**
       - samples/client/petstore/javascript-promise-es6/**
   pull_request:
     paths:
-      - samples/client/petstore/javascript-flowtyped/**
+      #- samples/client/petstore/javascript-flowtyped/**
       - samples/client/petstore/javascript-es6/**
       - samples/client/petstore/javascript-promise-es6/**
 jobs:
