@@ -18,7 +18,7 @@ assignees: ''
 
 <!--
 Please follow the issue template below for bug reports.
-Also please indicate in the issue title which language/library is concerned. Eg:  [BUG][JAVA] Bug generating foo with bar 
+Also please indicate in the issue title which language/library is concerned. E.g.:  [BUG][JAVA] Bug generating foo with bar 
 -->
 
 ##### Description
