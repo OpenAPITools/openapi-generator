@@ -23,7 +23,6 @@ jobs:
           - "20.x"
         sample:
           # clients
-          - samples/client/petstore/javascript-flowtyped/
           - samples/client/petstore/javascript-es6/
           - samples/client/petstore/javascript-promise-es6/
     services:
