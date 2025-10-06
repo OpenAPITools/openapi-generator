@@ -19,6 +19,6 @@ async-trait = "^0.1"
 google-cloud-token = "^0.1"
 
 [features]
-default = ["native-tls"]
+default = []
 native-tls = ["reqwest/native-tls"]
 rustls-tls = ["reqwest/rustls-tls"]
