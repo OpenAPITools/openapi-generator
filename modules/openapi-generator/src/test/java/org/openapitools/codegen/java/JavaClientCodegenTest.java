@@ -22,7 +22,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.visitor.*;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -40,7 +40,6 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
-import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -49,7 +48,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -1791,13 +1789,71 @@ public class JavaClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertThat(files).hasSize(42);
+        assertThat(files).hasSize(48);
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
                 .content().contains("public class Child extends Person {");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Adult.java"))
                 .content().contains("public class Adult extends Person {");
-        assertThat(output.resolve("src/main/java/xyz/abcdef/model/SchemaWithTwoParents.java"))
-                .content().contains("public class SchemaWithTwoParents {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/SchemaWithTwoAllOfRefs.java"))
+                .content().contains("public class SchemaWithTwoAllOfRefs {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/AnotherChild.java"))
+                .content().contains("public class AnotherChild {");
+    }
+
+    @Test
+    public void allOfWithSeveralRefsAndRefAsParentInAllOfNormalizationIsTrue() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addOpenapiNormalizer("REF_AS_PARENT_IN_ALLOF", "true")
+                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(files).hasSize(48);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
+                .content().contains("public class Child extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Adult.java"))
+                .content().contains("public class Adult extends Person {");
+        // The class does not extend a parent since the REF_AS_PARENT_IN_ALLOF normalizer will assign it two parents
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/SchemaWithTwoAllOfRefsOneIsMarkedAsParent.java"))
+                .content().contains("public class SchemaWithTwoAllOfRefsOneIsMarkedAsParent {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/AnotherChild.java"))
+                .content().contains("public class AnotherChild extends AnotherPerson {");
+    }
+
+    @Test
+    public void allOfWithSeveralRefsButOnlyOneIsMarkedAsParent() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(files).hasSize(48);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
+                .content().contains("public class Child extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Adult.java"))
+                .content().contains("public class Adult extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/SchemaWithTwoAllOfRefsOneIsMarkedAsParent.java"))
+                .content().contains("public class SchemaWithTwoAllOfRefsOneIsMarkedAsParent extends PersonAExplicitParent {");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/AnotherChild.java"))
                 .content().contains("public class AnotherChild {");
     }
@@ -3986,7 +4042,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testOneOfClassWithAnnotation() throws IOException {
+    public void testOneOfClassWithAnnotation() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT);
         JavaFileAssert.assertThat(files.get("Fruit.java"))
                 .isNormalClass()
@@ -3994,7 +4050,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testOneOfInterfaceWithAnnotation() throws IOException {
+    public void testOneOfInterfaceWithAnnotation() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT,
                 Map.of(USE_ONE_OF_INTERFACES, "true"));
         JavaFileAssert.assertThat(files.get("Fruit.java"))
