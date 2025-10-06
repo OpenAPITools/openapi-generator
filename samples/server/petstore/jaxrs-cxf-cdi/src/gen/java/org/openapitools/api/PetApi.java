@@ -25,7 +25,7 @@ import javax.validation.Valid;
 @Path("/pet")
 @RequestScoped
 
-@Api(description = "the pet API")
+@Api
 
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
