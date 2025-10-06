@@ -351,7 +351,7 @@ namespace Org.OpenAPITools.Client
                 return null;
 
             if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
-                return [MediaTypeWithQualityHeaderValue.Parse("application/json")];
+                return new [] { MediaTypeWithQualityHeaderValue.Parse("application/json") };
 
             return accepts.Select(MediaTypeWithQualityHeaderValue.Parse);
         }
