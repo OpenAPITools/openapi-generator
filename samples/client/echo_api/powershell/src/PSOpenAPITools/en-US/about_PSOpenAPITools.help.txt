@@ -11,7 +11,7 @@ LONG DESCRIPTION
 
     - API version: 0.1.0
     - SDK version: 0.1.2
-    - Generator version: 7.14.0-SNAPSHOT
+    - Generator version: 7.17.0-SNAPSHOT
     - Build package: org.openapitools.codegen.languages.PowerShellClientCodegen
 
     Frameworks supported:

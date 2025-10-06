@@ -2,13 +2,14 @@
 
 {{>partial_header}}
 
+
 import copy
 import http.client as httplib
 import logging
 from logging import FileHandler
-{{^asyncio}}
+{{^async}}
 import multiprocessing
-{{/asyncio}}
+{{/async}}
 import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
 from typing_extensions import NotRequired, Self
@@ -394,13 +395,13 @@ conf = {{{packageName}}}.Configuration(
            Set this to the SNI value expected by the server.
         """
 
-        {{#asyncio}}
+        {{#async}}
         self.connection_pool_maxsize = 100
         """This value is passed to the aiohttp to limit simultaneous connections.
            Default values is 100, None means no-limit.
         """
-        {{/asyncio}}
-        {{^asyncio}}
+        {{/async}}
+        {{^async}}
         self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
         """urllib3 connection pool's maximum number of connections saved
            per pool. urllib3 uses 1 connection as default value, but this is
@@ -408,7 +409,7 @@ conf = {{{packageName}}}.Configuration(
            requests to the same host, which is often the case here.
            cpu_count * 5 is used as default value to increase performance.
         """
-        {{/asyncio}}
+        {{/async}}
 
         self.proxy: Optional[str] = None
         """Proxy URL

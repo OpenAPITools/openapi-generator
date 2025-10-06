@@ -75,7 +75,7 @@ Creates list of users with given input array
 //import org.openapitools.server.api.model.*
 
 val apiInstance = UserApi()
-val user : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
+val user : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
 try {
     apiInstance.createUsersWithArrayInput(user)
 } catch (e: ClientException) {
@@ -91,7 +91,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
+ **user** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -121,7 +121,7 @@ Creates list of users with given input array
 //import org.openapitools.server.api.model.*
 
 val apiInstance = UserApi()
-val user : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
+val user : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
 try {
     apiInstance.createUsersWithListInput(user)
 } catch (e: ClientException) {
@@ -137,7 +137,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
+ **user** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 

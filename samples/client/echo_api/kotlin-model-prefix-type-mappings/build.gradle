@@ -2,14 +2,14 @@ group 'org.openapitools'
 version '1.0.0'
 
 wrapper {
-    gradleVersion = '8.7'
+    gradleVersion = '8.14.3'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = '1.9.23'
-    ext.retrofitVersion = '2.10.0'
-    ext.spotless_version = "6.25.0"
+    ext.kotlin_version = '2.2.20'
+    ext.retrofitVersion = '3.0.0'
+    ext.spotless_version = "7.2.1"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -55,9 +55,9 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0"
-    implementation "com.google.code.gson:gson:2.10.1"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.12.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2"
+    implementation "com.google.code.gson:gson:2.13.2"
+    implementation "com.squareup.okhttp3:logging-interceptor:5.1.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"

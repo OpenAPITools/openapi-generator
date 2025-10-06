@@ -120,7 +120,7 @@ const callouts = [
                 </p>
                 <p>Slack is free to <a href="https://slack.com/downloads" className="href">download</a>, and our
                     workspace is free to <a
-                        href="https://join.slack.com/t/openapi-generator/shared_invite/zt-2wmkn4s8g-n19PJ99Y6Vei74WMUIehQA"
+                        href="https://join.slack.com/t/openapi-generator/shared_invite/zt-36ucx4ybl-jYrN6euoYn6zxXNZdldoZA"
                         className="href">sign up</a>.
                 </p>
             </>
@@ -147,7 +147,7 @@ const callouts = [
                    |npm install @openapitools/openapi-generator-cli -g
                    |
                    |# use a specific version of "openapi-generator-cli"
-                   |openapi-generator-cli version-manager set 7.12.0
+                   |openapi-generator-cli version-manager set 7.16.0
                    |
                    |# Or install it as dev-dependency in your node.js projects
                    |npm install @openapitools/openapi-generator-cli -D

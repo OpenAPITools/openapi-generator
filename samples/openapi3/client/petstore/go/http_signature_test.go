@@ -257,8 +257,10 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, ex
 	cfg := sw.NewConfiguration()
 	cfg.AddDefaultHeader("testheader", "testvalue")
 	cfg.AddDefaultHeader("Content-Type", "application/json")
-	cfg.Host = testHost
-	cfg.Scheme = testScheme
+	// cfg.Host = testHost
+	cfg.Host = "petstore.swagger.io"
+	//cfg.Scheme = testScheme
+	cfg.Scheme = "http"
 	apiClient := sw.NewAPIClient(cfg)
 
 	privateKeyPath := filepath.Join(dir, "rsa.pem")
@@ -611,7 +613,8 @@ func TestHttpSignatureAuth(t *testing.T) {
 		},
 	}
 	authorizationHeaderValue := executeHttpSignatureAuth(t, &authConfig, true)
-	expectedSignature := "sXE2MDeW8os6ywv1oUWaFEPFcSPCEb/msQ/NZGKNA9Emm/e42axaAPojzfkZ9Hacyw/iS/5nH4YIkczMgXu3z5fAwFjumxtf3OxbqvUcQ80wvw2/7B5aQmsF6ZwrCFHZ+L/cj9/bg7L1EGUGtdyDzoRKti4zf9QF/03OsP7QljI="
+	//expectedSignature := "sXE2MDeW8os6ywv1oUWaFEPFcSPCEb/msQ/NZGKNA9Emm/e42axaAPojzfkZ9Hacyw/iS/5nH4YIkczMgXu3z5fAwFjumxtf3OxbqvUcQ80wvw2/7B5aQmsF6ZwrCFHZ+L/cj9/bg7L1EGUGtdyDzoRKti4zf9QF/03OsP7QljI="
+	expectedSignature := "OTzXHWXkl+9shhgPQ1Gs5rgw8Y2/2ibenontjWpvtX5vw+2Kj5t1q8B8IFYF/+sIAFIP9/meU8REII5yqtNb/RlG+hNIg10AngRBJr+Xa7GPBmvrTJvha+S8Zr7TlbneWcKSyZn0LkO3ohRPBd/CHKZd0APIlivzy+GU5I2HlWY="
 	expectedAuthorizationHeader := fmt.Sprintf(
 		`Signature keyId="my-key-id",`+
 			`algorithm="hs2019",headers="(request-target) host content-type digest",`+

@@ -513,6 +513,20 @@ paths:
       responses:
         '200':
           description: OK
+  /examples-test:
+    get:
+      operationId : ExamplesTest
+      summary: Test examples
+      description: Test examples in OpenAPI
+      parameters:
+        - $ref: "#/components/parameters/ids"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesReferencedAnyOfObject'
 
 components:
   securitySchemes:
@@ -679,6 +693,9 @@ components:
           type: boolean
         optionalParam:
           type: integer
+          minimum: 1
+          maximum: 10000000000000000000
+          example: 100
     ObjectHeader:
       type: object
       required:
@@ -764,3 +781,20 @@ components:
       type: string
     Result:
       type: string
+  parameters:
+    ids:
+      name: ids
+      in: query
+      description: A list of IDs to get
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
+      examples:
+        oneId:
+          value: ["foo"]
+        multipleIds:
+          value: ["foo", "bar"]

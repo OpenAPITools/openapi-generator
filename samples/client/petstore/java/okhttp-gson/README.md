@@ -2,7 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
-  - Generator version: 7.14.0-SNAPSHOT
+  - Generator version: 7.17.0-SNAPSHOT
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
@@ -233,6 +233,7 @@ Class | Method | HTTP request | Description
  - [ModelReturn](docs/ModelReturn.md)
  - [ModelWithOneOfAnyOfProperties](docs/ModelWithOneOfAnyOfProperties.md)
  - [Name](docs/Name.md)
+ - [NestedArrayWithDefaultValues](docs/NestedArrayWithDefaultValues.md)
  - [NewPet](docs/NewPet.md)
  - [NewPetCategoryInlineAllof](docs/NewPetCategoryInlineAllof.md)
  - [NewPetCategoryInlineAllofAllOfCategoryTag](docs/NewPetCategoryInlineAllofAllOfCategoryTag.md)

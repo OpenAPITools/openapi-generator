@@ -18,6 +18,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,7 +36,7 @@ import org.openapitools.client.JSON;
   ModelReturn.JSON_PROPERTY_RETURN
 })
 @JsonTypeName("Return")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
   @javax.annotation.Nullable
@@ -54,7 +55,7 @@ public class ModelReturn {
    * @return _return
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getReturn() {
@@ -62,7 +63,7 @@ public class ModelReturn {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setReturn(@javax.annotation.Nullable Integer _return) {
     this._return = _return;

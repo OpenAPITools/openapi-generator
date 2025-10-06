@@ -32,7 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class QueryApi extends BaseApi {
 
     public QueryApi() {
@@ -513,6 +513,53 @@ public class QueryApi extends BaseApi {
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
         return apiClient.invokeAPI("/query/style_form/explode_true/object/allOf", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param jsonSerializedObjectRefStringQuery  (optional)
+     * @param jsonSerializedObjectArrayRefStringQuery  (optional)
+     * @return String
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public String testQueryStyleJsonSerializationObject(Pet jsonSerializedObjectRefStringQuery, List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientException {
+        return testQueryStyleJsonSerializationObjectWithHttpInfo(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery).getBody();
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param jsonSerializedObjectRefStringQuery  (optional)
+     * @param jsonSerializedObjectArrayRefStringQuery  (optional)
+     * @return ResponseEntity&lt;String&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<String> testQueryStyleJsonSerializationObjectWithHttpInfo(Pet jsonSerializedObjectRefStringQuery, List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientException {
+        Object localVarPostBody = null;
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
+        
+
+        final String[] localVarAccepts = { 
+            "text/plain"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
+        return apiClient.invokeAPI("/query/style_jsonSerialization/object", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -70,7 +71,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     return new{{classname}};
             {{/mappedModels}}
                 default:
-                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                    log.log(Level.WARNING, String.format(Locale.ROOT, "Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
             }
 
             {{/discriminator}}
@@ -157,7 +158,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+            throw new IOException(String.format(Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
         }
 
         /**
@@ -181,6 +182,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
 {{> libraries/jersey2/additional_properties }}
+
     {{#additionalPropertiesType}}
     /**
      * Return true if this {{name}} object is equal to o.

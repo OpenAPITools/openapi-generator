@@ -5,10 +5,12 @@ on:
     branches:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
+      - samples/client/others/kotlin-integer-enum/**
   pull_request:
     paths:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
+      - samples/client/others/kotlin-integer-enum/**
 
 jobs:
   build:
@@ -31,6 +33,7 @@ jobs:
           - samples/client/petstore/kotlin-moshi-codegen
           - samples/client/petstore/kotlin-multiplatform
           - samples/client/petstore/kotlin-multiplatform-kotlinx-datetime
+          - samples/client/petstore/kotlin-multiplatform-allOf-discriminator
           - samples/client/petstore/kotlin-nonpublic
           - samples/client/petstore/kotlin-nullable
           - samples/client/petstore/kotlin-retrofit2
@@ -66,9 +69,11 @@ jobs:
           - samples/client/petstore/kotlin-name-parameter-mappings
           - samples/client/others/kotlin-jvm-okhttp-parameter-tests
           - samples/client/others/kotlin-jvm-okhttp-path-comments
+          - samples/client/others/kotlin-integer-enum
+          - samples/client/petstore/kotlin-allOf-discriminator-kotlinx-serialization
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: 11

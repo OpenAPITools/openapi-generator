@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -33,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.JSON_PROPERTY_NAME
 })
 @JsonTypeName("test_query_style_deepObject_explode_true_object_allOf_query_object_parameter")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter {
   public static final String JSON_PROPERTY_SIZE = "size";
   @jakarta.annotation.Nullable
@@ -65,7 +66,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return size
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSize() {
@@ -73,7 +74,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSize(@jakarta.annotation.Nullable String size) {
     this.size = size;
@@ -90,7 +91,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return color
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getColor() {
@@ -98,7 +99,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setColor(@jakarta.annotation.Nullable String color) {
     this.color = color;
@@ -115,7 +116,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return id
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -123,7 +124,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@jakarta.annotation.Nullable Long id) {
     this.id = id;
@@ -140,7 +141,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return name
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
@@ -148,7 +149,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@jakarta.annotation.Nullable String name) {
     this.name = name;

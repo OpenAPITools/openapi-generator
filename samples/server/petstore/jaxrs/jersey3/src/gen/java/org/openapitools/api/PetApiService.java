@@ -18,7 +18,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public abstract class PetApiService {
     public abstract Response addPet(Pet pet,SecurityContext securityContext) throws NotFoundException;
     public abstract Response deletePet(Long petId,String apiKey,SecurityContext securityContext) throws NotFoundException;

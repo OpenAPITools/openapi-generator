@@ -22,12 +22,12 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Client")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ClientDto {
 
   private @Nullable String client;
 
-  public ClientDto client(String client) {
+  public ClientDto client(@Nullable String client) {
     this.client = client;
     return this;
   }
@@ -39,11 +39,11 @@ public class ClientDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("client")
-  public String getClient() {
+  public @Nullable String getClient() {
     return client;
   }
 
-  public void setClient(String client) {
+  public void setClient(@Nullable String client) {
     this.client = client;
   }
 

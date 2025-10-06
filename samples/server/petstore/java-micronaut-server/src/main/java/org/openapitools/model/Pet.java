@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +41,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   Pet.JSON_PROPERTY_STATUS
 })
 @JsonTypeName("Pet")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @Introspected
 public class Pet {
     public static final String JSON_PROPERTY_ID = "id";

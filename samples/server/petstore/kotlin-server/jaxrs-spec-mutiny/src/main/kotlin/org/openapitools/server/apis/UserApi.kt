@@ -11,7 +11,7 @@ import java.io.InputStream
 
 
 @Path("/")
-@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.17.0-SNAPSHOT")
 interface UserApi {
 
     @POST

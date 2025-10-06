@@ -21,13 +21,13 @@ import javax.annotation.Generated;
  * NullableMapProperty
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class NullableMapProperty {
 
   @Valid
   private @Nullable Map<String, String> languageValues;
 
-  public NullableMapProperty languageValues(Map<String, String> languageValues) {
+  public NullableMapProperty languageValues(@Nullable Map<String, String> languageValues) {
     this.languageValues = languageValues;
     return this;
   }
@@ -47,11 +47,11 @@ public class NullableMapProperty {
   
   @ApiModelProperty(value = "")
   @JsonProperty("languageValues")
-  public Map<String, String> getLanguageValues() {
+  public @Nullable Map<String, String> getLanguageValues() {
     return languageValues;
   }
 
-  public void setLanguageValues(Map<String, String> languageValues) {
+  public void setLanguageValues(@Nullable Map<String, String> languageValues) {
     this.languageValues = languageValues;
   }
 

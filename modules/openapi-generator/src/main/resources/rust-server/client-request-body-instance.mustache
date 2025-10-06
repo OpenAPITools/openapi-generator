@@ -3,12 +3,14 @@
 
         // Consumes multipart/form body
 {{>client-request-body-multipart-form}}
+
   {{/x-consumes-multipart-form}}
   {{#x-consumes-multipart-related}}
 
         // Consumes multipart/related body
     {{#formParams}}
 {{>generate-multipart-related}}
+
     {{/formParams}}
 
         let header = "multipart/related";
@@ -17,11 +19,11 @@
             &[header.as_bytes(), "; boundary=".as_bytes(), &boundary, "; type=\"application/json\"".as_bytes()].concat()
         ) {
             Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
+            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
         });
 
         // Add the message body to the request object.
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = BoxBody::new(Full::new(Bytes::from(body)));
   {{/x-consumes-multipart-related}}
   {{#x-consumes-form}}
 
@@ -37,6 +39,7 @@
         // style=form,explode=true
         for param_{{{paramName}}} in param_{{{paramName}}} {
       {{/isArray}}
+        #[allow(clippy::uninlined_format_args)]
         params.push(("{{{baseName}}}",
       {{^isString}}
             format!("{{{vendorExtensions.x-format-string}}}", param_{{{paramName}}})
@@ -60,13 +63,10 @@
 
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        *request.body_mut() = Body::from(body.into_bytes());
+        *request.body_mut() = body_from_string(body);
 
         let header = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
-        });
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
       {{/-last}}
     {{/formParams}}
   {{/x-consumes-form}}
@@ -81,7 +81,7 @@
       {{#vendorExtensions}}
         {{#x-consumes-plain-text}}
           {{#isByteArray}}
-        let body = param_{{{paramName}}}.0;
+        let body = String::from_utf8(param_body.0).expect("Body was not valid UTF8");
           {{/isByteArray}}
           {{^isByteArray}}
         let body = param_{{{paramName}}};
@@ -94,16 +94,13 @@
         let body = serde_json::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");
         {{/x-consumes-json}}
       {{/vendorExtensions}}
-        *request.body_mut() = Body::from(body);
+        *request.body_mut() = body_from_string(body);
       {{^required}}
         }
       {{/required}}
 
         let header = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
-        });
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
     {{/bodyParam}}
   {{/x-consumes-basic}}
 {{/vendorExtensions}}

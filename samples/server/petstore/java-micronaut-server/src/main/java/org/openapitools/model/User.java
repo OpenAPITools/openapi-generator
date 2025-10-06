@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -37,7 +38,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   User.JSON_PROPERTY_USER_STATUS
 })
 @JsonTypeName("User")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @Introspected
 public class User {
     public static final String JSON_PROPERTY_ID = "id";

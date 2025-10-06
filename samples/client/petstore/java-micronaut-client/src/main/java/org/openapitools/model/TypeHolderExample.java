@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +38,7 @@ import javax.annotation.Generated;
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
 @JsonTypeName("TypeHolderExample")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @Introspected
 public class TypeHolderExample {
     public static final String JSON_PROPERTY_STRING_ITEM = "string_item";

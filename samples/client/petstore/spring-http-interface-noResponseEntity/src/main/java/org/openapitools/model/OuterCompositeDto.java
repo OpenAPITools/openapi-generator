@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("OuterComposite")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class OuterCompositeDto {
 
   private @Nullable BigDecimal myNumber;
@@ -29,7 +29,7 @@ public class OuterCompositeDto {
 
   private @Nullable Boolean myBoolean;
 
-  public OuterCompositeDto myNumber(BigDecimal myNumber) {
+  public OuterCompositeDto myNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
     return this;
   }
@@ -40,15 +40,15 @@ public class OuterCompositeDto {
    */
   
   @JsonProperty("my_number")
-  public BigDecimal getMyNumber() {
+  public @Nullable BigDecimal getMyNumber() {
     return myNumber;
   }
 
-  public void setMyNumber(BigDecimal myNumber) {
+  public void setMyNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
-  public OuterCompositeDto myString(String myString) {
+  public OuterCompositeDto myString(@Nullable String myString) {
     this.myString = myString;
     return this;
   }
@@ -59,15 +59,15 @@ public class OuterCompositeDto {
    */
   
   @JsonProperty("my_string")
-  public String getMyString() {
+  public @Nullable String getMyString() {
     return myString;
   }
 
-  public void setMyString(String myString) {
+  public void setMyString(@Nullable String myString) {
     this.myString = myString;
   }
 
-  public OuterCompositeDto myBoolean(Boolean myBoolean) {
+  public OuterCompositeDto myBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
     return this;
   }
@@ -78,11 +78,11 @@ public class OuterCompositeDto {
    */
   
   @JsonProperty("my_boolean")
-  public Boolean getMyBoolean() {
+  public @Nullable Boolean getMyBoolean() {
     return myBoolean;
   }
 
-  public void setMyBoolean(Boolean myBoolean) {
+  public void setMyBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 

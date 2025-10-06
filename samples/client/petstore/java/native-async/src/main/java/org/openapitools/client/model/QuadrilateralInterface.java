@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,7 +36,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   QuadrilateralInterface.JSON_PROPERTY_QUADRILATERAL_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class QuadrilateralInterface {
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
   @javax.annotation.Nonnull
@@ -54,14 +55,14 @@ public class QuadrilateralInterface {
    * @return quadrilateralType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_QUADRILATERAL_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getQuadrilateralType() {
     return quadrilateralType;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_QUADRILATERAL_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setQuadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
@@ -142,7 +143,7 @@ public class QuadrilateralInterface {
 
     // add `quadrilateralType` to the URL query string
     if (getQuadrilateralType() != null) {
-      joiner.add(String.format("%squadrilateralType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getQuadrilateralType()))));
+      joiner.add(String.format(Locale.ROOT, "%squadrilateralType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getQuadrilateralType()))));
     }
 
     return joiner.toString();

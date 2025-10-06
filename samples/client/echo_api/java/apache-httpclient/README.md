@@ -4,7 +4,7 @@ Echo Server API
 
 - API version: 0.1.0
 
-- Generator version: 7.14.0-SNAPSHOT
+- Generator version: 7.17.0-SNAPSHOT
 
 Echo Server API
 
@@ -139,6 +139,7 @@ Class | Method | HTTP request | Description
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObjectAllOf**](docs/QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
+*QueryApi* | [**testQueryStyleJsonSerializationObject**](docs/QueryApi.md#testQueryStyleJsonSerializationObject) | **GET** /query/style_jsonSerialization/object | Test query parameter(s)
 
 
 ## Documentation for Models

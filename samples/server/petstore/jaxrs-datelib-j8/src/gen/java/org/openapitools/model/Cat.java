@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Cat extends Animal implements Serializable {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   @JsonProperty(JSON_PROPERTY_DECLAWED)

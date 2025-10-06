@@ -84,7 +84,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String NGPACKAGR_VERSION = "ngPackagrVersion";
     public static final String ZONEJS_VERSION = "zonejsVersion";
 
-    protected String ngVersion = "19.0.0";
+    protected String ngVersion = "20.0.0";
     @Getter @Setter
     protected String npmRepository = null;
     @Setter(AccessLevel.PRIVATE) private boolean useSingleRequestParameter = false;
@@ -170,26 +170,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (9.x - 19.x) client library.";
+        return "Generates a TypeScript Angular (9.x - 20.x) client library.";
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
-        supportingFiles.add(
-                new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
-        supportingFiles
-                .add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
-        supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
-        supportingFiles.add(new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
-        supportingFiles.add(new SupportingFile("api.base.service.mustache", getIndexDirectory(), "api.base.service.ts"));
-        supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
-        supportingFiles.add(new SupportingFile("encoder.mustache", getIndexDirectory(), "encoder.ts"));
-        supportingFiles.add(new SupportingFile("param.mustache", getIndexDirectory(), "param.ts"));
-        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
 
         // determine NG version
         SemVer ngVersion;
@@ -200,6 +186,32 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             LOGGER.info("generating code for Angular {} ...", ngVersion);
             LOGGER.info("  (you can select the angular version by setting the additionalProperties (--additional-properties in CLI) ngVersion)");
         }
+        boolean ngVersionAtLeast_17 = ngVersion.atLeast("17.0.0");
+
+        supportingFiles.add(
+                new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
+        supportingFiles
+                .add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
+        supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
+        supportingFiles.add(new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
+        if (ngVersionAtLeast_17) {
+            supportingFiles.add(new SupportingFile("provide-api.mustache", getIndexDirectory(), "provide-api.ts"));
+        }
+        supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
+        supportingFiles.add(new SupportingFile("api.base.service.mustache", getIndexDirectory(), "api.base.service.ts"));
+        supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
+        supportingFiles.add(new SupportingFile("encoder.mustache", getIndexDirectory(), "encoder.ts"));
+        supportingFiles.add(new SupportingFile("param.mustache", getIndexDirectory(), "param.ts"));
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+
+        if(ngVersionAtLeast_17) {
+            supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
+        }
+        else {
+            supportingFiles.add(new SupportingFile("README_beforeV17.mustache", getIndexDirectory(), "README.md"));
+        }
+
 
         if (!ngVersion.atLeast("9.0.0")) {
             throw new IllegalArgumentException("Invalid ngVersion: " + ngVersion + ". Only Angular v9+ is supported.");
@@ -250,6 +262,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         additionalProperties.put(NG_VERSION, ngVersion);
+        additionalProperties.put("ngVersionAtLeast_17", ngVersionAtLeast_17);
 
         if (additionalProperties.containsKey(API_MODULE_PREFIX)) {
             String apiModulePrefix = additionalProperties.get(API_MODULE_PREFIX).toString();

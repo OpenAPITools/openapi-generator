@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -31,7 +32,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   Tag.JSON_PROPERTY_NAME
 })
 @JsonTypeName("Tag")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @Introspected
 public class Tag {
     public static final String JSON_PROPERTY_ID = "id";

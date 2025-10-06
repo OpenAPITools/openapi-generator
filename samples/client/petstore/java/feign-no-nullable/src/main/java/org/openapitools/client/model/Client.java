@@ -17,6 +17,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -34,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Client.JSON_PROPERTY_CLIENT
 })
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   @javax.annotation.Nullable
@@ -55,7 +56,7 @@ public class Client {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonProperty(value = JSON_PROPERTY_CLIENT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getClient() {
@@ -63,7 +64,7 @@ public class Client {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonProperty(value = JSON_PROPERTY_CLIENT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setClient(@javax.annotation.Nullable String client) {
     this.client = client;

@@ -19,7 +19,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class DefaultApiImpl implements DefaultApi {
 
     private ApiClient apiClient;
@@ -83,7 +83,7 @@ public class DefaultApiImpl implements DefaultApi {
 
     private String encodeParameter(String parameter) {
         try {
-            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name());
+            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name()).replaceAll("\\+", "%20");
         } catch (UnsupportedEncodingException e) {
             return parameter;
         }

@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 
 
 
+
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
@@ -60,7 +61,7 @@ import javax.validation.Valid;
     ), 
 })
 @Path("/foo")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FooApi {
 
     @GET

@@ -17,6 +17,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -53,7 +54,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("format_test")
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   @javax.annotation.Nullable
@@ -128,7 +129,7 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getInteger() {
@@ -136,7 +137,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInteger(@javax.annotation.Nullable Integer integer) {
     this.integer = integer;
@@ -157,7 +158,7 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_INT32)
+  @JsonProperty(value = JSON_PROPERTY_INT32, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getInt32() {
@@ -165,7 +166,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INT32)
+  @JsonProperty(value = JSON_PROPERTY_INT32, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInt32(@javax.annotation.Nullable Integer int32) {
     this.int32 = int32;
@@ -184,7 +185,7 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_INT64)
+  @JsonProperty(value = JSON_PROPERTY_INT64, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getInt64() {
@@ -192,7 +193,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INT64)
+  @JsonProperty(value = JSON_PROPERTY_INT64, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInt64(@javax.annotation.Nullable Long int64) {
     this.int64 = int64;
@@ -213,7 +214,7 @@ public class FormatTest {
    */
   @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getNumber() {
@@ -221,7 +222,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setNumber(@javax.annotation.Nonnull BigDecimal number) {
     this.number = number;
@@ -242,7 +243,7 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Float getFloat() {
@@ -250,7 +251,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFloat(@javax.annotation.Nullable Float _float) {
     this._float = _float;
@@ -271,7 +272,7 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Double getDouble() {
@@ -279,7 +280,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDouble(@javax.annotation.Nullable Double _double) {
     this._double = _double;
@@ -298,7 +299,7 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getString() {
@@ -306,7 +307,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setString(@javax.annotation.Nullable String string) {
     this.string = string;
@@ -325,7 +326,7 @@ public class FormatTest {
    */
   @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_BYTE)
+  @JsonProperty(value = JSON_PROPERTY_BYTE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public byte[] getByte() {
@@ -333,7 +334,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BYTE)
+  @JsonProperty(value = JSON_PROPERTY_BYTE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setByte(@javax.annotation.Nonnull byte[] _byte) {
     this._byte = _byte;
@@ -352,7 +353,7 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_BINARY)
+  @JsonProperty(value = JSON_PROPERTY_BINARY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public File getBinary() {
@@ -360,7 +361,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BINARY)
+  @JsonProperty(value = JSON_PROPERTY_BINARY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBinary(@javax.annotation.Nullable File binary) {
     this.binary = binary;
@@ -379,7 +380,7 @@ public class FormatTest {
    */
   @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public LocalDate getDate() {
@@ -387,7 +388,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setDate(@javax.annotation.Nonnull LocalDate date) {
     this.date = date;
@@ -406,7 +407,7 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getDateTime() {
@@ -414,7 +415,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
@@ -433,7 +434,7 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public UUID getUuid() {
@@ -441,7 +442,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
@@ -460,7 +461,7 @@ public class FormatTest {
    */
   @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getPassword() {
@@ -468,7 +469,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPassword(@javax.annotation.Nonnull String password) {
     this.password = password;
@@ -487,7 +488,7 @@ public class FormatTest {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  @JsonProperty(value = JSON_PROPERTY_BIG_DECIMAL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getBigDecimal() {
@@ -495,7 +496,7 @@ public class FormatTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  @JsonProperty(value = JSON_PROPERTY_BIG_DECIMAL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBigDecimal(@javax.annotation.Nullable BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -63,7 +64,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @JsonDeserialize(using=MammalAnyof.MammalAnyofDeserializer.class)
 @JsonSerialize(using = MammalAnyof.MammalAnyofSerializer.class)
 public class MammalAnyof extends AbstractOpenApiSchema {
@@ -141,7 +142,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match 'MammalAnyof'", e);
             }
 
-            throw new IOException(String.format("Failed deserialization for MammalAnyof: no match found"));
+            throw new IOException("Failed deserialization for MammalAnyof: no match found");
         }
 
         /**

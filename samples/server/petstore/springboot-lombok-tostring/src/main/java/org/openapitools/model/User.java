@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
 @lombok.EqualsAndHashCode
 
 @Schema(name = "User", description = "A User who is purchasing from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class User {
 
   private @Nullable Long id;
@@ -44,49 +44,49 @@ public class User {
 
   private @Nullable Integer userStatus;
 
-  public User id(Long id) {
+  public User id(@Nullable Long id) {
     this.id = id;
     return this;
   }
 
 
-  public User username(String username) {
+  public User username(@Nullable String username) {
     this.username = username;
     return this;
   }
 
 
-  public User firstName(String firstName) {
+  public User firstName(@Nullable String firstName) {
     this.firstName = firstName;
     return this;
   }
 
 
-  public User lastName(String lastName) {
+  public User lastName(@Nullable String lastName) {
     this.lastName = lastName;
     return this;
   }
 
 
-  public User email(String email) {
+  public User email(@Nullable String email) {
     this.email = email;
     return this;
   }
 
 
-  public User password(String password) {
+  public User password(@Nullable String password) {
     this.password = password;
     return this;
   }
 
 
-  public User phone(String phone) {
+  public User phone(@Nullable String phone) {
     this.phone = phone;
     return this;
   }
 
 
-  public User userStatus(Integer userStatus) {
+  public User userStatus(@Nullable Integer userStatus) {
     this.userStatus = userStatus;
     return this;
   }

@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +39,7 @@ import org.openapitools.client.ApiClient;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nonnull
@@ -79,14 +80,14 @@ public class Name {
    * @return name
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public Integer getName() {
     return name;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(@javax.annotation.Nonnull Integer name) {
     this.name = name;
@@ -98,7 +99,7 @@ public class Name {
    * @return snakeCase
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
+  @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getSnakeCase() {
     return snakeCase;
@@ -117,14 +118,14 @@ public class Name {
    * @return property
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getProperty() {
     return property;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProperty(@javax.annotation.Nullable String property) {
     this.property = property;
@@ -136,7 +137,7 @@ public class Name {
    * @return _123number
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_123NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_123NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer get123number() {
     return _123number;
@@ -225,22 +226,22 @@ public class Name {
 
     // add `name` to the URL query string
     if (getName() != null) {
-      joiner.add(String.format("%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
+      joiner.add(String.format(Locale.ROOT, "%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
     }
 
     // add `snake_case` to the URL query string
     if (getSnakeCase() != null) {
-      joiner.add(String.format("%ssnake_case%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSnakeCase()))));
+      joiner.add(String.format(Locale.ROOT, "%ssnake_case%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSnakeCase()))));
     }
 
     // add `property` to the URL query string
     if (getProperty() != null) {
-      joiner.add(String.format("%sproperty%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getProperty()))));
+      joiner.add(String.format(Locale.ROOT, "%sproperty%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getProperty()))));
     }
 
     // add `123Number` to the URL query string
     if (get123number() != null) {
-      joiner.add(String.format("%s123Number%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get123number()))));
+      joiner.add(String.format(Locale.ROOT, "%s123Number%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get123number()))));
     }
 
     return joiner.toString();

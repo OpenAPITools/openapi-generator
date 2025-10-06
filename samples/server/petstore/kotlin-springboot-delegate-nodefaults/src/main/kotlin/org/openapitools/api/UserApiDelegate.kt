@@ -12,7 +12,7 @@ import java.util.Optional
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.17.0-SNAPSHOT")
 interface UserApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()

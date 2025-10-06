@@ -21,6 +21,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,7 +38,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   @javax.annotation.Nullable
@@ -56,14 +57,14 @@ public class ModelFile {
    * @return sourceURI
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+  @JsonProperty(value = JSON_PROPERTY_SOURCE_U_R_I, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSourceURI() {
     return sourceURI;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+  @JsonProperty(value = JSON_PROPERTY_SOURCE_U_R_I, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSourceURI(@javax.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
@@ -137,7 +138,7 @@ public class ModelFile {
 
     // add `sourceURI` to the URL query string
     if (getSourceURI() != null) {
-      joiner.add(String.format("%ssourceURI%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSourceURI()))));
+      joiner.add(String.format(Locale.ROOT, "%ssourceURI%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSourceURI()))));
     }
 
     return joiner.toString();

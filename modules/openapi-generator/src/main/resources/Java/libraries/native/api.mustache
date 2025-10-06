@@ -47,6 +47,7 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Locale;
 import java.util.function.Consumer;
 {{#asyncNative}}
 
@@ -54,8 +55,29 @@ import java.util.concurrent.CompletableFuture;
 {{/asyncNative}}
 
 {{>generatedAnnotation}}
+
 {{#operations}}
 public class {{classname}} {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
+  private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
@@ -77,6 +99,7 @@ public class {{classname}} {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
   {{#asyncNative}}
 
   private ApiException getApiException(String operationId, HttpResponse<String> response) {
@@ -100,13 +123,61 @@ public class {{classname}} {
     return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
+  /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
+  }
+
   {{#operation}}
   {{#vendorExtensions.x-group-parameters}}
   {{#hasParams}}
   /**
    * {{summary}}
    * {{notes}}
-   * @param apiRequest {@link API{{operationId}}Request}
+   * @param apiRequest {@link API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request}
    {{#returnType}}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
    {{/returnType}}
@@ -127,18 +198,47 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}(API{{operationId}}Request apiRequest) throws ApiException {
-    {{#allParams}}
-    {{>nullable_var_annotations}}
-    {{{dataType}}} {{paramName}} = apiRequest.{{paramName}}();
-    {{/allParams}}
-    {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest) throws ApiException {
+    {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}(apiRequest, null);
   }
 
   /**
    * {{summary}}
    * {{notes}}
-   * @param apiRequest {@link API{{operationId}}Request}
+   * @param apiRequest {@link API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request}
+   * @param headers Optional headers to include in the request
+   {{#returnType}}
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
+   {{/returnType}}
+   {{^returnType}}
+   {{#asyncNative}}
+   * @return CompletableFuture&lt;Void&gt;
+   {{/asyncNative}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest, Map<String, String> headers) throws ApiException {
+    {{#allParams}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
+    {{{dataType}}} {{paramName}} = apiRequest.{{paramName}}();
+    {{/allParams}}
+    {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
+  }
+
+  /**
+   * {{summary}}
+   * {{notes}}
+   * @param apiRequest {@link API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;{{#asyncNative}}&gt;{{/asyncNative}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
@@ -152,11 +252,33 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo(API{{operationId}}Request apiRequest) throws ApiException {
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest) throws ApiException {
+    return {{operationId}}WithHttpInfo(apiRequest, null);
+  }
+
+  /**
+   * {{summary}}
+   * {{notes}}
+   * @param apiRequest {@link API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request}
+   * @param headers Optional headers to include in the request
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;{{#asyncNative}}&gt;{{/asyncNative}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest, Map<String, String> headers) throws ApiException {
     {{#allParams}}
     {{{dataType}}} {{paramName}} = apiRequest.{{paramName}}();
     {{/allParams}}
-    return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
   }
 
   {{/hasParams}}
@@ -188,15 +310,46 @@ public class {{classname}} {
   @Deprecated
   {{/isDeprecated}}
   public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+    {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}null);
+  }
+
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
+   {{/allParams}}
+   * @param headers Optional headers to include in the request
+   {{#returnType}}
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
+   {{/returnType}}
+   {{^returnType}}
+   {{#asyncNative}}
+   * @return CompletableFuture&lt;Void&gt;
+   {{/asyncNative}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
     {{^asyncNative}}
-    {{#returnType}}ApiResponse<{{{.}}}> localVarResponse = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{#returnType}}ApiResponse<{{{.}}}> localVarResponse = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
     {{#returnType}}
     return localVarResponse.getData();
     {{/returnType}}
     {{/asyncNative}}
     {{#asyncNative}}
     try {
-      HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+      HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -244,8 +397,32 @@ public class {{classname}} {
   @Deprecated
   {{/isDeprecated}}
   public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+    return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}null);
+  }
+
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
+   {{/allParams}}
+   * @param headers Optional headers to include in the request
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;{{#asyncNative}}&gt;{{/asyncNative}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
     {{^asyncNative}}
-    HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -291,13 +468,23 @@ public class {{classname}} {
           );
         }
 
+        {{^isResponseFile}}{{#isResponseBinary}}
+        Byte[] responseValue = localVarResponse.body().readAllBytes();
+        {{/isResponseBinary}}{{/isResponseFile}}
+        {{#isResponseFile}}
+        // Handle file downloading.
+        File responseValue = downloadFileFromResponse(localVarResponse);
+        {{/isResponseFile}}
+        {{^isResponseBinary}}{{^isResponseFile}}
         String responseBody = new String(localVarResponse.body().readAllBytes());
+        {{{returnType}}} responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {});
+        {{/isResponseFile}}{{/isResponseBinary}}
         localVarResponse.body().close();
 
         return new ApiResponse<{{{returnType}}}>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
+            responseValue
         );
         {{/returnType}}
         {{^returnType}}
@@ -327,7 +514,7 @@ public class {{classname}} {
     {{/asyncNative}}
     {{#asyncNative}}
     try {
-      HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+      HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -364,7 +551,7 @@ public class {{classname}} {
     {{/asyncNative}}
   }
 
-  private HttpRequest.Builder {{operationId}}RequestBuilder({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  private HttpRequest.Builder {{operationId}}RequestBuilder({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
     {{#allParams}}
     {{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -394,7 +581,7 @@ public class {{classname}} {
     if ({{paramName}} != null) {
             {{#isArray}}
       for (int i=0; i < {{paramName}}.size(); i++) {
-        localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
+        localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format(Locale.ROOT, "{{baseName}}[%d]", i)));
       }
             {{/isArray}}
             {{^isArray}}
@@ -484,7 +671,9 @@ public class {{classname}} {
         hasFiles = true;
         {{/isFile}}
         {{^isFile}}
-        multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.get(i).toString());
+        if ({{paramName}}.get(i) != null) {
+            multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.get(i).toString());
+        }
         {{/isFile}}
     }
     {{/isArray}}
@@ -494,7 +683,9 @@ public class {{classname}} {
     hasFiles = true;
     {{/isFile}}
     {{^isFile}}
-    multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.toString());
+    if ({{paramName}} != null) {
+        multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.toString());
+    }
     {{/isFile}}
     {{/isArray}}
     {{/formParams}}
@@ -565,6 +756,8 @@ public class {{classname}} {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -574,17 +767,17 @@ public class {{classname}} {
   {{#vendorExtensions.x-group-parameters}}
   {{#hasParams}}
 
-  public static final class API{{operationId}}Request {
+  public static final class API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
     {{#requiredParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     private {{{dataType}}} {{paramName}}; // {{description}} (required)
     {{/requiredParams}}
     {{#optionalParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}})
     {{/optionalParams}}
 
-    private API{{operationId}}Request(Builder builder) {
+    private API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request(Builder builder) {
       {{#requiredParams}}
       this.{{paramName}} = builder.{{paramName}};
       {{/requiredParams}}
@@ -593,7 +786,7 @@ public class {{classname}} {
       {{/optionalParams}}
     }
     {{#allParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     public {{{dataType}}} {{paramName}}() {
       return {{paramName}};
     }
@@ -616,8 +809,8 @@ public class {{classname}} {
         return this;
       }
       {{/allParams}}
-      public API{{operationId}}Request build() {
-        return new API{{operationId}}Request(this);
+      public API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request build() {
+        return new API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request(this);
       }
     }
   }

@@ -22,14 +22,14 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class HasOnlyReadOnlyDto {
 
   private @Nullable String bar;
 
   private @Nullable String foo;
 
-  public HasOnlyReadOnlyDto bar(String bar) {
+  public HasOnlyReadOnlyDto bar(@Nullable String bar) {
     this.bar = bar;
     return this;
   }
@@ -41,15 +41,15 @@ public class HasOnlyReadOnlyDto {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
-  public String getBar() {
+  public @Nullable String getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
 
-  public HasOnlyReadOnlyDto foo(String foo) {
+  public HasOnlyReadOnlyDto foo(@Nullable String foo) {
     this.foo = foo;
     return this;
   }
@@ -61,11 +61,11 @@ public class HasOnlyReadOnlyDto {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("foo")
-  public String getFoo() {
+  public @Nullable String getFoo() {
     return foo;
   }
 
-  public void setFoo(String foo) {
+  public void setFoo(@Nullable String foo) {
     this.foo = foo;
   }
 

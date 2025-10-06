@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>5</version>
-        <relativePath />
+        <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>7.14.0-SNAPSHOT</version>
+    <version>7.17.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -60,16 +60,6 @@
         <system>github</system>
         <url>https://github.com/openapitools/openapi-generator/issues</url>
     </issueManagement>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
     <licenses>
         <license>
             <name>Apache License 2.0</name>
@@ -180,8 +170,10 @@
                     <argLine>@{argLine} -XX:+StartAttachListener</argLine>
                     <rerunFailingTestsCount>2</rerunFailingTestsCount>
                     <systemPropertyVariables>
-                        <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
-                        <org.openapitools.codegen.utils.oncelogger.cachesize>5000</org.openapitools.codegen.utils.oncelogger.cachesize>
+                        <org.openapitools.codegen.utils.oncelogger.expiry>1000
+                        </org.openapitools.codegen.utils.oncelogger.expiry>
+                        <org.openapitools.codegen.utils.oncelogger.cachesize>5000
+                        </org.openapitools.codegen.utils.oncelogger.cachesize>
                     </systemPropertyVariables>
                 </configuration>
                 <dependencies>
@@ -434,12 +426,33 @@
     <profiles>
         <profile>
             <id>release</id>
+            <distributionManagement>
+                <repository>
+                    <id>central</id>
+                    <name>Central Repository OSSRH</name>
+                    <url>https://central.sonatype.com/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>central</id>
+                    <name>Central Repository OSSRG Snapshots</name>
+                    <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </snapshotRepository>
+            </distributionManagement>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
                         <version>1.6</version>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -451,14 +464,14 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.8.0</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                            <checksums>required</checksums>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -509,7 +522,8 @@
                             <!-- https://spotbugs.readthedocs.io/en/stable/effort.html -->
                             <effort>min</effort>
                             <excludeFilterFile>
-                                ${project.basedir}${file.separator}spotbugs-exclude.xml</excludeFilterFile>
+                                ${project.basedir}${file.separator}spotbugs-exclude.xml
+                            </excludeFilterFile>
                         </configuration>
                         <executions>
                             <execution>
@@ -1215,9 +1229,9 @@
         <maven.compiler.target>11</maven.compiler.target>
         <archunit.version>1.3.0</archunit.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
-        <commons-cli.version>1.5.0</commons-cli.version>
-        <commons-io.version>2.16.1</commons-io.version>
-        <commons-lang.version>3.12.0</commons-lang.version>
+        <commons-cli.version>1.10.0</commons-cli.version>
+        <commons-io.version>2.20.0</commons-io.version>
+        <commons-lang.version>3.18.0</commons-lang.version>
         <commons-text.version>1.10.0</commons-text.version>
         <diffutils.version>1.3.0</diffutils.version>
         <generex.version>1.0.2</generex.version>
@@ -1228,11 +1242,11 @@
         <jackson-threetenbp.version>2.18.2</jackson-threetenbp.version>
         <jackson.version>2.18.2</jackson.version>
         <jacoco.version>0.8.12</jacoco.version>
-        <jmustache.version>1.15</jmustache.version>
+        <jmustache.version>1.16</jmustache.version>
         <junit.version>5.10.2</junit.version>
         <kotlin.version>1.6.21</kotlin.version>
         <kotlin-compiler-embeddable.version>1.6.21</kotlin-compiler-embeddable.version>
-        <lombok.version>1.18.30</lombok.version>
+        <lombok.version>1.18.38</lombok.version>
         <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
@@ -1247,10 +1261,10 @@
         <rxgen.version>1.4</rxgen.version>
         <scala-maven-plugin.version>4.6.1</scala-maven-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <snakeyaml.version>2.3</snakeyaml.version>
+        <snakeyaml.version>2.4</snakeyaml.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
-        <swagger-parser.version>2.1.22</swagger-parser.version>
+        <swagger-parser.version>2.1.33</swagger-parser.version>
         <testng.version>7.10.2</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>

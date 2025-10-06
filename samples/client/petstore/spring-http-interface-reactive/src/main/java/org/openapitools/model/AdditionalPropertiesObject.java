@@ -22,12 +22,12 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesObject
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AdditionalPropertiesObject {
 
   private @Nullable String name;
 
-  public AdditionalPropertiesObject name(String name) {
+  public AdditionalPropertiesObject name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -38,11 +38,11 @@ public class AdditionalPropertiesObject {
    */
   
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
     /**

@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public interface StoreApiService {
       public Response deleteOrder(String orderId, SecurityContext securityContext);
       public Response getInventory(SecurityContext securityContext);

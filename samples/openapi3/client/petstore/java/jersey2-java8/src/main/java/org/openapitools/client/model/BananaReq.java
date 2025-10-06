@@ -18,6 +18,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,7 +38,7 @@ import org.openapitools.client.JSON;
   BananaReq.JSON_PROPERTY_SWEET
 })
 @JsonTypeName("bananaReq")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   @javax.annotation.Nonnull
@@ -60,7 +61,7 @@ public class BananaReq {
    * @return lengthCm
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getLengthCm() {
@@ -68,7 +69,7 @@ public class BananaReq {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setLengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
@@ -85,7 +86,7 @@ public class BananaReq {
    * @return sweet
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SWEET)
+  @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getSweet() {
@@ -93,7 +94,7 @@ public class BananaReq {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SWEET)
+  @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;

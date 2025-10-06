@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import org.openapitools.model.Animal;
 import com.fasterxml.jackson.annotation.*;
 
@@ -29,7 +30,7 @@ import javax.annotation.Generated;
   Cat.JSON_PROPERTY_DECLAWED
 })
 @JsonTypeName("Cat")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @Introspected
 public class Cat extends Animal {
     public static final String JSON_PROPERTY_DECLAWED = "declawed";

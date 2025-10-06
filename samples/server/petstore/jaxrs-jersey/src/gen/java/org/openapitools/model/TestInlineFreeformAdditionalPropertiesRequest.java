@@ -31,7 +31,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object>  {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)

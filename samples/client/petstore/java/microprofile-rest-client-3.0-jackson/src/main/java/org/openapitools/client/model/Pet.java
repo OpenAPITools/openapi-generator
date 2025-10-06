@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -102,11 +105,12 @@ public class Pet  {
   
   private StatusEnum status;
 
+
   /**
    * Get id
    * @return id
    **/
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
     return id;
@@ -115,7 +119,7 @@ public class Pet  {
   /**
    * Set id
    */
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
     this.id = id;
@@ -130,7 +134,7 @@ public class Pet  {
    * Get category
    * @return category
    **/
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Category getCategory() {
     return category;
@@ -139,7 +143,7 @@ public class Pet  {
   /**
    * Set category
    */
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCategory(Category category) {
     this.category = category;
@@ -154,7 +158,7 @@ public class Pet  {
    * Get name
    * @return name
    **/
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getName() {
     return name;
@@ -163,7 +167,7 @@ public class Pet  {
   /**
    * Set name
    */
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(String name) {
     this.name = name;
@@ -178,7 +182,7 @@ public class Pet  {
    * Get photoUrls
    * @return photoUrls
    **/
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public Set<String> getPhotoUrls() {
     return photoUrls;
@@ -188,7 +192,7 @@ public class Pet  {
    * Set photoUrls
    */
   @JsonDeserialize(as = LinkedHashSet.class)
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -211,7 +215,7 @@ public class Pet  {
    * Get tags
    * @return tags
    **/
-  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonProperty(value = JSON_PROPERTY_TAGS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<Tag> getTags() {
     return tags;
@@ -220,7 +224,7 @@ public class Pet  {
   /**
    * Set tags
    */
-  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonProperty(value = JSON_PROPERTY_TAGS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setTags(List<Tag> tags) {
     this.tags = tags;
@@ -243,7 +247,7 @@ public class Pet  {
    * pet status in the store
    * @return status
    **/
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public StatusEnum getStatus() {
     return status;
@@ -252,7 +256,7 @@ public class Pet  {
   /**
    * Set status
    */
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(StatusEnum status) {
     this.status = status;

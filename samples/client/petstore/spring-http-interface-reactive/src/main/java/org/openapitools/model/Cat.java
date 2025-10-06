@@ -30,7 +30,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Cat extends Animal {
 
   private @Nullable Boolean declawed;
@@ -46,7 +46,7 @@ public class Cat extends Animal {
     super(className);
   }
 
-  public Cat declawed(Boolean declawed) {
+  public Cat declawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
     return this;
   }
@@ -57,11 +57,11 @@ public class Cat extends Animal {
    */
   
   @JsonProperty("declawed")
-  public Boolean getDeclawed() {
+  public @Nullable Boolean getDeclawed() {
     return declawed;
   }
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
   }
 

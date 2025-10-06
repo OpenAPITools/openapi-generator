@@ -19,14 +19,14 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class HasOnlyReadOnly {
 
   private @Nullable String bar;
 
   private @Nullable String foo;
 
-  public HasOnlyReadOnly bar(String bar) {
+  public HasOnlyReadOnly bar(@Nullable String bar) {
     this.bar = bar;
     return this;
   }
@@ -37,15 +37,15 @@ public class HasOnlyReadOnly {
    */
   
   @JsonProperty("bar")
-  public String getBar() {
+  public @Nullable String getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
 
-  public HasOnlyReadOnly foo(String foo) {
+  public HasOnlyReadOnly foo(@Nullable String foo) {
     this.foo = foo;
     return this;
   }
@@ -56,11 +56,11 @@ public class HasOnlyReadOnly {
    */
   
   @JsonProperty("foo")
-  public String getFoo() {
+  public @Nullable String getFoo() {
     return foo;
   }
 
-  public void setFoo(String foo) {
+  public void setFoo(@Nullable String foo) {
     this.foo = foo;
   }
 

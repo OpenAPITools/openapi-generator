@@ -22,7 +22,7 @@ import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureURIQuery
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class DefaultApi20Impl extends DefaultApi20 {
 
     private final String accessTokenEndpoint;

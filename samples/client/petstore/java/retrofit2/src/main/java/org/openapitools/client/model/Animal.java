@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -25,11 +26,11 @@ import java.io.IOException;
 /**
  * Animal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Animal {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  @javax.annotation.Nonnull
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
   protected String className;
 
   public static final String SERIALIZED_NAME_COLOR = "color";

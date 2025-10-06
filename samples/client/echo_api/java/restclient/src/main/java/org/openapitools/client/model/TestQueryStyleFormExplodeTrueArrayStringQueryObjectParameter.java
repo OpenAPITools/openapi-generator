@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -33,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.JSON_PROPERTY_VALUES
 })
 @JsonTypeName("test_query_style_form_explode_true_array_string_query_object_parameter")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String JSON_PROPERTY_VALUES = "values";
   @jakarta.annotation.Nullable
@@ -61,7 +62,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
    * @return values
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_VALUES)
+  @JsonProperty(value = JSON_PROPERTY_VALUES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getValues() {
@@ -69,7 +70,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_VALUES)
+  @JsonProperty(value = JSON_PROPERTY_VALUES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setValues(@jakarta.annotation.Nullable List<String> values) {
     this.values = values;

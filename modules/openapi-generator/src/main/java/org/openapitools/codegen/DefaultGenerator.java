@@ -61,6 +61,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.removeStart;
+import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 @SuppressWarnings("rawtypes")
@@ -486,7 +487,7 @@ public class DefaultGenerator implements Generator {
 
                 Schema schema = ModelUtils.getSchemas(this.openAPI).get(name);
 
-                if (schema.getExtensions() != null && Boolean.TRUE.equals(schema.getExtensions().get("x-internal"))) {
+                if (schema.getExtensions() != null && Boolean.TRUE.equals(schema.getExtensions().get(X_INTERNAL))) {
                     LOGGER.info("Model {} not generated since x-internal is set to true", name);
                     continue;
                 } else if (ModelUtils.isFreeFormObject(schema, openAPI)) { // check to see if it's a free-form object
@@ -626,6 +627,22 @@ public class DefaultGenerator implements Generator {
         }
     }
 
+    /**
+     * this method splits the specified property by commas, trims any results for spaces and
+     * newlines, and returns them as a Set of Strings. the method will return an empty
+     * set if the specified property has not been set or is an empty string.
+     */
+    private Set<String> getPropertyAsSet(String propertyName) {
+        String propertyRaw = GlobalSettings.getProperty(propertyName);
+        if (propertyRaw == null || propertyRaw.isEmpty()) {
+            return Collections.emptySet();
+        }
+
+        return Arrays.stream(propertyRaw.split(","))
+            .map(String::trim)
+            .collect(Collectors.toSet());
+    }
+
     private Set<String> modelKeys() {
         final Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
         if (schemas == null) {
@@ -633,12 +650,7 @@ public class DefaultGenerator implements Generator {
             return Collections.emptySet();
         }
 
-        String modelNames = GlobalSettings.getProperty("models");
-        Set<String> modelsToGenerate = null;
-        if (modelNames != null && !modelNames.isEmpty()) {
-            modelsToGenerate = new HashSet<>(Arrays.asList(modelNames.split(",")));
-        }
-
+        Set<String> modelsToGenerate = getPropertyAsSet(CodegenConstants.MODELS);
         Set<String> modelKeys = schemas.keySet();
         if (modelsToGenerate != null && !modelsToGenerate.isEmpty()) {
             Set<String> updatedKeys = new HashSet<>();
@@ -661,11 +673,7 @@ public class DefaultGenerator implements Generator {
             return;
         }
         Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
-        Set<String> apisToGenerate = null;
-        String apiNames = GlobalSettings.getProperty(CodegenConstants.APIS);
-        if (apiNames != null && !apiNames.isEmpty()) {
-            apisToGenerate = new HashSet<>(Arrays.asList(apiNames.split(",")));
-        }
+        Set<String> apisToGenerate = getPropertyAsSet(CodegenConstants.APIS);
         if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
             Map<String, List<CodegenOperation>> updatedPaths = new TreeMap<>();
             for (String m : paths.keySet()) {
@@ -827,11 +835,7 @@ public class DefaultGenerator implements Generator {
             return;
         }
         Map<String, List<CodegenOperation>> webhooks = processWebhooks(this.openAPI.getWebhooks());
-        Set<String> webhooksToGenerate = null;
-        String webhookNames = GlobalSettings.getProperty(CodegenConstants.WEBHOOKS);
-        if (webhookNames != null && !webhookNames.isEmpty()) {
-            webhooksToGenerate = new HashSet<>(Arrays.asList(webhookNames.split(",")));
-        }
+        Set<String> webhooksToGenerate = getPropertyAsSet(CodegenConstants.WEBHOOKS);
         if (webhooksToGenerate != null && !webhooksToGenerate.isEmpty()) {
             Map<String, List<CodegenOperation>> Webhooks = new TreeMap<>();
             for (String m : webhooks.keySet()) {
@@ -1064,12 +1068,7 @@ public class DefaultGenerator implements Generator {
             return;
         }
 
-        Set<String> supportingFilesToGenerate = null;
-        String supportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES);
-        if (supportingFiles != null && !supportingFiles.isEmpty()) {
-            supportingFilesToGenerate = new HashSet<>(Arrays.asList(supportingFiles.split(",")));
-        }
-
+        Set<String> supportingFilesToGenerate = getPropertyAsSet(CodegenConstants.SUPPORTING_FILES);
         for (SupportingFile support : config.supportingFiles()) {
             try {
                 String outputFolder = config.outputFolder();
@@ -1566,7 +1565,7 @@ public class DefaultGenerator implements Generator {
         final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
         for (Tag tag : tags) {
             try {
-                if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-internal"))) {
+                if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get(X_INTERNAL))) {
                     // skip operation if x-internal sets to true
                     LOGGER.info("Operation ({} {} - {}) not generated since x-internal is set to true",
                             httpMethod, resourcePath, operation.getOperationId());

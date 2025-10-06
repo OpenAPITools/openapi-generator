@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -202,11 +205,12 @@ public class EnumTest  {
   
   private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 
+
   /**
    * Get enumString
    * @return enumString
    **/
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -215,7 +219,7 @@ public class EnumTest  {
   /**
    * Set enumString
    */
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -230,7 +234,7 @@ public class EnumTest  {
    * Get enumStringRequired
    * @return enumStringRequired
    **/
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING_REQUIRED, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -239,7 +243,7 @@ public class EnumTest  {
   /**
    * Set enumStringRequired
    */
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_STRING_REQUIRED, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
@@ -254,7 +258,7 @@ public class EnumTest  {
    * Get enumInteger
    * @return enumInteger
    **/
-  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -263,7 +267,7 @@ public class EnumTest  {
   /**
    * Set enumInteger
    */
-  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
@@ -278,7 +282,7 @@ public class EnumTest  {
    * Get enumNumber
    * @return enumNumber
    **/
-  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -287,7 +291,7 @@ public class EnumTest  {
   /**
    * Set enumNumber
    */
-  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ENUM_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
@@ -302,7 +306,7 @@ public class EnumTest  {
    * Get outerEnum
    * @return outerEnum
    **/
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public OuterEnum getOuterEnum() {
     return outerEnum;
@@ -311,7 +315,7 @@ public class EnumTest  {
   /**
    * Set outerEnum
    */
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
@@ -326,7 +330,7 @@ public class EnumTest  {
    * Get outerEnumInteger
    * @return outerEnumInteger
    **/
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
@@ -335,7 +339,7 @@ public class EnumTest  {
   /**
    * Set outerEnumInteger
    */
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOuterEnumInteger(OuterEnumInteger outerEnumInteger) {
     this.outerEnumInteger = outerEnumInteger;
@@ -350,7 +354,7 @@ public class EnumTest  {
    * Get outerEnumDefaultValue
    * @return outerEnumDefaultValue
    **/
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public OuterEnumDefaultValue getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
@@ -359,7 +363,7 @@ public class EnumTest  {
   /**
    * Set outerEnumDefaultValue
    */
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOuterEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
     this.outerEnumDefaultValue = outerEnumDefaultValue;
@@ -374,7 +378,7 @@ public class EnumTest  {
    * Get outerEnumIntegerDefaultValue
    * @return outerEnumIntegerDefaultValue
    **/
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
@@ -383,7 +387,7 @@ public class EnumTest  {
   /**
    * Set outerEnumIntegerDefaultValue
    */
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOuterEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;

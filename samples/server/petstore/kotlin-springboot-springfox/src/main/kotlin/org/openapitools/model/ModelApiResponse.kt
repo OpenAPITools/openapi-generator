@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
@@ -30,7 +31,7 @@ data class ModelApiResponse(
 
     @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("message") val message: kotlin.String? = null
-    ) : Serializable{
+) : Serializable {
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

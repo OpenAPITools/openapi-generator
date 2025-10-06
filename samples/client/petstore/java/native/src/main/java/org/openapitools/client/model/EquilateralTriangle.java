@@ -21,6 +21,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +39,7 @@ import org.openapitools.client.ApiClient;
   EquilateralTriangle.JSON_PROPERTY_SHAPE_TYPE,
   EquilateralTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class EquilateralTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   @javax.annotation.Nonnull
@@ -61,14 +62,14 @@ public class EquilateralTriangle {
    * @return shapeType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getShapeType() {
     return shapeType;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
@@ -85,14 +86,14 @@ public class EquilateralTriangle {
    * @return triangleType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getTriangleType() {
     return triangleType;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
@@ -167,12 +168,12 @@ public class EquilateralTriangle {
 
     // add `shapeType` to the URL query string
     if (getShapeType() != null) {
-      joiner.add(String.format("%sshapeType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getShapeType()))));
+      joiner.add(String.format(Locale.ROOT, "%sshapeType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getShapeType()))));
     }
 
     // add `triangleType` to the URL query string
     if (getTriangleType() != null) {
-      joiner.add(String.format("%striangleType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getTriangleType()))));
+      joiner.add(String.format(Locale.ROOT, "%striangleType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getTriangleType()))));
     }
 
     return joiner.toString();

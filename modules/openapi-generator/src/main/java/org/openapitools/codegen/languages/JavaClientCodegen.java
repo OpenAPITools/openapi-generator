@@ -70,6 +70,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String MICROPROFILE_MUTINY = "microprofileMutiny";
+    public static final String MICROPROFILE_GLOBAL_EXCEPTION_MAPPER = "microprofileGlobalExceptionMapper";
+    public static final String MICROPROFILE_REGISTER_EXCEPTION_MAPPER = "microprofileRegisterExceptionMapper";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
     public static final String SUPPORT_STREAMING = "supportStreaming";
@@ -102,6 +104,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String FAIL_ON_UNKNOWN_PROPERTIES = "failOnUnknownProperties";
     public static final String SUPPORT_VERTX_FUTURE = "supportVertxFuture";
+    public static final String USE_SEALED_ONE_OF_INTERFACES = "useSealedOneOfInterfaces";
+
+    // Internal configurations
+    public static final String SINGLE_REQUEST_PARAMETER = "singleRequestParameter";
+    public static final String STATIC_REQUEST = "staticRequest";
+    public static final String JAVA_17 = "java17";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -120,6 +128,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected String microprofileFramework = MICROPROFILE_DEFAULT;
     @Setter protected String microprofileRestClientVersion = MICROPROFILE_REST_CLIENT_DEFAULT_VERSION;
     @Setter protected boolean microprofileMutiny = false;
+    @Setter protected boolean microProfileGlobalExceptionMapper = true;
+    @Setter protected boolean microProfileRegisterExceptionMapper = true;
     @Setter protected String configKey = null;
     @Setter(AccessLevel.PRIVATE) protected boolean configKeyFromClassName = false;
 
@@ -138,6 +148,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected String errorObjectType;
     @Getter @Setter protected boolean failOnUnknownProperties = false;
     @Setter protected boolean supportVertxFuture = false;
+    @Setter protected boolean useSealedOneOfInterfaces = false;
     protected String authFolder;
     /**
      * Serialization library.
@@ -229,6 +240,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newString(MICROPROFILE_MUTINY, "Whether to use async types for microprofile (currently only Smallrye Mutiny is supported)."));
+        cliOptions.add(CliOption.newString(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, "Should generated API Clients be annotated with @RegisterProvider(ApiExceptionMapper.class).").defaultValue("true"));
+        cliOptions.add(CliOption.newString(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, "Should ApiExceptionMapper be annotated with @Provider making it a global exception mapper").defaultValue("true"));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, restclient, libraries"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
         cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
@@ -239,13 +252,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(CONFIG_KEY_FROM_CLASS_NAME, "If true, set tag as key in @RegisterRestClient. Default to false. Only `microprofile` supports this option."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
-        cliOptions.add(CliOption.newString(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to \"true\" will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to \"static\" does the same as \"true\", but also makes the generated arguments class static with single parameter instantiation.").defaultValue("false"));
+        cliOptions.add(CliOption.newString(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to \"true\" will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY native, jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to \"static\" does the same as \"true\", but also makes the generated arguments class static with single parameter instantiation.").defaultValue("false"));
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, restclient and webclient, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
         cliOptions.add(CliOption.newBoolean(SUPPORT_VERTX_FUTURE, "Also generate api methods that return a vertx Future instead of taking a callback. Only `vertx` supports this option. Requires vertx 4 or greater.", this.supportVertxFuture));
+        cliOptions.add(CliOption.newBoolean(USE_SEALED_ONE_OF_INTERFACES, "Generate the oneOf interfaces as sealed interfaces. Only supported for WebClient and RestClient.", this.useSealedOneOfInterfaces));
 
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.1.1. JSON processing: Jackson 2.17.1");
@@ -361,8 +375,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             convertPropertyToBooleanAndWriteBack(USE_RX_JAVA2, this::setUseRxJava2);
         }
         convertPropertyToStringAndWriteBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, this::setUseSingleRequestParameter);
-        writePropertyBack("singleRequestParameter", getSingleRequestParameter());
-        writePropertyBack("staticRequest", getStaticRequest());
+        convertPropertyToBooleanAndWriteBack(USE_SEALED_ONE_OF_INTERFACES, this::setUseSealedOneOfInterfaces);
+        writePropertyBack(SINGLE_REQUEST_PARAMETER, getSingleRequestParameter());
+        writePropertyBack(STATIC_REQUEST, getStaticRequest());
+
+        if (libWebClient && (useSealedOneOfInterfaces || useJakartaEe)) {
+            writePropertyBack(JAVA_17, true);
+        }
 
         if (!useRxJava && !useRxJava2 && !useRxJava3) {
             additionalProperties.put(DO_NOT_USE_RX, true);
@@ -379,6 +398,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 //            this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
         }
         convertPropertyToStringAndWriteBack(MICROPROFILE_FRAMEWORK, this::setMicroprofileFramework);
+
+        convertPropertyToBooleanAndWriteBack(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, this::setMicroProfileGlobalExceptionMapper);
+        convertPropertyToBooleanAndWriteBack(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, this::setMicroProfileRegisterExceptionMapper);
+
+        additionalProperties.put(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, microProfileRegisterExceptionMapper);
+        additionalProperties.put(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, microProfileGlobalExceptionMapper);
 
         convertPropertyToBooleanAndWriteBack(MICROPROFILE_MUTINY, this::setMicroprofileMutiny);
 
@@ -615,6 +640,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
+
+            // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+            // In principle, this should be enabled by default for all code generators. However due to limitations
+            // in other code generators, support needs to be enabled on a case-by-case basis.
+            // The flag below should be set for all Java libraries, but the templates need to be ported
+            // one by one for each library.
+            supportsAdditionalPropertiesWithComposedSchema = true;
         } else if (libRestEasy) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
@@ -701,6 +733,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 if (getSerializationLibrary().equals(SERIALIZATION_LIBRARY_JSONB)) {
                     additionalProperties.put("jsonbPolymorphism", true);
                 }
+            }
+
+            if (getSerializationLibrary().equals(SERIALIZATION_LIBRARY_JACKSON)) {
+                // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+                // In principle, this should be enabled by default for all code generators. However due to limitations
+                // in other code generators, support needs to be enabled on a case-by-case basis.
+                // The flag below should be set for all Java libraries, but the templates need to be ported
+                // one by one for each library.
+                supportsAdditionalPropertiesWithComposedSchema = true;
             }
         } else if (libApache) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
@@ -800,7 +841,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
 
-        if (this.getSingleRequestParameter() && (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(OKHTTP_GSON))) {
+        if (this.getSingleRequestParameter() && (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(OKHTTP_GSON) || isLibrary(NATIVE))) {
             // loop through operations to set x-group-parameters extension to true if useSingleRequestParameter option is enabled
             OperationMap operations = objs.getOperations();
             if (operations != null) {
@@ -1047,6 +1088,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
 
+        if (!AnnotationLibrary.SWAGGER2.equals(getAnnotationLibrary())) {
+            codegenModel.imports.remove("Schema");
+        }
+
         return codegenModel;
     }
 
@@ -1230,11 +1275,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
-            Map<String, String> oneImport = new HashMap<>();
-            oneImport.put("import", importMapping.get(i));
-            if (!imports.contains(oneImport)) {
-                imports.add(oneImport);
+        if(additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
+                Map<String, String> oneImport = new HashMap<>();
+                oneImport.put("import", importMapping.get(i));
+                if (!imports.contains(oneImport)) {
+                    imports.add(oneImport);
+                }
             }
         }
     }

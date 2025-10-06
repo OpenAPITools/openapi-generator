@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Describes the result of uploading an image resource")
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private @Nullable Integer code;
@@ -32,7 +32,7 @@ public class ModelApiResponse {
 
   private @Nullable String message;
 
-  public ModelApiResponse code(Integer code) {
+  public ModelApiResponse code(@Nullable Integer code) {
     this.code = code;
     return this;
   }
@@ -44,15 +44,15 @@ public class ModelApiResponse {
   
   @ApiModelProperty(value = "")
   @JsonProperty("code")
-  public Integer getCode() {
+  public @Nullable Integer getCode() {
     return code;
   }
 
-  public void setCode(Integer code) {
+  public void setCode(@Nullable Integer code) {
     this.code = code;
   }
 
-  public ModelApiResponse type(String type) {
+  public ModelApiResponse type(@Nullable String type) {
     this.type = type;
     return this;
   }
@@ -64,15 +64,15 @@ public class ModelApiResponse {
   
   @ApiModelProperty(value = "")
   @JsonProperty("type")
-  public String getType() {
+  public @Nullable String getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(@Nullable String type) {
     this.type = type;
   }
 
-  public ModelApiResponse message(String message) {
+  public ModelApiResponse message(@Nullable String message) {
     this.message = message;
     return this;
   }
@@ -84,11 +84,11 @@ public class ModelApiResponse {
   
   @ApiModelProperty(value = "")
   @JsonProperty("message")
-  public String getMessage() {
+  public @Nullable String getMessage() {
     return message;
   }
 
-  public void setMessage(String message) {
+  public void setMessage(@Nullable String message) {
     this.message = message;
   }
 

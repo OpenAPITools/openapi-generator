@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
   private @Nullable UUID uuid;
@@ -34,7 +34,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   
   private Map<String, Animal> map = new HashMap<>();
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
+  public MixedPropertiesAndAdditionalPropertiesClass uuid(@Nullable UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -45,15 +45,15 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    */
   
   @JsonProperty("uuid")
-  public UUID getUuid() {
+  public @Nullable UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -64,11 +64,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    */
   
   @JsonProperty("dateTime")
-  public OffsetDateTime getDateTime() {
+  public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 

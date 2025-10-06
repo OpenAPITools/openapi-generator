@@ -18,6 +18,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -34,7 +35,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   TriangleInterface.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class TriangleInterface {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
   @javax.annotation.Nonnull
@@ -53,7 +54,7 @@ public class TriangleInterface {
    * @return triangleType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getTriangleType() {
@@ -61,7 +62,7 @@ public class TriangleInterface {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;

@@ -572,7 +572,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (value.isEmpty()) {
             modified = "EMPTY";
         } else {
-            modified = value;
+            modified = value.replaceAll("-", "_");
             modified = sanitizeKotlinSpecificNames(modified);
         }
 
@@ -835,6 +835,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
         CodegenModel m = super.fromModel(name, schema);
+        List<String> implementedInterfacesClasses = (List<String>) m.getVendorExtensions().getOrDefault(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), List.of());
+        List<String> implementedInterfacesFields = Optional.ofNullable((List<String>) m.getVendorExtensions().get(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName()))
+                .map(xKotlinImplementsFields -> {
+                    if (implementedInterfacesClasses.isEmpty() && !xKotlinImplementsFields.isEmpty()) {
+                        LOGGER.warn("Annotating {} with {} without {} is not supported. {} will be ignored.",
+                                name, VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName(), VendorExtension.X_KOTLIN_IMPLEMENTS.getName(),
+                                VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName());
+                    }
+                    return xKotlinImplementsFields;
+                }).orElse(List.of());
         m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
         // Update allVars/requiredVars/optionalVars with isInherited
         // Each of these lists contains elements that are similar, but they are all cloned
@@ -850,7 +860,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // Update any other vars (requiredVars, optionalVars)
         Stream.of(m.requiredVars, m.optionalVars)
                 .flatMap(List::stream)
-                .filter(p -> allVarsMap.containsKey(p.baseName))
+                .filter(p -> allVarsMap.containsKey(p.baseName)
+                             || implementedInterfacesFields.contains(p.baseName)
+                )
                 .forEach(p -> p.isInherited = true);
         return m;
     }
@@ -1119,6 +1131,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     protected interface DataTypeAssigner {
+        void setIsVoid(Boolean isVoid);
+
         void setReturnType(String returnType);
 
         void setReturnContainer(String returnContainer);
@@ -1131,6 +1145,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
         if (returnType == null) {
             dataTypeAssigner.setReturnType("Unit");
+            dataTypeAssigner.setIsVoid(true);
         } else if (returnType.startsWith("kotlin.collections.List")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {

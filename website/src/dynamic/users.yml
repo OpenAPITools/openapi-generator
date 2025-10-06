@@ -29,6 +29,11 @@
   infoLink: "https://www.allianz.com"
   pinned: false
 -
+  caption: "AM GmbH"
+  image: "img/companies/am-gmbh.png"
+  infoLink: "https://www.am-gmbh.de"
+  pinned: false
+-
   caption: "Angular.Schule"
   image: "img/companies/angular-schule.svg"
   infoLink: "https://angular.schule/"

@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -33,7 +34,7 @@ import java.util.StringJoiner;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   @javax.annotation.Nullable
@@ -50,7 +51,7 @@ public class ReadOnlyFirst {
    */
   @JsonCreator
   public ReadOnlyFirst(
-    @JsonProperty(JSON_PROPERTY_BAR) String bar
+    @JsonProperty(value = JSON_PROPERTY_BAR, required = false) String bar
   ) {
     this();
     this.bar = bar;
@@ -61,7 +62,7 @@ public class ReadOnlyFirst {
    * @return bar
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBar() {
@@ -81,7 +82,7 @@ public class ReadOnlyFirst {
    * @return baz
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBaz() {
@@ -89,7 +90,7 @@ public class ReadOnlyFirst {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBaz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
@@ -169,7 +170,7 @@ public class ReadOnlyFirst {
     // add `bar` to the URL query string
     if (getBar() != null) {
       try {
-        joiner.add(String.format("%sbar%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBar()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%sbar%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBar()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -179,7 +180,7 @@ public class ReadOnlyFirst {
     // add `baz` to the URL query string
     if (getBaz() != null) {
       try {
-        joiner.add(String.format("%sbaz%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBaz()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%sbaz%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBaz()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -29,6 +30,7 @@ import {{javaxPackage}}.validation.Valid;
 
 {{/useBeanValidation}}
 {{>generatedAnnotation}}
+
 {{#operations}}
 public class {{classname}} extends BaseApi {
 
@@ -114,7 +116,7 @@ public class {{classname}} extends BaseApi {
     localVarQueryParameterBaseName = "{{{baseName}}}";
           {{#isArray}}
     for (int i=0; i < {{paramName}}.size(); i++) {
-      localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
+      localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format(Locale.ROOT, "{{baseName}}[%d]", i)));
     }
           {{/isArray}}
           {{^isArray}}

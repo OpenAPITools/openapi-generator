@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
@@ -566,5 +567,122 @@ public class PythonClientCodegenTest {
         File setupFile = files.get(Paths.get(output.getAbsolutePath(), "setup.py").toString());
         assertNotNull(setupFile);
         assertFileContains(setupFile.toPath(), "setup(");
+    }
+
+    @Test(description = "outputs __init__.py with imports for exports")
+    public void testInitFileImportsExports() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        PythonClientCodegen pythonClientCodegen = new PythonClientCodegen();
+        pythonClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(pythonClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream().collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File initFile = files.get(Paths.get(output.getAbsolutePath(), "openapi_client", "__init__.py").toString());
+        assertNotNull(initFile);
+        Path initFilePath = initFile.toPath();
+
+        // import apis into sdk package
+        assertFileContains(initFilePath, "from openapi_client.api.pet_api import PetApi as PetApi");
+        assertFileContains(initFilePath, "from openapi_client.api.store_api import StoreApi as StoreApi");
+        assertFileContains(initFilePath, "from openapi_client.api.user_api import UserApi as UserApi");
+
+        // import ApiClient
+        assertFileContains(initFilePath, "from openapi_client.api_response import ApiResponse as ApiResponse");
+        assertFileContains(initFilePath, "from openapi_client.api_client import ApiClient as ApiClient");
+        assertFileContains(initFilePath, "from openapi_client.configuration import Configuration as Configuration");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import OpenApiException as OpenApiException");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import ApiTypeError as ApiTypeError");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import ApiValueError as ApiValueError");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import ApiKeyError as ApiKeyError");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import ApiAttributeError as ApiAttributeError");
+        assertFileContains(initFilePath, "from openapi_client.exceptions import ApiException as ApiException");
+
+        // import models into sdk package
+        assertFileContains(initFilePath, "from openapi_client.models.api_response import ApiResponse as ApiResponse");
+        assertFileContains(initFilePath, "from openapi_client.models.category import Category as Category");
+        assertFileContains(initFilePath, "from openapi_client.models.order import Order as Order");
+        assertFileContains(initFilePath, "from openapi_client.models.pet import Pet as Pet");
+        assertFileContains(initFilePath, "from openapi_client.models.tag import Tag as Tag");
+        assertFileContains(initFilePath, "from openapi_client.models.user import User as User");
+    }
+
+    @Test(description = "Verify default license format uses object notation when poetry1 is false")
+    public void testLicenseFormatInPyprojectToml() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
+            .setOutputDir(output.getAbsolutePath())
+            .addAdditionalProperty("licenseInfo", "MIT");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output.getAbsolutePath(), "pyproject.toml"));
+        // When poetry1=false (default), license should use object notation: { text = "MIT" }
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "pyproject.toml"),
+            "license = { text = \"MIT\" }");
+    }
+
+    @Test(description = "Verify poetry1 mode uses string notation for license")
+    public void testPoetry1LicenseFormat() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
+            .setOutputDir(output.getAbsolutePath())
+            .addAdditionalProperty("licenseInfo", "Apache-2.0")
+            .addAdditionalProperty("poetry1", true); // Enable legacy poetry1 mode
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path pyprojectPath = Paths.get(output.getAbsolutePath(), "pyproject.toml");
+        TestUtils.assertFileExists(pyprojectPath);
+
+        // In poetry1 mode, license should use simple string format: "Apache-2.0"
+        TestUtils.assertFileContains(pyprojectPath, "license = \"Apache-2.0\"");
+
+        // Verify it does NOT use the new object format
+        TestUtils.assertFileNotContains(pyprojectPath, "license = { text = \"Apache-2.0\" }");
+    }
+
+    @Test(description = "Verify non-poetry1 mode uses object notation for license")
+    public void testNonPoetry1LicenseFormat() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
+            .setOutputDir(output.getAbsolutePath())
+            .addAdditionalProperty("licenseInfo", "BSD-3-Clause")
+            .addAdditionalProperty("poetry1", false); // Explicitly disable poetry1 mode
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path pyprojectPath = Paths.get(output.getAbsolutePath(), "pyproject.toml");
+        TestUtils.assertFileExists(pyprojectPath);
+
+        // In non-poetry1 mode, license should use object format: { text = "BSD-3-Clause" }
+        TestUtils.assertFileContains(pyprojectPath, "license = { text = \"BSD-3-Clause\" }");
+
+        // Verify it does NOT use the legacy string format
+        TestUtils.assertFileNotContains(pyprojectPath, "license = \"BSD-3-Clause\"");
     }
 }

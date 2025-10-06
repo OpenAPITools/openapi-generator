@@ -7,6 +7,60 @@ use validator::Validate;
 use crate::header;
 use crate::{models, types::*};
 
+#[allow(dead_code)]
+pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
+    if ammonia::is_html(v) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
+    if v.iter().any(|i| ammonia::is_html(i)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_string(
+    v: &std::collections::HashMap<String, String>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_nested<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError>
+where
+    T: validator::Validate,
+{
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Goodbye {
@@ -14,9 +68,11 @@ pub struct Goodbye {
     #[serde(default = "Goodbye::_name_for_op")]
     #[serde(serialize_with = "Goodbye::_serialize_op")]
     #[serde(rename = "op")]
+    #[validate(custom(function = "check_xss_string"))]
     pub op: String,
 
     #[serde(rename = "d")]
+    #[validate(nested)]
     pub d: models::GoodbyeD,
 }
 
@@ -35,8 +91,11 @@ impl Goodbye {
 
 impl Goodbye {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(op: String, d: models::GoodbyeD) -> Goodbye {
-        Goodbye { op, d }
+    pub fn new(d: models::GoodbyeD) -> Goodbye {
+        Goodbye {
+            op: Self::_name_for_op(),
+            d,
+        }
     }
 }
 
@@ -86,7 +145,7 @@ impl std::str::FromStr for Goodbye {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Goodbye".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -105,7 +164,7 @@ impl std::str::FromStr for Goodbye {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Goodbye".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -143,8 +202,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Goodbye>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for Goodbye - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for Goodbye - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -162,14 +220,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Goodbye> {
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into Goodbye - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into Goodbye - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -179,6 +235,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Goodbye> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GoodbyeD {
     #[serde(rename = "goodbye_message")]
+    #[validate(custom(function = "check_xss_string"))]
     pub goodbye_message: String,
 }
 
@@ -233,7 +290,7 @@ impl std::str::FromStr for GoodbyeD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing GoodbyeD".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -247,7 +304,7 @@ impl std::str::FromStr for GoodbyeD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing GoodbyeD".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -280,8 +337,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<GoodbyeD>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for GoodbyeD - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for GoodbyeD - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -299,14 +355,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<GoodbyeD> {
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into GoodbyeD - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into GoodbyeD - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -316,6 +370,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<GoodbyeD> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Greeting {
     #[serde(rename = "d")]
+    #[validate(nested)]
     pub d: models::GreetingD,
 
     #[serde(default = "Greeting::_name_for_op")]
@@ -342,7 +397,7 @@ impl Greeting {
     pub fn new(d: models::GreetingD) -> Greeting {
         Greeting {
             d,
-            op: r#"Greeting"#.to_string(),
+            op: Self::_name_for_op(),
         }
     }
 }
@@ -393,7 +448,7 @@ impl std::str::FromStr for Greeting {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Greeting".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -412,7 +467,7 @@ impl std::str::FromStr for Greeting {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Greeting".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -450,8 +505,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Greeting>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for Greeting - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for Greeting - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -469,14 +523,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Greeting> {
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into Greeting - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into Greeting - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -486,6 +538,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Greeting> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GreetingD {
     #[serde(rename = "greet_message")]
+    #[validate(custom(function = "check_xss_string"))]
     pub greet_message: String,
 }
 
@@ -540,7 +593,7 @@ impl std::str::FromStr for GreetingD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing GreetingD".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -554,7 +607,7 @@ impl std::str::FromStr for GreetingD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing GreetingD".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -587,8 +640,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<GreetingD>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for GreetingD - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for GreetingD - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -606,14 +658,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<GreetingD> {
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into GreetingD - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into GreetingD - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -626,9 +676,11 @@ pub struct Hello {
     #[serde(default = "Hello::_name_for_op")]
     #[serde(serialize_with = "Hello::_serialize_op")]
     #[serde(rename = "op")]
+    #[validate(custom(function = "check_xss_string"))]
     pub op: String,
 
     #[serde(rename = "d")]
+    #[validate(nested)]
     pub d: models::HelloD,
 }
 
@@ -649,7 +701,7 @@ impl Hello {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new(d: models::HelloD) -> Hello {
         Hello {
-            op: r#"Hello"#.to_string(),
+            op: Self::_name_for_op(),
             d,
         }
     }
@@ -701,7 +753,7 @@ impl std::str::FromStr for Hello {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Hello".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -720,7 +772,7 @@ impl std::str::FromStr for Hello {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Hello".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -758,8 +810,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Hello>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for Hello - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for Hello - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -776,13 +827,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Hello> {
                     std::result::Result::Ok(header::IntoHeaderValue(value))
                 }
                 std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    "Unable to convert header value '{}' into Hello - {}",
-                    value, err
+                    r#"Unable to convert header value '{value}' into Hello - {err}"#
                 )),
             },
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -792,6 +841,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Hello> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HelloD {
     #[serde(rename = "welcome_message")]
+    #[validate(custom(function = "check_xss_string"))]
     pub welcome_message: String,
 }
 
@@ -846,7 +896,7 @@ impl std::str::FromStr for HelloD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing HelloD".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -860,7 +910,7 @@ impl std::str::FromStr for HelloD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing HelloD".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -893,8 +943,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<HelloD>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for HelloD - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for HelloD - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -912,14 +961,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<HelloD> {
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into HelloD - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into HelloD - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -927,22 +974,33 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<HelloD> {
 
 #[derive(Debug, Clone, PartialEq, serde::Deserialize)]
 #[serde(tag = "op")]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum Message {
-    Hello(Box<models::Hello>),
-    Greeting(Box<models::Greeting>),
-    Goodbye(Box<models::Goodbye>),
-    SomethingCompletelyDifferent(Box<models::SomethingCompletelyDifferent>),
+    Hello(models::Hello),
+    Greeting(models::Greeting),
+    Goodbye(models::Goodbye),
+    SomethingCompletelyDifferent(models::SomethingCompletelyDifferent),
 }
 
 impl validator::Validate for Message {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
-            Self::Hello(x) => x.validate(),
-            Self::Greeting(x) => x.validate(),
-            Self::Goodbye(x) => x.validate(),
-            Self::SomethingCompletelyDifferent(x) => x.validate(),
+            Self::Hello(v) => v.validate(),
+            Self::Greeting(v) => v.validate(),
+            Self::Goodbye(v) => v.validate(),
+            Self::SomethingCompletelyDifferent(v) => v.validate(),
         }
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Message value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Message {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
     }
 }
 
@@ -962,61 +1020,39 @@ impl serde::Serialize for Message {
 
 impl From<models::Hello> for Message {
     fn from(value: models::Hello) -> Self {
-        Self::Hello(Box::new(value))
+        Self::Hello(value)
     }
 }
 impl From<models::Greeting> for Message {
     fn from(value: models::Greeting) -> Self {
-        Self::Greeting(Box::new(value))
+        Self::Greeting(value)
     }
 }
 impl From<models::Goodbye> for Message {
     fn from(value: models::Goodbye) -> Self {
-        Self::Goodbye(Box::new(value))
+        Self::Goodbye(value)
     }
 }
 impl From<models::SomethingCompletelyDifferent> for Message {
     fn from(value: models::SomethingCompletelyDifferent) -> Self {
-        Self::SomethingCompletelyDifferent(Box::new(value))
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a Message value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for Message {
-    type Err = serde_json::Error;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        serde_json::from_str(s)
+        Self::SomethingCompletelyDifferent(value)
     }
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum SomethingCompletelyDifferent {
-    VecOfObject(Box<Vec<crate::types::Object>>),
-    Object(Box<crate::types::Object>),
+    VecOfObject(Vec<crate::types::Object>),
+    Object(crate::types::Object),
 }
 
 impl validator::Validate for SomethingCompletelyDifferent {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
             Self::VecOfObject(_) => std::result::Result::Ok(()),
-            Self::Object(x) => x.validate(),
+            Self::Object(_) => std::result::Result::Ok(()),
         }
-    }
-}
-
-impl From<Vec<crate::types::Object>> for SomethingCompletelyDifferent {
-    fn from(value: Vec<crate::types::Object>) -> Self {
-        Self::VecOfObject(Box::new(value))
-    }
-}
-impl From<crate::types::Object> for SomethingCompletelyDifferent {
-    fn from(value: crate::types::Object) -> Self {
-        Self::Object(Box::new(value))
     }
 }
 
@@ -1028,5 +1064,16 @@ impl std::str::FromStr for SomethingCompletelyDifferent {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
+    }
+}
+
+impl From<Vec<crate::types::Object>> for SomethingCompletelyDifferent {
+    fn from(value: Vec<crate::types::Object>) -> Self {
+        Self::VecOfObject(value)
+    }
+}
+impl From<crate::types::Object> for SomethingCompletelyDifferent {
+    fn from(value: crate::types::Object) -> Self {
+        Self::Object(value)
     }
 }

@@ -17,12 +17,12 @@ import jakarta.annotation.Generated;
  * Model for testing model with \&quot;_class\&quot; property
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ClassModel {
 
   private @Nullable String propertyClass;
 
-  public ClassModel propertyClass(String propertyClass) {
+  public ClassModel propertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
     return this;
   }
@@ -33,11 +33,11 @@ public class ClassModel {
    */
   
   @JsonProperty("_class")
-  public String getPropertyClass() {
+  public @Nullable String getPropertyClass() {
     return propertyClass;
   }
 
-  public void setPropertyClass(String propertyClass) {
+  public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
 

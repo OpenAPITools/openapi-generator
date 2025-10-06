@@ -3,7 +3,8 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-import type { Configuration } from '{{apiRelativeToRoot}}configuration';
+
+import type { Configuration } from '{{apiRelativeToRoot}}configuration{{importFileExtension}}';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 {{#withNodeImports}}
@@ -16,12 +17,12 @@ import FormData from 'form-data'
 {{/withNodeImports}}
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '{{apiRelativeToRoot}}common';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '{{apiRelativeToRoot}}base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '{{apiRelativeToRoot}}base{{importFileExtension}}';
 {{#imports}}
 // @ts-ignore
-import type { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
+import type { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}{{#importFileExtension}}/index{{importFileExtension}}{{/importFileExtension}}';
 {{/imports}}
 {{/withSeparateModelsAndApi}}
 {{^withSeparateModelsAndApi}}
@@ -30,7 +31,6 @@ import type { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
 /**
  * {{classname}} - axios parameter creator{{#description}}
  * {{&description}}{{/description}}
- * @export
  */
 export const {{classname}}AxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -245,7 +245,6 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
 /**
  * {{classname}} - functional programming interface{{#description}}
  * {{{.}}}{{/description}}
- * @export
  */
 export const {{classname}}Fp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = {{classname}}AxiosParamCreator(configuration)
@@ -276,7 +275,6 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
 /**
  * {{classname}} - factory interface{{#description}}
  * {{&description}}{{/description}}
- * @export
  */
 export const {{classname}}Factory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = {{classname}}Fp(configuration)
@@ -319,8 +317,6 @@ export const {{classname}}Factory = function (configuration?: Configuration, bas
 /**
  * {{classname}} - interface{{#description}}
  * {{&description}}{{/description}}
- * @export
- * @interface {{classname}}
  */
 export interface {{classname}}Interface {
 {{#operation}}
@@ -342,7 +338,6 @@ export interface {{classname}}Interface {
      * @param {*} [options] Override http request option.{{#isDeprecated}}
      * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
-     * @memberof {{classname}}Interface
      */
     {{#useSingleRequestParameter}}
     {{nickname}}({{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: RawAxiosRequestConfig): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
@@ -360,16 +355,14 @@ export interface {{classname}}Interface {
 {{#allParams.0}}
 /**
  * Request parameters for {{nickname}} operation in {{classname}}.
- * @export
- * @interface {{classname}}{{operationIdCamelCase}}Request
  */
 export interface {{classname}}{{operationIdCamelCase}}Request {
     {{#allParams}}
+    {{#description}}
     /**
      * {{description}}
-     * @type {{=<% %>=}}{<%&dataType%>}<%={{ }}=%>
-     * @memberof {{classname}}{{operationIdCamelCase}}
      */
+    {{/description}}
     readonly {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}
     {{^-last}}
 
@@ -383,9 +376,6 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
 /**
  * {{classname}} - object-oriented interface{{#description}}
  * {{{.}}}{{/description}}
- * @export
- * @class {{classname}}
- * @extends {BaseAPI}
  */
 {{#withInterfaces}}
 export class {{classname}} extends BaseAPI implements {{classname}}Interface {
@@ -412,7 +402,6 @@ export class {{classname}} extends BaseAPI {
      * @param {*} [options] Override http request option.{{#isDeprecated}}
      * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
-     * @memberof {{classname}}
      */
     {{#useSingleRequestParameter}}
     public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options?: RawAxiosRequestConfig) {
@@ -436,10 +425,6 @@ export class {{classname}} extends BaseAPI {
 {{#allParams}}
 {{#isEnum}}
 {{#stringEnums}}
-/**
-  * @export
-  * @enum {string}
-  */
 export enum {{operationIdCamelCase}}{{enumName}} {
 {{#allowableValues}}
     {{#enumVars}}
@@ -449,9 +434,6 @@ export enum {{operationIdCamelCase}}{{enumName}} {
 }
 {{/stringEnums}}
 {{^stringEnums}}
-/**
- * @export
- */
 export const {{operationIdCamelCase}}{{enumName}} = {
 {{#allowableValues}}
     {{#enumVars}}

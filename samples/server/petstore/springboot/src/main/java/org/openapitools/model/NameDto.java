@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing model name same as property name")
 @JsonTypeName("Name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class NameDto {
 
   private Integer name;
@@ -65,7 +65,7 @@ public class NameDto {
     this.name = name;
   }
 
-  public NameDto snakeCase(Integer snakeCase) {
+  public NameDto snakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
     return this;
   }
@@ -77,15 +77,15 @@ public class NameDto {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
-  public Integer getSnakeCase() {
+  public @Nullable Integer getSnakeCase() {
     return snakeCase;
   }
 
-  public void setSnakeCase(Integer snakeCase) {
+  public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
-  public NameDto property(String property) {
+  public NameDto property(@Nullable String property) {
     this.property = property;
     return this;
   }
@@ -97,15 +97,15 @@ public class NameDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("property")
-  public String getProperty() {
+  public @Nullable String getProperty() {
     return property;
   }
 
-  public void setProperty(String property) {
+  public void setProperty(@Nullable String property) {
     this.property = property;
   }
 
-  public NameDto _123Number(Integer _123Number) {
+  public NameDto _123Number(@Nullable Integer _123Number) {
     this._123Number = _123Number;
     return this;
   }
@@ -117,11 +117,11 @@ public class NameDto {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")
-  public Integer get123Number() {
+  public @Nullable Integer get123Number() {
     return _123Number;
   }
 
-  public void set123Number(Integer _123Number) {
+  public void set123Number(@Nullable Integer _123Number) {
     this._123Number = _123Number;
   }
 

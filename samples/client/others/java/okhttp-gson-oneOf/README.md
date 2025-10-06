@@ -2,7 +2,7 @@
 
 oneOf two primitives
 - API version: 1.0.0
-  - Generator version: 7.14.0-SNAPSHOT
+  - Generator version: 7.17.0-SNAPSHOT
 
 oneOf with two entries of type string, see https://github.com/OpenAPITools/openapi-generator/issues/10450
 

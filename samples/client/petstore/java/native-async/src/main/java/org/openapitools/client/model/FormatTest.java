@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -55,7 +56,7 @@ import org.openapitools.client.ApiClient;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   @javax.annotation.Nullable
@@ -136,14 +137,14 @@ public class FormatTest {
    * @return integer
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getInteger() {
     return integer;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInteger(@javax.annotation.Nullable Integer integer) {
     this.integer = integer;
@@ -162,14 +163,14 @@ public class FormatTest {
    * @return int32
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_INT32)
+  @JsonProperty(value = JSON_PROPERTY_INT32, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getInt32() {
     return int32;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INT32)
+  @JsonProperty(value = JSON_PROPERTY_INT32, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInt32(@javax.annotation.Nullable Integer int32) {
     this.int32 = int32;
@@ -186,14 +187,14 @@ public class FormatTest {
    * @return int64
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_INT64)
+  @JsonProperty(value = JSON_PROPERTY_INT64, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getInt64() {
     return int64;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INT64)
+  @JsonProperty(value = JSON_PROPERTY_INT64, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInt64(@javax.annotation.Nullable Long int64) {
     this.int64 = int64;
@@ -212,14 +213,14 @@ public class FormatTest {
    * @return number
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public BigDecimal getNumber() {
     return number;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setNumber(@javax.annotation.Nonnull BigDecimal number) {
     this.number = number;
@@ -238,14 +239,14 @@ public class FormatTest {
    * @return _float
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Float getFloat() {
     return _float;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFloat(@javax.annotation.Nullable Float _float) {
     this._float = _float;
@@ -264,14 +265,14 @@ public class FormatTest {
    * @return _double
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Double getDouble() {
     return _double;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDouble(@javax.annotation.Nullable Double _double) {
     this._double = _double;
@@ -288,14 +289,14 @@ public class FormatTest {
    * @return decimal
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  @JsonProperty(value = JSON_PROPERTY_DECIMAL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getDecimal() {
     return decimal;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  @JsonProperty(value = JSON_PROPERTY_DECIMAL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDecimal(@javax.annotation.Nullable BigDecimal decimal) {
     this.decimal = decimal;
@@ -312,14 +313,14 @@ public class FormatTest {
    * @return string
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getString() {
     return string;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setString(@javax.annotation.Nullable String string) {
     this.string = string;
@@ -336,14 +337,14 @@ public class FormatTest {
    * @return _byte
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_BYTE)
+  @JsonProperty(value = JSON_PROPERTY_BYTE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public byte[] getByte() {
     return _byte;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BYTE)
+  @JsonProperty(value = JSON_PROPERTY_BYTE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setByte(@javax.annotation.Nonnull byte[] _byte) {
     this._byte = _byte;
@@ -360,14 +361,14 @@ public class FormatTest {
    * @return binary
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BINARY)
+  @JsonProperty(value = JSON_PROPERTY_BINARY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public File getBinary() {
     return binary;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BINARY)
+  @JsonProperty(value = JSON_PROPERTY_BINARY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBinary(@javax.annotation.Nullable File binary) {
     this.binary = binary;
@@ -384,14 +385,14 @@ public class FormatTest {
    * @return date
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public LocalDate getDate() {
     return date;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setDate(@javax.annotation.Nonnull LocalDate date) {
     this.date = date;
@@ -408,14 +409,14 @@ public class FormatTest {
    * @return dateTime
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
@@ -432,14 +433,14 @@ public class FormatTest {
    * @return uuid
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public UUID getUuid() {
     return uuid;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
@@ -456,14 +457,14 @@ public class FormatTest {
    * @return password
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getPassword() {
     return password;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPassword(@javax.annotation.Nonnull String password) {
     this.password = password;
@@ -480,14 +481,14 @@ public class FormatTest {
    * @return patternWithDigits
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
+  @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPatternWithDigits() {
     return patternWithDigits;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
+  @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPatternWithDigits(@javax.annotation.Nullable String patternWithDigits) {
     this.patternWithDigits = patternWithDigits;
@@ -504,14 +505,14 @@ public class FormatTest {
    * @return patternWithDigitsAndDelimiter
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPatternWithDigitsAndDelimiter(@javax.annotation.Nullable String patternWithDigitsAndDelimiter) {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
@@ -622,82 +623,82 @@ public class FormatTest {
 
     // add `integer` to the URL query string
     if (getInteger() != null) {
-      joiner.add(String.format("%sinteger%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInteger()))));
+      joiner.add(String.format(Locale.ROOT, "%sinteger%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInteger()))));
     }
 
     // add `int32` to the URL query string
     if (getInt32() != null) {
-      joiner.add(String.format("%sint32%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInt32()))));
+      joiner.add(String.format(Locale.ROOT, "%sint32%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInt32()))));
     }
 
     // add `int64` to the URL query string
     if (getInt64() != null) {
-      joiner.add(String.format("%sint64%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInt64()))));
+      joiner.add(String.format(Locale.ROOT, "%sint64%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInt64()))));
     }
 
     // add `number` to the URL query string
     if (getNumber() != null) {
-      joiner.add(String.format("%snumber%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNumber()))));
+      joiner.add(String.format(Locale.ROOT, "%snumber%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNumber()))));
     }
 
     // add `float` to the URL query string
     if (getFloat() != null) {
-      joiner.add(String.format("%sfloat%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFloat()))));
+      joiner.add(String.format(Locale.ROOT, "%sfloat%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFloat()))));
     }
 
     // add `double` to the URL query string
     if (getDouble() != null) {
-      joiner.add(String.format("%sdouble%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDouble()))));
+      joiner.add(String.format(Locale.ROOT, "%sdouble%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDouble()))));
     }
 
     // add `decimal` to the URL query string
     if (getDecimal() != null) {
-      joiner.add(String.format("%sdecimal%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDecimal()))));
+      joiner.add(String.format(Locale.ROOT, "%sdecimal%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDecimal()))));
     }
 
     // add `string` to the URL query string
     if (getString() != null) {
-      joiner.add(String.format("%sstring%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getString()))));
+      joiner.add(String.format(Locale.ROOT, "%sstring%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getString()))));
     }
 
     // add `byte` to the URL query string
     if (getByte() != null) {
-      joiner.add(String.format("%sbyte%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getByte()))));
+      joiner.add(String.format(Locale.ROOT, "%sbyte%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getByte()))));
     }
 
     // add `binary` to the URL query string
     if (getBinary() != null) {
-      joiner.add(String.format("%sbinary%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBinary()))));
+      joiner.add(String.format(Locale.ROOT, "%sbinary%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBinary()))));
     }
 
     // add `date` to the URL query string
     if (getDate() != null) {
-      joiner.add(String.format("%sdate%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDate()))));
+      joiner.add(String.format(Locale.ROOT, "%sdate%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDate()))));
     }
 
     // add `dateTime` to the URL query string
     if (getDateTime() != null) {
-      joiner.add(String.format("%sdateTime%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDateTime()))));
+      joiner.add(String.format(Locale.ROOT, "%sdateTime%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDateTime()))));
     }
 
     // add `uuid` to the URL query string
     if (getUuid() != null) {
-      joiner.add(String.format("%suuid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUuid()))));
+      joiner.add(String.format(Locale.ROOT, "%suuid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUuid()))));
     }
 
     // add `password` to the URL query string
     if (getPassword() != null) {
-      joiner.add(String.format("%spassword%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPassword()))));
+      joiner.add(String.format(Locale.ROOT, "%spassword%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPassword()))));
     }
 
     // add `pattern_with_digits` to the URL query string
     if (getPatternWithDigits() != null) {
-      joiner.add(String.format("%spattern_with_digits%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPatternWithDigits()))));
+      joiner.add(String.format(Locale.ROOT, "%spattern_with_digits%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPatternWithDigits()))));
     }
 
     // add `pattern_with_digits_and_delimiter` to the URL query string
     if (getPatternWithDigitsAndDelimiter() != null) {
-      joiner.add(String.format("%spattern_with_digits_and_delimiter%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPatternWithDigitsAndDelimiter()))));
+      joiner.add(String.format(Locale.ROOT, "%spattern_with_digits_and_delimiter%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPatternWithDigitsAndDelimiter()))));
     }
 
     return joiner.toString();

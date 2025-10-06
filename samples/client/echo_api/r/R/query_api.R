@@ -159,6 +159,21 @@
 #' dput(result)
 #'
 #'
+#' ####################  TestQueryStyleJsonSerializationObject  ####################
+#'
+#' library(openapi)
+#' var_json_serialized_object_ref_string_query <- Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available") # Pet |  (Optional)
+#' var_json_serialized_object_array_ref_string_query <- c(Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available")) # array[Pet] |  (Optional)
+#'
+#' #Test query parameter(s)
+#' api_instance <- QueryApi$new()
+#'
+#' # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#' # result <- api_instance$TestQueryStyleJsonSerializationObject(json_serialized_object_ref_string_query = var_json_serialized_object_ref_string_query, json_serialized_object_array_ref_string_query = var_json_serialized_object_array_ref_string_querydata_file = "result.txt")
+#' result <- api_instance$TestQueryStyleJsonSerializationObject(json_serialized_object_ref_string_query = var_json_serialized_object_ref_string_query, json_serialized_object_array_ref_string_query = var_json_serialized_object_array_ref_string_query)
+#' dput(result)
+#'
+#'
 #' }
 #' @importFrom R6 R6Class
 #' @importFrom base64enc base64encode
@@ -221,7 +236,13 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`enum_nonref_string_query`) && is.null(`enum_nonref_string_query`)) {
+        stop("Invalid value for `enum_nonref_string_query` when calling QueryApi$TestEnumRefString, `enum_nonref_string_query` is not nullable")
+      }
 
+      if (!missing(`enum_ref_string_query`) && is.null(`enum_ref_string_query`)) {
+        stop("Invalid value for `enum_ref_string_query` when calling QueryApi$TestEnumRefString, `enum_ref_string_query` is not nullable")
+      }
 
       if (!is.null(`enum_nonref_string_query`) && !(`enum_nonref_string_query` %in% c("success", "failure", "unclassified"))) {
         stop("Invalid value for enum_nonref_string_query when calling QueryApi$TestEnumRefString. Must be [success, failure, unclassified].")
@@ -323,8 +344,17 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`datetime_query`) && is.null(`datetime_query`)) {
+        stop("Invalid value for `datetime_query` when calling QueryApi$TestQueryDatetimeDateString, `datetime_query` is not nullable")
+      }
 
+      if (!missing(`date_query`) && is.null(`date_query`)) {
+        stop("Invalid value for `date_query` when calling QueryApi$TestQueryDatetimeDateString, `date_query` is not nullable")
+      }
 
+      if (!missing(`string_query`) && is.null(`string_query`)) {
+        stop("Invalid value for `string_query` when calling QueryApi$TestQueryDatetimeDateString, `string_query` is not nullable")
+      }
 
       query_params[["datetime_query"]] <- `datetime_query`
 
@@ -425,8 +455,17 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`integer_query`) && is.null(`integer_query`)) {
+        stop("Invalid value for `integer_query` when calling QueryApi$TestQueryIntegerBooleanString, `integer_query` is not nullable")
+      }
 
+      if (!missing(`boolean_query`) && is.null(`boolean_query`)) {
+        stop("Invalid value for `boolean_query` when calling QueryApi$TestQueryIntegerBooleanString, `boolean_query` is not nullable")
+      }
 
+      if (!missing(`string_query`) && is.null(`string_query`)) {
+        stop("Invalid value for `string_query` when calling QueryApi$TestQueryIntegerBooleanString, `string_query` is not nullable")
+      }
 
       query_params[["integer_query"]] <- `integer_query`
 
@@ -523,6 +562,9 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`query_object`) && is.null(`query_object`)) {
+        stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleDeepObjectExplodeTrueObject, `query_object` is not nullable")
+      }
 
       query_params[["query_object"]] <- `query_object`
 
@@ -615,6 +657,9 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`query_object`) && is.null(`query_object`)) {
+        stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleDeepObjectExplodeTrueObjectAllOf, `query_object` is not nullable")
+      }
 
       query_params[["query_object"]] <- `query_object`
 
@@ -707,6 +752,9 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`query_object`) && is.null(`query_object`)) {
+        stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleFormExplodeFalseArrayInteger, `query_object` is not nullable")
+      }
 
       # no explore
       query_params[["query_object"]] <- I(paste(lapply(`query_object`, URLencode, reserved = TRUE), collapse = ","))
@@ -800,6 +848,9 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`query_object`) && is.null(`query_object`)) {
+        stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleFormExplodeFalseArrayString, `query_object` is not nullable")
+      }
 
       # no explore
       query_params[["query_object"]] <- I(paste(lapply(`query_object`, URLencode, reserved = TRUE), collapse = ","))
@@ -893,6 +944,9 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`query_object`) && is.null(`query_object`)) {
+        stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleFormExplodeTrueArrayString, `query_object` is not nullable")
+      }
 
       query_params[["query_object"]] <- `query_object`
 
@@ -985,6 +1039,9 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`query_object`) && is.null(`query_object`)) {
+        stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleFormExplodeTrueObject, `query_object` is not nullable")
+      }
 
       query_params[["query_object"]] <- `query_object`
 
@@ -1077,10 +1134,117 @@ QueryApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`query_object`) && is.null(`query_object`)) {
+        stop("Invalid value for `query_object` when calling QueryApi$TestQueryStyleFormExplodeTrueObjectAllOf, `query_object` is not nullable")
+      }
 
       query_params[["query_object"]] <- `query_object`
 
       local_var_url_path <- "/query/style_form/explode_true/object/allOf"
+
+      # The Accept request HTTP header
+      local_var_accepts <- list("text/plain")
+
+      # The Content-Type representation header
+      local_var_content_types <- list()
+
+      local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
+                                 method = "GET",
+                                 query_params = query_params,
+                                 header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
+                                 accepts = local_var_accepts,
+                                 content_types = local_var_content_types,
+                                 body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
+                                 ...)
+
+      if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+          self$api_client$WriteFile(local_var_resp, data_file)
+        }
+
+        deserialized_resp_obj <- tryCatch(
+          self$api_client$DeserializeResponse(local_var_resp, "character"),
+          error = function(e) {
+            stop("Failed to deserialize response")
+          }
+        )
+        local_var_resp$content <- deserialized_resp_obj
+        return(local_var_resp)
+      } 
+      
+      local_var_error_msg <- local_var_resp$response_as_text()      
+      if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+      } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
+        ApiResponse$new("API client error", local_var_resp)
+      } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
+        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+          local_var_resp$response <- "API server error"
+        }
+        return(local_var_resp)
+      }
+    },
+
+    #' @description
+    #' Test query parameter(s)
+    #'
+    #' @param json_serialized_object_ref_string_query (optional) No description
+    #' @param json_serialized_object_array_ref_string_query (optional) No description
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #'
+    #' @return character
+    TestQueryStyleJsonSerializationObject = function(json_serialized_object_ref_string_query = NULL, json_serialized_object_array_ref_string_query = NULL, data_file = NULL, ...) {
+      local_var_response <- self$TestQueryStyleJsonSerializationObjectWithHttpInfo(json_serialized_object_ref_string_query, json_serialized_object_array_ref_string_query, data_file = data_file, ...)
+      if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
+        return(local_var_response$content)
+      } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
+        return(local_var_response)
+      } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
+        return(local_var_response)
+      } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
+        return(local_var_response)
+      }
+    },
+
+    #' @description
+    #' Test query parameter(s)
+    #'
+    #' @param json_serialized_object_ref_string_query (optional) No description
+    #' @param json_serialized_object_array_ref_string_query (optional) No description
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #'
+    #' @return API response (character) with additional information such as HTTP status code, headers
+    TestQueryStyleJsonSerializationObjectWithHttpInfo = function(json_serialized_object_ref_string_query = NULL, json_serialized_object_array_ref_string_query = NULL, data_file = NULL, ...) {
+      args <- list(...)
+      query_params <- list()
+      header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
+
+      if (!missing(`json_serialized_object_ref_string_query`) && is.null(`json_serialized_object_ref_string_query`)) {
+        stop("Invalid value for `json_serialized_object_ref_string_query` when calling QueryApi$TestQueryStyleJsonSerializationObject, `json_serialized_object_ref_string_query` is not nullable")
+      }
+
+      if (!missing(`json_serialized_object_array_ref_string_query`) && is.null(`json_serialized_object_array_ref_string_query`)) {
+        stop("Invalid value for `json_serialized_object_array_ref_string_query` when calling QueryApi$TestQueryStyleJsonSerializationObject, `json_serialized_object_array_ref_string_query` is not nullable")
+      }
+
+      query_params[["json_serialized_object_ref_string_query"]] <- `json_serialized_object_ref_string_query`
+
+      # no explore
+      query_params[["json_serialized_object_array_ref_string_query"]] <- I(paste(lapply(`json_serialized_object_array_ref_string_query`, URLencode, reserved = TRUE), collapse = ","))
+
+      local_var_url_path <- "/query/style_jsonSerialization/object"
 
       # The Accept request HTTP header
       local_var_accepts <- list("text/plain")

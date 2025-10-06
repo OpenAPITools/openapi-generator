@@ -162,7 +162,7 @@ public class Generate extends OpenApiGeneratorCommand {
 
     @Option(
             name = {"--openapi-generator-ignore-list"},
-            title = ".openapi-generaotr-ignore list",
+            title = ".openapi-generator-ignore list",
             description = "specifies entries in the .openapi-generator-ignore file relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml"
                     + " You can also have multiple occurrences of this option.")
     private List<String> openapiGeneratorIgnoreList = new ArrayList<>();

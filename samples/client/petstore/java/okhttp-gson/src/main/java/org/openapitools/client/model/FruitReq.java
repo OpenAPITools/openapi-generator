@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -37,6 +38,7 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,7 +62,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FruitReq extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FruitReq.class.getName());
 
@@ -116,7 +118,7 @@ public class FruitReq extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'AppleReq'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for AppleReq failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for AppleReq failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'AppleReq'", e);
                     }
                     // deserialize BananaReq
@@ -128,7 +130,7 @@ public class FruitReq extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'BananaReq'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for BananaReq failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for BananaReq failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'BananaReq'", e);
                     }
 
@@ -138,7 +140,7 @@ public class FruitReq extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for FruitReq: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(Locale.ROOT, "Failed deserialization for FruitReq: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -242,7 +244,7 @@ public class FruitReq extends AbstractOpenApiSchema {
             AppleReq.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for AppleReq failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(Locale.ROOT, "Deserialization for AppleReq failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with BananaReq
@@ -250,11 +252,11 @@ public class FruitReq extends AbstractOpenApiSchema {
             BananaReq.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for BananaReq failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(Locale.ROOT, "Deserialization for BananaReq failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for FruitReq with oneOf schemas: AppleReq, BananaReq. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(Locale.ROOT, "The JSON string is invalid for FruitReq with oneOf schemas: AppleReq, BananaReq. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

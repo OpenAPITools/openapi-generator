@@ -13,7 +13,7 @@ description = "{{{.}}}"
 {{#licenseInfo}}
 license = "{{.}}"
 {{/licenseInfo}}
-edition = "2021"
+edition = "2024"
 {{#publishRustRegistry}}
 publish = ["{{.}}"]
 {{/publishRustRegistry}}
@@ -24,7 +24,7 @@ repository = "{{.}}"
 documentation = "{{.}}"
 {{/documentationUrl}}
 {{#homePageUrl}}
-homepage = "{{.}}
+homepage = "{{.}}"
 {{/homePageUrl}}
 
 [features]
@@ -39,6 +39,7 @@ conversion = [
 ]
 
 [dependencies]
+ammonia = "4"
 async-trait = "0.1"
 axum = { version = "0.8", features = ["multipart"] }
 axum-extra = { version = "0.10", features = ["cookie", "query"] }

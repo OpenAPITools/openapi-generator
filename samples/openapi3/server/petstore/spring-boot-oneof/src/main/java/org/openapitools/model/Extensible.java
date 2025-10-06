@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * Extensible
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Extensible {
 
   private @Nullable String atSchemaLocation;
@@ -39,7 +39,7 @@ public class Extensible {
     this.atType = atType;
   }
 
-  public Extensible atSchemaLocation(String atSchemaLocation) {
+  public Extensible atSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
     return this;
   }
@@ -51,15 +51,15 @@ public class Extensible {
   
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@schemaLocation")
-  public String getAtSchemaLocation() {
+  public @Nullable String getAtSchemaLocation() {
     return atSchemaLocation;
   }
 
-  public void setAtSchemaLocation(String atSchemaLocation) {
+  public void setAtSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
   }
 
-  public Extensible atBaseType(String atBaseType) {
+  public Extensible atBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
     return this;
   }
@@ -71,11 +71,11 @@ public class Extensible {
   
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@baseType")
-  public String getAtBaseType() {
+  public @Nullable String getAtBaseType() {
     return atBaseType;
   }
 
-  public void setAtBaseType(String atBaseType) {
+  public void setAtBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
   }
 

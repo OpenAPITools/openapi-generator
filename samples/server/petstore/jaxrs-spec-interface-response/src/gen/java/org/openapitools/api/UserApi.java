@@ -19,7 +19,7 @@ import javax.validation.Valid;
 */
 @Path("/user")
 @Api(description = "the user API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public interface UserApi {
 
     /**

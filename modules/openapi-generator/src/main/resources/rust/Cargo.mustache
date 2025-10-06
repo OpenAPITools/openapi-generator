@@ -69,7 +69,14 @@ reqwest-middleware = { version = "^0.4", features = ["json", "blocking", "multip
 {{/supportMiddleware}}
 {{/supportAsync}}
 {{#supportAsync}}
+{{#useAsyncFileStream}}
+tokio = { version = "^1.46.0", features = ["fs"] }
+tokio-util = { version = "^0.7", features = ["codec"] }
+reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart", "stream"] }
+{{/useAsyncFileStream}}
+{{^useAsyncFileStream}}
 reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
+{{/useAsyncFileStream}}
 {{#supportMiddleware}}
 reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 {{/supportMiddleware}}
@@ -79,6 +86,11 @@ async-trait = "^0.1"
 google-cloud-token = "^0.1"
 {{/supportTokenSource}}
 {{/supportAsync}}
+
+[features]
+default = [{{#reqwestDefaultFeatures}}"{{.}}"{{^-last}}, {{/-last}}{{/reqwestDefaultFeatures}}]
+native-tls = ["reqwest/native-tls"]
+rustls-tls = ["reqwest/rustls-tls"]
 {{/reqwest}}
 {{#reqwestTrait}}
 async-trait = "^0.1"
@@ -97,9 +109,9 @@ mockall = { version = "^0.13", optional = true}
 bon = { version = "2.3", optional = true }
 {{/useBonBuilder}}
 [features]
-default = ["native-tls"]
+default = [{{#reqwestDefaultFeatures}}"{{.}}"{{^-last}}, {{/-last}}{{/reqwestDefaultFeatures}}]
 native-tls = ["reqwest/native-tls"]
-rustls = ["reqwest/rustls-tls"]
+rustls-tls = ["reqwest/rustls-tls"]
 {{#mockall}}
 mockall = ["dep:mockall"]
 {{/mockall}}

@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,7 +40,7 @@ import java.util.StringJoiner;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @javax.annotation.Nullable
@@ -67,7 +68,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return uuid
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public UUID getUuid() {
@@ -75,7 +76,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
@@ -92,7 +93,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return dateTime
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getDateTime() {
@@ -100,7 +101,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
@@ -125,7 +126,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return map
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonProperty(value = JSON_PROPERTY_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Animal> getMap() {
@@ -133,7 +134,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonProperty(value = JSON_PROPERTY_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMap(@javax.annotation.Nullable Map<String, Animal> map) {
     this.map = map;
@@ -215,7 +216,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     // add `uuid` to the URL query string
     if (getUuid() != null) {
       try {
-        joiner.add(String.format("%suuid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUuid()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%suuid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUuid()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -225,7 +226,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     // add `dateTime` to the URL query string
     if (getDateTime() != null) {
       try {
-        joiner.add(String.format("%sdateTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDateTime()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%sdateTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDateTime()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -236,8 +237,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     if (getMap() != null) {
       for (String _key : getMap().keySet()) {
         if (getMap().get(_key) != null) {
-          joiner.add(getMap().get(_key).toUrlQueryString(String.format("%smap%s%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
+          joiner.add(getMap().get(_key).toUrlQueryString(String.format(Locale.ROOT, "%smap%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix))));
         }
       }
     }

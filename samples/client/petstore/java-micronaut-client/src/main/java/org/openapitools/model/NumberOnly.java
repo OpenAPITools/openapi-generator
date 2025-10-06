@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.*;
 
@@ -29,7 +30,7 @@ import javax.annotation.Generated;
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
 @JsonTypeName("NumberOnly")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @Introspected
 public class NumberOnly {
     public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";

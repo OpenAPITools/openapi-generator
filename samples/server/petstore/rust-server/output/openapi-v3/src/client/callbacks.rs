@@ -1,10 +1,12 @@
+use bytes::Bytes;
 use futures::{future, future::BoxFuture, Stream, stream, future::FutureExt, stream::TryStreamExt};
-use hyper::{Request, Response, StatusCode, Body, HeaderMap};
+use http_body_util::{combinators::BoxBody, Full};
+use hyper::{body::{Body, Incoming}, HeaderMap, Request, Response, StatusCode};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use log::warn;
 #[allow(unused_imports)]
 use std::convert::{TryFrom, TryInto};
-use std::error::Error;
+use std::{convert::Infallible, error::Error};
 use std::future::Future;
 use std::marker::PhantomData;
 use std::task::{Context, Poll};
@@ -18,7 +20,7 @@ use crate::{models, header, AuthenticationApi};
 
 pub use crate::context;
 
-type ServiceFuture = BoxFuture<'static, Result<Response<Body>, crate::ServiceError>>;
+type ServiceFuture = BoxFuture<'static, Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>>;
 
 use crate::CallbackApi as Api;
 use crate::CallbackCallbackWithHeaderPostResponse;
@@ -52,7 +54,8 @@ mod paths {
 
 
 
-pub struct MakeService<T, C> where
+pub struct MakeService<T, C>
+where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
 {
@@ -60,7 +63,8 @@ pub struct MakeService<T, C> where
     marker: PhantomData<C>,
 }
 
-impl<T, C> MakeService<T, C> where
+impl<T, C> MakeService<T, C>
+where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
 {
@@ -72,7 +76,21 @@ impl<T, C> MakeService<T, C> where
     }
 }
 
-impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
+impl<T, C> Clone for MakeService<T, C>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Has<Option<Authorization>> + Send + Sync + 'static
+{
+    fn clone(&self) -> Self {
+        Self {
+            api_impl: self.api_impl.clone(),
+            marker: PhantomData,
+        }
+    }
+}
+
+impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C>
+where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
 {
@@ -80,11 +98,7 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     type Error = crate::ServiceError;
     type Future = future::Ready<Result<Self::Response, Self::Error>>;
 
-    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
-        Poll::Ready(Ok(()))
-    }
-
-    fn call(&mut self, target: Target) -> Self::Future {
+    fn call(&self, target: Target) -> Self::Future {
         let service = Service::new(self.api_impl.clone());
 
         future::ok(service)
@@ -92,10 +106,10 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
 }
 
 
-fn method_not_allowed() -> Result<Response<Body>, crate::ServiceError> {
+fn method_not_allowed() -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError> {
     Ok(
         Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
-            .body(Body::empty())
+            .body(BoxBody::new(http_body_util::Empty::new()))
             .expect("Unable to create Method Not Allowed response")
     )
 }
@@ -132,25 +146,37 @@ impl<T, C> Clone for Service<T, C> where
     }
 }
 
-impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
+#[allow(dead_code)]
+fn body_from_string(s: String) -> BoxBody<Bytes, Infallible> {
+    BoxBody::new(Full::new(Bytes::from(s)))
+}
+
+fn body_from_str(s: &str) -> BoxBody<Bytes, Infallible> {
+    BoxBody::new(Full::new(Bytes::copy_from_slice(s.as_bytes())))
+}
+
+impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T, C> where
     T: Api<C> + Clone + Send + Sync + 'static,
-    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
 {
-    type Response = Response<Body>;
+    type Response = Response<BoxBody<Bytes, Infallible>>;
     type Error = crate::ServiceError;
     type Future = ServiceFuture;
 
-    fn poll_ready(&mut self, cx: &mut Context) -> Poll<Result<(), Self::Error>> {
-        self.api_impl.poll_ready(cx)
-    }
-
-    fn call(&mut self, req: (Request<Body>, C)) -> Self::Future {
-        async fn run<T, C>(
+    fn call(&self, req: (Request<ReqBody>, C)) -> Self::Future {
+        async fn run<T, C, ReqBody>(
             mut api_impl: T,
-            req: (Request<Body>, C),
-        ) -> Result<Response<Body>, crate::ServiceError> where
+            req: (Request<ReqBody>, C),
+        ) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+        where
             T: Api<C> + Clone + Send + 'static,
-            C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
+            C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+            ReqBody: Body + Send + 'static,
+            ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+            ReqBody::Data: Send,
         {
             let (request, context) = req;
             let (parts, body) = request.into_parts();
@@ -181,7 +207,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Invalid header Information - {}", err)))
+                                        .body(body_from_string(format!("Invalid header Information - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header Information"));
 
                         },
@@ -196,7 +222,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                             param_information,
                                         &context
                                     ).await;
-                                let mut response = Response::new(Body::empty());
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
@@ -214,7 +240,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
+                                                *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
 
@@ -237,7 +263,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                             callback_request_query_url,
                                         &context
                                     ).await;
-                                let mut response = Response::new(Body::empty());
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
@@ -255,7 +281,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
+                                                *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
 
@@ -265,7 +291,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             _ if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => method_not_allowed(),
             _ if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => method_not_allowed(),
                 _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
-                        .body(Body::empty())
+                        .body(BoxBody::new(http_body_util::Empty::new()))
                         .expect("Unable to create Not Found response"))
             }
         }

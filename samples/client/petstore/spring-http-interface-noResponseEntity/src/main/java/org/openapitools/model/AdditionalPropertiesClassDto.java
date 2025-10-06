@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("AdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
   
@@ -275,7 +275,7 @@ public class AdditionalPropertiesClassDto {
     this.mapMapAnytype = mapMapAnytype;
   }
 
-  public AdditionalPropertiesClassDto anytype1(Object anytype1) {
+  public AdditionalPropertiesClassDto anytype1(@Nullable Object anytype1) {
     this.anytype1 = anytype1;
     return this;
   }
@@ -286,11 +286,11 @@ public class AdditionalPropertiesClassDto {
    */
   
   @JsonProperty("anytype_1")
-  public Object getAnytype1() {
+  public @Nullable Object getAnytype1() {
     return anytype1;
   }
 
-  public void setAnytype1(Object anytype1) {
+  public void setAnytype1(@Nullable Object anytype1) {
     this.anytype1 = anytype1;
   }
 
@@ -313,7 +313,7 @@ public class AdditionalPropertiesClassDto {
     this.anytype2 = anytype2;
   }
 
-  public AdditionalPropertiesClassDto anytype3(Object anytype3) {
+  public AdditionalPropertiesClassDto anytype3(@Nullable Object anytype3) {
     this.anytype3 = anytype3;
     return this;
   }
@@ -324,11 +324,11 @@ public class AdditionalPropertiesClassDto {
    */
   
   @JsonProperty("anytype_3")
-  public Object getAnytype3() {
+  public @Nullable Object getAnytype3() {
     return anytype3;
   }
 
-  public void setAnytype3(Object anytype3) {
+  public void setAnytype3(@Nullable Object anytype3) {
     this.anytype3 = anytype3;
   }
 

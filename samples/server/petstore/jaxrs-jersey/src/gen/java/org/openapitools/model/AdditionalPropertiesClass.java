@@ -31,7 +31,7 @@ import javax.validation.Valid;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AdditionalPropertiesClass   {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)

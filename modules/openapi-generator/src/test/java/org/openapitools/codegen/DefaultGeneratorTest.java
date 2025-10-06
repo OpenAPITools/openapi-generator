@@ -775,45 +775,15 @@ public class DefaultGeneratorTest {
         // all fine, we have passed
     }
 
-
-    private DefaultGenerator generatorGenerateRecursiveDependentModelsBackwardCompatibility(String recursively) throws IOException {
-        DefaultGenerator generator = new DefaultGenerator(false);
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, recursively);
-        return generator;
-    }
-
-    private ClientOptInput createOptInputIssue19220(Path target) {
-        return createOptInputIssue("19220", target);
-    }
-
-    private ClientOptInput createOptInputIssue18444(Path target) {
-        return createOptInputIssue("18444", target);
-    }
-
-    private ClientOptInput createOptInputIssue(String issueNumber, Path target) {
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("spring")
-                .setInputSpec("src/test/resources/bugs/issue_" + issueNumber + ".json")
-                .setOutputDir(target.toAbsolutePath().toString());
-        return configurator.toClientOptInput();
-    }
-
     @Test
     public void testGenerateRecursiveDependentModelsBackwardCompatibilityIssue18444() throws IOException {
         Path target = Files.createTempDirectory("test");
         File output = target.toFile();
-        String oldModelsProp = GlobalSettings.getProperty("models");
+        String oldModelsProp = GlobalSettings.getProperty(CodegenConstants.MODELS);
 
         try {
             DefaultGenerator generator = generatorGenerateRecursiveDependentModelsBackwardCompatibility("false");
-            GlobalSettings.setProperty("models", "RQ1,RS1");
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "RQ1,RS1");
             ClientOptInput clientOptInput = createOptInputIssue18444(target);
             List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertEquals(files.size(), 17);
@@ -853,9 +823,9 @@ public class DefaultGeneratorTest {
         } finally {
             output.deleteOnExit();
             if (oldModelsProp != null) {
-                GlobalSettings.setProperty("models", oldModelsProp);
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModelsProp);
             } else {
-                GlobalSettings.clearProperty("models");
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
             }
         }
     }
@@ -864,11 +834,11 @@ public class DefaultGeneratorTest {
     public void testGenerateRecursiveDependentModelsIssue18444() throws IOException {
         Path target = Files.createTempDirectory("test");
         File output = target.toFile();
-        String oldModelsProp = GlobalSettings.getProperty("models");
+        String oldModelsProp = GlobalSettings.getProperty(CodegenConstants.MODELS);
 
         try {
             DefaultGenerator generator = generatorGenerateRecursiveDependentModelsBackwardCompatibility("true");
-            GlobalSettings.setProperty("models", "RQ1,RS1");
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "RQ1,RS1");
             ClientOptInput clientOptInput = createOptInputIssue18444(target);
             List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertEquals(files.size(), 21);
@@ -908,9 +878,9 @@ public class DefaultGeneratorTest {
         } finally {
             output.deleteOnExit();
             if (oldModelsProp != null) {
-                GlobalSettings.setProperty("models", oldModelsProp);
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModelsProp);
             } else {
-                GlobalSettings.clearProperty("models");
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
             }
         }
     }
@@ -919,11 +889,11 @@ public class DefaultGeneratorTest {
     public void testGenerateRecursiveDependentModelsIssue19220() throws IOException {
         Path target = Files.createTempDirectory("test");
         File output = target.toFile();
-        String oldModelsProp = GlobalSettings.getProperty("models");
+        String oldModelsProp = GlobalSettings.getProperty(CodegenConstants.MODELS);
 
         try {
             DefaultGenerator generator = generatorGenerateRecursiveDependentModelsBackwardCompatibility("true");
-            GlobalSettings.setProperty("models", "RQ1,RS1");
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "RQ1,RS1");
             ClientOptInput clientOptInput = createOptInputIssue19220(target);
             List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertEquals(files.size(), 21);
@@ -963,11 +933,112 @@ public class DefaultGeneratorTest {
         } finally {
             output.deleteOnExit();
             if (oldModelsProp != null) {
-                GlobalSettings.setProperty("models", oldModelsProp);
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModelsProp);
             } else {
-                GlobalSettings.clearProperty("models");
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
             }
         }
     }
 
+    @Test
+    public void testGenerateMultiLinePropertiesIssue19628() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        String multiLineSeparator = ",\n    ";
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(true);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+
+            List<String> supportingFilesToGenerate = Arrays.asList(
+                "pom.xml",
+                ".travis.yml",
+                ".gitignore",
+                "git_push.sh"
+            );
+            GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, String.join(multiLineSeparator, supportingFilesToGenerate));
+
+            List<String> apisToGenerate = Arrays.asList(
+                "Pet",
+                "User"
+            );
+            GlobalSettings.setProperty(CodegenConstants.APIS, String.join(multiLineSeparator, apisToGenerate));
+
+            List<String> modelsToGenerate = Arrays.asList(
+                "Category",
+                "Pet",
+                "Tag",
+                "User"
+            );
+            GlobalSettings.setProperty(CodegenConstants.MODELS, String.join(multiLineSeparator, modelsToGenerate));
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            Assert.assertEquals(
+                files.size(),
+                // version file + files specified by properties
+                1 + supportingFilesToGenerate.size() + modelsToGenerate.size() + apisToGenerate.size()
+            );
+
+            TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
+            for(String supportingFile : supportingFilesToGenerate) {
+                TestUtils.ensureContainsFile(files, output, supportingFile);
+            }
+
+            for(String apiFile : apisToGenerate) {
+                String filename = "src/main/java/org/openapitools/client/api/" + apiFile + "Api.java";
+                TestUtils.ensureContainsFile(files, output, filename);
+            }
+
+            for(String modelFile : modelsToGenerate) {
+                String filename = "src/main/java/org/openapitools/client/model/" + modelFile + ".java";
+                TestUtils.ensureContainsFile(files, output, filename);
+            }
+        } finally {
+            GlobalSettings.reset();
+            output.deleteOnExit();
+        }
+    }
+
+    private DefaultGenerator generatorGenerateRecursiveDependentModelsBackwardCompatibility(String recursively) throws IOException {
+        DefaultGenerator generator = new DefaultGenerator(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, recursively);
+        return generator;
+    }
+
+    private ClientOptInput createOptInputIssue19220(Path target) {
+        return createOptInputIssue("19220", target);
+    }
+
+    private ClientOptInput createOptInputIssue18444(Path target) {
+        return createOptInputIssue("18444", target);
+    }
+
+    private ClientOptInput createOptInputIssue(String issueNumber, Path target) {
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setInputSpec("src/test/resources/bugs/issue_" + issueNumber + ".json")
+                .setOutputDir(target.toAbsolutePath().toString());
+        return configurator.toClientOptInput();
+    }
 }

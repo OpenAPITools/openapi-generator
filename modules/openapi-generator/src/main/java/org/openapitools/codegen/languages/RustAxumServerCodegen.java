@@ -61,6 +61,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private Boolean allowBlockingValidator = false;
     private Boolean allowBlockingResponseSerialize = false;
     private String externCrateName;
+    private Boolean basicAuthorization = false;
+    private Boolean basicAnalytic = false;
+    private Boolean ownedRequest = false;
 
     // Types
     private static final String uuidType = "uuid::Uuid";
@@ -96,6 +99,18 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     public RustAxumServerCodegen() {
         super();
 
+        // The `#[validate(nested)]` macro relies on an internal field named `errors` to accumulate validation results. Therefore, defining a struct like this will fail:
+        //
+        // ```rust
+        // struct A {
+        //   #[validate(nested)]
+        //   errors: B,
+        // }
+        // ```
+        //
+        // To avoid this, either rename the field to something other than "errors", or reserve it.
+        this.reservedWords.add("errors");
+
         modifyFeatureSet(features -> features
                 .wireFormatFeatures(EnumSet.of(
                         WireFormatFeature.JSON,
@@ -109,7 +124,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .schemaSupportFeatures(EnumSet.of(
                         SchemaSupportFeature.Simple,
                         SchemaSupportFeature.Composite,
-                        SchemaSupportFeature.oneOf
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf,
+                        SchemaSupportFeature.allOf
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.Info,
@@ -286,7 +303,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             LOGGER.info("Warning: Environment variable 'RUST_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
+        if (!ModelUtils.isGenerateAliasAsModel()) {
             LOGGER.warn("generateAliasAsModel is set to false, which means array/map will be generated as model instead and the resulting code may have issues. Please enable `generateAliasAsModel` to address the issue.");
         }
 
@@ -315,6 +332,24 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             allowBlockingResponseSerialize = convertPropertyToBooleanAndWriteBack("allowBlockingResponseSerialize");
         } else {
             additionalProperties.put("allowBlockingResponseSerialize", allowBlockingResponseSerialize);
+        }
+
+        if (additionalProperties.containsKey("basicAuthorization")) {
+            basicAuthorization = convertPropertyToBooleanAndWriteBack("basicAuthorization");
+        } else {
+            additionalProperties.put("basicAuthorization", basicAuthorization);
+        }
+
+        if (additionalProperties.containsKey("basicAnalytic")) {
+            basicAnalytic = convertPropertyToBooleanAndWriteBack("basicAnalytic");
+        } else {
+            additionalProperties.put("basicAnalytic", basicAnalytic);
+        }
+
+        if (additionalProperties.containsKey("ownedRequest")) {
+            ownedRequest = convertPropertyToBooleanAndWriteBack("ownedRequest");
+        } else {
+            additionalProperties.put("ownedRequest", ownedRequest);
         }
     }
 
@@ -429,19 +464,27 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         String underscoredOperationId = underscore(op.operationId);
+        String axumPath = op.path;
+        for (CodegenParameter param : op.pathParams) {
+            // Replace {baseName} with {paramName} for format string
+            String paramSearch = "{" + param.baseName + "}";
+            String paramReplace = "{" + param.paramName + "}";
+
+            axumPath = axumPath.replace(paramSearch, paramReplace);
+        }
+        ArrayList<MethodOperation> pathMethods = pathMethodOpMap.get(axumPath);
+
+        // Prevent multiple declarations of the same operation
+        if (pathMethods != null && pathMethods.stream().anyMatch(pathMethod ->
+                pathMethod.operationID.equals(underscoredOperationId))) {
+            return op;
+        }
+
         op.vendorExtensions.put("x-operation-id", underscoredOperationId);
         op.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId.toUpperCase(Locale.ROOT));
 
         if (!op.isCallbackRequest) {
             // group route by path
-            String axumPath = op.path;
-            for (CodegenParameter param : op.pathParams) {
-                // Replace {baseName} with {paramName} for format string
-                String paramSearch = "{" + param.baseName + "}";
-                String paramReplace = "{" + param.paramName + "}";
-
-                axumPath = axumPath.replace(paramSearch, paramReplace);
-            }
             pathMethodOpMap
                     .computeIfAbsent(axumPath, (key) -> new ArrayList<>())
                     .add(new MethodOperation(
@@ -604,105 +647,163 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return op;
     }
 
-    private void postProcessOneOfModels(List<ModelMap> allModels) {
-        final HashMap<String, List<String>> oneOfMapDiscriminator = new HashMap<>();
+    private void postProcessPolymorphism(final List<ModelMap> allModels) {
+        final HashMap<String, List<String>> discriminatorsForModel = new HashMap<>();
 
-        for (ModelMap mo : allModels) {
+        for (final ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
 
             final CodegenComposedSchemas cs = cm.getComposedSchemas();
             if (cs != null) {
                 final List<CodegenProperty> csOneOf = cs.getOneOf();
-
                 if (csOneOf != null) {
-                    for (CodegenProperty model : csOneOf) {
-                        // Generate a valid name for the enum variant.
-                        // Mainly needed for primitive types.
-
-                        model.datatypeWithEnum = camelize(model.dataType.replaceAll("(?:\\w+::)+(\\w+)", "$1")
-                                .replace("<", "Of").replace(">", ""));
-
-                        // Primitive type is not properly set, this overrides it to guarantee adequate model generation.
-                        if (!model.getDataType().matches(String.format(Locale.ROOT, ".*::%s", model.getDatatypeWithEnum()))) {
-                            model.isPrimitiveType = true;
-                        }
-                    }
-
+                    processPolymorphismDataType(csOneOf);
                     cs.setOneOf(csOneOf);
+                    cm.setComposedSchemas(cs);
+                }
+
+                final List<CodegenProperty> csAnyOf = cs.getAnyOf();
+                if (csAnyOf != null) {
+                    processPolymorphismDataType(csAnyOf);
+                    cs.setAnyOf(csAnyOf);
                     cm.setComposedSchemas(cs);
                 }
             }
 
             if (cm.discriminator != null) {
-                for (String model : cm.oneOf) {
-                    List<String> discriminators = oneOfMapDiscriminator.getOrDefault(model, new ArrayList<>());
+                for (final String model : cm.oneOf) {
+                    final List<String> discriminators = discriminatorsForModel.getOrDefault(model, new ArrayList<>());
                     discriminators.add(cm.discriminator.getPropertyName());
-                    oneOfMapDiscriminator.put(model, discriminators);
+                    discriminatorsForModel.put(model, discriminators);
+                }
+
+                for (final String model : cm.anyOf) {
+                    final List<String> discriminators = discriminatorsForModel.getOrDefault(model, new ArrayList<>());
+                    discriminators.add(cm.discriminator.getPropertyName());
+                    discriminatorsForModel.put(model, discriminators);
                 }
             }
         }
 
+        final var blocking = new HashSet<String>();
         for (ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
 
-            for (CodegenProperty var : cm.vars) {
-                var.isDiscriminator = false;
+            final List<String> discriminators = discriminatorsForModel.get(cm.getSchemaName());
+            if (discriminators != null) {
+                // If the discriminator field is not a defined attribute in the variant structure, create it.
+                if (!discriminating(discriminators, cm)) {
+                    final String discriminator = discriminators.get(0);
+
+                    CodegenProperty property = new CodegenProperty();
+
+                    // Static attributes
+                    // Only strings are supported by serde for tag field types, so it's the only one we'll deal with
+                    property.openApiType = "string";
+                    property.complexType = "string";
+                    property.dataType = "String";
+                    property.datatypeWithEnum = "String";
+                    property.baseType = "string";
+                    property.required = true;
+                    property.isPrimitiveType = true;
+                    property.isString = true;
+                    property.isDiscriminator = true;
+
+                    // Attributes based on the discriminator value
+                    property.baseName = discriminator;
+                    property.name = discriminator;
+                    property.nameInCamelCase = camelize(discriminator);
+                    property.nameInPascalCase = property.nameInCamelCase.substring(0, 1).toUpperCase(Locale.ROOT) + property.nameInCamelCase.substring(1);
+                    property.nameInSnakeCase = underscore(discriminator).toUpperCase(Locale.ROOT);
+                    property.getter = String.format(Locale.ROOT, "get%s", property.nameInPascalCase);
+                    property.setter = String.format(Locale.ROOT, "set%s", property.nameInPascalCase);
+                    property.defaultValueWithParam = String.format(Locale.ROOT, " = data.%s;", property.name);
+
+                    // Attributes based on the model name
+                    property.defaultValue = String.format(Locale.ROOT, "r#\"%s\"#.to_string()", cm.getSchemaName());
+                    property.jsonSchema = String.format(Locale.ROOT, "{ \"default\":\"%s\"; \"type\":\"string\" }", cm.getSchemaName());
+
+                    cm.vars.add(property);
+                }
             }
 
-            final List<String> discriminatorsForModel = oneOfMapDiscriminator.get(cm.getSchemaName());
+            if (cm.vars.stream().noneMatch(v -> v.isDiscriminator)) {
+                blocking.add(cm.getSchemaName());
+            }
+        }
 
-            if (discriminatorsForModel != null) {
-                for (String discriminator : discriminatorsForModel) {
-                    boolean hasDiscriminatorDefined = false;
-
-                    for (CodegenProperty var : cm.vars) {
-                        if (var.baseName.equals(discriminator)) {
-                            var.isDiscriminator = true;
-                            hasDiscriminatorDefined = true;
-                            break;
-                        }
-                    }
-
-                    // If the discriminator field is not a defined attribute in the variant structure, create it.
-                    if (!hasDiscriminatorDefined) {
-                        CodegenProperty property = new CodegenProperty();
-
-                        // Static attributes
-                        // Only strings are supported by serde for tag field types, so it's the only one we'll deal with
-                        property.openApiType = "string";
-                        property.complexType = "string";
-                        property.dataType = "String";
-                        property.datatypeWithEnum = "String";
-                        property.baseType = "string";
-                        property.required = true;
-                        property.isPrimitiveType = true;
-                        property.isString = true;
-                        property.isDiscriminator = true;
-
-                        // Attributes based on the discriminator value
-                        property.baseName = discriminator;
-                        property.name = discriminator;
-                        property.nameInCamelCase = camelize(discriminator);
-                        property.nameInPascalCase = property.nameInCamelCase.substring(0, 1).toUpperCase(Locale.ROOT) + property.nameInCamelCase.substring(1);
-                        property.nameInSnakeCase = underscore(discriminator).toUpperCase(Locale.ROOT);
-                        property.getter = String.format(Locale.ROOT, "get%s", property.nameInPascalCase);
-                        property.setter = String.format(Locale.ROOT, "set%s", property.nameInPascalCase);
-                        property.defaultValueWithParam = String.format(Locale.ROOT, " = data.%s;", property.name);
-
-                        // Attributes based on the model name
-                        property.defaultValue = String.format(Locale.ROOT, "r#\"%s\"#.to_string()", cm.getSchemaName());
-                        property.jsonSchema = String.format(Locale.ROOT, "{ \"default\":\"%s\"; \"type\":\"string\" }", cm.getSchemaName());
-
-                        cm.vars.add(property);
-                    }
+        for (final ModelMap mo : allModels) {
+            final CodegenModel cm = mo.getModel();
+            if (cm.discriminator != null) {
+                // if no discriminator in any of variant -> disable discriminator
+                if (cm.oneOf.stream().anyMatch(blocking::contains) || cm.anyOf.stream().anyMatch(blocking::contains)) {
+                    cm.discriminator = null;
                 }
+            }
+        }
+    }
+
+    private static boolean discriminating(final List<String> discriminatorsForModel, final CodegenModel cm) {
+        resetDiscriminatorProperty(cm);
+
+        // Discriminator will be presented as enum tag -> One and only one tag is allowed
+        int countString = 0;
+        int countNonString = 0;
+        for (final CodegenProperty var : cm.vars) {
+            if (discriminatorsForModel.stream().anyMatch(discriminator -> var.baseName.equals(discriminator) || var.name.equals(discriminator))) {
+                if (var.isString) {
+                    var.isDiscriminator = true;
+                    ++countString;
+                } else
+                    ++countNonString;
+            }
+        }
+
+        if (countString > 0 && (countNonString > 0 || countString > 1)) {
+            // at least two discriminator, one of them is string -> should not render serde tag
+            resetDiscriminatorProperty(cm);
+        }
+
+        return countNonString > 0 || countString > 0;
+    }
+
+    private static void resetDiscriminatorProperty(final CodegenModel cm) {
+        for (final CodegenProperty var : cm.vars) {
+            var.isDiscriminator = false;
+        }
+    }
+
+    private static void processPolymorphismDataType(final List<CodegenProperty> cp) {
+        final HashSet<String> dedupDataTypeWithEnum = new HashSet<>();
+        final HashMap<String, Integer> dedupDataType = new HashMap<>();
+
+        int idx = 0;
+        for (CodegenProperty model : cp) {
+            // Generate a valid name for the enum variant.
+            // Mainly needed for primitive types.
+            model.datatypeWithEnum = camelize(model.dataType.replaceAll("(?:\\w+::)+(\\w+)", "$1")
+                    .replace("<", "Of").replace(">", "")).replace(" ", "").replace(",", "");
+            if (!dedupDataTypeWithEnum.add(model.datatypeWithEnum)) {
+                model.datatypeWithEnum += ++idx;
+            }
+
+            dedupDataType.put(model.getDataType(), dedupDataType.getOrDefault(model.getDataType(), 0) + 1);
+
+            if (!model.getDataType().matches(String.format(Locale.ROOT, ".*::%s", model.getDatatypeWithEnum()))) {
+                model.isPrimitiveType = true;
+            }
+        }
+
+        for (CodegenProperty model : cp) {
+            if (dedupDataType.get(model.getDataType()) == 1) {
+                model.vendorExtensions.put("x-from-trait", true);
             }
         }
     }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(final OperationsMap operationsMap, List<ModelMap> allModels) {
-        postProcessOneOfModels(allModels);
+        postProcessPolymorphism(allModels);
 
         final OperationMap operations = operationsMap.getOperations();
         operations.put("classnamePascalCase", camelize(operations.getClassname()));
@@ -714,6 +815,21 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             operations.put("havingAuthMethod", true);
             operations.getOperation().forEach(op -> op.vendorExtensions.put("havingAuthMethod", true));
             this.havingAuthMethods = true;
+
+            if (basicAuthorization) {
+                operations.put("basicAuthorization", true);
+                operations.getOperation().forEach(op -> op.vendorExtensions.put("basicAuthorization", true));
+            }
+        }
+
+        if (basicAnalytic) {
+            operations.put("basicAnalytic", true);
+            operations.getOperation().forEach(op -> op.vendorExtensions.put("basicAnalytic", true));
+        }
+
+        if (ownedRequest) {
+            operations.put("ownedRequest", true);
+            operations.getOperation().forEach(op -> op.vendorExtensions.put("ownedRequest", true));
         }
 
         return operationsMap;
@@ -857,7 +973,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     // restore things to sensible values.
     @Override
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
-        final Schema original_schema = ModelUtils.getSchemaFromRequestBody(body);
+        final var original_schema = ModelUtils.getSchemaFromRequestBody(body);
         CodegenParameter codegenParameter = super.fromRequestBody(body, imports, bodyParameterName);
 
         if (StringUtils.isNotBlank(original_schema.get$ref())) {
@@ -876,10 +992,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public String toInstantiationType(final Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            final Schema inner = ModelUtils.getSchemaItems(p);
+            final var inner = ModelUtils.getSchemaItems(p);
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            final Schema inner = ModelUtils.getAdditionalProperties(p);
+            final var inner = ModelUtils.getAdditionalProperties(p);
             return instantiationTypes.get("map") + "<" + typeMapping.get("string") + ", " + getSchemaType(inner) + ">";
         } else {
             return null;
@@ -908,6 +1024,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public String toDefaultValue(final Schema p) {
         String defaultValue = null;
+
+        if (ModelUtils.isEnumSchema(p))
+            return null;
+
         if ((ModelUtils.isNullable(p)) && (p.getDefault() != null) && ("null".equalsIgnoreCase(p.getDefault().toString())))
             return "Nullable::Null";
 
@@ -921,6 +1041,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 defaultValue = p.getDefault().toString();
+                if (!defaultValue.contains(".")) {
+                    defaultValue += ".0";
+                }
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
@@ -974,6 +1097,22 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             property.dataType = objectType;
             property.isNullable = false;
         }
+
+        if (property.dataType.startsWith(vecType + "<String")) {
+            property.vendorExtensions.put("is-vec-string", true);
+        } else if (property.dataType.startsWith(vecType + "<models::")) {
+            property.vendorExtensions.put("is-vec-nested", true);
+        } else if (property.dataType.startsWith(mapType + "<String, String")) {
+            property.vendorExtensions.put("is-map-string", true);
+        } else if (property.dataType.startsWith(mapType + "<String, models::")) {
+            property.vendorExtensions.put("is-map-nested", true);
+        } else if (property.dataType.startsWith(mapType + "<String")) {
+            property.vendorExtensions.put("is-map", true);
+        } else if (property.dataType.startsWith("models::")) {
+            property.vendorExtensions.put("is-nested", true);
+        } else if (stringType.equals(property.dataType)) {
+            property.vendorExtensions.put("is-string", true);
+        }
     }
 
     @Override
@@ -1021,7 +1160,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         String cmd = System.getenv("RUST_POST_PROCESS_FILE");
         if (StringUtils.isEmpty(cmd)) {
             cmd = "rustfmt";
-            command = new String[]{cmd, "--edition", "2021", fileName};
+            command = new String[]{cmd, "--edition", "2024", fileName};
         } else {
             command = new String[]{cmd, fileName};
         }
@@ -1033,7 +1172,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema) {
+    protected void updateParameterForString(CodegenParameter codegenParameter, final Schema parameterSchema) {
         if (ModelUtils.isEmailSchema(parameterSchema)) {
             codegenParameter.isEmail = true;
         } else if (ModelUtils.isUUIDSchema(parameterSchema)) {
@@ -1060,7 +1199,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             codegenParameter.isDecimal = true;
             codegenParameter.isPrimitiveType = true;
         }
-        if (Boolean.TRUE.equals(codegenParameter.isString)) {
+        if (codegenParameter.isString) {
             codegenParameter.isPrimitiveType = true;
         }
     }
@@ -1090,6 +1229,16 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             return toModelName(refName);
         }
         return null;
+    }
+
+    @Override
+    public String toVarName(String name) {
+        final var varName = super.toVarName(name);
+
+        if (varName.startsWith("r#"))
+            return "r_" + varName.substring(2);
+
+        return varName;
     }
 
     static class PathMethodOperations {

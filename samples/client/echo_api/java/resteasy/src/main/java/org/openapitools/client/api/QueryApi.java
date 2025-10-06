@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class QueryApi {
   private ApiClient apiClient;
 
@@ -421,6 +421,47 @@ public class QueryApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "query_object", queryObject));
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    GenericType<String> localVarReturnType = new GenericType<String>() {};
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param jsonSerializedObjectRefStringQuery  (optional)
+   * @param jsonSerializedObjectArrayRefStringQuery  (optional)
+   * @return a {@code String}
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleJsonSerializationObject(@javax.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @javax.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/query/style_jsonSerialization/object".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
 
     
     

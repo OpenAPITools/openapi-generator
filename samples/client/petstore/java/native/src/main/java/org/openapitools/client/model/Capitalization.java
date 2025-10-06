@@ -21,6 +21,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -42,7 +43,7 @@ import org.openapitools.client.ApiClient;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   @javax.annotation.Nullable
@@ -81,14 +82,14 @@ public class Capitalization {
    * @return smallCamel
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSmallCamel() {
     return smallCamel;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallCamel(@javax.annotation.Nullable String smallCamel) {
     this.smallCamel = smallCamel;
@@ -105,14 +106,14 @@ public class Capitalization {
    * @return capitalCamel
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getCapitalCamel() {
     return capitalCamel;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalCamel(@javax.annotation.Nullable String capitalCamel) {
     this.capitalCamel = capitalCamel;
@@ -129,14 +130,14 @@ public class Capitalization {
    * @return smallSnake
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSmallSnake() {
     return smallSnake;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallSnake(@javax.annotation.Nullable String smallSnake) {
     this.smallSnake = smallSnake;
@@ -153,14 +154,14 @@ public class Capitalization {
    * @return capitalSnake
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getCapitalSnake() {
     return capitalSnake;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalSnake(@javax.annotation.Nullable String capitalSnake) {
     this.capitalSnake = capitalSnake;
@@ -177,14 +178,14 @@ public class Capitalization {
    * @return scAETHFlowPoints
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonProperty(value = JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonProperty(value = JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setScAETHFlowPoints(@javax.annotation.Nullable String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -201,14 +202,14 @@ public class Capitalization {
    * @return ATT_NAME
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonProperty(value = JSON_PROPERTY_A_T_T_N_A_M_E, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getATTNAME() {
     return ATT_NAME;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonProperty(value = JSON_PROPERTY_A_T_T_N_A_M_E, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setATTNAME(@javax.annotation.Nullable String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
@@ -287,32 +288,32 @@ public class Capitalization {
 
     // add `smallCamel` to the URL query string
     if (getSmallCamel() != null) {
-      joiner.add(String.format("%ssmallCamel%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSmallCamel()))));
+      joiner.add(String.format(Locale.ROOT, "%ssmallCamel%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSmallCamel()))));
     }
 
     // add `CapitalCamel` to the URL query string
     if (getCapitalCamel() != null) {
-      joiner.add(String.format("%sCapitalCamel%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCapitalCamel()))));
+      joiner.add(String.format(Locale.ROOT, "%sCapitalCamel%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCapitalCamel()))));
     }
 
     // add `small_Snake` to the URL query string
     if (getSmallSnake() != null) {
-      joiner.add(String.format("%ssmall_Snake%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSmallSnake()))));
+      joiner.add(String.format(Locale.ROOT, "%ssmall_Snake%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSmallSnake()))));
     }
 
     // add `Capital_Snake` to the URL query string
     if (getCapitalSnake() != null) {
-      joiner.add(String.format("%sCapital_Snake%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCapitalSnake()))));
+      joiner.add(String.format(Locale.ROOT, "%sCapital_Snake%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCapitalSnake()))));
     }
 
     // add `SCA_ETH_Flow_Points` to the URL query string
     if (getScAETHFlowPoints() != null) {
-      joiner.add(String.format("%sSCA_ETH_Flow_Points%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getScAETHFlowPoints()))));
+      joiner.add(String.format(Locale.ROOT, "%sSCA_ETH_Flow_Points%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getScAETHFlowPoints()))));
     }
 
     // add `ATT_NAME` to the URL query string
     if (getATTNAME() != null) {
-      joiner.add(String.format("%sATT_NAME%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getATTNAME()))));
+      joiner.add(String.format(Locale.ROOT, "%sATT_NAME%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getATTNAME()))));
     }
 
     return joiner.toString();

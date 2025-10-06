@@ -46,7 +46,7 @@ import javax.validation.Valid;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class NullableClass extends HashMap<String, Object>  {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   @JsonProperty(JSON_PROPERTY_INTEGER_PROP)

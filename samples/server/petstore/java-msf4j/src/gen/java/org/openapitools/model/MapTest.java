@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class MapTest   {
   @JsonProperty("map_map_of_string")
   private Map<String, Map<String, String>> mapMapOfString = null;

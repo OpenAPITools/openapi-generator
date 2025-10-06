@@ -38,7 +38,7 @@ import software.amazon.awssdk.regions.Region;
 
 import okio.Buffer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AWS4Auth implements Authentication {
 
   private AwsCredentials credentials;

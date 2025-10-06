@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +39,7 @@ import org.openapitools.client.ApiClient;
   TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.JSON_PROPERTY_ID,
   TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter {
   public static final String JSON_PROPERTY_SIZE = "size";
   @javax.annotation.Nullable
@@ -69,14 +70,14 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return size
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSize() {
     return size;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSize(@javax.annotation.Nullable String size) {
     this.size = size;
@@ -93,14 +94,14 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return color
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getColor() {
     return color;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
@@ -117,14 +118,14 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return id
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
     return id;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
@@ -141,14 +142,14 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return name
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getName() {
     return name;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
@@ -235,22 +236,22 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
 
     // add `size` to the URL query string
     if (getSize() != null) {
-      joiner.add(String.format("%ssize%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSize()))));
+      joiner.add(String.format(Locale.ROOT, "%ssize%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSize()))));
     }
 
     // add `color` to the URL query string
     if (getColor() != null) {
-      joiner.add(String.format("%scolor%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getColor()))));
+      joiner.add(String.format(Locale.ROOT, "%scolor%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getColor()))));
     }
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
+      joiner.add(String.format(Locale.ROOT, "%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
     }
 
     // add `name` to the URL query string
     if (getName() != null) {
-      joiner.add(String.format("%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
+      joiner.add(String.format(Locale.ROOT, "%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
     }
 
     return joiner.toString();

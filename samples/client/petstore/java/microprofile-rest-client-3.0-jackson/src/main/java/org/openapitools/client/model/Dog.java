@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -44,11 +47,12 @@ public class Dog extends Animal {
   
   private String breed;
 
+
   /**
    * Get breed
    * @return breed
    **/
-  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonProperty(value = JSON_PROPERTY_BREED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBreed() {
     return breed;
@@ -57,7 +61,7 @@ public class Dog extends Animal {
   /**
    * Set breed
    */
-  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonProperty(value = JSON_PROPERTY_BREED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBreed(String breed) {
     this.breed = breed;

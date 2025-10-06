@@ -85,6 +85,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
 
                     inputSpec.set(validate.inputSpec)
                     recommend.set(validate.recommend)
+                    treatWarningsAsErrors.set(validate.treatWarningsAsErrors)
                 }
 
                 register("openApiGenerate", GenerateTask::class.java).configure {
@@ -117,6 +118,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     additionalProperties.set(generate.additionalProperties)
                     serverVariables.set(generate.serverVariables)
                     languageSpecificPrimitives.set(generate.languageSpecificPrimitives)
+                    openapiGeneratorIgnoreList.set(generate.openapiGeneratorIgnoreList)
                     importMappings.set(generate.importMappings)
                     schemaMappings.set(generate.schemaMappings)
                     inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)

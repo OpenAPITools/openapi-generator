@@ -44,7 +44,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
 |packageTags|Tags to identify the package| |null|
 |packageVersion|C# package version.| |1.0.0|
-|releaseNote|Release note, default to 'Minor update'.| |Minor update|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sourceFolder|source folder for generated code| |src|
 |targetFramework|The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.1`|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0</dd><dt>**netstandard2.1**</dt><dd>.NET Standard 2.1</dd><dt>**net47**</dt><dd>.NET Framework 4.7</dd><dt>**net48**</dt><dd>.NET Framework 4.8</dd><dt>**net8.0**</dt><dd>.NET 8.0 (End of Support 10 November 2026)</dd><dt>**net9.0**</dt><dd>.NET 9.0 (End of Support 12 May 2026)</dd></dl>|net9.0|
@@ -57,6 +56,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useVirtualForHooks|Generate code that exposes public virtual hooks on ApiClient to customize low-level HTTP requests (only `restsharp`. `httpclient` libraries support this option).| |false|
 |validatable|Generates self-validatable models.| |true|
 |zeroBasedEnums|Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.| |null|
+
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-zero-based-enum|When used on an enum, the index will not be generated and the default numbering will be used, zero-based|MODEL|false
+
 
 ## IMPORT MAPPING
 

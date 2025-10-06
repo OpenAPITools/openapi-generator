@@ -21,14 +21,14 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "A category for a pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Category {
 
   private @Nullable Long id;
 
   private @Nullable String name;
 
-  public Category id(Long id) {
+  public Category id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -40,15 +40,15 @@ public class Category {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public Category name(String name) {
+  public Category name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -60,11 +60,11 @@ public class Category {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
 

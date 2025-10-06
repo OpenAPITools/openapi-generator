@@ -38,6 +38,7 @@ jobs:
           - samples/server/petstore/kotlin-springboot-source-swagger1
           - samples/server/petstore/kotlin-springboot-source-swagger2
           - samples/server/petstore/kotlin-springboot-springfox
+          - samples/server/petstore/kotlin-springboot-x-kotlin-implements
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/ktor2
           - samples/server/petstore/kotlin-server/jaxrs-spec
@@ -54,8 +55,8 @@ jobs:
           # no build.gradle file
           #- samples/server/petstore/kotlin-vertx-modelMutable
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: 8

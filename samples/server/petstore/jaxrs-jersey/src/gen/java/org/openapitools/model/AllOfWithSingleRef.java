@@ -31,7 +31,7 @@ import javax.validation.Valid;
   AllOfWithSingleRef.JSON_PROPERTY_USERNAME,
   AllOfWithSingleRef.JSON_PROPERTY_SINGLE_REF_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AllOfWithSingleRef   {
   public static final String JSON_PROPERTY_USERNAME = "username";
   @JsonProperty(JSON_PROPERTY_USERNAME)

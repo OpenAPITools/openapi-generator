@@ -24,7 +24,9 @@ import Foundation
         case number1 = -1
     }
     public enum EnumNumber: Double, Sendable, Codable, CaseIterable {
+        /// Description for 1.1
         case _11 = 1.1
+        /// Description for -1.2
         case number12 = -1.2
     }
     public var enumString: EnumString?

@@ -272,7 +272,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         if (additionalProperties.containsKey(CUSTOM_OPTIONS_MODEL)) {
             this.setCustomOptionsModel((String) additionalProperties.get(CUSTOM_OPTIONS_MODEL));
         }
-          
+
         if (additionalProperties.containsKey(this.SUPPORT_MULTIPLE_RESPONSES)) {
             this.supportMultipleResponses = convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_RESPONSES);
         } else {
@@ -546,22 +546,32 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      * @param allowableValues allowable values
      */
     public void addUnspecifiedToAllowableValues(Map<String, Object> allowableValues) {
+
+        final String UNSPECIFIED = "UNSPECIFIED";
+
         if (startEnumsWithUnspecified) {
             if (allowableValues.containsKey("enumVars")) {
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
-
-                HashMap<String, Object> unspecified = new HashMap<String, Object>();
-                unspecified.put("name", "UNSPECIFIED");
-                unspecified.put("isString", "false");
-                unspecified.put("value", "\"UNSPECIFIED\"");
-                enumVars.add(0, unspecified);
+                boolean unspecifiedPresent = enumVars.stream()
+                        .anyMatch(e -> {
+                            return UNSPECIFIED.equals(e.get("name"));
+                        });
+                if (!unspecifiedPresent) {
+                    HashMap<String, Object> unspecifiedEnum = new HashMap<String, Object>();
+                    unspecifiedEnum.put("name", UNSPECIFIED);
+                    unspecifiedEnum.put("isString", "false");
+                    unspecifiedEnum.put("value", "\"" + UNSPECIFIED + "\"");
+                    enumVars.add(0, unspecifiedEnum);
+                }
             }
 
             if (allowableValues.containsKey("values")) {
                 List<String> values = (List<String>) allowableValues.get("values");
-                List<String> modifiableValues = new ArrayList<>(values);
-                modifiableValues.add(0, "UNSPECIFIED");
-                allowableValues.put("values", modifiableValues);
+                if (!values.contains(UNSPECIFIED)) {
+                    List<String> modifiableValues = new ArrayList<>(values);
+                    modifiableValues.add(0, UNSPECIFIED);
+                    allowableValues.put("values", modifiableValues);
+                }
             }
         }
     }
@@ -1105,14 +1115,17 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 addtionalPropertiesName = schema.getTitle();
             } else {
                 Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
-                if (additionalProperties.getTitle() != null) {
+                if(additionalProperties == null) {
+                   return; 
+                } else if (additionalProperties.getTitle() != null) {
                     addtionalPropertiesName = additionalProperties.getTitle();
                 } else if (additionalProperties.get$ref() != null) {
                     String ref = ModelUtils.getSimpleRef(additionalProperties.get$ref());
                     addtionalPropertiesName = toVarName(toModelName(ref));
                 }
             }
-            properties.put(addtionalPropertiesName, schema);
+            
+            properties.put(addtionalPropertiesName, schema);        
         }
     }
 }

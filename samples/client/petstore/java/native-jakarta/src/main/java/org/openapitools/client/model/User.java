@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -42,7 +43,7 @@ import org.openapitools.client.ApiClient;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   @jakarta.annotation.Nullable
@@ -89,14 +90,14 @@ public class User {
    * @return id
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
     return id;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@jakarta.annotation.Nullable Long id) {
     this.id = id;
@@ -113,14 +114,14 @@ public class User {
    * @return username
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getUsername() {
     return username;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUsername(@jakarta.annotation.Nullable String username) {
     this.username = username;
@@ -137,14 +138,14 @@ public class User {
    * @return firstName
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
+  @JsonProperty(value = JSON_PROPERTY_FIRST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getFirstName() {
     return firstName;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
+  @JsonProperty(value = JSON_PROPERTY_FIRST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFirstName(@jakarta.annotation.Nullable String firstName) {
     this.firstName = firstName;
@@ -161,14 +162,14 @@ public class User {
    * @return lastName
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_LAST_NAME)
+  @JsonProperty(value = JSON_PROPERTY_LAST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getLastName() {
     return lastName;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_LAST_NAME)
+  @JsonProperty(value = JSON_PROPERTY_LAST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLastName(@jakarta.annotation.Nullable String lastName) {
     this.lastName = lastName;
@@ -185,14 +186,14 @@ public class User {
    * @return email
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EMAIL)
+  @JsonProperty(value = JSON_PROPERTY_EMAIL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getEmail() {
     return email;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EMAIL)
+  @JsonProperty(value = JSON_PROPERTY_EMAIL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEmail(@jakarta.annotation.Nullable String email) {
     this.email = email;
@@ -209,14 +210,14 @@ public class User {
    * @return password
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPassword() {
     return password;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPassword(@jakarta.annotation.Nullable String password) {
     this.password = password;
@@ -233,14 +234,14 @@ public class User {
    * @return phone
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PHONE)
+  @JsonProperty(value = JSON_PROPERTY_PHONE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPhone() {
     return phone;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PHONE)
+  @JsonProperty(value = JSON_PROPERTY_PHONE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPhone(@jakarta.annotation.Nullable String phone) {
     this.phone = phone;
@@ -257,14 +258,14 @@ public class User {
    * @return userStatus
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_USER_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_USER_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getUserStatus() {
     return userStatus;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_USER_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_USER_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUserStatus(@jakarta.annotation.Nullable Integer userStatus) {
     this.userStatus = userStatus;
@@ -359,42 +360,42 @@ public class User {
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
+      joiner.add(String.format(Locale.ROOT, "%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
     }
 
     // add `username` to the URL query string
     if (getUsername() != null) {
-      joiner.add(String.format("%susername%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUsername()))));
+      joiner.add(String.format(Locale.ROOT, "%susername%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUsername()))));
     }
 
     // add `firstName` to the URL query string
     if (getFirstName() != null) {
-      joiner.add(String.format("%sfirstName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFirstName()))));
+      joiner.add(String.format(Locale.ROOT, "%sfirstName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFirstName()))));
     }
 
     // add `lastName` to the URL query string
     if (getLastName() != null) {
-      joiner.add(String.format("%slastName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLastName()))));
+      joiner.add(String.format(Locale.ROOT, "%slastName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLastName()))));
     }
 
     // add `email` to the URL query string
     if (getEmail() != null) {
-      joiner.add(String.format("%semail%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEmail()))));
+      joiner.add(String.format(Locale.ROOT, "%semail%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEmail()))));
     }
 
     // add `password` to the URL query string
     if (getPassword() != null) {
-      joiner.add(String.format("%spassword%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPassword()))));
+      joiner.add(String.format(Locale.ROOT, "%spassword%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPassword()))));
     }
 
     // add `phone` to the URL query string
     if (getPhone() != null) {
-      joiner.add(String.format("%sphone%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPhone()))));
+      joiner.add(String.format(Locale.ROOT, "%sphone%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPhone()))));
     }
 
     // add `userStatus` to the URL query string
     if (getUserStatus() != null) {
-      joiner.add(String.format("%suserStatus%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUserStatus()))));
+      joiner.add(String.format(Locale.ROOT, "%suserStatus%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUserStatus()))));
     }
 
     return joiner.toString();

@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,7 +37,7 @@ import java.util.StringJoiner;
   TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.JSON_PROPERTY_VALUES
 })
 @JsonTypeName("test_query_style_form_explode_true_array_string_query_object_parameter")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String JSON_PROPERTY_VALUES = "values";
   @javax.annotation.Nullable
@@ -64,7 +65,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
    * @return values
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_VALUES)
+  @JsonProperty(value = JSON_PROPERTY_VALUES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getValues() {
@@ -72,7 +73,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_VALUES)
+  @JsonProperty(value = JSON_PROPERTY_VALUES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setValues(@javax.annotation.Nullable List<String> values) {
     this.values = values;
@@ -151,8 +152,8 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     if (getValues() != null) {
       for (int i = 0; i < getValues().size(); i++) {
         try {
-          joiner.add(String.format("%svalues%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%svalues%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getValues().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported

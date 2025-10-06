@@ -33,7 +33,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Animal {
 
   private String className;

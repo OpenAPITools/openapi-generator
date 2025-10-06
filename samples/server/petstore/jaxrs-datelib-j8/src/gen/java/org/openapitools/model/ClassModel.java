@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ClassModel  implements Serializable {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)

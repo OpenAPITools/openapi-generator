@@ -6,7 +6,7 @@ This Groovy package, using the [http-builder-ng library](https://http-builder-ng
 
 - API version: 1.0.0
 - Package version: 1.0.0
-- Generator version: 7.14.0-SNAPSHOT
+- Generator version: 7.17.0-SNAPSHOT
 - Build package: org.openapitools.codegen.languages.GroovyClientCodegen
 
 ## Requirements

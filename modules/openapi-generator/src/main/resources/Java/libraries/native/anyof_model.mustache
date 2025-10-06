@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -79,7 +80,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             }
 
             {{/anyOf}}
-            throw new IOException(String.format("Failed deserialization for {{classname}}: no match found"));
+            throw new IOException("Failed deserialization for {{classname}}: no match found");
         }
 
         /**
@@ -103,6 +104,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
 {{> libraries/native/additional_properties }}
+
     {{#additionalPropertiesType}}
     /**
      * Return true if this {{name}} object is equal to o.
@@ -240,8 +242,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         if (getActualInstance() != null) {
           int i = 0;
           for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
-            joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            joiner.add(String.format(Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
                 ApiClient.urlEncode(String.valueOf(_item))));
           }
           i++;
@@ -250,8 +252,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{^uniqueItems}}
         if (getActualInstance() != null) {
           for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
-            joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            joiner.add(String.format(Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
                 ApiClient.urlEncode(String.valueOf(getActualInstance().get(i)))));
           }
         }
@@ -264,8 +266,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
           int i = 0;
           for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
             if (_item != null) {
-              joiner.add(_item.toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
-                  "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+              joiner.add(_item.toUrlQueryString(String.format(Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
             }
           }
           i++;
@@ -275,8 +277,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         if (getActualInstance() != null) {
           for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
             if ((({{{dataType}}})getActualInstance()).get(i) != null) {
-              joiner.add((({{{items.dataType}}})getActualInstance()).get(i).toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+              joiner.add((({{{items.dataType}}})getActualInstance()).get(i).toUrlQueryString(String.format(Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
             }
           }
         }
@@ -288,8 +290,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
           int i = 0;
           for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
             if (_item != null) {
-              joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-                  "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+              joiner.add(String.format(Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
                   ApiClient.urlEncode(String.valueOf(_item))));
             }
             i++;
@@ -300,8 +302,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         if (getActualInstance() != null) {
           for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
             if (getActualInstance().get(i) != null) {
-              joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-                  "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+              joiner.add(String.format(Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
                   ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(i)))));
             }
           }
@@ -315,8 +317,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{#items.isPrimitiveType}}
         if (getActualInstance() != null) {
           for (String _key : (({{{dataType}}})getActualInstance()).keySet()) {
-            joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+            joiner.add(String.format(Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
                 getActualInstance().get(_key), ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(_key)))));
           }
         }
@@ -325,8 +327,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         if (getActualInstance() != null) {
           for (String _key : (({{{dataType}}})getActualInstance()).keySet()) {
             if ((({{{dataType}}})getActualInstance()).get(_key) != null) {
-              joiner.add((({{{items.dataType}}})getActualInstance()).get(_key).toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
-                  "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
+              joiner.add((({{{items.dataType}}})getActualInstance()).get(_key).toUrlQueryString(String.format(Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix))));
             }
           }
         }
@@ -335,7 +337,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{^isMap}}
         {{#isPrimitiveType}}
         if (getActualInstance() != null) {
-          joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
+          joiner.add(String.format(Locale.ROOT, "%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
         }
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
@@ -346,7 +348,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/isModel}}
         {{^isModel}}
         if (getActualInstance() != null) {
-          joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
+          joiner.add(String.format(Locale.ROOT, "%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
         }
         {{/isModel}}
         {{/isPrimitiveType}}

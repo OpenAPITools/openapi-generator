@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -28,7 +29,7 @@ import javax.annotation.Generated;
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
 @JsonTypeName("ClassModel")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @Introspected
 public class ClassModel {
     public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";

@@ -33,7 +33,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = FooRef.class, name = "FooRef")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class EntityRef {
 
   private @Nullable String name;
@@ -61,7 +61,7 @@ public class EntityRef {
     this.atType = atType;
   }
 
-  public EntityRef name(String name) {
+  public EntityRef name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -73,15 +73,15 @@ public class EntityRef {
   
   @Schema(name = "name", description = "Name of the related entity.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
 
-  public EntityRef atReferredType(String atReferredType) {
+  public EntityRef atReferredType(@Nullable String atReferredType) {
     this.atReferredType = atReferredType;
     return this;
   }
@@ -93,15 +93,15 @@ public class EntityRef {
   
   @Schema(name = "@referredType", description = "The actual type of the target instance when needed for disambiguation.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@referredType")
-  public String getAtReferredType() {
+  public @Nullable String getAtReferredType() {
     return atReferredType;
   }
 
-  public void setAtReferredType(String atReferredType) {
+  public void setAtReferredType(@Nullable String atReferredType) {
     this.atReferredType = atReferredType;
   }
 
-  public EntityRef href(String href) {
+  public EntityRef href(@Nullable String href) {
     this.href = href;
     return this;
   }
@@ -113,15 +113,15 @@ public class EntityRef {
   
   @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("href")
-  public String getHref() {
+  public @Nullable String getHref() {
     return href;
   }
 
-  public void setHref(String href) {
+  public void setHref(@Nullable String href) {
     this.href = href;
   }
 
-  public EntityRef id(String id) {
+  public EntityRef id(@Nullable String id) {
     this.id = id;
     return this;
   }
@@ -133,15 +133,15 @@ public class EntityRef {
   
   @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public String getId() {
+  public @Nullable String getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(@Nullable String id) {
     this.id = id;
   }
 
-  public EntityRef atSchemaLocation(String atSchemaLocation) {
+  public EntityRef atSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
     return this;
   }
@@ -153,15 +153,15 @@ public class EntityRef {
   
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@schemaLocation")
-  public String getAtSchemaLocation() {
+  public @Nullable String getAtSchemaLocation() {
     return atSchemaLocation;
   }
 
-  public void setAtSchemaLocation(String atSchemaLocation) {
+  public void setAtSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
   }
 
-  public EntityRef atBaseType(String atBaseType) {
+  public EntityRef atBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
     return this;
   }
@@ -173,11 +173,11 @@ public class EntityRef {
   
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@baseType")
-  public String getAtBaseType() {
+  public @Nullable String getAtBaseType() {
     return atBaseType;
   }
 
-  public void setAtBaseType(String atBaseType) {
+  public void setAtBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
   }
 

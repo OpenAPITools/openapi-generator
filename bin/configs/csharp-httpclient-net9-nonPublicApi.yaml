@@ -1,0 +1,14 @@
+# for .net standard httpclient
+generatorName: csharp
+outputDir: samples/client/petstore/csharp/httpclient/net9/Petstore-nonPublicApi
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-addpet-only.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp
+library: httpclient
+additionalProperties:
+  packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
+  useCompareNetObjects: true 
+  disallowAdditionalPropertiesIfNotPresent: false
+  useOneOfDiscriminatorLookup: true
+  targetFramework: net9.0
+  equatable: true
+  nonPublicApi: true

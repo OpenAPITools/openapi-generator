@@ -431,11 +431,11 @@ public class {{classname}} {
 
     public class API{{operationId}}Request {
         {{#requiredParams}}
-        {{>nullable_var_annotations}}
+        {{>nullable_var_annotations}}{{! prevent indent}}
         private final {{{dataType}}} {{paramName}};
         {{/requiredParams}}
         {{#optionalParams}}
-        {{>nullable_var_annotations}}
+        {{>nullable_var_annotations}}{{! prevent indent}}
         private {{{dataType}}} {{paramName}};
         {{/optionalParams}}
 

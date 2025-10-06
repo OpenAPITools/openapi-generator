@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -42,7 +43,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   @jakarta.annotation.Nullable
@@ -119,7 +120,7 @@ public class Pet {
    * @return id
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -127,7 +128,7 @@ public class Pet {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@jakarta.annotation.Nullable Long id) {
     this.id = id;
@@ -144,7 +145,7 @@ public class Pet {
    * @return category
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Category getCategory() {
@@ -152,7 +153,7 @@ public class Pet {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonProperty(value = JSON_PROPERTY_CATEGORY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCategory(@jakarta.annotation.Nullable Category category) {
     this.category = category;
@@ -169,7 +170,7 @@ public class Pet {
    * @return name
    */
   @jakarta.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
@@ -177,7 +178,7 @@ public class Pet {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(@jakarta.annotation.Nonnull String name) {
     this.name = name;
@@ -202,7 +203,7 @@ public class Pet {
    * @return photoUrls
    */
   @jakarta.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Set<String> getPhotoUrls() {
@@ -211,7 +212,7 @@ public class Pet {
 
 
   @JsonDeserialize(as = LinkedHashSet.class)
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPhotoUrls(@jakarta.annotation.Nonnull Set<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -236,7 +237,7 @@ public class Pet {
    * @return tags
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonProperty(value = JSON_PROPERTY_TAGS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Tag> getTags() {
@@ -244,7 +245,7 @@ public class Pet {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonProperty(value = JSON_PROPERTY_TAGS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setTags(@jakarta.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
@@ -261,7 +262,7 @@ public class Pet {
    * @return status
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public StatusEnum getStatus() {
@@ -269,7 +270,7 @@ public class Pet {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(@jakarta.annotation.Nullable StatusEnum status) {
     this.status = status;

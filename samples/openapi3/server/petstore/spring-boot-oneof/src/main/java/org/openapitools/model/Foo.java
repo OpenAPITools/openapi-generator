@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Foo extends Entity implements FooRefOrValue {
 
   private @Nullable String fooPropA;
@@ -42,7 +42,7 @@ public class Foo extends Entity implements FooRefOrValue {
     super(atType);
   }
 
-  public Foo fooPropA(String fooPropA) {
+  public Foo fooPropA(@Nullable String fooPropA) {
     this.fooPropA = fooPropA;
     return this;
   }
@@ -54,15 +54,15 @@ public class Foo extends Entity implements FooRefOrValue {
   
   @Schema(name = "fooPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropA")
-  public String getFooPropA() {
+  public @Nullable String getFooPropA() {
     return fooPropA;
   }
 
-  public void setFooPropA(String fooPropA) {
+  public void setFooPropA(@Nullable String fooPropA) {
     this.fooPropA = fooPropA;
   }
 
-  public Foo fooPropB(String fooPropB) {
+  public Foo fooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
     return this;
   }
@@ -74,11 +74,11 @@ public class Foo extends Entity implements FooRefOrValue {
   
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
-  public String getFooPropB() {
+  public @Nullable String getFooPropB() {
     return fooPropB;
   }
 
-  public void setFooPropB(String fooPropB) {
+  public void setFooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
   }
 

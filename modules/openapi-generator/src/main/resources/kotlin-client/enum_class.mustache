@@ -18,10 +18,23 @@ import kotlinx.serialization.Serializable
 {{#enumUnknownDefaultCase}}
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializer
+{{^isString}}
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+{{/isString}}
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 {{/enumUnknownDefaultCase}}
+{{^enumUnknownDefaultCase}}{{^isString}}
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+{{/isString}}{{/enumUnknownDefaultCase}}
 {{/kotlinx_serialization}}
 {{/multiplatform}}
 {{#multiplatform}}
@@ -33,7 +46,7 @@ import kotlinx.serialization.*
  *
  * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
  */
-{{#multiplatform}}@Serializable{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
+{{#multiplatform}}@Serializable{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
 {{^multiplatform}}
 {{#moshi}}
 @JsonClass(generateAdapter = false)
@@ -52,7 +65,9 @@ import kotlinx.serialization.*
     @JsonProperty(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}}){{#enumUnknownDefaultCase}}{{#-last}} @JsonEnumDefaultValue{{/-last}}{{/enumUnknownDefaultCase}}
     {{/jackson}}
     {{#kotlinx_serialization}}
+    {{#isString}}
     @SerialName(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
+    {{/isString}}
     {{/kotlinx_serialization}}
     {{/multiplatform}}
     {{#multiplatform}}
@@ -60,14 +75,14 @@ import kotlinx.serialization.*
     {{/multiplatform}}
     {{#isArray}}
     {{#isList}}
-    {{&name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{#name}}{{^isEmpty}}{{&name}}{{/isEmpty}}{{#isEmpty}}_{{/isEmpty}}{{/name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
     {{^isList}}
-    {{&name}}(arrayOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{#name}}{{^isEmpty}}{{&name}}{{/isEmpty}}{{#isEmpty}}_{{/isEmpty}}{{/name}}(arrayOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isList}}
     {{/isArray}}
     {{^isArray}}
-    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{#name}}{{^isEmpty}}{{&name}}{{/isEmpty}}{{#isEmpty}}_{{/isEmpty}}{{/name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isArray}}
 {{/enumVars}}{{/allowableValues}}
     /**
@@ -95,18 +110,40 @@ import kotlinx.serialization.*
           }
         }
     }
-}{{#kotlinx_serialization}}{{#enumUnknownDefaultCase}}
-
+}
+{{#kotlinx_serialization}}{{#enumUnknownDefaultCase}}
 internal object {{classname}}Serializer : KSerializer<{{classname}}> {
-    override val descriptor = {{{dataType}}}.serializer().descriptor
+    override val descriptor = {{dataType}}.serializer().descriptor
 
     override fun deserialize(decoder: Decoder): {{classname}} {
         val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
         return {{classname}}.values().firstOrNull { it.value == value }
+            {{#isString}}
             ?: {{classname}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+            {{/isString}}
+            {{^isString}}
+            ?: throw IllegalArgumentException("Unknown enum value: $value")
+            {{/isString}}
     }
 
     override fun serialize(encoder: Encoder, value: {{classname}}) {
         encoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
     }
-}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
+}
+{{/enumUnknownDefaultCase}}
+{{^enumUnknownDefaultCase}}{{^isString}}
+internal object {{classname}}Serializer : KSerializer<{{classname}}> {
+    override val descriptor = {{dataType}}.serializer().descriptor
+
+    override fun deserialize(decoder: Decoder): {{classname}} {
+        val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
+        return {{classname}}.values().firstOrNull { it.value == value }
+            ?: throw IllegalArgumentException("Unknown enum value: $value")
+    }
+
+    override fun serialize(encoder: Encoder, value: {{classname}}) {
+        encoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
+    }
+}
+{{/isString}}{{/enumUnknownDefaultCase}}
+{{/kotlinx_serialization}}

@@ -33,7 +33,7 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Pet")
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Pet {
 
   private @Nullable Long id;
@@ -112,7 +112,7 @@ public class Pet {
       this.status = status;
   }
 
-  public Pet id(Long id) {
+  public Pet id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -126,15 +126,15 @@ public class Pet {
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public Pet category(Category category) {
+  public Pet category(@Nullable Category category) {
     this.category = category;
     return this;
   }
@@ -148,11 +148,11 @@ public class Pet {
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "Category")
   @XmlElement(name = "Category")
-  public Category getCategory() {
+  public @Nullable Category getCategory() {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(@Nullable Category category) {
     this.category = category;
   }
 
@@ -242,7 +242,7 @@ public class Pet {
     this.tags = tags;
   }
 
-  public Pet status(StatusEnum status) {
+  public Pet status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -258,7 +258,7 @@ public class Pet {
   @JacksonXmlProperty(localName = "status")
   @XmlElement(name = "status")
   @Deprecated
-  public StatusEnum getStatus() {
+  public @Nullable StatusEnum getStatus() {
     return status;
   }
 
@@ -266,7 +266,7 @@ public class Pet {
    * @deprecated
    */
   @Deprecated
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
 

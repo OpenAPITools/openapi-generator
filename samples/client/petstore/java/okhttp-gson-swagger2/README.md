@@ -2,7 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
-  - Generator version: 7.14.0-SNAPSHOT
+  - Generator version: 7.17.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 

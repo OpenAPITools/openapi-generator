@@ -6,6 +6,9 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -333,7 +336,6 @@ public class TypeScriptFetchClientCodegenTest {
 
     @Test(description = "Verify names of files generated in camelCase and imports with additional model prefix")
     public void testGeneratedFilenamesInCamelCaseWithAdditionalModelPrefix() throws IOException {
-
         Map<String, Object> properties = new HashMap<>();
         properties.put("fileNaming", TypeScriptFetchClientCodegen.CAMEL_CASE);
         properties.put(CodegenConstants.MODEL_NAME_PREFIX, "SomePrefix");
@@ -347,38 +349,120 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileExists(Paths.get(output + "/apis/petControllerApi.ts"));
     }
 
-    @Test(description = "Issue #20195")
-    public void givenObjectHasAdditionalPropertiesWhenGenerateThenIndexSignatureNotUsedToGenerateMethodName() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
+    @Test(description = "Issue #21295")
+    public void givenSchemaIsOneOfAndComposedSchemasArePrimitiveThenReturnStatementsAreCorrect() throws Exception {
+        File outputPath = generate(
+            Collections.emptyMap(),
+            "src/test/resources/bugs/issue_21259.yaml"
+        );
 
-        TypeScriptFetchClientCodegen clientCodegen = new TypeScriptFetchClientCodegen();
-        clientCodegen.setWithoutRuntimeChecks(false);
-        clientCodegen.setOutputDir(output.getAbsolutePath());
-
-        Map<String, Object> properties = new HashMap<>();
-        properties.put(TypeScriptFetchClientCodegen.WITH_INTERFACES, true);
-        properties.put(CodegenConstants.ENUM_PROPERTY_NAMING, "original");
-        clientCodegen.additionalProperties().putAll(properties);
-
-        DefaultGenerator defaultGenerator = new DefaultGenerator();
-        defaultGenerator.opts(
-                new ClientOptInput().openAPI(TestUtils.parseSpec("src/test/resources/bugs/issue_20195.json"))
-                        .config(clientCodegen)
-        ).generate();
-
-        String outputPath = output.getAbsolutePath();
-        Path exampleApiPath = Paths.get(outputPath + "/apis/ExampleApi.ts");
-        TestUtils.assertFileContains(exampleApiPath, "new Blob([JSON.stringify(ResponseOfStringToJSON");
+        Path exampleModelPath = Paths.get(outputPath + "/models/MyCustomSpeed.ts");
+        //FromJSON
+        TestUtils.assertFileContains(exampleModelPath, "(typeof json !== 'object')");
+        TestUtils.assertFileContains(exampleModelPath, "(instanceOfMyNumericValue(json))");
+        TestUtils.assertFileContains(exampleModelPath, "(typeof json === 'number' && (json === 10 || json === 20 || json === 30))");
+        TestUtils.assertFileContains(exampleModelPath, "(typeof json === 'string' && (json === 'fixed-value-a' || json === 'fixed-value-b' || json === 'fixed-value-c'))");
+        TestUtils.assertFileContains(exampleModelPath, "(isNaN(new Date(json).getTime())");
+        TestUtils.assertFileContains(exampleModelPath, "(json.every(item => typeof item === 'number'))");
+        TestUtils.assertFileContains(exampleModelPath, "(json.every(item => typeof item === 'string' && (item === 'oneof-array-enum-a' || item === 'oneof-array-enum-b' || item === 'oneof-array-enum-c')))");
+        //ToJSON
+        TestUtils.assertFileContains(exampleModelPath, "(typeof value !== 'object')");
+        TestUtils.assertFileContains(exampleModelPath, "(instanceOfMyNumericValue(value))");
+        TestUtils.assertFileContains(exampleModelPath, "(typeof value === 'number' && (value === 10 || value === 20 || value === 30))");
+        TestUtils.assertFileContains(exampleModelPath, "(typeof value === 'string' && (value === 'fixed-value-a' || value === 'fixed-value-b' || value === 'fixed-value-c'))");
+        TestUtils.assertFileContains(exampleModelPath, "(value instanceof Date)");
+        TestUtils.assertFileContains(exampleModelPath, "(value.every(item => typeof item === 'number'))");
+        TestUtils.assertFileContains(exampleModelPath, "(value.every(item => typeof item === 'string' && (item === 'oneof-array-enum-a' || item === 'oneof-array-enum-b' || item === 'oneof-array-enum-c')))");
     }
 
-    private static File generate(Map<String, Object> properties) throws IOException {
+    /**
+     * Issue #19909
+     * When using oneOf, the Typescript Fetch generator should not import primitive types.
+     * Complex types should be imported, when the response has the type itself or the type is part
+     * of an array.
+     */
+    @Test(description = "Verify oneOf model files do not import primitive types")
+    public void testOneOfModelsDoNotImportPrimitiveTypes() throws IOException {
+        File output = generate(Collections.emptyMap(), "src/test/resources/3_0/typescript-fetch/oneOf.yaml");
+
+        Path testResponse = Paths.get(output + "/models/TestResponse.ts");
+        TestUtils.assertFileExists(testResponse);
+        TestUtils.assertFileContains(testResponse, "import type { TestA } from './TestA'");
+        TestUtils.assertFileContains(testResponse, "import type { TestB } from './TestB'");
+        TestUtils.assertFileNotContains(testResponse, "import type { string } from './string'");
+        TestUtils.assertFileContains(testResponse, "export type TestResponse = TestA | TestB | string");
+
+        Path testArrayResponse = Paths.get(output + "/models/TestArrayResponse.ts");
+        TestUtils.assertFileExists(testArrayResponse);
+        TestUtils.assertFileContains(testArrayResponse, "import type { TestA } from './TestA'");
+        TestUtils.assertFileContains(testArrayResponse, "import type { TestB } from './TestB'");
+        TestUtils.assertFileNotContains(testResponse, "import type { string } from './string'");
+        TestUtils.assertFileContains(testArrayResponse, "export type TestArrayResponse = Array<TestA> | Array<TestB> | Array<string>");
+
+        Path testDiscriminatorResponse = Paths.get(output + "/models/TestDiscriminatorResponse.ts");
+        TestUtils.assertFileExists(testDiscriminatorResponse);
+        TestUtils.assertFileContains(testDiscriminatorResponse, "import type { OptionOne } from './OptionOne'");
+        TestUtils.assertFileContains(testDiscriminatorResponse, "import type { OptionTwo } from './OptionTwo'");
+        TestUtils.assertFileContains(testDiscriminatorResponse, "export type TestDiscriminatorResponse = { discriminatorField: 'optionOne' } & OptionOne | { discriminatorField: 'optionTwo' } & OptionTwo");
+    }
+
+    /**
+     * Issue #21587
+     * When using oneOf, the Typescript Fetch generator should import modelled types except for
+     * types built-in primitive types, even those marked with additional properties.
+     */
+    @Test()
+    public void testOneOfModelsImportNonPrimitiveTypes() throws IOException {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/issue_21587.yaml"
+        );
+
+        Path testResponse = Paths.get(output + "/models/OneOfResponse.ts");
+        TestUtils.assertFileExists(testResponse);
+
+        // Primitive built-in types should not be included. This list is based off the type mappings
+        // and language specific primitive keywords established in the AbstractTypeScriptClientCodegen
+        Stream.of(
+            "Set",
+            "Array",
+            "boolean",
+            "string",
+            "number",
+            "object",
+            "any",
+            "Date",
+            "Error"
+        ).forEach(primitiveType ->
+            TestUtils.assertFileNotContains(
+                testResponse,
+                String.format(Locale.ROOT, "import type { %s } from './%s'", primitiveType, primitiveType)
+            )
+        );
+        TestUtils.assertFileContains(testResponse, "import type { OptionOne } from './OptionOne'");
+        TestUtils.assertFileContains(testResponse, "import type { OptionTwo } from './OptionTwo'");
+        TestUtils.assertFileContains(testResponse, "import type { OptionThree } from './OptionThree'");
+    }
+
+    private static File generate(
+        Map<String, Object> properties
+    ) throws IOException {
+        return generate(
+            properties,
+            "src/test/resources/3_0/typescript-fetch/example-for-file-naming-option.yaml"
+        );
+    }
+
+    private static File generate(
+        Map<String, Object> properties,
+        String inputSpec
+    ) throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("typescript-fetch")
-                .setInputSpec("src/test/resources/3_0/typescript-fetch/example-for-file-naming-option.yaml")
+                .setInputSpec(inputSpec)
                 .setAdditionalProperties(properties)
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 

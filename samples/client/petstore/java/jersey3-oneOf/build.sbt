@@ -16,11 +16,11 @@ lazy val root = (project in file(".")).
       "org.glassfish.jersey.media" % "jersey-media-multipart" % "3.0.4",
       "org.glassfish.jersey.media" % "jersey-media-json-jackson" % "3.0.4",
       "org.glassfish.jersey.connectors" % "jersey-apache-connector" % "3.0.4",
-      "com.fasterxml.jackson.core" % "jackson-core" % "2.17.1" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.17.1" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.17.1" % "compile",
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.17.1" % "compile",
-      "org.openapitools" % "jackson-databind-nullable" % "0.2.6" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-core" % "2.19.2" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.19.2" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.19.2" % "compile",
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.19.2" % "compile",
+      "org.openapitools" % "jackson-databind-nullable" % "0.2.7" % "compile",
       "jakarta.annotation" % "jakarta.annotation-api" % "2.1.0" % "compile",
       "org.junit.jupiter" % "junit-jupiter-api" % "5.8.2" % "test"
     )

@@ -9,7 +9,7 @@ import javax.validation.Valid;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ClassModel   {
   @JsonProperty("_class")

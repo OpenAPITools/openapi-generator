@@ -7,12 +7,64 @@ use validator::Validate;
 use crate::header;
 use crate::{models, types::*};
 
+#[allow(dead_code)]
+pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
+    if ammonia::is_html(v) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
+    if v.iter().any(|i| ammonia::is_html(i)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_string(
+    v: &std::collections::HashMap<String, String>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_nested<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError>
+where
+    T: validator::Validate,
+{
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
 {{! Don't "use" structs here - they can conflict with the names of models, and mean that the code won't compile }}
 {{#apiInfo}}
   {{#apis}}
     {{#operations}}
       {{#operation}}
-      
+
 {{#vendorExtensions}}
   {{#headerParams.size}}
     #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -68,10 +120,54 @@ use crate::{models, types::*};
                     length(min = {{minItems}}),
                     {{/minItems}}
                 {{/maxItems}}
-                )]
+                {{#vendorExtensions.is-nested}}
+                  nested,
+                {{/vendorExtensions.is-nested}}
+                {{#vendorExtensions.is-string}}
+                  custom(function = "check_xss_string")),
+                {{/vendorExtensions.is-string}}
+                {{#vendorExtensions.is-vec-nested}}
+                  nested,
+                {{/vendorExtensions.is-vec-nested}}
+                {{#vendorExtensions.is-vec-string}}
+                  custom(function = "check_xss_vec_string"),
+                {{/vendorExtensions.is-vec-string}}
+                {{#vendorExtensions.is-map-nested}}
+                  custom(function = "check_xss_map_nested"),
+                {{/vendorExtensions.is-map-nested}}
+                {{#vendorExtensions.is-map}}
+                  custom(function = "check_xss_map"),
+                {{/vendorExtensions.is-map}}
+                {{#vendorExtensions.is-map-string}}
+                  custom(function = "check_xss_map_string"),
+                {{/vendorExtensions.is-map-string}}
+            )]
+            {{/hasValidation}}
+            {{^hasValidation}}
+                {{#vendorExtensions.is-nested}}
+                  #[validate(nested)]
+                {{/vendorExtensions.is-nested}}
+                {{#vendorExtensions.is-string}}
+                  #[validate(custom(function = "check_xss_string"))]
+                {{/vendorExtensions.is-string}}
+                {{#vendorExtensions.is-vec-nested}}
+                  #[validate(nested)
+                {{/vendorExtensions.is-vec-nested}}
+                {{#vendorExtensions.is-vec-string}}
+                  #[validate(custom(function = "check_xss_vec_string"))]
+                {{/vendorExtensions.is-vec-string}}
+                {{#vendorExtensions.is-map-nested}}
+                  #[validate(custom(function = "check_xss_map_nested"))]
+                {{/vendorExtensions.is-map-nested}}
+                {{#vendorExtensions.is-map}}
+                  #[validate(custom(function = "check_xss_map"))]
+                {{/vendorExtensions.is-map}}
+                {{#vendorExtensions.is-map-string}}
+                  #[validate(custom(function = "check_xss_map_string"))]
+                {{/vendorExtensions.is-map-string}}
             {{/hasValidation}}
         pub {{{paramName}}}: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
-        {{/headerParams}} 
+        {{/headerParams}}
     }
 
     {{#headerParams}}
@@ -97,15 +193,15 @@ use crate::{models, types::*};
     {{/isByteArray}}
     {{/pattern}}
     {{/hasValidation}}
-    {{/headerParams}} 
-            
+    {{/headerParams}}
+
   {{/headerParams.size}}
   {{#pathParams.size}}
     #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))] 
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
     pub struct {{{operationIdCamelCase}}}PathParams {
         {{#pathParams}}
-            {{#description}}    
+            {{#description}}
             /// {{{.}}}
             {{/description}}
             {{#isEnum}}
@@ -160,7 +256,55 @@ use crate::{models, types::*};
                         length(min = {{minItems}}),
                         {{/minItems}}
                     {{/maxItems}}
-                    )]
+                    {{^isNullable}}
+                        {{#vendorExtensions.is-nested}}
+                          nested,
+                        {{/vendorExtensions.is-nested}}
+                        {{#vendorExtensions.is-string}}
+                          custom(function = "check_xss_string"),
+                        {{/vendorExtensions.is-string}}
+                        {{#vendorExtensions.is-vec-nested}}
+                          nested,
+                        {{/vendorExtensions.is-vec-nested}}
+                        {{#vendorExtensions.is-vec-string}}
+                          custom(function = "check_xss_vec_string"),
+                        {{/vendorExtensions.is-vec-string}}
+                        {{#vendorExtensions.is-map-nested}}
+                          custom(function = "check_xss_map_nested"),
+                        {{/vendorExtensions.is-map-nested}}
+                        {{#vendorExtensions.is-map}}
+                          custom(function = "check_xss_map"),
+                        {{/vendorExtensions.is-map}}
+                        {{#vendorExtensions.is-map-string}}
+                          custom(function = "check_xss_map_string"),
+                        {{/vendorExtensions.is-map-string}}
+                    {{/isNullable}}
+            )]
+            {{/hasValidation}}
+            {{^hasValidation}}
+                    {{^isNullable}}
+                    {{#vendorExtensions.is-nested}}
+                      #[validate(nested)]
+                    {{/vendorExtensions.is-nested}}
+                    {{#vendorExtensions.is-string}}
+                      #[validate(custom(function = "check_xss_string"))]
+                    {{/vendorExtensions.is-string}}
+                    {{#vendorExtensions.is-vec-nested}}
+                      #[validate(nested)]
+                    {{/vendorExtensions.is-vec-nested}}
+                    {{#vendorExtensions.is-vec-string}}
+                      #[validate(custom(function = "check_xss_vec_string"))]
+                    {{/vendorExtensions.is-vec-string}}
+                    {{#vendorExtensions.is-map-nested}}
+                      #[validate(custom(function = "check_xss_map_nested"))]
+                    {{/vendorExtensions.is-map-nested}}
+                    {{#vendorExtensions.is-map}}
+                      #[validate(custom(function = "check_xss_map"))]
+                    {{/vendorExtensions.is-map}}
+                    {{#vendorExtensions.is-map-string}}
+                      #[validate(custom(function = "check_xss_map_string"))]
+                    {{/vendorExtensions.is-map-string}}
+                    {{/isNullable}}
             {{/hasValidation}}
             {{#required}}
                 pub {{{paramName}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
@@ -204,10 +348,10 @@ use crate::{models, types::*};
   {{/pathParams.size}}
   {{#queryParams.size}}
     #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
-    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))] 
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
     pub struct {{{operationIdCamelCase}}}QueryParams {
         {{#queryParams}}
-            {{#description}}    
+            {{#description}}
             /// {{{.}}}
             {{/description}}
             {{#isEnum}}
@@ -263,29 +407,77 @@ use crate::{models, types::*};
                         length(min = {{minItems}}),
                         {{/minItems}}
                     {{/maxItems}}
-                    )]
+                    {{^isNullable}}
+                    {{#vendorExtensions.is-nested}}
+                      nested,
+                    {{/vendorExtensions.is-nested}}
+                    {{#vendorExtensions.is-string}}
+                      custom(function = "check_xss_string"),
+                    {{/vendorExtensions.is-string}}
+                    {{#vendorExtensions.is-vec-nested}}
+                      nested,
+                    {{/vendorExtensions.is-vec-nested}}
+                    {{#vendorExtensions.is-vec-string}}
+                      custom(function = "check_xss_vec_string"),
+                    {{/vendorExtensions.is-vec-string}}
+                    {{#vendorExtensions.is-map-nested}}
+                      custom(function = "check_xss_map_nested"),
+                    {{/vendorExtensions.is-map-nested}}
+                    {{#vendorExtensions.is-map}}
+                      custom(function = "check_xss_map"),
+                    {{/vendorExtensions.is-map}}
+                    {{#vendorExtensions.is-map-string}}
+                      custom(function = "check_xss_map_string"),
+                    {{/vendorExtensions.is-map-string}}
+                    {{/isNullable}}
+              )]
+            {{/hasValidation}}
+            {{^hasValidation}}
+                    {{^isNullable}}
+                    {{#vendorExtensions.is-nested}}
+                      #[validate(nested)]
+                    {{/vendorExtensions.is-nested}}
+                    {{#vendorExtensions.is-string}}
+                      #[validate(custom(function = "check_xss_string"))]
+                    {{/vendorExtensions.is-string}}
+                    {{#vendorExtensions.is-vec-nested}}
+                      #[validate(nested)]
+                    {{/vendorExtensions.is-vec-nested}}
+                    {{#vendorExtensions.is-vec-string}}
+                      #[validate(custom(function = "check_xss_vec_string"))]
+                    {{/vendorExtensions.is-vec-string}}
+                    {{#vendorExtensions.is-map-nested}}
+                      #[validate(custom(function = "check_xss_map_nested"))]
+                    {{/vendorExtensions.is-map-nested}}
+                    {{#vendorExtensions.is-map}}
+                      #[validate(custom(function = "check_xss_map"))]
+                    {{/vendorExtensions.is-map}}
+                    {{#vendorExtensions.is-map-string}}
+                      #[validate(custom(function = "check_xss_map_string"))]
+                    {{/vendorExtensions.is-map-string}}
+                    {{/isNullable}}
             {{/hasValidation}}
             {{#isArray}}
-            {{#isNullable}}
-                // Nullable array query parameters are not fully supported.
-            {{/isNullable}}
-            {{^required}}
-                #[serde(default)]
-            {{/required}}
-                pub {{{paramName}}}: {{{dataType}}},
-            {{/isArray}}
+                {{#isNullable}}
+                    // Nullable array query parameters are not fully supported.
+                {{/isNullable}}
+                {{^required}}
+                    #[serde(default)]
+                {{/required}}
+                    pub {{{paramName}}}: {{{dataType}}},
+                {{/isArray}}
             {{^isArray}}
-            {{#required}}
-                pub {{{paramName}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
-            {{/required}}
-            {{^required}}
-            {{#isNullable}}
-                #[serde(deserialize_with = "deserialize_optional_nullable")]
-                #[serde(default = "default_optional_nullable")]
-            {{/isNullable}}
-                #[serde(skip_serializing_if="Option::is_none")]
-                pub {{{paramName}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
-            {{/required}}
+                {{#required}}
+                    pub {{{paramName}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
+                {{/required}}
+                {{^required}}
+                {{#isNullable}}
+                    #[serde(deserialize_with = "deserialize_optional_nullable")]
+                    #[serde(default = "default_optional_nullable")]
+                {{/isNullable}}
+                    #[serde(skip_serializing_if="Option::is_none")]
+                    pub {{{paramName}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
+                {{/required}}
             {{/isArray}}
         {{/queryParams}}
     }
@@ -313,7 +505,7 @@ use crate::{models, types::*};
     {{/isByteArray}}
     {{/pattern}}
     {{/hasValidation}}
-    {{/queryParams}} 
+    {{/queryParams}}
   {{/queryParams.size}}
 {{/vendorExtensions}}
       {{/operation}}
@@ -332,7 +524,7 @@ use crate::{models, types::*};
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
@@ -343,6 +535,13 @@ pub enum {{{classname}}} {
     {{{name}}},
   {{/enumVars}}
 {{/allowableValues}}
+}
+
+impl validator::Validate for {{{classname}}}
+{
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
 }
 
 impl std::fmt::Display for {{{classname}}} {
@@ -367,7 +566,7 @@ impl std::str::FromStr for {{{classname}}} {
             {{{value}}} => std::result::Result::Ok({{{classname}}}::{{{name}}}),
   {{/enumVars}}
 {{/allowableValues}}
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!(r#"Value not valid: {s}"#)),
         }
     }
 }
@@ -552,17 +751,38 @@ impl std::str::FromStr for {{{classname}}} {
 {{^arrayModelType}}
 {{! general struct}}
 {{#anyOf.size}}
-/// Any of:
-{{#anyOf}}
-/// - {{{.}}}
-{{/anyOf}}
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct {{{classname}}}(Box<serde_json::value::RawValue>);
+{{#discriminator}}
+#[derive(Debug, Clone, PartialEq, serde::Deserialize)]
+#[serde(tag = "{{{propertyBaseName}}}")]
+{{/discriminator}}
+{{^discriminator}}
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+{{/discriminator}}
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum {{{classname}}} {
+    {{#composedSchemas}}
+    {{#anyOf}}
+    {{{datatypeWithEnum}}}({{{dataType}}}),
+    {{/anyOf}}
+    {{/composedSchemas}}
+}
 
 impl validator::Validate for {{{classname}}}
 {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            {{#composedSchemas}}
+            {{#anyOf}}
+            {{^isModel}}
+            Self::{{{datatypeWithEnum}}}(_) => std::result::Result::Ok(()),
+            {{/isModel}}
+            {{#isModel}}
+            Self::{{{datatypeWithEnum}}}(v) => v.validate(),
+            {{/isModel}}
+            {{/anyOf}}
+            {{/composedSchemas}}
+        }
     }
 }
 
@@ -577,11 +797,32 @@ impl std::str::FromStr for {{{classname}}} {
     }
 }
 
-impl PartialEq for {{{classname}}} {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
+{{#discriminator}}
+impl serde::Serialize for {{{classname}}} {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where S: serde::Serializer {
+            match self {
+                {{#composedSchemas}}
+                {{#anyOf}}
+                Self::{{{datatypeWithEnum}}}(x) => x.serialize(serializer),
+                {{/anyOf}}
+                {{/composedSchemas}}
+            }
     }
 }
+{{/discriminator}}
+
+{{#composedSchemas}}
+{{#anyOf}}
+{{#vendorExtensions.x-from-trait}}
+impl From<{{{dataType}}}> for {{{classname}}} {
+    fn from(value: {{{dataType}}}) -> Self {
+        Self::{{{datatypeWithEnum}}}(value)
+    }
+}
+{{/vendorExtensions.x-from-trait}}
+{{/anyOf}}
+{{/composedSchemas}}
 
 {{/anyOf.size}}
 {{#oneOf.size}}
@@ -593,11 +834,11 @@ impl PartialEq for {{{classname}}} {
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
 {{/discriminator}}
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum {{{classname}}} {
     {{#composedSchemas}}
     {{#oneOf}}
-    {{{datatypeWithEnum}}}(Box<{{{dataType}}}>),
+    {{{datatypeWithEnum}}}({{{dataType}}}),
     {{/oneOf}}
     {{/composedSchemas}}
 }
@@ -608,15 +849,26 @@ impl validator::Validate for {{{classname}}}
         match self {
             {{#composedSchemas}}
             {{#oneOf}}
-            {{#isPrimitiveType}}
+            {{^isModel}}
             Self::{{{datatypeWithEnum}}}(_) => std::result::Result::Ok(()),
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-            Self::{{{datatypeWithEnum}}}(x) => x.validate(),
-            {{/isPrimitiveType}}
+            {{/isModel}}
+            {{#isModel}}
+            Self::{{{datatypeWithEnum}}}(v) => v.validate(),
+            {{/isModel}}
             {{/oneOf}}
             {{/composedSchemas}}
         }
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for {{{classname}}} {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
     }
 }
 
@@ -635,28 +887,17 @@ impl serde::Serialize for {{{classname}}} {
 }
 {{/discriminator}}
 
-
-
 {{#composedSchemas}}
 {{#oneOf}}
+{{#vendorExtensions.x-from-trait}}
 impl From<{{{dataType}}}> for {{{classname}}} {
     fn from(value: {{{dataType}}}) -> Self {
-        Self::{{{datatypeWithEnum}}}(Box::new(value))
+        Self::{{{datatypeWithEnum}}}(value)
     }
 }
+{{/vendorExtensions.x-from-trait}}
 {{/oneOf}}
 {{/composedSchemas}}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for {{{classname}}} {
-    type Err = serde_json::Error;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        serde_json::from_str(s)
-    }
-}
 
 {{/oneOf.size}}
 {{^anyOf.size}}
@@ -665,15 +906,17 @@ impl std::str::FromStr for {{{classname}}} {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct {{{classname}}} {
 {{#vars}}
-{{#description}}    
+{{#description}}
     /// {{{.}}}
 {{/description}}
 {{#isEnum}}
     /// Note: inline enums are not fully supported by openapi-generator
 {{/isEnum}}
 {{#isDiscriminator}}
+{{#isString}}
     #[serde(default = "{{{classname}}}::_name_for_{{{name}}}")]
     #[serde(serialize_with = "{{{classname}}}::_serialize_{{{name}}}")]
+{{/isString}}
 {{/isDiscriminator}}
     #[serde(rename = "{{{baseName}}}")]
 {{#hasValidation}}
@@ -725,7 +968,55 @@ pub struct {{{classname}}} {
             length(min = {{minItems}}),
             {{/minItems}}
         {{/maxItems}}
-        )]
+        {{^isNullable}}
+        {{#vendorExtensions.is-nested}}
+          nested,
+        {{/vendorExtensions.is-nested}}
+        {{#vendorExtensions.is-string}}
+          custom(function = "check_xss_string"),
+        {{/vendorExtensions.is-string}}
+        {{#vendorExtensions.is-vec-nested}}
+          nested,
+        {{/vendorExtensions.is-vec-nested}}
+        {{#vendorExtensions.is-vec-string}}
+          custom(function = "check_xss_vec_string"),
+        {{/vendorExtensions.is-vec-string}}
+        {{#vendorExtensions.is-map-nested}}
+          custom(function = "check_xss_map_nested"),
+        {{/vendorExtensions.is-map-nested}}
+        {{#vendorExtensions.is-map}}
+          custom(function = "check_xss_map"),
+        {{/vendorExtensions.is-map}}
+        {{#vendorExtensions.is-map-string}}
+          custom(function = "check_xss_map_string"),
+        {{/vendorExtensions.is-map-string}}
+        {{/isNullable}}
+    )]
+{{/hasValidation}}
+{{^hasValidation}}
+        {{^isNullable}}
+        {{#vendorExtensions.is-nested}}
+          #[validate(nested)]
+        {{/vendorExtensions.is-nested}}
+        {{#vendorExtensions.is-string}}
+          #[validate(custom(function = "check_xss_string"))]
+        {{/vendorExtensions.is-string}}
+        {{#vendorExtensions.is-vec-nested}}
+          #[validate(nested)]
+        {{/vendorExtensions.is-vec-nested}}
+        {{#vendorExtensions.is-vec-string}}
+          #[validate(custom(function = "check_xss_vec_string"))]
+        {{/vendorExtensions.is-vec-string}}
+        {{#vendorExtensions.is-map-nested}}
+          #[validate(custom(function = "check_xss_map_nested"))]
+        {{/vendorExtensions.is-map-nested}}
+        {{#vendorExtensions.is-map}}
+          #[validate(custom(function = "check_xss_map"))]
+        {{/vendorExtensions.is-map}}
+        {{#vendorExtensions.is-map-string}}
+          #[validate(custom(function = "check_xss_map_string"))]
+        {{/vendorExtensions.is-map-string}}
+        {{/isNullable}}
 {{/hasValidation}}
 {{#required}}
     pub {{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
@@ -742,9 +1033,9 @@ pub struct {{{classname}}} {
 {{/vars}}
 }
 
-
 {{#vars}}
 {{#isDiscriminator}}
+{{#isString}}
 impl {{{classname}}} {
     fn _name_for_{{{name}}}() -> String {
         String::from("{{{classname}}}")
@@ -757,9 +1048,9 @@ impl {{{classname}}} {
         s.serialize_str(&Self::_name_for_{{{name}}}())
     }
 }
+{{/isString}}
 {{/isDiscriminator}}
 {{/vars}}
-
 
 {{#vars}}
 {{#hasValidation}}
@@ -788,9 +1079,9 @@ fn validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowerc
 
 impl {{{classname}}} {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new({{#vars}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vars}}) -> {{{classname}}} {
+    pub fn new({{#vars}}{{^isDiscriminator}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{^isString}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/isString}}{{/isDiscriminator}}{{/vars}}) -> {{{classname}}} {
         {{{classname}}} {
-{{#vars}}            {{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}},
+{{#vars}} {{^isDiscriminator}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/isDiscriminator}}{{#isDiscriminator}}{{#isString}}{{{name}}}: Self::_name_for_{{{name}}}(){{/isString}}{{^isString}}{{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{/isString}}{{/isDiscriminator}},
 {{/vars}}
         }
     }
@@ -828,7 +1119,7 @@ impl std::fmt::Display for {{{classname}}} {
 {{/isArray}}
 {{#isArray}}
 {{#isNullable}}
-            Some(self.{{{name}}}.as_ref().map_or(vec!["null".to_string()], |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))),
+            Some(self.{{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))),
 {{/isNullable}}
 {{^isNullable}}
             Some(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
@@ -958,9 +1249,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<{{{classname}}}>> for HeaderV
         let hdr_value = hdr_value.to_string();
         match HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for {{classname}} - value: {} is invalid {}",
-                     hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Invalid header value for {{classname}} - value: {hdr_value} is invalid {e}"#))
         }
     }
 }
@@ -974,18 +1263,13 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<{{{classname
              std::result::Result::Ok(value) => {
                     match <{{{classname}}} as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into {{classname}} - {}",
-                                value, err))
+                        std::result::Result::Err(err) => std::result::Result::Err(format!(r#"Unable to convert header value '{value}' into {{classname}} - {err}"#))
                     }
              },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(format!(r#"Unable to convert header: {hdr_value:?} to string: {e}"#))
         }
     }
 }
-
 {{/oneOf.size}}
 {{/anyOf.size}}
 

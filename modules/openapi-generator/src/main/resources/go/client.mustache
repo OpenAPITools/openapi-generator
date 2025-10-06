@@ -27,8 +27,10 @@ import (
 	"golang.org/x/oauth2"
 	{{/hasOAuthMethods}}
 	{{#withAWSV4Signature}}
-	awsv4 "github.com/aws/aws-sdk-go/aws/signer/v4"
-	awscredentials "github.com/aws/aws-sdk-go/aws/credentials"
+	awsv4 "github.com/aws/aws-sdk-go-v2/aws/signer/v4"
+	awscredentials "github.com/aws/aws-sdk-go-v2/credentials"
+	"crypto/sha256"
+	"encoding/hex"
 	{{/withAWSV4Signature}}
 )
 
@@ -458,13 +460,10 @@ func (c *APIClient) prepareRequest(
 		{{#withAWSV4Signature}}
 		// AWS Signature v4 Authentication
 		if auth, ok := ctx.Value(ContextAWSv4).(AWSv4); ok {
-			creds := awscredentials.NewStaticCredentials(auth.AccessKey, auth.SecretKey, auth.SessionToken)
-			signer := awsv4.NewSigner(creds)
-			var reader *strings.Reader
-			if body == nil {
-				reader = strings.NewReader("")
-			} else {
-				reader = strings.NewReader(body.String())
+			credsProvider := awscredentials.NewStaticCredentialsProvider(auth.AccessKey, auth.SecretKey, auth.SessionToken)
+			creds, err := credsProvider.Retrieve(ctx)
+			if err != nil {
+				return nil, err
 			}
 
 			// Define default values for region and service to maintain backward compatibility
@@ -477,8 +476,22 @@ func (c *APIClient) prepareRequest(
 				service = "oapi"
 			}
 
-			timestamp := time.Now()
-			_, err := signer.Sign(localVarRequest, reader, service, region, timestamp)
+			// Compute payload hash from the request body
+			var payloadHash string
+			if body == nil {
+				// Empty body
+				hash := sha256.Sum256([]byte(""))
+				payloadHash = hex.EncodeToString(hash[:])
+			} else {
+				// Hash the actual body content
+				bodyBytes := []byte(body.String())
+				hash := sha256.Sum256(bodyBytes)
+				payloadHash = hex.EncodeToString(hash[:])
+			}
+
+			// Sign the request with the computed payload hash
+			signer := awsv4.NewSigner()
+			err = signer.SignHTTP(ctx, creds, localVarRequest, payloadHash, service, region, time.Now())
 			if err != nil {
 				return nil, err
 			}

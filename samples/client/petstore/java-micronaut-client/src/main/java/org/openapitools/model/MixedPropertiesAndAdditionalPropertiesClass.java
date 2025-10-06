@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +36,7 @@ import javax.annotation.Generated;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @Introspected
 public class MixedPropertiesAndAdditionalPropertiesClass {
     public static final String JSON_PROPERTY_UUID = "uuid";

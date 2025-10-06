@@ -28,7 +28,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ChildWithNullable extends ParentWithNullable {
 
   private @Nullable String otherProperty;
@@ -45,7 +45,7 @@ public class ChildWithNullable extends ParentWithNullable {
       this.otherProperty = otherProperty;
   }
 
-  public ChildWithNullable otherProperty(String otherProperty) {
+  public ChildWithNullable otherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;
     return this;
   }
@@ -57,11 +57,11 @@ public class ChildWithNullable extends ParentWithNullable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("otherProperty")
-  public String getOtherProperty() {
+  public @Nullable String getOtherProperty() {
     return otherProperty;
   }
 
-  public void setOtherProperty(String otherProperty) {
+  public void setOtherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;
   }
 

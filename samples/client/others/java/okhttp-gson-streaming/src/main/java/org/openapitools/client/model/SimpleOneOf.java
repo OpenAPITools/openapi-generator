@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.Locale;
 import java.io.Serializable;
 
 
@@ -28,6 +29,7 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -51,7 +53,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
     private static final Logger log = Logger.getLogger(SimpleOneOf.class.getName());
 
@@ -102,28 +104,28 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
                     try {
                         // validate the JSON object to see if any exception is thrown
                         if (!jsonElement.getAsJsonPrimitive().isString()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+                            throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterString;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'String'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for String failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for String failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'String'", e);
                     }
                     // deserialize Integer
                     try {
                         // validate the JSON object to see if any exception is thrown
                         if (!jsonElement.getAsJsonPrimitive().isNumber()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                            throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterInteger;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Integer'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for Integer failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for Integer failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Integer'", e);
                     }
 
@@ -133,7 +135,7 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for SimpleOneOf: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(Locale.ROOT, "Failed deserialization for SimpleOneOf: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -230,25 +232,25 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
         // validate the json string with String
         try {
             if (!jsonElement.getAsJsonPrimitive().isString()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+                throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
             }
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for String failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(Locale.ROOT, "Deserialization for String failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with Integer
         try {
             if (!jsonElement.getAsJsonPrimitive().isNumber()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
             }
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for Integer failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(Locale.ROOT, "Deserialization for Integer failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for SimpleOneOf with oneOf schemas: Integer, String. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(Locale.ROOT, "The JSON string is invalid for SimpleOneOf with oneOf schemas: Integer, String. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

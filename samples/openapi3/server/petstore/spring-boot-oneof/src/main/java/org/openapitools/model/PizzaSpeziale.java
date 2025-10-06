@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class PizzaSpeziale extends Pizza {
 
   private @Nullable String toppings;
@@ -41,7 +41,7 @@ public class PizzaSpeziale extends Pizza {
     super(atType);
   }
 
-  public PizzaSpeziale toppings(String toppings) {
+  public PizzaSpeziale toppings(@Nullable String toppings) {
     this.toppings = toppings;
     return this;
   }
@@ -53,11 +53,11 @@ public class PizzaSpeziale extends Pizza {
   
   @Schema(name = "toppings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("toppings")
-  public String getToppings() {
+  public @Nullable String getToppings() {
     return toppings;
   }
 
-  public void setToppings(String toppings) {
+  public void setToppings(@Nullable String toppings) {
     this.toppings = toppings;
   }
 

@@ -1,5 +1,5 @@
 [package]
-name = "petstore-reqwest"
+name = "petstore-reqwest-trait"
 version = "1.0.0"
 authors = ["OpenAPI Generator team and contributors"]
 description = "This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters."
@@ -19,5 +19,5 @@ mockall = { version = "^0.13", optional = true}
 [features]
 default = ["native-tls"]
 native-tls = ["reqwest/native-tls"]
-rustls = ["reqwest/rustls-tls"]
+rustls-tls = ["reqwest/rustls-tls"]
 mockall = ["dep:mockall"]

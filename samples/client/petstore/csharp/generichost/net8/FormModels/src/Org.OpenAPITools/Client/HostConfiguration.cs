@@ -204,19 +204,12 @@ namespace Org.OpenAPITools.Client
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<AnotherFakeApiEvents>();
-            _services.AddTransient<IAnotherFakeApi, AnotherFakeApi>();
             _services.AddSingleton<DefaultApiEvents>();
-            _services.AddTransient<IDefaultApi, DefaultApi>();
             _services.AddSingleton<FakeApiEvents>();
-            _services.AddTransient<IFakeApi, FakeApi>();
             _services.AddSingleton<FakeClassnameTags123ApiEvents>();
-            _services.AddTransient<IFakeClassnameTags123Api, FakeClassnameTags123Api>();
             _services.AddSingleton<PetApiEvents>();
-            _services.AddTransient<IPetApi, PetApi>();
             _services.AddSingleton<StoreApiEvents>();
-            _services.AddTransient<IStoreApi, StoreApi>();
             _services.AddSingleton<UserApiEvents>();
-            _services.AddTransient<IUserApi, UserApi>();
         }
 
         /// <summary>

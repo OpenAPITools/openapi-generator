@@ -1,5 +1,7 @@
 # OpenAPI\Client\PetApi
 
+Everything about your Pets
+
 All URIs are relative to http://petstore.swagger.io:80/v2, except if the operation defines another base path.
 
 | Method | HTTP request | Description |
@@ -23,7 +25,7 @@ All URIs are relative to http://petstore.swagger.io:80/v2, except if the operati
 addPet($pet)
 ```
 ### URI(s):
-- http://petstore.swagger.io/v2 - http://path-server-test.petstore.local/v2 - http://{server}.swagger.io:{port}/v2 test server with variables
+- http://localhost/v2 - http://petstore.swagger.io/v2 - http://path-server-test.petstore.local/v2 - http://{server}.swagger.io:{port}/v2 test server with variables
     - Variables:
       - server: target server
         - Allowed values:
@@ -79,6 +81,7 @@ try {
 | **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
 | hostIndex | null|int | Host index. Defaults to null. If null, then the library will use $this->hostIndex instead | [optional] |
 | variables | array | Associative array of variables to pass to the host. Defaults to empty array. | [optional] |
+
 
 
 
@@ -348,7 +351,7 @@ try {
 updatePet($pet)
 ```
 ### URI(s):
-- http://petstore.swagger.io/v2 - http://path-server-test.petstore.local/v2 - http://{server}.swagger.io:{port}/v2 test server with variables
+- http://localhost/v2 - http://petstore.swagger.io/v2 - http://path-server-test.petstore.local/v2 - http://{server}.swagger.io:{port}/v2 test server with variables
     - Variables:
       - server: target server
         - Allowed values:
@@ -404,6 +407,7 @@ try {
 | **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
 | hostIndex | null|int | Host index. Defaults to null. If null, then the library will use $this->hostIndex instead | [optional] |
 | variables | array | Associative array of variables to pass to the host. Defaults to empty array. | [optional] |
+
 
 
 

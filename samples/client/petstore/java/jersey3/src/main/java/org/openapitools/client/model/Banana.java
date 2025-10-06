@@ -18,6 +18,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +39,7 @@ import org.openapitools.client.JSON;
   Banana.JSON_PROPERTY_LENGTH_CM
 })
 @JsonTypeName("banana")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Banana {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   @jakarta.annotation.Nullable
@@ -59,7 +60,7 @@ public class Banana {
   @jakarta.annotation.Nullable
   @Valid
 
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getLengthCm() {
@@ -67,7 +68,7 @@ public class Banana {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLengthCm(@jakarta.annotation.Nullable BigDecimal lengthCm) {
     this.lengthCm = lengthCm;

@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import io.swagger.annotations.*;
 
-@ApiModel(description="Describes the result of uploading an image resource")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@ApiModel(description="Describes the result of uploading an image resource")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ModelApiResponse   {
   
   private Integer code;

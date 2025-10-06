@@ -25,6 +25,22 @@ export * from './jquery{{importFileExtension}}';
 /**
  * Represents an HTTP method.
  */
+{{#useErasableSyntax}}
+export const HttpMethod = {
+    GET: "GET",
+    HEAD: "HEAD",
+    POST: "POST",
+    PUT: "PUT",
+    DELETE: "DELETE",
+    CONNECT: "CONNECT",
+    OPTIONS: "OPTIONS",
+    TRACE: "TRACE",
+    PATCH: "PATCH"
+} as const;
+
+export type HttpMethod = typeof HttpMethod[keyof typeof HttpMethod];
+{{/useErasableSyntax}}
+{{^useErasableSyntax}}
 export enum HttpMethod {
     GET = "GET",
     HEAD = "HEAD",
@@ -36,6 +52,7 @@ export enum HttpMethod {
     TRACE = "TRACE",
     PATCH = "PATCH"
 }
+{{/useErasableSyntax}}
 
 /**
  * Represents an HTTP file which will be transferred from or to a server.
@@ -86,6 +103,7 @@ export class RequestContext {
     private headers: Headers = {};
     private body: RequestBody = undefined;
     private url: URL;
+    private signal: AbortSignal | undefined = undefined;
     {{#platforms}}
     {{#node}}
     private agent: http.Agent | https.Agent | undefined = undefined;
@@ -167,6 +185,15 @@ export class RequestContext {
     public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
     }
+
+    public setSignal(signal: AbortSignal): void {
+        this.signal = signal;
+    }
+
+    public getSignal(): AbortSignal | undefined {
+        return this.signal;
+    }
+
     {{#platforms}}
     {{#node}}
 

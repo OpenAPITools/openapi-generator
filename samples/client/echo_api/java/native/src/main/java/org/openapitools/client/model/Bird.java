@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,7 +37,7 @@ import org.openapitools.client.ApiClient;
   Bird.JSON_PROPERTY_SIZE,
   Bird.JSON_PROPERTY_COLOR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Bird {
   public static final String JSON_PROPERTY_SIZE = "size";
   @javax.annotation.Nullable
@@ -59,14 +60,14 @@ public class Bird {
    * @return size
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSize() {
     return size;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SIZE)
+  @JsonProperty(value = JSON_PROPERTY_SIZE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSize(@javax.annotation.Nullable String size) {
     this.size = size;
@@ -83,14 +84,14 @@ public class Bird {
    * @return color
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getColor() {
     return color;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
@@ -173,12 +174,12 @@ public class Bird {
 
     // add `size` to the URL query string
     if (getSize() != null) {
-      joiner.add(String.format("%ssize%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSize()))));
+      joiner.add(String.format(Locale.ROOT, "%ssize%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSize()))));
     }
 
     // add `color` to the URL query string
     if (getColor() != null) {
-      joiner.add(String.format("%scolor%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getColor()))));
+      joiner.add(String.format(Locale.ROOT, "%scolor%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getColor()))));
     }
 
     return joiner.toString();

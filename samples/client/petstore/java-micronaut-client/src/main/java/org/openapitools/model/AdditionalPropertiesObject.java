@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
@@ -30,7 +31,7 @@ import javax.annotation.Generated;
   AdditionalPropertiesObject.JSON_PROPERTY_NAME
 })
 @JsonTypeName("AdditionalPropertiesObject")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @Introspected
 public class AdditionalPropertiesObject extends HashMap<String, Map> {
     public static final String JSON_PROPERTY_NAME = "name";

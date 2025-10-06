@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public interface UserApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {

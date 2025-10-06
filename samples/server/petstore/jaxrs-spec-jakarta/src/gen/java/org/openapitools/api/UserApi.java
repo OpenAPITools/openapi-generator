@@ -19,7 +19,7 @@ import jakarta.validation.Valid;
 */
 @Path("/user")
 @Api(description = "the user API")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class UserApi {
 
     @POST

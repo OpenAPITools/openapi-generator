@@ -27,12 +27,12 @@ import jakarta.annotation.Generated;
 
 
 @JsonTypeName("ChildWithNullable")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ChildWithNullableDto extends ParentWithNullableDto {
 
   private @Nullable String otherProperty;
 
-  public ChildWithNullableDto otherProperty(String otherProperty) {
+  public ChildWithNullableDto otherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;
     return this;
   }
@@ -43,11 +43,11 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
    */
   
   @JsonProperty("otherProperty")
-  public String getOtherProperty() {
+  public @Nullable String getOtherProperty() {
     return otherProperty;
   }
 
-  public void setOtherProperty(String otherProperty) {
+  public void setOtherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;
   }
 

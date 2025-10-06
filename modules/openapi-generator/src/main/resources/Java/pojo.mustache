@@ -38,10 +38,12 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#isEnum}}
     {{^isContainer}}
 {{>modelInnerEnum}}
+
     {{/isContainer}}
     {{#isContainer}}
     {{#mostInnerItems}}
 {{>modelInnerEnum}}
+
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
@@ -65,7 +67,12 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#gson}}
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
-  {{>nullable_var_annotations}}
+  {{^isDiscriminator}}
+  {{>nullable_var_annotations}}{{! prevent indent}}
+  {{/isDiscriminator}}
+  {{#isDiscriminator}}
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
+  {{/isDiscriminator}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
@@ -108,7 +115,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
   public {{classname}}(
   {{#readOnlyVars}}
-    {{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nullable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+    {{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nullable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}, required = {{#isNullable}}false{{/isNullable}}{{^isNullable}}{{required}}{{/isNullable}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
   {{/readOnlyVars}}
   ) {
     this();
@@ -123,7 +130,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   /**
    * Constructor with all args parameters
    */
-  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nullable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
+  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nullable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}, required = {{#isNullable}}false{{/isNullable}}{{^isNullable}}{{required}}{{/isNullable}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
 {{#parent}}
     super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
 {{/parent}}
@@ -211,12 +218,13 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{#deprecated}}
   @Deprecated
 {{/deprecated}}
-  {{>nullable_var_annotations}}
+  {{>nullable_var_annotations}}{{! prevent indent}}
 {{#jsonb}}
   @JsonbProperty("{{baseName}}")
 {{/jsonb}}
 {{#useBeanValidation}}
 {{>beanValidation}}
+
 {{/useBeanValidation}}
 {{#swagger1AnnotationLibrary}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
@@ -248,11 +256,12 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
 {{> jackson_annotations}}
+
   public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}_JsonNullable() {
     return {{name}};
   }
   {{/vendorExtensions.x-is-jackson-optional-nullable}}{{#vendorExtensions.x-is-jackson-optional-nullable}}
-  @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
+  @JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}, required = {{#isNullable}}false{{/isNullable}}{{^isNullable}}{{required}}{{/isNullable}})
   {{#isReadOnly}}private{{/isReadOnly}}{{^isReadOnly}}public{{/isReadOnly}} void {{setter}}_JsonNullable(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
     {{! For getters/setters that have name differing from attribute name, we must include setter (albeit private) for jackson to be able to set the attribute}}
     this.{{name}} = {{name}};
@@ -397,8 +406,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       int i = 0;
       for ({{{items.datatypeWithEnum}}} _item : {{getter}}()) {
         try {
-          joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -412,8 +421,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if ({{getter}}() != null) {
       for (int i = 0; i < {{getter}}().size(); i++) {
         try {
-          joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf({{getter}}().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -430,8 +439,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       int i = 0;
       for ({{{items.dataType}}} _item : {{getter}}()) {
         if (_item != null) {
-          joiner.add(_item.toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+          joiner.add(_item.toUrlQueryString(String.format(Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
       i++;
@@ -441,8 +450,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if ({{getter}}() != null) {
       for (int i = 0; i < {{getter}}().size(); i++) {
         if ({{getter}}().get(i) != null) {
-          joiner.add({{getter}}().get(i).toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+          joiner.add({{getter}}().get(i).toUrlQueryString(String.format(Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }
@@ -455,8 +464,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for ({{{items.dataType}}} _item : {{getter}}()) {
         if (_item != null) {
           try {
-            joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            joiner.add(String.format(Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
                 URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20")));
           } catch (UnsupportedEncodingException e) {
             // Should never happen, UTF-8 is always supported
@@ -472,8 +481,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for (int i = 0; i < {{getter}}().size(); i++) {
         if ({{getter}}().get(i) != null) {
           try {
-            joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            joiner.add(String.format(Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
                 URLEncoder.encode(String.valueOf({{getter}}().get(i)), "UTF-8").replaceAll("\\+", "%20")));
           } catch (UnsupportedEncodingException e) {
             // Should never happen, UTF-8 is always supported
@@ -492,8 +501,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if ({{getter}}() != null) {
       for (String _key : {{getter}}().keySet()) {
         try {
-          joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%s{{baseName}}%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               {{getter}}().get(_key), URLEncoder.encode(String.valueOf({{getter}}().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -506,8 +515,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     if ({{getter}}() != null) {
       for (String _key : {{getter}}().keySet()) {
         if ({{getter}}().get(_key) != null) {
-          joiner.add({{getter}}().get(_key).toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
+          joiner.add({{getter}}().get(_key).toUrlQueryString(String.format(Locale.ROOT, "%s{{baseName}}%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix))));
         }
       }
     }
@@ -517,7 +526,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#isPrimitiveType}}
     if ({{getter}}() != null) {
       try {
-        joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf({{{getter}}}()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf({{{getter}}}()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -533,7 +542,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{^isModel}}
     if ({{getter}}() != null) {
       try {
-        joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf({{{getter}}}()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf({{{getter}}}()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -609,7 +618,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{/parcelableModel}}
 {{#generateBuilders}}
 
-  {{>javaBuilder}}
+  {{>javaBuilder}}{{! prevent indent}}
 {{/generateBuilders}}
 
 }

@@ -28,7 +28,7 @@ import jakarta.validation.Valid;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Cat extends Animal  {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   @JsonProperty(JSON_PROPERTY_DECLAWED)

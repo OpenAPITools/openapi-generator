@@ -95,7 +95,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
             {{/anyOf}}
             {{/composedSchemas}}
-            throw new IOException(String.format("Failed deserialization for {{classname}}: no match found"));
+            throw new IOException("Failed deserialization for {{classname}}: no match found");
         }
 
         /**
@@ -119,6 +119,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
 {{> libraries/jersey2/additional_properties }}
+
     {{#additionalPropertiesType}}
     /**
      * Return true if this {{name}} object is equal to o.

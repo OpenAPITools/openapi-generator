@@ -14,7 +14,7 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class UserApiControllerImp extends UserApiControllerImpInterface {
     @Override
     public void createUser(Http.Request request, User body) throws Exception {

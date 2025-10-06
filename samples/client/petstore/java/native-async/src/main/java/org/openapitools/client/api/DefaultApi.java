@@ -43,12 +43,33 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class DefaultApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
+  private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
@@ -71,6 +92,7 @@ public class DefaultApi {
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
 
+
   private ApiException getApiException(String operationId, HttpResponse<String> response) {
     String message = formatExceptionMessage(operationId, response.statusCode(), response.body());
     return new ApiException(response.statusCode(), message, response.headers(), response.body());
@@ -84,14 +106,73 @@ public class DefaultApi {
   }
 
   /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
+  }
+
+  /**
    * 
    * 
    * @return CompletableFuture&lt;FooGetDefaultResponse&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<FooGetDefaultResponse> fooGet() throws ApiException {
+    return fooGet(null);
+  }
+
+  /**
+   * 
+   * 
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;FooGetDefaultResponse&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<FooGetDefaultResponse> fooGet(Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = fooGetRequestBuilder();
+      HttpRequest.Builder localVarRequestBuilder = fooGetRequestBuilder(headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -120,8 +201,19 @@ public class DefaultApi {
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<ApiResponse<FooGetDefaultResponse>> fooGetWithHttpInfo() throws ApiException {
+    return fooGetWithHttpInfo(null);
+  }
+
+  /**
+   * 
+   * 
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;ApiResponse&lt;FooGetDefaultResponse&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<FooGetDefaultResponse>> fooGetWithHttpInfo(Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = fooGetRequestBuilder();
+      HttpRequest.Builder localVarRequestBuilder = fooGetRequestBuilder(headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -150,7 +242,7 @@ public class DefaultApi {
     }
   }
 
-  private HttpRequest.Builder fooGetRequestBuilder() throws ApiException {
+  private HttpRequest.Builder fooGetRequestBuilder(Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -164,6 +256,8 @@ public class DefaultApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

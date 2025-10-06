@@ -282,6 +282,23 @@ namespace Org.OpenAPITools.Client
                 request = UnityWebRequest.Post(uri, form);
                 request.method = method;
             }
+            else if (contentType == "application/octet-stream")
+            {
+                if(options.Data is Stream stream)
+                {
+                    using (var binaryReader = new BinaryReader(stream))
+                    {
+                        var bytes = binaryReader.ReadBytes((int)stream.Length);
+                        request = UnityWebRequest.Put(uri, bytes);
+                        request.method = method;
+                        request.SetRequestHeader("Content-Type", "application/octet-stream");
+                    }
+                }
+                else
+                {
+                    throw new InvalidDataException($"{nameof(options.Data)} is not of {nameof(Stream)} type");
+                }
+            }
             else if (options.Data != null)
             {
                 var serializer = new CustomJsonCodec(SerializerSettings, configuration);

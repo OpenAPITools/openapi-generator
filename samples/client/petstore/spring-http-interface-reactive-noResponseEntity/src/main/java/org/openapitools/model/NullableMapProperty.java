@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * NullableMapProperty
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class NullableMapProperty {
 
   

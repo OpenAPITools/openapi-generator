@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Name {
 
   private Integer name;
@@ -73,7 +73,7 @@ public class Name {
     this.name = name;
   }
 
-  public Name snakeCase(Integer snakeCase) {
+  public Name snakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
     return this;
   }
@@ -85,15 +85,15 @@ public class Name {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
-  public Integer getSnakeCase() {
+  public @Nullable Integer getSnakeCase() {
     return snakeCase;
   }
 
-  public void setSnakeCase(Integer snakeCase) {
+  public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
-  public Name property(String property) {
+  public Name property(@Nullable String property) {
     this.property = property;
     return this;
   }
@@ -105,15 +105,15 @@ public class Name {
   
   @ApiModelProperty(value = "")
   @JsonProperty("property")
-  public String getProperty() {
+  public @Nullable String getProperty() {
     return property;
   }
 
-  public void setProperty(String property) {
+  public void setProperty(@Nullable String property) {
     this.property = property;
   }
 
-  public Name _123number(Integer _123number) {
+  public Name _123number(@Nullable Integer _123number) {
     this._123number = _123number;
     return this;
   }
@@ -125,11 +125,11 @@ public class Name {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")
-  public Integer get123number() {
+  public @Nullable Integer get123number() {
     return _123number;
   }
 
-  public void set123number(Integer _123number) {
+  public void set123number(@Nullable Integer _123number) {
     this._123number = _123number;
   }
 

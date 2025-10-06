@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -47,7 +48,7 @@ import java.util.StringJoiner;
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE,
   DefaultValue.JSON_PROPERTY_STRING_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class DefaultValue {
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
   @javax.annotation.Nullable
@@ -140,7 +141,7 @@ public class DefaultValue {
    * @return arrayStringEnumRefDefault
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<StringEnumRef> getArrayStringEnumRefDefault() {
@@ -148,7 +149,7 @@ public class DefaultValue {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayStringEnumRefDefault(@javax.annotation.Nullable List<StringEnumRef> arrayStringEnumRefDefault) {
     this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
@@ -173,7 +174,7 @@ public class DefaultValue {
    * @return arrayStringEnumDefault
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<ArrayStringEnumDefaultEnum> getArrayStringEnumDefault() {
@@ -181,7 +182,7 @@ public class DefaultValue {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayStringEnumDefault(@javax.annotation.Nullable List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
     this.arrayStringEnumDefault = arrayStringEnumDefault;
@@ -206,7 +207,7 @@ public class DefaultValue {
    * @return arrayStringDefault
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_DEFAULT)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_DEFAULT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getArrayStringDefault() {
@@ -214,7 +215,7 @@ public class DefaultValue {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_DEFAULT)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_DEFAULT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayStringDefault(@javax.annotation.Nullable List<String> arrayStringDefault) {
     this.arrayStringDefault = arrayStringDefault;
@@ -239,7 +240,7 @@ public class DefaultValue {
    * @return arrayIntegerDefault
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_INTEGER_DEFAULT)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_INTEGER_DEFAULT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Integer> getArrayIntegerDefault() {
@@ -247,7 +248,7 @@ public class DefaultValue {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_INTEGER_DEFAULT)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_INTEGER_DEFAULT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayIntegerDefault(@javax.annotation.Nullable List<Integer> arrayIntegerDefault) {
     this.arrayIntegerDefault = arrayIntegerDefault;
@@ -272,7 +273,7 @@ public class DefaultValue {
    * @return arrayString
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getArrayString() {
@@ -280,7 +281,7 @@ public class DefaultValue {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayString(@javax.annotation.Nullable List<String> arrayString) {
     this.arrayString = arrayString;
@@ -315,14 +316,14 @@ public class DefaultValue {
         return arrayStringNullable.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<List<String>> getArrayStringNullable_JsonNullable() {
     return arrayStringNullable;
   }
   
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_NULLABLE, required = false)
   public void setArrayStringNullable_JsonNullable(JsonNullable<List<String>> arrayStringNullable) {
     this.arrayStringNullable = arrayStringNullable;
   }
@@ -360,14 +361,14 @@ public class DefaultValue {
         return arrayStringExtensionNullable.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<List<String>> getArrayStringExtensionNullable_JsonNullable() {
     return arrayStringExtensionNullable;
   }
   
-  @JsonProperty(JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE, required = false)
   public void setArrayStringExtensionNullable_JsonNullable(JsonNullable<List<String>> arrayStringExtensionNullable) {
     this.arrayStringExtensionNullable = arrayStringExtensionNullable;
   }
@@ -393,14 +394,14 @@ public class DefaultValue {
         return stringNullable.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_STRING_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_STRING_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<String> getStringNullable_JsonNullable() {
     return stringNullable;
   }
   
-  @JsonProperty(JSON_PROPERTY_STRING_NULLABLE)
+  @JsonProperty(value = JSON_PROPERTY_STRING_NULLABLE, required = false)
   public void setStringNullable_JsonNullable(JsonNullable<String> stringNullable) {
     this.stringNullable = stringNullable;
   }
@@ -508,8 +509,8 @@ public class DefaultValue {
       for (int i = 0; i < getArrayStringEnumRefDefault().size(); i++) {
         if (getArrayStringEnumRefDefault().get(i) != null) {
           try {
-            joiner.add(String.format("%sarray_string_enum_ref_default%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            joiner.add(String.format(Locale.ROOT, "%sarray_string_enum_ref_default%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
                 URLEncoder.encode(String.valueOf(getArrayStringEnumRefDefault().get(i)), "UTF-8").replaceAll("\\+", "%20")));
           } catch (UnsupportedEncodingException e) {
             // Should never happen, UTF-8 is always supported
@@ -523,8 +524,8 @@ public class DefaultValue {
     if (getArrayStringEnumDefault() != null) {
       for (int i = 0; i < getArrayStringEnumDefault().size(); i++) {
         try {
-          joiner.add(String.format("%sarray_string_enum_default%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%sarray_string_enum_default%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayStringEnumDefault().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -537,8 +538,8 @@ public class DefaultValue {
     if (getArrayStringDefault() != null) {
       for (int i = 0; i < getArrayStringDefault().size(); i++) {
         try {
-          joiner.add(String.format("%sarray_string_default%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%sarray_string_default%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayStringDefault().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -551,8 +552,8 @@ public class DefaultValue {
     if (getArrayIntegerDefault() != null) {
       for (int i = 0; i < getArrayIntegerDefault().size(); i++) {
         try {
-          joiner.add(String.format("%sarray_integer_default%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%sarray_integer_default%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayIntegerDefault().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -565,8 +566,8 @@ public class DefaultValue {
     if (getArrayString() != null) {
       for (int i = 0; i < getArrayString().size(); i++) {
         try {
-          joiner.add(String.format("%sarray_string%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%sarray_string%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayString().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -579,8 +580,8 @@ public class DefaultValue {
     if (getArrayStringNullable() != null) {
       for (int i = 0; i < getArrayStringNullable().size(); i++) {
         try {
-          joiner.add(String.format("%sarray_string_nullable%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%sarray_string_nullable%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayStringNullable().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -593,8 +594,8 @@ public class DefaultValue {
     if (getArrayStringExtensionNullable() != null) {
       for (int i = 0; i < getArrayStringExtensionNullable().size(); i++) {
         try {
-          joiner.add(String.format("%sarray_string_extension_nullable%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%sarray_string_extension_nullable%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayStringExtensionNullable().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -606,7 +607,7 @@ public class DefaultValue {
     // add `string_nullable` to the URL query string
     if (getStringNullable() != null) {
       try {
-        joiner.add(String.format("%sstring_nullable%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStringNullable()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(Locale.ROOT, "%sstring_nullable%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStringNullable()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

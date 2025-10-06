@@ -52,7 +52,7 @@ impl std::str::FromStr for {{{classname}}} {
             {{{value}}} => std::result::Result::Ok({{{classname}}}::{{{name}}}),
   {{/enumVars}}
 {{/allowableValues}}
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -93,9 +93,9 @@ impl std::ops::DerefMut for {{{classname}}} {
 
 {{#vendorExtensions.x-to-string-support}}
 {{#vendorExtensions.x-is-string}}
-impl std::string::ToString for {{{classname}}} {
-    fn to_string(&self) -> String {
-       self.0.clone()
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
@@ -108,16 +108,16 @@ impl std::str::FromStr for {{{classname}}} {
 {{/vendorExtensions.x-is-string}}
 {{^vendorExtensions.x-is-string}}
 /// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for {{{classname}}} {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for {{{classname}}} {
     type Err = String;
@@ -125,7 +125,7 @@ impl ::std::str::FromStr for {{{classname}}} {
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match std::str::FromStr::from_str(s) {
              std::result::Result::Ok(r) => std::result::Result::Ok({{{classname}}}(r)),
-             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to {{{classname}}}: {:?}", s, e)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {s} to {{{classname}}}: {e:?}")),
         }
     }
 }
@@ -133,17 +133,17 @@ impl ::std::str::FromStr for {{{classname}}} {
 {{/vendorExtensions.x-to-string-support}}
 {{^vendorExtensions.x-to-string-support}}
 /// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for {{{classname}}} {
-    fn to_string(&self) -> String {
-        // ToString for this model is not supported
-        "".to_string()
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Display for this model is not supported
+        write!(f, "")
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for {{{classname}}} {
     type Err = &'static str;
@@ -158,11 +158,18 @@ impl ::std::str::FromStr for {{{classname}}} {
 {{#arrayModelType}}
 {{#vendorExtensions}}{{#x-item-xml-name}}// Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
-fn wrap_in_{{{x-item-xml-name}}}<S>(item: &Vec<{{{arrayModelType}}}>, serializer: S) -> std::result::Result<S::Ok, S::Error>
+fn wrap_in_{{{x-item-xml-name}}}<S>(items: &Vec<{{{arrayModelType}}}>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
     S: serde::ser::Serializer,
 {
-    serde_xml_rs::wrap_primitives(item, serializer, "{{{x-item-xml-name}}}")
+    use serde::ser::SerializeMap;
+
+    let mut map = serializer.serialize_map(None)?;
+    for ref item in items {
+        map.serialize_key("{{{x-item-xml-name}}}")?;
+        map.serialize_value(item)?;
+    }
+    map.end()
 }
 
 {{/x-item-xml-name}}
@@ -238,16 +245,16 @@ impl std::ops::DerefMut for {{{classname}}} {
 }
 
 /// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for {{{classname}}} {
-    fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for {{{classname}}} {
     type Err = <{{{arrayModelType}}} as std::str::FromStr>::Err;
@@ -297,23 +304,23 @@ pub struct {{{classname}}} {
         {{/maxLength}}
         {{#pattern}}
           {{^isByteArray}}
-           regex = "RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}",
+           regex(path = *RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}),
           {{/isByteArray}}
           {{#isByteArray}}
-           custom ="validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}"
+           custom(function = "validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}")
           {{/isByteArray}}
         {{/pattern}}
         {{#maximum}}
             {{#minimum}}
-            range(min = {{minimum}}, max = {{maximum}}),
+            range(min = {{minimum}}{{dataType}}, max = {{maximum}}{{dataType}}),
             {{/minimum}}
             {{^minimum}}
-            range(max = {{maximum}}),
+            range(max = {{maximum}}{{dataType}}),
             {{/minimum}}
         {{/maximum}}
         {{#minimum}}
             {{^maximum}}
-            range(min = {{minimum}}),
+            range(min = {{minimum}}{{dataType}}),
             {{/maximum}}
         {{/minimum}}
         {{#maxItems}}
@@ -382,10 +389,10 @@ impl {{{classname}}} {
 }
 
 /// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for {{{classname}}} {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
 {{#vars}}
 {{#isByteArray}}
@@ -453,12 +460,12 @@ impl std::string::ToString for {{{classname}}} {
 {{/vars}}
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for {{{classname}}} {
     type Err = String;
@@ -548,8 +555,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<{{{classname}}}>> for hyper::
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for {{classname}} - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for {{classname}} - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -564,13 +570,11 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <{{{classname}}} as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into {{classname}} - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into {{classname}} - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
@@ -586,8 +590,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<{{{classname}}}>>> for hy
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
@@ -607,16 +610,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <{{{classname}}} as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into {{classname}} - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into {{classname}} - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -638,10 +639,10 @@ impl {{{classname}}} {
     #[allow(dead_code)]
     pub(crate) fn as_xml(&self) -> String {
         {{#xmlNamespace}}
-        let mut namespaces = std::collections::BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
-        namespaces.insert("".to_string(), Self::NAMESPACE.to_string());
-        serde_xml_rs::to_string_with_namespaces(&self, namespaces).expect("impossible to fail to serialize")
+        let config = serde_xml_rs::SerdeXml::new()
+            .namespace("", Self::NAMESPACE);
+        config.to_string(&self).expect("impossible to fail to serialize")
         {{/xmlNamespace}}
         {{^xmlNamespace}}
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")

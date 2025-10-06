@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
   private @Nullable File file;
@@ -44,7 +44,7 @@ public class FileSchemaTestClass {
       this.files = files;
   }
 
-  public FileSchemaTestClass file(File file) {
+  public FileSchemaTestClass file(@Nullable File file) {
     this.file = file;
     return this;
   }
@@ -56,11 +56,11 @@ public class FileSchemaTestClass {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("file")
-  public File getFile() {
+  public @Nullable File getFile() {
     return file;
   }
 
-  public void setFile(File file) {
+  public void setFile(@Nullable File file) {
     this.file = file;
   }
 

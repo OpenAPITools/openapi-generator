@@ -12,7 +12,7 @@ import org.openapitools.model.OuterEnum;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class EnumTest   {
   /**
    * Gets or Sets enumString

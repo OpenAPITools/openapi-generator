@@ -21,6 +21,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +39,7 @@ import org.openapitools.client.ApiClient;
   Apple.JSON_PROPERTY_CULTIVAR,
   Apple.JSON_PROPERTY_ORIGIN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
   @javax.annotation.Nullable
@@ -61,14 +62,14 @@ public class Apple {
    * @return cultivar
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getCultivar() {
     return cultivar;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCultivar(@javax.annotation.Nullable String cultivar) {
     this.cultivar = cultivar;
@@ -85,14 +86,14 @@ public class Apple {
    * @return origin
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonProperty(value = JSON_PROPERTY_ORIGIN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getOrigin() {
     return origin;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ORIGIN)
+  @JsonProperty(value = JSON_PROPERTY_ORIGIN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOrigin(@javax.annotation.Nullable String origin) {
     this.origin = origin;
@@ -167,12 +168,12 @@ public class Apple {
 
     // add `cultivar` to the URL query string
     if (getCultivar() != null) {
-      joiner.add(String.format("%scultivar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCultivar()))));
+      joiner.add(String.format(Locale.ROOT, "%scultivar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCultivar()))));
     }
 
     // add `origin` to the URL query string
     if (getOrigin() != null) {
-      joiner.add(String.format("%sorigin%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOrigin()))));
+      joiner.add(String.format(Locale.ROOT, "%sorigin%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOrigin()))));
     }
 
     return joiner.toString();

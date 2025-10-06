@@ -24,13 +24,13 @@ pydantic>=2
 python-dotenv==0.17.1
 python-multipart==0.0.18
 PyYAML>=5.4.1,<6.1.0
-requests==2.32.0
+requests==2.32.4
 Rx==1.6.1
 starlette==0.40.0
-typing-extensions==4.8.0
+typing-extensions==4.13.2
 ujson==4.0.2
-urllib3==1.26.19
+urllib3==2.5.0
 uvicorn==0.13.4
-uvloop==0.19.0
+uvloop==0.21.0
 watchgod==0.7
 websockets==10.0

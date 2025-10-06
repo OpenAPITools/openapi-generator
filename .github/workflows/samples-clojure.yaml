@@ -1,0 +1,51 @@
+name: Samples Clojure Client
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/clojure/**
+  pull_request:
+    paths:
+      - samples/client/petstore/clojure/**
+jobs:
+  build:
+    name: Build Clojure Client (JDK11)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/clojure/
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+    steps:
+      - uses: actions/checkout@v5
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: 11
+      - name: Cache maven dependencies
+        uses: actions/cache@v4
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.m2
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+      - name: Install Leiningen (if using Leiningen)
+        run: |
+          curl https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein > lein
+          chmod +x lein
+          sudo mv lein /usr/local/bin/
+      - name: Run tests (Leiningen)
+        working-directory: ${{ matrix.sample }}
+        run: lein test

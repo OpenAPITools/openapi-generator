@@ -12,7 +12,7 @@ import rx.Single;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class PetApi {
 
     private final org.openapitools.client.api.PetApi delegate;

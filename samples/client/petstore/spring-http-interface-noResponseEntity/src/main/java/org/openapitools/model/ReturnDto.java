@@ -19,12 +19,12 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Return")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ReturnDto {
 
   private @Nullable Integer _return;
 
-  public ReturnDto _return(Integer _return) {
+  public ReturnDto _return(@Nullable Integer _return) {
     this._return = _return;
     return this;
   }
@@ -35,11 +35,11 @@ public class ReturnDto {
    */
   
   @JsonProperty("return")
-  public Integer getReturn() {
+  public @Nullable Integer getReturn() {
     return _return;
   }
 
-  public void setReturn(Integer _return) {
+  public void setReturn(@Nullable Integer _return) {
     this._return = _return;
   }
 

@@ -115,20 +115,20 @@ ext {
     {{#swagger2AnnotationLibrary}}
     swagger_annotations_version = "2.2.9"
     {{/swagger2AnnotationLibrary}}
-    jackson_version = "2.17.1"
-    jackson_databind_version = "2.17.1"
+    jackson_version = "2.19.2"
+    jackson_databind_version = "2.19.2"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.6"
+    jackson_databind_nullable_version = "0.2.7"
     {{/openApiNullable}}
     {{#useJakartaEe}}
-    spring_web_version = "6.1.5"
+    spring_web_version = "6.2.8"
     jakarta_annotation_version = "2.1.1"
-    beanvalidation_version = "3.0.2"
+    bean_validation_version = "3.0.2"
     {{/useJakartaEe}}
     {{^useJakartaEe}}
-    spring_web_version = "6.1.13"
+    spring_web_version = "5.3.33"
     jakarta_annotation_version = "1.3.5"
-    beanvalidation_version = "2.0.2"
+    bean_validation_version = "2.0.2"
     {{/useJakartaEe}}
     jodatime_version = "2.9.9"
     junit_version = "5.10.2"
@@ -163,8 +163,12 @@ dependencies {
     {{/joda}}
     {{#withXml}}
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
+    implementation "io.github.threeten-jaxb:threeten-jaxb-core:1.2"
     {{/withXml}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    {{#useBeanValidation}}
+    implementation "jakarta.validation:jakarta.validation-api:$bean_validation_version"
+    {{/useBeanValidation}}
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 }

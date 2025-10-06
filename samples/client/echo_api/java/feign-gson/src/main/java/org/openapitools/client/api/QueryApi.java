@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public interface QueryApi extends ApiClient.Api {
 
 
@@ -828,6 +828,91 @@ public interface QueryApi extends ApiClient.Api {
   public static class TestQueryStyleFormExplodeTrueObjectAllOfQueryParams extends HashMap<String, Object> {
     public TestQueryStyleFormExplodeTrueObjectAllOfQueryParams queryObject(@javax.annotation.Nullable final DataQuery value) {
       put("query_object", EncodingUtils.encode(value));
+      return this;
+    }
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param jsonSerializedObjectRefStringQuery  (optional)
+   * @param jsonSerializedObjectArrayRefStringQuery  (optional)
+   * @return String
+   */
+  @RequestLine("GET /query/style_jsonSerialization/object?json_serialized_object_ref_string_query={jsonSerializedObjectRefStringQuery}&json_serialized_object_array_ref_string_query={jsonSerializedObjectArrayRefStringQuery}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  String testQueryStyleJsonSerializationObject(@Param("jsonSerializedObjectRefStringQuery") @javax.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @Param("jsonSerializedObjectArrayRefStringQuery") @javax.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery);
+
+  /**
+   * Test query parameter(s)
+   * Similar to <code>testQueryStyleJsonSerializationObject</code> but it also returns the http response headers .
+   * Test query parameter(s)
+   * @param jsonSerializedObjectRefStringQuery  (optional)
+   * @param jsonSerializedObjectArrayRefStringQuery  (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /query/style_jsonSerialization/object?json_serialized_object_ref_string_query={jsonSerializedObjectRefStringQuery}&json_serialized_object_array_ref_string_query={jsonSerializedObjectArrayRefStringQuery}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testQueryStyleJsonSerializationObjectWithHttpInfo(@Param("jsonSerializedObjectRefStringQuery") @javax.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @Param("jsonSerializedObjectArrayRefStringQuery") @javax.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery);
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * Note, this is equivalent to the other <code>testQueryStyleJsonSerializationObject</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link TestQueryStyleJsonSerializationObjectQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>jsonSerializedObjectRefStringQuery -  (optional)</li>
+   *   <li>jsonSerializedObjectArrayRefStringQuery -  (optional)</li>
+   *   </ul>
+   * @return String
+   */
+  @RequestLine("GET /query/style_jsonSerialization/object?json_serialized_object_ref_string_query={jsonSerializedObjectRefStringQuery}&json_serialized_object_array_ref_string_query={jsonSerializedObjectArrayRefStringQuery}")
+  @Headers({
+  "Accept: text/plain",
+  })
+  String testQueryStyleJsonSerializationObject(@QueryMap(encoded=true) TestQueryStyleJsonSerializationObjectQueryParams queryParams);
+
+  /**
+  * Test query parameter(s)
+  * Test query parameter(s)
+  * Note, this is equivalent to the other <code>testQueryStyleJsonSerializationObject</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>jsonSerializedObjectRefStringQuery -  (optional)</li>
+          *   <li>jsonSerializedObjectArrayRefStringQuery -  (optional)</li>
+      *   </ul>
+          * @return String
+      */
+      @RequestLine("GET /query/style_jsonSerialization/object?json_serialized_object_ref_string_query={jsonSerializedObjectRefStringQuery}&json_serialized_object_array_ref_string_query={jsonSerializedObjectArrayRefStringQuery}")
+      @Headers({
+    "Accept: text/plain",
+      })
+   ApiResponse<String> testQueryStyleJsonSerializationObjectWithHttpInfo(@QueryMap(encoded=true) TestQueryStyleJsonSerializationObjectQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>testQueryStyleJsonSerializationObject</code> method in a fluent style.
+   */
+  public static class TestQueryStyleJsonSerializationObjectQueryParams extends HashMap<String, Object> {
+    public TestQueryStyleJsonSerializationObjectQueryParams jsonSerializedObjectRefStringQuery(@javax.annotation.Nullable final Pet value) {
+      put("json_serialized_object_ref_string_query", EncodingUtils.encode(value));
+      return this;
+    }
+    public TestQueryStyleJsonSerializationObjectQueryParams jsonSerializedObjectArrayRefStringQuery(@javax.annotation.Nullable final List<Pet> value) {
+      put("json_serialized_object_array_ref_string_query", EncodingUtils.encodeCollection(value, "csv"));
       return this;
     }
   }

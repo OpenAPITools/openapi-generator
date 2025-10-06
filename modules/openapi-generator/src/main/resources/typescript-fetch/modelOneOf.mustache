@@ -1,5 +1,5 @@
 {{#hasImports}}
-{{#imports}}
+{{#oneOfArrays}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
     instanceOf{{{.}}},
@@ -7,10 +7,20 @@ import {
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
 } from './{{.}}{{importFileExtension}}';
-{{/imports}}
+{{/oneOfArrays}}
+{{#oneOfModels}}
+import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
+import {
+    instanceOf{{{.}}},
+    {{{.}}}FromJSON,
+    {{{.}}}FromJSONTyped,
+    {{{.}}}ToJSON,
+} from './{{.}}{{importFileExtension}}';
+{{/oneOfModels}}
 
 {{/hasImports}}
 {{>modelOneOfInterfaces}}
+
 
 export function {{classname}}FromJSON(json: any): {{classname}} {
     return {{classname}}FromJSONTyped(json, false);
@@ -55,7 +65,64 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     {{/-last}}
     {{/oneOfArrays}}
-
+    {{#oneOfPrimitives}}
+    {{#isArray}}
+    {{#items}}
+    {{#isDateType}}
+    if (Array.isArray(json)) {
+        if (json.every(item => !(isNaN(new Date(json).getTime()))) {
+            return json.map(value => new Date(json);
+        }
+    }
+    {{/isDateType}}
+    {{#isDateTimeType}}
+    if (Array.isArray(json)) {
+        if (json.every(item => !(isNaN(new Date(json).getTime()))) {
+            return json.map(value => new Date(json);
+        }
+    }
+    {{/isDateTimeType}}
+    {{#isNumeric}}
+    if (Array.isArray(json)) {
+        if (json.every(item => typeof item === 'number'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
+            return json;
+        }
+    }
+    {{/isNumeric}}
+    {{#isString}}
+    if (Array.isArray(json)) {
+        if (json.every(item => typeof item === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
+            return json;
+        }
+    }
+    {{/isString}}
+    {{/items}}
+    {{/isArray}}
+    {{^isArray}}
+    {{#isDateType}}
+    if (!(isNaN(new Date(json).getTime()))) {
+        return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}new Date(json));
+    }
+    {{/isDateType}}
+    {{^isDateType}}
+    {{#isDateTimeType}}
+    if (!(isNaN(new Date(json).getTime()))) {
+        return {{^required}}json == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json == null ? null : {{/isNullable}}{{/required}}new Date(json));
+    }
+    {{/isDateTimeType}}
+    {{/isDateType}}
+    {{#isNumeric}}
+    if (typeof json === 'number'{{#isEnum}} && ({{#allowableValues}}{{#values}}json === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
+        return json;
+    }
+    {{/isNumeric}}
+    {{#isString}}
+    if (typeof json === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}json === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
+        return json;
+    }
+    {{/isString}}
+    {{/isArray}}
+    {{/oneOfPrimitives}}
     return {} as any;
 {{/discriminator}}
 }
@@ -75,7 +142,7 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
             return Object.assign({}, {{modelName}}ToJSON(value), { {{discriminator.propertyName}}: '{{mappingName}}' } as const);
 {{/discriminator.mappedModels}}
         default:
-            return json;
+            return value;
     }
 {{/discriminator}}
 {{^discriminator}}
@@ -103,7 +170,62 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     }
     {{/-last}}
     {{/oneOfArrays}}
-
+    {{#oneOfPrimitives}}
+    {{#isArray}}
+    {{#items}}
+    {{#isDateType}}
+    if (Array.isArray(value)) {
+        if (value.every(item => item instanceof Date) {
+            return value.map(value => value.toISOString().substring(0,10)));
+        }
+    }
+    {{/isDateType}}
+    {{#isDateTimeType}}
+    if (Array.isArray(value)) {
+        if (value.every(item => item instanceof Date) {
+            return value.map(value => value.toISOString();
+        }
+    }
+    {{/isDateTimeType}}
+    {{#isNumeric}}
+    if (Array.isArray(value)) {
+        if (value.every(item => typeof item === 'number'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
+            return value;
+        }
+    }
+    {{/isNumeric}}
+    {{#isString}}
+    if (Array.isArray(value)) {
+        if (value.every(item => typeof item === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
+            return value;
+        }
+    }
+    {{/isString}}
+    {{/items}}
+    {{/isArray}}
+    {{^isArray}}
+    {{#isDateType}}
+    if (value instanceof Date) {
+        return ((value{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString().substring(0,10));
+    }
+    {{/isDateType}}
+    {{#isDateTimeType}}
+    if (value instanceof Date) {
+        return {{^required}}{{#isNullable}}value === null ? null : {{/isNullable}}{{^isNullable}}value == null ? undefined : {{/isNullable}}{{/required}}((value{{#isNullable}} as any{{/isNullable}}){{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}.toISOString());
+    }
+    {{/isDateTimeType}}
+    {{#isNumeric}}
+    if (typeof value === 'number'{{#isEnum}} && ({{#allowableValues}}{{#values}}value === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
+        return value;
+    }
+    {{/isNumeric}}
+    {{#isString}}
+    if (typeof value === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}value === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
+        return value;
+    }
+    {{/isString}}
+    {{/isArray}}
+    {{/oneOfPrimitives}}
     return {};
 {{/discriminator}}
 }

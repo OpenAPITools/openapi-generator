@@ -30,7 +30,7 @@ import jakarta.validation.Valid;
   ModelApiResponse.JSON_PROPERTY_TYPE,
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ModelApiResponse   {
   public static final String JSON_PROPERTY_CODE = "code";
   @JsonProperty(JSON_PROPERTY_CODE)

@@ -15,9 +15,9 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up JDK 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 11
           distribution: 'temurin'
@@ -53,9 +53,9 @@ jobs:
     needs:
       - build
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up JDK 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 11
           distribution: 'temurin'
@@ -90,14 +90,14 @@ jobs:
     needs:
       - build
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up JDK 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -129,50 +129,32 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up JDK 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
       - name: Delete samples that are entirely generated
         run: |
-          rm -rf samples/client/petstore/csharp/generichost/latest/HelloWorld
-          rm -rf samples/client/petstore/csharp/generichost/latest/Tags
-          rm -rf samples/client/petstore/csharp/generichost/latest/OneOfList
-
-          rm -rf samples/client/petstore/csharp/generichost/net8/AllOf
-          rm -rf samples/client/petstore/csharp/generichost/net8/AnyOf
-          rm -rf samples/client/petstore/csharp/generichost/net8/AnyOfNoCompare
-          rm -rf samples/client/petstore/csharp/generichost/net8/FormModels
-          rm -rf samples/client/petstore/csharp/generichost/net8/NullReferenceTypes
-          rm -rf samples/client/petstore/csharp/generichost/net8/OneOf
-          rm -rf samples/client/petstore/csharp/generichost/net8/Petstore
-          rm -rf samples/client/petstore/csharp/generichost/net8/SourceGeneration
-          rm -rf samples/client/petstore/csharp/generichost/net8/UseDateTimeForDate
-
-          rm -rf samples/client/petstore/csharp/generichost/standard2.0/Petstore
-
-          rm -rf samples/client/petstore/csharp/generichost/net4.8/AllOf
-          rm -rf samples/client/petstore/csharp/generichost/net4.8/AnyOf
-          rm -rf samples/client/petstore/csharp/generichost/net4.8/AnyOfNoCompare
-          rm -rf samples/client/petstore/csharp/generichost/net4.8/FormModels
-          rm -rf samples/client/petstore/csharp/generichost/net4.8/OneOf
-          rm -rf samples/client/petstore/csharp/generichost/net4.8/Petstore
-          rm -rf samples/client/petstore/csharp/generichost/net4.8/UseDateTimeForDate
-
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/AllOf
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/AnyOf
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/AnyOfNoCompare
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/FormModels
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/OneOf
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/Petstore
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/UseDateTimeForDate
+          # List all directories in generichost, filter out Manual directories, and remove the rest
+          cd samples/client/petstore/csharp/generichost
+          for version_dir in */ ; do
+            if [ -d "$version_dir" ]; then
+              cd "$version_dir"
+              for dir in */ ; do
+                if [ -d "$dir" ] && [[ ! "$dir" =~ Manual ]]; then
+                  rm -rf "$dir"
+                fi
+              done
+              cd ..
+            fi
+          done
       - name: Generate samples
         run: |
           bash bin/generate-samples.sh

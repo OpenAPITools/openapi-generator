@@ -12,7 +12,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/_myExample_get_200_response'
+                $ref: "#/components/schemas/_myExample_get_200_response"
           description: Response
       x-accepts:
       - application/json
@@ -28,7 +28,7 @@ components:
     _myExample_get_200_response:
       oneOf:
       - items:
-          $ref: '#/components/schemas/OneOf1'
+          $ref: "#/components/schemas/OneOf1"
         type: array
-      - $ref: '#/components/schemas/OneOf1'
+      - $ref: "#/components/schemas/OneOf1"
 

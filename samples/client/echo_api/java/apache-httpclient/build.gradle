@@ -97,12 +97,12 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
+        archiveClassifier = 'sources'
         from sourceSets.main.allSource
     }
 
     task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
+        archiveClassifier = 'javadoc'
         from javadoc.destinationDir
     }
 
@@ -114,9 +114,9 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.6.6"
-    jackson_version = "2.17.1"
-    jackson_databind_version = "2.17.1"
-    jackson_databind_nullable_version = "0.2.6"
+    jackson_version = "2.19.2"
+    jackson_databind_version = "2.19.2"
+    jackson_databind_nullable_version = "0.2.7"
     jakarta_annotation_version = "1.3.5"
     httpclient_version = "5.1.3"
     jodatime_version = "2.9.9"

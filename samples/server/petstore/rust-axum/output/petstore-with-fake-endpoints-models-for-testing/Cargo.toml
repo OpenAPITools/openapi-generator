@@ -4,8 +4,9 @@ version = "1.0.0"
 authors = ["OpenAPI Generator team and contributors"]
 description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
 license = "Apache-2.0"
-edition = "2021"
+edition = "2024"
 publish = ["crates-io"]
+homepage = "https://github.com/openapitools/openapi-generator"
 
 [features]
 default = ["server"]
@@ -19,6 +20,7 @@ conversion = [
 ]
 
 [dependencies]
+ammonia = "4"
 async-trait = "0.1"
 axum = { version = "0.8", features = ["multipart"] }
 axum-extra = { version = "0.10", features = ["cookie", "query"] }

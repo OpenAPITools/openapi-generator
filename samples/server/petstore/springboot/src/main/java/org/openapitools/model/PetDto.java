@@ -31,7 +31,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class PetDto {
 
   private @Nullable Long id;
@@ -98,7 +98,7 @@ public class PetDto {
     this.photoUrls = photoUrls;
   }
 
-  public PetDto id(Long id) {
+  public PetDto id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -110,15 +110,15 @@ public class PetDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public PetDto category(CategoryDto category) {
+  public PetDto category(@Nullable CategoryDto category) {
     this.category = category;
     return this;
   }
@@ -130,11 +130,11 @@ public class PetDto {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("category")
-  public CategoryDto getCategory() {
+  public @Nullable CategoryDto getCategory() {
     return category;
   }
 
-  public void setCategory(CategoryDto category) {
+  public void setCategory(@Nullable CategoryDto category) {
     this.category = category;
   }
 
@@ -215,7 +215,7 @@ public class PetDto {
     this.tags = tags;
   }
 
-  public PetDto status(StatusEnum status) {
+  public PetDto status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -229,7 +229,7 @@ public class PetDto {
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   @Deprecated
-  public StatusEnum getStatus() {
+  public @Nullable StatusEnum getStatus() {
     return status;
   }
 
@@ -237,7 +237,7 @@ public class PetDto {
    * @deprecated
    */
   @Deprecated
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
 

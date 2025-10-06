@@ -51,6 +51,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |generateBuilders|Whether to generate builders for models| |false|
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
+|generateGenericResponseEntity|Use a generic type for the `ResponseEntity` wrapping return values of generated API methods. If enabled, method are generated with return type ResponseEntity&lt;?&gt;| |false|
 |generatedConstructorWithRequiredArgs|Whether to generate constructors with required args for models| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hateoas|Use Spring HATEOAS library to allow adding HATEOAS links| |false|
@@ -60,7 +61,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd><dt>**spring-http-interface**</dt><dd>Spring 6 HTTP interfaces (testing)</dd></dl>|spring-boot|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
@@ -87,15 +88,17 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
+|springApiVersion|Value for 'version' attribute in @RequestMapping (for Spring 7 and above).| |null|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
+|useDeductionForOneOfInterfaces|whether to use deduction for generated oneOf interfaces| |false|
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
 |useFeignClientContextId|Whether to generate Feign client with contextId parameter.| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
-|useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
+|useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |true|
 |useOptional|Use Optional container for optional parameters| |false|
 |useResponseEntity|Use the `ResponseEntity` type to wrap return values of generated API methods. If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition| |true|
 |useSealed|Whether to generate sealed model interfaces and classes| |false|
@@ -123,6 +126,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-spring-paginated|Add `org.springframework.data.domain.Pageable` to controller method. Can be used to handle `page`, `size` and `sort` query parameters. If these query parameters are also specified in the operation spec, they will be removed from the controller method as their values can be obtained from the `Pageable` object.|OPERATION|false
 |x-version-param|Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false|OPERATION_PARAMETER|null
 |x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
+|x-spring-api-version|Value for 'version' attribute in @RequestMapping (for Spring 7 and above).|OPERATION|null
 
 
 ## IMPORT MAPPING

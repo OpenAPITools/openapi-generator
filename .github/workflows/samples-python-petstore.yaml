@@ -8,6 +8,18 @@ on:
       - .github/workflows/samples-python-petstore.yaml
 
 jobs:
+  validate-pyproject-toml:
+    name: Validate pyproject.toml
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Install validator
+        run: pip install 'validate-pyproject[all]'
+      - name: Validate
+        run: validate-pyproject samples/openapi3/client/petstore/python/pyproject.toml
   build:
     name: Test Python client
     runs-on: ubuntu-latest
@@ -22,7 +34,9 @@ jobs:
           - "3.13"
         sample:
           - samples/openapi3/client/petstore/python-aiohttp
+          - samples/openapi3/client/petstore/python-httpx
           - samples/openapi3/client/petstore/python
+          - samples/openapi3/client/petstore/python-lazyImports
     services:
       petstore-api:
         image: swaggerapi/petstore
@@ -32,8 +46,8 @@ jobs:
           SWAGGER_HOST: http://petstore.swagger.io
           SWAGGER_BASE_PATH: /v2
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         id: py
         with:
           python-version: ${{ matrix.python-version }}

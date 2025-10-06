@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -14,6 +14,9 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Locale;
 import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.OuterEnumDefaultValue;
 import org.openapitools.client.model.OuterEnumInteger;
@@ -227,6 +230,7 @@ public class EnumTest  {
 
   @JsonbProperty("outerEnumIntegerDefaultValue")
   private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
+
 
   /**
    * Get enumString

@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AnotherFakeApi {
     private ApiClient apiClient;
 

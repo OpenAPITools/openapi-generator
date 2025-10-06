@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,7 +38,7 @@ import java.util.StringJoiner;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   @javax.annotation.Nullable
@@ -112,7 +113,7 @@ public class MapTest {
    * @return mapMapOfString
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_MAP_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -120,7 +121,7 @@ public class MapTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_MAP_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapMapOfString(@javax.annotation.Nullable Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -145,7 +146,7 @@ public class MapTest {
    * @return mapOfEnumString
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -153,7 +154,7 @@ public class MapTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapOfEnumString(@javax.annotation.Nullable Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
@@ -178,7 +179,7 @@ public class MapTest {
    * @return directMap
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_DIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Boolean> getDirectMap() {
@@ -186,7 +187,7 @@ public class MapTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_DIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDirectMap(@javax.annotation.Nullable Map<String, Boolean> directMap) {
     this.directMap = directMap;
@@ -211,7 +212,7 @@ public class MapTest {
    * @return indirectMap
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_INDIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Boolean> getIndirectMap() {
@@ -219,7 +220,7 @@ public class MapTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_INDIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setIndirectMap(@javax.annotation.Nullable Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
@@ -304,8 +305,8 @@ public class MapTest {
     if (getMapMapOfString() != null) {
       for (String _key : getMapMapOfString().keySet()) {
         try {
-          joiner.add(String.format("%smap_map_of_string%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%smap_map_of_string%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getMapMapOfString().get(_key), URLEncoder.encode(String.valueOf(getMapMapOfString().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -318,8 +319,8 @@ public class MapTest {
     if (getMapOfEnumString() != null) {
       for (String _key : getMapOfEnumString().keySet()) {
         try {
-          joiner.add(String.format("%smap_of_enum_string%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%smap_of_enum_string%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getMapOfEnumString().get(_key), URLEncoder.encode(String.valueOf(getMapOfEnumString().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -332,8 +333,8 @@ public class MapTest {
     if (getDirectMap() != null) {
       for (String _key : getDirectMap().keySet()) {
         try {
-          joiner.add(String.format("%sdirect_map%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%sdirect_map%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getDirectMap().get(_key), URLEncoder.encode(String.valueOf(getDirectMap().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -346,8 +347,8 @@ public class MapTest {
     if (getIndirectMap() != null) {
       for (String _key : getIndirectMap().keySet()) {
         try {
-          joiner.add(String.format("%sindirect_map%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%sindirect_map%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getIndirectMap().get(_key), URLEncoder.encode(String.valueOf(getIndirectMap().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported

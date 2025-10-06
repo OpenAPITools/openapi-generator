@@ -15,7 +15,7 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class PetApiControllerImp extends PetApiControllerImpInterface {
     @Override
     public void addPet(Http.Request request, Pet body) throws Exception {

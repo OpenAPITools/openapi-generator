@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,11 +38,12 @@ public class NumberOnly  {
   
   private BigDecimal justNumber;
 
+
   /**
    * Get justNumber
    * @return justNumber
    **/
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getJustNumber() {
     return justNumber;
@@ -48,7 +52,7 @@ public class NumberOnly  {
   /**
    * Set justNumber
    */
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;

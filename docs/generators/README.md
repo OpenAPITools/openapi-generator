@@ -65,6 +65,7 @@ The following generators are available:
 ## SERVER generators
 * [ada-server](ada-server.md)  
 * [aspnetcore](aspnetcore.md)  
+* [cpp-oatpp-server](cpp-oatpp-server.md)  
 * [cpp-pistache-server](cpp-pistache-server.md)  
 * [cpp-qt5-qhttpengine-server](cpp-qt5-qhttpengine-server.md)  
 * [cpp-restbed-server](cpp-restbed-server.md)  

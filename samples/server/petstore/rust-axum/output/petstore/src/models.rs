@@ -7,6 +7,60 @@ use validator::Validate;
 use crate::header;
 use crate::{models, types::*};
 
+#[allow(dead_code)]
+pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
+    if ammonia::is_html(v) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_vec_string(v: &[String]) -> std::result::Result<(), validator::ValidationError> {
+    if v.iter().any(|i| ammonia::is_html(i)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_string(
+    v: &std::collections::HashMap<String, String>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| ammonia::is_html(v)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map_nested<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError>
+where
+    T: validator::Validate,
+{
+    if v.keys().any(|k| ammonia::is_html(k)) || v.values().any(|v| v.validate().is_err()) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
+#[allow(dead_code)]
+pub fn check_xss_map<T>(
+    v: &std::collections::HashMap<String, T>,
+) -> std::result::Result<(), validator::ValidationError> {
+    if v.keys().any(|k| ammonia::is_html(k)) {
+        std::result::Result::Err(validator::ValidationError::new("xss detected"))
+    } else {
+        std::result::Result::Ok(())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DeletePetHeaderParams {
@@ -94,7 +148,7 @@ pub struct LoginUserQueryParams {
     #[serde(rename = "username")]
     #[validate(
                           regex(path = *RE_LOGINUSERQUERYPARAMS_USERNAME),
-                    )]
+              )]
     pub username: String,
     /// The password for login in clear text
     #[serde(rename = "password")]
@@ -121,10 +175,12 @@ pub struct ApiResponse {
     pub code: Option<i32>,
 
     #[serde(rename = "type")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub r#type: Option<String>,
+    pub r_type: Option<String>,
 
     #[serde(rename = "message")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub message: Option<String>,
 }
@@ -134,7 +190,7 @@ impl ApiResponse {
     pub fn new() -> ApiResponse {
         ApiResponse {
             code: None,
-            r#type: None,
+            r_type: None,
             message: None,
         }
     }
@@ -149,9 +205,9 @@ impl std::fmt::Display for ApiResponse {
             self.code
                 .as_ref()
                 .map(|code| ["code".to_string(), code.to_string()].join(",")),
-            self.r#type
+            self.r_type
                 .as_ref()
-                .map(|r#type| ["type".to_string(), r#type.to_string()].join(",")),
+                .map(|r_type| ["type".to_string(), r_type.to_string()].join(",")),
             self.message
                 .as_ref()
                 .map(|message| ["message".to_string(), message.to_string()].join(",")),
@@ -177,7 +233,7 @@ impl std::str::FromStr for ApiResponse {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub code: Vec<i32>,
-            pub r#type: Vec<String>,
+            pub r_type: Vec<String>,
             pub message: Vec<String>,
         }
 
@@ -193,7 +249,7 @@ impl std::str::FromStr for ApiResponse {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ApiResponse".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -205,7 +261,7 @@ impl std::str::FromStr for ApiResponse {
                         <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     #[allow(clippy::redundant_clone)]
-                    "type" => intermediate_rep.r#type.push(
+                    "type" => intermediate_rep.r_type.push(
                         <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     #[allow(clippy::redundant_clone)]
@@ -215,7 +271,7 @@ impl std::str::FromStr for ApiResponse {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ApiResponse".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -227,7 +283,7 @@ impl std::str::FromStr for ApiResponse {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(ApiResponse {
             code: intermediate_rep.code.into_iter().next(),
-            r#type: intermediate_rep.r#type.into_iter().next(),
+            r_type: intermediate_rep.r_type.into_iter().next(),
             message: intermediate_rep.message.into_iter().next(),
         })
     }
@@ -246,8 +302,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ApiResponse>> for HeaderValue
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for ApiResponse - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for ApiResponse - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -265,14 +320,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ApiResponse>
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into ApiResponse - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into ApiResponse - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -289,7 +342,8 @@ pub struct Category {
     #[serde(rename = "name")]
     #[validate(
             regex(path = *RE_CATEGORY_NAME),
-        )]
+          custom(function = "check_xss_string"),
+    )]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 }
@@ -357,7 +411,7 @@ impl std::str::FromStr for Category {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Category".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -375,7 +429,7 @@ impl std::str::FromStr for Category {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Category".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -405,8 +459,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Category>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for Category - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for Category - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -424,14 +477,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Category> {
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into Category - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into Category - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -460,6 +511,7 @@ pub struct Order {
     /// Order Status
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 
@@ -545,7 +597,7 @@ impl std::str::FromStr for Order {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Order".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -580,7 +632,7 @@ impl std::str::FromStr for Order {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Order".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -614,8 +666,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Order>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for Order - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for Order - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -632,13 +683,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Order> {
                     std::result::Result::Ok(header::IntoHeaderValue(value))
                 }
                 std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    "Unable to convert header value '{}' into Order - {}",
-                    value, err
+                    r#"Unable to convert header value '{value}' into Order - {err}"#
                 )),
             },
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -653,22 +702,27 @@ pub struct Pet {
     pub id: Option<i64>,
 
     #[serde(rename = "category")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub category: Option<models::Category>,
 
     #[serde(rename = "name")]
+    #[validate(custom(function = "check_xss_string"))]
     pub name: String,
 
     #[serde(rename = "photoUrls")]
+    #[validate(custom(function = "check_xss_vec_string"))]
     pub photo_urls: Vec<String>,
 
     #[serde(rename = "tags")]
+    #[validate(nested)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tags: Option<Vec<models::Tag>>,
 
     /// pet status in the store
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 }
@@ -750,7 +804,7 @@ impl std::str::FromStr for Pet {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Pet".to_string())
+                    return std::result::Result::Err("Missing value while parsing Pet".to_string());
                 }
             };
 
@@ -773,12 +827,12 @@ impl std::str::FromStr for Pet {
                     "photoUrls" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in Pet".to_string(),
-                        )
+                        );
                     }
                     "tags" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in Pet".to_string(),
-                        )
+                        );
                     }
                     #[allow(clippy::redundant_clone)]
                     "status" => intermediate_rep.status.push(
@@ -787,7 +841,7 @@ impl std::str::FromStr for Pet {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Pet".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -827,8 +881,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Pet>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for Pet - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for Pet - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -845,13 +898,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Pet> {
                     std::result::Result::Ok(header::IntoHeaderValue(value))
                 }
                 std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    "Unable to convert header value '{}' into Pet - {}",
-                    value, err
+                    r#"Unable to convert header value '{value}' into Pet - {err}"#
                 )),
             },
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -866,6 +917,7 @@ pub struct Tag {
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 }
@@ -927,7 +979,7 @@ impl std::str::FromStr for Tag {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Tag".to_string())
+                    return std::result::Result::Err("Missing value while parsing Tag".to_string());
                 }
             };
 
@@ -945,7 +997,7 @@ impl std::str::FromStr for Tag {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Tag".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -973,8 +1025,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Tag>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for Tag - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for Tag - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -991,13 +1042,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Tag> {
                     std::result::Result::Ok(header::IntoHeaderValue(value))
                 }
                 std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    "Unable to convert header value '{}' into Tag - {}",
-                    value, err
+                    r#"Unable to convert header value '{value}' into Tag - {err}"#
                 )),
             },
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -1008,11 +1057,13 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Tag> {
 pub struct UpdatePetWithFormRequest {
     /// Updated name of the pet
     #[serde(rename = "name")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 
     /// Updated status of the pet
     #[serde(rename = "status")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 }
@@ -1076,7 +1127,7 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing UpdatePetWithFormRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1094,7 +1145,7 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing UpdatePetWithFormRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1124,8 +1175,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<UpdatePetWithFormRequest>> fo
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for UpdatePetWithFormRequest - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for UpdatePetWithFormRequest - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -1143,14 +1193,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<UpdatePetWit
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into UpdatePetWithFormRequest - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into UpdatePetWithFormRequest - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -1161,6 +1209,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<UpdatePetWit
 pub struct UploadFileRequest {
     /// Additional data to pass to server
     #[serde(rename = "additionalMetadata")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub additional_metadata: Option<String>,
 
@@ -1234,7 +1283,7 @@ impl std::str::FromStr for UploadFileRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing UploadFileRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1252,7 +1301,7 @@ impl std::str::FromStr for UploadFileRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing UploadFileRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1282,8 +1331,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<UploadFileRequest>> for Heade
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for UploadFileRequest - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for UploadFileRequest - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -1301,14 +1349,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<UploadFileRe
                         std::result::Result::Ok(header::IntoHeaderValue(value))
                     }
                     std::result::Result::Err(err) => std::result::Result::Err(format!(
-                        "Unable to convert header value '{}' into UploadFileRequest - {}",
-                        value, err
+                        r#"Unable to convert header value '{value}' into UploadFileRequest - {err}"#
                     )),
                 }
             }
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }
@@ -1323,26 +1369,32 @@ pub struct User {
     pub id: Option<i64>,
 
     #[serde(rename = "username")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub username: Option<String>,
 
     #[serde(rename = "firstName")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub first_name: Option<String>,
 
     #[serde(rename = "lastName")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub last_name: Option<String>,
 
     #[serde(rename = "email")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub email: Option<String>,
 
     #[serde(rename = "password")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub password: Option<String>,
 
     #[serde(rename = "phone")]
+    #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub phone: Option<String>,
 
@@ -1439,7 +1491,9 @@ impl std::str::FromStr for User {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing User".to_string())
+                    return std::result::Result::Err(
+                        "Missing value while parsing User".to_string(),
+                    );
                 }
             };
 
@@ -1481,7 +1535,7 @@ impl std::str::FromStr for User {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing User".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1517,8 +1571,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<User>> for HeaderValue {
         match HeaderValue::from_str(&hdr_value) {
             std::result::Result::Ok(value) => std::result::Result::Ok(value),
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Invalid header value for User - value: {} is invalid {}",
-                hdr_value, e
+                r#"Invalid header value for User - value: {hdr_value} is invalid {e}"#
             )),
         }
     }
@@ -1535,13 +1588,11 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<User> {
                     std::result::Result::Ok(header::IntoHeaderValue(value))
                 }
                 std::result::Result::Err(err) => std::result::Result::Err(format!(
-                    "Unable to convert header value '{}' into User - {}",
-                    value, err
+                    r#"Unable to convert header value '{value}' into User - {err}"#
                 )),
             },
             std::result::Result::Err(e) => std::result::Result::Err(format!(
-                "Unable to convert header: {:?} to string: {}",
-                hdr_value, e
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
             )),
         }
     }

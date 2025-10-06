@@ -66,13 +66,8 @@ class FakeClassnameTags123Controller extends Controller
 
         $client = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\Client::class);
 
-        try {
-            $apiResult = $this->api->testClassname($client);
-        } catch (\Exception $exception) {
-            // This shouldn't happen
-            report($exception);
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+
+        $apiResult = $this->api->testClassname($client);
 
         if ($apiResult instanceof \OpenAPI\Server\Model\Client) {
             return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);

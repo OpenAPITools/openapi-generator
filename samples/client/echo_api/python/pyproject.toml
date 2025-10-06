@@ -1,23 +1,29 @@
-[tool.poetry]
+[project]
 name = "openapi_client"
 version = "1.0.0"
 description = "Echo Server API"
-authors = ["OpenAPI Generator Community <team@openapitools.org>"]
-license = "Apache 2.0"
+authors = [
+  {name = "OpenAPI Generator Community",email = "team@openapitools.org"},
+]
+license = { text = "Apache 2.0" }
 readme = "README.md"
-repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
 keywords = ["OpenAPI", "OpenAPI-Generator", "Echo Server API"]
-include = ["openapi_client/py.typed"]
+requires-python = ">=3.9"
 
-[tool.poetry.dependencies]
-python = "^3.9"
+dependencies = [
+  "urllib3 (>=2.1.0,<3.0.0)",
+  "python-dateutil (>=2.8.2)",
+  "pydantic (>=2)",
+  "typing-extensions (>=4.7.1)",
+]
 
-urllib3 = ">= 2.1.0, < 3.0.0"
-python-dateutil = ">= 2.8.2"
-pydantic = ">= 2"
-typing-extensions = ">= 4.7.1"
+[project.urls]
+Repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry]
+requires-poetry = ">=2.0"
+
+[tool.poetry.group.dev.dependencies]
 pytest = ">= 7.2.1"
 pytest-cov = ">= 2.8.1"
 tox = ">= 3.9.0"

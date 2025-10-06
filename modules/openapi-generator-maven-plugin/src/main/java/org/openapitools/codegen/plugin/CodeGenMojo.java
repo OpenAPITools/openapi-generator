@@ -322,6 +322,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean generateAliasAsModel;
 
     /**
+     * Only write output files that have changed.
+     */
+    @Parameter(name = "minimalUpdate", property = "openapi.generator.maven.plugin.minimalUpdate")
+    private Boolean minimalUpdate;
+
+    /**
      * A map of language-specific parameters as passed with the -c option to the command line
      */
     @Parameter(name = "configOptions")
@@ -563,11 +569,17 @@ public class CodeGenMojo extends AbstractMojo {
         }
 
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
+            // make sure the path can be processed correct under Windows OS
+            inputSpecRootDirectory = inputSpecRootDirectory.replaceAll("\\\\", "/");
+
             inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
-                    mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion)
+                    mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, auth)
                     .buildMergedSpec();
             LOGGER.info("Merge input spec would be used - {}", inputSpec);
         }
+
+        // make sure the path can be processed correct under Windows OS
+        inputSpec = inputSpec.replaceAll("\\\\", "/");
 
         File inputSpecFile = new File(inputSpec);
 
@@ -690,6 +702,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (generateAliasAsModel != null) {
                 configurator.setGenerateAliasAsModel(generateAliasAsModel);
+            }
+
+            if (minimalUpdate != null) {
+                configurator.setEnableMinimalUpdate(minimalUpdate);
             }
 
             if (isNotEmpty(generatorName)) {
@@ -1060,7 +1076,7 @@ public class CodeGenMojo extends AbstractMojo {
         String name = inputSpecFile.getName();
 
         URL url = inputSpecRemoteUrl();
-        if (inputSpecFile.exists() && url != null) {
+        if (url != null) {
             String[] segments = url.getPath().split("/");
             name = Files.getNameWithoutExtension(segments[segments.length - 1]);
         }

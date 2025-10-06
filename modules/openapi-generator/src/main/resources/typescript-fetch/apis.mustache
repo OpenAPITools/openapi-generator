@@ -2,6 +2,7 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
+
 import * as runtime from '../runtime{{importFileExtension}}';
 {{#imports.0}}
 import type {
@@ -265,7 +266,7 @@ export class {{classname}} extends runtime.BaseAPI {
             {{/isEnumRef}}
             {{^isEnumRef}}
             {{^withoutRuntimeChecks}}
-            formParams.append('{{baseName}}', new Blob([JSON.stringify({{returnType}}ToJSON(requestParameters['{{paramName}}']))], { type: "application/json", }));
+            formParams.append('{{baseName}}', new Blob([JSON.stringify({{{dataType}}}ToJSON(requestParameters['{{paramName}}']))], { type: "application/json", }));
             {{/withoutRuntimeChecks}}{{#withoutRuntimeChecks}}
             formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters['{{paramName}}'])], { type: "application/json", }));
             {{/withoutRuntimeChecks}}
@@ -277,8 +278,32 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isArray}}
         {{/formParams}}
         {{/hasFormParams}}
+
+        let urlPath = `{{{path}}}`;
+        {{#pathParams}}
+        {{#isDateTimeType}}
+        if (requestParameters['{{paramName}}'] instanceof Date) {
+            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(requestParameters['{{paramName}}'].toISOString()));
+        } else {
+            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}'])));
+        }
+        {{/isDateTimeType}}
+        {{^isDateTimeType}}
+        {{#isDateType}}
+        if (requestParameters['{{paramName}}'] instanceof Date) {
+            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(requestParameters['{{paramName}}'].toISOString().substring(0,10)));
+        } else {
+            urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}'])));
+        }
+        {{/isDateType}}
+        {{^isDateType}}
+        urlPath = urlPath.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}'])));
+        {{/isDateType}}
+        {{/isDateTimeType}}
+        {{/pathParams}}
+
         const response = await this.request({
-            path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}']))){{/pathParams}},
+            path: urlPath,
             method: '{{httpMethod}}',
             headers: headerParameters,
             query: queryParameters,

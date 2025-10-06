@@ -397,6 +397,7 @@ paths:
           description: Order not found
   /user:
     servers:
+    - url: 'http://localhost/v2'
     - url: 'http://petstore.swagger.io/v2'
     - url: 'http://path-server-test.petstore.local/v2'
     - url: 'http://{server}.swagger.io:{port}/v2'
@@ -2897,3 +2898,24 @@ components:
             - B
             - C
           default: B
+    PonySizes:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/Type'
+    Type:
+      type: float
+      enum:
+        - 2.0
+        - 1.0
+        - 0.5
+        - 0.25
+    EnumRefWithDefaultValue:
+      type: object
+      properties:
+        report_format:
+          $ref: '#/components/schemas/DataOutputFormat'
+    DataOutputFormat:
+      type: string
+      enum: [JSON, CSV, XML]
+      default: JSON

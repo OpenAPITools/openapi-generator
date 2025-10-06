@@ -33,12 +33,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.utils.ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema;
+import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
+import static org.openapitools.codegen.CodegenConstants.X_PARENT;
+import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
 public class OpenAPINormalizer {
@@ -89,6 +90,9 @@ public class OpenAPINormalizer {
     // when set to true, boolean enum will be converted to just boolean
     final String SIMPLIFY_BOOLEAN_ENUM = "SIMPLIFY_BOOLEAN_ENUM";
 
+    // when set to true, oneOf/anyOf with enum sub-schemas containing single values will be converted to a single enum
+    final String SIMPLIFY_ONEOF_ANYOF_ENUM = "SIMPLIFY_ONEOF_ANYOF_ENUM";
+
     // when set to a string value, tags in all operations will be reset to the string value provided
     final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
     String setTagsForAllOperations;
@@ -125,7 +129,6 @@ public class OpenAPINormalizer {
 
     // when set to true, remove x-internal: true from models, operations
     final String REMOVE_X_INTERNAL = "REMOVE_X_INTERNAL";
-    final String X_INTERNAL = "x-internal";
     boolean removeXInternal;
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
@@ -206,11 +209,12 @@ public class OpenAPINormalizer {
         ruleNames.add(FILTER);
         ruleNames.add(SET_CONTAINER_TO_NULLABLE);
         ruleNames.add(SET_PRIMITIVE_TYPES_TO_NULLABLE);
-
+        ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
+        rules.put(SIMPLIFY_ONEOF_ANYOF_ENUM, true);
 
         processRules(inputRules);
 
@@ -428,17 +432,17 @@ public class OpenAPINormalizer {
             for (Operation operation : operations) {
                 if (operationIdFilters.size() > 0) {
                     if (operationIdFilters.contains(operation.getOperationId())) {
-                        operation.addExtension("x-internal", false);
+                        operation.addExtension(X_INTERNAL, false);
                     } else {
                         LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the operationId FILTER", operation.getOperationId());
-                        operation.addExtension("x-internal", true);
+                        operation.addExtension(X_INTERNAL, true);
                     }
                 } else if (!tagFilters.isEmpty()) {
                     if (operation.getTags().stream().anyMatch(tagFilters::contains)) {
-                        operation.addExtension("x-internal", false);
+                        operation.addExtension(X_INTERNAL, false);
                     } else {
                         LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the tag FILTER", operation.getOperationId());
-                        operation.addExtension("x-internal", true);
+                        operation.addExtension(X_INTERNAL, true);
                     }
                 }
 
@@ -720,15 +724,17 @@ public class OpenAPINormalizer {
         if (skipNormalization(schema, visitedSchemas)) {
             return schema;
         }
+
+        if (ModelUtils.isNullTypeSchema(openAPI, schema)) {
+            return schema;
+        }
+
         markSchemaAsVisited(schema, visitedSchemas);
 
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
             normalizeSchema(result.getItems(), visitedSchemas);
             return result;
-        } else if (schema.getAdditionalProperties() instanceof Schema) { // map
-            normalizeMapSchema(schema);
-            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
             return normalizeOneOf(schema, visitedSchemas);
         } else if (ModelUtils.isAnyOf(schema)) { // anyOf
@@ -765,6 +771,9 @@ public class OpenAPINormalizer {
             return schema;
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
+        } else if (schema.getAdditionalProperties() instanceof Schema) { // map
+            normalizeMapSchema(schema);
+            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof IntegerSchema) {
@@ -851,6 +860,52 @@ public class OpenAPINormalizer {
         }
     }
 
+    protected void refactorAllOfWithMetadataOnlySchemas(Schema schema) {
+        if (schema.getAllOf() == null) {
+            return;
+        }
+
+        // Check if there are metadata schemas.
+        // For example, there may be an `description` only schema that is used to override the descrption.
+        List<Schema> nonMetadataOnlySchemas = new ArrayList<>();
+        List<Schema> metadataOnlySchemas = new ArrayList<>();
+
+        for (Object s: schema.getAllOf()) {
+            if (s instanceof Schema) {
+                if (ModelUtils.isMetadataOnlySchema((Schema) s)) {
+                    metadataOnlySchemas.add((Schema) s);
+                } else {
+                    nonMetadataOnlySchemas.add((Schema) s);
+                }
+            }
+        }
+
+        //      ReferenceNumber:
+        //       allOf:
+        //       - $ref: '#/components/schemas/IEAN8'
+        //       - description: Product Ref
+        //       - example: IEAN1234
+        //
+        // becomes the following after the following code block
+        //
+        //     ReferenceNumber:
+        //      allOf:
+        //      - $ref: '#/components/schemas/IEAN8'
+        //      description: Product Ref
+        //      example: IEAN1234
+        //
+        // which can be further processed by the generator
+        if (nonMetadataOnlySchemas.size() > 0) {
+            // keep the non metadata schema(s)
+            schema.setAllOf(nonMetadataOnlySchemas);
+
+            // copy metadata to the allOf schema
+            for (Schema metadataOnlySchema: metadataOnlySchemas) {
+                ModelUtils.copyMetadata(metadataOnlySchema, schema);
+            }
+        }
+    }
+
     /*
      * Remove unsupported schemas (e.g. if, then) from allOf.
      *
@@ -881,6 +936,8 @@ public class OpenAPINormalizer {
 
     protected Schema normalizeAllOf(Schema schema, Set<Schema> visitedSchemas) {
         removeUnsupportedSchemasFromAllOf(schema);
+
+        refactorAllOfWithMetadataOnlySchemas(schema);
 
         if (schema.getAllOf() == null) {
             return schema;
@@ -925,6 +982,8 @@ public class OpenAPINormalizer {
         // Remove duplicate oneOf entries
         ModelUtils.deduplicateOneOfSchema(schema);
 
+        schema = processSimplifyOneOfEnum(schema);
+
         // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
 
@@ -953,6 +1012,12 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
+        //transform anyOf into enums if needed
+        schema = processSimplifyAnyOfEnum(schema);
+        if (schema.getAnyOf() == null) {
+            return schema;
+        }
+
         for (int i = 0; i < schema.getAnyOf().size(); i++) {
             // normalize anyOf sub schemas one by one
             Object item = schema.getAnyOf().get(i);
@@ -1025,10 +1090,10 @@ public class OpenAPINormalizer {
                     refSchema.setExtensions(new HashMap<>());
                 }
 
-                if (refSchema.getExtensions().containsKey("x-parent")) {
+                if (refSchema.getExtensions().containsKey(X_PARENT)) {
                     // doing nothing as x-parent already exists
                 } else {
-                    refSchema.getExtensions().put("x-parent", true);
+                    refSchema.getExtensions().put(X_PARENT, true);
                 }
 
                 LOGGER.debug("processUseAllOfRefAsParent added `x-parent: true` to {}", refSchema);
@@ -1050,7 +1115,7 @@ public class OpenAPINormalizer {
             return;
         }
 
-        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get("x-internal")))) {
+        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get(X_INTERNAL)))) {
             operation.getExtensions().remove(X_INTERNAL);
         }
     }
@@ -1229,6 +1294,161 @@ public class OpenAPINormalizer {
 
 
     /**
+     * If the schema is anyOf and all sub-schemas are enums (with one or more values),
+     * then simplify it to a single enum schema containing all the values.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    protected Schema processSimplifyAnyOfEnum(Schema schema) {
+        if (!getRule(SIMPLIFY_ONEOF_ANYOF_ENUM)) {
+            return schema;
+        }
+
+        if (schema.getAnyOf() == null || schema.getAnyOf().isEmpty()) {
+            return schema;
+        }
+        if(schema.getOneOf() != null && !schema.getOneOf().isEmpty() ||
+            schema.getAllOf() != null && !schema.getAllOf().isEmpty() ||
+            schema.getNot() != null) {
+            //only convert to enum if anyOf is the only composition
+            return schema;
+        }
+
+        return simplifyComposedSchemaWithEnums(schema, schema.getAnyOf(), "anyOf");
+    }
+
+    /**
+     * If the schema is oneOf and all sub-schemas are enums (with one or more values),
+     * then simplify it to a single enum schema containing all the values.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    protected Schema processSimplifyOneOfEnum(Schema schema) {
+        if (!getRule(SIMPLIFY_ONEOF_ANYOF_ENUM)) {
+            return schema;
+        }
+
+        if (schema.getOneOf() == null || schema.getOneOf().isEmpty()) {
+            return schema;
+        }
+        if(schema.getAnyOf() != null && !schema.getAnyOf().isEmpty() ||
+                schema.getAllOf() != null && !schema.getAllOf().isEmpty() ||
+                schema.getNot() != null) {
+            //only convert to enum if oneOf is the only composition
+            return schema;
+        }
+
+        return simplifyComposedSchemaWithEnums(schema, schema.getOneOf(), "oneOf");
+    }
+
+    /**
+     * Simplifies a composed schema (oneOf/anyOf) where all sub-schemas are enums
+     * to a single enum schema containing all the values.
+     *
+     * @param schema Schema to modify
+     * @param subSchemas List of sub-schemas to check
+     * @param schemaType Type of composed schema ("oneOf" or "anyOf")
+     * @return Simplified schema
+     */
+    protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
+        Map<Object, String> enumValues = new LinkedHashMap<>();
+
+        if(schema.getTypes() != null && schema.getTypes().size() > 1) {
+            // we cannot handle enums with multiple types
+            return schema;
+        }
+
+        if(subSchemas.size() < 2) {
+            //do not process if there's less than 2 sub-schemas. It will be normalized later, and this prevents
+            //named enum schemas from being converted to inline enum schemas
+            return schema;
+        }
+        String schemaType = ModelUtils.getType(schema);
+
+        for (Object item : subSchemas) {
+            if (!(item instanceof Schema)) {
+                return schema;
+            }
+
+            Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
+
+            // Check if this sub-schema has an enum (with one or more values)
+            if (subSchema.getEnum() == null || subSchema.getEnum().isEmpty()) {
+                return schema;
+            }
+
+            // Ensure all sub-schemas have the same type (if type is specified)
+            if(subSchema.getTypes() != null && subSchema.getTypes().size() > 1) {
+                // we cannot handle enums with multiple types
+                return schema;
+            }
+            String subSchemaType = ModelUtils.getType(subSchema);
+            if (subSchemaType != null) {
+                if (schemaType == null) {
+                    schemaType = subSchemaType;
+                } else if (!schemaType.equals(subSchema.getType())) {
+                    return schema;
+                }
+            }
+            // Add all enum values from this sub-schema to our collection
+            if(subSchema.getEnum().size() == 1) {
+                String description = subSchema.getTitle() == null ? "" : subSchema.getTitle();
+                if(subSchema.getDescription() != null) {
+                    if(!description.isEmpty()) {
+                        description += " - ";
+                    }
+                    description += subSchema.getDescription();
+                }
+                enumValues.put(subSchema.getEnum().get(0), description);
+            } else {
+                for(Object e: subSchema.getEnum()) {
+                    enumValues.put(e, "");
+                }
+            }
+
+        }
+
+        return createSimplifiedEnumSchema(schema, enumValues, schemaType, composedType);
+    }
+
+
+    /**
+     * Creates a simplified enum schema from collected enum values.
+     *
+     * @param originalSchema Original schema to modify
+     * @param enumValues Collected enum values
+     * @param schemaType Consistent type across sub-schemas
+     * @param composedType Type of composed schema being simplified
+     * @return Simplified enum schema
+     */
+    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, String schemaType, String composedType) {
+        // Clear the composed schema type
+        if ("oneOf".equals(composedType)) {
+            originalSchema.setOneOf(null);
+        } else if ("anyOf".equals(composedType)) {
+            originalSchema.setAnyOf(null);
+        }
+
+        if (ModelUtils.getType(originalSchema) == null && schemaType != null) {
+            //if type was specified in subschemas, keep it in the main schema
+            ModelUtils.setType(originalSchema, schemaType);
+        }
+
+        originalSchema.setEnum(new ArrayList<>(enumValues.keySet()));
+        if(enumValues.values().stream().anyMatch(e -> !e.isEmpty())) {
+            //set x-enum-descriptions only if there's at least one non-empty description
+            originalSchema.addExtension("x-enum-descriptions", new ArrayList<>(enumValues.values()));
+        }
+
+        LOGGER.debug("Simplified {} with enum sub-schemas to single enum: {}", composedType, originalSchema);
+
+        return originalSchema;
+    }
+
+
+    /**
      * If the schema is oneOf and the sub-schemas is null, set `nullable: true`
      * instead.
      * If there's only one sub-schema, simply return the sub-schema directly.
@@ -1270,7 +1490,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            schema = simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
+            schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
 
             if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
                 // TODO convert oneOf const to enum
@@ -1397,7 +1617,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            schema = simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, anyOfSchemas);
+            schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, anyOfSchemas);
         }
 
         return schema;

@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +39,7 @@ import org.openapitools.client.ApiClient;
   Query.JSON_PROPERTY_ID,
   Query.JSON_PROPERTY_OUTCOMES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Query {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable
@@ -98,14 +99,14 @@ public class Query {
    * @return id
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
     return id;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
@@ -130,14 +131,14 @@ public class Query {
    * @return outcomes
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonProperty(value = JSON_PROPERTY_OUTCOMES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<OutcomesEnum> getOutcomes() {
     return outcomes;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonProperty(value = JSON_PROPERTY_OUTCOMES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOutcomes(@javax.annotation.Nullable List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
@@ -220,14 +221,14 @@ public class Query {
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
+      joiner.add(String.format(Locale.ROOT, "%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
     }
 
     // add `outcomes` to the URL query string
     if (getOutcomes() != null) {
       for (int i = 0; i < getOutcomes().size(); i++) {
-        joiner.add(String.format("%soutcomes%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(Locale.ROOT, "%soutcomes%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getOutcomes().get(i)))));
       }
     }

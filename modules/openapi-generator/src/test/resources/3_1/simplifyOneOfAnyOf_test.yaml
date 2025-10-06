@@ -77,6 +77,18 @@ components:
           oneOf:
             - $ref: '#/components/schemas/Number'
             - $ref: '#/components/schemas/Number2'
+    PropertiesWithAnyOf:
+      additionalProperties: false
+      type: object
+      properties:
+        anyof_nullable_string:
+          anyOf:
+            - type: string
+            - type: null
+        anyof_nullable_number:
+          anyOf:
+            - type: number
+            - type: null
     Number:
       enum:
         - one

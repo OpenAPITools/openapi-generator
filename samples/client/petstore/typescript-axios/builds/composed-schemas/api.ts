@@ -23,42 +23,15 @@ import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
-/**
- * 
- * @export
- * @interface Cat
- */
 export interface Cat {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Cat
-     */
     'hunts'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof Cat
-     */
     'age'?: number;
 }
 /**
- * 
- * @export
- * @interface Dog
+ * Dog information
  */
 export interface Dog {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Dog
-     */
     'bark'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Dog
-     */
     'breed'?: DogBreedEnum;
 }
 
@@ -71,55 +44,15 @@ export const DogBreedEnum = {
 
 export type DogBreedEnum = typeof DogBreedEnum[keyof typeof DogBreedEnum];
 
-/**
- * 
- * @export
- * @interface FilePostRequest
- */
 export interface FilePostRequest {
-    /**
-     * 
-     * @type {any}
-     * @memberof FilePostRequest
-     */
     'file'?: any;
 }
-/**
- * 
- * @export
- * @interface PetByAge
- */
 export interface PetByAge {
-    /**
-     * 
-     * @type {number}
-     * @memberof PetByAge
-     */
     'age': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof PetByAge
-     */
     'nickname'?: string;
 }
-/**
- * 
- * @export
- * @interface PetByType
- */
 export interface PetByType {
-    /**
-     * 
-     * @type {string}
-     * @memberof PetByType
-     */
     'pet_type': PetByTypePetTypeEnum;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PetByType
-     */
     'hunts'?: boolean;
 }
 
@@ -130,35 +63,10 @@ export const PetByTypePetTypeEnum = {
 
 export type PetByTypePetTypeEnum = typeof PetByTypePetTypeEnum[keyof typeof PetByTypePetTypeEnum];
 
-/**
- * 
- * @export
- * @interface PetsFilteredPatchRequest
- */
 export interface PetsFilteredPatchRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof PetsFilteredPatchRequest
-     */
     'age': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof PetsFilteredPatchRequest
-     */
     'nickname'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PetsFilteredPatchRequest
-     */
     'pet_type': PetsFilteredPatchRequestPetTypeEnum;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PetsFilteredPatchRequest
-     */
     'hunts'?: boolean;
 }
 
@@ -171,14 +79,12 @@ export type PetsFilteredPatchRequestPetTypeEnum = typeof PetsFilteredPatchReques
 
 /**
  * @type PetsPatchRequest
- * @export
  */
 export type PetsPatchRequest = Cat | Dog | any;
 
 
 /**
  * DefaultApi - axios parameter creator
- * @export
  */
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -286,7 +192,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 /**
  * DefaultApi - functional programming interface
- * @export
  */
 export const DefaultApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
@@ -332,7 +237,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
 
 /**
  * DefaultApi - factory interface
- * @export
  */
 export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = DefaultApiFp(configuration)
@@ -369,9 +273,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
 
 /**
  * DefaultApi - object-oriented interface
- * @export
- * @class DefaultApi
- * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
     /**
@@ -379,7 +280,6 @@ export class DefaultApi extends BaseAPI {
      * @param {FilePostRequest} [filePostRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApi
      */
     public filePost(filePostRequest?: FilePostRequest, options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).filePost(filePostRequest, options).then((request) => request(this.axios, this.basePath));
@@ -390,7 +290,6 @@ export class DefaultApi extends BaseAPI {
      * @param {PetsFilteredPatchRequest} [petsFilteredPatchRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApi
      */
     public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).petsFilteredPatch(petsFilteredPatchRequest, options).then((request) => request(this.axios, this.basePath));
@@ -401,7 +300,6 @@ export class DefaultApi extends BaseAPI {
      * @param {PetsPatchRequest} [petsPatchRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DefaultApi
      */
     public petsPatch(petsPatchRequest?: PetsPatchRequest, options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).petsPatch(petsPatchRequest, options).then((request) => request(this.axios, this.basePath));

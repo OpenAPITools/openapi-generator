@@ -6,12 +6,10 @@ import (
 	{{#hasBodyParams}}
 	"encoding/json"
 	{{/hasBodyParams}}
-	{{#isBodyParam}}
-	    {{^required}}
+	{{#hasOptionalBodyParams}}
 	"errors"
 	"io"
-	    {{/required}}
-	{{/isBodyParam}}
+	{{/hasOptionalBodyParams}}
 	"net/http"
 	"strings"
 {{#imports}}	"{{import}}"
@@ -66,6 +64,7 @@ func (c *{{classname}}Controller) Routes() Routes {
 {{#operations}}
 	{{#operation}}
 		"{{operationId}}": Route{
+			"{{{operationId}}}",
 			strings.ToUpper("{{httpMethod}}"),
 			"{{{basePathWithoutHost}}}{{{path}}}",
 			c.{{operationId}},
@@ -73,7 +72,25 @@ func (c *{{classname}}Controller) Routes() Routes {
 	{{/operation}}
 {{/operations}}
 	}
-}{{#operations}}{{#operation}}
+}
+
+// OrderedRoutes returns all the api routes in a deterministic order for the {{classname}}Controller
+func (c *{{classname}}Controller) OrderedRoutes() []Route {
+	return []Route{
+{{#operations}}
+	{{#operation}}
+		Route{
+			"{{{operationId}}}",
+			strings.ToUpper("{{httpMethod}}"),
+			"{{{basePathWithoutHost}}}{{{path}}}",
+			c.{{operationId}},
+		},
+	{{/operation}}
+{{/operations}}
+	}
+}
+
+{{#operations}}{{#operation}}
 
 // {{nickname}} - {{{summary}}}
 {{#isDeprecated}}

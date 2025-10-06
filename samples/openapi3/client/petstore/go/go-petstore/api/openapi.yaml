@@ -9,6 +9,7 @@ info:
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
+- url: http://localhost/v2
 - description: petstore server
   url: "http://{server}.swagger.io:{port}/v2"
   variables:
@@ -24,7 +25,7 @@ servers:
       - "80"
       - "8080"
 - description: The local server
-  url: "https://localhost:8080/{version}"
+  url: "http://localhost:8080/{version}"
   variables:
     version:
       default: v2
@@ -32,7 +33,7 @@ servers:
       - v1
       - v2
 - description: The local server without variables
-  url: https://127.0.0.1/no_variable
+  url: http://127.0.0.1/no_variable
 tags:
 - description: Everything about your Pets
   name: pet
@@ -48,26 +49,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/_foo_get_default_response'
+                $ref: "#/components/schemas/_foo_get_default_response"
           description: response
         "4XX":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/_foo_get_default_response'
+                $ref: "#/components/schemas/_foo_get_default_response"
           description: client error
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/_foo_get_default_response'
+                $ref: "#/components/schemas/_foo_get_default_response"
           description: not found
   /pet:
     post:
       description: ""
       operationId: addPet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "405":
           description: Invalid input
@@ -83,7 +84,7 @@ paths:
       description: ""
       operationId: updatePet
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         "400":
           description: Invalid ID supplied
@@ -100,6 +101,7 @@ paths:
       tags:
       - pet
     servers:
+    - url: http://localhost/v2
     - url: http://petstore.swagger.io/v2
     - url: http://path-server-test.petstore.local/v2
   /pet/findByStatus:
@@ -129,12 +131,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -170,12 +172,12 @@ paths:
             application/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
           description: successful operation
         "400":
@@ -237,10 +239,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -268,7 +270,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/updatePetWithForm_request'
+              $ref: "#/components/schemas/updatePetWithForm_request"
       responses:
         "405":
           description: Invalid input
@@ -297,13 +299,13 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFile_request'
+              $ref: "#/components/schemas/uploadFile_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       security:
       - petstore_auth:
@@ -339,7 +341,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: "#/components/schemas/Order"
         description: order placed for purchasing the pet
         required: true
       responses:
@@ -347,10 +349,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           description: Invalid Order
@@ -400,10 +402,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
           description: successful operation
         "400":
           description: Invalid ID supplied
@@ -420,7 +422,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Created user object
         required: true
       responses:
@@ -434,7 +436,7 @@ paths:
       description: ""
       operationId: createUsersWithArrayInput
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
           description: successful operation
@@ -446,7 +448,7 @@ paths:
       description: ""
       operationId: createUsersWithListInput
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
       responses:
         default:
           description: successful operation
@@ -552,10 +554,10 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
           description: successful operation
         "400":
           description: Invalid username supplied
@@ -580,7 +582,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Updated user object
         required: true
       responses:
@@ -596,13 +598,13 @@ paths:
       description: To test class name in snake case
       operationId: testClassname
       requestBody:
-        $ref: '#/components/requestBodies/Client'
+        $ref: "#/components/requestBodies/Client"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
           description: successful operation
       security:
       - api_key_query: []
@@ -671,7 +673,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OuterNumber'
+                $ref: "#/components/schemas/OuterNumber"
           description: Something wrong
       security:
       - bearer_test: []
@@ -765,7 +767,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testEnumParameters_request'
+              $ref: "#/components/schemas/testEnumParameters_request"
       responses:
         "400":
           description: Invalid request
@@ -778,13 +780,13 @@ paths:
       description: To test "client" model
       operationId: testClientModel
       requestBody:
-        $ref: '#/components/requestBodies/Client'
+        $ref: "#/components/requestBodies/Client"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
           description: successful operation
       summary: To test "client" model
       tags:
@@ -800,7 +802,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testEndpointParameters_request'
+              $ref: "#/components/schemas/testEndpointParameters_request"
       responses:
         "400":
           description: Invalid username supplied
@@ -823,14 +825,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterNumber'
+              $ref: "#/components/schemas/OuterNumber"
         description: Input number as post body
       responses:
         "200":
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterNumber'
+                $ref: "#/components/schemas/OuterNumber"
           description: Output number
       tags:
       - fake
@@ -842,14 +844,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterString'
+              $ref: "#/components/schemas/OuterString"
         description: Input string as post body
       responses:
         "200":
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterString'
+                $ref: "#/components/schemas/OuterString"
           description: Output string
       tags:
       - fake
@@ -861,14 +863,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterBoolean'
+              $ref: "#/components/schemas/OuterBoolean"
         description: Input boolean as post body
       responses:
         "200":
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterBoolean'
+                $ref: "#/components/schemas/OuterBoolean"
           description: Output boolean
       tags:
       - fake
@@ -880,14 +882,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterComposite'
+              $ref: "#/components/schemas/OuterComposite"
         description: Input composite as post body
       responses:
         "200":
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OuterComposite'
+                $ref: "#/components/schemas/OuterComposite"
           description: Output composite
       tags:
       - fake
@@ -899,7 +901,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testJsonFormData_request'
+              $ref: "#/components/schemas/testJsonFormData_request"
       responses:
         "200":
           description: successful operation
@@ -914,7 +916,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FreeFormObject'
+              $ref: "#/components/schemas/FreeFormObject"
         description: request body
         required: true
       responses:
@@ -931,7 +933,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MapOfString'
+              $ref: "#/components/schemas/MapOfString"
         description: request body
         required: true
       responses:
@@ -967,7 +969,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/testInlineFreeformAdditionalProperties_request'
+              $ref: "#/components/schemas/testInlineFreeformAdditionalProperties_request"
         description: request body
         required: true
       responses:
@@ -991,7 +993,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         required: true
       responses:
         "200":
@@ -1003,13 +1005,13 @@ paths:
       description: To test special tags and operation ID starting with number
       operationId: 123_test_@#$%_special_tags
       requestBody:
-        $ref: '#/components/requestBodies/Client'
+        $ref: "#/components/requestBodies/Client"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
           description: successful operation
       summary: To test special tags
       tags:
@@ -1023,7 +1025,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FileSchemaTestClass'
+              $ref: "#/components/schemas/FileSchemaTestClass"
         required: true
       responses:
         "200":
@@ -1116,7 +1118,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 type: array
                 uniqueItems: true
           description: Success
@@ -1140,13 +1142,13 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFileWithRequiredFile_request'
+              $ref: "#/components/schemas/uploadFileWithRequiredFile_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
           description: successful operation
       security:
       - petstore_auth:
@@ -1162,7 +1164,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HealthCheckResult'
+                $ref: "#/components/schemas/HealthCheckResult"
           description: The instance started successfully
       summary: Health check endpoint
       tags:
@@ -1176,14 +1178,14 @@ paths:
         name: test_pet
         required: false
         schema:
-          $ref: '#/components/schemas/Pet'
+          $ref: "#/components/schemas/Pet"
         style: deepObject
       - explode: true
         in: query
         name: inputOptions
         required: false
         schema:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         style: deepObject
       responses:
         "200":
@@ -1199,7 +1201,7 @@ paths:
         name: filter
         required: false
         schema:
-          $ref: '#/components/schemas/FilterAny'
+          $ref: "#/components/schemas/FilterAny"
         style: deepObject
       responses:
         "200":
@@ -1256,7 +1258,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/someOpsRequiringRefInt_request'
+              $ref: "#/components/schemas/someOpsRequiringRefInt_request"
         required: true
       responses:
         "200":
@@ -1272,7 +1274,7 @@ components:
         application/json:
           schema:
             items:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
             type: array
       description: List of user object
       required: true
@@ -1280,17 +1282,17 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Client'
+            $ref: "#/components/schemas/Client"
       description: client model
       required: true
     Pet:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
         application/xml:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
       description: Pet object that needs to be added to the store
       required: true
   schemas:
@@ -1312,12 +1314,12 @@ components:
       type: object
     FilterAny:
       anyOf:
-      - $ref: '#/components/schemas/FilterTypeRegex'
-      - $ref: '#/components/schemas/FilterTypeRange'
+      - $ref: "#/components/schemas/FilterTypeRegex"
+      - $ref: "#/components/schemas/FilterTypeRange"
       discriminator:
         mapping:
-          set: '#/components/schemas/FilterTypeRegex'
-          range: '#/components/schemas/FilterTypeRange'
+          set: "#/components/schemas/FilterTypeRegex"
+          range: "#/components/schemas/FilterTypeRange"
         propertyName: type
       properties:
         type:
@@ -1498,7 +1500,7 @@ components:
           type: integer
           x-is-unique: true
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         name:
           example: doggie
           type: string
@@ -1511,7 +1513,7 @@ components:
             wrapped: true
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
           xml:
             name: tag
@@ -1588,15 +1590,15 @@ components:
           type: string
     Dog:
       allOf:
-      - $ref: '#/components/schemas/Animal'
+      - $ref: "#/components/schemas/Animal"
       - properties:
           breed:
             type: string
         type: object
     Cat:
       allOf:
-      - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Address'
+      - $ref: "#/components/schemas/Animal"
+      - $ref: "#/components/schemas/Address"
       - properties:
           declawed:
             type: boolean
@@ -1619,7 +1621,7 @@ components:
       type: object
     AnimalFarm:
       items:
-        $ref: '#/components/schemas/Animal'
+        $ref: "#/components/schemas/Animal"
       type: array
     format_test:
       properties:
@@ -1726,13 +1728,13 @@ components:
           format: double
           type: number
         outerEnum:
-          $ref: '#/components/schemas/OuterEnum'
+          $ref: "#/components/schemas/OuterEnum"
         outerEnumInteger:
-          $ref: '#/components/schemas/OuterEnumInteger'
+          $ref: "#/components/schemas/OuterEnumInteger"
         outerEnumDefaultValue:
-          $ref: '#/components/schemas/OuterEnumDefaultValue'
+          $ref: "#/components/schemas/OuterEnumDefaultValue"
         outerEnumIntegerDefaultValue:
-          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
+          $ref: "#/components/schemas/OuterEnumIntegerDefaultValue"
       required:
       - enum_string_required
       type: object
@@ -1759,7 +1761,7 @@ components:
           type: string
         map:
           additionalProperties:
-            $ref: '#/components/schemas/Animal'
+            $ref: "#/components/schemas/Animal"
           type: object
       type: object
     List:
@@ -1848,9 +1850,28 @@ components:
         array_array_of_model:
           items:
             items:
-              $ref: '#/components/schemas/ReadOnlyFirst'
+              $ref: "#/components/schemas/ReadOnlyFirst"
             type: array
           type: array
+      type: object
+    ArrayTestWithWrapped:
+      properties:
+        array_of_string:
+          items:
+            type: string
+          type: array
+          xml:
+            wrapped: true
+      type: object
+    ArrayTestWithWrappedAndName:
+      properties:
+        array_of_string:
+          items:
+            type: string
+          type: array
+          xml:
+            name: item
+            wrapped: true
       type: object
     NumberOnly:
       properties:
@@ -1958,10 +1979,10 @@ components:
         - sourceURI: sourceURI
       properties:
         file:
-          $ref: '#/components/schemas/File'
+          $ref: "#/components/schemas/File"
         files:
           items:
-            $ref: '#/components/schemas/File'
+            $ref: "#/components/schemas/File"
           type: array
       type: object
     File:
@@ -2051,8 +2072,8 @@ components:
       type: object
     fruit:
       oneOf:
-      - $ref: '#/components/schemas/apple'
-      - $ref: '#/components/schemas/banana'
+      - $ref: "#/components/schemas/apple"
+      - $ref: "#/components/schemas/banana"
       properties:
         color:
           type: string
@@ -2070,12 +2091,12 @@ components:
     mammal:
       discriminator:
         mapping:
-          whale: '#/components/schemas/whale'
-          zebra: '#/components/schemas/zebra'
+          whale: "#/components/schemas/whale"
+          zebra: "#/components/schemas/zebra"
         propertyName: className
       oneOf:
-      - $ref: '#/components/schemas/whale'
-      - $ref: '#/components/schemas/zebra'
+      - $ref: "#/components/schemas/whale"
+      - $ref: "#/components/schemas/zebra"
     whale:
       properties:
         hasBaleen:
@@ -2103,21 +2124,21 @@ components:
     fruitJuice:
       properties:
         fruit:
-          $ref: '#/components/schemas/gmFruit'
+          $ref: "#/components/schemas/gmFruit"
       required:
       - fruit
       type: object
     gmFruit:
       anyOf:
-      - $ref: '#/components/schemas/apple'
-      - $ref: '#/components/schemas/banana'
+      - $ref: "#/components/schemas/apple"
+      - $ref: "#/components/schemas/banana"
       properties:
         color:
           type: string
     fruitReq:
       oneOf:
-      - $ref: '#/components/schemas/appleReq'
-      - $ref: '#/components/schemas/bananaReq'
+      - $ref: "#/components/schemas/appleReq"
+      - $ref: "#/components/schemas/bananaReq"
     appleReq:
       properties:
         cultivar:
@@ -2172,15 +2193,15 @@ components:
       properties:
         child:
           allOf:
-          - $ref: '#/components/schemas/NullableAllOfChild'
+          - $ref: "#/components/schemas/NullableAllOfChild"
           nullable: true
       type: object
     OneOfPrimitiveType:
       oneOf:
-      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - $ref: "#/components/schemas/OneOfPrimitiveTypeChild"
       - format: int32
         type: integer
-      - $ref: '#/components/schemas/OneOfArrayOfString'
+      - $ref: "#/components/schemas/OneOfArrayOfString"
     OneOfPrimitiveTypeChild:
       properties:
         name:
@@ -2192,13 +2213,13 @@ components:
       type: array
     AnyOfPrimitiveType:
       anyOf:
-      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - $ref: "#/components/schemas/OneOfPrimitiveTypeChild"
       - format: int32
         type: integer
-      - $ref: '#/components/schemas/OneOfArrayOfString'
+      - $ref: "#/components/schemas/OneOfArrayOfString"
     DuplicatedPropChild:
       allOf:
-      - $ref: '#/components/schemas/DuplicatedPropParent'
+      - $ref: "#/components/schemas/DuplicatedPropParent"
       - properties:
           dup-prop:
             description: A discriminator value
@@ -2275,7 +2296,7 @@ components:
             - 2000-01-23T04:56:07.000+00:00
       properties:
         string:
-          $ref: '#/components/schemas/Foo'
+          $ref: "#/components/schemas/Foo"
       type: object
     updatePetWithForm_request:
       properties:
@@ -2422,7 +2443,7 @@ components:
       properties:
         MyIDs:
           items:
-            $ref: '#/components/schemas/IDsWrapper/properties/id'
+            $ref: "#/components/schemas/IDsWrapper/properties/id"
           type: array
       required:
       - ids
@@ -2431,7 +2452,7 @@ components:
     petstore_auth:
       flows:
         implicit:
-          authorizationUrl: http://petstore.swagger.io/api/oauth/dialog
+          authorizationUrl: http://localhost/api/oauth/dialog
           scopes:
             write:pets: modify pets in your account
             read:pets: read your pets

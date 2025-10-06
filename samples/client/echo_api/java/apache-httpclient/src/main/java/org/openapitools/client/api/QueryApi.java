@@ -33,10 +33,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class QueryApi extends BaseApi {
 
   public QueryApi() {
@@ -734,6 +735,79 @@ public class QueryApi extends BaseApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     localVarQueryStringJoiner.add(queryObject.toUrlQueryString());
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<String> localVarReturnType = new TypeReference<String>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param jsonSerializedObjectRefStringQuery  (optional)
+   * @param jsonSerializedObjectArrayRefStringQuery  (optional)
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleJsonSerializationObject(@javax.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @javax.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws ApiException {
+    return this.testQueryStyleJsonSerializationObject(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param jsonSerializedObjectRefStringQuery  (optional)
+   * @param jsonSerializedObjectArrayRefStringQuery  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleJsonSerializationObject(@javax.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @javax.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/query/style_jsonSerialization/object";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPair("json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
+    localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
     
     localVarHeaderParams.putAll(additionalHeaders);
 

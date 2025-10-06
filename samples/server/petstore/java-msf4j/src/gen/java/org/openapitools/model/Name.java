@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Name   {
   @JsonProperty("name")
   private Integer name;

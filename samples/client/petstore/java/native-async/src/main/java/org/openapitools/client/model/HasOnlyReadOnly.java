@@ -19,6 +19,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,7 +37,7 @@ import org.openapitools.client.ApiClient;
   HasOnlyReadOnly.JSON_PROPERTY_BAR,
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
   @javax.annotation.Nullable
@@ -64,7 +65,7 @@ public class HasOnlyReadOnly {
    * @return bar
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBar() {
     return bar;
@@ -78,7 +79,7 @@ public class HasOnlyReadOnly {
    * @return foo
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getFoo() {
     return foo;
@@ -163,12 +164,12 @@ public class HasOnlyReadOnly {
 
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format("%sbar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBar()))));
+      joiner.add(String.format(Locale.ROOT, "%sbar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBar()))));
     }
 
     // add `foo` to the URL query string
     if (getFoo() != null) {
-      joiner.add(String.format("%sfoo%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFoo()))));
+      joiner.add(String.format(Locale.ROOT, "%sfoo%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFoo()))));
     }
 
     return joiner.toString();

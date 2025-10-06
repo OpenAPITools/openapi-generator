@@ -31,6 +31,7 @@ docs/Color.md
 docs/Creature.md
 docs/CreatureInfo.md
 docs/DanishPig.md
+docs/DataOutputFormat.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/DiscriminatorAllOfSub.md
@@ -40,6 +41,7 @@ docs/DummyModel.md
 docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumNumberVendorExt.md
+docs/EnumRefWithDefaultValue.md
 docs/EnumString1.md
 docs/EnumString2.md
 docs/EnumStringVendorExt.md
@@ -89,6 +91,7 @@ docs/ParentWithOptionalDict.md
 docs/Pet.md
 docs/PetApi.md
 docs/Pig.md
+docs/PonySizes.md
 docs/PoopCleaning.md
 docs/PrimitiveString.md
 docs/PropertyMap.md
@@ -113,6 +116,7 @@ docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/TestModelWithEnumDefault.md
 docs/TestObjectForMultipartRequestsRequestMarker.md
 docs/Tiger.md
+docs/Type.md
 docs/UnnamedDictWithAdditionalModelListProperties.md
 docs/UnnamedDictWithAdditionalStringListProperties.md
 docs/UploadFileWithAdditionalPropertiesRequestObject.md
@@ -162,6 +166,7 @@ petstore_api/models/color.py
 petstore_api/models/creature.py
 petstore_api/models/creature_info.py
 petstore_api/models/danish_pig.py
+petstore_api/models/data_output_format.py
 petstore_api/models/deprecated_object.py
 petstore_api/models/discriminator_all_of_sub.py
 petstore_api/models/discriminator_all_of_super.py
@@ -170,6 +175,7 @@ petstore_api/models/dummy_model.py
 petstore_api/models/enum_arrays.py
 petstore_api/models/enum_class.py
 petstore_api/models/enum_number_vendor_ext.py
+petstore_api/models/enum_ref_with_default_value.py
 petstore_api/models/enum_string1.py
 petstore_api/models/enum_string2.py
 petstore_api/models/enum_string_vendor_ext.py
@@ -215,6 +221,7 @@ petstore_api/models/parent.py
 petstore_api/models/parent_with_optional_dict.py
 petstore_api/models/pet.py
 petstore_api/models/pig.py
+petstore_api/models/pony_sizes.py
 petstore_api/models/poop_cleaning.py
 petstore_api/models/primitive_string.py
 petstore_api/models/property_map.py
@@ -238,6 +245,7 @@ petstore_api/models/test_inline_freeform_additional_properties_request.py
 petstore_api/models/test_model_with_enum_default.py
 petstore_api/models/test_object_for_multipart_requests_request_marker.py
 petstore_api/models/tiger.py
+petstore_api/models/type.py
 petstore_api/models/unnamed_dict_with_additional_model_list_properties.py
 petstore_api/models/unnamed_dict_with_additional_string_list_properties.py
 petstore_api/models/upload_file_with_additional_properties_request_object.py

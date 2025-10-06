@@ -21,6 +21,7 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -50,7 +51,7 @@ import org.openapitools.client.ApiClient;
   AdditionalPropertiesClass.JSON_PROPERTY_EMPTY_MAP,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @javax.annotation.Nullable
@@ -104,14 +105,14 @@ public class AdditionalPropertiesClass {
    * @return mapProperty
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, String> getMapProperty() {
     return mapProperty;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapProperty(@javax.annotation.Nullable Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
@@ -136,14 +137,14 @@ public class AdditionalPropertiesClass {
    * @return mapOfMapProperty
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapOfMapProperty(@javax.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
@@ -165,7 +166,7 @@ public class AdditionalPropertiesClass {
         return anytype1.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
+  @JsonProperty(value = JSON_PROPERTY_ANYTYPE1, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<Object> getAnytype1_JsonNullable() {
@@ -192,14 +193,14 @@ public class AdditionalPropertiesClass {
    * @return mapWithUndeclaredPropertiesAnytype1
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Object getMapWithUndeclaredPropertiesAnytype1() {
     return mapWithUndeclaredPropertiesAnytype1;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesAnytype1(@javax.annotation.Nullable Object mapWithUndeclaredPropertiesAnytype1) {
     this.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
@@ -216,14 +217,14 @@ public class AdditionalPropertiesClass {
    * @return mapWithUndeclaredPropertiesAnytype2
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Object getMapWithUndeclaredPropertiesAnytype2() {
     return mapWithUndeclaredPropertiesAnytype2;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesAnytype2(@javax.annotation.Nullable Object mapWithUndeclaredPropertiesAnytype2) {
     this.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
@@ -248,14 +249,14 @@ public class AdditionalPropertiesClass {
    * @return mapWithUndeclaredPropertiesAnytype3
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Object> getMapWithUndeclaredPropertiesAnytype3() {
     return mapWithUndeclaredPropertiesAnytype3;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesAnytype3(@javax.annotation.Nullable Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
     this.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
@@ -272,14 +273,14 @@ public class AdditionalPropertiesClass {
    * @return emptyMap
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_EMPTY_MAP)
+  @JsonProperty(value = JSON_PROPERTY_EMPTY_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Object getEmptyMap() {
     return emptyMap;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_EMPTY_MAP)
+  @JsonProperty(value = JSON_PROPERTY_EMPTY_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEmptyMap(@javax.annotation.Nullable Object emptyMap) {
     this.emptyMap = emptyMap;
@@ -304,14 +305,14 @@ public class AdditionalPropertiesClass {
    * @return mapWithUndeclaredPropertiesString
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, String> getMapWithUndeclaredPropertiesString() {
     return mapWithUndeclaredPropertiesString;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesString(@javax.annotation.Nullable Map<String, String> mapWithUndeclaredPropertiesString) {
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
@@ -404,8 +405,8 @@ public class AdditionalPropertiesClass {
     // add `map_property` to the URL query string
     if (getMapProperty() != null) {
       for (String _key : getMapProperty().keySet()) {
-        joiner.add(String.format("%smap_property%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(Locale.ROOT, "%smap_property%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getMapProperty().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapProperty().get(_key)))));
       }
     }
@@ -413,46 +414,46 @@ public class AdditionalPropertiesClass {
     // add `map_of_map_property` to the URL query string
     if (getMapOfMapProperty() != null) {
       for (String _key : getMapOfMapProperty().keySet()) {
-        joiner.add(String.format("%smap_of_map_property%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(Locale.ROOT, "%smap_of_map_property%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getMapOfMapProperty().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapOfMapProperty().get(_key)))));
       }
     }
 
     // add `anytype_1` to the URL query string
     if (getAnytype1() != null) {
-      joiner.add(String.format("%sanytype_1%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getAnytype1()))));
+      joiner.add(String.format(Locale.ROOT, "%sanytype_1%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getAnytype1()))));
     }
 
     // add `map_with_undeclared_properties_anytype_1` to the URL query string
     if (getMapWithUndeclaredPropertiesAnytype1() != null) {
-      joiner.add(String.format("%smap_with_undeclared_properties_anytype_1%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype1()))));
+      joiner.add(String.format(Locale.ROOT, "%smap_with_undeclared_properties_anytype_1%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype1()))));
     }
 
     // add `map_with_undeclared_properties_anytype_2` to the URL query string
     if (getMapWithUndeclaredPropertiesAnytype2() != null) {
-      joiner.add(String.format("%smap_with_undeclared_properties_anytype_2%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype2()))));
+      joiner.add(String.format(Locale.ROOT, "%smap_with_undeclared_properties_anytype_2%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype2()))));
     }
 
     // add `map_with_undeclared_properties_anytype_3` to the URL query string
     if (getMapWithUndeclaredPropertiesAnytype3() != null) {
       for (String _key : getMapWithUndeclaredPropertiesAnytype3().keySet()) {
-        joiner.add(String.format("%smap_with_undeclared_properties_anytype_3%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(Locale.ROOT, "%smap_with_undeclared_properties_anytype_3%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getMapWithUndeclaredPropertiesAnytype3().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype3().get(_key)))));
       }
     }
 
     // add `empty_map` to the URL query string
     if (getEmptyMap() != null) {
-      joiner.add(String.format("%sempty_map%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEmptyMap()))));
+      joiner.add(String.format(Locale.ROOT, "%sempty_map%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEmptyMap()))));
     }
 
     // add `map_with_undeclared_properties_string` to the URL query string
     if (getMapWithUndeclaredPropertiesString() != null) {
       for (String _key : getMapWithUndeclaredPropertiesString().keySet()) {
-        joiner.add(String.format("%smap_with_undeclared_properties_string%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(Locale.ROOT, "%smap_with_undeclared_properties_string%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getMapWithUndeclaredPropertiesString().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesString().get(_key)))));
       }
     }

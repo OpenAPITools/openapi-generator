@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +39,7 @@ import io.github.threetenjaxb.core.*;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @XmlRootElement(name = "FileSchemaTestClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FileSchemaTestClass")
@@ -67,7 +68,7 @@ public class FileSchemaTestClass {
    * @return _file
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonProperty(value = JSON_PROPERTY_FILE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "file")
 
@@ -76,7 +77,7 @@ public class FileSchemaTestClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonProperty(value = JSON_PROPERTY_FILE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "file")
   public void setFile(@javax.annotation.Nullable ModelFile _file) {
@@ -102,7 +103,7 @@ public class FileSchemaTestClass {
    * @return files
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonProperty(value = JSON_PROPERTY_FILES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "files")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -112,7 +113,7 @@ public class FileSchemaTestClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonProperty(value = JSON_PROPERTY_FILES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "files")
   @JacksonXmlElementWrapper(useWrapping = false)

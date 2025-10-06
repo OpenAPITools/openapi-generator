@@ -28,7 +28,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FormatTest {
 
   private @Nullable Integer integer;
@@ -75,7 +75,7 @@ public class FormatTest {
     this.password = password;
   }
 
-  public FormatTest integer(Integer integer) {
+  public FormatTest integer(@Nullable Integer integer) {
     this.integer = integer;
     return this;
   }
@@ -89,15 +89,15 @@ public class FormatTest {
   @Min(10) @Max(100) 
   @ApiModelProperty(value = "")
   @JsonProperty("integer")
-  public Integer getInteger() {
+  public @Nullable Integer getInteger() {
     return integer;
   }
 
-  public void setInteger(Integer integer) {
+  public void setInteger(@Nullable Integer integer) {
     this.integer = integer;
   }
 
-  public FormatTest int32(Integer int32) {
+  public FormatTest int32(@Nullable Integer int32) {
     this.int32 = int32;
     return this;
   }
@@ -111,15 +111,15 @@ public class FormatTest {
   @Min(20) @Max(200) 
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
-  public Integer getInt32() {
+  public @Nullable Integer getInt32() {
     return int32;
   }
 
-  public void setInt32(Integer int32) {
+  public void setInt32(@Nullable Integer int32) {
     this.int32 = int32;
   }
 
-  public FormatTest int64(Long int64) {
+  public FormatTest int64(@Nullable Long int64) {
     this.int64 = int64;
     return this;
   }
@@ -131,11 +131,11 @@ public class FormatTest {
   
   @ApiModelProperty(value = "")
   @JsonProperty("int64")
-  public Long getInt64() {
+  public @Nullable Long getInt64() {
     return int64;
   }
 
-  public void setInt64(Long int64) {
+  public void setInt64(@Nullable Long int64) {
     this.int64 = int64;
   }
 
@@ -161,7 +161,7 @@ public class FormatTest {
     this.number = number;
   }
 
-  public FormatTest _float(Float _float) {
+  public FormatTest _float(@Nullable Float _float) {
     this._float = _float;
     return this;
   }
@@ -175,15 +175,15 @@ public class FormatTest {
   @DecimalMin("54.3") @DecimalMax("987.6") 
   @ApiModelProperty(value = "")
   @JsonProperty("float")
-  public Float getFloat() {
+  public @Nullable Float getFloat() {
     return _float;
   }
 
-  public void setFloat(Float _float) {
+  public void setFloat(@Nullable Float _float) {
     this._float = _float;
   }
 
-  public FormatTest _double(Double _double) {
+  public FormatTest _double(@Nullable Double _double) {
     this._double = _double;
     return this;
   }
@@ -197,15 +197,15 @@ public class FormatTest {
   @DecimalMin("67.8") @DecimalMax("123.4") 
   @ApiModelProperty(value = "")
   @JsonProperty("double")
-  public Double getDouble() {
+  public @Nullable Double getDouble() {
     return _double;
   }
 
-  public void setDouble(Double _double) {
+  public void setDouble(@Nullable Double _double) {
     this._double = _double;
   }
 
-  public FormatTest string(String string) {
+  public FormatTest string(@Nullable String string) {
     this.string = string;
     return this;
   }
@@ -217,11 +217,11 @@ public class FormatTest {
   @Pattern(regexp = "/[a-z]/i") 
   @ApiModelProperty(value = "")
   @JsonProperty("string")
-  public String getString() {
+  public @Nullable String getString() {
     return string;
   }
 
-  public void setString(String string) {
+  public void setString(@Nullable String string) {
     this.string = string;
   }
 
@@ -245,7 +245,7 @@ public class FormatTest {
     this._byte = _byte;
   }
 
-  public FormatTest binary(org.springframework.core.io.Resource binary) {
+  public FormatTest binary(@Nullable org.springframework.core.io.Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -257,11 +257,11 @@ public class FormatTest {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("binary")
-  public org.springframework.core.io.Resource getBinary() {
+  public @Nullable org.springframework.core.io.Resource getBinary() {
     return binary;
   }
 
-  public void setBinary(org.springframework.core.io.Resource binary) {
+  public void setBinary(@Nullable org.springframework.core.io.Resource binary) {
     this.binary = binary;
   }
 
@@ -285,7 +285,7 @@ public class FormatTest {
     this.date = date;
   }
 
-  public FormatTest dateTime(OffsetDateTime dateTime) {
+  public FormatTest dateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -297,15 +297,15 @@ public class FormatTest {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
-  public OffsetDateTime getDateTime() {
+  public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
-  public FormatTest uuid(UUID uuid) {
+  public FormatTest uuid(@Nullable UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -317,11 +317,11 @@ public class FormatTest {
   @Valid 
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty("uuid")
-  public UUID getUuid() {
+  public @Nullable UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
@@ -345,7 +345,7 @@ public class FormatTest {
     this.password = password;
   }
 
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+  public FormatTest bigDecimal(@Nullable BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
     return this;
   }
@@ -357,11 +357,11 @@ public class FormatTest {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("BigDecimal")
-  public BigDecimal getBigDecimal() {
+  public @Nullable BigDecimal getBigDecimal() {
     return bigDecimal;
   }
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
+  public void setBigDecimal(@Nullable BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
 

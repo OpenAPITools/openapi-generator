@@ -23,12 +23,12 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing reserved words")
 @JsonTypeName("Return")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ModelReturn {
 
   private @Nullable Integer _return;
 
-  public ModelReturn _return(Integer _return) {
+  public ModelReturn _return(@Nullable Integer _return) {
     this._return = _return;
     return this;
   }
@@ -40,11 +40,11 @@ public class ModelReturn {
   
   @ApiModelProperty(value = "")
   @JsonProperty("return")
-  public Integer getReturn() {
+  public @Nullable Integer getReturn() {
     return _return;
   }
 
-  public void setReturn(Integer _return) {
+  public void setReturn(@Nullable Integer _return) {
     this._return = _return;
   }
 

@@ -401,6 +401,32 @@ or
 --import-mappings Pet=my.models.MyPet --import-mappings Order=my.models.MyOrder
 ```
 
+## Default Values
+
+To customize the default values for containers, one can leverage the option `defaultToEmptyContainer` to customize what to initalize for array/set/map by respecting the default values in the spec
+
+Set optional array and map default value to an empty container
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/output --additional-properties defaultToEmptyContainer="array?|map?"
+```
+
+Set nullable array (required) default value to an empty container
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/output --additional-properties defaultToEmptyContainer="?array"
+```
+
+Set nullable array (optional) default value to an empty container
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/output --additional-properties defaultToEmptyContainer="?array?"
+```
+
+To simply enable this option to respect default values in the specification (basically null if not specified):
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/output --additional-properties defaultToEmptyContainer=""
+```
+
+Note: not all generators support this generator's option (e.g. --additional-properties defaultToEmptyContainer="?array" in CLI) so please test to confirm. Java generators are the first to implement this feature. We welcome PRs to support this option in other generators. Related PR: https://github.com/OpenAPITools/openapi-generator/pull/21269
+
 ## Name Mapping
 
 One can map the property name using `nameMappings` option and parameter name using `parameterNameMappings` option to something else. Consider the following schema:
@@ -536,6 +562,15 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyAnyOfStringAndEnumString_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING=true
+```
+
+- `SIMPLIFY_ONEOF_ANYOF_ENUM`: when set to true, oneOf/anyOf with only enum sub-schemas all containing enum values will be converted to a single enum 
+This is enabled by default
+
+Example:
+
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyOneOfWithEnums_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ONEOF_ANYOF_ENUM=true
 ```
 
 - `SIMPLIFY_BOOLEAN_ENUM`: when set to `true`, convert boolean enum to just enum.

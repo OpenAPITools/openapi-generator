@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesBoolean
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AdditionalPropertiesBoolean {
 
   private @Nullable String name;
@@ -40,7 +40,7 @@ public class AdditionalPropertiesBoolean {
       this.name = name;
   }
 
-  public AdditionalPropertiesBoolean name(String name) {
+  public AdditionalPropertiesBoolean name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -52,11 +52,11 @@ public class AdditionalPropertiesBoolean {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
     /**

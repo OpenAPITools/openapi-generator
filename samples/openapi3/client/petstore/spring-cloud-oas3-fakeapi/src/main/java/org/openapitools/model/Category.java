@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * Category
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Category {
 
   private @Nullable Long id;
@@ -30,7 +30,7 @@ public class Category {
     super();
   }
 
-  public Category id(Long id) {
+  public Category id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -42,11 +42,11 @@ public class Category {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 

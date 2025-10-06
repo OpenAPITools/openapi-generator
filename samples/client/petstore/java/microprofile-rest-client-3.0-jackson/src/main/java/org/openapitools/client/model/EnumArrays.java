@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -106,11 +109,12 @@ public class EnumArrays  {
   
   private List<ArrayEnumEnum> arrayEnum = null;
 
+
   /**
    * Get justSymbol
    * @return justSymbol
    **/
-  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonProperty(value = JSON_PROPERTY_JUST_SYMBOL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -119,7 +123,7 @@ public class EnumArrays  {
   /**
    * Set justSymbol
    */
-  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonProperty(value = JSON_PROPERTY_JUST_SYMBOL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -134,7 +138,7 @@ public class EnumArrays  {
    * Get arrayEnum
    * @return arrayEnum
    **/
-  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
@@ -143,7 +147,7 @@ public class EnumArrays  {
   /**
    * Set arrayEnum
    */
-  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;

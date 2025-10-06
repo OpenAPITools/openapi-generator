@@ -58,6 +58,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Setter private boolean preferUnsignedInt = false;
     @Setter private boolean bestFitInt = false;
     @Setter private boolean avoidBoxedModels = false;
+    private List<String> reqwestDefaultFeatures = Arrays.asList("native-tls");
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String EXTERN_CRATE_NAME = "externCrateName";
@@ -77,6 +78,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String TOP_LEVEL_API_CLIENT = "topLevelApiClient";
     public static final String MOCKALL = "mockall";
     public static final String BON_BUILDER = "useBonBuilder";
+    public static final String REQWEST_DEFAULT_FEATURES = "reqwestDefaultFeatures";
 
     @Setter protected String packageName = "openapi";
     @Setter protected String packageVersion = "1.0.0";
@@ -227,6 +229,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(BON_BUILDER, "Use the bon crate for building parameter types. This option is for the 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(REQWEST_DEFAULT_FEATURES, "Default features for the reqwest dependency (comma-separated). Use empty for no defaults. This option is for 'reqwest' and 'reqwest-trait' library only.")
+                .defaultValue("native-tls"));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper (v1.x).");
         supportedLibraries.put(HYPER0X_LIBRARY, "HTTP client: Hyper (v0.x).");
@@ -288,7 +292,15 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                         oneOf.setName(modelName);
                         oneOf.setBaseName(refName);
                     }
-                } else {
+                } else if (oneOf.isArray) {
+                    // If the type is an array, extend the name with the inner type to prevent name collisions
+                    // in case multiple arrays with different types are defined. If the user has manually specified
+                    // a name, use that name instead.
+                    String collectionWithTypeName = toModelName(schema.getType()) + oneOf.containerTypeMapped + oneOf.items.dataType;
+                    String oneOfName = Optional.ofNullable(schema.getTitle()).orElse(collectionWithTypeName);
+                    oneOf.setName(oneOfName);
+                }
+                else {
                     // In-placed type (primitive), because there is no mapping or ref for it.
                     // use camelized `title` if present, otherwise use `type`
                     String oneOfName = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
@@ -422,6 +434,21 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             this.setAvoidBoxedModels(convertPropertyToBoolean(AVOID_BOXED_MODELS));
         }
         writePropertyBack(AVOID_BOXED_MODELS, getAvoidBoxedModels());
+
+        if (additionalProperties.containsKey(REQWEST_DEFAULT_FEATURES)) {
+            Object value = additionalProperties.get(REQWEST_DEFAULT_FEATURES);
+            if (value instanceof List) {
+                reqwestDefaultFeatures = (List<String>) value;
+            } else if (value instanceof String) {
+                String str = (String) value;
+                if (str.isEmpty()) {
+                    reqwestDefaultFeatures = new ArrayList<>();
+                } else {
+                    reqwestDefaultFeatures = Arrays.asList(str.split(",\\s*"));
+                }
+            }
+        }
+        additionalProperties.put(REQWEST_DEFAULT_FEATURES, reqwestDefaultFeatures);
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
@@ -631,13 +658,29 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         super.postProcessParameter(parameter);
         // in order to avoid name conflicts, we map parameters inside the functions
         String inFunctionIdentifier = "";
+        String locationSuffix = "";
+
+        // Determine parameter location using the boolean flags in case of parameters with the same name but in different locations
+        if (parameter.isPathParam) {
+            locationSuffix = "path_";
+        } else if (parameter.isQueryParam) {
+            locationSuffix = "query_";
+        } else if (parameter.isHeaderParam) {
+            locationSuffix = "header_";
+        } else if (parameter.isBodyParam) {
+            locationSuffix = "body_";
+        } else if (parameter.isCookieParam) {
+            locationSuffix = "cookie_";
+        } else if (parameter.isFormParam) {
+            locationSuffix = "form_";
+        }
         if (this.useSingleRequestParameter) {
             inFunctionIdentifier = "params." + parameter.paramName;
         } else {
             if (parameter.paramName.startsWith("r#")) {
-                inFunctionIdentifier = "p_" + parameter.paramName.substring(2);
+                inFunctionIdentifier = "p_" + locationSuffix + parameter.paramName.substring(2);
             } else {
-                inFunctionIdentifier = "p_" + parameter.paramName;
+                inFunctionIdentifier = "p_" + locationSuffix + parameter.paramName;
             }
         }
         if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENSION_PARAM_IDENTIFIER)) { // allow to overwrite this value
@@ -648,6 +691,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
+        boolean useAsyncFileStream = false;
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
@@ -679,6 +723,17 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             for (var param : operation.allParams) {
                 if (!hasUUIDs && param.isUuid) {
                     hasUUIDs = true;
+                    break;
+                }
+            }
+
+            // If we use a file body parameter, we need to include the imports and crates for it
+            // But they should be added only once per file 
+            for (var param: operation.bodyParams) {
+                if (param.isFile && supportAsync && !useAsyncFileStream) {
+                    useAsyncFileStream = true;
+                    additionalProperties.put("useAsyncFileStream", Boolean.TRUE);
+                    operation.vendorExtensions.put("useAsyncFileStream", Boolean.TRUE);
                     break;
                 }
             }

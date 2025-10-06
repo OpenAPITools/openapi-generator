@@ -54,77 +54,183 @@ func NewPetAPIController(s PetAPIServicer, opts ...PetAPIOption) *PetAPIControll
 func (c *PetAPIController) Routes() Routes {
 	return Routes{
 		"UpdatePet": Route{
+			"UpdatePet",
 			strings.ToUpper("Put"),
 			"/v2/pet",
 			c.UpdatePet,
 		},
 		"AddPet": Route{
+			"AddPet",
 			strings.ToUpper("Post"),
 			"/v2/pet",
 			c.AddPet,
 		},
 		"FindPetsByStatus": Route{
+			"FindPetsByStatus",
 			strings.ToUpper("Get"),
 			"/v2/pet/findByStatus",
 			c.FindPetsByStatus,
 		},
 		"SearchPet": Route{
+			"SearchPet",
 			strings.ToUpper("Get"),
 			"/v2/pet/searchPetWithManyFilters",
 			c.SearchPet,
 		},
 		"FindPetsByTags": Route{
+			"FindPetsByTags",
 			strings.ToUpper("Get"),
 			"/v2/pet/findByTags",
 			c.FindPetsByTags,
 		},
 		"FilterPetsByCategory": Route{
+			"FilterPetsByCategory",
 			strings.ToUpper("Get"),
 			"/v2/pet/filterPets/{gender}",
 			c.FilterPetsByCategory,
 		},
 		"GetPetById": Route{
+			"GetPetById",
 			strings.ToUpper("Get"),
 			"/v2/pet/{petId}",
 			c.GetPetById,
 		},
 		"UpdatePetWithForm": Route{
+			"UpdatePetWithForm",
 			strings.ToUpper("Post"),
 			"/v2/pet/{petId}",
 			c.UpdatePetWithForm,
 		},
 		"DeletePet": Route{
+			"DeletePet",
 			strings.ToUpper("Delete"),
 			"/v2/pet/{petId}",
 			c.DeletePet,
 		},
 		"GetPetImageById": Route{
+			"GetPetImageById",
 			strings.ToUpper("Get"),
 			"/v2/pet/{petId}/uploadImage",
 			c.GetPetImageById,
 		},
 		"UploadFile": Route{
+			"UploadFile",
 			strings.ToUpper("Post"),
 			"/v2/pet/{petId}/uploadImage",
 			c.UploadFile,
 		},
 		"UploadFileArrayOfFiles": Route{
+			"UploadFileArrayOfFiles",
 			strings.ToUpper("Post"),
 			"/v2/fake/uploadImage/array of_file",
 			c.UploadFileArrayOfFiles,
 		},
 		"GetPetsUsingBooleanQueryParameters": Route{
+			"GetPetsUsingBooleanQueryParameters",
 			strings.ToUpper("Get"),
 			"/v2/pets/boolean/parsing",
 			c.GetPetsUsingBooleanQueryParameters,
 		},
 		"GetPetsByTime": Route{
+			"GetPetsByTime",
 			strings.ToUpper("Get"),
 			"/v2/pets/byTime/{createdTime}",
 			c.GetPetsByTime,
 		},
 	}
 }
+
+// OrderedRoutes returns all the api routes in a deterministic order for the PetAPIController
+func (c *PetAPIController) OrderedRoutes() []Route {
+	return []Route{
+		Route{
+			"UpdatePet",
+			strings.ToUpper("Put"),
+			"/v2/pet",
+			c.UpdatePet,
+		},
+		Route{
+			"AddPet",
+			strings.ToUpper("Post"),
+			"/v2/pet",
+			c.AddPet,
+		},
+		Route{
+			"FindPetsByStatus",
+			strings.ToUpper("Get"),
+			"/v2/pet/findByStatus",
+			c.FindPetsByStatus,
+		},
+		Route{
+			"SearchPet",
+			strings.ToUpper("Get"),
+			"/v2/pet/searchPetWithManyFilters",
+			c.SearchPet,
+		},
+		Route{
+			"FindPetsByTags",
+			strings.ToUpper("Get"),
+			"/v2/pet/findByTags",
+			c.FindPetsByTags,
+		},
+		Route{
+			"FilterPetsByCategory",
+			strings.ToUpper("Get"),
+			"/v2/pet/filterPets/{gender}",
+			c.FilterPetsByCategory,
+		},
+		Route{
+			"GetPetById",
+			strings.ToUpper("Get"),
+			"/v2/pet/{petId}",
+			c.GetPetById,
+		},
+		Route{
+			"UpdatePetWithForm",
+			strings.ToUpper("Post"),
+			"/v2/pet/{petId}",
+			c.UpdatePetWithForm,
+		},
+		Route{
+			"DeletePet",
+			strings.ToUpper("Delete"),
+			"/v2/pet/{petId}",
+			c.DeletePet,
+		},
+		Route{
+			"GetPetImageById",
+			strings.ToUpper("Get"),
+			"/v2/pet/{petId}/uploadImage",
+			c.GetPetImageById,
+		},
+		Route{
+			"UploadFile",
+			strings.ToUpper("Post"),
+			"/v2/pet/{petId}/uploadImage",
+			c.UploadFile,
+		},
+		Route{
+			"UploadFileArrayOfFiles",
+			strings.ToUpper("Post"),
+			"/v2/fake/uploadImage/array of_file",
+			c.UploadFileArrayOfFiles,
+		},
+		Route{
+			"GetPetsUsingBooleanQueryParameters",
+			strings.ToUpper("Get"),
+			"/v2/pets/boolean/parsing",
+			c.GetPetsUsingBooleanQueryParameters,
+		},
+		Route{
+			"GetPetsByTime",
+			strings.ToUpper("Get"),
+			"/v2/pets/byTime/{createdTime}",
+			c.GetPetsByTime,
+		},
+	}
+}
+
+
 
 // UpdatePet - Update an existing pet
 func (c *PetAPIController) UpdatePet(w http.ResponseWriter, r *http.Request) {

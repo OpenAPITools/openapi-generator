@@ -16,7 +16,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 <a id="createUser"></a>
 # **createUser**
-> createUser(body)
+> createUser(user)
 
 Create user
 
@@ -29,9 +29,9 @@ This can only be done by the logged in user.
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val body : User =  // User | Created user object
+val user : User =  // User | Created user object
 try {
-    apiInstance.createUser(body)
+    apiInstance.createUser(user)
 } catch (e: ClientException) {
     println("4xx response calling UserApi#createUser")
     e.printStackTrace()
@@ -44,7 +44,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | [**User**](User.md)| Created user object | |
+| **user** | [**User**](User.md)| Created user object | |
 
 ### Return type
 
@@ -52,18 +52,23 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+
+Configure api_key:
+    ApiClient.apiKey["api_key"] = ""
+    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 <a id="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(body)
+> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 ```kotlin
@@ -72,9 +77,9 @@ Creates list of users with given input array
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val body : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
+val user : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
 try {
-    apiInstance.createUsersWithArrayInput(body)
+    apiInstance.createUsersWithArrayInput(user)
 } catch (e: ClientException) {
     println("4xx response calling UserApi#createUsersWithArrayInput")
     e.printStackTrace()
@@ -87,7 +92,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object | |
+| **user** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -95,18 +100,23 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+
+Configure api_key:
+    ApiClient.apiKey["api_key"] = ""
+    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 <a id="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(body)
+> createUsersWithListInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 ```kotlin
@@ -115,9 +125,9 @@ Creates list of users with given input array
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val body : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
+val user : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
 try {
-    apiInstance.createUsersWithListInput(body)
+    apiInstance.createUsersWithListInput(user)
 } catch (e: ClientException) {
     println("4xx response calling UserApi#createUsersWithListInput")
     e.printStackTrace()
@@ -130,7 +140,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object | |
+| **user** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -138,11 +148,14 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+
+Configure api_key:
+    ApiClient.apiKey["api_key"] = ""
+    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 <a id="deleteUser"></a>
@@ -183,7 +196,10 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+
+Configure api_key:
+    ApiClient.apiKey["api_key"] = ""
+    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
@@ -195,6 +211,8 @@ No authorization required
 > User getUserByName(username)
 
 Get user by user name
+
+
 
 ### Example
 ```kotlin
@@ -239,6 +257,8 @@ No authorization required
 > kotlin.String loginUser(username, password)
 
 Logs user into the system
+
+
 
 ### Example
 ```kotlin
@@ -286,6 +306,8 @@ No authorization required
 
 Logs out current logged in user session
 
+
+
 ### Example
 ```kotlin
 // Import classes:
@@ -313,7 +335,10 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+
+Configure api_key:
+    ApiClient.apiKey["api_key"] = ""
+    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
@@ -322,7 +347,7 @@ No authorization required
 
 <a id="updateUser"></a>
 # **updateUser**
-> updateUser(username, body)
+> updateUser(username, user)
 
 Updated user
 
@@ -336,9 +361,9 @@ This can only be done by the logged in user.
 
 val apiInstance = UserApi()
 val username : kotlin.String = username_example // kotlin.String | name that need to be deleted
-val body : User =  // User | Updated user object
+val user : User =  // User | Updated user object
 try {
-    apiInstance.updateUser(username, body)
+    apiInstance.updateUser(username, user)
 } catch (e: ClientException) {
     println("4xx response calling UserApi#updateUser")
     e.printStackTrace()
@@ -352,7 +377,7 @@ try {
 | **username** | **kotlin.String**| name that need to be deleted | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | [**User**](User.md)| Updated user object | |
+| **user** | [**User**](User.md)| Updated user object | |
 
 ### Return type
 
@@ -360,10 +385,13 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+
+Configure api_key:
+    ApiClient.apiKey["api_key"] = ""
+    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 

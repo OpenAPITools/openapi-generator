@@ -31,7 +31,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ModelReturn  implements Serializable {
   public static final String JSON_PROPERTY_RETURN = "return";
   @JsonProperty(JSON_PROPERTY_RETURN)

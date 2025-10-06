@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use axum::{body::Body, extract::*, response::Response, routing::*};
 use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
 use bytes::Bytes;
-use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
+use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
@@ -71,10 +71,7 @@ where
         .await;
     let claims = None.or(claims_in_auth_header);
     let Some(claims) = claims else {
-        return Response::builder()
-            .status(StatusCode::UNAUTHORIZED)
-            .body(Body::empty())
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+        return response_with_status_code_only(StatusCode::UNAUTHORIZED);
     };
 
     #[allow(clippy::redundant_closure)]
@@ -103,13 +100,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -126,13 +118,8 @@ where
                 let mut response = response.status(422);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -187,10 +174,7 @@ where
         .await;
     let claims = None.or(claims_in_auth_header);
     let Some(claims) = claims else {
-        return Response::builder()
-            .status(StatusCode::UNAUTHORIZED)
-            .body(Body::empty())
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+        return response_with_status_code_only(StatusCode::UNAUTHORIZED);
     };
 
     #[allow(clippy::redundant_closure)]
@@ -218,13 +202,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -302,10 +281,7 @@ where
         .await;
     let claims = None.or(claims_in_cookie).or(claims_in_auth_header);
     let Some(claims) = claims else {
-        return Response::builder()
-            .status(StatusCode::UNAUTHORIZED)
-            .body(Body::empty())
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+        return response_with_status_code_only(StatusCode::UNAUTHORIZED);
     };
 
     #[allow(clippy::redundant_closure)]
@@ -333,13 +309,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -356,13 +327,8 @@ where
                 let mut response = response.status(422);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -390,4 +356,13 @@ where
         error!(error = ?e);
         StatusCode::INTERNAL_SERVER_ERROR
     })
+}
+
+#[allow(dead_code)]
+#[inline]
+fn response_with_status_code_only(code: StatusCode) -> Result<Response, StatusCode> {
+    Response::builder()
+        .status(code)
+        .body(Body::empty())
+        .map_err(|_| code)
 }

@@ -18,6 +18,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -54,7 +55,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @JsonDeserialize(using=GmFruit.GmFruitDeserializer.class)
 @JsonSerialize(using = GmFruit.GmFruitSerializer.class)
 public class GmFruit extends AbstractOpenApiSchema {
@@ -111,7 +112,7 @@ public class GmFruit extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match 'GmFruit'", e);
             }
 
-            throw new IOException(String.format("Failed deserialization for GmFruit: no match found"));
+            throw new IOException("Failed deserialization for GmFruit: no match found");
         }
 
         /**

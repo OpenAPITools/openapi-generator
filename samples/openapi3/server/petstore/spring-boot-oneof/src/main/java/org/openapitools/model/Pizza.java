@@ -33,7 +33,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = PizzaSpeziale.class, name = "PizzaSpeziale")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Pizza extends Entity {
 
   private @Nullable BigDecimal pizzaSize;
@@ -49,7 +49,7 @@ public class Pizza extends Entity {
     super(atType);
   }
 
-  public Pizza pizzaSize(BigDecimal pizzaSize) {
+  public Pizza pizzaSize(@Nullable BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;
     return this;
   }
@@ -61,11 +61,11 @@ public class Pizza extends Entity {
   @Valid 
   @Schema(name = "pizzaSize", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("pizzaSize")
-  public BigDecimal getPizzaSize() {
+  public @Nullable BigDecimal getPizzaSize() {
     return pizzaSize;
   }
 
-  public void setPizzaSize(BigDecimal pizzaSize) {
+  public void setPizzaSize(@Nullable BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;
   }
 

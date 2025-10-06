@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class EnumTestDto {
 
   /**
@@ -192,7 +192,7 @@ public class EnumTestDto {
     this.enumStringRequired = enumStringRequired;
   }
 
-  public EnumTestDto enumString(EnumStringEnum enumString) {
+  public EnumTestDto enumString(@Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
   }
@@ -204,11 +204,11 @@ public class EnumTestDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("enum_string")
-  public EnumStringEnum getEnumString() {
+  public @Nullable EnumStringEnum getEnumString() {
     return enumString;
   }
 
-  public void setEnumString(EnumStringEnum enumString) {
+  public void setEnumString(@Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
   }
 
@@ -232,7 +232,7 @@ public class EnumTestDto {
     this.enumStringRequired = enumStringRequired;
   }
 
-  public EnumTestDto enumInteger(EnumIntegerEnum enumInteger) {
+  public EnumTestDto enumInteger(@Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
     return this;
   }
@@ -244,15 +244,15 @@ public class EnumTestDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("enum_integer")
-  public EnumIntegerEnum getEnumInteger() {
+  public @Nullable EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
 
-  public void setEnumInteger(EnumIntegerEnum enumInteger) {
+  public void setEnumInteger(@Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
 
-  public EnumTestDto enumNumber(EnumNumberEnum enumNumber) {
+  public EnumTestDto enumNumber(@Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
     return this;
   }
@@ -264,15 +264,15 @@ public class EnumTestDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("enum_number")
-  public EnumNumberEnum getEnumNumber() {
+  public @Nullable EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
 
-  public void setEnumNumber(EnumNumberEnum enumNumber) {
+  public void setEnumNumber(@Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
-  public EnumTestDto outerEnum(OuterEnumDto outerEnum) {
+  public EnumTestDto outerEnum(@Nullable OuterEnumDto outerEnum) {
     this.outerEnum = outerEnum;
     return this;
   }
@@ -284,11 +284,11 @@ public class EnumTestDto {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("outerEnum")
-  public OuterEnumDto getOuterEnum() {
+  public @Nullable OuterEnumDto getOuterEnum() {
     return outerEnum;
   }
 
-  public void setOuterEnum(OuterEnumDto outerEnum) {
+  public void setOuterEnum(@Nullable OuterEnumDto outerEnum) {
     this.outerEnum = outerEnum;
   }
 

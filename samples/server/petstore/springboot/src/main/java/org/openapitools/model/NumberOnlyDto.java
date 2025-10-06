@@ -23,12 +23,12 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("NumberOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class NumberOnlyDto {
 
   private @Nullable BigDecimal justNumber;
 
-  public NumberOnlyDto justNumber(BigDecimal justNumber) {
+  public NumberOnlyDto justNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
     return this;
   }
@@ -40,11 +40,11 @@ public class NumberOnlyDto {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
-  public BigDecimal getJustNumber() {
+  public @Nullable BigDecimal getJustNumber() {
     return justNumber;
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
+  public void setJustNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 

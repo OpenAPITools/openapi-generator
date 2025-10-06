@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,11 +43,12 @@ public class AllOfWithSingleRef  {
   
   private SingleRefType singleRefType;
 
+
   /**
    * Get username
    * @return username
    **/
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getUsername() {
     return username;
@@ -53,7 +57,7 @@ public class AllOfWithSingleRef  {
   /**
    * Set username
    */
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUsername(String username) {
     this.username = username;
@@ -68,7 +72,7 @@ public class AllOfWithSingleRef  {
    * Get singleRefType
    * @return singleRefType
    **/
-  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SINGLE_REF_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public SingleRefType getSingleRefType() {
     return singleRefType;
@@ -77,7 +81,7 @@ public class AllOfWithSingleRef  {
   /**
    * Set singleRefType
    */
-  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SINGLE_REF_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSingleRefType(SingleRefType singleRefType) {
     this.singleRefType = singleRefType;

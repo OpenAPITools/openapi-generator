@@ -48,7 +48,10 @@ import 'package:openapi/src/model/model_return.dart';
 import 'package:openapi/src/model/name.dart';
 import 'package:openapi/src/model/nullable_class.dart';
 import 'package:openapi/src/model/number_only.dart';
+import 'package:openapi/src/model/object_that_references_objects_with_duplicate_inline_enums.dart';
 import 'package:openapi/src/model/object_with_deprecated_fields.dart';
+import 'package:openapi/src/model/object_with_duplicate_inline_enum.dart';
+import 'package:openapi/src/model/object_with_inline_enum.dart';
 import 'package:openapi/src/model/order.dart';
 import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_enum.dart';
@@ -62,7 +65,9 @@ import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
+import 'package:openapi/src/model/test_enum.dart';
 import 'package:openapi/src/model/test_inline_freeform_additional_properties_request.dart';
+import 'package:openapi/src/model/test_item.dart';
 import 'package:openapi/src/model/user.dart';
 
 part 'serializers.g.dart';
@@ -102,7 +107,10 @@ part 'serializers.g.dart';
   Name,
   NullableClass,
   NumberOnly,
+  ObjectThatReferencesObjectsWithDuplicateInlineEnums,
   ObjectWithDeprecatedFields,
+  ObjectWithDuplicateInlineEnum,
+  ObjectWithInlineEnum,
   Order,
   OuterComposite,
   OuterEnum,
@@ -116,7 +124,9 @@ part 'serializers.g.dart';
   SingleRefType,
   SpecialModelName,
   Tag,
+  TestEnum,
   TestInlineFreeformAdditionalPropertiesRequest,
+  TestItem,
   User,
 ])
 Serializers serializers = (_$serializers.toBuilder()

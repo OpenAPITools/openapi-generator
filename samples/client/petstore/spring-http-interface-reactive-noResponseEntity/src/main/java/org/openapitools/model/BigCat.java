@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -78,7 +78,7 @@ public class BigCat extends Cat {
     super(className);
   }
 
-  public BigCat kind(KindEnum kind) {
+  public BigCat kind(@Nullable KindEnum kind) {
     this.kind = kind;
     return this;
   }
@@ -89,11 +89,11 @@ public class BigCat extends Cat {
    */
   
   @JsonProperty("kind")
-  public KindEnum getKind() {
+  public @Nullable KindEnum getKind() {
     return kind;
   }
 
-  public void setKind(KindEnum kind) {
+  public void setKind(@Nullable KindEnum kind) {
     this.kind = kind;
   }
 

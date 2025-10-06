@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +39,7 @@ import io.github.threetenjaxb.core.*;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @XmlRootElement(name = "Capitalization")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Capitalization")
@@ -87,7 +88,7 @@ public class Capitalization {
    * @return smallCamel
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "smallCamel")
 
@@ -96,7 +97,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "smallCamel")
   public void setSmallCamel(@javax.annotation.Nullable String smallCamel) {
@@ -114,7 +115,7 @@ public class Capitalization {
    * @return capitalCamel
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "CapitalCamel")
 
@@ -123,7 +124,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "CapitalCamel")
   public void setCapitalCamel(@javax.annotation.Nullable String capitalCamel) {
@@ -141,7 +142,7 @@ public class Capitalization {
    * @return smallSnake
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "small_Snake")
 
@@ -150,7 +151,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "small_Snake")
   public void setSmallSnake(@javax.annotation.Nullable String smallSnake) {
@@ -168,7 +169,7 @@ public class Capitalization {
    * @return capitalSnake
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Capital_Snake")
 
@@ -177,7 +178,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Capital_Snake")
   public void setCapitalSnake(@javax.annotation.Nullable String capitalSnake) {
@@ -195,7 +196,7 @@ public class Capitalization {
    * @return scAETHFlowPoints
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonProperty(value = JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "SCA_ETH_Flow_Points")
 
@@ -204,7 +205,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonProperty(value = JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "SCA_ETH_Flow_Points")
   public void setScAETHFlowPoints(@javax.annotation.Nullable String scAETHFlowPoints) {
@@ -222,7 +223,7 @@ public class Capitalization {
    * @return ATT_NAME
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonProperty(value = JSON_PROPERTY_A_T_T_N_A_M_E, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "ATT_NAME")
 
@@ -231,7 +232,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonProperty(value = JSON_PROPERTY_A_T_T_N_A_M_E, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "ATT_NAME")
   public void setATTNAME(@javax.annotation.Nullable String ATT_NAME) {

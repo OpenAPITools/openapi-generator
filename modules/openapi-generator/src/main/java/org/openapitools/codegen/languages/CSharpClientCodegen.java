@@ -134,7 +134,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private SortingMethod modelPropertySorting = SortingMethod.DEFAULT;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
-    protected String releaseNote = "Minor update";
     @Setter protected String licenseId;
     @Setter protected String packageTags;
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
@@ -212,10 +211,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addOption(CodegenConstants.LICENSE_ID,
                 CodegenConstants.LICENSE_ID_DESC,
                 this.licenseId);
-
-        addOption(CodegenConstants.RELEASE_NOTE,
-                CodegenConstants.RELEASE_NOTE_DESC,
-                this.releaseNote);
 
         addOption(CodegenConstants.PACKAGE_TAGS,
                 CodegenConstants.PACKAGE_TAGS_DESC,
@@ -1293,11 +1288,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
 
-    @Override
-    public void setReleaseNote(String releaseNote) {
-        this.releaseNote = releaseNote;
-    }
-
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
     }
@@ -1758,7 +1748,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     protected void updateModelForObject(CodegenModel m, Schema schema) {
-        /**
+        /*
          * we have a custom version of this function so we only set isMap to true if
          * ModelUtils.isMapSchema
          * In other generators, isMap is true for all type object schemas

@@ -17,6 +17,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -42,7 +43,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class TypeHolderDefault {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   @javax.annotation.Nonnull
@@ -79,7 +80,7 @@ public class TypeHolderDefault {
    */
   @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_STRING_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getStringItem() {
@@ -87,7 +88,7 @@ public class TypeHolderDefault {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_STRING_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setStringItem(@javax.annotation.Nonnull String stringItem) {
     this.stringItem = stringItem;
@@ -106,7 +107,7 @@ public class TypeHolderDefault {
    */
   @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getNumberItem() {
@@ -114,7 +115,7 @@ public class TypeHolderDefault {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setNumberItem(@javax.annotation.Nonnull BigDecimal numberItem) {
     this.numberItem = numberItem;
@@ -133,7 +134,7 @@ public class TypeHolderDefault {
    */
   @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getIntegerItem() {
@@ -141,7 +142,7 @@ public class TypeHolderDefault {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setIntegerItem(@javax.annotation.Nonnull Integer integerItem) {
     this.integerItem = integerItem;
@@ -160,7 +161,7 @@ public class TypeHolderDefault {
    */
   @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_BOOL_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Boolean isBoolItem() {
@@ -168,7 +169,7 @@ public class TypeHolderDefault {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_BOOL_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setBoolItem(@javax.annotation.Nonnull Boolean boolItem) {
     this.boolItem = boolItem;
@@ -195,7 +196,7 @@ public class TypeHolderDefault {
    */
   @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public List<Integer> getArrayItem() {
@@ -203,7 +204,7 @@ public class TypeHolderDefault {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setArrayItem(@javax.annotation.Nonnull List<Integer> arrayItem) {
     this.arrayItem = arrayItem;

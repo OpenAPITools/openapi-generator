@@ -59,9 +59,11 @@ async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A, E{
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::{{classFilename}}::{{classnamePascalCase}}<E{{#havingAuthMethod}}, Claims = C{{/havingAuthMethod}}>{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication<Claims = C>{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader<Claims = C>{{/x-has-header-auth-methods}}{{#x-has-basic-auth-methods}}+ apis::ApiAuthBasic<Claims = C>{{/x-has-basic-auth-methods}}{{/vendorExtensions}} + Send + Sync,
+    A: {{#basicAnalytic}}apis::EventDispatcher + {{/basicAnalytic}}apis::{{classFilename}}::{{classnamePascalCase}}<E{{#havingAuthMethod}}, Claims = C{{/havingAuthMethod}}>{{#havingAuthMethod}}{{#basicAuthorization}} + apis::{{classFilename}}::{{classnamePascalCase}}Authorization<Claims = C>{{/basicAuthorization}}{{/havingAuthMethod}}{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication<Claims = C>{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader<Claims = C>{{/x-has-header-auth-methods}}{{#x-has-basic-auth-methods}}+ apis::ApiAuthBasic<Claims = C>{{/x-has-basic-auth-methods}}{{/vendorExtensions}} + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
         {
+{{#basicAnalytic}}let start_at = chrono::Utc::now();{{/basicAnalytic}}
+
 {{#vendorExtensions}}
 {{#x-has-auth-methods}}
     // Authentication
@@ -88,10 +90,7 @@ where
           {{/x-has-basic-auth-methods}}
           ;
     let Some(claims) = claims else {
-        return Response::builder()
-                        .status(StatusCode::UNAUTHORIZED)
-                        .body(Body::empty())
-                        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+        return response_with_status_code_only(StatusCode::UNAUTHORIZED);
     };
 {{/x-has-auth-methods}}
 {{/vendorExtensions}}
@@ -115,7 +114,7 @@ where
                         Err(err) => {
                             return Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Invalid header {{{baseName}}} - {}", err))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                        .body(Body::from(format!("Invalid header {{{baseName}}} - {err}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
 
                         },
                     },
@@ -197,39 +196,90 @@ where
   };
   {{/disableValidator}}
 
-  let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
-      &method,
-      &host,
-      &cookies,
+{{#vendorExtensions}}
+{{#x-has-auth-methods}}
+  {{#basicAuthorization}}
+    {{#vendorExtensions}}
+      // Authorization
+      let authorization = api_impl.as_ref().{{{x-operation-id}}}_authorize(
+          &method,
+          &host,
+          &cookies,
+          &claims,
+          {{#headerParams.size}}
+            &header_params,
+          {{/headerParams.size}}
+          {{#pathParams.size}}
+            &path_params,
+          {{/pathParams.size}}
+          {{#queryParams.size}}
+            &query_params,
+          {{/queryParams.size}}
+          {{#vendorExtensions}}
+            {{^x-consumes-multipart-related}}
+            {{^x-consumes-multipart}}
+              {{#bodyParams}}
+                {{#-first}}
+                  &body,
+                {{/-first}}
+              {{/bodyParams}}
+            {{/x-consumes-multipart}}
+            {{/x-consumes-multipart-related}}
+            {{#x-consumes-multipart}}
+              &body,
+            {{/x-consumes-multipart}}
+            {{#x-consumes-multipart-related}}
+              &body,
+            {{/x-consumes-multipart-related}}
+          {{/vendorExtensions}}
+      ).await;
+      match authorization {
+          Ok(authorization) => match authorization {
+              apis::Authorization::Authorized => {},
+              apis::Authorization::Forbidden => { return response_with_status_code_only(StatusCode::FORBIDDEN); },
+          },
+          Err(_) => { return response_with_status_code_only(StatusCode::INTERNAL_SERVER_ERROR); }
+      }
+      {{/vendorExtensions}}
+  {{/basicAuthorization}}
+{{/x-has-auth-methods}}
+{{/vendorExtensions}}
+
+{{#basicAnalytic}}let mut event = apis::event::Event::default();{{/basicAnalytic}}
+let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+      {{#basicAnalytic}}&mut event,{{/basicAnalytic}}
+      {{^ownedRequest}}&{{/ownedRequest}}method,
+      {{^ownedRequest}}&{{/ownedRequest}}host,
+      {{^ownedRequest}}&{{/ownedRequest}}cookies,
       {{#vendorExtensions}}
         {{#x-has-auth-methods}}
-        &claims,
+        {{^ownedRequest}}&{{/ownedRequest}}claims,
         {{/x-has-auth-methods}}
       {{/vendorExtensions}}
       {{#headerParams.size}}
-        &header_params,
+        {{^ownedRequest}}&{{/ownedRequest}}header_params,
       {{/headerParams.size}}
       {{#pathParams.size}}
-        &path_params,
+        {{^ownedRequest}}&{{/ownedRequest}}path_params,
       {{/pathParams.size}}
       {{#queryParams.size}}
-        &query_params,
+        {{^ownedRequest}}&{{/ownedRequest}}query_params,
       {{/queryParams.size}}
       {{#vendorExtensions}}
         {{^x-consumes-multipart-related}}
         {{^x-consumes-multipart}}
           {{#bodyParams}}
             {{#-first}}
-              &body,
+              {{^ownedRequest}}&{{/ownedRequest}}body,
             {{/-first}}
           {{/bodyParams}}
         {{/x-consumes-multipart}}
         {{/x-consumes-multipart-related}}
         {{#x-consumes-multipart}}
-          &body,
+          body,
         {{/x-consumes-multipart}}
         {{#x-consumes-multipart-related}}
-          &body,
+          body,
         {{/x-consumes-multipart-related}}
       {{/vendorExtensions}}
   ).await;
@@ -276,7 +326,7 @@ where
                                                         Err(e) => {
                                                             return Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling {{name}} header - {}", e))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                                                    .body(Body::from(format!("An internal server error occurred handling {{name}} header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                                                         }
                                                     };
 
@@ -306,7 +356,7 @@ where
                                                     let mut response_headers = response.headers_mut().unwrap();
                                                     response_headers.insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str("{{{x-mime-type}}}").map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR })?);
+                                                        HeaderValue::from_static("{{{x-mime-type}}}"));
                                                   }
 
 {{/vendorExtensions}}
@@ -354,12 +404,28 @@ where
                                                 },
 {{/responses}}
                                             },
-                                            Err(why) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+                                            Err({{#ownedRequest}}_{{/ownedRequest}}why) => {
+                                                {{^ownedRequest}}
+                                                    // Application code returned an error. This should not happen, as the implementation should
+                                                    // return a valid response.
+                                                    return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+                                                {{/ownedRequest}}
+                                                {{#ownedRequest}}
+                                                    return response_with_status_code_only(StatusCode::INTERNAL_SERVER_ERROR);
+                                                {{/ownedRequest}}
                                             },
                                         };
+
+                                        {{#basicAnalytic}}
+                                        if let Ok(resp) = resp.as_ref() && !event.is_empty() {
+                                             event.insert(apis::event::convention::EVENT_TIMESTAMP.to_string(), format!("{start_at:?}"));
+                                             event.insert(apis::event::convention::EVENT_SERVICE.to_string(), api_impl.as_ref().service_name());
+                                             event.insert(apis::event::convention::EVENT_STATUS_CODE.to_string(), resp.status().as_u16().to_string());
+                                             event.insert(apis::event::convention::EVENT_ACTION.to_string(), "{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}".to_string());
+                                             event.insert(apis::event::convention::EVENT_LATENCY_SECS.to_string(), format!("{:.6}", chrono::Utc::now().signed_duration_since(start_at).as_seconds_f64()));
+                                             api_impl.as_ref().dispatch(event).await;
+                                        }
+                                        {{/basicAnalytic}}
 
                                         resp.map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR })
 }

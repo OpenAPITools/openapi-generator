@@ -31,7 +31,7 @@ import jakarta.annotation.Generated;
 @lombok.EqualsAndHashCode
 
 @Schema(name = "Pet", description = "A pet for sale in the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Pet {
 
   private @Nullable Long id;
@@ -98,13 +98,13 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet id(Long id) {
+  public Pet id(@Nullable Long id) {
     this.id = id;
     return this;
   }
 
 
-  public Pet category(Category category) {
+  public Pet category(@Nullable Category category) {
     this.category = category;
     return this;
   }
@@ -144,7 +144,7 @@ public class Pet {
   }
 
 
-  public Pet status(StatusEnum status) {
+  public Pet status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
   }

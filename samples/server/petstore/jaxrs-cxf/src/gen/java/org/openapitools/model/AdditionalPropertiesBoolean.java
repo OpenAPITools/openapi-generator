@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   
   @ApiModelProperty(value = "")
+
   private String name;
  /**
    * Get name

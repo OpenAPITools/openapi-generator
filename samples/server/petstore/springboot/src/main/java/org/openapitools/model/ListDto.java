@@ -22,12 +22,12 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ListDto {
 
   private @Nullable String _123List;
 
-  public ListDto _123List(String _123List) {
+  public ListDto _123List(@Nullable String _123List) {
     this._123List = _123List;
     return this;
   }
@@ -39,11 +39,11 @@ public class ListDto {
   
   @ApiModelProperty(value = "")
   @JsonProperty("123-list")
-  public String get123List() {
+  public @Nullable String get123List() {
     return _123List;
   }
 
-  public void set123List(String _123List) {
+  public void set123List(@Nullable String _123List) {
     this._123List = _123List;
   }
 

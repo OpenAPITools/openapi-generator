@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,7 +36,7 @@ import java.util.StringJoiner;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @javax.annotation.Nullable
@@ -67,7 +68,7 @@ public class AdditionalPropertiesClass {
    * @return mapProperty
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, String> getMapProperty() {
@@ -75,7 +76,7 @@ public class AdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapProperty(@javax.annotation.Nullable Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
@@ -100,7 +101,7 @@ public class AdditionalPropertiesClass {
    * @return mapOfMapProperty
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Map<String, String>> getMapOfMapProperty() {
@@ -108,7 +109,7 @@ public class AdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapOfMapProperty(@javax.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
@@ -189,8 +190,8 @@ public class AdditionalPropertiesClass {
     if (getMapProperty() != null) {
       for (String _key : getMapProperty().keySet()) {
         try {
-          joiner.add(String.format("%smap_property%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%smap_property%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapProperty().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -203,8 +204,8 @@ public class AdditionalPropertiesClass {
     if (getMapOfMapProperty() != null) {
       for (String _key : getMapOfMapProperty().keySet()) {
         try {
-          joiner.add(String.format("%smap_of_map_property%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(Locale.ROOT, "%smap_of_map_property%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getMapOfMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapOfMapProperty().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported

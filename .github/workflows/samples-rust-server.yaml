@@ -1,0 +1,64 @@
+name: Samples Rust Servers
+
+on:
+  push:
+    paths:
+      - "samples/server/petstore/rust-server/**"
+      - "samples/server/petstore/rust-axum/**"
+  pull_request:
+    paths:
+      - "samples/server/petstore/rust-server/**"
+      - "samples/server/petstore/rust-axum/**"
+
+jobs:
+  build:
+    name: Build Rust
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # these folders contain sub-projects of rust clients, servers
+          - samples/server/petstore/rust-server/
+          - samples/server/petstore/rust-server-deprecated/
+          - samples/server/petstore/rust-axum/
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-targets: false # Don't cache workspace target directories as they don't exist
+          cache-directories:
+            ${{ matrix.sample }}/target
+          workspaces: |
+            ${{ matrix.sample }}/output/*
+
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: cargo build --all-targets --all-features
+      - name: Tests
+        working-directory: ${{ matrix.sample }}
+        run: |
+          set -e
+
+          # Iterate through each example and test various features
+          for package in $(find . -maxdepth 1 -mindepth 1 -type d)
+          do
+            # Not all versions have a server example
+            if test -f examples/server/main.rs; then
+              cargo build --example server --features="server"
+            fi
+            # Test the CLI works if present
+            if test -f bin/cli.rs; then
+              cargo build --bin ${package##*/} --features cli
+              target/debug/${package##*/} --help
+            fi
+            cargo fmt
+            cargo test
+            cargo clippy
+            cargo doc
+          done

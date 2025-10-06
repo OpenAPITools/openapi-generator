@@ -10,10 +10,14 @@ use crate::{models, types::*};
 {{#operations}}
 {{#operation}}
 {{>response}}
+
 {{/operation}}
 {{/operations}}
 
 {{#operations}}
+
+{{>authorization}}
+
 /// {{classnamePascalCase}}
 #[async_trait]
 #[allow(clippy::ptr_arg)]
@@ -31,36 +35,37 @@ pub trait {{classnamePascalCase}}<E: std::fmt::Debug + Send + Sync + 'static = (
     /// {{{operationId}}} - {{{httpMethod}}} {{{basePathWithoutHost}}}{{{path}}}
     async fn {{{x-operation-id}}}(
     &self,
-    method: &Method,
-    host: &Host,
-    cookies: &CookieJar,
+    {{#basicAnalytic}}event: &mut super::event::Event,{{/basicAnalytic}}
+    method: {{^ownedRequest}}&{{/ownedRequest}}Method,
+    host: {{^ownedRequest}}&{{/ownedRequest}}Host,
+    cookies: {{^ownedRequest}}&{{/ownedRequest}}CookieJar,
     {{#vendorExtensions}}
       {{#x-has-auth-methods}}
-        claims: &Self::Claims,
+        claims: {{^ownedRequest}}&{{/ownedRequest}}Self::Claims,
       {{/x-has-auth-methods}}
     {{/vendorExtensions}}
     {{#headerParams.size}}
-      header_params: &models::{{{operationIdCamelCase}}}HeaderParams,
+      header_params: {{^ownedRequest}}&{{/ownedRequest}}models::{{{operationIdCamelCase}}}HeaderParams,
     {{/headerParams.size}}
     {{#pathParams.size}}
-      path_params: &models::{{{operationIdCamelCase}}}PathParams,
+      path_params: {{^ownedRequest}}&{{/ownedRequest}}models::{{{operationIdCamelCase}}}PathParams,
     {{/pathParams.size}}
     {{#queryParams.size}}
-      query_params: &models::{{{operationIdCamelCase}}}QueryParams,
+      query_params: {{^ownedRequest}}&{{/ownedRequest}}models::{{{operationIdCamelCase}}}QueryParams,
     {{/queryParams.size}}
     {{^x-consumes-multipart-related}}
     {{^x-consumes-multipart}}
       {{#bodyParam}}
       {{#vendorExtensions}}
         {{^x-consumes-plain-text}}
-            body: &{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
+            body: {{^ownedRequest}}&{{/ownedRequest}}{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
         {{/x-consumes-plain-text}}
         {{#x-consumes-plain-text}}
           {{#isString}}
-            body: &String,
+            body: {{^ownedRequest}}&{{/ownedRequest}}String,
           {{/isString}}
           {{^isString}}
-            body: &Bytes,
+            body: {{^ownedRequest}}&{{/ownedRequest}}Bytes,
           {{/isString}}
         {{/x-consumes-plain-text}}
       {{/vendorExtensions}}
@@ -68,10 +73,10 @@ pub trait {{classnamePascalCase}}<E: std::fmt::Debug + Send + Sync + 'static = (
     {{/x-consumes-multipart}}
     {{/x-consumes-multipart-related}}
     {{#x-consumes-multipart}}
-        body: &Multipart,
+    body: Multipart,
     {{/x-consumes-multipart}}
     {{#x-consumes-multipart-related}}
-        body: &axum::body::Body,
+    body: axum::body::Body,
     {{/x-consumes-multipart-related}}
     ) -> Result<{{{operationId}}}Response, E>;
   {{/vendorExtensions}}

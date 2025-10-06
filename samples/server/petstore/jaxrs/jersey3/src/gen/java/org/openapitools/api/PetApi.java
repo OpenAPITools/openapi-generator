@@ -37,7 +37,7 @@ import jakarta.validation.Valid;
 
 
 @Tag(description = "the pet API", name = "")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class PetApi  {
 
    private final PetApiService delegate;

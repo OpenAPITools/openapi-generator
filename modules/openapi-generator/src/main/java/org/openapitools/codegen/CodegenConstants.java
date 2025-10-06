@@ -454,4 +454,9 @@ public class CodegenConstants {
     public static final String WAIT_TIME_OF_THREAD = "waitTimeMillis";
 
     public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
+
+    public static final String DEFAULT_TO_EMPTY_CONTAINER = "defaultToEmptyContainer";
+
+    public static final String X_INTERNAL = "x-internal";
+    public static final String X_PARENT = "x-parent";
 }
