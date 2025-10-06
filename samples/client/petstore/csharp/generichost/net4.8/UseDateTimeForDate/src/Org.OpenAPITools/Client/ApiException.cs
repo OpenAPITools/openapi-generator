@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// The HttpResponseMessage object
         /// </summary>
-        public System.Net.Http.HttpResponseMessage? RawResponse { get; }
+        public System.Net.Http.HttpResponseMessage RawResponse { get; }
         
         /// <summary>
         /// Construct the ApiException from parts of the response
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="reasonPhrase"></param>
         /// <param name="statusCode"></param>
         /// <param name="rawContent"></param>
-        public ApiException(string reasonPhrase, System.Net.HttpStatusCode statusCode, string rawContent, System.Net.Http.HttpResponseMessage? rawResponse = null) : base(reasonPhrase ?? rawContent)
+        public ApiException(string reasonPhrase, System.Net.HttpStatusCode statusCode, string rawContent, System.Net.Http.HttpResponseMessage rawResponse = null) : base(reasonPhrase ?? rawContent)
         {
             ReasonPhrase = reasonPhrase;
 
