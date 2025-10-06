@@ -8,11 +8,13 @@ defmodule OpenapiPetstore.Model.Any do
 
   @derive JSON.Encoder
   defstruct [
-    :"@type"
+    :"@type",
+    :any_type_property
   ]
 
   @type t :: %__MODULE__{
-    :"@type" => String.t | nil
+    :"@type" => String.t | nil,
+    :any_type_property => any() | nil
   }
 
   def decode(value) do
