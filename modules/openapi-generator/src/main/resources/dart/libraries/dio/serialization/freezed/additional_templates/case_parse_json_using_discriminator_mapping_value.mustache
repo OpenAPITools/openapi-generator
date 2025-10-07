@@ -1,0 +1,6 @@
+{{#mappedModels}}
+    case '{{mappingName}}':
+    return {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}(
+    {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}Value : {{modelName}}.fromJson(json),
+    );
+{{/mappedModels}}

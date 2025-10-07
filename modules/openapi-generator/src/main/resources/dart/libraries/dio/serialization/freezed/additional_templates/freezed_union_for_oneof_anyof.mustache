@@ -1,0 +1,34 @@
+{{#anyOf}}
+    const factory {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}({
+        required {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}} {{#lambda.camelcase}}{{{.}}}Value{{/lambda.camelcase}}
+    }) = {{classname}}As{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}};
+{{/anyOf}}
+{{#oneOf}}
+    const factory {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}({
+        required {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}} {{#lambda.camelcase}}{{{.}}}Value{{/lambda.camelcase}}
+    }) = {{classname}}As{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}};
+{{/oneOf}}
+{{! Sometimes discrintors are mentioned in parent classes}}
+{{! TODO: Following block is doesn't handle duplicated mapping of models. Not sure how to handle that yet. For example red_apple and green_apple both mapping to Apple model.}}
+{{^anyOf}}
+    {{^oneOf}}
+        {{#mappedModels}}
+            const factory {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}({
+                required {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{modelName}}{{/PrimitiveInUnion}}{{/lambda.titlecase}} {{#lambda.camelcase}}{{modelName}}Value{{/lambda.camelcase}}
+            }) = {{classname}}As{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}};
+        {{/mappedModels}}
+    {{/oneOf}}
+{{/anyOf}}
+const factory {{classname}}.unknown({
+    @Default('Json does not satisfy any available types') String message,
+    required Map<String, dynamic> json,
+
+    @Default(DeserializationErrorType.UnKnownType)
+    DeserializationErrorType errorType,
+
+    @Default(<Type>[{{#anyOf}}{{{.}}},{{/anyOf}}{{#oneOf}}{{{.}}},{{/oneOf}}])
+    List<Type> possibleTypes,
+
+    @Default(<{{classname}}>[])
+    List<{{classname}}> deserializedModels,
+}) = {{classname}}Unknown;

@@ -4,19 +4,14 @@
     {{/hasDiscriminatorWithNonEmptyMapping}}
     {{#hasDiscriminatorWithNonEmptyMapping}}
         {{#discriminator}}
-            {{#mappedModels}}
-                const factory {{classname}}.{{#lambda.camelcase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.camelcase}}({
-                required {{modelName}} {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}},
-                }) = {{classname}}{{#lambda.titlecase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.titlecase}};
-            {{/mappedModels}}
-            const factory {{classname}}.unknown({
-            @Default('Json does not satisfy any available types') String message,
-            required Map<String, dynamic> json,
-            @Default(DeserializationErrorType.UnKnownType)
-            DeserializationErrorType errorType,
-            @Default(<Type>[{{#anyOf}}{{{.}}},{{/anyOf}}{{#oneOf}}{{{.}}},{{/oneOf}}]) List<Type> possibleTypes,
-                @Default(<{{classname}}>[]) List<{{classname}}> deserializedModels,
-                }) = {{classname}}Unknown;
+            // Path 1
+            {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
+        {{/discriminator}}
+        {{^discriminator}}
+            {{#vendorExtensions.x-parent-discriminator}}
+                // Path 2
+                {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
+            {{/vendorExtensions.x-parent-discriminator}}
         {{/discriminator}}
     {{/hasDiscriminatorWithNonEmptyMapping}}
 {{/vendorExtensions.x-is-pure}}
@@ -24,51 +19,43 @@
 {{^vendorExtensions.x-is-pure}}
     {{#vendorExtensions.x-is-child}}
         {{^hasDiscriminatorWithNonEmptyMapping}}
+            // Path 3
             {{>serialization/freezed/class_factory_general}}
+        {{/hasDiscriminatorWithNonEmptyMapping}}
+        {{#hasDiscriminatorWithNonEmptyMapping}}
+            {{#discriminator}}
+                // Path 4
+                {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
+            {{/discriminator}}
+            {{^discriminator}}
+                {{#vendorExtensions.x-parent-discriminator}}
+                    // Path 5
+                    {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
+                {{/vendorExtensions.x-parent-discriminator}}
+            {{/discriminator}}
         {{/hasDiscriminatorWithNonEmptyMapping}}
     {{/vendorExtensions.x-is-child}}
 {{/vendorExtensions.x-is-pure}}
 
 {{^vendorExtensions.x-is-pure}}
     {{#hasDiscriminatorWithNonEmptyMapping}}
-            {{#discriminator}}
-            {{#mappedModels}}
-                const factory {{classname}}.{{#lambda.camelcase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.camelcase}}({
-                    required {{modelName}} {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}},
-                }) = {{classname}}{{#lambda.titlecase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.titlecase}};
-            {{/mappedModels}}
-            const factory {{classname}}.unknown({
-                @Default('Json does not satisfy any available types') String message,
-                required Map<String, dynamic> json,
-                @Default(DeserializationErrorType.UnKnownType)
-                DeserializationErrorType errorType,
-                @Default(<Type>[{{#anyOf}}{{{.}}},{{/anyOf}}{{#oneOf}}{{{.}}},{{/oneOf}}]) List<Type> possibleTypes,
-                @Default(<{{classname}}>[]) List<{{classname}}> deserializedModels,
-            }) = {{classname}}Unknown;
-            {{/discriminator}}
+        {{#discriminator}}
+            // Path 6
+            {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
+        {{/discriminator}}
+        {{^discriminator}}
+            {{#vendorExtensions.x-parent-discriminator}}
+                // Path 7
+                {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
+            {{/vendorExtensions.x-parent-discriminator}}
+        {{/discriminator}}
     {{/hasDiscriminatorWithNonEmptyMapping}}
 {{/vendorExtensions.x-is-pure}}
 {{^vendorExtensions.x-is-pure}}
     {{^vendorExtensions.x-is-child}}
         {{^hasDiscriminatorWithNonEmptyMapping}}
-                {{#anyOf}}
-                        const factory {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}({
-                        required {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}} {{#lambda.camelcase}}{{{.}}}Value{{/lambda.camelcase}}
-                        }) = {{classname}}As{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}};
-                {{/anyOf}}
-                {{#oneOf}}
-                    const factory {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}({
-                        required {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}} {{#lambda.camelcase}}{{{.}}}Value{{/lambda.camelcase}}
-                    }) = {{classname}}As{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}};
-                {{/oneOf}}
-                const factory {{classname}}.unknown({
-                    @Default('Json does not satisfy any available types') String message,
-                    required Map<String, dynamic> json,
-                    @Default(DeserializationErrorType.UnKnownType)
-                    DeserializationErrorType errorType,
-                    @Default(<Type>[{{#anyOf}}{{{.}}},{{/anyOf}}{{#oneOf}}{{{.}}},{{/oneOf}}]) List<Type> possibleTypes,
-                    @Default(<{{classname}}>[]) List<{{classname}}> deserializedModels,
-                }) = {{classname}}Unknown;
+            // Path 8
+            {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
         {{/hasDiscriminatorWithNonEmptyMapping}}
     {{/vendorExtensions.x-is-child}}
 {{/vendorExtensions.x-is-pure}}
