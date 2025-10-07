@@ -39,7 +39,7 @@ jobs:
         run: |
             sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
       - name: Use Node.js 20.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
           cache: 'npm' # Or 'yarn'
