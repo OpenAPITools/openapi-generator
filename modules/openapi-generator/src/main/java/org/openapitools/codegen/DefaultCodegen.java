@@ -4712,7 +4712,7 @@ public class DefaultCodegen implements CodegenConfig {
                     bodyParameterName = (String) requestBody.getExtensions().get("x-codegen-request-body-name");
                 }
 
-                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
+                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName, contentTypeIndex);
 
                 if (bodyParam != null) {
                     bodyParam.description = escapeText(requestBody.getDescription());
@@ -7831,7 +7831,8 @@ public class DefaultCodegen implements CodegenConfig {
         return cmtContent;
     }
 
-    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
+    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName,
+                                          Integer contentTypeIndex) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
             throw new RuntimeException("body in fromRequestBody cannot be null!");
@@ -7848,7 +7849,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         String name = null;
         LOGGER.debug("Request body = {}", body);
-        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(body, contentTypeIndex);
         if (schema == null) {
             LOGGER.error("Schema cannot be null in the request body: {}", body);
             return null;
@@ -7979,6 +7980,10 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return codegenParameter;
+    }
+
+    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
+        return fromRequestBody(body, imports, bodyParameterName, 0);
     }
 
     protected void addRequiredVarsMap(Schema schema, IJsonSchemaValidationProperties property) {
