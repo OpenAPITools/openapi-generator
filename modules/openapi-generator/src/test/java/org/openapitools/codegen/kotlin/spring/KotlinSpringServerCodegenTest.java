@@ -754,7 +754,7 @@ public class KotlinSpringServerCodegenTest {
 
         assertFileContains(
                 Paths.get(files.get("AddApi.kt").getAbsolutePath()),
-                "@Min(2)"
+                "@Min(value=2)"
         );
     }
 

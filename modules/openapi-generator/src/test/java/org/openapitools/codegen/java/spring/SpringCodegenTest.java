@@ -3758,22 +3758,22 @@ public class SpringCodegenTest {
                 .withType("JsonNullable<@Size(max = 1) String>")
                 .toType()
                 .assertProperty("intMinMaxNullable")
-                .withType("JsonNullable<@Min(1) @Max(10) Integer>")
+                .withType("JsonNullable<@Min(value = 1) @Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("intMinNullable")
-                .withType("JsonNullable<@Min(1) Integer>")
+                .withType("JsonNullable<@Min(value = 1) Integer>")
                 .toType()
                 .assertProperty("intMaxNullable")
-                .withType("JsonNullable<@Max(10) Integer>")
+                .withType("JsonNullable<@Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("numberMinMaxNullable")
-                .withType("JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMinNullable")
-                .withType("JsonNullable<@DecimalMin(\"1\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMin(value = \"1\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMaxNullable")
-                .withType("JsonNullable<@DecimalMax(\"10\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("stringDefaultNullable")
                 .withType("JsonNullable<@Size(max = 1) String>")
@@ -3862,12 +3862,12 @@ public class SpringCodegenTest {
         assertJsonNullableMethod(javaFileAssert, String.class, "stringMinLengthNullable", "JsonNullable<@Size(min = 1) String>");
         assertJsonNullableMethod(javaFileAssert, String.class, "stringMaxLengthNullable", "JsonNullable<@Size(max = 1) String>");
         assertJsonNullableMethod(javaFileAssert, String.class, "stringEmailNullable", "JsonNullable<@jakarta.validation.constraints.Email String>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinMaxNullable", "JsonNullable<@Min(1) @Max(10) Integer>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinNullable", "JsonNullable<@Min(1) Integer>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMaxNullable", "JsonNullable<@Max(10) Integer>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(\"1\") BigDecimal>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(\"10\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinMaxNullable", "JsonNullable<@Min(value = 1) @Max(value = 10) Integer>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinNullable", "JsonNullable<@Min(value = 1) Integer>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMaxNullable", "JsonNullable<@Max(value = 10) Integer>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(value = \"1\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(value = \"10\") BigDecimal>");
 
     }
 
@@ -3936,22 +3936,22 @@ public class SpringCodegenTest {
                 .withType("Optional<@jakarta.validation.constraints.Email String>")
                 .toType()
                 .assertProperty("intMinMax")
-                .withType("Optional<@Min(1) @Max(10) Integer>")
+                .withType("Optional<@Min(value = 1) @Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("intMin")
-                .withType("Optional<@Min(1) Integer>")
+                .withType("Optional<@Min(value = 1) Integer>")
                 .toType()
                 .assertProperty("intMax")
-                .withType("Optional<@Max(10) Integer>")
+                .withType("Optional<@Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("numberMinMax")
-                .withType("Optional<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>")
+                .withType("Optional<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMin")
-                .withType("Optional<@DecimalMin(\"1\") BigDecimal>")
+                .withType("Optional<@DecimalMin(value = \"1\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMax")
-                .withType("Optional<@DecimalMax(\"10\") BigDecimal>")
+                .withType("Optional<@DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("stringDefault")
                 .withType("Optional<@Size(max = 1) String>")
@@ -3974,22 +3974,22 @@ public class SpringCodegenTest {
                 .withType("JsonNullable<@Size(max = 1) String>")
                 .toType()
                 .assertProperty("intMinMaxNullable")
-                .withType("JsonNullable<@Min(1) @Max(10) Integer>")
+                .withType("JsonNullable<@Min(value = 1) @Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("intMinNullable")
-                .withType("JsonNullable<@Min(1) Integer>")
+                .withType("JsonNullable<@Min(value = 1) Integer>")
                 .toType()
                 .assertProperty("intMaxNullable")
-                .withType("JsonNullable<@Max(10) Integer>")
+                .withType("JsonNullable<@Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("numberMinMaxNullable")
-                .withType("JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMinNullable")
-                .withType("JsonNullable<@DecimalMin(\"1\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMin(value = \"1\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMaxNullable")
-                .withType("JsonNullable<@DecimalMax(\"10\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("stringDefaultNullable")
                 .withType("JsonNullable<@Size(max = 1) String>")
@@ -4065,12 +4065,12 @@ public class SpringCodegenTest {
         assertOptionalMethod(javaFileAssert, String.class, "stringMinLength", "Optional<@Size(min = 1) String>");
         assertOptionalMethod(javaFileAssert, String.class, "stringMaxLength", "Optional<@Size(max = 1) String>");
         assertOptionalMethod(javaFileAssert, String.class, "stringEmail", "Optional<@jakarta.validation.constraints.Email String>");
-        assertOptionalMethod(javaFileAssert, Integer.class, "intMinMax", "Optional<@Min(1) @Max(10) Integer>");
-        assertOptionalMethod(javaFileAssert, Integer.class, "intMin", "Optional<@Min(1) Integer>");
-        assertOptionalMethod(javaFileAssert, Integer.class, "intMax", "Optional<@Max(10) Integer>");
-        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMinMax", "Optional<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
-        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMin", "Optional<@DecimalMin(\"1\") BigDecimal>");
-        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMax", "Optional<@DecimalMax(\"10\") BigDecimal>");
+        assertOptionalMethod(javaFileAssert, Integer.class, "intMinMax", "Optional<@Min(value = 1) @Max(value = 10) Integer>");
+        assertOptionalMethod(javaFileAssert, Integer.class, "intMin", "Optional<@Min(value = 1) Integer>");
+        assertOptionalMethod(javaFileAssert, Integer.class, "intMax", "Optional<@Max(value = 10) Integer>");
+        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMinMax", "Optional<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>");
+        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMin", "Optional<@DecimalMin(value = \"1\") BigDecimal>");
+        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMax", "Optional<@DecimalMax(value = \"10\") BigDecimal>");
         assertOptionalMethod(javaFileAssert, "Zebra", "zebra", "Optional<Zebra>");
 
         assertJsonNullableMethod(javaFileAssert, String.class, "stringPatternNullable", "JsonNullable<@Pattern(regexp = \"[a-z]\") String>");
@@ -4078,12 +4078,12 @@ public class SpringCodegenTest {
         assertJsonNullableMethod(javaFileAssert, String.class, "stringMinLengthNullable", "JsonNullable<@Size(min = 1) String>");
         assertJsonNullableMethod(javaFileAssert, String.class, "stringMaxLengthNullable", "JsonNullable<@Size(max = 1) String>");
         assertJsonNullableMethod(javaFileAssert, String.class, "stringEmailNullable", "JsonNullable<@jakarta.validation.constraints.Email String>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinMaxNullable", "JsonNullable<@Min(1) @Max(10) Integer>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinNullable", "JsonNullable<@Min(1) Integer>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMaxNullable", "JsonNullable<@Max(10) Integer>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(\"1\") BigDecimal>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(\"10\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinMaxNullable", "JsonNullable<@Min(value = 1) @Max(value = 10) Integer>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinNullable", "JsonNullable<@Min(value = 1) Integer>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMaxNullable", "JsonNullable<@Max(value = 10) Integer>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(value = \"1\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(value = \"10\") BigDecimal>");
 
     }
 
