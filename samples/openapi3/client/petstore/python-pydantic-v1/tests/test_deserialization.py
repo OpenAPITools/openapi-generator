@@ -246,7 +246,7 @@ class DeserializationTests(unittest.TestCase):
     def test_deserialize_pig(self):
         """ deserialize pig (oneOf) """
         data = {
-            "className": "BasqueBig",
+            "className": "BasquePig",
             "color": "white"
         }
 
@@ -254,7 +254,7 @@ class DeserializationTests(unittest.TestCase):
         deserialized = self.deserialize(response, "Pig")
         self.assertTrue(isinstance(deserialized.actual_instance,
                                    petstore_api.BasquePig))
-        self.assertEqual(deserialized.actual_instance.class_name, "BasqueBig")
+        self.assertEqual(deserialized.actual_instance.class_name, "BasquePig")
         self.assertEqual(deserialized.actual_instance.color, "white")
 
     def test_deserialize_animal(self):
