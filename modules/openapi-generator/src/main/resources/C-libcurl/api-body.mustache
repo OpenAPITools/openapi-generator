@@ -1,10 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+
 #include "{{classname}}.h"
 
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
+#define MAX_NUMBER_LENGTH_LONG 21
 
 {{#operations}}
 {{#operation}}
@@ -229,10 +231,16 @@ end:
     // query parameters
     {{^isArray}}
     char *keyQuery_{{{paramName}}} = NULL;
-    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}char *{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}char *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueQuery_{{{paramName}}} {{#isString}}{{^isEnum}}= NULL{{/isEnum}}{{/isString}}{{#isInteger}}= NULL{{/isInteger}}{{#isBoolean}}= NULL{{/isBoolean}};
+    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}char *{{/isLong}}{{#isInteger}}char *{{/isInteger}}{{#isDouble}}char *{{/isDouble}}{{#isFloat}}char *{{/isFloat}}{{#isBoolean}}char *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueQuery_{{{paramName}}} {{#isString}}{{^isEnum}}= NULL{{/isEnum}}{{/isString}}{{#isInteger}}= NULL{{/isInteger}}{{#isBoolean}}= NULL{{/isBoolean}}{{#isDouble}}= NULL{{/isDouble}}{{#isFloat}}= NULL{{/isFloat}};
     keyValuePair_t *keyPairQuery_{{paramName}} = 0;
     {{/isArray}}
+    {{^isLong}}
+    {{^isFloat}}
+    {{^isDouble}}
     if ({{paramName}})
+    {{/isDouble}}
+    {{/isFloat}}
+    {{/isLong}}
     {
         {{#isArray}}
         list_addElement(localVarQueryParameters,{{paramName}});
@@ -243,17 +251,43 @@ end:
         valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH);
         snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
         {{/isInteger}}
+        {{#isFloat}}
+        int s = snprintf(NULL, 0, "%.7e", {{{paramName}}});
+        if (s >= 0)
+        {
+            valueQuery_{{{paramName}}} = calloc(1,s+1);
+            snprintf(valueQuery_{{{paramName}}}, s+1, "%.7e", {{{paramName}}});
+        }
+        {{/isFloat}}
+        {{#isDouble}}
+        int s = snprintf(NULL, 0, "%.16e", {{{paramName}}});
+        if (s >= 0)
+        {
+            valueQuery_{{{paramName}}} = calloc(1,s+1);
+            snprintf(valueQuery_{{{paramName}}}, s+1, "%.16e", {{{paramName}}});
+        }
+        {{/isDouble}}
+        {{#isLong}}
+        valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH_LONG);
+        snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH_LONG, "%d", {{{paramName}}});
+        {{/isLong}}
         {{#isBoolean}}
         valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH);
         snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
         {{/isBoolean}}
         {{^isInteger}}
         {{^isBoolean}}
+        {{^isFloat}}
+        {{^isDouble}}
+        {{^isLong}}
         valueQuery_{{{paramName}}} = {{#isString}}{{^isEnum}}strdup({{/isEnum}}{{/isString}}({{{paramName}}}){{#isString}}{{^isEnum}}){{/isEnum}}{{/isString}};
+        {{/isLong}}
+        {{/isDouble}}
+        {{/isFloat}}
         {{/isBoolean}}
         {{/isInteger}}
         keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, {{#isEnum}}strdup({{{operationId}}}_{{enumName}}_ToString(
-        {{/isEnum}}{{^isString}}{{^isInteger}}{{^isBoolean}}&{{/isBoolean}}{{/isInteger}}{{/isString}}valueQuery_{{{paramName}}}{{#isEnum}})){{/isEnum}});
+        {{/isEnum}}{{^isString}}{{^isInteger}}{{^isFloat}}{{^isDouble}}{{^isLong}}{{^isBoolean}}&{{/isBoolean}}{{/isLong}}{{/isDouble}}{{/isFloat}}{{/isInteger}}{{/isString}}valueQuery_{{{paramName}}}{{#isEnum}})){{/isEnum}});
         list_addElement(localVarQueryParameters,keyPairQuery_{{paramName}});
         {{/isArray}}
     }
