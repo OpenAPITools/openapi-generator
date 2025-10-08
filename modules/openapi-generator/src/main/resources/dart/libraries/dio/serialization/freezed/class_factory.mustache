@@ -4,12 +4,10 @@
     {{/hasDiscriminatorWithNonEmptyMapping}}
     {{#hasDiscriminatorWithNonEmptyMapping}}
         {{#discriminator}}
-            // Path 1
             {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
         {{/discriminator}}
         {{^discriminator}}
             {{#vendorExtensions.x-parent-discriminator}}
-                // Path 2
                 {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
             {{/vendorExtensions.x-parent-discriminator}}
         {{/discriminator}}
@@ -19,17 +17,14 @@
 {{^vendorExtensions.x-is-pure}}
     {{#vendorExtensions.x-is-child}}
         {{^hasDiscriminatorWithNonEmptyMapping}}
-            // Path 3
             {{>serialization/freezed/class_factory_general}}
         {{/hasDiscriminatorWithNonEmptyMapping}}
         {{#hasDiscriminatorWithNonEmptyMapping}}
             {{#discriminator}}
-                // Path 4
                 {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
             {{/discriminator}}
             {{^discriminator}}
                 {{#vendorExtensions.x-parent-discriminator}}
-                    // Path 5
                     {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
                 {{/vendorExtensions.x-parent-discriminator}}
             {{/discriminator}}
@@ -40,12 +35,10 @@
 {{^vendorExtensions.x-is-pure}}
     {{#hasDiscriminatorWithNonEmptyMapping}}
         {{#discriminator}}
-            // Path 6
             {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
         {{/discriminator}}
         {{^discriminator}}
             {{#vendorExtensions.x-parent-discriminator}}
-                // Path 7
                 {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
             {{/vendorExtensions.x-parent-discriminator}}
         {{/discriminator}}
@@ -54,7 +47,6 @@
 {{^vendorExtensions.x-is-pure}}
     {{^vendorExtensions.x-is-child}}
         {{^hasDiscriminatorWithNonEmptyMapping}}
-            // Path 8
             {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
         {{/hasDiscriminatorWithNonEmptyMapping}}
     {{/vendorExtensions.x-is-child}}

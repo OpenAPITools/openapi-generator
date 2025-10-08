@@ -1,0 +1,14 @@
+{{#anyOf}}
+    case '{{#DelModelNamePrefixSuffix}}{{{.}}}{{/DelModelNamePrefixSuffix}}':
+        deserializedModel =  {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}(
+            {{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}Value : {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}.fromJson(json),
+        );
+        break;
+{{/anyOf}}
+{{#oneOf}}
+    case '{{#DelModelNamePrefixSuffix}}{{{.}}}{{/DelModelNamePrefixSuffix}}':
+        deserializedModel =  {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}(
+            {{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}Value : {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}.fromJson(json),
+        );
+    break;
+{{/oneOf}}

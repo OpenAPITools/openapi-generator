@@ -1,11 +1,9 @@
 {{#hasDiscriminatorWithNonEmptyMapping}}
     {{#discriminator}}
-        // path 1
         {{>serialization/freezed/additional_templates/to_json_oneof_anyof}}
     {{/discriminator}}
     {{^discriminator}}
         {{#vendorExtensions.x-parent-discriminator}}
-            // path 2
             {{>serialization/freezed/additional_templates/to_json_oneof_anyof}}
         {{/vendorExtensions.x-parent-discriminator}}
     {{/discriminator}}
@@ -14,7 +12,6 @@
 {{^vendorExtensions.x-is-pure}}
     {{^vendorExtensions.x-is-child}}
         {{^hasDiscriminatorWithNonEmptyMapping}}
-            // path 3
             {{>serialization/freezed/additional_templates/to_json_oneof_anyof}}
         {{/hasDiscriminatorWithNonEmptyMapping}}
     {{/vendorExtensions.x-is-child}}

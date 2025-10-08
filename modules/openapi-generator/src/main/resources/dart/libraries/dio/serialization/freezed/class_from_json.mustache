@@ -6,7 +6,7 @@
         factory {{classname}}.fromJson(Map<String, dynamic> json) {
             {{#discriminator}}
                 switch(json['{{propertyBaseName}}']){
-                {{>serialization/freezed/additional_templates/case_parse_json_using_discriminator_mapping_value}}
+                    {{>serialization/freezed/additional_templates/case_parse_json_using_discriminator_mapping_value}}
                 }
                 return {{classname}}.unknown(json: json);
             {{/discriminator}}
@@ -18,7 +18,7 @@
                     // is valid it then returns unknown type along with the json so the
                     // consumer can decide which model it is.
                     switch(json['{{propertyBaseName}}']){
-                    {{>serialization/freezed/additional_templates/case_parse_json_using_discriminator_mapping_value}}
+                        {{>serialization/freezed/additional_templates/case_parse_json_using_discriminator_mapping_value}}
                         default:
                             /// If deserializedModel is still null, then we try to parse
                             /// the json against all the models and try to return one of the valid model.
@@ -47,7 +47,7 @@
         factory {{classname}}.fromJson(Map<String, dynamic> json) {
             {{#discriminator}}
                 switch(json['{{propertyBaseName}}']){
-                {{>serialization/freezed/additional_templates/case_parse_json_using_discriminator_mapping_value}}
+                    {{>serialization/freezed/additional_templates/case_parse_json_using_discriminator_mapping_value}}
                 }
                 return {{classname}}.unknown(json: json);
             {{/discriminator}}
@@ -87,14 +87,7 @@
                     // have the value of the name of the model. Model prefix &
                     // suffix are ignored, as this is not known by the api provider
                     switch(json['{{propertyBaseName}}']){
-                    {{#anyOf}}
                         {{>serialization/freezed/additional_templates/case_parse_json_using_model_name}}
-                        break;
-                    {{/anyOf}}
-                    {{#oneOf}}
-                        {{>serialization/freezed/additional_templates/case_parse_json_using_model_name}}
-                        break;
-                    {{/oneOf}}
                         default:
                             /// If deserializedModel is still null, then we try to parse
                             /// the json against all the models and try to return one of the valid model.
