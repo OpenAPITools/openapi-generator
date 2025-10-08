@@ -150,7 +150,7 @@ interface PetApiDelegate {
      */
     fun uploadFile(petId: kotlin.Long,
         additionalMetadata: kotlin.String?,
-        file: org.springframework.web.multipart.MultipartFile?): ResponseEntity<ModelApiResponse> {
+        file: org.springframework.web.multipart.MultipartFile): ResponseEntity<ModelApiResponse> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
