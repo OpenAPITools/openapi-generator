@@ -1,0 +1,100 @@
+openapi: 3.0.0
+info:
+  title: AnyOf AllOf Response API
+  version: 1.0.0
+paths:
+  /animals:
+    get:
+      summary: Get an animal (anyOf test)
+      responses:
+        '200':
+          description: An animal object
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/Dog'
+                  - $ref: '#/components/schemas/Cat'
+                  - $ref: '#/components/schemas/Bird'
+            text/event-stream:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/Dog'
+                  - $ref: '#/components/schemas/Cat'
+                  - $ref: '#/components/schemas/Bird'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /hybrid:
+    get:
+      summary: Get a hybrid animal (allOf test)
+      responses:
+        '200':
+          description: A hybrid animal
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAnimal'
+                  - $ref: '#/components/schemas/FlyingAnimal'
+            text/event-stream:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAnimal'
+                  - $ref: '#/components/schemas/FlyingAnimal'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+components:
+  schemas:
+    BaseAnimal:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+      required:
+        - name
+    FlyingAnimal:
+      type: object
+      properties:
+        canFly:
+          type: boolean
+        maxAltitude:
+          type: integer
+      required:
+        - canFly
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: boolean
+        breed:
+          type: string
+    Cat:
+      type: object
+      properties:
+        hunts:
+          type: boolean
+        age:
+          type: integer
+    Bird:
+      type: object
+      properties:
+        canFly:
+          type: boolean
+        species:
+          type: string
