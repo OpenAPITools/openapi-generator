@@ -4,7 +4,14 @@
 {{#tsImports}}
 import { {{classname}} } from '{{filename}}{{importFileExtension}}';
 {{/tsImports}}
+{{#oneOf}}
+    {{#-first}}
+import { OneOfInterface } from '../models/OneOfInterface{{importFileExtension}}'
+    {{/-first}}
+{{/oneOf}}
+{{^oneOf}}
 import { HttpFile } from '../http/http{{importFileExtension}}';
+{{/oneOf}}
 
 {{#description}}
 /**

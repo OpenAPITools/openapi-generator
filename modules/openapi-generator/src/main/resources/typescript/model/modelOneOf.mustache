@@ -1,11 +1,3 @@
-{{#hasImports}}
-import {
-    {{#imports}}
-    {{{.}}}{{importFileExtension}},
-    {{/imports}}
-} from './';
-
-{{/hasImports}}
 /**
  * @type {{classname}}
  * Type
@@ -18,7 +10,7 @@ export type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};
     * {{{.}}}{{/description}}
 * @export
 */
-export class {{classname}}Class {
+export class {{classname}}Class implements OneOfInterface {
     {{#discriminator}}
     static readonly discriminator: string | undefined = "{{discriminatorName}}";
     {{/discriminator}}
@@ -37,4 +29,8 @@ export class {{classname}}Class {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
     {{/hasDiscriminatorWithNonEmptyMapping}}
+
+    findMatchingType(): string | undefined {
+        return undefined;
+    }
 }
