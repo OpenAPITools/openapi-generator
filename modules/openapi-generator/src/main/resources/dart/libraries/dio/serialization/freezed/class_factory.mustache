@@ -19,16 +19,6 @@
         {{^hasDiscriminatorWithNonEmptyMapping}}
             {{>serialization/freezed/class_factory_general}}
         {{/hasDiscriminatorWithNonEmptyMapping}}
-        {{#hasDiscriminatorWithNonEmptyMapping}}
-            {{#discriminator}}
-                {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
-            {{/discriminator}}
-            {{^discriminator}}
-                {{#vendorExtensions.x-parent-discriminator}}
-                    {{>serialization/freezed/additional_templates/freezed_union_for_oneof_anyof}}
-                {{/vendorExtensions.x-parent-discriminator}}
-            {{/discriminator}}
-        {{/hasDiscriminatorWithNonEmptyMapping}}
     {{/vendorExtensions.x-is-child}}
 {{/vendorExtensions.x-is-pure}}
 

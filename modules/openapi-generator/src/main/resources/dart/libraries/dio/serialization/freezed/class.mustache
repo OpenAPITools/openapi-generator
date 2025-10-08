@@ -9,11 +9,6 @@ part of 'models.dart';
     {{/allVars}}
 {{/hasVars}}
 
-@freezed
-class {{classname}} with _${{classname}} {
-const {{classname}}._();
-
-
 {{>serialization/freezed/class_factory}}
 
 {{>serialization/freezed/class_from_json}}
