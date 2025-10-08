@@ -4,7 +4,7 @@ part of 'models.dart';
 {{#operations}}
     {{#operation}}
         @freezed
-        class {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data with _${{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data {
+        sealed class {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data with _${{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data {
         const {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data._();
         {{#responses}}
             const factory {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data.as{{code}}{{^returnType}}Void{{/returnType}}({
