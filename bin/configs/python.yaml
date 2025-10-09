@@ -5,7 +5,6 @@ templateDir: modules/openapi-generator/src/main/resources/python
 additionalProperties:
   packageName: petstore_api
   useOneOfDiscriminatorLookup: "true"
-  disallowAdditionalPropertiesIfNotPresent: false
   mapNumberTo: StrictFloat
 nameMappings:
   _type: underscore_type

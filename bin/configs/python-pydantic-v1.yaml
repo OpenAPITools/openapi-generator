@@ -8,7 +8,6 @@ gitRepoId: GIT_REPO_ID
 additionalProperties:
   packageName: petstore_api
   useOneOfDiscriminatorLookup: "true"
-  disallowAdditionalPropertiesIfNotPresent: false
   mapNumberTo: StrictFloat
 nameMappings:
   _type: underscore_type

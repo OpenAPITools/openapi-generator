@@ -11,3 +11,4 @@ additionalProperties:
   generateBuilders: true
   useOneOfInterfaces: true
   useSealed: true
+  disallowAdditionalPropertiesIfNotPresent: true
