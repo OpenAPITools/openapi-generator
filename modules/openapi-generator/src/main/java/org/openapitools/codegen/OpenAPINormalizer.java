@@ -855,6 +855,13 @@ public class OpenAPINormalizer {
         }
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             Schema property = propertiesEntry.getValue();
+            
+            // remove x-internal if needed (same logic as normalizeComponentsSchemas)
+            if (property.getExtensions() != null && getRule(REMOVE_X_INTERNAL)) {
+                if (Boolean.parseBoolean(String.valueOf(property.getExtensions().get(X_INTERNAL)))) {
+                    property.getExtensions().remove(X_INTERNAL);
+                }
+            }
             Schema newProperty = normalizeSchema(property, new HashSet<>());
             propertiesEntry.setValue(newProperty);
         }
