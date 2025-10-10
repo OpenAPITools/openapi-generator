@@ -163,7 +163,18 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/isArray}}
     {{^isArray}}
     {{^isNullable}}
+    {{#isModel}}
+    {{#isDeepObject}}
+      let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
+    {{/isDeepObject}}
+    {{^isDeepObject}}
+    let params = crate::apis::parse_flat_object(&serde_json::to_value({{{vendorExtensions.x-rust-param-identifier}}})?);
+    {{/isDeepObject}}
+    req_builder = req_builder.query(&params);
+    {{/isModel}}
+    {{^isModel}}
     req_builder = req_builder.query(&[("{{{baseName}}}", &{{{vendorExtensions.x-rust-param-identifier}}}.to_string())]);
+    {{/isModel}}
     {{/isNullable}}
     {{#isNullable}}
     {{#isDeepObject}}
@@ -240,7 +251,8 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
         {{/isObject}}
         {{#isModel}}
-        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        let params = crate::apis::parse_flat_object(&serde_json::to_value(param_value)?);
+        req_builder = req_builder.query(&params);
         {{/isModel}}
         {{^isObject}}
         {{^isModel}}
