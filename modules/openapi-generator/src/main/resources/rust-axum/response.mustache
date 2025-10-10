@@ -1,13 +1,34 @@
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+{{#vendorExtensions}}{{#x-has-event-stream-content}}
+// Manual Debug implementation needed due to Stream not implementing Debug
+impl std::fmt::Debug for {{{operationId}}}Response {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+{{#responses}}
+  {{#vendorExtensions}}
+      {{#x-response-content-types}}
+            {{{operationId}}}Response::{{{x-variant-name}}}{{^dataType}}{{#hasHeaders}} { .. }{{/hasHeaders}}{{/dataType}}{{#dataType}}{{^headers}}(..){{/headers}}{{#headers}} { body: _, .. }{{/headers}}{{/dataType}} => write!(f, "{{{x-variant-name}}}{{^dataType}}{{#hasHeaders}} {{ .. }} {{/hasHeaders}}{{/dataType}}{{#dataType}}{{^headers}}(..){{/headers}}{{#headers}} {{ body: _, .. }} {{/headers}}{{/dataType}}"),
+        {{^-last}}
+        {{/-last}}
+        {{/x-response-content-types}}
+  {{/vendorExtensions}}
+{{/responses}}
+        }
+    }
+}
+{{/x-has-event-stream-content}}{{/vendorExtensions}}
+{{#vendorExtensions}}{{^x-has-event-stream-content}}
+#[derive(Debug)]
+{{/x-has-event-stream-content}}{{/vendorExtensions}}
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum {{{operationId}}}Response {
 {{#responses}}
+  {{#vendorExtensions}}
+      {{#x-response-content-types}}
   {{#message}}
-    /// {{{.}}}{{/message}}
-    {{#vendorExtensions}}
-    {{{x-response-id}}}
-    {{/vendorExtensions}}
+    /// {{{.}}} ({{{mediaType}}})
+  {{/message}}
+    {{{x-variant-name}}}
     {{^dataType}}
       {{#hasHeaders}}
     {
@@ -15,35 +36,11 @@ pub enum {{{operationId}}}Response {
     {{/dataType}}
     {{#dataType}}
       {{^hasHeaders}}
-        {{#vendorExtensions}}
-          {{#x-produces-plain-text}}
-    (String)
-          {{/x-produces-plain-text}}
-          {{#x-produces-bytes}}
-    (ByteArray)
-          {{/x-produces-bytes}}
-          {{^x-produces-plain-text}}
-          {{^x-produces-bytes}}
-    ({{{dataType}}})
-          {{/x-produces-bytes}}
-          {{/x-produces-plain-text}}
-        {{/vendorExtensions}}
+    ({{{x-body-type}}})
       {{/hasHeaders}}
       {{#hasHeaders}}
     {
-        {{#vendorExtensions}}
-          {{#x-produces-plain-text}}
-        body: String,
-          {{/x-produces-plain-text}}
-          {{#x-produces-bytes}}
-        body: ByteArray,
-          {{/x-produces-bytes}}
-          {{^x-produces-plain-text}}
-          {{^x-produces-bytes}}
-        body: {{{dataType}}},
-          {{/x-produces-bytes}}
-          {{/x-produces-plain-text}}
-        {{/vendorExtensions}}
+        body: {{{x-body-type}}},
       {{/hasHeaders}}
     {{/dataType}}
     {{#headers}}
@@ -62,6 +59,11 @@ pub enum {{{operationId}}}Response {
     }
       {{/-last}}
     {{/headers}}
+        {{^-last}}
+    ,
+        {{/-last}}
+      {{/x-response-content-types}}
+  {{/vendorExtensions}}
     {{^-last}}
     ,
     {{/-last}}

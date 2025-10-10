@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: OneOf Response API
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      summary: Get a pet
+      responses:
+        '200':
+          description: A pet object
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Dog'
+                  - $ref: '#/components/schemas/Cat'
+            text/event-stream:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Dog'
+                  - $ref: '#/components/schemas/Cat'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+components:
+  schemas:
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: boolean
+        breed:
+          type: string
+          enum: [Dingo, Husky, Retriever, Shepherd]
+    Cat:
+      type: object
+      properties:
+        hunts:
+          type: boolean
+        age:
+          type: integer
