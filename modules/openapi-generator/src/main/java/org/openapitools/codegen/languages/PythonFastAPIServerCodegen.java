@@ -89,6 +89,11 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     public PythonFastAPIServerCodegen() {
         super();
 
+        // Skip sorting of operations to preserve the order found in the OpenAPI spec file.  See 
+        // https://fastapi.tiangolo.com/tutorial/path-params/?h=path#order-matters for details on why order matters.
+        LOGGER.info("Skipping sorting of path operations, order matters, let the developer decide via their specification file.");
+        setSkipSortingOperations(true);
+
         modifyFeatureSet(features -> features.includeSecurityFeatures(
                 SecurityFeature.OAuth2_AuthorizationCode,
                 SecurityFeature.OAuth2_Password
