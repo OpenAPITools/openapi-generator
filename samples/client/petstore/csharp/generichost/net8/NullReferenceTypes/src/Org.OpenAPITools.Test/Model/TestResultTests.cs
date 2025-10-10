@@ -72,6 +72,24 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'DeepList'
+        /// </summary>
+        [Fact]
+        public void DeepListTest()
+        {
+            // TODO unit test for the property 'DeepList'
+        }
+
+        /// <summary>
+        /// Test the property 'List'
+        /// </summary>
+        [Fact]
+        public void ListTest()
+        {
+            // TODO unit test for the property 'List'
+        }
+
+        /// <summary>
         /// Test the property 'Uuid'
         /// </summary>
         [Fact]
