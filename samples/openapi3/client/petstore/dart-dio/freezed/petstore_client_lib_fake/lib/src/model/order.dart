@@ -15,34 +15,31 @@ part of 'models.dart';
         /// * [status] - Order Status
         /// * [complete] 
 
-@freezed
-class Order with _$Order {
-const Order._();
-
-
+        @freezed
+        class Order with _$Order {
+        const Order._();
+        
         const factory Order({
-    @JsonKey(name: r'id') 
+                    @JsonKey(name: r'id') 
     int?
  id,
-    @JsonKey(name: r'petId') 
+                    @JsonKey(name: r'petId') 
     int?
  petId,
-    @JsonKey(name: r'quantity') 
+                    @JsonKey(name: r'quantity') 
     int?
  quantity,
-    @JsonKey(name: r'shipDate') 
+                    @JsonKey(name: r'shipDate') 
     DateTime?
  shipDate,
-        /// Order Status
-    @JsonKey(name: r'status') 
+                        /// Order Status
+            @JsonKey(name: r'status') 
     OrderStatusEnum?
  status,
-    @JsonKey(name: r'complete') 
+                    @JsonKey(name: r'complete') 
     bool?
  complete,
-}) = _Order;
-
-
+        }) = _Order;
 
 
         factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
@@ -52,20 +49,16 @@ const Order._();
 
 
 
-
-
 }
-
 
 
             /// Order Status
-@JsonEnum(valueField: 'value')
-enum OrderStatusEnum {
-            placed(value: r'placed'),
-            approved(value: r'approved'),
-            delivered(value: r'delivered'),
-            unknownDefaultOpenApi(value: r'unknown_default_open_api');
-        const OrderStatusEnum({required this.value});
-        final String value;
-}
-
+            @JsonEnum(valueField: 'value')
+            enum OrderStatusEnum {
+                                    placed(value: r'placed'),
+                        approved(value: r'approved'),
+                        delivered(value: r'delivered'),
+                        unknownDefaultOpenApi(value: r'unknown_default_open_api');
+                    const OrderStatusEnum({required this.value});
+                    final String value;
+            }

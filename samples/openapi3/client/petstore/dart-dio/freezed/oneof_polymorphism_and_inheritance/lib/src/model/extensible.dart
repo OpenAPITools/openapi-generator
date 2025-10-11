@@ -12,27 +12,24 @@ part of 'models.dart';
         /// * [atBaseType] - When sub-classing, this defines the super-class
         /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 
-@freezed
-class Extensible with _$Extensible {
-const Extensible._();
-
-
+        @freezed
+        class Extensible with _$Extensible {
+        const Extensible._();
+        
         const factory Extensible({
-        /// A URI to a JSON-Schema file that defines additional attributes and relationships
-    @JsonKey(name: r'@schemaLocation') 
+                        /// A URI to a JSON-Schema file that defines additional attributes and relationships
+            @JsonKey(name: r'@schemaLocation') 
     String?
  atSchemaLocation,
-        /// When sub-classing, this defines the super-class
-    @JsonKey(name: r'@baseType') 
+                        /// When sub-classing, this defines the super-class
+            @JsonKey(name: r'@baseType') 
     String?
  atBaseType,
-        /// When sub-classing, this defines the sub-class Extensible name
-    @JsonKey(name: r'@type') 
+                        /// When sub-classing, this defines the sub-class Extensible name
+            @JsonKey(name: r'@type') 
     required String
  atType,
-}) = _Extensible;
-
-
+        }) = _Extensible;
 
 
         factory Extensible.fromJson(Map<String, dynamic> json) => _$ExtensibleFromJson(json);
@@ -42,10 +39,7 @@ const Extensible._();
 
 
 
-
-
 }
-
 
 
 

@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [return_] 
 
-@freezed
-class ModelReturn with _$ModelReturn {
-const ModelReturn._();
-
-
+        @freezed
+        class ModelReturn with _$ModelReturn {
+        const ModelReturn._();
+        
         const factory ModelReturn({
-    @JsonKey(name: r'return') 
+                    @JsonKey(name: r'return') 
     int?
  return_,
-}) = _ModelReturn;
-
-
+        }) = _ModelReturn;
 
 
         factory ModelReturn.fromJson(Map<String, dynamic> json) => _$ModelReturnFromJson(json);
@@ -31,10 +28,7 @@ const ModelReturn._();
 
 
 
-
-
 }
-
 
 
 

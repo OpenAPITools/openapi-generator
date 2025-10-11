@@ -16,42 +16,39 @@ part of 'models.dart';
         /// * [atBaseType] - When sub-classing, this defines the super-class
         /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 
-@freezed
-class Foo with _$Foo {
-const Foo._();
 
-
-
+            @freezed
+            class Foo with _$Foo {
+            const Foo._();
+            
             const factory Foo({
-    @JsonKey(name: r'fooPropA') 
+                            @JsonKey(name: r'fooPropA') 
     String?
  fooPropA,
-    @JsonKey(name: r'fooPropB') 
+                            @JsonKey(name: r'fooPropB') 
     String?
  fooPropB,
-        /// Hyperlink reference
-    @JsonKey(name: r'href') 
+                                /// Hyperlink reference
+                @JsonKey(name: r'href') 
     String?
  href,
-        /// unique identifier
-    @JsonKey(name: r'id') 
+                                /// unique identifier
+                @JsonKey(name: r'id') 
     String?
  id,
-        /// A URI to a JSON-Schema file that defines additional attributes and relationships
-    @JsonKey(name: r'@schemaLocation') 
+                                /// A URI to a JSON-Schema file that defines additional attributes and relationships
+                @JsonKey(name: r'@schemaLocation') 
     String?
  atSchemaLocation,
-        /// When sub-classing, this defines the super-class
-    @JsonKey(name: r'@baseType') 
+                                /// When sub-classing, this defines the super-class
+                @JsonKey(name: r'@baseType') 
     String?
  atBaseType,
-        /// When sub-classing, this defines the sub-class Extensible name
-    @JsonKey(name: r'@type') 
+                                /// When sub-classing, this defines the sub-class Extensible name
+                @JsonKey(name: r'@type') 
     required String
  atType,
-}) = _Foo;
-
-
+            }) = _Foo;
 
             factory Foo.fromJson(Map<String, dynamic> json) => _$FooFromJson(json);
 
@@ -60,10 +57,7 @@ const Foo._();
 
 
 
-
-
 }
-
 
 
 

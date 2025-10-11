@@ -11,23 +11,20 @@ part of 'models.dart';
         /// * [someId] 
         /// * [someMap] 
 
-@freezed
-class FakeBigDecimalMap200Response with _$FakeBigDecimalMap200Response {
-const FakeBigDecimalMap200Response._();
-
-
+        @freezed
+        class FakeBigDecimalMap200Response with _$FakeBigDecimalMap200Response {
+        const FakeBigDecimalMap200Response._();
+        
         const factory FakeBigDecimalMap200Response({
-    @JsonKey(name: r'someId') 
+                    @JsonKey(name: r'someId') 
     num?
  someId,
-    @JsonKey(name: r'someMap') 
+                    @JsonKey(name: r'someMap') 
     Map<String, 
     num?
 >?
  someMap,
-}) = _FakeBigDecimalMap200Response;
-
-
+        }) = _FakeBigDecimalMap200Response;
 
 
         factory FakeBigDecimalMap200Response.fromJson(Map<String, dynamic> json) => _$FakeBigDecimalMap200ResponseFromJson(json);
@@ -37,10 +34,7 @@ const FakeBigDecimalMap200Response._();
 
 
 
-
-
 }
-
 
 
 

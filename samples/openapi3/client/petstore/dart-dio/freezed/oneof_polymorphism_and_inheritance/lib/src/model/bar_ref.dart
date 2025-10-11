@@ -16,44 +16,41 @@ part of 'models.dart';
         /// * [atBaseType] - When sub-classing, this defines the super-class
         /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 
-@freezed
-class BarRef with _$BarRef {
-const BarRef._();
 
-
-
+            @freezed
+            class BarRef with _$BarRef {
+            const BarRef._();
+            
             const factory BarRef({
-        /// Name of the related entity.
-    @JsonKey(name: r'name') 
+                                /// Name of the related entity.
+                @JsonKey(name: r'name') 
     String?
  name,
-        /// The actual type of the target instance when needed for disambiguation.
-    @JsonKey(name: r'@referredType') 
+                                /// The actual type of the target instance when needed for disambiguation.
+                @JsonKey(name: r'@referredType') 
     String?
  atReferredType,
-        /// Hyperlink reference
-    @JsonKey(name: r'href') 
+                                /// Hyperlink reference
+                @JsonKey(name: r'href') 
     String?
  href,
-        /// unique identifier
-    @JsonKey(name: r'id') 
+                                /// unique identifier
+                @JsonKey(name: r'id') 
     String?
  id,
-        /// A URI to a JSON-Schema file that defines additional attributes and relationships
-    @JsonKey(name: r'@schemaLocation') 
+                                /// A URI to a JSON-Schema file that defines additional attributes and relationships
+                @JsonKey(name: r'@schemaLocation') 
     String?
  atSchemaLocation,
-        /// When sub-classing, this defines the super-class
-    @JsonKey(name: r'@baseType') 
+                                /// When sub-classing, this defines the super-class
+                @JsonKey(name: r'@baseType') 
     String?
  atBaseType,
-        /// When sub-classing, this defines the sub-class Extensible name
-    @JsonKey(name: r'@type') 
+                                /// When sub-classing, this defines the sub-class Extensible name
+                @JsonKey(name: r'@type') 
     required String
  atType,
-}) = _BarRef;
-
-
+            }) = _BarRef;
 
             factory BarRef.fromJson(Map<String, dynamic> json) => _$BarRefFromJson(json);
 
@@ -62,10 +59,7 @@ const BarRef._();
 
 
 
-
-
 }
-
 
 
 

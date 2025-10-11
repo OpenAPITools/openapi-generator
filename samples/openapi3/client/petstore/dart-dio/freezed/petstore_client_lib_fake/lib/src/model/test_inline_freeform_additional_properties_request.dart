@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [someProperty] 
 
-@freezed
-class TestInlineFreeformAdditionalPropertiesRequest with _$TestInlineFreeformAdditionalPropertiesRequest {
-const TestInlineFreeformAdditionalPropertiesRequest._();
-
-
+        @freezed
+        class TestInlineFreeformAdditionalPropertiesRequest with _$TestInlineFreeformAdditionalPropertiesRequest {
+        const TestInlineFreeformAdditionalPropertiesRequest._();
+        
         const factory TestInlineFreeformAdditionalPropertiesRequest({
-    @JsonKey(name: r'someProperty') 
+                    @JsonKey(name: r'someProperty') 
     String?
  someProperty,
-}) = _TestInlineFreeformAdditionalPropertiesRequest;
-
-
+        }) = _TestInlineFreeformAdditionalPropertiesRequest;
 
 
         factory TestInlineFreeformAdditionalPropertiesRequest.fromJson(Map<String, dynamic> json) => _$TestInlineFreeformAdditionalPropertiesRequestFromJson(json);
@@ -31,10 +28,7 @@ const TestInlineFreeformAdditionalPropertiesRequest._();
 
 
 
-
-
 }
-
 
 
 

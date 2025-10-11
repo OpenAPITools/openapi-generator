@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [name] 
 
-@freezed
-class DeprecatedObject with _$DeprecatedObject {
-const DeprecatedObject._();
-
-
+        @freezed
+        class DeprecatedObject with _$DeprecatedObject {
+        const DeprecatedObject._();
+        
         const factory DeprecatedObject({
-    @JsonKey(name: r'name') 
+                    @JsonKey(name: r'name') 
     String?
  name,
-}) = _DeprecatedObject;
-
-
+        }) = _DeprecatedObject;
 
 
         factory DeprecatedObject.fromJson(Map<String, dynamic> json) => _$DeprecatedObjectFromJson(json);
@@ -31,10 +28,7 @@ const DeprecatedObject._();
 
 
 
-
-
 }
-
 
 
 

@@ -13,29 +13,26 @@ part of 'models.dart';
         /// * [deprecatedRef] 
         /// * [bars] 
 
-@freezed
-class ObjectWithDeprecatedFields with _$ObjectWithDeprecatedFields {
-const ObjectWithDeprecatedFields._();
-
-
+        @freezed
+        class ObjectWithDeprecatedFields with _$ObjectWithDeprecatedFields {
+        const ObjectWithDeprecatedFields._();
+        
         const factory ObjectWithDeprecatedFields({
-    @JsonKey(name: r'uuid') 
+                    @JsonKey(name: r'uuid') 
     String?
  uuid,
-    @JsonKey(name: r'id') 
+                    @JsonKey(name: r'id') 
     num?
  id,
-    @JsonKey(name: r'deprecatedRef') 
+                    @JsonKey(name: r'deprecatedRef') 
     DeprecatedObject?
  deprecatedRef,
-    @JsonKey(name: r'bars') 
+                    @JsonKey(name: r'bars') 
     List<
     String?
 >?
  bars,
-}) = _ObjectWithDeprecatedFields;
-
-
+        }) = _ObjectWithDeprecatedFields;
 
 
         factory ObjectWithDeprecatedFields.fromJson(Map<String, dynamic> json) => _$ObjectWithDeprecatedFieldsFromJson(json);
@@ -45,10 +42,7 @@ const ObjectWithDeprecatedFields._();
 
 
 
-
-
 }
-
 
 
 

@@ -12,26 +12,23 @@ part of 'models.dart';
         /// * [dateTime] 
         /// * [map] 
 
-@freezed
-class MixedPropertiesAndAdditionalPropertiesClass with _$MixedPropertiesAndAdditionalPropertiesClass {
-const MixedPropertiesAndAdditionalPropertiesClass._();
-
-
+        @freezed
+        class MixedPropertiesAndAdditionalPropertiesClass with _$MixedPropertiesAndAdditionalPropertiesClass {
+        const MixedPropertiesAndAdditionalPropertiesClass._();
+        
         const factory MixedPropertiesAndAdditionalPropertiesClass({
-    @JsonKey(name: r'uuid') 
+                    @JsonKey(name: r'uuid') 
     String?
  uuid,
-    @JsonKey(name: r'dateTime') 
+                    @JsonKey(name: r'dateTime') 
     DateTime?
  dateTime,
-    @JsonKey(name: r'map') 
+                    @JsonKey(name: r'map') 
     Map<String, 
     Animal?
 >?
  map,
-}) = _MixedPropertiesAndAdditionalPropertiesClass;
-
-
+        }) = _MixedPropertiesAndAdditionalPropertiesClass;
 
 
         factory MixedPropertiesAndAdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$MixedPropertiesAndAdditionalPropertiesClassFromJson(json);
@@ -41,10 +38,7 @@ const MixedPropertiesAndAdditionalPropertiesClass._();
 
 
 
-
-
 }
-
 
 
 

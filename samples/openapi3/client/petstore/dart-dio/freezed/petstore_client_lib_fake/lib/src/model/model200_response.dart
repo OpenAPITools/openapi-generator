@@ -11,21 +11,18 @@ part of 'models.dart';
         /// * [name] 
         /// * [class_] 
 
-@freezed
-class Model200Response with _$Model200Response {
-const Model200Response._();
-
-
+        @freezed
+        class Model200Response with _$Model200Response {
+        const Model200Response._();
+        
         const factory Model200Response({
-    @JsonKey(name: r'name') 
+                    @JsonKey(name: r'name') 
     int?
  name,
-    @JsonKey(name: r'class') 
+                    @JsonKey(name: r'class') 
     String?
  class_,
-}) = _Model200Response;
-
-
+        }) = _Model200Response;
 
 
         factory Model200Response.fromJson(Map<String, dynamic> json) => _$Model200ResponseFromJson(json);
@@ -35,10 +32,7 @@ const Model200Response._();
 
 
 
-
-
 }
-
 
 
 

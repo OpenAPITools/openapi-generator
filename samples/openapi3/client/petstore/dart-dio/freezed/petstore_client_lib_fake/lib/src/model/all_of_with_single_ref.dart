@@ -11,21 +11,18 @@ part of 'models.dart';
         /// * [username] 
         /// * [singleRefType] 
 
-@freezed
-class AllOfWithSingleRef with _$AllOfWithSingleRef {
-const AllOfWithSingleRef._();
-
-
+        @freezed
+        class AllOfWithSingleRef with _$AllOfWithSingleRef {
+        const AllOfWithSingleRef._();
+        
         const factory AllOfWithSingleRef({
-    @JsonKey(name: r'username') 
+                    @JsonKey(name: r'username') 
     String?
  username,
-    @JsonKey(name: r'SingleRefType') 
+                    @JsonKey(name: r'SingleRefType') 
     SingleRefType?
  singleRefType,
-}) = _AllOfWithSingleRef;
-
-
+        }) = _AllOfWithSingleRef;
 
 
         factory AllOfWithSingleRef.fromJson(Map<String, dynamic> json) => _$AllOfWithSingleRefFromJson(json);
@@ -35,10 +32,7 @@ const AllOfWithSingleRef._();
 
 
 
-
-
 }
-
 
 
 

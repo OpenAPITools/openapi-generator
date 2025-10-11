@@ -3,11 +3,12 @@ version: 1.0.0
 description: OpenAPI API client
 homepage: homepage
 
+
 environment:
   sdk: '^3.0.0'
 
 dependencies:
-  dio: '^5.2.0'
+  dio: '^5.7.0'
   freezed_annotation: '^2.4.4'
   json_annotation: '^4.9.0'
 
@@ -15,4 +16,4 @@ dev_dependencies:
   freezed: '^2.5.2'
   json_serializable: '^6.8.0'
   build_runner: any
-  test: ^1.16.0
+  test: '^1.16.0'

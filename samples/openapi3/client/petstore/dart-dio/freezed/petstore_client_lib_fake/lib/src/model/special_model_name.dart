@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket] 
 
-@freezed
-class SpecialModelName with _$SpecialModelName {
-const SpecialModelName._();
-
-
+        @freezed
+        class SpecialModelName with _$SpecialModelName {
+        const SpecialModelName._();
+        
         const factory SpecialModelName({
-    @JsonKey(name: r'$special[property.name]') 
+                    @JsonKey(name: r'$special[property.name]') 
     int?
  dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
-}) = _SpecialModelName;
-
-
+        }) = _SpecialModelName;
 
 
         factory SpecialModelName.fromJson(Map<String, dynamic> json) => _$SpecialModelNameFromJson(json);
@@ -31,10 +28,7 @@ const SpecialModelName._();
 
 
 
-
-
 }
-
 
 
 

@@ -12,25 +12,22 @@ part of 'models.dart';
         /// * [color] 
         /// * [breed] 
 
-@freezed
-class Dog with _$Dog {
-const Dog._();
 
-
-
+            @freezed
+            class Dog with _$Dog {
+            const Dog._();
+            
             const factory Dog({
-    @JsonKey(name: r'className') 
+                            @JsonKey(name: r'className') 
     required String
  className,
-    @JsonKey(name: r'color') 
+                            @JsonKey(name: r'color') 
     String?
  color,
-    @JsonKey(name: r'breed') 
+                            @JsonKey(name: r'breed') 
     String?
  breed,
-}) = _Dog;
-
-
+            }) = _Dog;
 
             factory Dog.fromJson(Map<String, dynamic> json) => _$DogFromJson(json);
 
@@ -39,10 +36,7 @@ const Dog._();
 
 
 
-
-
 }
-
 
 
 

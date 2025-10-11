@@ -19,46 +19,48 @@ part of 'models.dart';
         /// * [name] - Name of the related entity.
         /// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
 
-@freezed
-class BarRefOrValue with _$BarRefOrValue {
-const BarRefOrValue._();
 
 
-
-
-                    const factory BarRefOrValue.asBar({
-                        required Bar barValue
-                    }) = BarRefOrValueAsBar;
-                    const factory BarRefOrValue.asBarRef({
-                        required BarRef barRefValue
-                    }) = BarRefOrValueAsBarRef;
-                const factory BarRefOrValue.unknown({
-                    @Default('Json does not satisfy any available types') String message,
-                    required Map<String, dynamic> json,
-                    @Default(DeserializationErrorType.UnKnownType)
-                    DeserializationErrorType errorType,
-                    @Default(<Type>[Bar,BarRef,]) List<Type> possibleTypes,
-                    @Default(<BarRefOrValue>[]) List<BarRefOrValue> deserializedModels,
-                }) = BarRefOrValueUnknown;
-
-
+            @freezed
+            sealed class BarRefOrValue with _$BarRefOrValue {
+            const BarRefOrValue._();
+            
+                            const factory BarRefOrValue.asBar({
+                    required Bar barValue
+                }) = BarRefOrValueAsBar;
+                const factory BarRefOrValue.asBarRef({
+                    required BarRef barRefValue
+                }) = BarRefOrValueAsBarRef;
+                                                                        const factory BarRefOrValue.unknown({
+                @Default('Json does not satisfy any available types') String message,
+                required Map<String, dynamic> json,
+            
+                @Default(DeserializationErrorType.UnKnownType)
+                DeserializationErrorType errorType,
+            
+                @Default(<Type>[Bar,BarRef,])
+                List<Type> possibleTypes,
+            
+                @Default(<BarRefOrValue>[])
+                List<BarRefOrValue> deserializedModels,
+            }) = BarRefOrValueUnknown;
 
 
             factory BarRefOrValue.fromJson(Map<String, dynamic> json) {
-                BarRefOrValue? deserializedModel;
                     // A discriminator property is not defined in the spec so
                     // we try to parse the json against all the models and try to
                     // return one of the valid model. Note: this approach tries
                     // to return one valid model and if more than one model
                     // is valid it then returns unknown type along with the json so
                     // the consumer can decide which model it is.
-                    final fromJsonMethods = <FromJsonMethodType<dynamic>>[Bar.fromJson,BarRef.fromJson,];
+                    BarRefOrValue? deserializedModel;
+                    final fromJsonMethods = <FromJsonMethodType <dynamic>>[Bar.fromJson,BarRef.fromJson,];
                     final deserializedModels = <BarRefOrValue>[];
                     for (final fromJsonMethod in fromJsonMethods) {
                         try {
                             final dynamic parsedModel= fromJsonMethod.call(json);
                             // Note following line won't be executed if already the above parsing fails.
-                                    if (parsedModel is Bar) {
+                                                        if (parsedModel is Bar) {
                                     deserializedModel =  BarRefOrValue.asBar(
                                 barValue : parsedModel,
                                     );
@@ -88,26 +90,19 @@ const BarRefOrValue._();
                             deserializedModels: deserializedModels,
                             errorType: DeserializationErrorType.MoreThanOneTypeSatisfied,
                         );
-                    }
-
-
-                return deserializedModel ?? BarRefOrValue.unknown(json: json);
+                    }                    return deserializedModel ?? BarRefOrValue.unknown(json: json);
             }
-
 
 
             Map<String, dynamic> toJson() {
                 return when(
-                        asBar: (asBar) => asBar.toJson(),
+                                    asBar: (asBar) => asBar.toJson(),
                         asBarRef: (asBarRef) => asBarRef.toJson(),
-                    unknown: (message, json, errorType, possibleTypes, deserializedModels) => <String, dynamic>{},
+                                                                                            unknown: (message, json, errorType, possibleTypes, deserializedModels) => <String, dynamic>{},
                 );
             }
 
-
-
 }
-
 
 
 

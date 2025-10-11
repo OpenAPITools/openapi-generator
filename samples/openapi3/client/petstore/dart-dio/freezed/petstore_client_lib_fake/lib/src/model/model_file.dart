@@ -10,19 +10,16 @@ part of 'models.dart';
     /// Properties:
         /// * [sourceURI] - Test capitalization
 
-@freezed
-class ModelFile with _$ModelFile {
-const ModelFile._();
-
-
+        @freezed
+        class ModelFile with _$ModelFile {
+        const ModelFile._();
+        
         const factory ModelFile({
-        /// Test capitalization
-    @JsonKey(name: r'sourceURI') 
+                        /// Test capitalization
+            @JsonKey(name: r'sourceURI') 
     String?
  sourceURI,
-}) = _ModelFile;
-
-
+        }) = _ModelFile;
 
 
         factory ModelFile.fromJson(Map<String, dynamic> json) => _$ModelFileFromJson(json);
@@ -32,10 +29,7 @@ const ModelFile._();
 
 
 
-
-
 }
-
 
 
 

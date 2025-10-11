@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [justNumber] 
 
-@freezed
-class NumberOnly with _$NumberOnly {
-const NumberOnly._();
-
-
+        @freezed
+        class NumberOnly with _$NumberOnly {
+        const NumberOnly._();
+        
         const factory NumberOnly({
-    @JsonKey(name: r'JustNumber') 
+                    @JsonKey(name: r'JustNumber') 
     num?
  justNumber,
-}) = _NumberOnly;
-
-
+        }) = _NumberOnly;
 
 
         factory NumberOnly.fromJson(Map<String, dynamic> json) => _$NumberOnlyFromJson(json);
@@ -31,10 +28,7 @@ const NumberOnly._();
 
 
 
-
-
 }
-
 
 
 

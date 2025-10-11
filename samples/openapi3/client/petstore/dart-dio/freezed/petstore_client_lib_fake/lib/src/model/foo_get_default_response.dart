@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [string] 
 
-@freezed
-class FooGetDefaultResponse with _$FooGetDefaultResponse {
-const FooGetDefaultResponse._();
-
-
+        @freezed
+        class FooGetDefaultResponse with _$FooGetDefaultResponse {
+        const FooGetDefaultResponse._();
+        
         const factory FooGetDefaultResponse({
-    @JsonKey(name: r'string') 
+                    @JsonKey(name: r'string') 
     Foo?
  string,
-}) = _FooGetDefaultResponse;
-
-
+        }) = _FooGetDefaultResponse;
 
 
         factory FooGetDefaultResponse.fromJson(Map<String, dynamic> json) => _$FooGetDefaultResponseFromJson(json);
@@ -31,10 +28,7 @@ const FooGetDefaultResponse._();
 
 
 
-
-
 }
-
 
 
 

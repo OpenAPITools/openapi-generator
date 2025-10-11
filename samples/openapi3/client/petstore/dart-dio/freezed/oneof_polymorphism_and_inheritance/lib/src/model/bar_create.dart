@@ -17,45 +17,42 @@ part of 'models.dart';
         /// * [atBaseType] - When sub-classing, this defines the super-class
         /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 
-@freezed
-class BarCreate with _$BarCreate {
-const BarCreate._();
 
-
-
+            @freezed
+            class BarCreate with _$BarCreate {
+            const BarCreate._();
+            
             const factory BarCreate({
-    @JsonKey(name: r'barPropA') 
+                            @JsonKey(name: r'barPropA') 
     String?
  barPropA,
-    @JsonKey(name: r'fooPropB') 
+                            @JsonKey(name: r'fooPropB') 
     String?
  fooPropB,
-    @JsonKey(name: r'foo') 
+                            @JsonKey(name: r'foo') 
     FooRefOrValue?
  foo,
-        /// Hyperlink reference
-    @JsonKey(name: r'href') 
+                                /// Hyperlink reference
+                @JsonKey(name: r'href') 
     String?
  href,
-        /// unique identifier
-    @JsonKey(name: r'id') 
+                                /// unique identifier
+                @JsonKey(name: r'id') 
     String?
  id,
-        /// A URI to a JSON-Schema file that defines additional attributes and relationships
-    @JsonKey(name: r'@schemaLocation') 
+                                /// A URI to a JSON-Schema file that defines additional attributes and relationships
+                @JsonKey(name: r'@schemaLocation') 
     String?
  atSchemaLocation,
-        /// When sub-classing, this defines the super-class
-    @JsonKey(name: r'@baseType') 
+                                /// When sub-classing, this defines the super-class
+                @JsonKey(name: r'@baseType') 
     String?
  atBaseType,
-        /// When sub-classing, this defines the sub-class Extensible name
-    @JsonKey(name: r'@type') 
+                                /// When sub-classing, this defines the sub-class Extensible name
+                @JsonKey(name: r'@type') 
     required String
  atType,
-}) = _BarCreate;
-
-
+            }) = _BarCreate;
 
             factory BarCreate.fromJson(Map<String, dynamic> json) => _$BarCreateFromJson(json);
 
@@ -64,10 +61,7 @@ const BarCreate._();
 
 
 
-
-
 }
-
 
 
 

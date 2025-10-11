@@ -11,21 +11,18 @@ part of 'models.dart';
         /// * [bar] 
         /// * [baz] 
 
-@freezed
-class ReadOnlyFirst with _$ReadOnlyFirst {
-const ReadOnlyFirst._();
-
-
+        @freezed
+        class ReadOnlyFirst with _$ReadOnlyFirst {
+        const ReadOnlyFirst._();
+        
         const factory ReadOnlyFirst({
-    @JsonKey(name: r'bar') 
+                    @JsonKey(name: r'bar') 
     String?
  bar,
-    @JsonKey(name: r'baz') 
+                    @JsonKey(name: r'baz') 
     String?
  baz,
-}) = _ReadOnlyFirst;
-
-
+        }) = _ReadOnlyFirst;
 
 
         factory ReadOnlyFirst.fromJson(Map<String, dynamic> json) => _$ReadOnlyFirstFromJson(json);
@@ -35,10 +32,7 @@ const ReadOnlyFirst._();
 
 
 
-
-
 }
-
 
 
 

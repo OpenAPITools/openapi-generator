@@ -11,23 +11,20 @@ part of 'models.dart';
         /// * [href] - Hyperlink reference
         /// * [id] - unique identifier
 
-@freezed
-class Addressable with _$Addressable {
-const Addressable._();
-
-
+        @freezed
+        class Addressable with _$Addressable {
+        const Addressable._();
+        
         const factory Addressable({
-        /// Hyperlink reference
-    @JsonKey(name: r'href') 
+                        /// Hyperlink reference
+            @JsonKey(name: r'href') 
     String?
  href,
-        /// unique identifier
-    @JsonKey(name: r'id') 
+                        /// unique identifier
+            @JsonKey(name: r'id') 
     String?
  id,
-}) = _Addressable;
-
-
+        }) = _Addressable;
 
 
         factory Addressable.fromJson(Map<String, dynamic> json) => _$AddressableFromJson(json);
@@ -37,10 +34,7 @@ const Addressable._();
 
 
 
-
-
 }
-
 
 
 

@@ -11,23 +11,20 @@ part of 'models.dart';
         /// * [file] 
         /// * [files] 
 
-@freezed
-class FileSchemaTestClass with _$FileSchemaTestClass {
-const FileSchemaTestClass._();
-
-
+        @freezed
+        class FileSchemaTestClass with _$FileSchemaTestClass {
+        const FileSchemaTestClass._();
+        
         const factory FileSchemaTestClass({
-    @JsonKey(name: r'file') 
+                    @JsonKey(name: r'file') 
     ModelFile?
  file,
-    @JsonKey(name: r'files') 
+                    @JsonKey(name: r'files') 
     List<
     ModelFile?
 >?
  files,
-}) = _FileSchemaTestClass;
-
-
+        }) = _FileSchemaTestClass;
 
 
         factory FileSchemaTestClass.fromJson(Map<String, dynamic> json) => _$FileSchemaTestClassFromJson(json);
@@ -37,10 +34,7 @@ const FileSchemaTestClass._();
 
 
 
-
-
 }
-
 
 
 

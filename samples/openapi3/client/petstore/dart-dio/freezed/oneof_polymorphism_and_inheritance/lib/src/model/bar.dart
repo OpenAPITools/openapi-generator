@@ -17,44 +17,41 @@ part of 'models.dart';
         /// * [atBaseType] - When sub-classing, this defines the super-class
         /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 
-@freezed
-class Bar with _$Bar {
-const Bar._();
 
-
-
+            @freezed
+            class Bar with _$Bar {
+            const Bar._();
+            
             const factory Bar({
-    @JsonKey(name: r'id') 
+                            @JsonKey(name: r'id') 
     required String
  id,
-    @JsonKey(name: r'barPropA') 
+                            @JsonKey(name: r'barPropA') 
     String?
  barPropA,
-    @JsonKey(name: r'fooPropB') 
+                            @JsonKey(name: r'fooPropB') 
     String?
  fooPropB,
-    @JsonKey(name: r'foo') 
+                            @JsonKey(name: r'foo') 
     FooRefOrValue?
  foo,
-        /// Hyperlink reference
-    @JsonKey(name: r'href') 
+                                /// Hyperlink reference
+                @JsonKey(name: r'href') 
     String?
  href,
-        /// A URI to a JSON-Schema file that defines additional attributes and relationships
-    @JsonKey(name: r'@schemaLocation') 
+                                /// A URI to a JSON-Schema file that defines additional attributes and relationships
+                @JsonKey(name: r'@schemaLocation') 
     String?
  atSchemaLocation,
-        /// When sub-classing, this defines the super-class
-    @JsonKey(name: r'@baseType') 
+                                /// When sub-classing, this defines the super-class
+                @JsonKey(name: r'@baseType') 
     String?
  atBaseType,
-        /// When sub-classing, this defines the sub-class Extensible name
-    @JsonKey(name: r'@type') 
+                                /// When sub-classing, this defines the sub-class Extensible name
+                @JsonKey(name: r'@type') 
     required String
  atType,
-}) = _Bar;
-
-
+            }) = _Bar;
 
             factory Bar.fromJson(Map<String, dynamic> json) => _$BarFromJson(json);
 
@@ -63,10 +60,7 @@ const Bar._();
 
 
 
-
-
 }
-
 
 
 

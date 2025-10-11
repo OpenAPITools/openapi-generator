@@ -15,39 +15,36 @@ part of 'models.dart';
         /// * [atBaseType] - When sub-classing, this defines the super-class
         /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 
-@freezed
-class Pizza with _$Pizza {
-const Pizza._();
 
-
-
+            @freezed
+            class Pizza with _$Pizza {
+            const Pizza._();
+            
             const factory Pizza({
-    @JsonKey(name: r'pizzaSize') 
+                            @JsonKey(name: r'pizzaSize') 
     num?
  pizzaSize,
-        /// Hyperlink reference
-    @JsonKey(name: r'href') 
+                                /// Hyperlink reference
+                @JsonKey(name: r'href') 
     String?
  href,
-        /// unique identifier
-    @JsonKey(name: r'id') 
+                                /// unique identifier
+                @JsonKey(name: r'id') 
     String?
  id,
-        /// A URI to a JSON-Schema file that defines additional attributes and relationships
-    @JsonKey(name: r'@schemaLocation') 
+                                /// A URI to a JSON-Schema file that defines additional attributes and relationships
+                @JsonKey(name: r'@schemaLocation') 
     String?
  atSchemaLocation,
-        /// When sub-classing, this defines the super-class
-    @JsonKey(name: r'@baseType') 
+                                /// When sub-classing, this defines the super-class
+                @JsonKey(name: r'@baseType') 
     String?
  atBaseType,
-        /// When sub-classing, this defines the sub-class Extensible name
-    @JsonKey(name: r'@type') 
+                                /// When sub-classing, this defines the sub-class Extensible name
+                @JsonKey(name: r'@type') 
     required String
  atType,
-}) = _Pizza;
-
-
+            }) = _Pizza;
 
             factory Pizza.fromJson(Map<String, dynamic> json) => _$PizzaFromJson(json);
 
@@ -56,10 +53,7 @@ const Pizza._();
 
 
 
-
-
 }
-
 
 
 

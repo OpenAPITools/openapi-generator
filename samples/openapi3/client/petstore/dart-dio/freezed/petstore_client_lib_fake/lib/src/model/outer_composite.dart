@@ -12,24 +12,21 @@ part of 'models.dart';
         /// * [myString] 
         /// * [myBoolean] 
 
-@freezed
-class OuterComposite with _$OuterComposite {
-const OuterComposite._();
-
-
+        @freezed
+        class OuterComposite with _$OuterComposite {
+        const OuterComposite._();
+        
         const factory OuterComposite({
-    @JsonKey(name: r'my_number') 
+                    @JsonKey(name: r'my_number') 
     num?
  myNumber,
-    @JsonKey(name: r'my_string') 
+                    @JsonKey(name: r'my_string') 
     String?
  myString,
-    @JsonKey(name: r'my_boolean') 
+                    @JsonKey(name: r'my_boolean') 
     bool?
  myBoolean,
-}) = _OuterComposite;
-
-
+        }) = _OuterComposite;
 
 
         factory OuterComposite.fromJson(Map<String, dynamic> json) => _$OuterCompositeFromJson(json);
@@ -39,10 +36,7 @@ const OuterComposite._();
 
 
 
-
-
 }
-
 
 
 

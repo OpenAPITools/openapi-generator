@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [name] 
 
-@freezed
-class Child with _$Child {
-const Child._();
-
-
+        @freezed
+        class Child with _$Child {
+        const Child._();
+        
         const factory Child({
-    @JsonKey(name: r'name') 
+                    @JsonKey(name: r'name') 
     String?
  name,
-}) = _Child;
-
-
+        }) = _Child;
 
 
         factory Child.fromJson(Map<String, dynamic> json) => _$ChildFromJson(json);
@@ -31,10 +28,7 @@ const Child._();
 
 
 
-
-
 }
-
 
 
 

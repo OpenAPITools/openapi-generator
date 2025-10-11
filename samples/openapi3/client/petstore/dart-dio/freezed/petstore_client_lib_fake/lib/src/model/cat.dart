@@ -12,25 +12,22 @@ part of 'models.dart';
         /// * [color] 
         /// * [declawed] 
 
-@freezed
-class Cat with _$Cat {
-const Cat._();
 
-
-
+            @freezed
+            class Cat with _$Cat {
+            const Cat._();
+            
             const factory Cat({
-    @JsonKey(name: r'className') 
+                            @JsonKey(name: r'className') 
     required String
  className,
-    @JsonKey(name: r'color') 
+                            @JsonKey(name: r'color') 
     String?
  color,
-    @JsonKey(name: r'declawed') 
+                            @JsonKey(name: r'declawed') 
     bool?
  declawed,
-}) = _Cat;
-
-
+            }) = _Cat;
 
             factory Cat.fromJson(Map<String, dynamic> json) => _$CatFromJson(json);
 
@@ -39,10 +36,7 @@ const Cat._();
 
 
 
-
-
 }
-
 
 
 

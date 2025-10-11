@@ -11,21 +11,18 @@ part of 'models.dart';
         /// * [id] 
         /// * [name] 
 
-@freezed
-class Category with _$Category {
-const Category._();
-
-
+        @freezed
+        class Category with _$Category {
+        const Category._();
+        
         const factory Category({
-    @JsonKey(name: r'id') 
+                    @JsonKey(name: r'id') 
     int?
  id,
-    @JsonKey(name: r'name') 
+                    @JsonKey(name: r'name') 
     required String
  name,
-}) = _Category;
-
-
+        }) = _Category;
 
 
         factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
@@ -35,10 +32,7 @@ const Category._();
 
 
 
-
-
 }
-
 
 
 

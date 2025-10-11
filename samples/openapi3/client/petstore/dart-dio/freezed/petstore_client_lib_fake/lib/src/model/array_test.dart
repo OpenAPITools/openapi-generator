@@ -12,34 +12,31 @@ part of 'models.dart';
         /// * [arrayArrayOfInteger] 
         /// * [arrayArrayOfModel] 
 
-@freezed
-class ArrayTest with _$ArrayTest {
-const ArrayTest._();
-
-
+        @freezed
+        class ArrayTest with _$ArrayTest {
+        const ArrayTest._();
+        
         const factory ArrayTest({
-    @JsonKey(name: r'array_of_string') 
+                    @JsonKey(name: r'array_of_string') 
     List<
     String?
 >?
  arrayOfString,
-    @JsonKey(name: r'array_array_of_integer') 
+                    @JsonKey(name: r'array_array_of_integer') 
     List<
     List<
     int?
 >?
 >?
  arrayArrayOfInteger,
-    @JsonKey(name: r'array_array_of_model') 
+                    @JsonKey(name: r'array_array_of_model') 
     List<
     List<
     ReadOnlyFirst?
 >?
 >?
  arrayArrayOfModel,
-}) = _ArrayTest;
-
-
+        }) = _ArrayTest;
 
 
         factory ArrayTest.fromJson(Map<String, dynamic> json) => _$ArrayTestFromJson(json);
@@ -49,10 +46,7 @@ const ArrayTest._();
 
 
 
-
-
 }
-
 
 
 

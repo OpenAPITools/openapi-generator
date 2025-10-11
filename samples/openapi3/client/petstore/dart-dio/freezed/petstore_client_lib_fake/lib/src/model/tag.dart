@@ -11,21 +11,18 @@ part of 'models.dart';
         /// * [id] 
         /// * [name] 
 
-@freezed
-class Tag with _$Tag {
-const Tag._();
-
-
+        @freezed
+        class Tag with _$Tag {
+        const Tag._();
+        
         const factory Tag({
-    @JsonKey(name: r'id') 
+                    @JsonKey(name: r'id') 
     int?
  id,
-    @JsonKey(name: r'name') 
+                    @JsonKey(name: r'name') 
     String?
  name,
-}) = _Tag;
-
-
+        }) = _Tag;
 
 
         factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
@@ -35,10 +32,7 @@ const Tag._();
 
 
 
-
-
 }
-
 
 
 

@@ -15,38 +15,35 @@ part of 'models.dart';
         /// * [tags] 
         /// * [status] - pet status in the store
 
-@freezed
-class Pet with _$Pet {
-const Pet._();
-
-
+        @freezed
+        class Pet with _$Pet {
+        const Pet._();
+        
         const factory Pet({
-    @JsonKey(name: r'id') 
+                    @JsonKey(name: r'id') 
     int?
  id,
-    @JsonKey(name: r'category') 
+                    @JsonKey(name: r'category') 
     Category?
  category,
-    @JsonKey(name: r'name') 
+                    @JsonKey(name: r'name') 
     required String
  name,
-    @JsonKey(name: r'photoUrls') 
+                    @JsonKey(name: r'photoUrls') 
     required Set<
     String?
 >
  photoUrls,
-    @JsonKey(name: r'tags') 
+                    @JsonKey(name: r'tags') 
     List<
     Tag?
 >?
  tags,
-        /// pet status in the store
-    @JsonKey(name: r'status') 
+                        /// pet status in the store
+            @JsonKey(name: r'status') 
     PetStatusEnum?
  status,
-}) = _Pet;
-
-
+        }) = _Pet;
 
 
         factory Pet.fromJson(Map<String, dynamic> json) => _$PetFromJson(json);
@@ -56,20 +53,16 @@ const Pet._();
 
 
 
-
-
 }
-
 
 
             /// pet status in the store
-@JsonEnum(valueField: 'value')
-enum PetStatusEnum {
-            available(value: r'available'),
-            pending(value: r'pending'),
-            sold(value: r'sold'),
-            unknownDefaultOpenApi(value: r'unknown_default_open_api');
-        const PetStatusEnum({required this.value});
-        final String value;
-}
-
+            @JsonEnum(valueField: 'value')
+            enum PetStatusEnum {
+                                    available(value: r'available'),
+                        pending(value: r'pending'),
+                        sold(value: r'sold'),
+                        unknownDefaultOpenApi(value: r'unknown_default_open_api');
+                    const PetStatusEnum({required this.value});
+                    final String value;
+            }

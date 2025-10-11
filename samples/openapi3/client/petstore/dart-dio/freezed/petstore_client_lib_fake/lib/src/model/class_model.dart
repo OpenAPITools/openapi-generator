@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [class_] 
 
-@freezed
-class ClassModel with _$ClassModel {
-const ClassModel._();
-
-
+        @freezed
+        class ClassModel with _$ClassModel {
+        const ClassModel._();
+        
         const factory ClassModel({
-    @JsonKey(name: r'_class') 
+                    @JsonKey(name: r'_class') 
     String?
  class_,
-}) = _ClassModel;
-
-
+        }) = _ClassModel;
 
 
         factory ClassModel.fromJson(Map<String, dynamic> json) => _$ClassModelFromJson(json);
@@ -31,10 +28,7 @@ const ClassModel._();
 
 
 
-
-
 }
-
 
 
 

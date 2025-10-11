@@ -10,46 +10,48 @@ part of 'models.dart';
     /// Properties:
         /// * [name] 
 
-@freezed
-class Example with _$Example {
-const Example._();
 
 
-
-
-                    const factory Example.asChild({
-                        required Child childValue
-                    }) = ExampleAsChild;
-                    const factory Example.asIntInUnion({
-                        required IntInUnion intValue
-                    }) = ExampleAsIntInUnion;
-                const factory Example.unknown({
-                    @Default('Json does not satisfy any available types') String message,
-                    required Map<String, dynamic> json,
-                    @Default(DeserializationErrorType.UnKnownType)
-                    DeserializationErrorType errorType,
-                    @Default(<Type>[Child,int,]) List<Type> possibleTypes,
-                    @Default(<Example>[]) List<Example> deserializedModels,
-                }) = ExampleUnknown;
-
-
+            @freezed
+            sealed class Example with _$Example {
+            const Example._();
+            
+                            const factory Example.asChild({
+                    required Child childValue
+                }) = ExampleAsChild;
+                const factory Example.asIntInUnion({
+                    required IntInUnion intValue
+                }) = ExampleAsIntInUnion;
+                                                                        const factory Example.unknown({
+                @Default('Json does not satisfy any available types') String message,
+                required Map<String, dynamic> json,
+            
+                @Default(DeserializationErrorType.UnKnownType)
+                DeserializationErrorType errorType,
+            
+                @Default(<Type>[Child,int,])
+                List<Type> possibleTypes,
+            
+                @Default(<Example>[])
+                List<Example> deserializedModels,
+            }) = ExampleUnknown;
 
 
             factory Example.fromJson(Map<String, dynamic> json) {
-                Example? deserializedModel;
                     // A discriminator property is not defined in the spec so
                     // we try to parse the json against all the models and try to
                     // return one of the valid model. Note: this approach tries
                     // to return one valid model and if more than one model
                     // is valid it then returns unknown type along with the json so
                     // the consumer can decide which model it is.
-                    final fromJsonMethods = <FromJsonMethodType<dynamic>>[Child.fromJson,IntInUnion.fromJson,];
+                    Example? deserializedModel;
+                    final fromJsonMethods = <FromJsonMethodType <dynamic>>[Child.fromJson,IntInUnion.fromJson,];
                     final deserializedModels = <Example>[];
                     for (final fromJsonMethod in fromJsonMethods) {
                         try {
                             final dynamic parsedModel= fromJsonMethod.call(json);
                             // Note following line won't be executed if already the above parsing fails.
-                                    if (parsedModel is Child) {
+                                                        if (parsedModel is Child) {
                                     deserializedModel =  Example.asChild(
                                 childValue : parsedModel,
                                     );
@@ -79,26 +81,19 @@ const Example._();
                             deserializedModels: deserializedModels,
                             errorType: DeserializationErrorType.MoreThanOneTypeSatisfied,
                         );
-                    }
-
-
-                return deserializedModel ?? Example.unknown(json: json);
+                    }                    return deserializedModel ?? Example.unknown(json: json);
             }
-
 
 
             Map<String, dynamic> toJson() {
                 return when(
-                        asChild: (asChild) => asChild.toJson(),
+                                    asChild: (asChild) => asChild.toJson(),
                         asIntInUnion: (asIntInUnion) => asIntInUnion.toJson(),
-                    unknown: (message, json, errorType, possibleTypes, deserializedModels) => <String, dynamic>{},
+                                                                                            unknown: (message, json, errorType, possibleTypes, deserializedModels) => <String, dynamic>{},
                 );
             }
 
-
-
 }
-
 
 
 

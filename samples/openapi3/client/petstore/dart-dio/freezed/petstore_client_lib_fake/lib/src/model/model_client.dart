@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [client] 
 
-@freezed
-class ModelClient with _$ModelClient {
-const ModelClient._();
-
-
+        @freezed
+        class ModelClient with _$ModelClient {
+        const ModelClient._();
+        
         const factory ModelClient({
-    @JsonKey(name: r'client') 
+                    @JsonKey(name: r'client') 
     String?
  client,
-}) = _ModelClient;
-
-
+        }) = _ModelClient;
 
 
         factory ModelClient.fromJson(Map<String, dynamic> json) => _$ModelClientFromJson(json);
@@ -31,10 +28,7 @@ const ModelClient._();
 
 
 
-
-
 }
-
 
 
 

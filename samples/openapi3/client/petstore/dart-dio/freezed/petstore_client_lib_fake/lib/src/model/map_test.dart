@@ -13,37 +13,34 @@ part of 'models.dart';
         /// * [directMap] 
         /// * [indirectMap] 
 
-@freezed
-class MapTest with _$MapTest {
-const MapTest._();
-
-
+        @freezed
+        class MapTest with _$MapTest {
+        const MapTest._();
+        
         const factory MapTest({
-    @JsonKey(name: r'map_map_of_string') 
+                    @JsonKey(name: r'map_map_of_string') 
     Map<String, 
     Map<String, 
     String?
 >?
 >?
  mapMapOfString,
-    @JsonKey(name: r'map_of_enum_string') 
+                    @JsonKey(name: r'map_of_enum_string') 
     Map<String, 
     MapTestMapOfEnumStringEnum?
 >?
  mapOfEnumString,
-    @JsonKey(name: r'direct_map') 
+                    @JsonKey(name: r'direct_map') 
     Map<String, 
     bool?
 >?
  directMap,
-    @JsonKey(name: r'indirect_map') 
+                    @JsonKey(name: r'indirect_map') 
     Map<String, 
     bool?
 >?
  indirectMap,
-}) = _MapTest;
-
-
+        }) = _MapTest;
 
 
         factory MapTest.fromJson(Map<String, dynamic> json) => _$MapTestFromJson(json);
@@ -53,20 +50,16 @@ const MapTest._();
 
 
 
-
-
 }
-
 
 
 
                 
-@JsonEnum(valueField: 'value')
-enum MapTestMapOfEnumStringEnum {
-            UPPER(value: r'UPPER'),
-            lower(value: r'lower'),
-            unknownDefaultOpenApi(value: r'unknown_default_open_api');
-        const MapTestMapOfEnumStringEnum({required this.value});
-        final String value;
-}
-
+                @JsonEnum(valueField: 'value')
+                enum MapTestMapOfEnumStringEnum {
+                                            UPPER(value: r'UPPER'),
+                            lower(value: r'lower'),
+                            unknownDefaultOpenApi(value: r'unknown_default_open_api');
+                        const MapTestMapOfEnumStringEnum({required this.value});
+                        final String value;
+                }

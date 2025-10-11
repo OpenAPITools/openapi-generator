@@ -10,22 +10,19 @@ part of 'models.dart';
     /// Properties:
         /// * [arrayArrayNumber] 
 
-@freezed
-class ArrayOfArrayOfNumberOnly with _$ArrayOfArrayOfNumberOnly {
-const ArrayOfArrayOfNumberOnly._();
-
-
+        @freezed
+        class ArrayOfArrayOfNumberOnly with _$ArrayOfArrayOfNumberOnly {
+        const ArrayOfArrayOfNumberOnly._();
+        
         const factory ArrayOfArrayOfNumberOnly({
-    @JsonKey(name: r'ArrayArrayNumber') 
+                    @JsonKey(name: r'ArrayArrayNumber') 
     List<
     List<
     num?
 >?
 >?
  arrayArrayNumber,
-}) = _ArrayOfArrayOfNumberOnly;
-
-
+        }) = _ArrayOfArrayOfNumberOnly;
 
 
         factory ArrayOfArrayOfNumberOnly.fromJson(Map<String, dynamic> json) => _$ArrayOfArrayOfNumberOnlyFromJson(json);
@@ -35,10 +32,7 @@ const ArrayOfArrayOfNumberOnly._();
 
 
 
-
-
 }
-
 
 
 

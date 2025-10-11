@@ -7,7 +7,7 @@ part 'models.freezed.dart';
 part 'models.g.dart';
 
 part 'primitive_union_types.dart';
-part 'apple.dart';part 'banana.dart';part 'fruit.dart';
+part 'apple.dart';part 'banana.dart';part 'fruit.dart';part 'orange.dart';
 
 /// A typedef used in the deserialization of OneOf and AnyOf
 /// models when no discriminator mapping is provided.

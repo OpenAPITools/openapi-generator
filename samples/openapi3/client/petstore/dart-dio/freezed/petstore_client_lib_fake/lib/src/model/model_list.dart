@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [n123list] 
 
-@freezed
-class ModelList with _$ModelList {
-const ModelList._();
-
-
+        @freezed
+        class ModelList with _$ModelList {
+        const ModelList._();
+        
         const factory ModelList({
-    @JsonKey(name: r'123-list') 
+                    @JsonKey(name: r'123-list') 
     String?
  n123list,
-}) = _ModelList;
-
-
+        }) = _ModelList;
 
 
         factory ModelList.fromJson(Map<String, dynamic> json) => _$ModelListFromJson(json);
@@ -31,10 +28,7 @@ const ModelList._();
 
 
 
-
-
 }
-
 
 
 

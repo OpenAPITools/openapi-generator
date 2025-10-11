@@ -15,34 +15,31 @@ part of 'models.dart';
         /// * [sCAETHFlowPoints] 
         /// * [ATT_NAME] - Name of the pet 
 
-@freezed
-class Capitalization with _$Capitalization {
-const Capitalization._();
-
-
+        @freezed
+        class Capitalization with _$Capitalization {
+        const Capitalization._();
+        
         const factory Capitalization({
-    @JsonKey(name: r'smallCamel') 
+                    @JsonKey(name: r'smallCamel') 
     String?
  smallCamel,
-    @JsonKey(name: r'CapitalCamel') 
+                    @JsonKey(name: r'CapitalCamel') 
     String?
  capitalCamel,
-    @JsonKey(name: r'small_Snake') 
+                    @JsonKey(name: r'small_Snake') 
     String?
  smallSnake,
-    @JsonKey(name: r'Capital_Snake') 
+                    @JsonKey(name: r'Capital_Snake') 
     String?
  capitalSnake,
-    @JsonKey(name: r'SCA_ETH_Flow_Points') 
+                    @JsonKey(name: r'SCA_ETH_Flow_Points') 
     String?
  sCAETHFlowPoints,
-        /// Name of the pet 
-    @JsonKey(name: r'ATT_NAME') 
+                        /// Name of the pet 
+            @JsonKey(name: r'ATT_NAME') 
     String?
  ATT_NAME,
-}) = _Capitalization;
-
-
+        }) = _Capitalization;
 
 
         factory Capitalization.fromJson(Map<String, dynamic> json) => _$CapitalizationFromJson(json);
@@ -52,10 +49,7 @@ const Capitalization._();
 
 
 
-
-
 }
-
 
 
 

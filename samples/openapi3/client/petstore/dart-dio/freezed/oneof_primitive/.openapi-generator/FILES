@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 analysis_options.yaml
 build.yaml
@@ -19,6 +18,3 @@ lib/src/model/example.dart
 lib/src/model/models.dart
 lib/src/model/primitive_union_types.dart
 pubspec.yaml
-test/child_test.dart
-test/default_api_test.dart
-test/example_test.dart

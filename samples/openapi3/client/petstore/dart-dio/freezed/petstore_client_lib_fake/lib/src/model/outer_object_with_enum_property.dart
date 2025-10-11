@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [value] 
 
-@freezed
-class OuterObjectWithEnumProperty with _$OuterObjectWithEnumProperty {
-const OuterObjectWithEnumProperty._();
-
-
+        @freezed
+        class OuterObjectWithEnumProperty with _$OuterObjectWithEnumProperty {
+        const OuterObjectWithEnumProperty._();
+        
         const factory OuterObjectWithEnumProperty({
-    @JsonKey(name: r'value') 
+                    @JsonKey(name: r'value') 
     required OuterEnumInteger
  value,
-}) = _OuterObjectWithEnumProperty;
-
-
+        }) = _OuterObjectWithEnumProperty;
 
 
         factory OuterObjectWithEnumProperty.fromJson(Map<String, dynamic> json) => _$OuterObjectWithEnumPropertyFromJson(json);
@@ -31,10 +28,7 @@ const OuterObjectWithEnumProperty._();
 
 
 
-
-
 }
-
 
 
 

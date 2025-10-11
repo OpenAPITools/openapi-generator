@@ -13,27 +13,24 @@ part of 'models.dart';
         /// * [property] 
         /// * [n123number] 
 
-@freezed
-class Name with _$Name {
-const Name._();
-
-
+        @freezed
+        class Name with _$Name {
+        const Name._();
+        
         const factory Name({
-    @JsonKey(name: r'name') 
+                    @JsonKey(name: r'name') 
     required int
  name,
-    @JsonKey(name: r'snake_case') 
+                    @JsonKey(name: r'snake_case') 
     int?
  snakeCase,
-    @JsonKey(name: r'property') 
+                    @JsonKey(name: r'property') 
     String?
  property,
-    @JsonKey(name: r'123Number') 
+                    @JsonKey(name: r'123Number') 
     int?
  n123number,
-}) = _Name;
-
-
+        }) = _Name;
 
 
         factory Name.fromJson(Map<String, dynamic> json) => _$NameFromJson(json);
@@ -43,10 +40,7 @@ const Name._();
 
 
 
-
-
 }
-
 
 
 

@@ -25,65 +25,62 @@ part of 'models.dart';
         /// * [patternWithDigits] - A string that is a 10 digit number. Can have leading zeros.
         /// * [patternWithDigitsAndDelimiter] - A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
 
-@freezed
-class FormatTest with _$FormatTest {
-const FormatTest._();
-
-
+        @freezed
+        class FormatTest with _$FormatTest {
+        const FormatTest._();
+        
         const factory FormatTest({
-    @JsonKey(name: r'integer') 
+                    @JsonKey(name: r'integer') 
     int?
  integer,
-    @JsonKey(name: r'int32') 
+                    @JsonKey(name: r'int32') 
     int?
  int32,
-    @JsonKey(name: r'int64') 
+                    @JsonKey(name: r'int64') 
     int?
  int64,
-    @JsonKey(name: r'number') 
+                    @JsonKey(name: r'number') 
     required num
  number,
-    @JsonKey(name: r'float') 
+                    @JsonKey(name: r'float') 
     double?
  float,
-    @JsonKey(name: r'double') 
+                    @JsonKey(name: r'double') 
     double?
  double_,
-    @JsonKey(name: r'decimal') 
+                    @JsonKey(name: r'decimal') 
     double?
  decimal,
-    @JsonKey(name: r'string') 
+                    @JsonKey(name: r'string') 
     String?
  string,
-    @JsonKey(name: r'byte') 
+                    @JsonKey(name: r'byte') 
     required String
  byte,
-    @JsonKey(name: r'binary') 
+                    @JsonKey(name: r'binary') 
     MultipartFile?
  binary,
-    @JsonKey(name: r'date') 
+                    @JsonKey(name: r'date') 
     required DateTime
  date,
-    @JsonKey(name: r'dateTime') 
+                    @JsonKey(name: r'dateTime') 
     DateTime?
  dateTime,
-    @JsonKey(name: r'uuid') 
+                    @JsonKey(name: r'uuid') 
     String?
  uuid,
-    @JsonKey(name: r'password') 
+                    @JsonKey(name: r'password') 
     required String
  password,
-        /// A string that is a 10 digit number. Can have leading zeros.
-    @JsonKey(name: r'pattern_with_digits') 
+                        /// A string that is a 10 digit number. Can have leading zeros.
+            @JsonKey(name: r'pattern_with_digits') 
     String?
  patternWithDigits,
-        /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
-    @JsonKey(name: r'pattern_with_digits_and_delimiter') 
+                        /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+            @JsonKey(name: r'pattern_with_digits_and_delimiter') 
     String?
  patternWithDigitsAndDelimiter,
-}) = _FormatTest;
-
-
+        }) = _FormatTest;
 
 
         factory FormatTest.fromJson(Map<String, dynamic> json) => _$FormatTestFromJson(json);
@@ -93,10 +90,7 @@ const FormatTest._();
 
 
 
-
-
 }
-
 
 
 

@@ -17,40 +17,37 @@ part of 'models.dart';
         /// * [phone] 
         /// * [userStatus] - User Status
 
-@freezed
-class User with _$User {
-const User._();
-
-
+        @freezed
+        class User with _$User {
+        const User._();
+        
         const factory User({
-    @JsonKey(name: r'id') 
+                    @JsonKey(name: r'id') 
     int?
  id,
-    @JsonKey(name: r'username') 
+                    @JsonKey(name: r'username') 
     String?
  username,
-    @JsonKey(name: r'firstName') 
+                    @JsonKey(name: r'firstName') 
     String?
  firstName,
-    @JsonKey(name: r'lastName') 
+                    @JsonKey(name: r'lastName') 
     String?
  lastName,
-    @JsonKey(name: r'email') 
+                    @JsonKey(name: r'email') 
     String?
  email,
-    @JsonKey(name: r'password') 
+                    @JsonKey(name: r'password') 
     String?
  password,
-    @JsonKey(name: r'phone') 
+                    @JsonKey(name: r'phone') 
     String?
  phone,
-        /// User Status
-    @JsonKey(name: r'userStatus') 
+                        /// User Status
+            @JsonKey(name: r'userStatus') 
     int?
  userStatus,
-}) = _User;
-
-
+        }) = _User;
 
 
         factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -60,10 +57,7 @@ const User._();
 
 
 
-
-
 }
-
 
 
 

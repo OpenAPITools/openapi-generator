@@ -11,21 +11,18 @@ part of 'models.dart';
         /// * [bar] 
         /// * [foo] 
 
-@freezed
-class HasOnlyReadOnly with _$HasOnlyReadOnly {
-const HasOnlyReadOnly._();
-
-
+        @freezed
+        class HasOnlyReadOnly with _$HasOnlyReadOnly {
+        const HasOnlyReadOnly._();
+        
         const factory HasOnlyReadOnly({
-    @JsonKey(name: r'bar') 
+                    @JsonKey(name: r'bar') 
     String?
  bar,
-    @JsonKey(name: r'foo') 
+                    @JsonKey(name: r'foo') 
     String?
  foo,
-}) = _HasOnlyReadOnly;
-
-
+        }) = _HasOnlyReadOnly;
 
 
         factory HasOnlyReadOnly.fromJson(Map<String, dynamic> json) => _$HasOnlyReadOnlyFromJson(json);
@@ -35,10 +32,7 @@ const HasOnlyReadOnly._();
 
 
 
-
-
 }
-
 
 
 

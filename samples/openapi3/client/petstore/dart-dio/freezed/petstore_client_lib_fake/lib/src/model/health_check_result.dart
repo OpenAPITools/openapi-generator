@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [nullableMessage] 
 
-@freezed
-class HealthCheckResult with _$HealthCheckResult {
-const HealthCheckResult._();
-
-
+        @freezed
+        class HealthCheckResult with _$HealthCheckResult {
+        const HealthCheckResult._();
+        
         const factory HealthCheckResult({
-    @JsonKey(name: r'NullableMessage') 
+                    @JsonKey(name: r'NullableMessage') 
     String?
  nullableMessage,
-}) = _HealthCheckResult;
-
-
+        }) = _HealthCheckResult;
 
 
         factory HealthCheckResult.fromJson(Map<String, dynamic> json) => _$HealthCheckResultFromJson(json);
@@ -31,10 +28,7 @@ const HealthCheckResult._();
 
 
 
-
-
 }
-
 
 
 

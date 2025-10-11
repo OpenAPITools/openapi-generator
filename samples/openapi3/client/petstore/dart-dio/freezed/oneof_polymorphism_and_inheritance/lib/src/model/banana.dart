@@ -10,18 +10,15 @@ part of 'models.dart';
     /// Properties:
         /// * [length] 
 
-@freezed
-class Banana with _$Banana {
-const Banana._();
-
-
+        @freezed
+        class Banana with _$Banana {
+        const Banana._();
+        
         const factory Banana({
-    @JsonKey(name: r'length') 
+                    @JsonKey(name: r'length') 
     required int
  length,
-}) = _Banana;
-
-
+        }) = _Banana;
 
 
         factory Banana.fromJson(Map<String, dynamic> json) => _$BananaFromJson(json);
@@ -31,10 +28,7 @@ const Banana._();
 
 
 
-
-
 }
-
 
 
 

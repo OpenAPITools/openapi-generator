@@ -12,24 +12,21 @@ part of 'models.dart';
         /// * [type] 
         /// * [message] 
 
-@freezed
-class ApiResponse with _$ApiResponse {
-const ApiResponse._();
-
-
+        @freezed
+        class ApiResponse with _$ApiResponse {
+        const ApiResponse._();
+        
         const factory ApiResponse({
-    @JsonKey(name: r'code') 
+                    @JsonKey(name: r'code') 
     int?
  code,
-    @JsonKey(name: r'type') 
+                    @JsonKey(name: r'type') 
     String?
  type,
-    @JsonKey(name: r'message') 
+                    @JsonKey(name: r'message') 
     String?
  message,
-}) = _ApiResponse;
-
-
+        }) = _ApiResponse;
 
 
         factory ApiResponse.fromJson(Map<String, dynamic> json) => _$ApiResponseFromJson(json);
@@ -39,10 +36,7 @@ const ApiResponse._();
 
 
 
-
-
 }
-
 
 
 
