@@ -5,8 +5,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 {{#operations}}
-{{#imports}}import '{{.}}';
-{{/imports}}
+{{! No need to Import all the required model files as freezed uses the part of directive for it models}}
+{{^useFreezed}}
+    {{#imports}}
+import '{{.}}';
+    {{/imports}}
+{{/useFreezed}}
 
 class {{classname}} {
 
@@ -38,7 +42,16 @@ class {{classname}} {
   {{#isDeprecated}}
   @Deprecated('This operation has been deprecated')
   {{/isDeprecated}}
-  Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}{{#isPathParam}}
+  {{#useFreezed}}
+      {{#freezedUnionResponse}}
+          Future<Response<{{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data>> {{nickname}}({
+      {{/freezedUnionResponse}}
+      {{^freezedUnionResponse}}
+              Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({
+      {{/freezedUnionResponse}}
+  {{/useFreezed}}
+  {{^useFreezed}}
+  Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{/useFreezed}}{{#allParams}}{{#isPathParam}}
     {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
     {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
     {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}
@@ -116,7 +129,15 @@ class {{classname}} {
     );
     {{#returnType}}
 
-    {{{.}}}? _responseData;
+    {{#useFreezed}}
+        {{#freezedUnionResponse}}
+            {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data _responseData;
+        {{/freezedUnionResponse}}
+        {{^freezedUnionResponse}}
+            {{{returnType}}} _responseData;
+        {{/freezedUnionResponse}}
+    {{/useFreezed}}
+    {{^useFreezed}}{{{.}}}? _responseData;{{/useFreezed}}
 
     try {
 {{#includeLibraryTemplate}}api/deserialize{{/includeLibraryTemplate}}
@@ -130,7 +151,17 @@ class {{classname}} {
       );
     }
 
+    {{#useFreezed}}
+        {{#freezedUnionResponse}}
+    return Response<{{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data>(
+        {{/freezedUnionResponse}}
+        {{^freezedUnionResponse}}
     return Response<{{{returnType}}}>(
+        {{/freezedUnionResponse}}
+    {{/useFreezed}}
+    {{^useFreezed}}
+    return Response<{{{returnType}}}>(
+    {{/useFreezed}}
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -139,8 +170,41 @@ class {{classname}} {
       statusCode: _response.statusCode,
       statusMessage: _response.statusMessage,
       extra: _response.extra,
-    );{{/returnType}}{{^returnType}}
-    return _response;{{/returnType}}
+    );{{/returnType}}
+    {{^returnType}}
+        {{^useFreezed}}
+    return _response;
+        {{/useFreezed}}
+        {{#useFreezed}}
+            {{#freezedUnionResponse}}
+                {{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data _responseData;
+                    try {
+                        {{#includeLibraryTemplate}}api/deserialize{{/includeLibraryTemplate}}
+                    } catch (error, stackTrace) {
+                    throw DioException(
+                    requestOptions: _response.requestOptions,
+                    response: _response,
+                    type: DioExceptionType.unknown,
+                    error: error,
+                    stackTrace: stackTrace,
+                    );
+                    }
+                return Response<{{#lambda.titlecase}}{{nickname}}{{/lambda.titlecase}}Data>(
+                    data: _responseData,
+                    headers: _response.headers,
+                    isRedirect: _response.isRedirect,
+                    requestOptions: _response.requestOptions,
+                    redirects: _response.redirects,
+                    statusCode: _response.statusCode,
+                    statusMessage: _response.statusMessage,
+                    extra: _response.extra,
+                    );
+            {{/freezedUnionResponse}}
+            {{^freezedUnionResponse}}
+                    return _response;
+            {{/freezedUnionResponse}}
+        {{/useFreezed}}
+    {{/returnType}}
   }
 
   {{/operation}}
