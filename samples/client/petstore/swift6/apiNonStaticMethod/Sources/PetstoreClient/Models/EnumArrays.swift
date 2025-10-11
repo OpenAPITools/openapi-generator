@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct EnumArrays: Sendable, Codable, ParameterConvertible, Hashable {
+public struct EnumArrays: Sendable, Codable, Hashable {
 
     public enum JustSymbol: String, Sendable, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="
