@@ -50,7 +50,7 @@ public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotatio
         return myself();
     }
 
-    public ACTUAL containsWithNameAndDoesContainAttributes(final String name, final List<String> attributes) {
+    public ACTUAL containsWithNameAndDoesNotContainAttributes(final String name, final List<String> attributes) {
         super
                 .withFailMessage("Should have annotation with name: " + name + " and no attributes: " + attributes + ", but was: " + actual)
                 .anyMatch(annotation -> annotation.getNameAsString().equals(name) && hasNotAttributes(annotation, attributes));

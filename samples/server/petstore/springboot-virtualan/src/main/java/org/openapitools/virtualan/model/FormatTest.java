@@ -85,7 +85,7 @@ public class FormatTest {
    * maximum: 100
    * @return integer
    */
-  @Min(10) @Max(100) 
+  @Min(value = 10) @Max(value = 100) 
   @Schema(name = "integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("integer")
   public @Nullable Integer getInteger() {
@@ -107,7 +107,7 @@ public class FormatTest {
    * maximum: 200
    * @return int32
    */
-  @Min(20) @Max(200) 
+  @Min(value = 20) @Max(value = 200) 
   @Schema(name = "int32", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("int32")
   public @Nullable Integer getInt32() {
@@ -149,7 +149,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
    */
-  @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
+  @NotNull @Valid @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") 
   @Schema(name = "number", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number")
   public BigDecimal getNumber() {
@@ -171,7 +171,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
    */
-  @DecimalMin("54.3") @DecimalMax("987.6") 
+  @DecimalMin(value = "54.3") @DecimalMax(value = "987.6") 
   @Schema(name = "float", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("float")
   public @Nullable Float getFloat() {
@@ -193,7 +193,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
    */
-  @DecimalMin("67.8") @DecimalMax("123.4") 
+  @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") 
   @Schema(name = "double", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("double")
   public @Nullable Double getDouble() {
