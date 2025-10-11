@@ -1153,6 +1153,42 @@ public class OpenAPINormalizerTest {
         assertEquals(requiredProperties.getRequired(), null);
     }
 
+
+    @Test
+    public void testRemoveXInternalFromInlineProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_x_internal_test.yaml");
+        Schema parentSchema = openAPI.getComponents().getSchemas().get("ParentSchema");
+        Schema inlineProperty = (Schema) parentSchema.getProperties().get("inlineXInternalProperty");
+        
+        // Before normalization: x-internal should be present on inline property
+        assertNotNull(inlineProperty.getExtensions());
+        assertEquals(inlineProperty.getExtensions().get("x-internal"), true);
+        
+        // Run normalizer with REMOVE_X_INTERNAL=true
+        Map<String, String> options = new HashMap<>();
+        options.put("REMOVE_X_INTERNAL", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+        
+        // After normalization: x-internal should be removed from inline property
+        Schema parentSchemaAfter = openAPI.getComponents().getSchemas().get("ParentSchema");
+        Schema inlinePropertyAfter = (Schema) parentSchemaAfter.getProperties().get("inlineXInternalProperty");
+        
+        // x-internal extension should be removed (null or not present in map)
+        if (inlinePropertyAfter.getExtensions() != null) {
+            assertNull(inlinePropertyAfter.getExtensions().get("x-internal"));
+        }
+        
+        // The property itself should still exist (we're removing the flag, not the property)
+        assertNotNull(inlinePropertyAfter);
+        assertEquals(inlinePropertyAfter.getType(), "object");
+        
+        // Nested properties should still exist
+        assertNotNull(inlinePropertyAfter.getProperties());
+        assertNotNull(inlinePropertyAfter.getProperties().get("nestedField"));
+        assertNotNull(inlinePropertyAfter.getProperties().get("nestedNumber"));
+    }
+
     public static class RemoveRequiredNormalizer extends OpenAPINormalizer {
 
         public RemoveRequiredNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
