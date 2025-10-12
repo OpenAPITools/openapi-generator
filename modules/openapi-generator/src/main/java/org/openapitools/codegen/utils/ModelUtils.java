@@ -1379,6 +1379,14 @@ public class ModelUtils {
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
+
+            // override the description of the referenced component
+            if(ref != null) {
+                if(schema.getDescription() != null) {
+                    ref.setDescription(schema.getDescription());
+                }
+            }
+
             if (ref == null) {
                 if (!isRefToSchemaWithProperties(schema.get$ref())) {
                     once(LOGGER).warn("{} is not defined", schema.get$ref());
