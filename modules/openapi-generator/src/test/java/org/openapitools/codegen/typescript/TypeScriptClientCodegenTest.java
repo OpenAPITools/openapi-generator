@@ -294,4 +294,33 @@ public class TypeScriptClientCodegenTest {
             }
         }
     }
+
+    @Test
+    public void testRefDescription() throws Exception {
+        final File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript")
+                .setInputSpec("src/test/resources/3_0/typescript/ref-description.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path file = Paths.get(output + "/models/PetUpdateRequest.ts");
+        // verify ref description is found
+        TestUtils.assertFileContains(
+                file,
+                "Reference description of Date schema"
+        );
+        // verify component description is not present
+        TestUtils.assertFileNotContains(
+                file,
+                "Component description of Date schema"
+        );
+    }
+
 }
