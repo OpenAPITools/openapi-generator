@@ -2867,17 +2867,17 @@ components:
             type: string
           description: list of named parameters for current message
           type: object
-        list:
-          items:
-            type: string
-          type: array
-        deepList:
-          items:
-            items:
-              type: string
-            type: array
-          type: array
       type: object
+    ListAlias:
+      items:
+        type: string
+      type: array
+    DeepListAlias:
+      items:
+        items:
+          type: string
+        type: array
+      type: array
     TestResult:
       allOf:
       - $ref: "#/components/schemas/Result"

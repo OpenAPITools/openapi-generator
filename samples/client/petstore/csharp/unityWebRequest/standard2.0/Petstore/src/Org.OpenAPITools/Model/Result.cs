@@ -36,15 +36,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="code">Result code.</param>
         /// <param name="uuid">Result unique identifier.</param>
         /// <param name="data">list of named parameters for current message.</param>
-        /// <param name="list">list.</param>
-        /// <param name="deepList">deepList.</param>
-        public Result(string code = default, string uuid = default, Dictionary<string, string> data = default, List<string> list = default, List<List<string>> deepList = default)
+        public Result(string code = default, string uuid = default, Dictionary<string, string> data = default)
         {
             this.Code = code;
             this.Uuid = uuid;
             this.Data = data;
-            this.List = list;
-            this.DeepList = deepList;
         }
 
         /// <summary>
@@ -69,18 +65,6 @@ namespace Org.OpenAPITools.Model
         public Dictionary<string, string> Data { get; set; }
 
         /// <summary>
-        /// Gets or Sets List
-        /// </summary>
-        [DataMember(Name = "list", EmitDefaultValue = false)]
-        public List<string> List { get; set; }
-
-        /// <summary>
-        /// Gets or Sets DeepList
-        /// </summary>
-        [DataMember(Name = "deepList", EmitDefaultValue = false)]
-        public List<List<string>> DeepList { get; set; }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -91,8 +75,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  Data: ").Append(Data).Append("\n");
-            sb.Append("  List: ").Append(List).Append("\n");
-            sb.Append("  DeepList: ").Append(DeepList).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -143,18 +125,6 @@ namespace Org.OpenAPITools.Model
                     this.Data != null &&
                     input.Data != null &&
                     this.Data.SequenceEqual(input.Data)
-                ) && 
-                (
-                    this.List == input.List ||
-                    this.List != null &&
-                    input.List != null &&
-                    this.List.SequenceEqual(input.List)
-                ) && 
-                (
-                    this.DeepList == input.DeepList ||
-                    this.DeepList != null &&
-                    input.DeepList != null &&
-                    this.DeepList.SequenceEqual(input.DeepList)
                 );
         }
 
@@ -178,14 +148,6 @@ namespace Org.OpenAPITools.Model
                 if (this.Data != null)
                 {
                     hashCode = (hashCode * 59) + this.Data.GetHashCode();
-                }
-                if (this.List != null)
-                {
-                    hashCode = (hashCode * 59) + this.List.GetHashCode();
-                }
-                if (this.DeepList != null)
-                {
-                    hashCode = (hashCode * 59) + this.DeepList.GetHashCode();
                 }
                 return hashCode;
             }
