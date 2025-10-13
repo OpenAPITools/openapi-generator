@@ -76,8 +76,6 @@ pub async fn create(addr: &str, https: bool) {
         }
     } else {
         info!("Starting a server (over http, so no TLS)");
-        // Using HTTP
-        let listener = TcpListener::bind(&addr).await.unwrap();
         println!("Listening on http://{}", addr);
 
         loop {
