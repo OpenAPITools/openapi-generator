@@ -100,6 +100,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     private final DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
     private final DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
 
+    protected String apiDocPath = "docs/";
+
     public TypeScriptClientCodegen() {
         super();
 
@@ -400,6 +402,11 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         return objs;
     }
 
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + File.separator + apiDocPath);
+    }
+
     private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
         List<Map<String, String>> tsImports = new ArrayList<>();
         for (String im : imports) {
@@ -431,6 +438,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         // change package names
         apiPackage = this.apiPackage + ".apis";
         testPackage = this.testPackage + ".tests";
+
+        additionalProperties.put("apiDocPath", apiDocPath);
 
         additionalProperties.putIfAbsent(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
         supportingFiles.add(new SupportingFile("index.mustache", "index.ts"));
