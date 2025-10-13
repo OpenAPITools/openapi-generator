@@ -588,6 +588,6 @@ class ObjectSerializer
             }
         }
 
-        return $qs ? (string) substr($qs, 0, -1) : '';
+        return $qs ? substr($qs, 0, -1) : '';
     }
 }
