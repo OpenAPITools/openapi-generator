@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Client
         internal bool HttpClientsAdded { get; private set; }
 
         /// <summary>
-        /// Instantiates the class 
+        /// Instantiates the class
         /// </summary>
         /// <param name="services"></param>
         public HostConfiguration(IServiceCollection services)
@@ -61,8 +61,8 @@ namespace Org.OpenAPITools.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>(client));
-            
+            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>("Org.OpenAPITools.Api.IDefaultApi", client));
+
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)
                     builder(instance);
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Client
         /// <typeparam name="TTokenProvider"></typeparam>
         /// <typeparam name="TTokenBase"></typeparam>
         /// <returns></returns>
-        public HostConfiguration UseProvider<TTokenProvider, TTokenBase>() 
+        public HostConfiguration UseProvider<TTokenProvider, TTokenBase>()
             where TTokenProvider : TokenProvider<TTokenBase>
             where TTokenBase : TokenBase
         {
