@@ -1,0 +1,103 @@
+openapi: 3.0.0
+info:
+  description: test order parameters
+  version: 1.0.0
+  title: Test order parameters
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+
+paths:
+  /pets:
+    get:
+      tags:
+        - default
+      summary: Finds Pets
+      deprecated: true
+      description: Find all pets
+      operationId: findPets
+      parameters:
+        - name: type
+          in: query
+          description: type of pet
+          style: form
+          explode: false
+          schema:
+            type: string
+            default: available
+        - name: name
+          in: query
+          description: name of pet
+          required: true
+          schema:
+            type: string
+        - name: age
+          in: query
+          description: age of pet
+          schema:
+            type: number
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value
+
+    patch:
+      tags:
+        - default
+      summary: Update a Pet
+      description: Partially update an existing pet
+      operationId: updatePet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetUpdateRequest'
+      responses:
+        '200':
+          description: Pet updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid input
+        '404':
+          description: Pet not found
+
+components:
+  schemas:
+    PetUpdateRequest:
+      type: object
+      description: Payload for updating a pet
+      properties:
+        name:
+          type: string
+          description: New name for the pet
+        age:
+          type: integer
+          format: int32
+          description: Updated age
+          deprecated: true
+        type:
+          type: string
+          description: Type of pet
+      required:
+        - name
+
+    Pet:
+      type: object
+      description: Pet object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        age:
+          type: integer
+          format: int32
+        type:
+          type: string
