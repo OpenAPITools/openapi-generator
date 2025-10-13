@@ -38,7 +38,7 @@ import javax.annotation.Generated;
 @Tag(name = "pet", description = "Everything about your Pets")
 public interface PetApi {
 
-    public static final String PATH_ADD_PET = "/pet";
+    String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
      * 

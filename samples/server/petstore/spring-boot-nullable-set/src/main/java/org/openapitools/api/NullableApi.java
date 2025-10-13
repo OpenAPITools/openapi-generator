@@ -43,7 +43,7 @@ public interface NullableApi {
         return Optional.empty();
     }
 
-    public static final String PATH_NULLABLE_TEST = "/nullable";
+    String PATH_NULLABLE_TEST = "/nullable";
     /**
      * POST /nullable
      * nullable test

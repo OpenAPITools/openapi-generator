@@ -39,7 +39,7 @@ public interface StoreApi {
         return new StoreApiDelegate() {};
     }
 
-    public static final String PATH_DELETE_ORDER = "/store/order/{orderId}";
+    String PATH_DELETE_ORDER = "/store/order/{orderId}";
     /**
      * DELETE /store/order/{orderId} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -70,7 +70,7 @@ public interface StoreApi {
     }
 
 
-    public static final String PATH_GET_INVENTORY = "/store/inventory";
+    String PATH_GET_INVENTORY = "/store/inventory";
     /**
      * GET /store/inventory : Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -104,7 +104,7 @@ public interface StoreApi {
     }
 
 
-    public static final String PATH_GET_ORDER_BY_ID = "/store/order/{orderId}";
+    String PATH_GET_ORDER_BY_ID = "/store/order/{orderId}";
     /**
      * GET /store/order/{orderId} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -141,7 +141,7 @@ public interface StoreApi {
     }
 
 
-    public static final String PATH_PLACE_ORDER = "/store/order";
+    String PATH_PLACE_ORDER = "/store/order";
     /**
      * POST /store/order : Place an order for a pet
      * 

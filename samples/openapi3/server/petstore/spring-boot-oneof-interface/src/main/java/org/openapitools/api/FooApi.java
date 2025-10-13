@@ -44,7 +44,7 @@ public interface FooApi {
         return Optional.empty();
     }
 
-    public static final String PATH_CREATE_FOO = "/foo";
+    String PATH_CREATE_FOO = "/foo";
     /**
      * POST /foo : Create a Foo
      *
@@ -85,7 +85,7 @@ public interface FooApi {
     }
 
 
-    public static final String PATH_GET_ALL_FOOS = "/foo";
+    String PATH_GET_ALL_FOOS = "/foo";
     /**
      * GET /foo : GET all Foos
      *

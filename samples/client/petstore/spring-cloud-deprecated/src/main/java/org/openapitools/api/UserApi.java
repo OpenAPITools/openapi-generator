@@ -39,7 +39,7 @@ import javax.annotation.Generated;
 @Tag(name = "user", description = "Operations about user")
 public interface UserApi {
 
-    public static final String PATH_CREATE_USER = "/user";
+    String PATH_CREATE_USER = "/user";
     /**
      * POST /user : Create user
      * This can only be done by the logged in user.
@@ -70,7 +70,7 @@ public interface UserApi {
     );
 
 
-    public static final String PATH_CREATE_USERS_WITH_ARRAY_INPUT = "/user/createWithArray";
+    String PATH_CREATE_USERS_WITH_ARRAY_INPUT = "/user/createWithArray";
     /**
      * POST /user/createWithArray : Creates list of users with given input array
      * 
@@ -101,7 +101,7 @@ public interface UserApi {
     );
 
 
-    public static final String PATH_CREATE_USERS_WITH_LIST_INPUT = "/user/createWithList";
+    String PATH_CREATE_USERS_WITH_LIST_INPUT = "/user/createWithList";
     /**
      * POST /user/createWithList : Creates list of users with given input array
      * 
@@ -132,7 +132,7 @@ public interface UserApi {
     );
 
 
-    public static final String PATH_DELETE_USER = "/user/{username}";
+    String PATH_DELETE_USER = "/user/{username}";
     /**
      * DELETE /user/{username} : Delete user
      * This can only be done by the logged in user.
@@ -164,7 +164,7 @@ public interface UserApi {
     );
 
 
-    public static final String PATH_GET_USER_BY_NAME = "/user/{username}";
+    String PATH_GET_USER_BY_NAME = "/user/{username}";
     /**
      * GET /user/{username} : Get user by user name
      * 
@@ -199,7 +199,7 @@ public interface UserApi {
     );
 
 
-    public static final String PATH_LOGIN_USER = "/user/login";
+    String PATH_LOGIN_USER = "/user/login";
     /**
      * GET /user/login : Logs user into the system
      * 
@@ -234,7 +234,7 @@ public interface UserApi {
     );
 
 
-    public static final String PATH_LOGOUT_USER = "/user/logout";
+    String PATH_LOGOUT_USER = "/user/logout";
     /**
      * GET /user/logout : Logs out current logged in user session
      * 
@@ -263,7 +263,7 @@ public interface UserApi {
     );
 
 
-    public static final String PATH_UPDATE_USER = "/user/{username}";
+    String PATH_UPDATE_USER = "/user/{username}";
     /**
      * PUT /user/{username} : Updated user
      * This can only be done by the logged in user.
