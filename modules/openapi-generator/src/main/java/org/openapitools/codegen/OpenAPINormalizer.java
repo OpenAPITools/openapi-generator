@@ -49,7 +49,7 @@ public class OpenAPINormalizer {
 
     private TreeSet<String> anyTypeTreeSet = new TreeSet<>();
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
 
     Set<String> ruleNames = new TreeSet<>();
     Set<String> rulesDefaultToTrue = new TreeSet<>();
@@ -133,10 +133,7 @@ public class OpenAPINormalizer {
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String FILTER = "FILTER";
-    HashSet<String> operationIdFilters = new HashSet<>();
-    HashSet<String> methodFilters = new HashSet<>();
-
-    HashSet<String> tagFilters = new HashSet<>();
+    Filter filter = new Filter();
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String SET_CONTAINER_TO_NULLABLE = "SET_CONTAINER_TO_NULLABLE";
@@ -275,29 +272,11 @@ public class OpenAPINormalizer {
 
         if (inputRules.get(FILTER) != null) {
             rules.put(FILTER, true);
-
-            String[] filterStrs = inputRules.get(FILTER).split(":");
-            if (filterStrs.length != 2) { // only support operationId with : at the moment
-                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
-            } else {
-                if ("operationId".equals(filterStrs[0])) {
-                    operationIdFilters = Arrays.stream(filterStrs[1].split("[|]"))
-                            .filter(Objects::nonNull)
-                            .map(String::trim)
-                            .collect(Collectors.toCollection(HashSet::new));
-                } else if ("method".equals(filterStrs[0])) {
-                    methodFilters = Arrays.stream(filterStrs[1].split("[|]"))
-                            .filter(Objects::nonNull)
-                            .map(String::trim)
-                            .collect(Collectors.toCollection(HashSet::new));
-                } else if ("tag".equals(filterStrs[0])) {
-                    tagFilters = Arrays.stream(filterStrs[1].split("[|]"))
-                            .filter(Objects::nonNull)
-                            .map(String::trim)
-                            .collect(Collectors.toCollection(HashSet::new));
-                } else {
-                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
-                }
+            String filters = inputRules.get(FILTER);
+            try {
+                filter = new Filter(filters);
+            } catch (Exception e) {
+                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2` in {}", filters);
             }
         }
 
@@ -405,15 +384,11 @@ public class OpenAPINormalizer {
                     "trace", PathItem::getTrace
             );
 
-            // Iterates over each HTTP method in methodMap, retrieves the corresponding Operation from the PathItem,
-            // and marks it as internal (`x-internal`) if the method is not in methodFilters.
-            methodMap.forEach((method, getter) -> {
-                Operation operation = getter.apply(path);
-                if (operation != null && !methodFilters.isEmpty()) {
-                    LOGGER.info("operation `{}` marked internal only (x-internal: `{}`) by the method FILTER", operation.getOperationId(), !methodFilters.contains(method));
-                    operation.addExtension("x-internal", !methodFilters.contains(method));
-                }
-            });
+            if (filter.hasFilter()) {
+                // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
+                // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
+                filter.apply(pathsEntry.getKey(), path, methodMap);
+            }
 
             // Include callback operation as well
             for (Operation operation : path.readOperations()) {
@@ -430,22 +405,6 @@ public class OpenAPINormalizer {
             normalizeParameters(path.getParameters());
 
             for (Operation operation : operations) {
-                if (operationIdFilters.size() > 0) {
-                    if (operationIdFilters.contains(operation.getOperationId())) {
-                        operation.addExtension(X_INTERNAL, false);
-                    } else {
-                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the operationId FILTER", operation.getOperationId());
-                        operation.addExtension(X_INTERNAL, true);
-                    }
-                } else if (!tagFilters.isEmpty()) {
-                    if (operation.getTags().stream().anyMatch(tagFilters::contains)) {
-                        operation.addExtension(X_INTERNAL, false);
-                    } else {
-                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the tag FILTER", operation.getOperationId());
-                        operation.addExtension(X_INTERNAL, true);
-                    }
-                }
-
                 normalizeOperation(operation);
                 normalizeRequestBody(operation);
                 normalizeParameters(operation.getParameters());
@@ -1349,7 +1308,7 @@ public class OpenAPINormalizer {
      *
      * @param schema Schema to modify
      * @param subSchemas List of sub-schemas to check
-     * @param schemaType Type of composed schema ("oneOf" or "anyOf")
+     * @param composedType Type of composed schema ("oneOf" or "anyOf")
      * @return Simplified schema
      */
     protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
@@ -1818,4 +1777,84 @@ public class OpenAPINormalizer {
     }
 
     // ===================== end of rules =====================
+
+    static class Filter {
+        protected Set<String> operationIdFilters = Collections.emptySet();
+        protected Set<String> methodFilters = Collections.emptySet();
+        protected Set<String> tagFilters = Collections.emptySet();
+        protected Set<String> pathStartingWithFilters = Collections.emptySet();
+
+        Filter() {
+
+        }
+
+        public Filter(String filters) {
+            for (String filter : filters.split(";")) {
+                filter = filter.trim();
+                String[] filterStrs = filter.split(":");
+                if (filterStrs.length != 2) { // only support operationId with : at the moment
+                    throw new IllegalArgumentException("filter not supported :[" + filter + "]");
+                } else {
+                    String filterKey = filterStrs[0].trim();
+                    String filterValue = filterStrs[1];
+                    Set<String> parsedFilters = Arrays.stream(filterValue.split("[|]"))
+                            .filter(Objects::nonNull)
+                            .map(String::trim)
+                            .collect(Collectors.toCollection(HashSet::new));
+                    if ("operationId".equals(filterKey)) {
+                        operationIdFilters = parsedFilters;
+                    } else if ("method".equals(filterKey)) {
+                        methodFilters = parsedFilters;
+                    } else if ("tag".equals(filterKey)) {
+                        tagFilters = parsedFilters;
+                    } else if ("path".equals(filterKey)) {
+                        pathStartingWithFilters = parsedFilters;
+                    } else {
+                        throw new IllegalArgumentException("filter not supported :[" + filter + "]");
+                    }
+                }
+            }
+        }
+
+        public boolean hasFilter() {
+            return !operationIdFilters.isEmpty() || !methodFilters.isEmpty() || !tagFilters.isEmpty() || !pathStartingWithFilters.isEmpty  ();
+        }
+
+        public void apply(String path, PathItem pathItem, Map<String, Function<PathItem, Operation>> methodMap) {
+            methodMap.forEach((method, getter) -> {
+                Operation operation = getter.apply(pathItem);
+                if (operation != null) {
+                    boolean found = false;
+                    found |= hasMatch("path", operation, hasPathStarting(path));
+                    found |= hasMatch("tag", operation, hasTag(operation));
+                    found |= hasMatch("operationId", operation, hasOperationId(operation));
+                    found |= hasMatch("method", operation, hasMethod(method));
+                    operation.addExtension(X_INTERNAL, !found);
+                }
+            });
+        }
+
+        private boolean hasMatch(String filterName, Operation operation, boolean filterMatched) {
+            if (filterMatched) {
+                OpenAPINormalizer.LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the {} FILTER", operation.getOperationId(), filterName);
+            }
+            return filterMatched;
+        }
+
+        private boolean hasPathStarting(String path) {
+            return pathStartingWithFilters.stream().anyMatch(filter -> path.startsWith(filter));
+        }
+
+        private boolean hasTag( Operation operation) {
+            return operation.getTags() != null && operation.getTags().stream().anyMatch(tagFilters::contains);
+        }
+
+        private boolean hasOperationId(Operation operation) {
+            return operationIdFilters.contains(operation.getOperationId());
+        }
+
+        private boolean hasMethod(String method) {
+            return methodFilters.contains(method);
+        }
+    }
 }

@@ -645,7 +645,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 
 - `FILTER`
 
-The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated.
+The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semi-column.
 
 ### Available Filters
 
@@ -658,6 +658,9 @@ The `FILTER` parameter allows selective inclusion of API operations based on spe
 - **`tag`**  
   When set to `tag:person|basic`, operations **not** tagged with `person` or `basic` will be marked as internal (`x-internal: true`), and will not be generated.
 
+- **`path`**  
+  When set to `path:/v1|/v2`, operations on paths **not** starting with `/v1` or with `/v2` will be marked as internal (`x-internal: true`), and will not be generated.
+
 ### Example Usage
 
 ```sh
@@ -665,7 +668,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
   -g java \
   -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
   -o /tmp/java-okhttp/ \
-  --openapi-normalizer FILTER="operationId:addPet|getPetById"
+  --openapi-normalizer FILTER="operationId:addPet|getPetById ; tag:store"
 ```
 
 - `SET_CONTAINER_TO_NULLABLE`: When set to `array|set|map` (or just `array`) for example, it will set `nullable` in array, set and map to true.
