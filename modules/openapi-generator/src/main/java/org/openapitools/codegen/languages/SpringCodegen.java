@@ -568,12 +568,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.java"));
         }
 
-        if (!delegatePattern || delegateMethod) {
-            additionalProperties.put("jdk8-no-delegate", true);
-        }
-
         if (delegatePattern && !delegateMethod) {
-            additionalProperties.put("isDelegate", "true");
+            additionalProperties.put("isDelegate", true);
             apiTemplateFiles.put("apiDelegate.mustache", "Delegate.java");
         }
 
