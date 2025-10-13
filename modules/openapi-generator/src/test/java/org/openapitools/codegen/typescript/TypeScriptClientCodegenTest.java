@@ -266,7 +266,33 @@ public class TypeScriptClientCodegenTest {
         String content = Files.readString(file);
         assertEquals(1, TestUtils.countOccurrences(content, "@deprecated"));
     }
-     
+
+    @Test
+    public void testDeprecatedAttribute() throws Exception {
+        final File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript")
+                .setInputSpec("src/test/resources/3_0/typescript/deprecated-attribute.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        // verify operation is deprecated
+        Path file = Paths.get(output + "/models/PetUpdateRequest.ts");
+        TestUtils.assertFileContains(
+                file,
+                "* @deprecated"
+        );
+
+        String content = Files.readString(file);
+        assertEquals(1, TestUtils.countOccurrences(content, "@deprecated"));
+    }
+
     @Test(description = "Verify useErasableSyntax config parameter generates erasable code")
     public void testUseErasableSyntaxConfig() throws IOException {
         boolean[] options = {true, false};
