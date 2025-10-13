@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Client
         internal bool HttpClientsAdded { get; private set; }
 
         /// <summary>
-        /// Instantiates the class
+        /// Instantiates the class 
         /// </summary>
         /// <param name="services"></param>
         public HostConfiguration(IServiceCollection services)
@@ -239,7 +239,7 @@ namespace Org.OpenAPITools.Client
         /// <typeparam name="TTokenProvider"></typeparam>
         /// <typeparam name="TTokenBase"></typeparam>
         /// <returns></returns>
-        public HostConfiguration UseProvider<TTokenProvider, TTokenBase>()
+        public HostConfiguration UseProvider<TTokenProvider, TTokenBase>() 
             where TTokenProvider : TokenProvider<TTokenBase>
             where TTokenBase : TokenBase
         {
