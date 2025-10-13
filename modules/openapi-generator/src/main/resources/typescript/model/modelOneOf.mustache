@@ -10,7 +10,7 @@ export type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};
     * {{{.}}}{{/description}}
 * @export
 */
-export class {{classname}}Class implements OneOfInterface {
+export class {{classname}}Class extends OneOfClass {
     {{#discriminator}}
     static readonly discriminator: string | undefined = "{{discriminatorName}}";
     {{/discriminator}}
@@ -30,7 +30,15 @@ export class {{classname}}Class implements OneOfInterface {
     static readonly mapping: {[index: string]: string} | undefined = undefined;
     {{/hasDiscriminatorWithNonEmptyMapping}}
 
-    findMatchingType(): string | undefined {
+    static readonly arrayOfTypes: Array<{{#oneOf}}typeof {{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}> = [{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}];
+
+    public static findMatchingType(data:any): string | undefined {
+        for(const type of this.arrayOfTypes) {
+            if (this.instanceOf(data, type.getAttributeTypeMap())) {
+                return type.name;
+            }
+        }
+
         return undefined;
     }
 }
