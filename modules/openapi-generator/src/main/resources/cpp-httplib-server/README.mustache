@@ -1,0 +1,179 @@
+# {{projectName}} - C++ Server
+
+## Overview
+
+This server was generated using the [OpenAPI Generator](https://openapi-generator.tech) project.
+It uses the [cpp-httplib](https://github.com/yhirose/cpp-httplib) library to implement a lightweight HTTP server
+with JSON request/response handling via [nlohmann/json](https://github.com/nlohmann/json).
+
+## Requirements
+
+- C++17 compatible compiler
+- [cpp-httplib](https://github.com/yhirose/cpp-httplib) library
+- [nlohmann/json](https://github.com/nlohmann/json) library
+- CMake (3.14 or higher)
+
+## Project Structure
+
+```
+├── CMakeLists.txt          # Project build configuration
+├── README.md               # This file
+├── models/                  # Generated model classes
+└── api/                    # Generated API handler classes
+```
+
+## Building the Project
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+## Working with Models
+
+### Model Classes
+
+{{#models}}
+{{#model}}
+#### {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}
+
+```cpp
+// Create a model
+auto model = {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}();
+{{#vars}}
+model.{{vendorExtensions.setter}}(/* value */);  // Set {{baseName}}
+{{/vars}}
+
+// Serialize to JSON
+nlohmann::json json = {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}::toJson(model);
+std::string jsonString = json.dump();
+
+// Deserialize from JSON
+auto parsedModel = {{vendorExtensions.modelNamespace}}::{{vendorExtensions.modelClassName}}::fromJson(nlohmann::json::parse(jsonString));
+```
+{{/model}}
+{{/models}}
+
+## Implementing API Handlers
+
+### API Classes
+
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+#### {{classname}}
+
+To implement this API, create a class that inherits from the generated base class:
+
+```cpp
+class {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
+public:
+    {{#operation}}
+    {{#vendorExtensions}}
+    // Handler for this endpoint
+    {{#hasAnyResponseSchema}}
+    {{handlerFunctionResponse}} {{handlerFunctionName}}({{#hasAnyRequestSchema}}const {{handlerFunctionRequest}}& params{{/hasAnyRequestSchema}}) override {
+        // Access parameters from the params struct:
+        // - Query parameters: params.m_<paramName>
+        // - Header parameters: params.m_<paramName>
+        // - Request body (if present): params.m_request
+        // Example:
+        //   int id = params.m_id; // query/header param
+        //   std::string token = params.m_token; // header param
+        //   if (params.m_request) { /* use request body */ }
+
+        // Implement your logic here
+
+    // For successful response:
+    // Use the corresponding status code constant for the success type:
+    //   return {{successType}}(); // Will set status code {{successConstName}}
+    return {{successType}}();
+
+    // For error responses:
+    // Use the corresponding status code constant for each error type:
+    {{#errorTypes}}
+    // return {{.}}(); // Will set status code {{errorConstName}}
+    {{/errorTypes}}
+    }
+    {{/hasAnyResponseSchema}}
+    {{^hasAnyResponseSchema}}
+    void {{handlerFunctionName}}({{#hasAnyRequestSchema}}const {{handlerFunctionRequest}}& params{{/hasAnyRequestSchema}}) override {
+        // Implement your logic here
+    }
+    {{/hasAnyResponseSchema}}
+    {{/vendorExtensions}}
+    {{/operation}}
+};
+```
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+## Running the Server
+
+```cpp
+#include <httplib.h>
+#include "api/YourApiImpl.h"
+
+int main() {
+    // Create server
+    auto svr = std::make_unique<httplib::Server>();
+
+    // Create API implementation
+    auto <your_api>Impl = std::make_shared<YourApiImpl>();
+
+    // Register routes
+    <your_api>Impl->RegisterRoutes(std::move(svr));
+
+    // Start server on port 8080
+    svr->listen("localhost", 8080);
+
+    return 0;
+}
+```
+
+## Error Handling
+
+
+Each API endpoint returns a `std::variant` type that can hold either a success response or one of several error responses.
+The server automatically handles this variant and returns the appropriate HTTP status code and JSON body using the generated helper functions.
+
+For each response type (success or error), a corresponding status code constant (e.g., `MYRESPONSE_200`, `MYERROR_400`) is generated and used by the server when returning that type. You do not need to set the status code manually; just return the appropriate type from your handler.
+
+Error handling for invalid parameters or JSON is performed automatically in the generated route registration code. You can customize error responses by returning the appropriate error type from your handler.
+
+## Working with Optional Fields
+
+Optional parameters and model fields are represented using `std::optional`:
+
+```cpp
+if (model.getOptionalField()) {
+    // Field is present
+    auto value = *model.getOptionalField();
+} else {
+    // Field is not present
+}
+```
+
+## Additional Resources
+
+- [cpp-httplib Documentation](https://github.com/yhirose/cpp-httplib)
+- [nlohmann/json Documentation](https://github.com/nlohmann/json)
+- [OpenAPI Generator Documentation](https://openapi-generator.tech/docs/generators/)
+```cpp
+if (model.getOptionalField()) {
+    // Field is present
+    auto value = *model.getOptionalField();
+} else {
+    // Field is not present
+}
+```
+
+## Additional Resources
+
+- [cpp-httplib Documentation](https://github.com/yhirose/cpp-httplib)
+- [nlohmann/json Documentation](https://github.com/nlohmann/json)
+- [OpenAPI Generator Documentation](https://openapi-generator.tech/docs/generators/)
