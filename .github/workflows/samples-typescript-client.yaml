@@ -1,0 +1,121 @@
+name: Samples TS clients
+
+on:
+  push:
+    paths:
+      - samples/client/others/typescript-angular/**
+      - samples/client/petstore/typescript-angular-v12-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v13-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v14-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v15-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v16-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v17-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v18-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v19-provided-in-root/**
+      - samples/openapi3/client/petstore/typescript/builds/default/**
+      - samples/openapi3/client/petstore/typescript/tests/default/**
+      - samples/openapi3/client/petstore/typescript/builds/jquery/**
+      - samples/openapi3/client/petstore/typescript/tests/jquery/**
+      - samples/openapi3/client/petstore/typescript/builds/object_params/**
+      - samples/openapi3/client/petstore/typescript/tests/object_params/**
+      - samples/openapi3/client/petstore/typescript/builds/inversify/**
+      - samples/openapi3/client/petstore/typescript/tests/inversify/**
+      #- samples/openapi3/client/petstore/typescript/tests/deno/**
+      - samples/openapi3/client/petstore/typescript/builds/browser/**
+      - samples/openapi3/client/petstore/typescript/tests/browser/**
+      - samples/openapi3/client/petstore/typescript/builds/nullable-enum/**
+      - samples/client/petstore/typescript-fetch/builds/default/**
+      - samples/client/petstore/typescript-fetch/builds/es6-target/**
+      - samples/client/petstore/typescript-fetch/builds/with-npm-version/**
+      - samples/client/petstore/typescript-fetch/tests/default/**
+      - samples/client/petstore/typescript-node/npm/**
+      - samples/client/petstore/typescript-rxjs/builds/with-npm-version/**
+      - samples/client/petstore/typescript-axios/builds/with-npm-version/**
+      - samples/client/petstore/typescript-axios/tests/default/**
+  pull_request:
+    paths:
+      - samples/client/others/typescript-angular/**
+      - samples/client/petstore/typescript-angular-v12-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v13-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v14-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v15-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v16-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v17-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v18-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v19-provided-in-root/**
+      - samples/openapi3/client/petstore/typescript/builds/default/**
+      - samples/openapi3/client/petstore/typescript/tests/default/**
+      - samples/openapi3/client/petstore/typescript/builds/jquery/**
+      - samples/openapi3/client/petstore/typescript/tests/jquery/**
+      - samples/openapi3/client/petstore/typescript/builds/object_params/**
+      - samples/openapi3/client/petstore/typescript/tests/object_params/**
+      - samples/openapi3/client/petstore/typescript/builds/inversify/**
+      - samples/openapi3/client/petstore/typescript/tests/inversify/**
+      #- samples/openapi3/client/petstore/typescript/tests/deno/**
+      - samples/openapi3/client/petstore/typescript/builds/browser/**
+      - samples/openapi3/client/petstore/typescript/tests/browser/**
+      - samples/openapi3/client/petstore/typescript/builds/nullable-enum/**
+      - samples/client/petstore/typescript-fetch/builds/default/**
+      - samples/client/petstore/typescript-fetch/builds/es6-target/**
+      - samples/client/petstore/typescript-fetch/builds/with-npm-version/**
+      - samples/client/petstore/typescript-fetch/tests/default/**
+      - samples/client/petstore/typescript-node/npm/**
+      - samples/client/petstore/typescript-rxjs/builds/with-npm-version/**
+      - samples/client/petstore/typescript-axios/builds/with-npm-version/**
+      - samples/client/petstore/typescript-axios/tests/default/**
+jobs:
+  build:
+    name: Build projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "18.x"
+          - "20.x"
+        sample:
+          - samples/client/others/typescript-angular/
+          - samples/client/petstore/typescript-angular-v12-provided-in-root/
+          - samples/client/petstore/typescript-angular-v13-provided-in-root/
+          - samples/client/petstore/typescript-angular-v14-provided-in-root/
+          - samples/client/petstore/typescript-angular-v15-provided-in-root/
+          - samples/client/petstore/typescript-angular-v16-provided-in-root/
+          - samples/client/petstore/typescript-angular-v17-provided-in-root/
+          - samples/client/petstore/typescript-angular-v18-provided-in-root/
+          - samples/client/petstore/typescript-angular-v19-provided-in-root/
+          - samples/openapi3/client/petstore/typescript/builds/default/
+          - samples/openapi3/client/petstore/typescript/tests/default/
+          - samples/openapi3/client/petstore/typescript/builds/jquery/
+          - samples/openapi3/client/petstore/typescript/tests/jquery/
+          - samples/openapi3/client/petstore/typescript/builds/object_params/
+          - samples/openapi3/client/petstore/typescript/tests/object_params/
+          - samples/openapi3/client/petstore/typescript/builds/inversify/
+          - samples/openapi3/client/petstore/typescript/tests/inversify/
+          #- samples/openapi3/client/petstore/typescript/tests/deno/
+          - samples/openapi3/client/petstore/typescript/builds/browser/
+          - samples/openapi3/client/petstore/typescript/tests/browser/
+          - samples/openapi3/client/petstore/typescript/builds/nullable-enum/
+          - samples/client/petstore/typescript-fetch/builds/default/
+          - samples/client/petstore/typescript-fetch/builds/es6-target/
+          - samples/client/petstore/typescript-fetch/builds/with-npm-version/
+          - samples/client/petstore/typescript-fetch/tests/default/
+          - samples/client/petstore/typescript-node/npm/
+          - samples/client/petstore/typescript-rxjs/builds/with-npm-version/
+          - samples/client/petstore/typescript-axios/builds/with-npm-version/
+          - samples/client/petstore/typescript-axios/tests/default/
+    steps:
+      - uses: actions/checkout@v5
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm' # Or 'yarn'
+      - name: npm install
+        working-directory: ${{ matrix.sample }}
+        run: npm install
+      - name: npm run build
+        working-directory: ${{ matrix.sample }}
+        run: npm run build
+      - name: npm test
+        working-directory: ${{ matrix.sample }}
+        run: npm test
