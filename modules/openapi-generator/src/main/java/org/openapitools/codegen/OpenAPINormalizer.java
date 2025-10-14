@@ -275,8 +275,11 @@ public class OpenAPINormalizer {
             String filters = inputRules.get(FILTER);
             try {
                 filter = new Filter(filters);
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2` in {}", filters);
+                // rethrow the exception. This is a breaking change compared to pre 7.16.0
+                // Workaround: fix the syntax!
+                throw e;
             }
         }
 
@@ -1792,7 +1795,7 @@ public class OpenAPINormalizer {
             for (String filter : filters.split(";")) {
                 filter = filter.trim();
                 String[] filterStrs = filter.split(":");
-                if (filterStrs.length != 2) { // only support operationId with : at the moment
+                if (filterStrs.length != 2) { // only support filter with : at the moment
                     throw new IllegalArgumentException("filter not supported :[" + filter + "]");
                 } else {
                     String filterKey = filterStrs[0].trim();
