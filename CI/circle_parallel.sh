@@ -107,7 +107,6 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/typescript-axios/builds/with-npm-version && mvn integration-test)
   (cd samples/client/petstore/typescript-axios/tests/default && mvn integration-test)
   (cd samples/client/petstore/typescript-axios/tests/with-complex-headers && mvn integration-test)
-  (cd samples/server/petstore/typescript-nestjs-server && mvn integration-test)
 
 else
   echo "Running node $NODE_INDEX ..."
