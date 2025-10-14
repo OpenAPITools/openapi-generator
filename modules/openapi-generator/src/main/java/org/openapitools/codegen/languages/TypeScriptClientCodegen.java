@@ -404,7 +404,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + File.separator + apiDocPath);
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
     }
 
     private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
