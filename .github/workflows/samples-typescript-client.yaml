@@ -69,6 +69,14 @@ jobs:
   build:
     name: Build projects
     runs-on: ubuntu-latest
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     strategy:
       fail-fast: false
       matrix:
@@ -107,6 +115,9 @@ jobs:
           - samples/client/petstore/typescript-axios/tests/default/
     steps:
       - uses: actions/checkout@v5
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
