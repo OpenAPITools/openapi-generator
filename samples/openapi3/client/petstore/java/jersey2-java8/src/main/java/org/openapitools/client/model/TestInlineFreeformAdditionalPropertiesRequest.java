@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -41,8 +43,12 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "TestInlineFreeformAdditionalPropertiesRequest")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "TestInlineFreeformAdditionalPropertiesRequest")
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
+  @XmlElement(name = "someProperty")
   @javax.annotation.Nullable
   private String someProperty;
 
@@ -61,6 +67,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_SOME_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "someProperty")
 
   public String getSomeProperty() {
     return someProperty;
@@ -69,6 +76,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
 
   @JsonProperty(value = JSON_PROPERTY_SOME_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "someProperty")
   public void setSomeProperty(@javax.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
   }

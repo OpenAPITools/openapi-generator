@@ -41,6 +41,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -64,42 +66,57 @@ import org.openapitools.client.JSON;
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "NullableClass")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "NullableClass")
 public class NullableClass {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
+  @XmlElement(name = "integer_prop")
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
 
   public static final String JSON_PROPERTY_NUMBER_PROP = "number_prop";
+  @XmlElement(name = "number_prop")
   private JsonNullable<BigDecimal> numberProp = JsonNullable.<BigDecimal>undefined();
 
   public static final String JSON_PROPERTY_BOOLEAN_PROP = "boolean_prop";
+  @XmlElement(name = "boolean_prop")
   private JsonNullable<Boolean> booleanProp = JsonNullable.<Boolean>undefined();
 
   public static final String JSON_PROPERTY_STRING_PROP = "string_prop";
+  @XmlElement(name = "string_prop")
   private JsonNullable<String> stringProp = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_DATE_PROP = "date_prop";
+  @XmlElement(name = "date_prop")
   private JsonNullable<LocalDate> dateProp = JsonNullable.<LocalDate>undefined();
 
   public static final String JSON_PROPERTY_DATETIME_PROP = "datetime_prop";
+  @XmlElement(name = "datetime_prop")
   private JsonNullable<OffsetDateTime> datetimeProp = JsonNullable.<OffsetDateTime>undefined();
 
   public static final String JSON_PROPERTY_ARRAY_NULLABLE_PROP = "array_nullable_prop";
+  @XmlElement(name = "array_nullable_prop")
   private JsonNullable<List<Object>> arrayNullableProp = JsonNullable.<List<Object>>undefined();
 
   public static final String JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
+  @XmlElement(name = "array_and_items_nullable_prop")
   private JsonNullable<List<Object>> arrayAndItemsNullableProp = JsonNullable.<List<Object>>undefined();
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
+  @XmlElement(name = "array_items_nullable")
   @jakarta.annotation.Nullable
   private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
+  @XmlElement(name = "object_nullable_prop")
   private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
   public static final String JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
+  @XmlElement(name = "object_and_items_nullable_prop")
   private JsonNullable<Map<String, Object>> objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
+  @XmlElement(name = "object_items_nullable")
   @jakarta.annotation.Nullable
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
@@ -125,6 +142,7 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_INTEGER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "integer_prop")
 
   public JsonNullable<Integer> getIntegerProp_JsonNullable() {
     return integerProp;
@@ -160,6 +178,7 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_NUMBER_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "number_prop")
 
   public JsonNullable<BigDecimal> getNumberProp_JsonNullable() {
     return numberProp;
@@ -194,6 +213,7 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_BOOLEAN_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "boolean_prop")
 
   public JsonNullable<Boolean> getBooleanProp_JsonNullable() {
     return booleanProp;
@@ -228,6 +248,7 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_STRING_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "string_prop")
 
   public JsonNullable<String> getStringProp_JsonNullable() {
     return stringProp;
@@ -263,6 +284,7 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_DATE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "date_prop")
 
   public JsonNullable<LocalDate> getDateProp_JsonNullable() {
     return dateProp;
@@ -298,6 +320,7 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_DATETIME_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "datetime_prop")
 
   public JsonNullable<OffsetDateTime> getDatetimeProp_JsonNullable() {
     return datetimeProp;
@@ -344,6 +367,8 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_nullable_prop")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public JsonNullable<List<Object>> getArrayNullableProp_JsonNullable() {
     return arrayNullableProp;
@@ -390,6 +415,8 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_and_items_nullable_prop")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public JsonNullable<List<Object>> getArrayAndItemsNullableProp_JsonNullable() {
     return arrayAndItemsNullableProp;
@@ -426,6 +453,8 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEMS_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_items_nullable")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
@@ -434,6 +463,8 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEMS_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_items_nullable")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayItemsNullable(@jakarta.annotation.Nullable List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
@@ -470,6 +501,8 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_NULLABLE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "object_nullable_prop")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public JsonNullable<Map<String, Object>> getObjectNullableProp_JsonNullable() {
     return objectNullableProp;
@@ -516,6 +549,8 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "object_and_items_nullable_prop")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public JsonNullable<Map<String, Object>> getObjectAndItemsNullableProp_JsonNullable() {
     return objectAndItemsNullableProp;
@@ -552,6 +587,8 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_ITEMS_NULLABLE, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "object_items_nullable")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
@@ -560,6 +597,8 @@ public class NullableClass {
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_ITEMS_NULLABLE, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "object_items_nullable")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setObjectItemsNullable(@jakarta.annotation.Nullable Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
   }

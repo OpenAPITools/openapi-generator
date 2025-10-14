@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -40,12 +42,17 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("_special_model.name_")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "$special[model.name]")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "$special[model.name]")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
+  @XmlElement(name = "$special[property.name]")
   @jakarta.annotation.Nullable
   private Long $specialPropertyName;
 
   public static final String JSON_PROPERTY_SPECIAL_MODEL_NAME = "_special_model.name_";
+  @XmlElement(name = "_special_model.name_")
   @jakarta.annotation.Nullable
   private String specialModelName;
 
@@ -65,6 +72,7 @@ public class SpecialModelName {
 
   @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "$special[property.name]")
 
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
@@ -73,6 +81,7 @@ public class SpecialModelName {
 
   @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "$special[property.name]")
   public void set$SpecialPropertyName(@jakarta.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
@@ -91,6 +100,7 @@ public class SpecialModelName {
 
   @JsonProperty(value = JSON_PROPERTY_SPECIAL_MODEL_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "_special_model.name_")
 
   public String getSpecialModelName() {
     return specialModelName;
@@ -99,6 +109,7 @@ public class SpecialModelName {
 
   @JsonProperty(value = JSON_PROPERTY_SPECIAL_MODEL_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "_special_model.name_")
   public void setSpecialModelName(@jakarta.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;
   }

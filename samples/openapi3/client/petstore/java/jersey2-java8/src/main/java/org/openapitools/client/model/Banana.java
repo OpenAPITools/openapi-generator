@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -38,8 +40,12 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("banana")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "Banana")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Banana")
 public class Banana {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
+  @XmlElement(name = "lengthCm")
   @javax.annotation.Nullable
   private BigDecimal lengthCm;
 
@@ -58,6 +64,7 @@ public class Banana {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "lengthCm")
 
   public BigDecimal getLengthCm() {
     return lengthCm;
@@ -66,6 +73,7 @@ public class Banana {
 
   @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "lengthCm")
   public void setLengthCm(@javax.annotation.Nullable BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }

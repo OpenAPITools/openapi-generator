@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -44,15 +46,23 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("zebra")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "Zebra")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Zebra")
 public class Zebra {
   /**
    * Gets or Sets type
    */
+  @XmlType(name="TypeEnum")
+  @XmlEnum(String.class)
   public enum TypeEnum {
+    @XmlEnumValue("plains")
     PLAINS(String.valueOf("plains")),
     
+    @XmlEnumValue("mountain")
     MOUNTAIN(String.valueOf("mountain")),
     
+    @XmlEnumValue("grevys")
     GREVYS(String.valueOf("grevys"));
 
     private String value;
@@ -83,10 +93,12 @@ public class Zebra {
   }
 
   public static final String JSON_PROPERTY_TYPE = "type";
+  @XmlElement(name = "type")
   @jakarta.annotation.Nullable
   private TypeEnum type;
 
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @XmlElement(name = "className")
   @jakarta.annotation.Nonnull
   private String className;
 
@@ -106,6 +118,7 @@ public class Zebra {
 
   @JsonProperty(value = JSON_PROPERTY_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "type")
 
   public TypeEnum getType() {
     return type;
@@ -114,6 +127,7 @@ public class Zebra {
 
   @JsonProperty(value = JSON_PROPERTY_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "type")
   public void setType(@jakarta.annotation.Nullable TypeEnum type) {
     this.type = type;
   }
@@ -133,6 +147,7 @@ public class Zebra {
 
   @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "className")
 
   public String getClassName() {
     return className;
@@ -141,6 +156,7 @@ public class Zebra {
 
   @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "className")
   public void setClassName(@jakarta.annotation.Nonnull String className) {
     this.className = className;
   }

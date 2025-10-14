@@ -29,6 +29,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -49,8 +51,12 @@ import org.openapitools.client.JSON;
   @JsonSubTypes.Type(value = ParentPet.class, name = "ParentPet"),
 })
 
+@XmlRootElement(name = "GrandparentAnimal")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "GrandparentAnimal")
 public class GrandparentAnimal {
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
+  @XmlElement(name = "pet_type")
   @javax.annotation.Nonnull
   private String petType;
 
@@ -69,6 +75,7 @@ public class GrandparentAnimal {
   @javax.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_PET_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "pet_type")
 
   public String getPetType() {
     return petType;
@@ -77,6 +84,7 @@ public class GrandparentAnimal {
 
   @JsonProperty(value = JSON_PROPERTY_PET_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "pet_type")
   public void setPetType(@javax.annotation.Nonnull String petType) {
     this.petType = petType;
   }

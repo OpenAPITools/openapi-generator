@@ -248,6 +248,21 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>jaxb-runtime</id>
+            <activation>
+                <jdk>
+                    [11,)
+                </jdk>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.glassfish.jaxb</groupId>
+                    <artifactId>jaxb-runtime</artifactId>
+                    <version>${jaxb-version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 
     <dependencies>
@@ -301,6 +316,19 @@
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
+        </dependency>
+        <!-- XML processing: JAXB -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-jaxb</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
+        <!-- Also requires Jackson XML dataformat due to @JacksonXml*-annotations -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <!-- Jackson's databind and dataformat libraries seem to be released synchronously -->
+            <version>${jackson-databind-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -358,6 +386,7 @@
         <jackson-databind-nullable-version>0.2.7</jackson-databind-nullable-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <beanvalidation-version>3.0.2</beanvalidation-version>
+        <jaxb-version>4.0.6</jaxb-version>
         <junit-version>5.10.0</junit-version>
         <http-signature-version>1.8</http-signature-version>
         <scribejava-apis-version>8.3.3</scribejava-apis-version>

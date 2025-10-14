@@ -35,6 +35,8 @@ import java.util.Arrays;
 import java.util.Map;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -53,8 +55,12 @@ import org.openapitools.client.JSON;
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 
+@XmlRootElement(name = "Cat")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Cat")
 public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
+  @XmlElement(name = "declawed")
   @jakarta.annotation.Nullable
   private Boolean declawed;
 
@@ -74,6 +80,7 @@ public class Cat extends Animal {
 
   @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "declawed")
 
   public Boolean getDeclawed() {
     return declawed;
@@ -82,6 +89,7 @@ public class Cat extends Animal {
 
   @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "declawed")
   public void setDeclawed(@jakarta.annotation.Nullable Boolean declawed) {
     this.declawed = declawed;
   }

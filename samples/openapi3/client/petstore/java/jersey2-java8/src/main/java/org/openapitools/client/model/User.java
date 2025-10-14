@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -51,50 +53,65 @@ import org.openapitools.client.JSON;
   User.JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "User")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "User")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
+  @XmlElement(name = "id")
   @javax.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_USERNAME = "username";
+  @XmlElement(name = "username")
   @javax.annotation.Nullable
   private String username;
 
   public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
+  @XmlElement(name = "firstName")
   @javax.annotation.Nullable
   private String firstName;
 
   public static final String JSON_PROPERTY_LAST_NAME = "lastName";
+  @XmlElement(name = "lastName")
   @javax.annotation.Nullable
   private String lastName;
 
   public static final String JSON_PROPERTY_EMAIL = "email";
+  @XmlElement(name = "email")
   @javax.annotation.Nullable
   private String email;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
+  @XmlElement(name = "password")
   @javax.annotation.Nullable
   private String password;
 
   public static final String JSON_PROPERTY_PHONE = "phone";
+  @XmlElement(name = "phone")
   @javax.annotation.Nullable
   private String phone;
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
+  @XmlElement(name = "userStatus")
   @javax.annotation.Nullable
   private Integer userStatus;
 
   public static final String JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS = "objectWithNoDeclaredProps";
+  @XmlElement(name = "objectWithNoDeclaredProps")
   @javax.annotation.Nullable
   private Object objectWithNoDeclaredProps;
 
   public static final String JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE = "objectWithNoDeclaredPropsNullable";
+  @XmlElement(name = "objectWithNoDeclaredPropsNullable")
   private JsonNullable<Object> objectWithNoDeclaredPropsNullable = JsonNullable.<Object>undefined();
 
   public static final String JSON_PROPERTY_ANY_TYPE_PROP = "anyTypeProp";
+  @XmlElement(name = "anyTypeProp")
   private JsonNullable<Object> anyTypeProp = JsonNullable.<Object>of(null);
 
   public static final String JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
+  @XmlElement(name = "anyTypePropNullable")
   private JsonNullable<Object> anyTypePropNullable = JsonNullable.<Object>of(null);
 
   public User() { 
@@ -112,6 +129,7 @@ public class User {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
 
   public Long getId() {
     return id;
@@ -120,6 +138,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
   public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
@@ -137,6 +156,7 @@ public class User {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "username")
 
   public String getUsername() {
     return username;
@@ -145,6 +165,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "username")
   public void setUsername(@javax.annotation.Nullable String username) {
     this.username = username;
   }
@@ -162,6 +183,7 @@ public class User {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_FIRST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "firstName")
 
   public String getFirstName() {
     return firstName;
@@ -170,6 +192,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_FIRST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "firstName")
   public void setFirstName(@javax.annotation.Nullable String firstName) {
     this.firstName = firstName;
   }
@@ -187,6 +210,7 @@ public class User {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_LAST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "lastName")
 
   public String getLastName() {
     return lastName;
@@ -195,6 +219,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_LAST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "lastName")
   public void setLastName(@javax.annotation.Nullable String lastName) {
     this.lastName = lastName;
   }
@@ -212,6 +237,7 @@ public class User {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_EMAIL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "email")
 
   public String getEmail() {
     return email;
@@ -220,6 +246,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_EMAIL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "email")
   public void setEmail(@javax.annotation.Nullable String email) {
     this.email = email;
   }
@@ -237,6 +264,7 @@ public class User {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "password")
 
   public String getPassword() {
     return password;
@@ -245,6 +273,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "password")
   public void setPassword(@javax.annotation.Nullable String password) {
     this.password = password;
   }
@@ -262,6 +291,7 @@ public class User {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_PHONE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "phone")
 
   public String getPhone() {
     return phone;
@@ -270,6 +300,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_PHONE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "phone")
   public void setPhone(@javax.annotation.Nullable String phone) {
     this.phone = phone;
   }
@@ -287,6 +318,7 @@ public class User {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_USER_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "userStatus")
 
   public Integer getUserStatus() {
     return userStatus;
@@ -295,6 +327,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_USER_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "userStatus")
   public void setUserStatus(@javax.annotation.Nullable Integer userStatus) {
     this.userStatus = userStatus;
   }
@@ -312,6 +345,7 @@ public class User {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "objectWithNoDeclaredProps")
 
   public Object getObjectWithNoDeclaredProps() {
     return objectWithNoDeclaredProps;
@@ -320,6 +354,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "objectWithNoDeclaredProps")
   public void setObjectWithNoDeclaredProps(@javax.annotation.Nullable Object objectWithNoDeclaredProps) {
     this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
   }
@@ -343,6 +378,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "objectWithNoDeclaredPropsNullable")
 
   public JsonNullable<Object> getObjectWithNoDeclaredPropsNullable_JsonNullable() {
     return objectWithNoDeclaredPropsNullable;
@@ -376,6 +412,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_ANY_TYPE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "anyTypeProp")
 
   public JsonNullable<Object> getAnyTypeProp_JsonNullable() {
     return anyTypeProp;
@@ -409,6 +446,7 @@ public class User {
 
   @JsonProperty(value = JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "anyTypePropNullable")
 
   public JsonNullable<Object> getAnyTypePropNullable_JsonNullable() {
     return anyTypePropNullable;

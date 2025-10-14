@@ -28,6 +28,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import org.openapitools.client.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -44,17 +46,26 @@ import org.openapitools.client.JSON;
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 
+@XmlRootElement(name = "BigCat")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "BigCat")
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
    */
+  @XmlType(name="KindEnum")
+  @XmlEnum(String.class)
   public enum KindEnum {
+    @XmlEnumValue("lions")
     LIONS(String.valueOf("lions")),
     
+    @XmlEnumValue("tigers")
     TIGERS(String.valueOf("tigers")),
     
+    @XmlEnumValue("leopards")
     LEOPARDS(String.valueOf("leopards")),
     
+    @XmlEnumValue("jaguars")
     JAGUARS(String.valueOf("jaguars"));
 
     private String value;
@@ -85,6 +96,7 @@ public class BigCat extends Cat {
   }
 
   public static final String JSON_PROPERTY_KIND = "kind";
+  @XmlElement(name = "kind")
   @javax.annotation.Nullable
   private KindEnum kind;
 
@@ -103,6 +115,7 @@ public class BigCat extends Cat {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_KIND, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "kind")
 
   public KindEnum getKind() {
     return kind;
@@ -111,6 +124,7 @@ public class BigCat extends Cat {
 
   @JsonProperty(value = JSON_PROPERTY_KIND, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "kind")
   public void setKind(@javax.annotation.Nullable KindEnum kind) {
     this.kind = kind;
   }

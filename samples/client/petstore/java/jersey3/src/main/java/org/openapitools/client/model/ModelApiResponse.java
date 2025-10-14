@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -41,16 +43,22 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("ApiResponse")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "ModelApiResponse")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ModelApiResponse")
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
+  @XmlElement(name = "code")
   @jakarta.annotation.Nullable
   private Integer code;
 
   public static final String JSON_PROPERTY_TYPE = "type";
+  @XmlElement(name = "type")
   @jakarta.annotation.Nullable
   private String type;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
+  @XmlElement(name = "message")
   @jakarta.annotation.Nullable
   private String message;
 
@@ -70,6 +78,7 @@ public class ModelApiResponse {
 
   @JsonProperty(value = JSON_PROPERTY_CODE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "code")
 
   public Integer getCode() {
     return code;
@@ -78,6 +87,7 @@ public class ModelApiResponse {
 
   @JsonProperty(value = JSON_PROPERTY_CODE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "code")
   public void setCode(@jakarta.annotation.Nullable Integer code) {
     this.code = code;
   }
@@ -96,6 +106,7 @@ public class ModelApiResponse {
 
   @JsonProperty(value = JSON_PROPERTY_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "type")
 
   public String getType() {
     return type;
@@ -104,6 +115,7 @@ public class ModelApiResponse {
 
   @JsonProperty(value = JSON_PROPERTY_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "type")
   public void setType(@jakarta.annotation.Nullable String type) {
     this.type = type;
   }
@@ -122,6 +134,7 @@ public class ModelApiResponse {
 
   @JsonProperty(value = JSON_PROPERTY_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "message")
 
   public String getMessage() {
     return message;
@@ -130,6 +143,7 @@ public class ModelApiResponse {
 
   @JsonProperty(value = JSON_PROPERTY_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "message")
   public void setMessage(@jakarta.annotation.Nullable String message) {
     this.message = message;
   }

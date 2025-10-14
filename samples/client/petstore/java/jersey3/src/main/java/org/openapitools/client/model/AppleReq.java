@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -40,12 +42,17 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("appleReq")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "AppleReq")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "AppleReq")
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
+  @XmlElement(name = "cultivar")
   @jakarta.annotation.Nonnull
   private String cultivar;
 
   public static final String JSON_PROPERTY_MEALY = "mealy";
+  @XmlElement(name = "mealy")
   @jakarta.annotation.Nullable
   private Boolean mealy;
 
@@ -66,6 +73,7 @@ public class AppleReq {
 
   @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "cultivar")
 
   public String getCultivar() {
     return cultivar;
@@ -74,6 +82,7 @@ public class AppleReq {
 
   @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "cultivar")
   public void setCultivar(@jakarta.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
   }
@@ -92,6 +101,7 @@ public class AppleReq {
 
   @JsonProperty(value = JSON_PROPERTY_MEALY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "mealy")
 
   public Boolean getMealy() {
     return mealy;
@@ -100,6 +110,7 @@ public class AppleReq {
 
   @JsonProperty(value = JSON_PROPERTY_MEALY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "mealy")
   public void setMealy(@jakarta.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;
   }
