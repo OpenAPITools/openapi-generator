@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>TypeScriptAxiosPetstoreClientTests</artifactId>
+    <artifactId>TypeScriptBuildNullableEnumPetstoreClientSample</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>TS Axios Petstore Test Client</name>
+    <name>TS Nullable Enum Petstore Client</name>
     <build>
         <plugins>
             <plugin>
@@ -40,15 +40,16 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>npm-test</id>
-                        <phase>integration-test</phase>
+                        <id>npm-build</id>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
                             <executable>npm</executable>
                             <arguments>
-                                <argument>test</argument>
+                                <argument>run</argument>
+                                <argument>build</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -57,4 +58,3 @@
         </plugins>
     </build>
 </project>
-
