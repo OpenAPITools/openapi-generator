@@ -1605,10 +1605,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             if (this.discriminator != null) {
                 Set<CodegenDiscriminator.MappedModel> mappedModels = this.discriminator.getMappedModels();
                 for(CodegenDiscriminator.MappedModel mappedModel : mappedModels) {
-                    if(mappedModel.getModelName().equals(cm.classname)){
-                        this.discriminator.getMappedModels().remove(mappedModel);
-                        this.selfReferencingDiscriminatorMapping=mappedModel;
+                    if(mappedModel.getModelName().equals(cm.classname)) {
+                        this.selfReferencingDiscriminatorMapping = mappedModel;
                     }
+                }
+                if(this.selfReferencingDiscriminatorMapping != null) {
+                    this.discriminator.getMappedModels().remove(this.selfReferencingDiscriminatorMapping);
                 }
             }
         }
