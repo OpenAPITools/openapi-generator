@@ -25,73 +25,73 @@ export interface NullableClass {
      * @type {number}
      * @memberof NullableClass
      */
-    integerProp?: number | null;
+    integerProp?: number | null | undefined;
     /**
      * 
      * @type {number}
      * @memberof NullableClass
      */
-    numberProp?: number | null;
+    numberProp?: number | null | undefined;
     /**
      * 
      * @type {boolean}
      * @memberof NullableClass
      */
-    booleanProp?: boolean | null;
+    booleanProp?: boolean | null | undefined;
     /**
      * 
      * @type {string}
      * @memberof NullableClass
      */
-    stringProp?: string | null;
+    stringProp?: string | null | undefined;
     /**
      * 
      * @type {Date}
      * @memberof NullableClass
      */
-    dateProp?: Date | null;
+    dateProp?: Date | null | undefined;
     /**
      * 
      * @type {Date}
      * @memberof NullableClass
      */
-    datetimeProp?: Date | null;
+    datetimeProp?: Date | null | undefined;
     /**
      * 
      * @type {Array<object>}
      * @memberof NullableClass
      */
-    arrayNullableProp?: Array<object> | null;
+    arrayNullableProp?: Array<object> | null | undefined;
     /**
      * 
      * @type {Array<object | null>}
      * @memberof NullableClass
      */
-    arrayAndItemsNullableProp?: Array<object | null> | null;
+    arrayAndItemsNullableProp?: Array<object | null> | null | undefined;
     /**
      * 
      * @type {Array<object | null>}
      * @memberof NullableClass
      */
-    arrayItemsNullable?: Array<object | null>;
+    arrayItemsNullable?: Array<object | null> | undefined;
     /**
      * 
      * @type {{ [key: string]: object; }}
      * @memberof NullableClass
      */
-    objectNullableProp?: { [key: string]: object; } | null;
+    objectNullableProp?: { [key: string]: object; } | null | undefined;
     /**
      * 
      * @type {{ [key: string]: object | null; }}
      * @memberof NullableClass
      */
-    objectAndItemsNullableProp?: { [key: string]: object | null; } | null;
+    objectAndItemsNullableProp?: { [key: string]: object | null; } | null | undefined;
     /**
      * 
      * @type {{ [key: string]: object | null; }}
      * @memberof NullableClass
      */
-    objectItemsNullable?: { [key: string]: object | null; };
+    objectItemsNullable?: { [key: string]: object | null; } | undefined;
 }
 
 /**

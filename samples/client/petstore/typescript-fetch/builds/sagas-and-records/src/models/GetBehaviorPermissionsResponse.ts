@@ -38,7 +38,7 @@ export interface GetBehaviorPermissionsResponse {
      * @type {{ [key: string]: boolean; }}
      * @memberof GetBehaviorPermissionsResponse
      */
-    data?: { [key: string]: boolean; };
+    data?: { [key: string]: boolean; } | undefined;
 }
 
 /**

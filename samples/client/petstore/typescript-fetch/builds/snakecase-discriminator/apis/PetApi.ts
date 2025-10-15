@@ -31,7 +31,7 @@ export interface AddPetRequest {
 
 export interface DeletePetRequest {
     petId: number;
-    apiKey?: string;
+    apiKey?: string | undefined;
 }
 
 export interface FindPetsByStatusRequest {
@@ -52,20 +52,20 @@ export interface UpdatePetRequest {
 
 export interface UpdatePetWithFormRequest {
     petId: number;
-    name?: string;
-    status?: string;
+    name?: string | undefined;
+    status?: string | undefined;
 }
 
 export interface UploadFileRequest {
     petId: number;
-    additionalMetadata?: string;
-    file?: Blob;
+    additionalMetadata?: string | undefined;
+    file?: Blob | undefined;
 }
 
 export interface UploadFileWithRequiredFileRequest {
     petId: number;
     requiredFile: Blob;
-    additionalMetadata?: string;
+    additionalMetadata?: string | undefined;
 }
 
 /**

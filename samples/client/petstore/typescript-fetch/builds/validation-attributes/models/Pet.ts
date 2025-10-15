@@ -39,13 +39,13 @@ export interface Pet {
      * @type {number}
      * @memberof Pet
      */
-    id?: number;
+    id?: number | undefined;
     /**
      * 
      * @type {Category}
      * @memberof Pet
      */
-    category?: Category;
+    category?: Category | undefined;
     /**
      * 
      * @type {string}
@@ -63,14 +63,14 @@ export interface Pet {
      * @type {Array<Tag>}
      * @memberof Pet
      */
-    tags?: Array<Tag>;
+    tags?: Array<Tag> | undefined;
     /**
      * pet status in the store
      * @type {string}
      * @memberof Pet
      * @deprecated
      */
-    status?: PetStatusEnum;
+    status?: PetStatusEnum | undefined;
 }
 
 

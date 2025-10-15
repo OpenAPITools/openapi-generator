@@ -25,13 +25,13 @@ export interface ParentWithNullable {
      * @type {string}
      * @memberof ParentWithNullable
      */
-    type?: ParentWithNullableTypeEnum;
+    type?: ParentWithNullableTypeEnum | undefined;
     /**
      * 
      * @type {string}
      * @memberof ParentWithNullable
      */
-    nullableProperty?: string | null;
+    nullableProperty?: string | null | undefined;
 }
 
 

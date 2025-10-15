@@ -24,7 +24,7 @@ export interface ModelFile {
      * @type {string}
      * @memberof ModelFile
      */
-    sourceURI?: string;
+    sourceURI?: string | undefined;
 }
 
 /**

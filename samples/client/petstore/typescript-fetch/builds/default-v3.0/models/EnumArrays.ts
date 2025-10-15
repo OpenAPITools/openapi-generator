@@ -24,13 +24,13 @@ export interface EnumArrays {
      * @type {string}
      * @memberof EnumArrays
      */
-    justSymbol?: EnumArraysJustSymbolEnum;
+    justSymbol?: EnumArraysJustSymbolEnum | undefined;
     /**
      * 
      * @type {Array<string>}
      * @memberof EnumArrays
      */
-    arrayEnum?: Array<EnumArraysArrayEnumEnum>;
+    arrayEnum?: Array<EnumArraysArrayEnumEnum> | undefined;
 }
 
 

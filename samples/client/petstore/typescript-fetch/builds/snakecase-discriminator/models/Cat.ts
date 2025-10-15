@@ -32,7 +32,7 @@ export interface Cat extends Animal {
      * @type {boolean}
      * @memberof Cat
      */
-    declawed?: boolean;
+    declawed?: boolean | undefined;
 }
 
 /**

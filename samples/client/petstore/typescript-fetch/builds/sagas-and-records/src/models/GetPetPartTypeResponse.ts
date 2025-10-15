@@ -45,7 +45,7 @@ export interface GetPetPartTypeResponse {
      * @type {PetPartType}
      * @memberof GetPetPartTypeResponse
      */
-    data?: PetPartType;
+    data?: PetPartType | undefined;
 }
 
 

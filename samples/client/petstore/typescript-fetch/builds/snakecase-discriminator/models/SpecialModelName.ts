@@ -24,7 +24,7 @@ export interface SpecialModelName {
      * @type {number}
      * @memberof SpecialModelName
      */
-    $specialPropertyName?: number;
+    $specialPropertyName?: number | undefined;
 }
 
 /**

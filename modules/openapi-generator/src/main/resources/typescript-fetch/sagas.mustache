@@ -67,7 +67,7 @@ export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{
 {{#allParams.0}}
 export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request {
 {{#allParams}}
-    {{paramName}}{{^required}}?{{/required}}: {{{dataTypeAlternate}}};
+    {{paramName}}{{^required}}?{{/required}}: {{{dataTypeAlternate}}}{{^required}} | undefined{{/required}};
 {{/allParams}}
 }
 {{/allParams.0}}

@@ -21,6 +21,7 @@ import {
     TestObjectTypeToJSONTyped,
 } from './TestObjectType';
 
+import { type TestBaseDto, TestBaseDtoFromJSONTyped, TestBaseDtoToJSON, TestBaseDtoToJSONTyped } from './TestBaseDto';
 import { type ExtendDto, ExtendDtoFromJSONTyped, ExtendDtoToJSON, ExtendDtoToJSONTyped } from './ExtendDto';
 /**
  * 
@@ -33,13 +34,13 @@ export interface TestBaseDto {
      * @type {string}
      * @memberof TestBaseDto
      */
-    something?: string;
+    something?: string | undefined;
     /**
      * 
      * @type {TestObjectType}
      * @memberof TestBaseDto
      */
-    testObjectType?: TestObjectType;
+    testObjectType?: TestObjectType | undefined;
 }
 
 
@@ -60,11 +61,11 @@ export function TestBaseDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean
         return json;
     }
     if (!ignoreDiscriminator) {
+        if (json['testObjectType'] === 'TEST1') {
+            return TestBaseDtoFromJSONTyped(json, ignoreDiscriminator);
+        }
         if (json['testObjectType'] === 'TEST2') {
             return ExtendDtoFromJSONTyped(json, ignoreDiscriminator);
-        }
-        if (json['testObjectType'] === 'TEST1') {
-            return TestBaseDtoFromJSONTyped(json, true);
         }
 
     }
@@ -86,6 +87,8 @@ export function TestBaseDtoToJSONTyped(value?: TestBaseDto | null, ignoreDiscrim
 
     if (!ignoreDiscriminator) {
         switch (value['testObjectType']) {
+            case 'TEST1':
+                return TestBaseDtoToJSONTyped(value as TestBaseDto, ignoreDiscriminator);
             case 'TEST2':
                 return ExtendDtoToJSONTyped(value as ExtendDto, ignoreDiscriminator);
             default:

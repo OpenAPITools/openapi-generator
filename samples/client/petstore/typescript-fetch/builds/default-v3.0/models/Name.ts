@@ -30,19 +30,19 @@ export interface Name {
      * @type {number}
      * @memberof Name
      */
-    readonly snakeCase?: number;
+    readonly snakeCase?: number | undefined;
     /**
      * 
      * @type {string}
      * @memberof Name
      */
-    property?: string;
+    property?: string | undefined;
     /**
      * 
      * @type {number}
      * @memberof Name
      */
-    readonly _123number?: number;
+    readonly _123number?: number | undefined;
 }
 
 /**

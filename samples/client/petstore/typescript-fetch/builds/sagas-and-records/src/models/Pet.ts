@@ -59,7 +59,7 @@ export interface Pet {
      * @type {number}
      * @memberof Pet
      */
-    friendId?: number;
+    friendId?: number | undefined;
     /**
      * 
      * @type {Array<number>}
@@ -101,7 +101,7 @@ export interface Pet {
      * @type {Category}
      * @memberof Pet
      */
-    optionalCategory?: Category;
+    optionalCategory?: Category | undefined;
     /**
      * 
      * @type {string}
@@ -113,13 +113,13 @@ export interface Pet {
      * @type {Array<Category>}
      * @memberof Pet
      */
-    _entries?: Array<Category>;
+    _entries?: Array<Category> | undefined;
     /**
      * 
      * @type {string}
      * @memberof Pet
      */
-    surname?: string;
+    surname?: string | undefined;
     /**
      * 
      * @type {Array<string>}
@@ -137,7 +137,7 @@ export interface Pet {
      * @type {DeploymentRequestStatus}
      * @memberof Pet
      */
-    depStatus?: DeploymentRequestStatus;
+    depStatus?: DeploymentRequestStatus | undefined;
     /**
      * 
      * @type {DeploymentRequestStatus}
@@ -161,7 +161,7 @@ export interface Pet {
      * @type {Array<Tag>}
      * @memberof Pet
      */
-    optionalTags?: Array<Tag>;
+    optionalTags?: Array<Tag> | undefined;
     /**
      * pet status in the store
      * @type {string}
@@ -173,7 +173,7 @@ export interface Pet {
      * @type {Array<Array<number | null>>}
      * @memberof Pet
      */
-    regions?: Array<Array<number | null>>;
+    regions?: Array<Array<number | null>> | undefined;
 }
 
 

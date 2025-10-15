@@ -38,7 +38,7 @@ export interface PetRegionsResponse {
      * @type {Array<Array<number | null>>}
      * @memberof PetRegionsResponse
      */
-    data?: Array<Array<number | null>>;
+    data?: Array<Array<number | null>> | undefined;
 }
 
 /**

@@ -53,7 +53,7 @@ export interface EnumTest {
      * @type {string}
      * @memberof EnumTest
      */
-    enumString?: EnumTestEnumStringEnum;
+    enumString?: EnumTestEnumStringEnum | undefined;
     /**
      * 
      * @type {string}
@@ -65,37 +65,37 @@ export interface EnumTest {
      * @type {number}
      * @memberof EnumTest
      */
-    enumInteger?: EnumTestEnumIntegerEnum;
+    enumInteger?: EnumTestEnumIntegerEnum | undefined;
     /**
      * 
      * @type {number}
      * @memberof EnumTest
      */
-    enumNumber?: EnumTestEnumNumberEnum;
+    enumNumber?: EnumTestEnumNumberEnum | undefined;
     /**
      * 
      * @type {OuterEnum}
      * @memberof EnumTest
      */
-    outerEnum?: OuterEnum | null;
+    outerEnum?: OuterEnum | null | undefined;
     /**
      * 
      * @type {OuterEnumInteger}
      * @memberof EnumTest
      */
-    outerEnumInteger?: OuterEnumInteger;
+    outerEnumInteger?: OuterEnumInteger | undefined;
     /**
      * 
      * @type {OuterEnumDefaultValue}
      * @memberof EnumTest
      */
-    outerEnumDefaultValue?: OuterEnumDefaultValue;
+    outerEnumDefaultValue?: OuterEnumDefaultValue | undefined;
     /**
      * 
      * @type {OuterEnumIntegerDefaultValue}
      * @memberof EnumTest
      */
-    outerEnumIntegerDefaultValue?: OuterEnumIntegerDefaultValue;
+    outerEnumIntegerDefaultValue?: OuterEnumIntegerDefaultValue | undefined;
 }
 
 

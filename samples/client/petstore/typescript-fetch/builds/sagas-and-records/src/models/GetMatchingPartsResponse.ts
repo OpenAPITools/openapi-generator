@@ -45,7 +45,7 @@ export interface GetMatchingPartsResponse {
      * @type {MatchingParts}
      * @memberof GetMatchingPartsResponse
      */
-    data?: MatchingParts;
+    data?: MatchingParts | undefined;
 }
 
 /**

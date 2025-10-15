@@ -18,8 +18,8 @@
 import type { BranchDto } from './branch-dto';
 
 export interface AbstractUserDto {
-    'username'?: string;
-    'branch'?: BranchDto;
-    'type'?: string;
+    'username'?: string | undefined;
+    'branch'?: BranchDto | undefined;
+    'type'?: string | undefined;
 }
 

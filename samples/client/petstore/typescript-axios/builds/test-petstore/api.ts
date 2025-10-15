@@ -24,77 +24,77 @@ import type { RequestArgs } from './base';
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
 export interface AdditionalPropertiesClass {
-    'map_property'?: { [key: string]: string; };
-    'map_of_map_property'?: { [key: string]: { [key: string]: string; }; };
-    'anytype_1'?: any;
-    'map_with_undeclared_properties_anytype_1'?: object;
-    'map_with_undeclared_properties_anytype_2'?: object;
-    'map_with_undeclared_properties_anytype_3'?: { [key: string]: any; };
+    'map_property'?: { [key: string]: string; } | undefined;
+    'map_of_map_property'?: { [key: string]: { [key: string]: string; }; } | undefined;
+    'anytype_1'?: any | undefined;
+    'map_with_undeclared_properties_anytype_1'?: object | undefined;
+    'map_with_undeclared_properties_anytype_2'?: object | undefined;
+    'map_with_undeclared_properties_anytype_3'?: { [key: string]: any; } | undefined;
     /**
      * an object with no declared properties and no undeclared properties, hence it\'s an empty map.
      */
-    'empty_map'?: object;
-    'map_with_undeclared_properties_string'?: { [key: string]: string; };
+    'empty_map'?: object | undefined;
+    'map_with_undeclared_properties_string'?: { [key: string]: string; } | undefined;
 }
 export interface Animal {
     'className': string;
-    'color'?: string;
+    'color'?: string | undefined;
 }
 export interface ApiResponse {
-    'code'?: number;
-    'type'?: string;
-    'message'?: string;
+    'code'?: number | undefined;
+    'type'?: string | undefined;
+    'message'?: string | undefined;
 }
 export interface Apple {
-    'cultivar'?: string;
-    'origin'?: string;
+    'cultivar'?: string | undefined;
+    'origin'?: string | undefined;
 }
 export interface AppleReq {
     'cultivar': string;
-    'mealy'?: boolean;
+    'mealy'?: boolean | undefined;
 }
 export interface ArrayOfArrayOfNumberOnly {
-    'ArrayArrayNumber'?: Array<Array<number>>;
+    'ArrayArrayNumber'?: Array<Array<number>> | undefined;
 }
 export interface ArrayOfNumberOnly {
-    'ArrayNumber'?: Array<number>;
+    'ArrayNumber'?: Array<number> | undefined;
 }
 export interface ArrayTest {
-    'array_of_string'?: Array<string>;
-    'array_array_of_integer'?: Array<Array<number>>;
-    'array_array_of_model'?: Array<Array<ReadOnlyFirst>>;
+    'array_of_string'?: Array<string> | undefined;
+    'array_array_of_integer'?: Array<Array<number>> | undefined;
+    'array_array_of_model'?: Array<Array<ReadOnlyFirst>> | undefined;
 }
 export interface Banana {
-    'lengthCm'?: number;
+    'lengthCm'?: number | undefined;
 }
 export interface BananaReq {
     'lengthCm': number;
-    'sweet'?: boolean;
+    'sweet'?: boolean | undefined;
 }
 export interface BasquePig {
     'className': string;
 }
 export interface Capitalization {
-    'smallCamel'?: string;
-    'CapitalCamel'?: string;
-    'small_Snake'?: string;
-    'Capital_Snake'?: string;
-    'SCA_ETH_Flow_Points'?: string;
+    'smallCamel'?: string | undefined;
+    'CapitalCamel'?: string | undefined;
+    'small_Snake'?: string | undefined;
+    'Capital_Snake'?: string | undefined;
+    'SCA_ETH_Flow_Points'?: string | undefined;
     /**
      * Name of the pet 
      */
-    'ATT_NAME'?: string;
+    'ATT_NAME'?: string | undefined;
 }
 export interface Cat extends Animal {
-    'declawed'?: boolean;
+    'declawed'?: boolean | undefined;
 }
 export interface Category {
-    'id'?: number;
+    'id'?: number | undefined;
     'name': string;
 }
 export interface ChildCat extends ParentPet {
-    'name'?: string;
-    'pet_type'?: ChildCatPetTypeEnum;
+    'name'?: string | undefined;
+    'pet_type'?: ChildCatPetTypeEnum | undefined;
 }
 
 export const ChildCatPetTypeEnum = {
@@ -107,10 +107,10 @@ export type ChildCatPetTypeEnum = typeof ChildCatPetTypeEnum[keyof typeof ChildC
  * Model for testing model with \"_class\" property
  */
 export interface ClassModel {
-    '_class'?: string;
+    '_class'?: string | undefined;
 }
 export interface Client {
-    'client'?: string;
+    'client'?: string | undefined;
 }
 export interface ComplexQuadrilateral {
     'shapeType': string;
@@ -120,22 +120,22 @@ export interface DanishPig {
     'className': string;
 }
 export interface DeprecatedObject {
-    'name'?: string;
+    'name'?: string | undefined;
 }
 export interface Dog extends Animal {
-    'breed'?: string;
+    'breed'?: string | undefined;
 }
 export interface Drawing {
     [key: string]: Fruit | any;
 
-    'mainShape'?: Shape;
-    'shapeOrNull'?: ShapeOrNull | null;
-    'nullableShape'?: NullableShape | null;
-    'shapes'?: Array<Shape>;
+    'mainShape'?: Shape | undefined;
+    'shapeOrNull'?: ShapeOrNull | null | undefined;
+    'nullableShape'?: NullableShape | null | undefined;
+    'shapes'?: Array<Shape> | undefined;
 }
 export interface EnumArrays {
-    'just_symbol'?: EnumArraysJustSymbolEnum;
-    'array_enum'?: Array<EnumArraysArrayEnumEnum>;
+    'just_symbol'?: EnumArraysJustSymbolEnum | undefined;
+    'array_enum'?: Array<EnumArraysArrayEnumEnum> | undefined;
 }
 
 export const EnumArraysJustSymbolEnum = {
@@ -162,15 +162,15 @@ export type EnumClass = typeof EnumClass[keyof typeof EnumClass];
 
 
 export interface EnumTest {
-    'enum_string'?: EnumTestEnumStringEnum;
+    'enum_string'?: EnumTestEnumStringEnum | undefined;
     'enum_string_required': EnumTestEnumStringRequiredEnum;
-    'enum_integer'?: EnumTestEnumIntegerEnum;
-    'enum_integer_only'?: EnumTestEnumIntegerOnlyEnum;
-    'enum_number'?: EnumTestEnumNumberEnum;
-    'outerEnum'?: OuterEnum | null;
-    'outerEnumInteger'?: OuterEnumInteger;
-    'outerEnumDefaultValue'?: OuterEnumDefaultValue;
-    'outerEnumIntegerDefaultValue'?: OuterEnumIntegerDefaultValue;
+    'enum_integer'?: EnumTestEnumIntegerEnum | undefined;
+    'enum_integer_only'?: EnumTestEnumIntegerOnlyEnum | undefined;
+    'enum_number'?: EnumTestEnumNumberEnum | undefined;
+    'outerEnum'?: OuterEnum | null | undefined;
+    'outerEnumInteger'?: OuterEnumInteger | undefined;
+    'outerEnumDefaultValue'?: OuterEnumDefaultValue | undefined;
+    'outerEnumIntegerDefaultValue'?: OuterEnumIntegerDefaultValue | undefined;
 }
 
 export const EnumTestEnumStringEnum = {
@@ -211,38 +211,38 @@ export interface EquilateralTriangle {
     'triangleType': string;
 }
 export interface FileSchemaTestClass {
-    'file'?: any;
-    'files'?: Array<any>;
+    'file'?: any | undefined;
+    'files'?: Array<any> | undefined;
 }
 export interface Foo {
-    'bar'?: string;
+    'bar'?: string | undefined;
 }
 export interface FooGetDefaultResponse {
-    'string'?: Foo;
+    'string'?: Foo | undefined;
 }
 export interface FormatTest {
-    'integer'?: number;
-    'int32'?: number;
-    'int64'?: number;
+    'integer'?: number | undefined;
+    'int32'?: number | undefined;
+    'int64'?: number | undefined;
     'number': number;
-    'float'?: number;
-    'double'?: number;
-    'decimal'?: string;
-    'string'?: string;
+    'float'?: number | undefined;
+    'double'?: number | undefined;
+    'decimal'?: string | undefined;
+    'string'?: string | undefined;
     'byte': string;
-    'binary'?: File;
+    'binary'?: File | undefined;
     'date': string;
-    'dateTime'?: string;
-    'uuid'?: string;
+    'dateTime'?: string | undefined;
+    'uuid'?: string | undefined;
     'password': string;
     /**
      * A string that is a 10 digit number. Can have leading zeros.
      */
-    'pattern_with_digits'?: string;
+    'pattern_with_digits'?: string | undefined;
     /**
      * A string starting with \'image_\' (case insensitive) and one to three digits following i.e. Image_01.
      */
-    'pattern_with_digits_and_delimiter'?: string;
+    'pattern_with_digits_and_delimiter'?: string | undefined;
 }
 /**
  * @type Fruit
@@ -255,30 +255,30 @@ export type Fruit = Apple | Banana;
 export type FruitReq = AppleReq | BananaReq;
 
 export interface GmFruit {
-    'color'?: string;
-    'cultivar'?: string;
-    'origin'?: string;
-    'lengthCm'?: number;
+    'color'?: string | undefined;
+    'cultivar'?: string | undefined;
+    'origin'?: string | undefined;
+    'lengthCm'?: number | undefined;
 }
 export interface GrandparentAnimal {
     'pet_type': string;
 }
 export interface HasOnlyReadOnly {
-    'bar'?: string;
-    'foo'?: string;
+    'bar'?: string | undefined;
+    'foo'?: string | undefined;
 }
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
 export interface HealthCheckResult {
-    'NullableMessage'?: string | null;
+    'NullableMessage'?: string | null | undefined;
 }
 export interface IsoscelesTriangle {
     'shapeType': string;
     'triangleType': string;
 }
 export interface List {
-    '123-list'?: string;
+    '123-list'?: string | undefined;
 }
 /**
  * @type Mammal
@@ -286,10 +286,10 @@ export interface List {
 export type Mammal = Pig | Whale | Zebra;
 
 export interface MammalAnyof {
-    'hasBaleen'?: boolean;
-    'hasTeeth'?: boolean;
+    'hasBaleen'?: boolean | undefined;
+    'hasTeeth'?: boolean | undefined;
     'className': string;
-    'type'?: MammalAnyofTypeEnum;
+    'type'?: MammalAnyofTypeEnum | undefined;
 }
 
 export const MammalAnyofTypeEnum = {
@@ -301,10 +301,10 @@ export const MammalAnyofTypeEnum = {
 export type MammalAnyofTypeEnum = typeof MammalAnyofTypeEnum[keyof typeof MammalAnyofTypeEnum];
 
 export interface MapTest {
-    'map_map_of_string'?: { [key: string]: { [key: string]: string; }; };
-    'map_of_enum_string'?: { [key: string]: string; };
-    'direct_map'?: { [key: string]: boolean; };
-    'indirect_map'?: { [key: string]: boolean; };
+    'map_map_of_string'?: { [key: string]: { [key: string]: string; }; } | undefined;
+    'map_of_enum_string'?: { [key: string]: string; } | undefined;
+    'direct_map'?: { [key: string]: boolean; } | undefined;
+    'indirect_map'?: { [key: string]: boolean; } | undefined;
 }
 
 export const MapTestMapOfEnumStringEnum = {
@@ -315,16 +315,16 @@ export const MapTestMapOfEnumStringEnum = {
 export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
 
 export interface MixedPropertiesAndAdditionalPropertiesClass {
-    'uuid'?: string;
-    'dateTime'?: string;
-    'map'?: { [key: string]: Animal; };
+    'uuid'?: string | undefined;
+    'dateTime'?: string | undefined;
+    'map'?: { [key: string]: Animal; } | undefined;
 }
 /**
  * Model for testing model name starting with number
  */
 export interface Model200Response {
-    'name'?: number;
-    'class'?: string;
+    'name'?: number | undefined;
+    'class'?: string | undefined;
 }
 /**
  * Must be named `File` for test.
@@ -333,32 +333,32 @@ export interface ModelFile {
     /**
      * Test capitalization
      */
-    'sourceURI'?: string;
+    'sourceURI'?: string | undefined;
 }
 /**
  * Model for testing model name same as property name
  */
 export interface Name {
     'name': number;
-    'snake_case'?: number;
-    'property'?: string;
-    '123Number'?: number;
+    'snake_case'?: number | undefined;
+    'property'?: string | undefined;
+    '123Number'?: number | undefined;
 }
 export interface NullableClass {
     [key: string]: object | any;
 
-    'integer_prop'?: number | null;
-    'number_prop'?: number | null;
-    'boolean_prop'?: boolean | null;
-    'string_prop'?: string | null;
-    'date_prop'?: string | null;
-    'datetime_prop'?: string | null;
-    'array_nullable_prop'?: Array<object> | null;
-    'array_and_items_nullable_prop'?: Array<object | null> | null;
-    'array_items_nullable'?: Array<object | null>;
-    'object_nullable_prop'?: { [key: string]: object; } | null;
-    'object_and_items_nullable_prop'?: { [key: string]: object | null; } | null;
-    'object_items_nullable'?: { [key: string]: object | null; };
+    'integer_prop'?: number | null | undefined;
+    'number_prop'?: number | null | undefined;
+    'boolean_prop'?: boolean | null | undefined;
+    'string_prop'?: string | null | undefined;
+    'date_prop'?: string | null | undefined;
+    'datetime_prop'?: string | null | undefined;
+    'array_nullable_prop'?: Array<object> | null | undefined;
+    'array_and_items_nullable_prop'?: Array<object | null> | null | undefined;
+    'array_items_nullable'?: Array<object | null> | undefined;
+    'object_nullable_prop'?: { [key: string]: object; } | null | undefined;
+    'object_and_items_nullable_prop'?: { [key: string]: object | null; } | null | undefined;
+    'object_items_nullable'?: { [key: string]: object | null; } | undefined;
 }
 /**
  * @type NullableShape
@@ -367,33 +367,33 @@ export interface NullableClass {
 export type NullableShape = Quadrilateral | Triangle;
 
 export interface NumberOnly {
-    'JustNumber'?: number;
+    'JustNumber'?: number | undefined;
 }
 export interface ObjectWithDeprecatedFields {
-    'uuid'?: string;
+    'uuid'?: string | undefined;
     /**
      * @deprecated
      */
-    'id'?: number;
+    'id'?: number | undefined;
     /**
      * @deprecated
      */
-    'deprecatedRef'?: DeprecatedObject;
+    'deprecatedRef'?: DeprecatedObject | undefined;
     /**
      * @deprecated
      */
-    'bars'?: Array<string>;
+    'bars'?: Array<string> | undefined;
 }
 export interface Order {
-    'id'?: number;
-    'petId'?: number;
-    'quantity'?: number;
-    'shipDate'?: string;
+    'id'?: number | undefined;
+    'petId'?: number | undefined;
+    'quantity'?: number | undefined;
+    'shipDate'?: string | undefined;
     /**
      * Order Status
      */
-    'status'?: OrderStatusEnum;
-    'complete'?: boolean;
+    'status'?: OrderStatusEnum | undefined;
+    'complete'?: boolean | undefined;
 }
 
 export const OrderStatusEnum = {
@@ -405,9 +405,9 @@ export const OrderStatusEnum = {
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
 export interface OuterComposite {
-    'my_number'?: number;
-    'my_string'?: string;
-    'my_boolean'?: boolean;
+    'my_number'?: number | undefined;
+    'my_string'?: string | undefined;
+    'my_boolean'?: boolean | undefined;
 }
 
 export const OuterEnum = {
@@ -452,15 +452,15 @@ export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[k
 export interface ParentPet extends GrandparentAnimal {
 }
 export interface Pet {
-    'id'?: number;
-    'category'?: Category;
+    'id'?: number | undefined;
+    'category'?: Category | undefined;
     'name': string;
     'photoUrls': Array<string>;
-    'tags'?: Array<Tag>;
+    'tags'?: Array<Tag> | undefined;
     /**
      * pet status in the store
      */
-    'status'?: PetStatusEnum;
+    'status'?: PetStatusEnum | undefined;
 }
 
 export const PetStatusEnum = {
@@ -485,14 +485,14 @@ export interface QuadrilateralInterface {
     'quadrilateralType': string;
 }
 export interface ReadOnlyFirst {
-    'bar'?: string;
-    'baz'?: string;
+    'bar'?: string | undefined;
+    'baz'?: string | undefined;
 }
 /**
  * Model for testing reserved words
  */
 export interface Return {
-    'return'?: number;
+    'return'?: number | undefined;
 }
 export interface ScaleneTriangle {
     'shapeType': string;
@@ -517,17 +517,17 @@ export interface SimpleQuadrilateral {
     'quadrilateralType': string;
 }
 export interface SpecialModelName {
-    '$special[property.name]'?: number;
-    '_special_model.name_'?: string;
+    '$special[property.name]'?: number | undefined;
+    '_special_model.name_'?: string | undefined;
 }
 export interface Tag {
-    'id'?: number;
-    'name'?: string;
+    'id'?: number | undefined;
+    'name'?: string | undefined;
 }
 export interface TestInlineFreeformAdditionalPropertiesRequest {
     [key: string]: any;
 
-    'someProperty'?: string;
+    'someProperty'?: string | undefined;
 }
 /**
  * @type Triangle
@@ -538,43 +538,43 @@ export interface TriangleInterface {
     'triangleType': string;
 }
 export interface User {
-    'id'?: number;
-    'username'?: string;
-    'firstName'?: string;
-    'lastName'?: string;
-    'email'?: string;
-    'password'?: string;
-    'phone'?: string;
+    'id'?: number | undefined;
+    'username'?: string | undefined;
+    'firstName'?: string | undefined;
+    'lastName'?: string | undefined;
+    'email'?: string | undefined;
+    'password'?: string | undefined;
+    'phone'?: string | undefined;
     /**
      * User Status
      */
-    'userStatus'?: number;
+    'userStatus'?: number | undefined;
     /**
      * test code generation for objects Value must be a map of strings to values. It cannot be the \'null\' value.
      */
-    'objectWithNoDeclaredProps'?: object;
+    'objectWithNoDeclaredProps'?: object | undefined;
     /**
      * test code generation for nullable objects. Value must be a map of strings to values or the \'null\' value.
      */
-    'objectWithNoDeclaredPropsNullable'?: object | null;
+    'objectWithNoDeclaredPropsNullable'?: object | null | undefined;
     /**
      * test code generation for any type Here the \'type\' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
      */
-    'anyTypeProp'?: any;
+    'anyTypeProp'?: any | undefined;
     /**
      * test code generation for any type Here the \'type\' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The \'nullable\' attribute does not change the allowed values.
      */
-    'anyTypePropNullable'?: any | null;
+    'anyTypePropNullable'?: any | null | undefined;
 }
 export interface Whale {
-    'hasBaleen'?: boolean;
-    'hasTeeth'?: boolean;
+    'hasBaleen'?: boolean | undefined;
+    'hasTeeth'?: boolean | undefined;
     'className': string;
 }
 export interface Zebra {
     [key: string]: any;
 
-    'type'?: ZebraTypeEnum;
+    'type'?: ZebraTypeEnum | undefined;
     'className': string;
 }
 

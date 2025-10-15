@@ -15,6 +15,6 @@
 
 
 export interface BranchDto {
-    'name'?: string;
+    'name'?: string | undefined;
 }
 

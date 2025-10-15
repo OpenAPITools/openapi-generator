@@ -24,13 +24,13 @@ export interface FakeBigDecimalMap200Response {
      * @type {number}
      * @memberof FakeBigDecimalMap200Response
      */
-    someId?: number;
+    someId?: number | undefined;
     /**
      * 
      * @type {{ [key: string]: number; }}
      * @memberof FakeBigDecimalMap200Response
      */
-    someMap?: { [key: string]: number; };
+    someMap?: { [key: string]: number; } | undefined;
 }
 
 /**

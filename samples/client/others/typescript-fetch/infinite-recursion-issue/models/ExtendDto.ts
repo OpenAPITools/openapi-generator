@@ -39,7 +39,7 @@ export interface ExtendDto extends TestBaseDto {
      * @type {Array<TestBaseDto>}
      * @memberof ExtendDto
      */
-    someItems?: Array<TestBaseDto>;
+    someItems?: Array<TestBaseDto> | undefined;
 }
 
 

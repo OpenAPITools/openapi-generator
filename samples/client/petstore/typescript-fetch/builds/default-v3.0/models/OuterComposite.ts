@@ -24,19 +24,19 @@ export interface OuterComposite {
      * @type {number}
      * @memberof OuterComposite
      */
-    myNumber?: number;
+    myNumber?: number | undefined;
     /**
      * 
      * @type {string}
      * @memberof OuterComposite
      */
-    myString?: string;
+    myString?: string | undefined;
     /**
      * 
      * @type {boolean}
      * @memberof OuterComposite
      */
-    myBoolean?: boolean;
+    myBoolean?: boolean | undefined;
 }
 
 /**

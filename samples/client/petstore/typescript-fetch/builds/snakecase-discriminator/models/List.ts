@@ -24,7 +24,7 @@ export interface List {
      * @type {string}
      * @memberof List
      */
-    _123list?: string;
+    _123list?: string | undefined;
 }
 
 /**
