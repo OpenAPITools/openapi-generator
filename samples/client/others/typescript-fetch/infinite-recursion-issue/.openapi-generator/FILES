@@ -1,0 +1,9 @@
+.openapi-generator-ignore
+apis/TestApi.ts
+apis/index.ts
+index.ts
+models/ExtendDto.ts
+models/TestBaseDto.ts
+models/TestObjectType.ts
+models/index.ts
+runtime.ts
