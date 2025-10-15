@@ -1,11 +1,5 @@
 .gitattributes
 .gitignore
-AuthApi.md
-BodyApi.md
-FormApi.md
-HeaderApi.md
-PathApi.md
-QueryApi.md
 README.md
 apis/AuthApi.ts
 apis/BodyApi.ts
@@ -17,6 +11,12 @@ apis/baseapi.ts
 apis/exception.ts
 auth/auth.ts
 configuration.ts
+docs/AuthApi.md
+docs/BodyApi.md
+docs/FormApi.md
+docs/HeaderApi.md
+docs/PathApi.md
+docs/QueryApi.md
 git_push.sh
 http/http.ts
 http/isomorphic-fetch.ts
