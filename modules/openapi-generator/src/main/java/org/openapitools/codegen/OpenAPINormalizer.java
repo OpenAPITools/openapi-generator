@@ -276,7 +276,7 @@ public class OpenAPINormalizer {
             try {
                 filter = new Filter(filters);
             } catch (RuntimeException e) {
-                String message = String.format("FILTER rule [%s] must be in the form of `%s:name1|name2|name3` or `%s:get|post|put` or `%s:tag1|tag2|tag3` or `%s:/v1|/v2`. Error: %s",
+                String message = String.format(Locale.ROOT, "FILTER rule [%s] must be in the form of `%s:name1|name2|name3` or `%s:get|post|put` or `%s:tag1|tag2|tag3` or `%s:/v1|/v2`. Error: %s",
                         filters, Filter.OPERATION_ID, Filter.METHOD, Filter.TAG, Filter.PATH, e.getMessage());
                 // throw an exception. This is a breaking change compared to pre 7.16.0
                 // Workaround: fix the syntax!
