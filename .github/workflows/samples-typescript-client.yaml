@@ -9,7 +9,7 @@ on:
       #- samples/client/petstore/typescript-angular-v13-provided-in-root/**
       #- samples/client/petstore/typescript-angular-v14-provided-in-root/**
       #- samples/client/petstore/typescript-angular-v15-provided-in-root/**
-      #- samples/client/petstore/typescript-angular-v16-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v16-provided-in-root/**
       # comment out below as there's no pom.xml
       #- samples/client/petstore/typescript-angular-v17-provided-in-root/**
       #- samples/client/petstore/typescript-angular-v18-provided-in-root/**
@@ -47,7 +47,7 @@ on:
       #- samples/client/petstore/typescript-angular-v13-provided-in-root/**
       #- samples/client/petstore/typescript-angular-v14-provided-in-root/**
       #- samples/client/petstore/typescript-angular-v15-provided-in-root/**
-      #- samples/client/petstore/typescript-angular-v16-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v16-provided-in-root/**
       #- samples/client/petstore/typescript-angular-v17-provided-in-root/**
       #- samples/client/petstore/typescript-angular-v18-provided-in-root/**
       #- samples/client/petstore/typescript-angular-v19-provided-in-root/**
@@ -95,7 +95,7 @@ jobs:
           #- samples/client/petstore/typescript-angular-v13-provided-in-root/
           #- samples/client/petstore/typescript-angular-v14-provided-in-root/
           #- samples/client/petstore/typescript-angular-v15-provided-in-root/
-          #- samples/client/petstore/typescript-angular-v16-provided-in-root/
+          - samples/client/petstore/typescript-angular-v16-provided-in-root/
           #- samples/client/petstore/typescript-angular-v17-provided-in-root/
           #- samples/client/petstore/typescript-angular-v18-provided-in-root/
           #- samples/client/petstore/typescript-angular-v19-provided-in-root/
