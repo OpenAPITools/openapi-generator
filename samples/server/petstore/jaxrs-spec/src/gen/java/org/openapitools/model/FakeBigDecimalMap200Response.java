@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+
 @JsonTypeName("fakeBigDecimalMap_200_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response  implements Serializable {

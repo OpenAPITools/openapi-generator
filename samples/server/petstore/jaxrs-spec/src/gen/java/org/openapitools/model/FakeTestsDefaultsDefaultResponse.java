@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+
 @JsonTypeName("fake_tests_defaults_default_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FakeTestsDefaultsDefaultResponse  implements Serializable {
