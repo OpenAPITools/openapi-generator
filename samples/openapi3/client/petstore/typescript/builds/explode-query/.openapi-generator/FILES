@@ -1,13 +1,6 @@
 .gitattributes
 .gitignore
-AnotherFakeApi.md
-DefaultApi.md
-FakeApi.md
-FakeClassnameTags123Api.md
-PetApi.md
 README.md
-StoreApi.md
-UserApi.md
 apis/AnotherFakeApi.ts
 apis/DefaultApi.ts
 apis/FakeApi.ts
@@ -19,6 +12,13 @@ apis/baseapi.ts
 apis/exception.ts
 auth/auth.ts
 configuration.ts
+docs/AnotherFakeApi.md
+docs/DefaultApi.md
+docs/FakeApi.md
+docs/FakeClassnameTags123Api.md
+docs/PetApi.md
+docs/StoreApi.md
+docs/UserApi.md
 git_push.sh
 http/http.ts
 http/isomorphic-fetch.ts

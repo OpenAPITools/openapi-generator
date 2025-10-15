@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  **/

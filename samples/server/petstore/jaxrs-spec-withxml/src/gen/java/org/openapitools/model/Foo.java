@@ -1,0 +1,133 @@
+package org.openapitools.model;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
+import io.swagger.annotations.*;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+
+
+
+@JsonTypeName("Foo")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+     @XmlType(name = "Foo", propOrder =
+    { "bar"
+    })
+    
+    @XmlRootElement(name="Foo")
+
+public class Foo  implements Serializable {
+  private String bar = "bar";
+
+  protected Foo(FooBuilder<?, ?> b) {
+    this.bar = b.bar;
+  }
+
+  public Foo() {
+  }
+
+  /**
+   **/
+  public Foo bar(String bar) {
+    this.bar = bar;
+    return this;
+  }
+
+      @XmlElement(name="bar")
+  
+  @ApiModelProperty(value = "")
+  @JsonProperty("bar")
+  public String getBar() {
+    return bar;
+  }
+
+  @JsonProperty("bar")
+  public void setBar(String bar) {
+    this.bar = bar;
+  }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Foo foo = (Foo) o;
+    return Objects.equals(this.bar, foo.bar);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(bar);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class Foo {\n");
+    
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+
+
+  public static FooBuilder<?, ?> builder() {
+    return new FooBuilderImpl();
+  }
+
+  private static final class FooBuilderImpl extends FooBuilder<Foo, FooBuilderImpl> {
+
+    @Override
+    protected FooBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Foo build() {
+      return new Foo(this);
+    }
+  }
+
+  public static abstract class FooBuilder<C extends Foo, B extends FooBuilder<C, B>>  {
+    private String bar = "bar";
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B bar(String bar) {
+      this.bar = bar;
+      return self();
+    }
+  }
+}
+

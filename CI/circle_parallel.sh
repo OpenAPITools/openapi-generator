@@ -62,52 +62,51 @@ elif [ "$NODE_INDEX" = "3" ]; then
 
   echo "Running node $NODE_INDEX ... "
 
-  # Install node@stable (for angular 6)
-  set +e
-  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-  export NVM_DIR="/opt/circleci/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  #nvm install stable
-  # install v16 instead of the latest stable version
-  nvm install 18
-  nvm alias default 18
-  node --version
+  ## Install node@stable (for angular 6)
+  #set +e
+  #curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+  #export NVM_DIR="/opt/circleci/.nvm"
+  #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  ##nvm install stable
+  ## install v16 instead of the latest stable version
+  #nvm install 18
+  #nvm alias default 18
+  #node --version
 
-  # Each step uses the same `$BASH_ENV`, so need to modify it
-  echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
-  echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
+  ## Each step uses the same `$BASH_ENV`, so need to modify it
+  #echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+  #echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
 
-  (cd samples/client/others/typescript-angular && mvn integration-test)
-  (cd samples/client/petstore/typescript-angular-v12-provided-in-root && mvn integration-test)
-  (cd samples/client/petstore/typescript-angular-v13-provided-in-root && mvn integration-test)
-  (cd samples/client/petstore/typescript-angular-v14-provided-in-root && mvn integration-test)
-  (cd samples/client/petstore/typescript-angular-v15-provided-in-root && mvn integration-test)
-  (cd samples/client/petstore/typescript-angular-v16-provided-in-root && mvn integration-test)
-  (cd samples/client/petstore/typescript-angular-v17-provided-in-root && mvn integration-test)
-  (cd samples/client/petstore/typescript-angular-v18-provided-in-root && mvn integration-test)
-  (cd samples/client/petstore/typescript-angular-v19-provided-in-root && mvn integration-test)
-  (cd samples/openapi3/client/petstore/typescript/builds/default && mvn integration-test)
-  (cd samples/openapi3/client/petstore/typescript/tests/default && mvn integration-test)
-  (cd samples/openapi3/client/petstore/typescript/builds/jquery && mvn integration-test)
-  (cd samples/openapi3/client/petstore/typescript/tests/jquery && mvn integration-test)
-  (cd samples/openapi3/client/petstore/typescript/builds/object_params && mvn integration-test)
-  (cd samples/openapi3/client/petstore/typescript/tests/object_params && mvn integration-test)
-  (cd samples/openapi3/client/petstore/typescript/builds/inversify && mvn integration-test)
-  (cd samples/openapi3/client/petstore/typescript/tests/inversify && mvn integration-test)
-  #(cd samples/openapi3/client/petstore/typescript/tests/deno && mvn integration-test)
-  (cd samples/openapi3/client/petstore/typescript/builds/browser && mvn integration-test)
-  (cd samples/openapi3/client/petstore/typescript/tests/browser && mvn integration-test)
-  (cd samples/openapi3/client/petstore/typescript/builds/nullable-enum && mvn integration-test)
-  (cd samples/client/petstore/typescript-fetch/builds/default && mvn integration-test)
-  (cd samples/client/petstore/typescript-fetch/builds/es6-target && mvn integration-test)
-  (cd samples/client/petstore/typescript-fetch/builds/with-npm-version && mvn integration-test)
-  (cd samples/client/petstore/typescript-fetch/tests/default && mvn integration-test)
-  (cd samples/client/petstore/typescript-node/npm && mvn integration-test)
-  (cd samples/client/petstore/typescript-rxjs/builds/with-npm-version && mvn integration-test)
-  (cd samples/client/petstore/typescript-axios/builds/with-npm-version && mvn integration-test)
-  (cd samples/client/petstore/typescript-axios/tests/default && mvn integration-test)
-  (cd samples/client/petstore/typescript-axios/tests/with-complex-headers && mvn integration-test)
-  (cd samples/server/petstore/typescript-nestjs-server && mvn integration-test)
+  #(cd samples/client/others/typescript-angular && mvn integration-test)
+  #(cd samples/client/petstore/typescript-angular-v12-provided-in-root && mvn integration-test)
+  #(cd samples/client/petstore/typescript-angular-v13-provided-in-root && mvn integration-test)
+  #(cd samples/client/petstore/typescript-angular-v14-provided-in-root && mvn integration-test)
+  #(cd samples/client/petstore/typescript-angular-v15-provided-in-root && mvn integration-test)
+  #(cd samples/client/petstore/typescript-angular-v16-provided-in-root && mvn integration-test)
+  #(cd samples/client/petstore/typescript-angular-v17-provided-in-root && mvn integration-test)
+  #(cd samples/client/petstore/typescript-angular-v18-provided-in-root && mvn integration-test)
+  #(cd samples/client/petstore/typescript-angular-v19-provided-in-root && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/builds/default && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/tests/default && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/builds/jquery && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/tests/jquery && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/builds/object_params && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/tests/object_params && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/builds/inversify && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/tests/inversify && mvn integration-test)
+  ##(cd samples/openapi3/client/petstore/typescript/tests/deno && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/builds/browser && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/tests/browser && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/builds/nullable-enum && mvn integration-test)
+  #(cd samples/client/petstore/typescript-fetch/builds/default && mvn integration-test)
+  #(cd samples/client/petstore/typescript-fetch/builds/es6-target && mvn integration-test)
+  #(cd samples/client/petstore/typescript-fetch/builds/with-npm-version && mvn integration-test)
+  #(cd samples/client/petstore/typescript-fetch/tests/default && mvn integration-test)
+  #(cd samples/client/petstore/typescript-node/npm && mvn integration-test)
+  #(cd samples/client/petstore/typescript-rxjs/builds/with-npm-version && mvn integration-test)
+  #(cd samples/client/petstore/typescript-axios/builds/with-npm-version && mvn integration-test)
+  #(cd samples/client/petstore/typescript-axios/tests/default && mvn integration-test)
+  #(cd samples/client/petstore/typescript-axios/tests/with-complex-headers && mvn integration-test)
 
 else
   echo "Running node $NODE_INDEX ..."

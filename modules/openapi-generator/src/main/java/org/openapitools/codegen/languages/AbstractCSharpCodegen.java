@@ -117,6 +117,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
+    // A cache to efficiently lookup CodegenModel `fromModel(codegenModelName, parentModelSchema)` based on the pair of model name and schema
+    private final Map<Map.Entry<String, Schema>, CodegenModel> codegenModelNameAndSchemaKeyToCodegenModelCache = new HashMap<>();
+
     public AbstractCSharpCodegen() {
         super();
 
@@ -1702,6 +1705,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Override
     public String toModelTestFilename(String name) {
         return toModelName(name) + "Tests";
+    }
+
+    protected CodegenModel getCodegenModel(String codegenModelName, Schema schema){
+       var key = new AbstractMap.SimpleEntry<>(codegenModelName, schema);
+       if(codegenModelNameAndSchemaKeyToCodegenModelCache.containsKey(key)){
+           return codegenModelNameAndSchemaKeyToCodegenModelCache.get(key);
+       }
+
+       CodegenModel model = super.fromModel(codegenModelName, schema);
+       codegenModelNameAndSchemaKeyToCodegenModelCache.put(key, model);
+       return model;
     }
 
     public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag) {

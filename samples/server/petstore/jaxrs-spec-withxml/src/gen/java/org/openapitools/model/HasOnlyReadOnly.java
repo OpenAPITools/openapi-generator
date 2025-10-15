@@ -1,0 +1,163 @@
+package org.openapitools.model;
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
+import io.swagger.annotations.*;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+
+
+
+@JsonTypeName("hasOnlyReadOnly")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+     @XmlType(name = "HasOnlyReadOnly", propOrder =
+    { "bar", "foo"
+    })
+    
+    @XmlRootElement(name="HasOnlyReadOnly")
+
+public class HasOnlyReadOnly  implements Serializable {
+  private String bar;
+  private String foo;
+
+  protected HasOnlyReadOnly(HasOnlyReadOnlyBuilder<?, ?> b) {
+    this.bar = b.bar;
+    this.foo = b.foo;
+  }
+
+  public HasOnlyReadOnly() {
+  }
+
+  /**
+   **/
+  public HasOnlyReadOnly bar(String bar) {
+    this.bar = bar;
+    return this;
+  }
+
+      @XmlElement(name="bar")
+  
+  @ApiModelProperty(value = "")
+  @JsonProperty("bar")
+  public String getBar() {
+    return bar;
+  }
+
+  @JsonProperty("bar")
+  public void setBar(String bar) {
+    this.bar = bar;
+  }
+
+  /**
+   **/
+  public HasOnlyReadOnly foo(String foo) {
+    this.foo = foo;
+    return this;
+  }
+
+      @XmlElement(name="foo")
+  
+  @ApiModelProperty(value = "")
+  @JsonProperty("foo")
+  public String getFoo() {
+    return foo;
+  }
+
+  @JsonProperty("foo")
+  public void setFoo(String foo) {
+    this.foo = foo;
+  }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
+    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
+        Objects.equals(this.foo, hasOnlyReadOnly.foo);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(bar, foo);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class HasOnlyReadOnly {\n");
+    
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+
+
+  public static HasOnlyReadOnlyBuilder<?, ?> builder() {
+    return new HasOnlyReadOnlyBuilderImpl();
+  }
+
+  private static final class HasOnlyReadOnlyBuilderImpl extends HasOnlyReadOnlyBuilder<HasOnlyReadOnly, HasOnlyReadOnlyBuilderImpl> {
+
+    @Override
+    protected HasOnlyReadOnlyBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public HasOnlyReadOnly build() {
+      return new HasOnlyReadOnly(this);
+    }
+  }
+
+  public static abstract class HasOnlyReadOnlyBuilder<C extends HasOnlyReadOnly, B extends HasOnlyReadOnlyBuilder<C, B>>  {
+    private String bar;
+    private String foo;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B bar(String bar) {
+      this.bar = bar;
+      return self();
+    }
+    public B foo(String foo) {
+      this.foo = foo;
+      return self();
+    }
+  }
+}
+
