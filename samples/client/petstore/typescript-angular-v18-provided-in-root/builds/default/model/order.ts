@@ -27,7 +27,7 @@ export namespace Order {
     export const StatusEnum = {
         Placed: 'placed',
         Approved: 'approved',
-        SHIPPED: 'delivered'
+        Delivered: 'delivered'
     } as const;
     export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
 }
