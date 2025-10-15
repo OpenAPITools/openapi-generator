@@ -1,0 +1,169 @@
+package org.openapitools.model;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
+import io.swagger.annotations.*;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+
+
+
+@JsonTypeName("Category")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+     @XmlType(name = "Category", propOrder =
+    { "id", "name"
+    })
+    
+    @XmlRootElement(name="Category")
+
+public class Category  implements Serializable {
+  private Long id;
+  private String name = "default-name";
+
+  protected Category(CategoryBuilder<?, ?> b) {
+    this.id = b.id;
+    this.name = b.name;
+  }
+
+  public Category() {
+  }
+
+  @JsonCreator
+  public Category(
+    @JsonProperty(required = true, value = "name") String name
+  ) {
+    this.name = name;
+  }
+
+  /**
+   **/
+  public Category id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+      @XmlElement(name="id")
+  
+  @ApiModelProperty(value = "")
+  @JsonProperty("id")
+  public Long getId() {
+    return id;
+  }
+
+  @JsonProperty("id")
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  /**
+   **/
+  public Category name(String name) {
+    this.name = name;
+    return this;
+  }
+
+      @XmlElement(name="name", required = true)
+  
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty(required = true, value = "name")
+  @NotNull public String getName() {
+    return name;
+  }
+
+  @JsonProperty(required = true, value = "name")
+  public void setName(String name) {
+    this.name = name;
+  }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Category category = (Category) o;
+    return Objects.equals(this.id, category.id) &&
+        Objects.equals(this.name, category.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class Category {\n");
+    
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+
+
+  public static CategoryBuilder<?, ?> builder() {
+    return new CategoryBuilderImpl();
+  }
+
+  private static final class CategoryBuilderImpl extends CategoryBuilder<Category, CategoryBuilderImpl> {
+
+    @Override
+    protected CategoryBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Category build() {
+      return new Category(this);
+    }
+  }
+
+  public static abstract class CategoryBuilder<C extends Category, B extends CategoryBuilder<C, B>>  {
+    private Long id;
+    private String name = "default-name";
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B id(Long id) {
+      this.id = id;
+      return self();
+    }
+    public B name(String name) {
+      this.name = name;
+      return self();
+    }
+  }
+}
+
