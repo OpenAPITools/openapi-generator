@@ -645,7 +645,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 
 - `FILTER`
 
-The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semi-column.
+The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semicolon.
 
 ### Available Filters
 
