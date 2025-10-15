@@ -276,10 +276,11 @@ public class OpenAPINormalizer {
             try {
                 filter = new Filter(filters);
             } catch (RuntimeException e) {
-                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2` in {}", filters);
-                // rethrow the exception. This is a breaking change compared to pre 7.16.0
+                String message = String.format("FILTER rule [%s] must be in the form of `%s:name1|name2|name3` or `%s:get|post|put` or `%s:tag1|tag2|tag3` or `%s:/v1|/v2`. Error: %s",
+                        filters, Filter.OPERATION_ID, Filter.METHOD, Filter.TAG, Filter.PATH, e.getMessage());
+                // throw an exception. This is a breaking change compared to pre 7.16.0
                 // Workaround: fix the syntax!
-                throw e;
+                throw new IllegalArgumentException(message);
             }
         }
 
@@ -1782,6 +1783,10 @@ public class OpenAPINormalizer {
     // ===================== end of rules =====================
 
     static class Filter {
+        public static final String OPERATION_ID = "operationId";
+        public static final String METHOD = "method";
+        public static final String TAG = "tag";
+        public static final String PATH = "path";
         protected Set<String> operationIdFilters = Collections.emptySet();
         protected Set<String> methodFilters = Collections.emptySet();
         protected Set<String> tagFilters = Collections.emptySet();
@@ -1796,7 +1801,7 @@ public class OpenAPINormalizer {
                 filter = filter.trim();
                 String[] filterStrs = filter.split(":");
                 if (filterStrs.length != 2) { // only support filter with : at the moment
-                    throw new IllegalArgumentException("filter not supported :[" + filter + "]");
+                    throw new IllegalArgumentException("filter not supported :[" + filters + "]");
                 } else {
                     String filterKey = filterStrs[0].trim();
                     String filterValue = filterStrs[1];
@@ -1804,16 +1809,17 @@ public class OpenAPINormalizer {
                             .filter(Objects::nonNull)
                             .map(String::trim)
                             .collect(Collectors.toCollection(HashSet::new));
-                    if ("operationId".equals(filterKey)) {
+                    if (OPERATION_ID.equals(filterKey)) {
                         operationIdFilters = parsedFilters;
-                    } else if ("method".equals(filterKey)) {
+                    } else if (METHOD.equals(filterKey)) {
+
                         methodFilters = parsedFilters;
-                    } else if ("tag".equals(filterKey)) {
+                    } else if (TAG.equals(filterKey)) {
                         tagFilters = parsedFilters;
-                    } else if ("path".equals(filterKey)) {
+                    } else if (PATH.equals(filterKey)) {
                         pathStartingWithFilters = parsedFilters;
                     } else {
-                        throw new IllegalArgumentException("filter not supported :[" + filter + "]");
+                        throw new IllegalArgumentException("filter not supported :[" + filters + "]");
                     }
                 }
             }
@@ -1828,10 +1834,10 @@ public class OpenAPINormalizer {
                 Operation operation = getter.apply(pathItem);
                 if (operation != null) {
                     boolean found = false;
-                    found |= hasMatch("path", operation, hasPathStarting(path));
-                    found |= hasMatch("tag", operation, hasTag(operation));
-                    found |= hasMatch("operationId", operation, hasOperationId(operation));
-                    found |= hasMatch("method", operation, hasMethod(method));
+                    found |= hasMatch(PATH, operation, hasPathStarting(path));
+                    found |= hasMatch(TAG, operation, hasTag(operation));
+                    found |= hasMatch(OPERATION_ID, operation, hasOperationId(operation));
+                    found |= hasMatch(METHOD, operation, hasMethod(method));
                     operation.addExtension(X_INTERNAL, !found);
                 }
             });
