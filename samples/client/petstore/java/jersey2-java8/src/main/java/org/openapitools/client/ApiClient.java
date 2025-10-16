@@ -1213,10 +1213,8 @@ public class ApiClient extends JavaTimeFormatter {
     try {
       response = sendRequest(method, invocationBuilder, entity);
 
-      final int statusCode = response.getStatusInfo().getStatusCode();
-
       // If OAuth is used and a status 401 is received, renew the access token and retry the request
-      if (authNames != null && statusCode == Status.UNAUTHORIZED.getStatusCode()) {
+      if (authNames != null && response.getStatusInfo().getStatusCode() == Status.UNAUTHORIZED.getStatusCode()) {
         for (String authName : authNames) {
           Authentication authentication = authentications.get(authName);
           if (authentication instanceof OAuth) {
@@ -1230,6 +1228,8 @@ public class ApiClient extends JavaTimeFormatter {
           }
         }
       }
+      
+      final int statusCode = response.getStatusInfo().getStatusCode();
 
       Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 

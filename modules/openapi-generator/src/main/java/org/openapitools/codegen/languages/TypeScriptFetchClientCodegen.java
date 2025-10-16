@@ -1522,11 +1522,16 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public Set<String> oneOfArrays = new TreeSet<>();
         @Getter @Setter
         public Set<CodegenProperty> oneOfPrimitives = new HashSet<>();
-
+        @Getter @Setter
+        public CodegenDiscriminator.MappedModel selfReferencingDiscriminatorMapping;
+      
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
         public boolean hasReturnPassthroughVoid;
-
+        
+        public boolean hasSelfReferencingDiscriminatorMapping(){
+            return selfReferencingDiscriminatorMapping != null;
+        }
         public boolean isDateType() {
             return isDate && "Date".equals(dataType);
         }
@@ -1620,6 +1625,17 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.setAdditionalProperties(cm.getAdditionalProperties());
             this.setIsModel(cm.getIsModel());
             this.setComposedSchemas(cm.getComposedSchemas());
+            if (this.discriminator != null) {
+                Set<CodegenDiscriminator.MappedModel> mappedModels = this.discriminator.getMappedModels();
+                for(CodegenDiscriminator.MappedModel mappedModel : mappedModels) {
+                    if(mappedModel.getModelName().equals(cm.classname)) {
+                        this.selfReferencingDiscriminatorMapping = mappedModel;
+                    }
+                }
+                if(this.selfReferencingDiscriminatorMapping != null) {
+                    this.discriminator.getMappedModels().remove(this.selfReferencingDiscriminatorMapping);
+                }
+            }
         }
 
         @Override
