@@ -18,7 +18,23 @@ pub enum FooResponse {
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
-pub enum I21143Response {
+pub enum I211431Response {
+    /// Re-serialize and echo the request data
+    Status200_Re(models::Message),
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum I211432Response {
+    /// Re-serialize and echo the request data
+    Status200_Re(models::Message),
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum I211433Response {
     /// Re-serialize and echo the request data
     Status200_Re(models::Message),
 }
@@ -37,13 +53,33 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         body: &models::Message,
     ) -> Result<FooResponse, E>;
 
-    /// I21143 - POST /issue21143
-    async fn i21143(
+    /// I211431 - POST /issue21143_1
+    async fn i211431(
         &self,
 
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &Vec<i32>,
-    ) -> Result<I21143Response, E>;
+    ) -> Result<I211431Response, E>;
+
+    /// I211432 - POST /issue21143_2
+    async fn i211432(
+        &self,
+
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &String,
+    ) -> Result<I211432Response, E>;
+
+    /// I211433 - POST /issue21143_3
+    async fn i211433(
+        &self,
+
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &i32,
+    ) -> Result<I211433Response, E>;
 }
