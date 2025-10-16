@@ -19,6 +19,56 @@ paths:
             "application/json":
               schema:
                 "$ref": "#/components/schemas/Message"
+  "/issue21143_1":
+    post:
+      operationId: i21143_1
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              type: array
+              items:
+                type: integer
+      responses:
+        "200":
+          description: Re-serialize and echo the request data
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Message"
+  "/issue21143_2":
+    post:
+      operationId: i21143_2
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              type: string
+      responses:
+        "200":
+          description: Re-serialize and echo the request data
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Message"
+  "/issue21143_3":
+    post:
+      operationId: i21143_3
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              type: integer
+      responses:
+        "200":
+          description: Re-serialize and echo the request data
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Message"
 components:
   schemas:
     Message:
@@ -87,7 +137,7 @@ components:
         - d
     SomethingCompletelyDifferent:
       oneOf:
-      - items:
-          type: object
-        type: array
-      - type: object
+        - items:
+            type: object
+          type: array
+        - type: object

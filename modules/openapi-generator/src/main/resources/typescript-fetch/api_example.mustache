@@ -1,0 +1,44 @@
+import {
+  Configuration,
+  {{classname}},
+} from '{{npmName}}';
+import type { {{operationIdCamelCase}}Request } from '{{npmName}}';
+
+async function example() {
+  console.log("🚀 Testing {{npmName}} SDK...");
+  {{#hasAuthMethods}}
+  const config = new Configuration({ {{#authMethods}}{{#isBasicBasic}}
+    // To configure HTTP basic authorization: {{{name}}}
+    username: "YOUR USERNAME",
+    password: "YOUR PASSWORD",{{/isBasicBasic}}{{#isBasicBearer}}
+    // Configure HTTP bearer authorization: {{{name}}}
+    accessToken: "YOUR BEARER TOKEN",{{/isBasicBearer}}{{#isOAuth}}
+    // To configure OAuth2 access token for authorization: {{{name}}} {{{flow}}}
+    accessToken: "YOUR ACCESS TOKEN",{{/isOAuth}}{{#isApiKey}}
+    // To configure API key authorization: {{{name}}}
+    apiKey: "YOUR API KEY",{{/isApiKey}}{{#isHttpSignature}}
+    // To configure HTTP signature authorization: {{{name}}}
+    headers: { "YOUR HEADER NAME": "YOUR SIGNATURE" },{{/isHttpSignature}}{{/authMethods}}
+  });
+  {{/hasAuthMethods}}
+  const api = new {{classname}}({{#hasAuthMethods}}config{{/hasAuthMethods}});
+
+  {{#hasParams}}
+  const body = {
+    {{#allParams}}
+    // {{{dataType}}}{{#description}} | {{{description}}}{{/description}}{{^required}} (optional){{/required}}
+    {{paramName}}: {{{example}}}{{^example}}...{{/example}},
+    {{/allParams}}
+  } satisfies {{operationIdCamelCase}}Request;
+
+  {{/hasParams}}
+  try {
+    const data = await api.{{{operationId}}}({{#hasParams}}body{{/hasParams}});
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);

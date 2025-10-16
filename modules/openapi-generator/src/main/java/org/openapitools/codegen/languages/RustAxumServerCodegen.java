@@ -861,6 +861,24 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
 
         if (op.bodyParam != null) {
+            final var dataType = op.bodyParam.dataType;
+            if (dataType.startsWith(vecType + "<String")) {
+                op.bodyParam.vendorExtensions.put("is-vec-string", true);
+            } else if (dataType.startsWith(vecType + "<models::")) {
+                op.bodyParam.vendorExtensions.put("is-vec-nested", true);
+            } else if (dataType.startsWith(mapType + "<String, String")) {
+                op.bodyParam.vendorExtensions.put("is-map-string", true);
+            } else if (dataType.startsWith(mapType + "<String, models::")) {
+                op.bodyParam.vendorExtensions.put("is-map-nested", true);
+            } else if (dataType.startsWith(mapType + "<String")) {
+                op.bodyParam.vendorExtensions.put("is-map", true);
+            } else if (dataType.startsWith("models::")) {
+                op.bodyParam.isModel = true;
+            } else if (dataType.equals("String")) {
+                op.bodyParam.isString = true;
+                op.bodyParam.vendorExtensions.put("is-string", true);
+            }
+
             if (consumesJson) {
                 op.bodyParam.vendorExtensions.put("x-consumes-json", true);
             } else if (consumesFormUrlEncoded) {

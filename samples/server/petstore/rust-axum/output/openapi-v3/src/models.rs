@@ -8,6 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
+    let mut errs = validator::ValidationErrors::new();
+    errs.add("na", e);
+    errs
+}
+
+#[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
     if ammonia::is_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
@@ -171,7 +178,7 @@ pub struct GetRepoInfoPathParams {
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesReferencedAnyOfObject(
-    std::collections::HashMap<String, models::AnyOfProperty>,
+    pub std::collections::HashMap<String, models::AnyOfProperty>,
 );
 
 impl validator::Validate for AdditionalPropertiesReferencedAnyOfObject {
@@ -234,7 +241,7 @@ impl ::std::str::FromStr for AdditionalPropertiesReferencedAnyOfObject {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AdditionalPropertiesWithList(std::collections::HashMap<String, Vec<String>>);
+pub struct AdditionalPropertiesWithList(pub std::collections::HashMap<String, Vec<String>>);
 
 impl validator::Validate for AdditionalPropertiesWithList {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -447,7 +454,7 @@ impl std::convert::TryFrom<HeaderValue>
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AnotherXmlArray(Vec<String>);
+pub struct AnotherXmlArray(pub Vec<String>);
 
 impl validator::Validate for AnotherXmlArray {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -588,7 +595,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnotherXmlAr
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AnotherXmlInner(String);
+pub struct AnotherXmlInner(pub String);
 
 impl validator::Validate for AnotherXmlInner {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -1232,7 +1239,7 @@ impl std::str::FromStr for EnumWithStarObject {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Err(String);
+pub struct Err(pub String);
 
 impl validator::Validate for Err {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -1280,7 +1287,7 @@ impl std::ops::DerefMut for Err {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Error(String);
+pub struct Error(pub String);
 
 impl validator::Validate for Error {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -1634,7 +1641,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MultigetGet2
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct MyId(i32);
+pub struct MyId(pub i32);
 
 impl validator::Validate for MyId {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -1669,7 +1676,7 @@ impl std::ops::DerefMut for MyId {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct MyIdList(Vec<i32>);
+pub struct MyIdList(pub Vec<i32>);
 
 impl validator::Validate for MyIdList {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -1810,7 +1817,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MyIdList> {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct NullableObject(String);
+pub struct NullableObject(pub String);
 
 impl validator::Validate for NullableObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -2786,7 +2793,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ObjectWithAr
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Ok(String);
+pub struct Ok(pub String);
 
 impl validator::Validate for Ok {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -2873,7 +2880,7 @@ impl From<Vec<String>> for OneOfGet200Response {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OptionalObjectHeader(i32);
+pub struct OptionalObjectHeader(pub i32);
 
 impl validator::Validate for OptionalObjectHeader {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -2908,7 +2915,7 @@ impl std::ops::DerefMut for OptionalObjectHeader {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct RequiredObjectHeader(bool);
+pub struct RequiredObjectHeader(pub bool);
 
 impl validator::Validate for RequiredObjectHeader {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -2943,7 +2950,7 @@ impl std::ops::DerefMut for RequiredObjectHeader {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Result(String);
+pub struct Result(pub String);
 
 impl validator::Validate for Result {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -3034,7 +3041,7 @@ impl std::str::FromStr for StringEnum {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct StringObject(String);
+pub struct StringObject(pub String);
 
 impl validator::Validate for StringObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -3083,7 +3090,7 @@ impl std::ops::DerefMut for StringObject {
 /// Test a model containing a UUID
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct UuidObject(uuid::Uuid);
+pub struct UuidObject(pub uuid::Uuid);
 
 impl validator::Validate for UuidObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -3118,7 +3125,7 @@ impl std::ops::DerefMut for UuidObject {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct XmlArray(Vec<String>);
+pub struct XmlArray(pub Vec<String>);
 
 impl validator::Validate for XmlArray {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -3259,7 +3266,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<XmlArray> {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct XmlInner(String);
+pub struct XmlInner(pub String);
 
 impl validator::Validate for XmlInner {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {

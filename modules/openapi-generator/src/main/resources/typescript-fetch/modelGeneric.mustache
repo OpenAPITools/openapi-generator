@@ -47,6 +47,12 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
             return {{modelName}}FromJSONTyped(json, ignoreDiscriminator);
         }
 {{/discriminator.mappedModels}}
+    {{#hasSelfReferencingDiscriminatorMapping}}
+        if (json['{{discriminator.propertyBaseName}}'] === '{{selfReferencingDiscriminatorMapping.mappingName}}') {
+            return {{selfReferencingDiscriminatorMapping.modelName}}FromJSONTyped(json, true);
+        }
+    {{/hasSelfReferencingDiscriminatorMapping}}
+
     }
 {{/discriminator}}
     return {
