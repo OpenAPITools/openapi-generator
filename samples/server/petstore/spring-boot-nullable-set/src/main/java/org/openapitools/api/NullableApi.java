@@ -65,7 +65,6 @@ public interface NullableApi {
         value = NullableApi.PATH_NULLABLE_TEST,
         consumes = "application/json"
     )
-    
     default ResponseEntity<Void> nullableTest(
         @Parameter(name = "ObjectWithUniqueItems", description = "") @Valid @RequestBody(required = false) @Nullable ObjectWithUniqueItems objectWithUniqueItems
     ) {

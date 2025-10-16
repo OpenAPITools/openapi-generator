@@ -65,12 +65,11 @@ public interface PetApi {
         value = PetApi.PATH_ADD_PET,
         consumes = { "application/json", "application/xml" }
     )
-    
     default Mono<ResponseEntity<Void>> addPet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().addPet(pet, exchange);
+            return getDelegate().addPet(pet, exchange);
     }
 
 
@@ -104,13 +103,12 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = PetApi.PATH_DELETE_PET
     )
-    
     default Mono<ResponseEntity<Void>> deletePet(
         @NotNull @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) @Nullable String apiKey,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().deletePet(petId, apiKey, exchange);
+            return getDelegate().deletePet(petId, apiKey, exchange);
     }
 
 
@@ -146,12 +144,11 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/xml", "application/json" }
     )
-    
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
         @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().findPetsByStatus(status, exchange);
+            return getDelegate().findPetsByStatus(status, exchange);
     }
 
 
@@ -189,12 +186,11 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/xml", "application/json" }
     )
-    
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().findPetsByTags(tags, exchange);
+            return getDelegate().findPetsByTags(tags, exchange);
     }
 
 
@@ -228,12 +224,11 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         produces = { "application/xml", "application/json" }
     )
-    
     default Mono<ResponseEntity<Pet>> getPetById(
         @NotNull @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().getPetById(petId, exchange);
+            return getDelegate().getPetById(petId, exchange);
     }
 
 
@@ -271,12 +266,11 @@ public interface PetApi {
         value = PetApi.PATH_UPDATE_PET,
         consumes = { "application/json", "application/xml" }
     )
-    
     default Mono<ResponseEntity<Void>> updatePet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().updatePet(pet, exchange);
+            return getDelegate().updatePet(pet, exchange);
     }
 
 
@@ -310,14 +304,13 @@ public interface PetApi {
         value = PetApi.PATH_UPDATE_PET_WITH_FORM,
         consumes = { "application/x-www-form-urlencoded" }
     )
-    
     default Mono<ResponseEntity<Void>> updatePetWithForm(
         @NotNull @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,
         @ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().updatePetWithForm(petId, name, status, exchange);
+            return getDelegate().updatePetWithForm(petId, name, status, exchange);
     }
 
 
@@ -353,14 +346,13 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    
     default Mono<ResponseEntity<ModelApiResponse>> uploadFile(
         @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) Part file,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().uploadFile(petId, additionalMetadata, file, exchange);
+            return getDelegate().uploadFile(petId, additionalMetadata, file, exchange);
     }
 
 }

@@ -63,7 +63,6 @@ public interface FakeClassnameTags123Api {
         produces = { "application/json" },
         consumes = "application/json"
     )
-    
     ResponseEntity<Client> testClassname(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     );

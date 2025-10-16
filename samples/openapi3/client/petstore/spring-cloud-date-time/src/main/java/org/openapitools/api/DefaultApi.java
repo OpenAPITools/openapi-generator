@@ -58,7 +58,6 @@ public interface DefaultApi {
         method = RequestMethod.GET,
         value = DefaultApi.PATH_GET
     )
-    
     ResponseEntity<Void> get(
         @NotNull @Parameter(name = "date", description = "A date path parameter", required = true, in = ParameterIn.PATH) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @NotNull @Parameter(name = "dateTime", description = "A date-time query parameter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "dateTime", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
@@ -88,7 +87,6 @@ public interface DefaultApi {
         value = DefaultApi.PATH_UPDATE_PET_WITH_FORM,
         consumes = "application/x-www-form-urlencoded"
     )
-    
     ResponseEntity<Void> updatePetWithForm(
         @NotNull @Parameter(name = "date", description = "A date path parameter", required = true, in = ParameterIn.PATH) @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @Parameter(name = "visitDate", description = "Updated last visit timestamp") @Valid @RequestParam(value = "visitDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate

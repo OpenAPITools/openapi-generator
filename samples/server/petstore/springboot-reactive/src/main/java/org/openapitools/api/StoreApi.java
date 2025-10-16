@@ -56,12 +56,11 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = StoreApi.PATH_DELETE_ORDER
     )
-    
     default Mono<ResponseEntity<Void>> deleteOrder(
         @NotNull @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().deleteOrder(orderId, exchange);
+            return getDelegate().deleteOrder(orderId, exchange);
     }
 
 
@@ -91,11 +90,10 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
-    
     default Mono<ResponseEntity<Map<String, Integer>>> getInventory(
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().getInventory(exchange);
+            return getDelegate().getInventory(exchange);
     }
 
 
@@ -126,12 +124,11 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/xml", "application/json" }
     )
-    
     default Mono<ResponseEntity<Order>> getOrderById(
         @NotNull @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().getOrderById(orderId, exchange);
+            return getDelegate().getOrderById(orderId, exchange);
     }
 
 
@@ -161,12 +158,11 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
     )
-    
     default Mono<ResponseEntity<Order>> placeOrder(
         @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-        return getDelegate().placeOrder(order, exchange);
+            return getDelegate().placeOrder(order, exchange);
     }
 
 }

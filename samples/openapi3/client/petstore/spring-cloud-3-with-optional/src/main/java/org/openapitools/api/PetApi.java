@@ -39,7 +39,6 @@ public interface PetApi {
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
-    
     ResponseEntity<Pet> addPet(
          @Valid @RequestBody Pet pet
     );
@@ -58,7 +57,6 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = PetApi.PATH_DELETE_PET
     )
-    
     ResponseEntity<Void> deletePet(
         @NotNull  @PathVariable("petId") Long petId,
          @RequestHeader(value = "api_key", required = false) Optional<String> apiKey
@@ -79,7 +77,6 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/json", "application/xml" }
     )
-    
     ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull  @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
     );
@@ -101,7 +98,6 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/json", "application/xml" }
     )
-    
     ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull  @Valid @RequestParam(value = "tags", required = true) List<String> tags
     );
@@ -122,7 +118,6 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         produces = { "application/json", "application/xml" }
     )
-    
     ResponseEntity<Pet> getPetById(
         @NotNull  @PathVariable("petId") Long petId
     );
@@ -147,7 +142,6 @@ public interface PetApi {
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
-    
     ResponseEntity<Pet> updatePet(
          @Valid @RequestBody Pet pet
     );
@@ -168,7 +162,6 @@ public interface PetApi {
         value = PetApi.PATH_UPDATE_PET_WITH_FORM,
         consumes = "application/x-www-form-urlencoded"
     )
-    
     ResponseEntity<Void> updatePetWithForm(
         @NotNull  @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "name", required = false) Optional<String> name,
@@ -192,7 +185,6 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = "multipart/form-data"
     )
-    
     ResponseEntity<ModelApiResponse> uploadFile(
         @NotNull  @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata,

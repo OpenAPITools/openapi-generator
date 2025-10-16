@@ -31,7 +31,6 @@ public interface SomeApi {
         method = RequestMethod.GET,
         value = SomeApi.PATH_SOME_ENDPOINT_GET
     )
-    
     ResponseEntity<Void> someEndpointGet(
         
     );

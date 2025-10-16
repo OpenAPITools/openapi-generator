@@ -43,7 +43,6 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = StoreApi.PATH_DELETE_ORDER
     )
-    
     default ResponseEntity<Void> deleteOrder(
         @NotNull  @PathVariable("orderId") String orderId
     ) {
@@ -64,7 +63,6 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
-    
     default ResponseEntity<Map<String, Integer>> getInventory(
         
     ) {
@@ -88,7 +86,6 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/xml", "application/json" }
     )
-    
     default ResponseEntity<Order> getOrderById(
         @NotNull @Min(1L) @Max(5L)  @PathVariable("orderId") Long orderId
     ) {
@@ -126,7 +123,6 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Order> placeOrder(
          @Valid @RequestBody Order order
     ) {

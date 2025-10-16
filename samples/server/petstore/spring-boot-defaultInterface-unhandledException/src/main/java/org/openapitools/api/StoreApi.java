@@ -59,7 +59,6 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = StoreApi.PATH_DELETE_ORDER
     )
-    
     ResponseEntity<Void> deleteOrder(
         @NotNull @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
     ) throws Exception;
@@ -91,7 +90,6 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
-    
     ResponseEntity<Map<String, Integer>> getInventory(
         
     ) throws Exception;
@@ -126,7 +124,6 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/xml", "application/json" }
     )
-    
     ResponseEntity<Order> getOrderById(
         @NotNull @Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
     ) throws Exception;
@@ -160,7 +157,6 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
     )
-    
     ResponseEntity<Order> placeOrder(
         @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
     ) throws Exception;

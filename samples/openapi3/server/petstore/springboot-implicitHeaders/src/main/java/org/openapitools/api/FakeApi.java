@@ -77,7 +77,6 @@ public interface FakeApi {
         value = FakeApi.PATH_CREATE_XML_ITEM,
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" }
     )
-    
     default ResponseEntity<Void> createXmlItem(
         @Parameter(name = "XmlItem", description = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem
     ) {
@@ -110,7 +109,6 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body
     ) {
@@ -143,7 +141,6 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
         @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterComposite outerComposite
     ) {
@@ -185,7 +182,6 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body
     ) {
@@ -218,7 +214,6 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<String> fakeOuterStringSerialize(
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
     ) {
@@ -248,7 +243,6 @@ public interface FakeApi {
         value = FakeApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
         produces = { "application/json" }
     )
-    
     default ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
         @NotNull @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
@@ -287,7 +281,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_BODY_WITH_FILE_SCHEMA,
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Void> testBodyWithFileSchema(
         @Parameter(name = "FileSchemaTestClass", description = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
     ) {
@@ -316,7 +309,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_BODY_WITH_QUERY_PARAMS,
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Void> testBodyWithQueryParams(
         @NotNull @Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = true) String query,
         @Parameter(name = "User", description = "", required = true) @Valid @RequestBody User user
@@ -351,7 +343,6 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Client> testClientModel(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     ) {
@@ -409,7 +400,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_ENDPOINT_PARAMETERS,
         consumes = { "application/x-www-form-urlencoded" }
     )
-    
     default ResponseEntity<Void> testEndpointParameters(
         @Parameter(name = "number", description = "None", required = true) @DecimalMin("32.1") @DecimalMax("543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
         @Parameter(name = "double", description = "None", required = true) @DecimalMin("67.8") @DecimalMax("123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
@@ -464,7 +454,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_ENUM_PARAMETERS,
         consumes = { "application/x-www-form-urlencoded" }
     )
-    
     default ResponseEntity<Void> testEnumParameters(
         @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
         @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
@@ -506,7 +495,6 @@ public interface FakeApi {
         method = RequestMethod.DELETE,
         value = FakeApi.PATH_TEST_GROUP_PARAMETERS
     )
-    
     default ResponseEntity<Void> testGroupParameters(
         @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
         @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
@@ -540,7 +528,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_INLINE_ADDITIONAL_PROPERTIES,
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Void> testInlineAdditionalProperties(
         @Parameter(name = "request_body", description = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
     ) {
@@ -572,7 +559,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_JSON_FORM_DATA,
         consumes = { "application/x-www-form-urlencoded" }
     )
-    
     default ResponseEntity<Void> testJsonFormData(
         @Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
         @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
@@ -604,7 +590,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_NULLABLE,
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Void> testNullable(
         @Parameter(name = "ChildWithNullable", description = "request body", required = true) @Valid @RequestBody ChildWithNullable childWithNullable
     ) {
@@ -636,7 +621,6 @@ public interface FakeApi {
         method = RequestMethod.PUT,
         value = FakeApi.PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT
     )
-    
     default ResponseEntity<Void> testQueryParameterCollectionFormat(
         @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
         @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "http", required = true) List<String> http,
@@ -670,7 +654,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_WITH_RESULT_EXAMPLE,
         produces = { "application/json" }
     )
-    
     default ResponseEntity<Integer> testWithResultExample(
         
     ) {
@@ -718,7 +701,6 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
         @NotNull @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,

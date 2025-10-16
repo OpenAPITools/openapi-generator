@@ -265,7 +265,9 @@ public interface {{classname}} {
     {{#vendorExtensions.x-operation-extra-annotation}}
     {{{.}}}
     {{/vendorExtensions.x-operation-extra-annotation}}
-    {{#vendorExtensions.x-sse}}@ResponseBody{{/vendorExtensions.x-sse}}
+    {{#vendorExtensions.x-sse}}
+    @ResponseBody
+    {{/vendorExtensions.x-sse}}
     {{#jdk8-default-interface}}default {{/jdk8-default-interface}}{{>responseType}} {{#delegate-method}}_{{/delegate-method}}{{operationId}}(
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
         {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}},
@@ -285,7 +287,7 @@ public interface {{classname}} {
         {{>methodBody}}{{! prevent indent}}
         {{/isDelegate}}
         {{#isDelegate}}
-        {{^isVoid}}return {{/isVoid}}{{#isVoid}}{{#useResponseEntity}}return {{/useResponseEntity}}{{^useResponseEntity}}{{#reactive}}return {{/reactive}}{{/useResponseEntity}}{{/isVoid}}getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}});
+            {{^isVoid}}return {{/isVoid}}{{#isVoid}}{{#useResponseEntity}}return {{/useResponseEntity}}{{^useResponseEntity}}{{#reactive}}return {{/reactive}}{{/useResponseEntity}}{{/isVoid}}getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}});
         {{/isDelegate}}
     }{{/jdk8-default-interface}}
 

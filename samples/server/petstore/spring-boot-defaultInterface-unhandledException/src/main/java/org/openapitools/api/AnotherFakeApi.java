@@ -60,7 +60,6 @@ public interface AnotherFakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     ResponseEntity<Client> call123testSpecialTags(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     ) throws Exception;

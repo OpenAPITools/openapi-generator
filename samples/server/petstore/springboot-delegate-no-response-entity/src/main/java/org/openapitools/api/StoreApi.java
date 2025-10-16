@@ -52,11 +52,10 @@ public interface StoreApi {
         value = StoreApi.PATH_DELETE_ORDER
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    
     default void deleteOrder(
         @NotNull @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId
     ) {
-        getDelegate().deleteOrder(orderId);
+            getDelegate().deleteOrder(orderId);
     }
 
 
@@ -87,11 +86,10 @@ public interface StoreApi {
         produces = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Map<String, Integer> getInventory(
         
     ) {
-        return getDelegate().getInventory();
+            return getDelegate().getInventory();
     }
 
 
@@ -123,11 +121,10 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Order getOrderById(
         @NotNull @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") Long orderId
     ) {
-        return getDelegate().getOrderById(orderId);
+            return getDelegate().getOrderById(orderId);
     }
 
 
@@ -158,11 +155,10 @@ public interface StoreApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Order placeOrder(
         @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
     ) {
-        return getDelegate().placeOrder(order);
+            return getDelegate().placeOrder(order);
     }
 
 }
