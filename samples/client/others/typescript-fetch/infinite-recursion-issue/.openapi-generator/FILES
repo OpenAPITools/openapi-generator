@@ -1,5 +1,9 @@
 apis/TestApi.ts
 apis/index.ts
+docs/ExtendDto.md
+docs/TestApi.md
+docs/TestBaseDto.md
+docs/TestObjectType.md
 index.ts
 models/ExtendDto.ts
 models/TestBaseDto.ts
