@@ -26,6 +26,7 @@ describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        AppComponent,
         HttpClientModule,
         ApiModule.forRoot(getApiConfig)
       ],
@@ -34,9 +35,6 @@ describe('AppComponent', () => {
         StoreService,
         UserService,
         ...fakePetstoreBackendProviders
-      ],
-      declarations: [
-        AppComponent
       ]
     }).compileComponents()
   }))
