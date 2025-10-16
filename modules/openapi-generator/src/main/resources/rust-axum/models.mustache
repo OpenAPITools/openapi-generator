@@ -8,6 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
+  let mut errs = validator::ValidationErrors::new();
+  errs.add("na", e);
+  errs
+}
+
+#[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
     if ammonia::is_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
@@ -465,7 +472,7 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
                     #[serde(default)]
                 {{/required}}
                     pub {{{paramName}}}: {{{dataType}}},
-                {{/isArray}}
+            {{/isArray}}
             {{^isArray}}
                 {{#required}}
                     pub {{{paramName}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
@@ -580,10 +587,36 @@ impl std::str::FromStr for {{{classname}}} {
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 {{/isMap}}
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct {{{classname}}}({{{dataType}}});
+pub struct {{{classname}}}(pub {{{dataType}}});
 
 impl validator::Validate for {{{classname}}} {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        {{^isNullable}}
+        {{#vendorExtensions.is-nested}}
+          let _ = self.0.validate()?;
+        {{/vendorExtensions.is-nested}}
+        {{#vendorExtensions.is-string}}
+          let _ = check_xss_string(&self.0).map_err(from_validation_error)?;
+        {{/vendorExtensions.is-string}}
+        {{#vendorExtensions.is-vec-nested}}
+          for v in self.0.iter() {
+            let _ = v.validate()?;
+          }
+        {{/vendorExtensions.is-vec-nested}}
+        {{#vendorExtensions.is-vec-string}}
+          let _ = check_xss_vec_string(&self.0).map_err(from_validation_error)?;
+        {{/vendorExtensions.is-vec-string}}
+        {{#vendorExtensions.is-map-nested}}
+          let _ = check_xss_map_nested(&self.0).map_err(from_validation_error)?;
+        {{/vendorExtensions.is-map-nested}}
+        {{#vendorExtensions.is-map}}
+          let _ = check_xss_map(&self.0).map_err(from_validation_error)?;
+        {{/vendorExtensions.is-map}}
+        {{#vendorExtensions.is-map-string}}
+          let _ = check_xss_map_string(&self.0).map_err(from_validation_error)?;
+        {{/vendorExtensions.is-map-string}}
+        {{/isNullable}}
+
         std::result::Result::Ok(())
     }
 }
@@ -656,7 +689,7 @@ impl ::std::str::FromStr for {{{classname}}} {
 {{! vec}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct {{{classname}}}(Vec<{{{arrayModelType}}}>);
+pub struct {{{classname}}}(pub Vec<{{{arrayModelType}}}>);
 
 impl validator::Validate for {{{classname}}} {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
