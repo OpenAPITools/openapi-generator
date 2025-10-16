@@ -63,7 +63,7 @@ public interface PetApi {
     default ResponseEntity<Void> addPet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
     ) {
-            return getDelegate().addPet(body);
+        return getDelegate().addPet(body);
     }
 
 
@@ -100,7 +100,7 @@ public interface PetApi {
         @NotNull @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     ) {
-            return getDelegate().deletePet(petId, apiKey);
+        return getDelegate().deletePet(petId, apiKey);
     }
 
 
@@ -140,7 +140,7 @@ public interface PetApi {
         @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status,
         @ApiIgnore final Pageable pageable
     ) {
-            return getDelegate().findPetsByStatus(status, pageable);
+        return getDelegate().findPetsByStatus(status, pageable);
     }
 
 
@@ -184,7 +184,7 @@ public interface PetApi {
         @ApiParam(value = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.") @RequestHeader(value = "size", required = false) @Nullable String size,
         @ApiIgnore final Pageable pageable
     ) {
-            return getDelegate().findPetsByTags(tags, size, pageable);
+        return getDelegate().findPetsByTags(tags, size, pageable);
     }
 
 
@@ -221,7 +221,7 @@ public interface PetApi {
     default ResponseEntity<Pet> getPetById(
         @NotNull @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
     ) {
-            return getDelegate().getPetById(petId);
+        return getDelegate().getPetById(petId);
     }
 
 
@@ -258,7 +258,7 @@ public interface PetApi {
     default ResponseEntity<List<Pet>> listAllPets(
         @ApiIgnore final Pageable pageable
     ) {
-            return getDelegate().listAllPets(pageable);
+        return getDelegate().listAllPets(pageable);
     }
 
 
@@ -298,7 +298,7 @@ public interface PetApi {
     default ResponseEntity<Void> updatePet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
     ) {
-            return getDelegate().updatePet(body);
+        return getDelegate().updatePet(body);
     }
 
 
@@ -336,7 +336,7 @@ public interface PetApi {
         @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
         @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     ) {
-            return getDelegate().updatePetWithForm(petId, name, status);
+        return getDelegate().updatePetWithForm(petId, name, status);
     }
 
 
@@ -376,7 +376,7 @@ public interface PetApi {
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     ) {
-            return getDelegate().uploadFile(petId, additionalMetadata, file);
+        return getDelegate().uploadFile(petId, additionalMetadata, file);
     }
 
 }

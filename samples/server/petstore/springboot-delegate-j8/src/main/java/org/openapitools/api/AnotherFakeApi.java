@@ -54,7 +54,7 @@ public interface AnotherFakeApi {
     default ResponseEntity<Client> call123testSpecialTags(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody Client client
     ) {
-            return getDelegate().call123testSpecialTags(client);
+        return getDelegate().call123testSpecialTags(client);
     }
 
 }

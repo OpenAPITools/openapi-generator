@@ -76,7 +76,7 @@ public interface FakeApi {
     default ResponseEntity<Void> createXmlItem(
         @Parameter(name = "XmlItem", description = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem
     ) {
-            return getDelegate().createXmlItem(xmlItem);
+        return getDelegate().createXmlItem(xmlItem);
     }
 
 
@@ -107,7 +107,7 @@ public interface FakeApi {
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body
     ) {
-            return getDelegate().fakeOuterBooleanSerialize(body);
+        return getDelegate().fakeOuterBooleanSerialize(body);
     }
 
 
@@ -138,7 +138,7 @@ public interface FakeApi {
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
         @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterComposite outerComposite
     ) {
-            return getDelegate().fakeOuterCompositeSerialize(outerComposite);
+        return getDelegate().fakeOuterCompositeSerialize(outerComposite);
     }
 
 
@@ -169,7 +169,7 @@ public interface FakeApi {
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body
     ) {
-            return getDelegate().fakeOuterNumberSerialize(body);
+        return getDelegate().fakeOuterNumberSerialize(body);
     }
 
 
@@ -200,7 +200,7 @@ public interface FakeApi {
     default ResponseEntity<String> fakeOuterStringSerialize(
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
     ) {
-            return getDelegate().fakeOuterStringSerialize(body);
+        return getDelegate().fakeOuterStringSerialize(body);
     }
 
 
@@ -228,7 +228,7 @@ public interface FakeApi {
     default ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
         @NotNull @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
-            return getDelegate().responseObjectDifferentNames(petId);
+        return getDelegate().responseObjectDifferentNames(petId);
     }
 
 
@@ -256,7 +256,7 @@ public interface FakeApi {
     default ResponseEntity<Void> testBodyWithFileSchema(
         @Parameter(name = "FileSchemaTestClass", description = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
     ) {
-            return getDelegate().testBodyWithFileSchema(fileSchemaTestClass);
+        return getDelegate().testBodyWithFileSchema(fileSchemaTestClass);
     }
 
 
@@ -284,7 +284,7 @@ public interface FakeApi {
         @NotNull @Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = true) String query,
         @Parameter(name = "User", description = "", required = true) @Valid @RequestBody User user
     ) {
-            return getDelegate().testBodyWithQueryParams(query, user);
+        return getDelegate().testBodyWithQueryParams(query, user);
     }
 
 
@@ -316,7 +316,7 @@ public interface FakeApi {
     default ResponseEntity<Client> testClientModel(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     ) {
-            return getDelegate().testClientModel(client);
+        return getDelegate().testClientModel(client);
     }
 
 
@@ -376,7 +376,7 @@ public interface FakeApi {
         @Parameter(name = "password", description = "None") @Size(min = 10, max = 64) @Valid @RequestParam(value = "password", required = false) String password,
         @Parameter(name = "callback", description = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback
     ) {
-            return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+        return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
 
@@ -421,7 +421,7 @@ public interface FakeApi {
         @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
         @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     ) {
-            return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+        return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
     }
 
 
@@ -459,7 +459,7 @@ public interface FakeApi {
         @Parameter(name = "boolean_group", description = "Boolean in group parameters", in = ParameterIn.HEADER) @RequestHeader(value = "boolean_group", required = false) @Nullable Boolean booleanGroup,
         @Parameter(name = "int64_group", description = "Integer in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group
     ) {
-            return getDelegate().testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+        return getDelegate().testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
 
 
@@ -488,7 +488,7 @@ public interface FakeApi {
     default ResponseEntity<Void> testInlineAdditionalProperties(
         @Parameter(name = "request_body", description = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
     ) {
-            return getDelegate().testInlineAdditionalProperties(requestBody);
+        return getDelegate().testInlineAdditionalProperties(requestBody);
     }
 
 
@@ -519,7 +519,7 @@ public interface FakeApi {
         @Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
         @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
     ) {
-            return getDelegate().testJsonFormData(param, param2);
+        return getDelegate().testJsonFormData(param, param2);
     }
 
 
@@ -548,7 +548,7 @@ public interface FakeApi {
     default ResponseEntity<Void> testNullable(
         @Parameter(name = "ChildWithNullable", description = "request body", required = true) @Valid @RequestBody ChildWithNullable childWithNullable
     ) {
-            return getDelegate().testNullable(childWithNullable);
+        return getDelegate().testNullable(childWithNullable);
     }
 
 
@@ -581,7 +581,7 @@ public interface FakeApi {
         @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "url", required = true) List<String> url,
         @NotNull @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "context", required = true) List<String> context
     ) {
-            return getDelegate().testQueryParameterCollectionFormat(pipe, http, url, context);
+        return getDelegate().testQueryParameterCollectionFormat(pipe, http, url, context);
     }
 
 
@@ -610,7 +610,7 @@ public interface FakeApi {
     default ResponseEntity<Integer> testWithResultExample(
         
     ) {
-            return getDelegate().testWithResultExample();
+        return getDelegate().testWithResultExample();
     }
 
 
@@ -649,7 +649,7 @@ public interface FakeApi {
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     ) {
-            return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+        return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
     }
 
 }

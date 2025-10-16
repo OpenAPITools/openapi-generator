@@ -84,7 +84,7 @@ public interface PetApi {
     default ResponseEntity<Pet> addPet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
-            return getDelegate().addPet(pet);
+        return getDelegate().addPet(pet);
     }
 
 
@@ -117,7 +117,7 @@ public interface PetApi {
         @NotNull @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     ) {
-            return getDelegate().deletePet(petId, apiKey);
+        return getDelegate().deletePet(petId, apiKey);
     }
 
 
@@ -160,7 +160,7 @@ public interface PetApi {
     default ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull @Parameter(name = "status", deprecated = true, description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
     ) {
-            return getDelegate().findPetsByStatus(status);
+        return getDelegate().findPetsByStatus(status);
     }
 
 
@@ -200,7 +200,7 @@ public interface PetApi {
     default ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "tags", required = true) List<String> tags
     ) {
-            return getDelegate().findPetsByTags(tags);
+        return getDelegate().findPetsByTags(tags);
     }
 
 
@@ -239,7 +239,7 @@ public interface PetApi {
     default ResponseEntity<Pet> getPetById(
         @NotNull @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
-            return getDelegate().getPetById(petId);
+        return getDelegate().getPetById(petId);
     }
 
 
@@ -284,7 +284,7 @@ public interface PetApi {
     default ResponseEntity<Pet> updatePet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
-            return getDelegate().updatePet(pet);
+        return getDelegate().updatePet(pet);
     }
 
 
@@ -320,7 +320,7 @@ public interface PetApi {
         @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
         @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     ) {
-            return getDelegate().updatePetWithForm(petId, name, status);
+        return getDelegate().updatePetWithForm(petId, name, status);
     }
 
 
@@ -359,7 +359,7 @@ public interface PetApi {
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     ) {
-            return getDelegate().uploadFile(petId, additionalMetadata, file);
+        return getDelegate().uploadFile(petId, additionalMetadata, file);
     }
 
 }

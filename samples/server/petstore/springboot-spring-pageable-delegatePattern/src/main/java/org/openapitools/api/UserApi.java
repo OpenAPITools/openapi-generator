@@ -52,7 +52,7 @@ public interface UserApi {
     default ResponseEntity<Void> createUser(
         @ApiParam(value = "Created user object", required = true) @Valid @RequestBody User body
     ) {
-            return getDelegate().createUser(body);
+        return getDelegate().createUser(body);
     }
 
 
@@ -79,7 +79,7 @@ public interface UserApi {
     default ResponseEntity<Void> createUsersWithArrayInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
     ) {
-            return getDelegate().createUsersWithArrayInput(body);
+        return getDelegate().createUsersWithArrayInput(body);
     }
 
 
@@ -106,7 +106,7 @@ public interface UserApi {
     default ResponseEntity<Void> createUsersWithListInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
     ) {
-            return getDelegate().createUsersWithListInput(body);
+        return getDelegate().createUsersWithListInput(body);
     }
 
 
@@ -136,7 +136,7 @@ public interface UserApi {
     default ResponseEntity<Void> deleteUser(
         @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     ) {
-            return getDelegate().deleteUser(username);
+        return getDelegate().deleteUser(username);
     }
 
 
@@ -169,7 +169,7 @@ public interface UserApi {
     default ResponseEntity<User> getUserByName(
         @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
     ) {
-            return getDelegate().getUserByName(username);
+        return getDelegate().getUserByName(username);
     }
 
 
@@ -202,7 +202,7 @@ public interface UserApi {
         @NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password
     ) {
-            return getDelegate().loginUser(username, password);
+        return getDelegate().loginUser(username, password);
     }
 
 
@@ -228,7 +228,7 @@ public interface UserApi {
     default ResponseEntity<Void> logoutUser(
         
     ) {
-            return getDelegate().logoutUser();
+        return getDelegate().logoutUser();
     }
 
 
@@ -260,7 +260,7 @@ public interface UserApi {
         @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body
     ) {
-            return getDelegate().updateUser(username, body);
+        return getDelegate().updateUser(username, body);
     }
 
 }

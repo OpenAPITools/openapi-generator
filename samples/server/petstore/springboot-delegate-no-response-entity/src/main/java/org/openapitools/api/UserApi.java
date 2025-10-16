@@ -57,7 +57,7 @@ public interface UserApi {
     default void createUser(
         @ApiParam(value = "Created user object", required = true) @Valid @RequestBody User user
     ) {
-            getDelegate().createUser(user);
+        getDelegate().createUser(user);
     }
 
 
@@ -90,7 +90,7 @@ public interface UserApi {
     default void createUsersWithArrayInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     ) {
-            getDelegate().createUsersWithArrayInput(user);
+        getDelegate().createUsersWithArrayInput(user);
     }
 
 
@@ -123,7 +123,7 @@ public interface UserApi {
     default void createUsersWithListInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     ) {
-            getDelegate().createUsersWithListInput(user);
+        getDelegate().createUsersWithListInput(user);
     }
 
 
@@ -157,7 +157,7 @@ public interface UserApi {
     default void deleteUser(
         @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     ) {
-            getDelegate().deleteUser(username);
+        getDelegate().deleteUser(username);
     }
 
 
@@ -192,7 +192,7 @@ public interface UserApi {
     default User getUserByName(
         @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
     ) {
-            return getDelegate().getUserByName(username);
+        return getDelegate().getUserByName(username);
     }
 
 
@@ -227,7 +227,7 @@ public interface UserApi {
         @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password
     ) {
-            return getDelegate().loginUser(username, password);
+        return getDelegate().loginUser(username, password);
     }
 
 
@@ -258,7 +258,7 @@ public interface UserApi {
     default void logoutUser(
         
     ) {
-            getDelegate().logoutUser();
+        getDelegate().logoutUser();
     }
 
 
@@ -295,7 +295,7 @@ public interface UserApi {
         @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User user
     ) {
-            getDelegate().updateUser(username, user);
+        getDelegate().updateUser(username, user);
     }
 
 }

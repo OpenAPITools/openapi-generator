@@ -59,7 +59,7 @@ public interface UserApi {
         @ApiParam(value = "Created user object", required = true) @Valid @RequestBody Mono<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            return getDelegate().createUser(user, exchange);
+        return getDelegate().createUser(user, exchange);
     }
 
 
@@ -89,7 +89,7 @@ public interface UserApi {
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            return getDelegate().createUsersWithArrayInput(user, exchange);
+        return getDelegate().createUsersWithArrayInput(user, exchange);
     }
 
 
@@ -119,7 +119,7 @@ public interface UserApi {
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            return getDelegate().createUsersWithListInput(user, exchange);
+        return getDelegate().createUsersWithListInput(user, exchange);
     }
 
 
@@ -150,7 +150,7 @@ public interface UserApi {
         @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            return getDelegate().deleteUser(username, exchange);
+        return getDelegate().deleteUser(username, exchange);
     }
 
 
@@ -185,7 +185,7 @@ public interface UserApi {
         @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            return getDelegate().getUserByName(username, exchange);
+        return getDelegate().getUserByName(username, exchange);
     }
 
 
@@ -220,7 +220,7 @@ public interface UserApi {
         @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            return getDelegate().loginUser(username, password, exchange);
+        return getDelegate().loginUser(username, password, exchange);
     }
 
 
@@ -247,7 +247,7 @@ public interface UserApi {
     default Mono<ResponseEntity<Void>> logoutUser(
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            return getDelegate().logoutUser(exchange);
+        return getDelegate().logoutUser(exchange);
     }
 
 
@@ -281,7 +281,7 @@ public interface UserApi {
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody Mono<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            return getDelegate().updateUser(username, user, exchange);
+        return getDelegate().updateUser(username, user, exchange);
     }
 
 }

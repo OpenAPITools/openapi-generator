@@ -62,7 +62,7 @@ public interface DummyApi {
     default ResponseEntity<Void> uploadFile(
         @Parameter(name = "body", description = "") @Valid @RequestBody(required = false) Optional<org.springframework.core.io.Resource> body
     ) {
-            return getDelegate().uploadFile(body);
+        return getDelegate().uploadFile(body);
     }
 
 }
