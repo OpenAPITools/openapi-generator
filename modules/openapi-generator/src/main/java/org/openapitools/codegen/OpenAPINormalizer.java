@@ -133,7 +133,6 @@ public class OpenAPINormalizer {
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String FILTER = "FILTER";
-    Filter filter = new Filter();
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String SET_CONTAINER_TO_NULLABLE = "SET_CONTAINER_TO_NULLABLE";
@@ -272,16 +271,7 @@ public class OpenAPINormalizer {
 
         if (inputRules.get(FILTER) != null) {
             rules.put(FILTER, true);
-            String filters = inputRules.get(FILTER);
-            try {
-                filter = new Filter(filters);
-            } catch (RuntimeException e) {
-                String message = String.format(Locale.ROOT, "FILTER rule [%s] must be in the form of `%s:name1|name2|name3` or `%s:get|post|put` or `%s:tag1|tag2|tag3` or `%s:/v1|/v2`. Error: %s",
-                        filters, Filter.OPERATION_ID, Filter.METHOD, Filter.TAG, Filter.PATH, e.getMessage());
-                // throw an exception. This is a breaking change compared to pre 7.16.0
-                // Workaround: fix the syntax!
-                throw new IllegalArgumentException(message);
-            }
+            // actual parsing is delayed to allow customization of the Filter processing
         }
 
         if (inputRules.get(SET_CONTAINER_TO_NULLABLE) != null) {
@@ -325,6 +315,19 @@ public class OpenAPINormalizer {
         if (bearerAuthSecuritySchemeName != null) {
             rules.put(SET_BEARER_AUTH_FOR_NAME, true);
         }
+    }
+
+    /**
+     * Create the filter to process the FILTER normalizer.
+     * Override this to create a custom filter normalizer.
+     *
+     * @param openApi Contract used in the filtering (could be used for customization).
+     * @param filters full FILTER value
+     *
+     * @return a Filter containing the parsed filters.
+     */
+    protected Filter createFilter(OpenAPI openApi, String filters) {
+        return new Filter(filters);
     }
 
     /**
@@ -388,7 +391,10 @@ public class OpenAPINormalizer {
                     "trace", PathItem::getTrace
             );
 
-            if (filter.hasFilter()) {
+            if (Boolean.TRUE.equals(getRule(FILTER))) {
+                String filters = inputRules.get(FILTER);
+                Filter filter = createFilter(this.openAPI, filters);
+                filter.parse();
                 // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
                 // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
                 filter.apply(pathsEntry.getKey(), path, methodMap);
@@ -1796,33 +1802,52 @@ public class OpenAPINormalizer {
 
     // ===================== end of rules =====================
 
-    static class Filter {
+    protected static class Filter {
         public static final String OPERATION_ID = "operationId";
         public static final String METHOD = "method";
         public static final String TAG = "tag";
         public static final String PATH = "path";
+        private final String filters;
         protected Set<String> operationIdFilters = Collections.emptySet();
         protected Set<String> methodFilters = Collections.emptySet();
         protected Set<String> tagFilters = Collections.emptySet();
         protected Set<String> pathStartingWithFilters = Collections.emptySet();
 
-        Filter() {
-
+        protected Filter(String filters) {
+            this.filters = filters.trim();
         }
 
-        public Filter(String filters) {
+        /**
+         * Perform the parsing of the filter string.
+         *
+         * @return true if filters need to be processed
+         */
+        public boolean parse() {
+            if (StringUtils.isEmpty(filters)) {
+                return false;
+            }
+            try {
+                doParse();
+                return hasFilter();
+            } catch (RuntimeException e) {
+                String message = String.format(Locale.ROOT, "FILTER rule [%s] must be in the form of `%s:name1|name2|name3` or `%s:get|post|put` or `%s:tag1|tag2|tag3` or `%s:/v1|/v2`. Error: %s",
+                        filters, Filter.OPERATION_ID, Filter.METHOD, Filter.TAG, Filter.PATH, e.getMessage());
+                // throw an exception. This is a breaking change compared to pre 7.16.0
+                // Workaround: fix the syntax!
+                throw new IllegalArgumentException(message);
+            }
+        }
+
+        private void doParse() {
             for (String filter : filters.split(";")) {
                 filter = filter.trim();
                 String[] filterStrs = filter.split(":");
                 if (filterStrs.length != 2) { // only support filter with : at the moment
-                    throw new IllegalArgumentException("filter not supported :[" + filters + "]");
+                    throw new IllegalArgumentException("filter with no value not supported :[" + filter + "]");
                 } else {
                     String filterKey = filterStrs[0].trim();
                     String filterValue = filterStrs[1];
-                    Set<String> parsedFilters = Arrays.stream(filterValue.split("[|]"))
-                            .filter(Objects::nonNull)
-                            .map(String::trim)
-                            .collect(Collectors.toCollection(HashSet::new));
+                    Set<String> parsedFilters = splitByPipe(filterValue);
                     if (OPERATION_ID.equals(filterKey)) {
                         operationIdFilters = parsedFilters;
                     } else if (METHOD.equals(filterKey)) {
@@ -1833,10 +1858,54 @@ public class OpenAPINormalizer {
                     } else if (PATH.equals(filterKey)) {
                         pathStartingWithFilters = parsedFilters;
                     } else {
-                        throw new IllegalArgumentException("filter not supported :[" + filters + "]");
+                        parse(filterKey, filterValue);
                     }
                 }
             }
+        }
+
+        /**
+         * Split the filterValue by pipe.
+         *
+         * @return the split values.
+         */
+        protected Set<String> splitByPipe(String filterValue) {
+            return Arrays.stream(filterValue.split("[|]"))
+                    .filter(Objects::nonNull)
+                    .map(String::trim)
+                    .collect(Collectors.toCollection(HashSet::new));
+        }
+
+        /**
+         * Parse non default filters.
+         *
+         * Override this method to add custom parsing logic.
+         *
+         * By default throws IllegalArgumentException.
+         *
+         * @param filterName name of the filter
+         * @param filterValue value of the filter
+         */
+        protected void parse(String filterName, String filterValue) {
+            parseFails(filterName, filterValue);
+        }
+
+        protected void parseFails(String filterName, String filterValue) {
+            throw new IllegalArgumentException("filter not supported :[" + filterName + ":" + filterValue + "]");
+        }
+
+        /**
+         * Test if the OpenAPI contract match an extra filter.
+         *
+         * Override this method to add custom logic.
+         *
+         * @param operation  Openapi Operation
+         * @param path  Path of the operation
+         *
+         * @return true if the operation of path match the filter
+         */
+        protected boolean hasCustomFilterMatch(String path, Operation operation) {
+            return false;
         }
 
         public boolean hasFilter() {
@@ -1848,20 +1917,30 @@ public class OpenAPINormalizer {
                 Operation operation = getter.apply(pathItem);
                 if (operation != null) {
                     boolean found = false;
-                    found |= hasMatch(PATH, operation, hasPathStarting(path));
-                    found |= hasMatch(TAG, operation, hasTag(operation));
-                    found |= hasMatch(OPERATION_ID, operation, hasOperationId(operation));
-                    found |= hasMatch(METHOD, operation, hasMethod(method));
+                    found |= logIfMatch(PATH, operation, hasPathStarting(path));
+                    found |= logIfMatch(TAG, operation, hasTag(operation));
+                    found |= logIfMatch(OPERATION_ID, operation, hasOperationId(operation));
+                    found |= logIfMatch(METHOD, operation, hasMethod(method));
+                    found |= hasCustomFilterMatch(path, operation);
+
                     operation.addExtension(X_INTERNAL, !found);
                 }
             });
         }
 
-        private boolean hasMatch(String filterName, Operation operation, boolean filterMatched) {
+        protected boolean logIfMatch(String filterName, Operation operation, boolean filterMatched) {
             if (filterMatched) {
-                OpenAPINormalizer.LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the {} FILTER", operation.getOperationId(), filterName);
+                logMatch(filterName, operation);
             }
             return filterMatched;
+        }
+
+        protected void logMatch(String filterName, Operation operation) {
+            getLogger().info("operation `{}` marked as internal only (x-internal: true) by the {} FILTER", operation.getOperationId(), filterName);
+        }
+
+        protected Logger getLogger() {
+            return OpenAPINormalizer.LOGGER;
         }
 
         private boolean hasPathStarting(String path) {
@@ -1879,5 +1958,6 @@ public class OpenAPINormalizer {
         private boolean hasMethod(String method) {
             return methodFilters.contains(method);
         }
+
     }
 }
