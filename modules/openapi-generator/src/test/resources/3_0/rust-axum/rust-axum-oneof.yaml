@@ -19,6 +19,24 @@ paths:
             "application/json":
               schema:
                 "$ref": "#/components/schemas/Message"
+  "/issue21143":
+    post:
+      operationId: i21143
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              type: array
+              items:
+                type: integer
+      responses:
+        "200":
+          description: Re-serialize and echo the request data
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Message"
 components:
   schemas:
     Message:
@@ -87,7 +105,7 @@ components:
         - d
     SomethingCompletelyDifferent:
       oneOf:
-      - items:
-          type: object
-        type: array
-      - type: object
+        - items:
+            type: object
+          type: array
+        - type: object

@@ -12,6 +12,12 @@ use crate::{header, types::*};
 #[allow(unused_imports)]
 use crate::{apis, models};
 
+#[allow(unused_imports)]
+use crate::{
+    models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
+    models::check_xss_string, models::check_xss_vec_string,
+};
+
 /// Setup API Server.
 pub fn new<I, A, E, C>(api_impl: I) -> Router
 where
@@ -1152,6 +1158,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct TestInlineAdditionalPropertiesBodyValidator<'a> {
+    #[validate(custom(function = "check_xss_map_string"))]
     body: &'a std::collections::HashMap<String, String>,
 }
 

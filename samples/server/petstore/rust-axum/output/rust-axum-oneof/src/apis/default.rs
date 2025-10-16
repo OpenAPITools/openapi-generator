@@ -15,6 +15,14 @@ pub enum FooResponse {
     Status200_Re(models::Message),
 }
 
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum I21143Response {
+    /// Re-serialize and echo the request data
+    Status200_Re(models::Message),
+}
+
 /// Default
 #[async_trait]
 #[allow(clippy::ptr_arg)]
@@ -28,4 +36,14 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         cookies: &CookieJar,
         body: &models::Message,
     ) -> Result<FooResponse, E>;
+
+    /// I21143 - POST /issue21143
+    async fn i21143(
+        &self,
+
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &Vec<i32>,
+    ) -> Result<I21143Response, E>;
 }

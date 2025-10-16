@@ -8,6 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
+    let mut errs = validator::ValidationErrors::new();
+    errs.add("na", e);
+    errs
+}
+
+#[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
     if ammonia::is_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
@@ -216,7 +223,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FooANullable
 /// An additionalPropertiesObject
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct FooAdditionalPropertiesObject(std::collections::HashMap<String, String>);
+pub struct FooAdditionalPropertiesObject(pub std::collections::HashMap<String, String>);
 
 impl validator::Validate for FooAdditionalPropertiesObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
