@@ -68,7 +68,7 @@ async def {{operationId}}(
     {{#notes}}"""{{.}}"""
     {{/notes}}if not Base{{classname}}.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await Base{{classname}}.subclasses[0]().{{operationId}}({{#allParams}}{{>impl_argument}}{{^-last}}, {{/-last}}{{/allParams}})
+    return await Base{{classname}}.subclasses[0]().{{operationId}}({{#allParams}}{{>impl_argument}}{{^-last}}, {{/-last}}{{/allParams}}{{#authMethods}}{{#hasParams}}, {{/hasParams}}{{#authMethods}}token_{{name}}=token_{{name}}{{^-last}}, {{/-last}}{{/authMethods}}{{/authMethods}})
 {{^-last}}
 
 

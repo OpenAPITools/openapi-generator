@@ -72,7 +72,7 @@ async def get_inventory(
     """Returns a map of status codes to quantities"""
     if not BaseStoreApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BaseStoreApi.subclasses[0]().get_inventory()
+    return await BaseStoreApi.subclasses[0]().get_inventory(token_api_key=token_api_key)
 
 
 @router.get(

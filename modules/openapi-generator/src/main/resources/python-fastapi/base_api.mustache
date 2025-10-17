@@ -18,13 +18,12 @@ class Base{{classname}}:
     async def {{operationId}}(
         self,
         {{#allParams}}
-        {{>impl_argument_definition}},
-        {{/allParams}}
+        {{>impl_argument_definition}}{{^-last}},{{/-last}}{{/allParams}}{{#authMethods}}{{#hasParams}},{{/hasParams}}{{#authMethods}}
+        token_{{name}}: str{{^-last}},{{/-last}}{{/authMethods}}{{/authMethods}}
     ) -> {{returnType}}{{^returnType}}None{{/returnType}}:
         {{#notes}}"""{{.}}"""
         ...{{/notes}}{{^notes}}...{{/notes}}
 {{^-last}}
-
 
 {{/-last}}
 {{/operation}}
