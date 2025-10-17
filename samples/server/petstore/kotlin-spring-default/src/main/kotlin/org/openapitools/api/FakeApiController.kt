@@ -48,4 +48,21 @@ class FakeApiController() {
     fun annotations(@Parameter(description = "", required = true) @Valid @RequestBody `annotation`: Annotation): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
+
+    @Operation(
+        summary = "Updates a pet in the store with form data (number)",
+        operationId = "updatePetWithFormNumber",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "405", description = "Invalid input") ],
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.PUT],
+        value = ["/fake/annotations"],
+        consumes = ["application/x-www-form-urlencoded"]
+    )
+    fun updatePetWithFormNumber(@Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String? ,@Parameter(description = "integer type") @Valid @RequestParam(value = "status", required = false) status: kotlin.Int? ,@Parameter(description = "number type") @Valid @RequestParam(value = "status2", required = false) status2: java.math.BigDecimal? ): ResponseEntity<Unit> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
 }

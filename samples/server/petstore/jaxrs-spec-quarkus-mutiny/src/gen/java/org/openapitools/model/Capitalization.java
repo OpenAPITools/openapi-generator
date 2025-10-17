@@ -12,9 +12,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Capitalization")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Capitalization  implements Serializable {
   private String smallCamel;
   private String capitalCamel;

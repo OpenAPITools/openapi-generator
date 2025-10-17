@@ -3597,8 +3597,11 @@ pub struct ObjectParam {
     pub required_param: bool,
 
     #[serde(rename = "optionalParam")]
+    #[validate(
+            range(min = 1, max = 10000000000000000000),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub optional_param: Option<i32>,
+    pub optional_param: Option<u64>,
 
 }
 
@@ -3645,7 +3648,7 @@ impl std::str::FromStr for ObjectParam {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub required_param: Vec<bool>,
-            pub optional_param: Vec<i32>,
+            pub optional_param: Vec<u64>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -3666,7 +3669,7 @@ impl std::str::FromStr for ObjectParam {
                     #[allow(clippy::redundant_clone)]
                     "requiredParam" => intermediate_rep.required_param.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "optionalParam" => intermediate_rep.optional_param.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "optionalParam" => intermediate_rep.optional_param.push(<u64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectParam".to_string())
                 }
             }

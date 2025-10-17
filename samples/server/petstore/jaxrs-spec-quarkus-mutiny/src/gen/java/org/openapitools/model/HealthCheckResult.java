@@ -11,13 +11,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  **/
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
 @JsonTypeName("HealthCheckResult")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class HealthCheckResult  implements Serializable {
   private String nullableMessage;
 

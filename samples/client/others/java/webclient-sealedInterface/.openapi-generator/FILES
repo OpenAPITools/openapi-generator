@@ -6,6 +6,7 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/Addressable.md
+docs/Animal.md
 docs/Apple.md
 docs/Banana.md
 docs/Bar.md
@@ -13,6 +14,8 @@ docs/BarApi.md
 docs/BarCreate.md
 docs/BarRef.md
 docs/BarRefOrValue.md
+docs/Cat.md
+docs/Dog.md
 docs/Entity.md
 docs/EntityRef.md
 docs/Extensible.md
@@ -49,12 +52,15 @@ src/main/java/org/openapitools/client/auth/Authentication.java
 src/main/java/org/openapitools/client/auth/HttpBasicAuth.java
 src/main/java/org/openapitools/client/auth/HttpBearerAuth.java
 src/main/java/org/openapitools/client/model/Addressable.java
+src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/Apple.java
 src/main/java/org/openapitools/client/model/Banana.java
 src/main/java/org/openapitools/client/model/Bar.java
 src/main/java/org/openapitools/client/model/BarCreate.java
 src/main/java/org/openapitools/client/model/BarRef.java
 src/main/java/org/openapitools/client/model/BarRefOrValue.java
+src/main/java/org/openapitools/client/model/Cat.java
+src/main/java/org/openapitools/client/model/Dog.java
 src/main/java/org/openapitools/client/model/Entity.java
 src/main/java/org/openapitools/client/model/EntityRef.java
 src/main/java/org/openapitools/client/model/Extensible.java

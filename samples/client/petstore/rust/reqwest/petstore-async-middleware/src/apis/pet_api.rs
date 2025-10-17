@@ -13,8 +13,6 @@ use reqwest;
 use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
-use tokio::fs::File as TokioFile;
-use tokio_util::codec::{BytesCodec, FramedRead};
 
 /// struct for passing parameters to the method [`add_pet`]
 #[derive(Clone, Debug)]
@@ -361,6 +359,7 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
 }
 
 /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+#[deprecated]
 pub async fn find_pets_by_tags(configuration: &configuration::Configuration, params: FindPetsByTagsParams) -> Result<ResponseContent<FindPetsByTagsSuccess>, Error<FindPetsByTagsError>> {
 
     let uri_str = format!("{}/pet/findByTags", configuration.base_path);

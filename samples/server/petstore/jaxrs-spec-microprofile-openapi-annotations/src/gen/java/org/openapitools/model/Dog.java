@@ -13,9 +13,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Dog")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Dog extends Animal implements Serializable {
   private String breed;
 

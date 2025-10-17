@@ -23,7 +23,8 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.OffsetDateTime
 {{/threetenbp}}
 {{#kotlinx-datetime}}
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 {{/kotlinx-datetime}}
 import java.util.UUID
@@ -67,6 +68,7 @@ import java.util.concurrent.atomic.AtomicLong
         .add(OffsetDateTimeAdapter())
         {{#kotlinx-datetime}}
         .add(InstantAdapter())
+        .add(LocalDateAdapter())
         .add(LocalTimeAdapter())
         {{/kotlinx-datetime}}
         .add(LocalDateTimeAdapter())
@@ -94,6 +96,7 @@ import java.util.concurrent.atomic.AtomicLong
         .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         {{#kotlinx-datetime}}
         .registerTypeAdapter(Instant::class.java, InstantAdapter())
+        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(LocalTime::class.java, LocalTimeAdapter())
         {{/kotlinx-datetime}}
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
@@ -128,11 +131,6 @@ import java.util.concurrent.atomic.AtomicLong
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, {{failOnUnknownProperties}})
 {{/jackson}}
 {{#kotlinx_serialization}}
-    @Deprecated("Use Serializer.kotlinxSerializationAdapters instead", replaceWith = ReplaceWith("Serializer.kotlinxSerializationAdapters"), level = DeprecationLevel.ERROR)
-    @JvmStatic
-    val kotlinSerializationAdapters: SerializersModule
-        get() { return kotlinxSerializationAdapters }
-
     private var isAdaptersInitialized = false
 
     @JvmStatic
@@ -165,11 +163,6 @@ import java.util.concurrent.atomic.AtomicLong
             }
             field = value
         }
-
-    @Deprecated("Use Serializer.kotlinxSerializationJson instead", replaceWith = ReplaceWith("Serializer.kotlinxSerializationJson"), level = DeprecationLevel.ERROR)
-    @JvmStatic
-    val jvmJson: Json
-        get() { return kotlinxSerializationJson }
 
     private var isJsonInitialized = false
 

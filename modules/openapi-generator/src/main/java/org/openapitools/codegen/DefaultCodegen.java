@@ -88,7 +88,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.openapitools.codegen.CodegenConstants.UNSUPPORTED_V310_SPEC_MSG;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -338,7 +338,7 @@ public class DefaultCodegen implements CodegenConfig {
     @Setter @Getter boolean arrayDefaultToEmpty, arrayNullableDefaultToEmpty, arrayOptionalNullableDefaultToEmpty, arrayOptionalDefaultToEmpty;
     @Setter @Getter boolean mapDefaultToEmpty, mapNullableDefaultToEmpty, mapOptionalNullableDefaultToEmpty, mapOptionalDefaultToEmpty;
     @Setter @Getter protected boolean defaultToEmptyContainer;
-    final String DEFAULT_TO_EMPTY_CONTAINER = "defaultToEmptyContainer";
+
     final List EMPTY_LIST = new ArrayList();
 
     @Override
@@ -4289,7 +4289,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else { // required
                 if (cp.isNullable && mapNullableDefaultToEmpty) { // nullable
                     p.setDefault(EMPTY_LIST);
-                } else if (!cp.isNullable && mapOptionalDefaultToEmpty) { // non-nullable
+                } else if (!cp.isNullable && mapDefaultToEmpty) { // non-nullable
                     p.setDefault(EMPTY_LIST);
                 }
             }
@@ -5196,7 +5196,7 @@ public class DefaultCodegen implements CodegenConfig {
                         String method = p.getKey();
                         Operation op = p.getValue();
 
-                        if (op.getExtensions() != null && Boolean.TRUE.equals(op.getExtensions().get("x-internal"))) {
+                        if (op.getExtensions() != null && Boolean.TRUE.equals(op.getExtensions().get(X_INTERNAL))) {
                             // skip operation if x-internal sets to true
                             LOGGER.info("Operation ({} {} - {}) not generated since x-internal is set to true",
                                     method, expression, op.getOperationId());
@@ -5734,7 +5734,7 @@ public class DefaultCodegen implements CodegenConfig {
         cs.name = key;
         cs.description = securityScheme.getDescription();
         cs.type = securityScheme.getType().toString();
-        cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = cs.isOpenId = false;
+        cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = cs.isOpenId = cs.isOAuth = false;
         cs.isHttpSignature = false;
         cs.isBasicBasic = cs.isBasicBearer = false;
         cs.scheme = securityScheme.getScheme();

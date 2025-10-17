@@ -1,0 +1,51 @@
+name: Samples JS clients
+
+on:
+  push:
+    paths:
+      #- samples/client/petstore/javascript-flowtyped/**
+      - samples/client/petstore/javascript-es6/**
+      - samples/client/petstore/javascript-promise-es6/**
+  pull_request:
+    paths:
+      #- samples/client/petstore/javascript-flowtyped/**
+      - samples/client/petstore/javascript-es6/**
+      - samples/client/petstore/javascript-promise-es6/**
+jobs:
+  build:
+    name: Build projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "18.x"
+          - "20.x"
+        sample:
+          # clients
+          - samples/client/petstore/javascript-es6/
+          - samples/client/petstore/javascript-promise-es6/
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+    steps:
+      - uses: actions/checkout@v5
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm' # Or 'yarn'
+      - name: npm install
+        working-directory: ${{ matrix.sample }}
+        run: npm install
+      - name: npm test
+        working-directory: ${{ matrix.sample }}
+        run: npm test

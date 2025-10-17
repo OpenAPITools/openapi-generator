@@ -1928,8 +1928,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - ChildWithNullable
+          # comment out as it's causing compilation errors in Dart Dio client generator
+          #enum:
+          #  - ChildWithNullable
         nullableProperty:
           type: string
           nullable: true

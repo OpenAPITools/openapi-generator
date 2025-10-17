@@ -32,7 +32,6 @@ import io.virtualan.annotation.VirtualService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 {{/jdk8-no-delegate}}
-import org.springframework.lang.Nullable;
 {{^useResponseEntity}}
 import org.springframework.http.HttpStatus;
 {{/useResponseEntity}}
@@ -253,7 +252,8 @@ public interface {{classname}} {
         produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }{{/hasConsumes}}{{/singleContentTypes}}{{#hasVersionHeaders}},
         headers = { {{#vendorExtensions.versionHeaderParamsList}}"{{baseName}}{{#defaultValue}}={{{.}}}{{/defaultValue}}"{{^-last}}, {{/-last}}{{/vendorExtensions.versionHeaderParamsList}} } {{/hasVersionHeaders}}{{#hasVersionQueryParams}},
-        params = { {{#vendorExtensions.versionQueryParamsList}}"{{baseName}}{{#defaultValue}}={{{.}}}{{/defaultValue}}"{{^-last}}, {{/-last}}{{/vendorExtensions.versionQueryParamsList}} } {{/hasVersionQueryParams}}
+        params = { {{#vendorExtensions.versionQueryParamsList}}"{{baseName}}{{#defaultValue}}={{{.}}}{{/defaultValue}}"{{^-last}}, {{/-last}}{{/vendorExtensions.versionQueryParamsList}} } {{/hasVersionQueryParams}}{{#vendorExtensions.x-spring-api-version}}{{^empty}},
+        version = "{{{vendorExtensions.x-spring-api-version}}}"{{/empty}}{{/vendorExtensions.x-spring-api-version}}
     )
     {{^useResponseEntity}}
     @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})

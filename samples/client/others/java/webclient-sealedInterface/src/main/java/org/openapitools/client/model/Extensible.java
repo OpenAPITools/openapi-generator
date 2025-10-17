@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -31,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Extensible.JSON_PROPERTY_AT_BASE_TYPE,
   Extensible.JSON_PROPERTY_AT_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class Extensible {
   public static final String JSON_PROPERTY_AT_SCHEMA_LOCATION = "@schemaLocation";
   @javax.annotation.Nullable
@@ -59,7 +60,7 @@ public class Extensible {
    * @return atSchemaLocation
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_AT_SCHEMA_LOCATION)
+  @JsonProperty(value = JSON_PROPERTY_AT_SCHEMA_LOCATION, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getAtSchemaLocation() {
@@ -67,7 +68,7 @@ public class Extensible {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_AT_SCHEMA_LOCATION)
+  @JsonProperty(value = JSON_PROPERTY_AT_SCHEMA_LOCATION, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAtSchemaLocation(@javax.annotation.Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
@@ -84,7 +85,7 @@ public class Extensible {
    * @return atBaseType
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_AT_BASE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_BASE_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getAtBaseType() {
@@ -92,7 +93,7 @@ public class Extensible {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_AT_BASE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_BASE_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAtBaseType(@javax.annotation.Nullable String atBaseType) {
     this.atBaseType = atBaseType;
@@ -109,7 +110,7 @@ public class Extensible {
    * @return atType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_AT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getAtType() {
@@ -117,7 +118,7 @@ public class Extensible {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_AT_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_AT_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setAtType(@javax.annotation.Nonnull String atType) {
     this.atType = atType;

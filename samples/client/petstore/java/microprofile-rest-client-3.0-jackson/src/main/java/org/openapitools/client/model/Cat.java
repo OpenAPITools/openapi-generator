@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -51,7 +52,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
    **/
-  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getDeclawed() {
     return declawed;
@@ -60,7 +61,7 @@ public class Cat extends Animal {
   /**
    * Set declawed
    */
-  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;

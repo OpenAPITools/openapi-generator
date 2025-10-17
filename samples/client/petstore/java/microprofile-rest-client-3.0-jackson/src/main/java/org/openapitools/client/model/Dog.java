@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -51,7 +52,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
    **/
-  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonProperty(value = JSON_PROPERTY_BREED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBreed() {
     return breed;
@@ -60,7 +61,7 @@ public class Dog extends Animal {
   /**
    * Set breed
    */
-  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonProperty(value = JSON_PROPERTY_BREED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBreed(String breed) {
     this.breed = breed;

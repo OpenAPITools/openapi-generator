@@ -20,10 +20,7 @@ jobs:
           - samples/server/petstore/jaxrs/jersey2-useTags
           - samples/server/petstore/jaxrs-jersey
           - samples/server/petstore/jaxrs-spec
-          - samples/server/petstore/jaxrs-spec-interface
-          - samples/server/petstore/jaxrs-spec-interface-response
-          - samples/server/petstore/jaxrs-jersey
-          - samples/server/petstore/jaxrs-spec
+          - samples/server/petstore/jaxrs-spec-withxml
           - samples/server/petstore/jaxrs-spec-interface
           - samples/server/petstore/jaxrs-spec-interface-response
           - samples/server/petstore/jaxrs-datelib-j8
@@ -42,7 +39,7 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 8
+          java-version: 11
       - name: Cache maven dependencies
         uses: actions/cache@v4
         env:

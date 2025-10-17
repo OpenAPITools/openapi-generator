@@ -74,7 +74,7 @@ impl<C: Connect> Configuration<C>
     /// ```
     pub fn with_client(client: Client<C, String>) -> Configuration<C> {
         Configuration {
-            base_path: "http://petstore.swagger.io/v2".to_owned(),
+            base_path: "http://localhost/v2".to_owned(),
             user_agent: Some("OpenAPI-Generator/1.0.0/rust".to_owned()),
             client,
             basic_auth: None,

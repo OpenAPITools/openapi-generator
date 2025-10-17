@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.DecimalMax
@@ -25,7 +26,7 @@ data class Category(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("id") val id: kotlin.Long? = null
-    ) {
+) {
 
 }
 

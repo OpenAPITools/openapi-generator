@@ -1,46 +1,157 @@
-## @openapitools/typescript-fetch-petstore@1.0.0
+# @openapitools/typescript-fetch-petstore@1.0.0
 
-This generator creates TypeScript/JavaScript client that utilizes [Fetch API](https://fetch.spec.whatwg.org/). The generated Node module can be used in the following environments:
+A TypeScript SDK client for the petstore.swagger.io API.
 
-Environment
-* Node.js
-* Webpack
-* Browserify
+## Usage
 
-Language level
-* ES5 - you must have a Promises/A+ library installed
-* ES6
+First, install the SDK from npm.
 
-Module system
-* CommonJS
-* ES6 module system
+```bash
+npm install @openapitools/typescript-fetch-petstore --save
+```
 
-It can be used in both TypeScript and JavaScript. In TypeScript, the definition will be automatically resolved via `package.json`. ([Reference](https://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html))
+Next, try it out.
+
+
+```ts
+import {
+  Configuration,
+  PetApi,
+} from '@openapitools/typescript-fetch-petstore';
+import type { AddPetRequest } from '@openapitools/typescript-fetch-petstore';
+
+async function example() {
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: petstore_auth implicit
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new PetApi(config);
+
+  const body = {
+    // Pet | Pet object that needs to be added to the store
+    body: ...,
+  } satisfies AddPetRequest;
+
+  try {
+    const data = await api.addPet(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+
+## Documentation
+
+### API Endpoints
+
+All URIs are relative to *http://petstore.swagger.io/v2*
+
+| Class | Method | HTTP request | Description
+| ----- | ------ | ------------ | -------------
+*PetApi* | [**addPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
+*PetApi* | [**deletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+*PetApi* | [**findPetsByStatus**](docs/PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+*PetApi* | [**findPetsByTags**](docs/PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
+*PetApi* | [**getPetById**](docs/PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
+*PetApi* | [**updatePet**](docs/PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
+*PetApi* | [**updatePetWithForm**](docs/PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
+*PetApi* | [**uploadFile**](docs/PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*StoreApi* | [**deleteOrder**](docs/StoreApi.md#deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+*StoreApi* | [**getInventory**](docs/StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
+*StoreApi* | [**getOrderById**](docs/StoreApi.md#getorderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
+*StoreApi* | [**placeOrder**](docs/StoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
+*UserApi* | [**createUser**](docs/UserApi.md#createuser) | **POST** /user | Create user
+*UserApi* | [**createUsersWithArrayInput**](docs/UserApi.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
+*UserApi* | [**createUsersWithListInput**](docs/UserApi.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
+*UserApi* | [**deleteUser**](docs/UserApi.md#deleteuser) | **DELETE** /user/{username} | Delete user
+*UserApi* | [**getUserByName**](docs/UserApi.md#getuserbyname) | **GET** /user/{username} | Get user by user name
+*UserApi* | [**loginUser**](docs/UserApi.md#loginuser) | **GET** /user/login | Logs user into the system
+*UserApi* | [**logoutUser**](docs/UserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session
+*UserApi* | [**updateUser**](docs/UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
+
+
+### Models
+
+- [Category](docs/Category.md)
+- [ModelApiResponse](docs/ModelApiResponse.md)
+- [Order](docs/Order.md)
+- [Pet](docs/Pet.md)
+- [Tag](docs/Tag.md)
+- [User](docs/User.md)
+
+### Authorization
+
+
+Authentication schemes defined for the API:
+<a id="petstore_auth-implicit"></a>
+#### petstore_auth implicit
+
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+  - `write:pets`: modify pets in your account
+  - `read:pets`: read your pets
+<a id="api_key"></a>
+#### api_key
+
+
+- **Type**: API key
+- **API key parameter name**: `api_key`
+- **Location**: HTTP header
+
+## About
+
+This TypeScript SDK client supports the [Fetch API](https://fetch.spec.whatwg.org/)
+and is automatically generated by the
+[OpenAPI Generator](https://openapi-generator.tech) project:
+
+- API version: `1.0.0`
+- Package version: `1.0.0`
+- Generator version: `7.17.0-SNAPSHOT`
+- Build package: `org.openapitools.codegen.languages.TypeScriptFetchClientCodegen`
+
+The generated npm module supports the following:
+
+- Environments
+  * Node.js
+  * Webpack
+  * Browserify
+- Language levels
+  * ES5 - you must have a Promises/A+ library installed
+  * ES6
+- Module systems
+  * CommonJS
+  * ES6 module system
+
+
+## Development
 
 ### Building
 
-To build and compile the typescript sources to javascript use:
-```
+To build the TypeScript source code, you need to have Node.js and npm installed.
+After cloning the repository, navigate to the project directory and run:
+
+```bash
 npm install
 npm run build
 ```
 
 ### Publishing
 
-First build the package then run `npm publish`
+Once you've built the package, you can publish it to npm:
 
-### Consuming
-
-navigate to the folder of your consuming project and run one of the following commands.
-
-_published:_
-
-```
-npm install @openapitools/typescript-fetch-petstore@1.0.0 --save
+```bash
+npm publish
 ```
 
-_unPublished (not recommended):_
+## License
 
-```
-npm install PATH_TO_GENERATED_PACKAGE --save
-```
+[Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0.html)

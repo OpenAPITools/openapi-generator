@@ -5,67 +5,108 @@
     #[derive(validator::Validate)]
     #[allow(dead_code)]
     struct {{{operationIdCamelCase}}}BodyValidator<'a> {
-      {{#hasValidation}}
-          #[validate(
-              {{#maxLength}}
-                  {{#minLength}}
-                  length(min = {{minLength}}, max = {{maxLength}}),
-                  {{/minLength}}
-                  {{^minLength}}
-                  length(max = {{maxLength}}),
-                  {{/minLength}}
-              {{/maxLength}}
-              {{^maxLength}}
-                  {{#minLength}}
-                  length(min = {{minLength}}),
-                  {{/minLength}}
-              {{/maxLength}}
-              {{#pattern}}
-                {{#isString}}
-                  regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}),
-                {{/isString}}
-                {{^isString}}
-                  custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.lowercase}}"),
-                {{/isString}}
-              {{/pattern}}
-              {{#maximum}}
-                  {{#minimum}}
-                  range(min = {{minimum}}, max = {{maximum}}),
-                  {{/minimum}}
-                  {{^minimum}}
-                  range(max = {{maximum}}),
-                  {{/minimum}}
-              {{/maximum}}
-              {{#minimum}}
-                  {{^maximum}}
-                  range(min = {{minimum}}),
-                  {{/maximum}}
-              {{/minimum}}
-              {{#maxItems}}
-                  {{#minItems}}
-                  length(min = {{minItems}}, max = {{maxItems}}),
-                  {{/minItems}}
-                  {{^minItems}}
-                  length(max = {{maxItems}}),
-                  {{/minItems}}
-              {{/maxItems}}
-              {{^maxItems}}
-                  {{#minItems}}
-                  length(min = {{minItems}}),
-                  {{/minItems}}
-              {{/maxItems}}
-              )]
-      {{/hasValidation}}
       {{^x-consumes-plain-text}}
-          {{^hasValidation}}
-          {{^isMap}}
-            #[validate(nested)]
-          {{/isMap}}
+          {{#isModel}}
+          #[validate(nested)]
+          {{/isModel}}
+          {{^isModel}}
+          {{#hasValidation}}
+            #[validate(
+                {{#maxLength}}
+                    {{#minLength}}
+                    length(min = {{minLength}}, max = {{maxLength}}),
+                    {{/minLength}}
+                    {{^minLength}}
+                    length(max = {{maxLength}}),
+                    {{/minLength}}
+                {{/maxLength}}
+                {{^maxLength}}
+                    {{#minLength}}
+                    length(min = {{minLength}}),
+                    {{/minLength}}
+                {{/maxLength}}
+                {{#pattern}}
+                  {{#isString}}
+                    regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}),
+                  {{/isString}}
+                  {{^isString}}
+                    custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.lowercase}}"),
+                  {{/isString}}
+                {{/pattern}}
+                {{#isString}}
+                  custom(function = "check_xss_string"),
+                {{/isString}}
+                {{#maximum}}
+                    {{#minimum}}
+                    range(min = {{minimum}}, max = {{maximum}}),
+                    {{/minimum}}
+                    {{^minimum}}
+                    range(max = {{maximum}}),
+                    {{/minimum}}
+                {{/maximum}}
+                {{#minimum}}
+                    {{^maximum}}
+                    range(min = {{minimum}}),
+                    {{/maximum}}
+                {{/minimum}}
+                {{#maxItems}}
+                    {{#minItems}}
+                    length(min = {{minItems}}, max = {{maxItems}}),
+                    {{/minItems}}
+                    {{^minItems}}
+                    length(max = {{maxItems}}),
+                    {{/minItems}}
+                {{/maxItems}}
+                {{^maxItems}}
+                    {{#minItems}}
+                    length(min = {{minItems}}),
+                    {{/minItems}}
+                {{/maxItems}}
+                {{#vendorExtensions.is-vec-nested}}
+                   nested,
+                {{/vendorExtensions.is-vec-nested}}
+                {{#vendorExtensions.is-vec-string}}
+                  custom(function = "check_xss_vec_string"),
+                {{/vendorExtensions.is-vec-string}}
+                {{#vendorExtensions.is-map-nested}}
+                  custom(function = "check_xss_map_nested"),
+                {{/vendorExtensions.is-map-nested}}
+                {{#vendorExtensions.is-map}}
+                  custom(function = "check_xss_map"),
+                {{/vendorExtensions.is-map}}
+                {{#vendorExtensions.is-map-string}}
+                  custom(function = "check_xss_map_string"),
+                {{/vendorExtensions.is-map-string}}            )]
           {{/hasValidation}}
+          {{^hasValidation}}
+              {{#vendorExtensions.is-nested}}
+                #[validate(nested)]
+              {{/vendorExtensions.is-nested}}
+              {{#vendorExtensions.is-string}}
+                #[validate(custom(function = "check_xss_string"))]
+              {{/vendorExtensions.is-string}}
+              {{#vendorExtensions.is-vec-nested}}
+                #[validate(nested)]
+              {{/vendorExtensions.is-vec-nested}}
+              {{#vendorExtensions.is-vec-string}}
+                #[validate(custom(function = "check_xss_vec_string"))]
+              {{/vendorExtensions.is-vec-string}}
+              {{#vendorExtensions.is-map-nested}}
+                #[validate(custom(function = "check_xss_map_nested"))]
+              {{/vendorExtensions.is-map-nested}}
+              {{#vendorExtensions.is-map}}
+                #[validate(custom(function = "check_xss_map"))]
+              {{/vendorExtensions.is-map}}
+              {{#vendorExtensions.is-map-string}}
+                #[validate(custom(function = "check_xss_map_string"))]
+              {{/vendorExtensions.is-map-string}}
+          {{/hasValidation}}
+          {{/isModel}}
           body: &'a {{{dataType}}},
       {{/x-consumes-plain-text}}
       {{#x-consumes-plain-text}}
         {{#isString}}
+          #[validate(custom(function = "check_xss_string"))]
           body: &'a String,
         {{/isString}}
         {{^isString}}

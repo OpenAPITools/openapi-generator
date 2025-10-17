@@ -22,6 +22,8 @@ docs/AppleReq.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
+docs/ArrayTestWithWrapped.md
+docs/ArrayTestWithWrappedAndName.md
 docs/Banana.md
 docs/BananaReq.md
 docs/Capitalization.md
@@ -106,6 +108,8 @@ model_apple_req.go
 model_array_of_array_of_number_only.go
 model_array_of_number_only.go
 model_array_test_.go
+model_array_test_with_wrapped.go
+model_array_test_with_wrapped_and_name.go
 model_banana.go
 model_banana_req.go
 model_capitalization.go

@@ -31,7 +31,7 @@ import io.vertx.core.Future
 import io.vertx.ext.web.client.WebClient
 import io.vertx.uritemplate.UriTemplate
 
-import io.vertx.kotlin.coroutines.await
+import io.vertx.kotlin.coroutines.coAwait
 import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -69,7 +69,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
                     throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
                 }
             }
-        }.await()
+        }.coAwait()
     }
 
     /**
@@ -138,7 +138,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
                     throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
                 }
             }
-        }.await()
+        }.coAwait()
     }
 
     /**
@@ -213,7 +213,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
                     throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
                 }
             }
-        }.await()
+        }.coAwait()
     }
 
     /**
@@ -281,7 +281,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
                     throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
                 }
             }
-        }.await()
+        }.coAwait()
     }
 
     /**
@@ -349,7 +349,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
                     throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
                 }
             }
-        }.await()
+        }.coAwait()
     }
 
     /**
@@ -419,7 +419,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
                     throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
                 }
             }
-        }.await()
+        }.coAwait()
     }
 
     /**
@@ -489,7 +489,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
                     throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
                 }
             }
-        }.await()
+        }.coAwait()
     }
 
     /**
@@ -561,7 +561,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
                     throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
                 }
             }
-        }.await()
+        }.coAwait()
     }
 
     /**

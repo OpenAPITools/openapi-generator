@@ -8,6 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
+    let mut errs = validator::ValidationErrors::new();
+    errs.add("na", e);
+    errs
+}
+
+#[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
     if ammonia::is_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
@@ -279,7 +286,7 @@ impl std::str::FromStr for AdditionalPropertiesClass {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AdditionalPropertiesClass".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -349,6 +356,8 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AdditionalPr
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Animal {
+    #[serde(default = "Animal::_name_for_class_name")]
+    #[serde(serialize_with = "Animal::_serialize_class_name")]
     #[serde(rename = "className")]
     #[validate(custom(function = "check_xss_string"))]
     pub class_name: String,
@@ -360,10 +369,23 @@ pub struct Animal {
 }
 
 impl Animal {
+    fn _name_for_class_name() -> String {
+        String::from("Animal")
+    }
+
+    fn _serialize_class_name<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        s.serialize_str(&Self::_name_for_class_name())
+    }
+}
+
+impl Animal {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(class_name: String) -> Animal {
+    pub fn new() -> Animal {
         Animal {
-            class_name,
+            class_name: Self::_name_for_class_name(),
             color: Some(r#"red"#.to_string()),
         }
     }
@@ -417,7 +439,7 @@ impl std::str::FromStr for Animal {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Animal".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -435,7 +457,7 @@ impl std::str::FromStr for Animal {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Animal".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -500,7 +522,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Animal> {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AnimalFarm(Vec<Animal>);
+pub struct AnimalFarm(pub Vec<Animal>);
 
 impl validator::Validate for AnimalFarm {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -649,7 +671,7 @@ pub struct ApiResponse {
     #[serde(rename = "type")]
     #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub r#type: Option<String>,
+    pub r_type: Option<String>,
 
     #[serde(rename = "message")]
     #[validate(custom(function = "check_xss_string"))]
@@ -662,7 +684,7 @@ impl ApiResponse {
     pub fn new() -> ApiResponse {
         ApiResponse {
             code: None,
-            r#type: None,
+            r_type: None,
             message: None,
         }
     }
@@ -677,9 +699,9 @@ impl std::fmt::Display for ApiResponse {
             self.code
                 .as_ref()
                 .map(|code| ["code".to_string(), code.to_string()].join(",")),
-            self.r#type
+            self.r_type
                 .as_ref()
-                .map(|r#type| ["type".to_string(), r#type.to_string()].join(",")),
+                .map(|r_type| ["type".to_string(), r_type.to_string()].join(",")),
             self.message
                 .as_ref()
                 .map(|message| ["message".to_string(), message.to_string()].join(",")),
@@ -705,7 +727,7 @@ impl std::str::FromStr for ApiResponse {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub code: Vec<i32>,
-            pub r#type: Vec<String>,
+            pub r_type: Vec<String>,
             pub message: Vec<String>,
         }
 
@@ -721,7 +743,7 @@ impl std::str::FromStr for ApiResponse {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ApiResponse".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -733,7 +755,7 @@ impl std::str::FromStr for ApiResponse {
                         <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     #[allow(clippy::redundant_clone)]
-                    "type" => intermediate_rep.r#type.push(
+                    "type" => intermediate_rep.r_type.push(
                         <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     #[allow(clippy::redundant_clone)]
@@ -743,7 +765,7 @@ impl std::str::FromStr for ApiResponse {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ApiResponse".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -755,7 +777,7 @@ impl std::str::FromStr for ApiResponse {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(ApiResponse {
             code: intermediate_rep.code.into_iter().next(),
-            r#type: intermediate_rep.r#type.into_iter().next(),
+            r_type: intermediate_rep.r_type.into_iter().next(),
             message: intermediate_rep.message.into_iter().next(),
         })
     }
@@ -864,7 +886,7 @@ impl std::str::FromStr for ArrayOfArrayOfNumberOnly {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ArrayOfArrayOfNumberOnly".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -995,7 +1017,7 @@ impl std::str::FromStr for ArrayOfNumberOnly {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ArrayOfNumberOnly".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1009,7 +1031,7 @@ impl std::str::FromStr for ArrayOfNumberOnly {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ArrayOfNumberOnly".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1172,7 +1194,7 @@ impl std::str::FromStr for ArrayTest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ArrayTest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1183,30 +1205,30 @@ impl std::str::FromStr for ArrayTest {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in ArrayTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "array_array_of_integer" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in ArrayTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "array_array_of_model" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in ArrayTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "array_of_enum" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in ArrayTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ArrayTest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1387,7 +1409,7 @@ impl std::str::FromStr for Capitalization {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Capitalization".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1421,7 +1443,7 @@ impl std::str::FromStr for Capitalization {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Capitalization".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1562,7 +1584,7 @@ impl std::str::FromStr for Cat {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Cat".to_string())
+                    return std::result::Result::Err("Missing value while parsing Cat".to_string());
                 }
             };
 
@@ -1584,7 +1606,7 @@ impl std::str::FromStr for Cat {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Cat".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1716,7 +1738,7 @@ impl std::str::FromStr for Category {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Category".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1734,7 +1756,7 @@ impl std::str::FromStr for Category {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Category".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1815,10 +1837,11 @@ impl ClassModel {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for ClassModel {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            ._class
-            .as_ref()
-            .map(|_class| ["_class".to_string(), _class.to_string()].join(","))];
+        let params: Vec<Option<String>> = vec![
+            self._class
+                .as_ref()
+                .map(|_class| ["_class".to_string(), _class.to_string()].join(",")),
+        ];
 
         write!(
             f,
@@ -1854,7 +1877,7 @@ impl std::str::FromStr for ClassModel {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ClassModel".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1868,7 +1891,7 @@ impl std::str::FromStr for ClassModel {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ClassModel".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1947,10 +1970,11 @@ impl Client {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for Client {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .client
-            .as_ref()
-            .map(|client| ["client".to_string(), client.to_string()].join(","))];
+        let params: Vec<Option<String>> = vec![
+            self.client
+                .as_ref()
+                .map(|client| ["client".to_string(), client.to_string()].join(",")),
+        ];
 
         write!(
             f,
@@ -1986,7 +2010,7 @@ impl std::str::FromStr for Client {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Client".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2000,7 +2024,7 @@ impl std::str::FromStr for Client {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Client".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2137,7 +2161,7 @@ impl std::str::FromStr for Dog {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Dog".to_string())
+                    return std::result::Result::Err("Missing value while parsing Dog".to_string());
                 }
             };
 
@@ -2159,7 +2183,7 @@ impl std::str::FromStr for Dog {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Dog".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2241,19 +2265,20 @@ impl DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .dollar_special_left_square_bracket_property_name_right_square_bracket
-            .as_ref()
-            .map(
-                |dollar_special_left_square_bracket_property_name_right_square_bracket| {
-                    [
-                        "$special[property.name]".to_string(),
-                        dollar_special_left_square_bracket_property_name_right_square_bracket
-                            .to_string(),
-                    ]
-                    .join(",")
-                },
-            )];
+        let params: Vec<Option<String>> = vec![
+            self.dollar_special_left_square_bracket_property_name_right_square_bracket
+                .as_ref()
+                .map(
+                    |dollar_special_left_square_bracket_property_name_right_square_bracket| {
+                        [
+                            "$special[property.name]".to_string(),
+                            dollar_special_left_square_bracket_property_name_right_square_bracket
+                                .to_string(),
+                        ]
+                        .join(",")
+                    },
+                ),
+        ];
 
         write!(
             f,
@@ -2447,7 +2472,7 @@ impl std::str::FromStr for EnumArrays {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing EnumArrays".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2462,18 +2487,18 @@ impl std::str::FromStr for EnumArrays {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in EnumArrays"
                                 .to_string(),
-                        )
+                        );
                     }
                     "array_array_enum" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in EnumArrays"
                                 .to_string(),
-                        )
+                        );
                     }
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing EnumArrays".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2536,7 +2561,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<EnumArrays> 
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
@@ -2681,7 +2706,7 @@ impl std::str::FromStr for EnumTest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing EnumTest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2712,7 +2737,7 @@ impl std::str::FromStr for EnumTest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing EnumTest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2969,7 +2994,7 @@ impl std::str::FromStr for FormatTest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing FormatTest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -3008,13 +3033,13 @@ impl std::str::FromStr for FormatTest {
                         return std::result::Result::Err(
                             "Parsing binary data in this style is not supported in FormatTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "binary" => {
                         return std::result::Result::Err(
                             "Parsing binary data in this style is not supported in FormatTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     #[allow(clippy::redundant_clone)]
                     "date" => intermediate_rep.date.push(
@@ -3038,7 +3063,7 @@ impl std::str::FromStr for FormatTest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FormatTest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -3197,7 +3222,7 @@ impl std::str::FromStr for HasOnlyReadOnly {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing HasOnlyReadOnly".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -3215,7 +3240,7 @@ impl std::str::FromStr for HasOnlyReadOnly {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing HasOnlyReadOnly".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -3297,10 +3322,10 @@ impl List {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for List {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .param_123_list
-            .as_ref()
-            .map(|param_123_list| ["123-list".to_string(), param_123_list.to_string()].join(","))];
+        let params: Vec<Option<String>> =
+            vec![self.param_123_list.as_ref().map(|param_123_list| {
+                ["123-list".to_string(), param_123_list.to_string()].join(",")
+            })];
 
         write!(
             f,
@@ -3334,7 +3359,9 @@ impl std::str::FromStr for List {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing List".to_string())
+                    return std::result::Result::Err(
+                        "Missing value while parsing List".to_string(),
+                    );
                 }
             };
 
@@ -3348,7 +3375,7 @@ impl std::str::FromStr for List {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing List".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -3492,7 +3519,7 @@ impl std::str::FromStr for MapTest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MapTest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -3503,24 +3530,24 @@ impl std::str::FromStr for MapTest {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in MapTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "map_map_of_enum" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in MapTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "map_of_enum_string" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in MapTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing MapTest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -3809,7 +3836,7 @@ impl std::str::FromStr for Model200Response {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Model200Response".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -3827,7 +3854,7 @@ impl std::str::FromStr for Model200Response {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Model200Response".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -3973,7 +4000,9 @@ impl std::str::FromStr for Name {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Name".to_string())
+                    return std::result::Result::Err(
+                        "Missing value while parsing Name".to_string(),
+                    );
                 }
             };
 
@@ -3999,7 +4028,7 @@ impl std::str::FromStr for Name {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Name".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -4082,10 +4111,11 @@ impl NumberOnly {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for NumberOnly {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .just_number
-            .as_ref()
-            .map(|just_number| ["JustNumber".to_string(), just_number.to_string()].join(","))];
+        let params: Vec<Option<String>> = vec![
+            self.just_number
+                .as_ref()
+                .map(|just_number| ["JustNumber".to_string(), just_number.to_string()].join(",")),
+        ];
 
         write!(
             f,
@@ -4121,7 +4151,7 @@ impl std::str::FromStr for NumberOnly {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing NumberOnly".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -4135,7 +4165,7 @@ impl std::str::FromStr for NumberOnly {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing NumberOnly".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -4317,7 +4347,7 @@ impl std::convert::TryFrom<HeaderValue>
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct ObjectWithOnlyAdditionalProperties(std::collections::HashMap<String, String>);
+pub struct ObjectWithOnlyAdditionalProperties(pub std::collections::HashMap<String, String>);
 
 impl validator::Validate for ObjectWithOnlyAdditionalProperties {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -4485,7 +4515,7 @@ impl std::str::FromStr for Order {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Order".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -4520,7 +4550,7 @@ impl std::str::FromStr for Order {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Order".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -4583,7 +4613,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Order> {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterBoolean(bool);
+pub struct OuterBoolean(pub bool);
 
 impl validator::Validate for OuterBoolean {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -4697,7 +4727,7 @@ impl std::str::FromStr for OuterComposite {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing OuterComposite".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -4719,7 +4749,7 @@ impl std::str::FromStr for OuterComposite {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing OuterComposite".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -4782,7 +4812,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<OuterComposi
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
@@ -4828,7 +4858,7 @@ impl std::str::FromStr for OuterEnum {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterNumber(f64);
+pub struct OuterNumber(pub f64);
 
 impl validator::Validate for OuterNumber {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -4863,7 +4893,7 @@ impl std::ops::DerefMut for OuterNumber {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterString(String);
+pub struct OuterString(pub String);
 
 impl validator::Validate for OuterString {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -5019,7 +5049,7 @@ impl std::str::FromStr for Pet {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Pet".to_string())
+                    return std::result::Result::Err("Missing value while parsing Pet".to_string());
                 }
             };
 
@@ -5042,12 +5072,12 @@ impl std::str::FromStr for Pet {
                     "photoUrls" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in Pet".to_string(),
-                        )
+                        );
                     }
                     "tags" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in Pet".to_string(),
-                        )
+                        );
                     }
                     #[allow(clippy::redundant_clone)]
                     "status" => intermediate_rep.status.push(
@@ -5056,7 +5086,7 @@ impl std::str::FromStr for Pet {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Pet".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -5196,7 +5226,7 @@ impl std::str::FromStr for ReadOnlyFirst {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ReadOnlyFirst".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -5214,7 +5244,7 @@ impl std::str::FromStr for ReadOnlyFirst {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ReadOnlyFirst".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -5279,13 +5309,13 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ReadOnlyFirs
 pub struct Return {
     #[serde(rename = "return")]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub r#return: Option<i32>,
+    pub r_return: Option<i32>,
 }
 
 impl Return {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> Return {
-        Return { r#return: None }
+        Return { r_return: None }
     }
 }
 
@@ -5294,10 +5324,11 @@ impl Return {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for Return {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .r#return
-            .as_ref()
-            .map(|r#return| ["return".to_string(), r#return.to_string()].join(","))];
+        let params: Vec<Option<String>> = vec![
+            self.r_return
+                .as_ref()
+                .map(|r_return| ["return".to_string(), r_return.to_string()].join(",")),
+        ];
 
         write!(
             f,
@@ -5318,7 +5349,7 @@ impl std::str::FromStr for Return {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub r#return: Vec<i32>,
+            pub r_return: Vec<i32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -5333,7 +5364,7 @@ impl std::str::FromStr for Return {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Return".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -5341,13 +5372,13 @@ impl std::str::FromStr for Return {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "return" => intermediate_rep.r#return.push(
+                    "return" => intermediate_rep.r_return.push(
                         <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Return".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -5358,7 +5389,7 @@ impl std::str::FromStr for Return {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Return {
-            r#return: intermediate_rep.r#return.into_iter().next(),
+            r_return: intermediate_rep.r_return.into_iter().next(),
         })
     }
 }
@@ -5475,7 +5506,7 @@ impl std::str::FromStr for Tag {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Tag".to_string())
+                    return std::result::Result::Err("Missing value while parsing Tag".to_string());
                 }
             };
 
@@ -5493,7 +5524,7 @@ impl std::str::FromStr for Tag {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Tag".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -5758,7 +5789,7 @@ impl std::str::FromStr for TestEndpointParametersRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing TestEndpointParametersRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -5894,7 +5925,7 @@ impl TestEnumParametersRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> TestEnumParametersRequest {
         TestEnumParametersRequest {
-            enum_form_string: Some(r#"-efg"#.to_string()),
+            enum_form_string: None,
         }
     }
 }
@@ -5943,7 +5974,7 @@ impl std::str::FromStr for TestEnumParametersRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing TestEnumParametersRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -5957,7 +5988,7 @@ impl std::str::FromStr for TestEnumParametersRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing TestEnumParametersRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -6083,7 +6114,7 @@ impl std::str::FromStr for TestJsonFormDataRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing TestJsonFormDataRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -6101,7 +6132,7 @@ impl std::str::FromStr for TestJsonFormDataRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing TestJsonFormDataRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -6243,7 +6274,7 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing UpdatePetWithFormRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -6261,7 +6292,7 @@ impl std::str::FromStr for UpdatePetWithFormRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing UpdatePetWithFormRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -6399,7 +6430,7 @@ impl std::str::FromStr for UploadFileRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing UploadFileRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -6417,7 +6448,7 @@ impl std::str::FromStr for UploadFileRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing UploadFileRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -6606,7 +6637,9 @@ impl std::str::FromStr for User {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing User".to_string())
+                    return std::result::Result::Err(
+                        "Missing value while parsing User".to_string(),
+                    );
                 }
             };
 
@@ -6648,7 +6681,7 @@ impl std::str::FromStr for User {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing User".to_string(),
-                        )
+                        );
                     }
                 }
             }

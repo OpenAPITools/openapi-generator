@@ -19,6 +19,7 @@ package org.openapitools.codegen;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -29,30 +30,48 @@ import java.util.*;
 import static org.testng.Assert.*;
 
 public class OpenAPINormalizerTest {
+
+    private static final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
+    private static final String X_PARENT = "x-parent";
+    private static final String X_INTERNAL = "x-internal";
+
     @Test
     public void testOpenAPINormalizerRefAsParentInAllOf() {
         // to test the rule REF_AS_PARENT_IN_ALLOF
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_extension_parent.yaml");
 
-        Schema schema = openAPI.getComponents().getSchemas().get("AnotherPerson");
-        assertNull(schema.getExtensions());
+        Schema<?> anotherPerson = openAPI.getComponents().getSchemas().get("AnotherPerson");
+        assertNull(anotherPerson.getExtensions());
 
-        Schema schema2 = openAPI.getComponents().getSchemas().get("Person");
-        assertEquals(schema2.getExtensions().get("x-parent"), "abstract");
+        Schema<?>person = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(person.getExtensions().get(X_PARENT), "abstract");
+
+        Schema<?> preNormPersonA = openAPI.getComponents().getSchemas().get("PersonA");
+        assertNull(preNormPersonA.getExtensions());
+        Schema<?> preNormPersonB = openAPI.getComponents().getSchemas().get("PersonB");
+        assertNull(preNormPersonB.getExtensions());
 
         Map<String, String> options = new HashMap<>();
-        options.put("REF_AS_PARENT_IN_ALLOF", "true");
+        options.put(REF_AS_PARENT_IN_ALLOF, "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        Schema schema3 = openAPI.getComponents().getSchemas().get("AnotherPerson");
-        assertEquals(schema3.getExtensions().get("x-parent"), true);
+        Schema<?>schema3 = openAPI.getComponents().getSchemas().get("AnotherPerson");
+        assertEquals(schema3.getExtensions().get(X_PARENT), true);
 
-        Schema schema4 = openAPI.getComponents().getSchemas().get("AnotherParent");
-        assertEquals(schema4.getExtensions().get("x-parent"), true);
+        Schema<?>schema4 = openAPI.getComponents().getSchemas().get("AnotherParent");
+        assertEquals(schema4.getExtensions().get(X_PARENT), true);
 
-        Schema schema5 = openAPI.getComponents().getSchemas().get("Person");
-        assertEquals(schema5.getExtensions().get("x-parent"), "abstract");
+        Schema<?>schema5 = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(schema5.getExtensions().get(X_PARENT), "abstract");
+
+        // Verify that all allOf refs gets marked as parents
+        Schema<?>schemaWithTwoParents = openAPI.getComponents().getSchemas().get("SchemaWithTwoAllOfRefs");
+        assertNull(schemaWithTwoParents.getExtensions());
+        Schema<?>personA = openAPI.getComponents().getSchemas().get("PersonA");
+        assertEquals(personA.getExtensions().get(X_PARENT), true);
+        Schema<?>personB = openAPI.getComponents().getSchemas().get("PersonB");
+        assertEquals(personB.getExtensions().get(X_PARENT), true);
     }
 
     @Test
@@ -60,22 +79,22 @@ public class OpenAPINormalizerTest {
         // to test the both REF_AS_PARENT_IN_ALLOF and REFACTOR_ALLOF_WITH_PROPERTIES_ONLY
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_extension_parent.yaml");
 
-        Schema schema = openAPI.getComponents().getSchemas().get("Child");
+        Schema<?> schema = openAPI.getComponents().getSchemas().get("Child");
         assertNull(schema.getExtensions());
 
-        Schema schema2 = openAPI.getComponents().getSchemas().get("Ancestor");
+        Schema<?> schema2 = openAPI.getComponents().getSchemas().get("Ancestor");
         assertNull(schema2.getExtensions());
 
         Map<String, String> options = new HashMap<>();
-        options.put("REF_AS_PARENT_IN_ALLOF", "true");
+        options.put(REF_AS_PARENT_IN_ALLOF, "true");
         options.put("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        Schema schema3 = openAPI.getComponents().getSchemas().get("Ancestor");
-        assertEquals(schema3.getExtensions().get("x-parent"), true);
+        Schema<?> schema3 = openAPI.getComponents().getSchemas().get("Ancestor");
+        assertEquals(schema3.getExtensions().get(X_PARENT), true);
 
-        Schema schema4 = openAPI.getComponents().getSchemas().get("Child");
+        Schema<?> schema4 = openAPI.getComponents().getSchemas().get("Child");
         assertNull(schema4.getExtensions());
     }
 
@@ -132,6 +151,7 @@ public class OpenAPINormalizerTest {
         assertNull(schema.getAnyOf());
     }
 
+
     @Test
     public void testOpenAPINormalizerSimplifyOneOfAnyOfStringAndEnumString() {
         // to test the rule SIMPLIFY_ONEOF_ANYOF_STRING_AND_ENUM_STRING
@@ -149,6 +169,72 @@ public class OpenAPINormalizerTest {
         assertNull(schema3.getAnyOf());
         assertTrue(schema3 instanceof StringSchema);
         assertTrue(schema3.getEnum().size() > 0);
+    }
+
+    @Test
+    public void testSimplifyOneOfAnyOfEnum() throws Exception {
+        // Load OpenAPI spec from external YAML file
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfWithEnums_test.yaml");
+
+        // Test with rule enabled (default)
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ONEOF_ANYOF_ENUM", "true");
+        OpenAPINormalizer normalizer = new OpenAPINormalizer(openAPI, options);
+        normalizer.normalize();
+
+        // Verify component schema was simplified
+        Schema colorSchema = openAPI.getComponents().getSchemas().get("ColorEnum");
+        assertNull(colorSchema.getOneOf());
+        assertEquals(colorSchema.getType(), "string");
+        assertEquals(colorSchema.getEnum(), Arrays.asList("red", "green", "blue", "yellow", "purple"));
+
+        Schema statusSchema = openAPI.getComponents().getSchemas().get("StatusEnum");
+        assertNull(statusSchema.getOneOf());
+        assertEquals(statusSchema.getType(), "number");
+        assertEquals(statusSchema.getEnum(), Arrays.asList(1, 2, 3));
+
+        // Verify parameter schema was simplified
+        Parameter param = openAPI.getPaths().get("/test").getGet().getParameters().get(0);
+        assertNull(param.getSchema().getOneOf());
+        assertEquals(param.getSchema().getType(), "string");
+        assertEquals(param.getSchema().getEnum(), Arrays.asList("option1", "option2"));
+
+        // Verify parameter schema was simplified
+        Parameter anyOfParam = openAPI.getPaths().get("/test").getGet().getParameters().get(1);
+        assertNull(anyOfParam.getSchema().getAnyOf());
+        assertEquals(anyOfParam.getSchema().getType(), "string");
+        assertEquals(anyOfParam.getSchema().getEnum(), Arrays.asList("anyof 1", "anyof 2"));
+        assertEquals(anyOfParam.getSchema().getExtensions().get("x-enum-descriptions"), Arrays.asList("title 1", "title 2"));
+
+        Schema combinedRefsEnum = openAPI.getComponents().getSchemas().get("combinedRefsEnum");
+
+        assertEquals(anyOfParam.getSchema().getType(), "string");
+        assertNull(combinedRefsEnum.get$ref());
+        assertEquals(combinedRefsEnum.getEnum(), Arrays.asList("A", "B", "C", "D"));
+        assertNull(combinedRefsEnum.getOneOf());
+
+        // Test with rule disabled
+        OpenAPI openAPI2 = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfWithEnums_test.yaml");
+        Map<String, String> options2 = new HashMap<>();
+        options2.put("SIMPLIFY_ONEOF_ANYOF_ENUM", "false");
+        OpenAPINormalizer normalizer2 = new OpenAPINormalizer(openAPI2, options2);
+        normalizer2.normalize();
+
+        // oneOf will be removed, as they are in this normalizer if a primitive type has a oneOf
+        Schema colorSchema2 = openAPI2.getComponents().getSchemas().get("ColorEnum");
+        assertNull(colorSchema2.getOneOf());
+        assertNull(colorSchema2.getEnum());
+
+        //If you put string on every subscheme of oneOf, it does not remove it. This might need a fix at some other time
+        Parameter param2 = openAPI2.getPaths().get("/test").getGet().getParameters().get(0);
+        assertNotNull(param2.getSchema().getOneOf());
+        assertNull(param2.getSchema().getEnum());
+
+        //but here it does
+        Parameter anyOfParam2 = openAPI2.getPaths().get("/test").getGet().getParameters().get(1);
+        assertNull(anyOfParam2.getSchema().getOneOf());
+        assertNull(anyOfParam2.getSchema().getEnum());
+
     }
 
     @Test
@@ -517,8 +603,8 @@ public class OpenAPINormalizerTest {
         Schema s = openAPI.getComponents().getSchemas().get("Dummy");
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
-        assertEquals(s.getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
+        assertEquals(s.getExtensions().get(X_INTERNAL), true);
 
         Map<String, String> options = new HashMap<>();
         options.put("REMOVE_X_INTERNAL", "true");
@@ -527,8 +613,8 @@ public class OpenAPINormalizerTest {
 
         Schema s2 = openAPI.getComponents().getSchemas().get("Dummy");
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), null);
-        assertEquals(s2.getExtensions().get("x-internal"), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), null);
+        assertEquals(s2.getExtensions().get(X_INTERNAL), null);
     }
 
     @Test
@@ -536,7 +622,7 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
 
         Map<String, String> options = new HashMap<>();
@@ -544,9 +630,9 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
 
     @Test
@@ -554,7 +640,7 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
 
         Map<String, String> options = new HashMap<>();
@@ -562,9 +648,9 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
 
     @Test
@@ -572,7 +658,7 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
 
         Map<String, String> options = new HashMap<>();
@@ -580,16 +666,16 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
     @Test
     public void testFilterWithMethodWithTrim() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
 
         Map<String, String> options = new HashMap<>();
@@ -597,9 +683,9 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
 
     @Test
@@ -607,7 +693,7 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
 
         Map<String, String> options = new HashMap<>();
@@ -615,16 +701,16 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
     @Test
     public void testFilterWithTagWithTrim() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
 
         Map<String, String> options = new HashMap<>();
@@ -632,9 +718,9 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
 
     @Test
@@ -885,6 +971,11 @@ public class OpenAPINormalizerTest {
         Schema schema21 = openAPI.getComponents().getSchemas().get("SingleAnyOfTest");
         assertEquals(schema21.getAnyOf().size(), 1);
 
+        Schema schema23 = openAPI.getComponents().getSchemas().get("PropertiesWithAnyOf");
+        assertEquals(((Schema) schema23.getProperties().get("anyof_nullable_string")).getAnyOf().size(), 2);
+        assertEquals(((Schema) schema23.getProperties().get("anyof_nullable_number")).getAnyOf().size(), 2);
+
+        // start the normalization
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
@@ -939,6 +1030,14 @@ public class OpenAPINormalizerTest {
         assertEquals(schema22.getAnyOf(), null);
         assertEquals(schema22.getTypes(), Set.of("string"));
         assertEquals(schema22.getEnum().size(), 2);
+
+        Schema schema24 = openAPI.getComponents().getSchemas().get("PropertiesWithAnyOf");
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_string")).getAnyOf(), null);
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_string")).getNullable(), true);
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_string")).getTypes().size(), 1);
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_number")).getAnyOf(), null);
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_number")).getNullable(), true);
+        assertEquals(((Schema) schema24.getProperties().get("anyof_nullable_number")).getTypes().size(), 1);
     }
 
     @Test
@@ -1052,6 +1151,42 @@ public class OpenAPINormalizerTest {
         openAPINormalizer.normalize();
         Schema requiredProperties = openAPI.getComponents().getSchemas().get("RequiredProperties");
         assertEquals(requiredProperties.getRequired(), null);
+    }
+
+
+    @Test
+    public void testRemoveXInternalFromInlineProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_x_internal_test.yaml");
+        Schema parentSchema = openAPI.getComponents().getSchemas().get("ParentSchema");
+        Schema inlineProperty = (Schema) parentSchema.getProperties().get("inlineXInternalProperty");
+        
+        // Before normalization: x-internal should be present on inline property
+        assertNotNull(inlineProperty.getExtensions());
+        assertEquals(inlineProperty.getExtensions().get("x-internal"), true);
+        
+        // Run normalizer with REMOVE_X_INTERNAL=true
+        Map<String, String> options = new HashMap<>();
+        options.put("REMOVE_X_INTERNAL", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+        
+        // After normalization: x-internal should be removed from inline property
+        Schema parentSchemaAfter = openAPI.getComponents().getSchemas().get("ParentSchema");
+        Schema inlinePropertyAfter = (Schema) parentSchemaAfter.getProperties().get("inlineXInternalProperty");
+        
+        // x-internal extension should be removed (null or not present in map)
+        if (inlinePropertyAfter.getExtensions() != null) {
+            assertNull(inlinePropertyAfter.getExtensions().get("x-internal"));
+        }
+        
+        // The property itself should still exist (we're removing the flag, not the property)
+        assertNotNull(inlinePropertyAfter);
+        assertEquals(inlinePropertyAfter.getType(), "object");
+        
+        // Nested properties should still exist
+        assertNotNull(inlinePropertyAfter.getProperties());
+        assertNotNull(inlinePropertyAfter.getProperties().get("nestedField"));
+        assertNotNull(inlinePropertyAfter.getProperties().get("nestedNumber"));
     }
 
     public static class RemoveRequiredNormalizer extends OpenAPINormalizer {

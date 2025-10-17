@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
@@ -50,7 +51,7 @@ data class User(
 
     @Schema(example = "null", description = "User Status")
     @get:JsonProperty("userStatus") var userStatus: kotlin.Int? = null
-    ) : Serializable{
+) : Serializable {
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

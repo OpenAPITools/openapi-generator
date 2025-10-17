@@ -8,6 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
+    let mut errs = validator::ValidationErrors::new();
+    errs.add("na", e);
+    errs
+}
+
+#[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
     if ammonia::is_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
@@ -171,7 +178,7 @@ pub struct GetRepoInfoPathParams {
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesReferencedAnyOfObject(
-    std::collections::HashMap<String, models::AnyOfProperty>,
+    pub std::collections::HashMap<String, models::AnyOfProperty>,
 );
 
 impl validator::Validate for AdditionalPropertiesReferencedAnyOfObject {
@@ -226,13 +233,15 @@ impl ::std::str::FromStr for AdditionalPropertiesReferencedAnyOfObject {
     type Err = &'static str;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for AdditionalPropertiesReferencedAnyOfObject is not supported")
+        std::result::Result::Err(
+            "Parsing additionalProperties for AdditionalPropertiesReferencedAnyOfObject is not supported",
+        )
     }
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AdditionalPropertiesWithList(std::collections::HashMap<String, Vec<String>>);
+pub struct AdditionalPropertiesWithList(pub std::collections::HashMap<String, Vec<String>>);
 
 impl validator::Validate for AdditionalPropertiesWithList {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -370,7 +379,7 @@ impl std::str::FromStr for AdditionalPropertiesWithNullable {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AdditionalPropertiesWithNullable".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -445,7 +454,7 @@ impl std::convert::TryFrom<HeaderValue>
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AnotherXmlArray(Vec<String>);
+pub struct AnotherXmlArray(pub Vec<String>);
 
 impl validator::Validate for AnotherXmlArray {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -586,7 +595,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnotherXmlAr
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AnotherXmlInner(String);
+pub struct AnotherXmlInner(pub String);
 
 impl validator::Validate for AnotherXmlInner {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -654,10 +663,10 @@ impl AnotherXmlObject {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for AnotherXmlObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .inner_string
-            .as_ref()
-            .map(|inner_string| ["inner_string".to_string(), inner_string.to_string()].join(","))];
+        let params: Vec<Option<String>> =
+            vec![self.inner_string.as_ref().map(|inner_string| {
+                ["inner_string".to_string(), inner_string.to_string()].join(",")
+            })];
 
         write!(
             f,
@@ -693,7 +702,7 @@ impl std::str::FromStr for AnotherXmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AnotherXmlObject".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -707,7 +716,7 @@ impl std::str::FromStr for AnotherXmlObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing AnotherXmlObject".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -765,15 +774,20 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AnotherXmlOb
     }
 }
 
-/// Any of:
-/// - String
-/// - uuid::Uuid
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct AnyOfGet202Response(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum AnyOfGet202Response {
+    String(String),
+    Uuid(uuid::Uuid),
+}
 
 impl validator::Validate for AnyOfGet202Response {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::String(_) => std::result::Result::Ok(()),
+            Self::Uuid(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -788,22 +802,32 @@ impl std::str::FromStr for AnyOfGet202Response {
     }
 }
 
-impl PartialEq for AnyOfGet202Response {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
+impl From<String> for AnyOfGet202Response {
+    fn from(value: String) -> Self {
+        Self::String(value)
+    }
+}
+impl From<uuid::Uuid> for AnyOfGet202Response {
+    fn from(value: uuid::Uuid) -> Self {
+        Self::Uuid(value)
     }
 }
 
 /// Test a model containing an anyOf of a hash map
-/// Any of:
-/// - String
-/// - std::collections::HashMap<String, String>
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct AnyOfHashMapObject(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum AnyOfHashMapObject {
+    String(String),
+    HashMapOfStringString(std::collections::HashMap<String, String>),
+}
 
 impl validator::Validate for AnyOfHashMapObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::String(_) => std::result::Result::Ok(()),
+            Self::HashMapOfStringString(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -818,21 +842,32 @@ impl std::str::FromStr for AnyOfHashMapObject {
     }
 }
 
-impl PartialEq for AnyOfHashMapObject {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
+impl From<String> for AnyOfHashMapObject {
+    fn from(value: String) -> Self {
+        Self::String(value)
+    }
+}
+impl From<std::collections::HashMap<String, String>> for AnyOfHashMapObject {
+    fn from(value: std::collections::HashMap<String, String>) -> Self {
+        Self::HashMapOfStringString(value)
     }
 }
 
 /// Test a model containing an anyOf
-/// Any of:
-/// - String
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct AnyOfObject(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum AnyOfObject {
+    String(String),
+    String1(String),
+}
 
 impl validator::Validate for AnyOfObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::String(_) => std::result::Result::Ok(()),
+            Self::String1(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -844,12 +879,6 @@ impl std::str::FromStr for AnyOfObject {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
-    }
-}
-
-impl PartialEq for AnyOfObject {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
     }
 }
 
@@ -924,7 +953,7 @@ impl std::str::FromStr for AnyOfProperty {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AnyOfProperty".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -944,7 +973,7 @@ impl std::str::FromStr for AnyOfProperty {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing AnyOfProperty".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1078,7 +1107,7 @@ impl std::str::FromStr for DuplicateXmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing DuplicateXmlObject".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1097,7 +1126,7 @@ impl std::str::FromStr for DuplicateXmlObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing DuplicateXmlObject".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1164,7 +1193,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<DuplicateXml
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
@@ -1210,7 +1239,7 @@ impl std::str::FromStr for EnumWithStarObject {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Err(String);
+pub struct Err(pub String);
 
 impl validator::Validate for Err {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -1258,7 +1287,7 @@ impl std::ops::DerefMut for Err {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Error(String);
+pub struct Error(pub String);
 
 impl validator::Validate for Error {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -1374,7 +1403,7 @@ impl std::str::FromStr for FormTestRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing FormTestRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1385,12 +1414,12 @@ impl std::str::FromStr for FormTestRequest {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in FormTestRequest"
                                 .to_string(),
-                        )
+                        );
                     }
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FormTestRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1449,14 +1478,20 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FormTestRequ
 }
 
 /// Test a model containing an anyOf that starts with a number
-/// Any of:
-/// - String
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct Model12345AnyOfObject(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+pub enum Model12345AnyOfObject {
+    String(String),
+    String1(String),
+}
 
 impl validator::Validate for Model12345AnyOfObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::String(_) => std::result::Result::Ok(()),
+            Self::String1(_) => std::result::Result::Ok(()),
+        }
     }
 }
 
@@ -1468,12 +1503,6 @@ impl std::str::FromStr for Model12345AnyOfObject {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
-    }
-}
-
-impl PartialEq for Model12345AnyOfObject {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
     }
 }
 
@@ -1498,10 +1527,11 @@ impl MultigetGet201Response {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for MultigetGet201Response {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .foo
-            .as_ref()
-            .map(|foo| ["foo".to_string(), foo.to_string()].join(","))];
+        let params: Vec<Option<String>> = vec![
+            self.foo
+                .as_ref()
+                .map(|foo| ["foo".to_string(), foo.to_string()].join(",")),
+        ];
 
         write!(
             f,
@@ -1537,7 +1567,7 @@ impl std::str::FromStr for MultigetGet201Response {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultigetGet201Response".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1551,7 +1581,7 @@ impl std::str::FromStr for MultigetGet201Response {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing MultigetGet201Response".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1611,7 +1641,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MultigetGet2
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct MyId(i32);
+pub struct MyId(pub i32);
 
 impl validator::Validate for MyId {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -1646,7 +1676,7 @@ impl std::ops::DerefMut for MyId {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct MyIdList(Vec<i32>);
+pub struct MyIdList(pub Vec<i32>);
 
 impl validator::Validate for MyIdList {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -1787,7 +1817,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MyIdList> {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct NullableObject(String);
+pub struct NullableObject(pub String);
 
 impl validator::Validate for NullableObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -2028,7 +2058,7 @@ impl std::str::FromStr for NullableTest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing NullableTest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2055,30 +2085,30 @@ impl std::str::FromStr for NullableTest {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "min_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "max_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "min_max_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing NullableTest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2228,7 +2258,7 @@ impl std::str::FromStr for ObjectHeader {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectHeader".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2246,7 +2276,7 @@ impl std::str::FromStr for ObjectHeader {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ObjectHeader".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2316,8 +2346,9 @@ pub struct ObjectParam {
     pub required_param: bool,
 
     #[serde(rename = "optionalParam")]
+    #[validate(range(min = 1u64, max = 10000000000000000000u64))]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub optional_param: Option<i32>,
+    pub optional_param: Option<u64>,
 }
 
 impl ObjectParam {
@@ -2363,7 +2394,7 @@ impl std::str::FromStr for ObjectParam {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub required_param: Vec<bool>,
-            pub optional_param: Vec<i32>,
+            pub optional_param: Vec<u64>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -2378,7 +2409,7 @@ impl std::str::FromStr for ObjectParam {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectParam".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2391,12 +2422,12 @@ impl std::str::FromStr for ObjectParam {
                     ),
                     #[allow(clippy::redundant_clone)]
                     "optionalParam" => intermediate_rep.optional_param.push(
-                        <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                        <u64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ObjectParam".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2545,7 +2576,7 @@ impl std::str::FromStr for ObjectUntypedProps {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectUntypedProps".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2695,7 +2726,7 @@ impl std::str::FromStr for ObjectWithArrayOfObjects {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectWithArrayOfObjects".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2762,7 +2793,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ObjectWithAr
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Ok(String);
+pub struct Ok(pub String);
 
 impl validator::Validate for Ok {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -2810,10 +2841,10 @@ impl std::ops::DerefMut for Ok {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum OneOfGet200Response {
-    I32(Box<i32>),
-    VecOfString(Box<Vec<String>>),
+    I32(i32),
+    VecOfString(Vec<String>),
 }
 
 impl validator::Validate for OneOfGet200Response {
@@ -2822,17 +2853,6 @@ impl validator::Validate for OneOfGet200Response {
             Self::I32(_) => std::result::Result::Ok(()),
             Self::VecOfString(_) => std::result::Result::Ok(()),
         }
-    }
-}
-
-impl From<i32> for OneOfGet200Response {
-    fn from(value: i32) -> Self {
-        Self::I32(Box::new(value))
-    }
-}
-impl From<Vec<String>> for OneOfGet200Response {
-    fn from(value: Vec<String>) -> Self {
-        Self::VecOfString(Box::new(value))
     }
 }
 
@@ -2847,9 +2867,20 @@ impl std::str::FromStr for OneOfGet200Response {
     }
 }
 
+impl From<i32> for OneOfGet200Response {
+    fn from(value: i32) -> Self {
+        Self::I32(value)
+    }
+}
+impl From<Vec<String>> for OneOfGet200Response {
+    fn from(value: Vec<String>) -> Self {
+        Self::VecOfString(value)
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OptionalObjectHeader(i32);
+pub struct OptionalObjectHeader(pub i32);
 
 impl validator::Validate for OptionalObjectHeader {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -2884,7 +2915,7 @@ impl std::ops::DerefMut for OptionalObjectHeader {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct RequiredObjectHeader(bool);
+pub struct RequiredObjectHeader(pub bool);
 
 impl validator::Validate for RequiredObjectHeader {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -2919,7 +2950,7 @@ impl std::ops::DerefMut for RequiredObjectHeader {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Result(String);
+pub struct Result(pub String);
 
 impl validator::Validate for Result {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -2968,7 +2999,7 @@ impl std::ops::DerefMut for Result {
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
@@ -3010,7 +3041,7 @@ impl std::str::FromStr for StringEnum {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct StringObject(String);
+pub struct StringObject(pub String);
 
 impl validator::Validate for StringObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -3059,7 +3090,7 @@ impl std::ops::DerefMut for StringObject {
 /// Test a model containing a UUID
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct UuidObject(uuid::Uuid);
+pub struct UuidObject(pub uuid::Uuid);
 
 impl validator::Validate for UuidObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -3094,7 +3125,7 @@ impl std::ops::DerefMut for UuidObject {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct XmlArray(Vec<String>);
+pub struct XmlArray(pub Vec<String>);
 
 impl validator::Validate for XmlArray {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -3235,7 +3266,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<XmlArray> {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct XmlInner(String);
+pub struct XmlInner(pub String);
 
 impl validator::Validate for XmlInner {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -3358,7 +3389,7 @@ impl std::str::FromStr for XmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing XmlObject".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -3376,7 +3407,7 @@ impl std::str::FromStr for XmlObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing XmlObject".to_string(),
-                        )
+                        );
                     }
                 }
             }

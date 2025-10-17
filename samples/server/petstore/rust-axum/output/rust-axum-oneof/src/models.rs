@@ -8,6 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
+    let mut errs = validator::ValidationErrors::new();
+    errs.add("na", e);
+    errs
+}
+
+#[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
     if ammonia::is_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
@@ -91,8 +98,11 @@ impl Goodbye {
 
 impl Goodbye {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(op: String, d: models::GoodbyeD) -> Goodbye {
-        Goodbye { op, d }
+    pub fn new(d: models::GoodbyeD) -> Goodbye {
+        Goodbye {
+            op: Self::_name_for_op(),
+            d,
+        }
     }
 }
 
@@ -142,7 +152,7 @@ impl std::str::FromStr for Goodbye {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Goodbye".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -161,7 +171,7 @@ impl std::str::FromStr for Goodbye {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Goodbye".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -287,7 +297,7 @@ impl std::str::FromStr for GoodbyeD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing GoodbyeD".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -301,7 +311,7 @@ impl std::str::FromStr for GoodbyeD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing GoodbyeD".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -394,7 +404,7 @@ impl Greeting {
     pub fn new(d: models::GreetingD) -> Greeting {
         Greeting {
             d,
-            op: r#"Greeting"#.to_string(),
+            op: Self::_name_for_op(),
         }
     }
 }
@@ -445,7 +455,7 @@ impl std::str::FromStr for Greeting {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Greeting".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -464,7 +474,7 @@ impl std::str::FromStr for Greeting {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Greeting".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -590,7 +600,7 @@ impl std::str::FromStr for GreetingD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing GreetingD".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -604,7 +614,7 @@ impl std::str::FromStr for GreetingD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing GreetingD".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -698,7 +708,7 @@ impl Hello {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new(d: models::HelloD) -> Hello {
         Hello {
-            op: r#"Hello"#.to_string(),
+            op: Self::_name_for_op(),
             d,
         }
     }
@@ -750,7 +760,7 @@ impl std::str::FromStr for Hello {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Hello".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -769,7 +779,7 @@ impl std::str::FromStr for Hello {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Hello".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -893,7 +903,7 @@ impl std::str::FromStr for HelloD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing HelloD".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -907,7 +917,7 @@ impl std::str::FromStr for HelloD {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing HelloD".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -971,22 +981,33 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<HelloD> {
 
 #[derive(Debug, Clone, PartialEq, serde::Deserialize)]
 #[serde(tag = "op")]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum Message {
-    Hello(Box<models::Hello>),
-    Greeting(Box<models::Greeting>),
-    Goodbye(Box<models::Goodbye>),
-    SomethingCompletelyDifferent(Box<models::SomethingCompletelyDifferent>),
+    Hello(models::Hello),
+    Greeting(models::Greeting),
+    Goodbye(models::Goodbye),
+    SomethingCompletelyDifferent(models::SomethingCompletelyDifferent),
 }
 
 impl validator::Validate for Message {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
-            Self::Hello(x) => x.validate(),
-            Self::Greeting(x) => x.validate(),
-            Self::Goodbye(x) => x.validate(),
-            Self::SomethingCompletelyDifferent(x) => x.validate(),
+            Self::Hello(v) => v.validate(),
+            Self::Greeting(v) => v.validate(),
+            Self::Goodbye(v) => v.validate(),
+            Self::SomethingCompletelyDifferent(v) => v.validate(),
         }
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Message value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Message {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
     }
 }
 
@@ -1006,61 +1027,39 @@ impl serde::Serialize for Message {
 
 impl From<models::Hello> for Message {
     fn from(value: models::Hello) -> Self {
-        Self::Hello(Box::new(value))
+        Self::Hello(value)
     }
 }
 impl From<models::Greeting> for Message {
     fn from(value: models::Greeting) -> Self {
-        Self::Greeting(Box::new(value))
+        Self::Greeting(value)
     }
 }
 impl From<models::Goodbye> for Message {
     fn from(value: models::Goodbye) -> Self {
-        Self::Goodbye(Box::new(value))
+        Self::Goodbye(value)
     }
 }
 impl From<models::SomethingCompletelyDifferent> for Message {
     fn from(value: models::SomethingCompletelyDifferent) -> Self {
-        Self::SomethingCompletelyDifferent(Box::new(value))
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a Message value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for Message {
-    type Err = serde_json::Error;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        serde_json::from_str(s)
+        Self::SomethingCompletelyDifferent(value)
     }
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum SomethingCompletelyDifferent {
-    VecOfObject(Box<Vec<crate::types::Object>>),
-    Object(Box<crate::types::Object>),
+    VecOfObject(Vec<crate::types::Object>),
+    Object(crate::types::Object),
 }
 
 impl validator::Validate for SomethingCompletelyDifferent {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
             Self::VecOfObject(_) => std::result::Result::Ok(()),
-            Self::Object(x) => x.validate(),
+            Self::Object(_) => std::result::Result::Ok(()),
         }
-    }
-}
-
-impl From<Vec<crate::types::Object>> for SomethingCompletelyDifferent {
-    fn from(value: Vec<crate::types::Object>) -> Self {
-        Self::VecOfObject(Box::new(value))
-    }
-}
-impl From<crate::types::Object> for SomethingCompletelyDifferent {
-    fn from(value: crate::types::Object) -> Self {
-        Self::Object(Box::new(value))
     }
 }
 
@@ -1072,5 +1071,16 @@ impl std::str::FromStr for SomethingCompletelyDifferent {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
+    }
+}
+
+impl From<Vec<crate::types::Object>> for SomethingCompletelyDifferent {
+    fn from(value: Vec<crate::types::Object>) -> Self {
+        Self::VecOfObject(value)
+    }
+}
+impl From<crate::types::Object> for SomethingCompletelyDifferent {
+    fn from(value: crate::types::Object) -> Self {
+        Self::Object(value)
     }
 }

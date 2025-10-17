@@ -65,6 +65,7 @@ import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
 public class SpringCodegenTest {
@@ -1764,10 +1765,13 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
 
         codegen.setUseOneOfInterfaces(true);
+        codegen.setUseDeductionForOneOfInterfaces(true);
         codegen.setLegacyDiscriminatorBehavior(false);
 
         generator.opts(input).generate();
 
+        // test deduction
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"), "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)", "@JsonSubTypes.Type(value = Dog.class),", "@JsonSubTypes.Type(value = Cat.class)");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Foo.java"), "public class Foo extends Entity implements FooRefOrValue");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRef.java"), "public class FooRef extends EntityRef implements FooRefOrValue");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRefOrValue.java"), "public interface FooRefOrValue");
@@ -5635,6 +5639,30 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testDefaultForRequiredNonNullableMap() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/java/issue_21890.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put("defaultToEmptyContainer", "map");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("private Map<String, String> requiredNonNullableMap = new HashMap<>();");
+    }
+
+    @Test
     public void testGenericReturnTypeWhenUsingResponseEntity_issue1096() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(SpringCodegen.USE_RESPONSE_ENTITY, "true");
@@ -5702,5 +5730,102 @@ public class SpringCodegenTest {
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApiDelegate.java"));
         javaFileAssert
                 .hasImports("java.util.concurrent.atomic.AtomicInteger");
+    }
+
+    @Test
+    public void testOneOfInterfaceWithAnnotation() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", SPRING_BOOT);
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .isInterface()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
+    }
+
+    @Test
+    public void testApiVersion() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/apiVersion.yaml", SPRING_BOOT,
+                Map.of(SpringCodegen.SPRING_API_VERSION, "v1",
+                        USE_TAGS, true));
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+                .assertMethod("getVersions")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("RequestMapping", Map.of("version", "\"v1\""))
+                .toMethod().toFileAssert()
+
+                .assertMethod("getOverrides")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("RequestMapping", Map.of("version", "\"2+\""))
+                .toMethod().toFileAssert()
+
+                .assertMethod("getNones")
+                .assertMethodAnnotations()
+                .containsWithNameAndDoesContainAttributes("RequestMapping", List.of("version"));
+    }
+
+    @Test
+    public void annotationLibraryDoesNotCauseImportConflictsInSpring() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("documentationProvider", "source");
+        properties.put("annotationLibrary", "none");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/java/native/issue21991.yaml");
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().putAll(properties);
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("Schema.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
+            "import io.swagger.v3.oas.annotations.media.Schema;"
+        );
+    }
+
+    @Test
+    public void annotationLibraryDoesNotCauseImportConflictsInSpringWithAnnotationLibrary() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("documentationProvider", "source");
+        properties.put("annotationLibrary", "swagger2");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/java/native/issue21991.yaml");
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().putAll(properties);
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("Schema.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileContains(
+            "import io.swagger.v3.oas.annotations.media.Schema;"
+        );
     }
 }

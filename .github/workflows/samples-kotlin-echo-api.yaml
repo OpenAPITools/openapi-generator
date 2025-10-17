@@ -40,7 +40,7 @@ jobs:
           build-root-directory: ${{ matrix.sample }}
           arguments: wrapper
       - name: Setup node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
       - name: Run echo server
         run: |
           git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
