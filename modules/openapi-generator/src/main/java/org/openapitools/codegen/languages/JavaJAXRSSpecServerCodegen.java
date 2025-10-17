@@ -276,6 +276,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if (!jackson) {
             codegenModel.imports.remove("JsonValue");
             codegenModel.imports.remove("JsonProperty");
+            codegenModel.imports.remove("JsonTypeName");
         }
         return codegenModel;
     }
