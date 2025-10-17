@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -198,7 +199,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     @Override
     public String toModelImport(String name) {
         String modelImport;
-        if (StringUtils.startsWithAny(name, "import", "from")) {
+        if (Strings.CS.startsWithAny(name, "import", "from")) {
             modelImport = name;
         } else {
             modelImport = "from ";
