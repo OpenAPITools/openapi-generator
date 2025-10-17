@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**class_name** | **str** |  | 
+**class_name** | **str** |  | [default to "BasquePig"]
 **color** | **str** |  | 
 
 ## Example

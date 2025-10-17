@@ -825,6 +825,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             codegenModelMap.put(cm.classname, ModelUtils.getModelByName(entry.getKey(), objs));
         }
 
+        propagateDiscriminatorValuesToProperties(processed);
+
         // create circular import
         for (String m : codegenModelMap.keySet()) {
             createImportMapOfSet(m, codegenModelMap);
@@ -1018,6 +1020,52 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         return objs;
+    }
+
+    private void propagateDiscriminatorValuesToProperties(Map<String, ModelsMap> objMap) {
+        HashMap<String, CodegenModel> modelMap = new HashMap<>();
+        for (Map.Entry<String, ModelsMap> entry : objMap.entrySet()) {
+            for (ModelMap m : entry.getValue().getModels()) {
+                modelMap.put("#/components/schemas/" + entry.getKey(), m.getModel());
+            }
+        }
+
+        for (Map.Entry<String, ModelsMap> entry : objMap.entrySet()) {
+            for (ModelMap m : entry.getValue().getModels()) {
+                CodegenModel model = m.getModel();
+                if (model.discriminator != null && !model.oneOf.isEmpty()) {
+                    // Populate default, implicit discriminator values
+                    for (String typeName : model.oneOf) {
+                        ModelsMap obj = objMap.get(typeName);
+                        if (obj == null) {
+                            continue;
+                        }
+                        for (ModelMap m1 : obj.getModels()) {
+                            for (CodegenProperty p : m1.getModel().vars) {
+                                if (p.baseName.equals(model.discriminator.getPropertyBaseName())) {
+                                    p.isDiscriminator = true;
+                                    p.discriminatorValue = typeName;
+                                }
+                            }
+                        }
+                    }
+                    // Populate explicit discriminator values from mapping, overwriting default values
+                    if (model.discriminator.getMapping() != null) {
+                        for (Map.Entry<String, String> discrEntry : model.discriminator.getMapping().entrySet()) {
+                            CodegenModel resolved = modelMap.get(discrEntry.getValue());
+                            if (resolved != null) {
+                                for (CodegenProperty p : resolved.vars) {
+                                    if (p.baseName.equals(model.discriminator.getPropertyBaseName())) {
+                                        p.isDiscriminator = true;
+                                        p.discriminatorValue = discrEntry.getKey();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
@@ -2137,7 +2185,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         private String finalizeType(CodegenProperty cp, PythonType pt) {
-            if (!cp.required || cp.isNullable) {
+            if (cp.isDiscriminator && cp.discriminatorValue != null) {
+                moduleImports.add("typing", "Literal");
+                PythonType literal = new PythonType("Literal");
+                String literalValue = '"'+escapeText(cp.discriminatorValue)+'"';
+                PythonType valueType = new PythonType(literalValue);
+                literal.addTypeParam(valueType);
+                literal.setDefaultValue(literalValue);
+                cp.setDefaultValue(literalValue);
+                pt = literal;
+            } else if (!cp.required || cp.isNullable) {
                 moduleImports.add("typing", "Optional");
                 PythonType opt = new PythonType("Optional");
                 opt.addTypeParam(pt);
