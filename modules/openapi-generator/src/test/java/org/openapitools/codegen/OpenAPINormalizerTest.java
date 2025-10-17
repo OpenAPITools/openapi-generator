@@ -743,7 +743,6 @@ public class OpenAPINormalizerTest {
             super(filters);
         }
 
-
         @Override
         protected void parse(String filterName, String filterValue) {
             if ("role".equals(filterName)) {
@@ -760,7 +759,7 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void testFilterInvalidDoesThrow() {
+    public void testFilterInvalidSyntaxDoesThrow() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
         Map<String, String> options = Map.of("FILTER", "tag ; invalid");
@@ -769,6 +768,19 @@ public class OpenAPINormalizerTest {
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "FILTER rule [tag ; invalid] must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Error: filter with no value not supported :[tag]");
+        }
+    }
+
+    @Test
+    public void testFilterInvalidFilterDoesThrow() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        Map<String, String> options = Map.of("FILTER", "method:get ; unknown:test");
+        try {
+            new OpenAPINormalizer(openAPI, options).normalize();
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "FILTER rule [method:get ; unknown:test] must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Error: filter not supported :[unknown:test]");
         }
     }
 

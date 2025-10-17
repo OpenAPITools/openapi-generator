@@ -394,10 +394,11 @@ public class OpenAPINormalizer {
             if (Boolean.TRUE.equals(getRule(FILTER))) {
                 String filters = inputRules.get(FILTER);
                 Filter filter = createFilter(this.openAPI, filters);
-                filter.parse();
-                // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
-                // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
-                filter.apply(pathsEntry.getKey(), path, methodMap);
+                if (filter.parse()) {
+                    // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
+                    // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
+                    filter.apply(pathsEntry.getKey(), path, methodMap);
+                }
             }
 
             // Include callback operation as well
@@ -1812,6 +1813,7 @@ public class OpenAPINormalizer {
         protected Set<String> methodFilters = Collections.emptySet();
         protected Set<String> tagFilters = Collections.emptySet();
         protected Set<String> pathStartingWithFilters = Collections.emptySet();
+        private boolean hasFilter;
 
         protected Filter(String filters) {
             this.filters = filters.trim();
@@ -1848,10 +1850,10 @@ public class OpenAPINormalizer {
                     String filterKey = filterStrs[0].trim();
                     String filterValue = filterStrs[1];
                     Set<String> parsedFilters = splitByPipe(filterValue);
+                    hasFilter = true;
                     if (OPERATION_ID.equals(filterKey)) {
                         operationIdFilters = parsedFilters;
                     } else if (METHOD.equals(filterKey)) {
-
                         methodFilters = parsedFilters;
                     } else if (TAG.equals(filterKey)) {
                         tagFilters = parsedFilters;
@@ -1909,7 +1911,7 @@ public class OpenAPINormalizer {
         }
 
         public boolean hasFilter() {
-            return !operationIdFilters.isEmpty() || !methodFilters.isEmpty() || !tagFilters.isEmpty() || !pathStartingWithFilters.isEmpty  ();
+            return hasFilter;
         }
 
         public void apply(String path, PathItem pathItem, Map<String, Function<PathItem, Operation>> methodMap) {
