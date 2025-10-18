@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 import type { Configuration } from "./configuration";
 import type { RequestArgs } from "./base";
 import type { AxiosInstance, AxiosResponse } from 'axios';
@@ -62,6 +61,7 @@ export const setOAuthToObject = async function (object: any, name: string, scope
         object["Authorization"] = "Bearer " + localVarAccessTokenValue;
     }
 }
+
 
 function setFlattenedQueryParams(urlSearchParams: URLSearchParams, parameter: any, key: string = ""): void {
     if (parameter == null) return;
