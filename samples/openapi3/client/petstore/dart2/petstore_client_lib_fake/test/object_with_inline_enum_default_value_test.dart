@@ -11,18 +11,14 @@
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
 
-// tests for TestItem
+// tests for ObjectWithInlineEnumDefaultValue
 void main() {
-  // final instance = TestItem();
+  // final instance = ObjectWithInlineEnumDefaultValue();
 
-  group('test TestItem', () {
-    // int test
-    test('to test the property `test`', () async {
-      // TODO
-    });
-
-    // TestEnum testEmum
-    test('to test the property `testEmum`', () async {
+  group('test ObjectWithInlineEnumDefaultValue', () {
+    // Object one attribute enum with default value
+    // String attribute (default value: 'value_one')
+    test('to test the property `attribute`', () async {
       // TODO
     });
 

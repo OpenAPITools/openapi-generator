@@ -154,7 +154,9 @@ Class | Method | HTTP request | Description
  - [ObjectThatReferencesObjectsWithDuplicateInlineEnums](doc/ObjectThatReferencesObjectsWithDuplicateInlineEnums.md)
  - [ObjectWithDeprecatedFields](doc/ObjectWithDeprecatedFields.md)
  - [ObjectWithDuplicateInlineEnum](doc/ObjectWithDuplicateInlineEnum.md)
+ - [ObjectWithEnum](doc/ObjectWithEnum.md)
  - [ObjectWithInlineEnum](doc/ObjectWithInlineEnum.md)
+ - [ObjectWithInlineEnumDefaultValue](doc/ObjectWithInlineEnumDefaultValue.md)
  - [Order](doc/Order.md)
  - [OuterComposite](doc/OuterComposite.md)
  - [OuterEnum](doc/OuterEnum.md)
@@ -170,7 +172,6 @@ Class | Method | HTTP request | Description
  - [Tag](doc/Tag.md)
  - [TestEnum](doc/TestEnum.md)
  - [TestInlineFreeformAdditionalPropertiesRequest](doc/TestInlineFreeformAdditionalPropertiesRequest.md)
- - [TestItem](doc/TestItem.md)
  - [User](doc/User.md)
 
 
