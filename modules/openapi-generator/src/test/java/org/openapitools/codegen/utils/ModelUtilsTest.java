@@ -242,6 +242,24 @@ public class ModelUtilsTest {
         Assert.assertEquals(stringSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, new HashMap<>()));
     }
 
+    @Test
+    public void testOverrideAliasedSchemaDescription() {
+        Schema emailSchema = new Schema()
+                .$ref("#/components/schemas/Email")
+                .type("string")
+                .description("description of the reference");
+        StringSchema stringSchema = new StringSchema();
+        stringSchema.setDescription("description of Email component");
+
+        HashMap<String, String> schemaMappings = new HashMap<>();
+        schemaMappings.put("Email", "foo.bar.Email");
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Email", stringSchema);
+
+        var unaliasSchema = ModelUtils.unaliasSchema(openAPI, emailSchema, schemaMappings);
+        Assert.assertEquals(unaliasSchema.getDescription(), "description of the reference");
+    }
+
     /**
      * Issue https://github.com/OpenAPITools/openapi-generator/issues/1624.
      * ModelUtils.isFreeFormObject() should not throw an NPE when passed an empty
