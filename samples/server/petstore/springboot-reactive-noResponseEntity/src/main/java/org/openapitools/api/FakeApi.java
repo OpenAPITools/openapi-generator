@@ -45,7 +45,7 @@ public interface FakeApi {
         return new FakeApiDelegate() {};
     }
 
-    public static final String PATH_CREATE_XML_ITEM = "/fake/create_xml_item";
+    String PATH_CREATE_XML_ITEM = "/fake/create_xml_item";
     /**
      * POST /fake/create_xml_item : creates an XmlItem
      * this route creates an XmlItem
@@ -68,7 +68,6 @@ public interface FakeApi {
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Void> createXmlItem(
         @ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody Mono<XmlItem> xmlItem,
         @ApiIgnore final ServerWebExchange exchange
@@ -77,7 +76,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_FAKE_OUTER_BOOLEAN_SERIALIZE = "/fake/outer/boolean";
+    String PATH_FAKE_OUTER_BOOLEAN_SERIALIZE = "/fake/outer/boolean";
     /**
      * POST /fake/outer/boolean
      * Test serialization of outer boolean types
@@ -102,7 +101,6 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Boolean> fakeOuterBooleanSerialize(
         @ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Mono<Boolean> body,
         @ApiIgnore final ServerWebExchange exchange
@@ -111,7 +109,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_FAKE_OUTER_COMPOSITE_SERIALIZE = "/fake/outer/composite";
+    String PATH_FAKE_OUTER_COMPOSITE_SERIALIZE = "/fake/outer/composite";
     /**
      * POST /fake/outer/composite
      * Test serialization of object with outer number type
@@ -136,7 +134,6 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<OuterComposite> fakeOuterCompositeSerialize(
         @ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) Mono<OuterComposite> outerComposite,
         @ApiIgnore final ServerWebExchange exchange
@@ -145,7 +142,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_FAKE_OUTER_NUMBER_SERIALIZE = "/fake/outer/number";
+    String PATH_FAKE_OUTER_NUMBER_SERIALIZE = "/fake/outer/number";
     /**
      * POST /fake/outer/number
      * Test serialization of outer number types
@@ -170,7 +167,6 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<BigDecimal> fakeOuterNumberSerialize(
         @ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) Mono<BigDecimal> body,
         @ApiIgnore final ServerWebExchange exchange
@@ -179,7 +175,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_FAKE_OUTER_STRING_SERIALIZE = "/fake/outer/string";
+    String PATH_FAKE_OUTER_STRING_SERIALIZE = "/fake/outer/string";
     /**
      * POST /fake/outer/string
      * Test serialization of outer string types
@@ -204,7 +200,6 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<String> fakeOuterStringSerialize(
         @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) Mono<String> body,
         @ApiIgnore final ServerWebExchange exchange
@@ -213,7 +208,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_RESPONSE_OBJECT_DIFFERENT_NAMES = "/fake/{petId}/response-object-different-names";
+    String PATH_RESPONSE_OBJECT_DIFFERENT_NAMES = "/fake/{petId}/response-object-different-names";
     /**
      * GET /fake/{petId}/response-object-different-names
      *
@@ -236,7 +231,6 @@ public interface FakeApi {
         produces = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
         @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiIgnore final ServerWebExchange exchange
@@ -245,7 +239,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_TEST_BODY_WITH_FILE_SCHEMA = "/fake/body-with-file-schema";
+    String PATH_TEST_BODY_WITH_FILE_SCHEMA = "/fake/body-with-file-schema";
     /**
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -268,7 +262,6 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Void> testBodyWithFileSchema(
         @ApiParam(value = "", required = true) @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass,
         @ApiIgnore final ServerWebExchange exchange
@@ -277,7 +270,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_TEST_BODY_WITH_QUERY_PARAMS = "/fake/body-with-query-params";
+    String PATH_TEST_BODY_WITH_QUERY_PARAMS = "/fake/body-with-query-params";
     /**
      * PUT /fake/body-with-query-params
      *
@@ -300,7 +293,6 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Void> testBodyWithQueryParams(
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
         @ApiParam(value = "", required = true) @Valid @RequestBody Mono<User> user,
@@ -310,7 +302,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_TEST_CLIENT_MODEL = "/fake";
+    String PATH_TEST_CLIENT_MODEL = "/fake";
     /**
      * PATCH /fake : To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -335,7 +327,6 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Client> testClientModel(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> client,
         @ApiIgnore final ServerWebExchange exchange
@@ -344,7 +335,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_TEST_ENDPOINT_PARAMETERS = "/fake";
+    String PATH_TEST_ENDPOINT_PARAMETERS = "/fake";
     /**
      * POST /fake : Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -385,7 +376,6 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    
     default Mono<Void> testEndpointParameters(
         @ApiParam(value = "None", required = true) @DecimalMin("32.1") @DecimalMax("543.2") @Valid @RequestPart(value = "number", required = true) BigDecimal number,
         @ApiParam(value = "None", required = true) @DecimalMin("67.8") @DecimalMax("123.4") @Valid @RequestPart(value = "double", required = true) Double _double,
@@ -407,7 +397,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_TEST_ENUM_PARAMETERS = "/fake";
+    String PATH_TEST_ENUM_PARAMETERS = "/fake";
     /**
      * GET /fake : To test enum parameters
      * To test enum parameters
@@ -439,7 +429,6 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    
     default Mono<Void> testEnumParameters(
         @ApiParam(value = "Header parameter enum test (string array)", allowableValues = ">, $") @RequestHeader(value = "enum_header_string_array", required = false) @Nullable List<String> enumHeaderStringArray,
         @ApiParam(value = "Header parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
@@ -455,7 +444,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_TEST_GROUP_PARAMETERS = "/fake";
+    String PATH_TEST_GROUP_PARAMETERS = "/fake";
     /**
      * DELETE /fake : Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -482,7 +471,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_GROUP_PARAMETERS
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    
     default Mono<Void> testGroupParameters(
         @NotNull @ApiParam(value = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
         @NotNull @ApiParam(value = "Required Boolean in group parameters", required = true) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
@@ -496,7 +484,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_TEST_INLINE_ADDITIONAL_PROPERTIES = "/fake/inline-additionalProperties";
+    String PATH_TEST_INLINE_ADDITIONAL_PROPERTIES = "/fake/inline-additionalProperties";
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
      * 
@@ -519,7 +507,6 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Void> testInlineAdditionalProperties(
         @ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<Map<String, String>> requestBody,
         @ApiIgnore final ServerWebExchange exchange
@@ -528,7 +515,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_TEST_JSON_FORM_DATA = "/fake/jsonFormData";
+    String PATH_TEST_JSON_FORM_DATA = "/fake/jsonFormData";
     /**
      * GET /fake/jsonFormData : test json serialization of form data
      * 
@@ -552,7 +539,6 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Void> testJsonFormData(
         @ApiParam(value = "field1", required = true) @Valid @RequestPart(value = "param", required = true) String param,
         @ApiParam(value = "field2", required = true) @Valid @RequestPart(value = "param2", required = true) String param2,
@@ -562,7 +548,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_TEST_NULLABLE = "/fake/nullable";
+    String PATH_TEST_NULLABLE = "/fake/nullable";
     /**
      * POST /fake/nullable : test nullable parent property
      * 
@@ -585,7 +571,6 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Void> testNullable(
         @ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<ChildWithNullable> childWithNullable,
         @ApiIgnore final ServerWebExchange exchange
@@ -594,7 +579,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT = "/fake/test-query-parameters";
+    String PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT = "/fake/test-query-parameters";
     /**
      * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
@@ -619,7 +604,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Void> testQueryParameterCollectionFormat(
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,
@@ -631,7 +615,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_TEST_WITH_RESULT_EXAMPLE = "/fake/response-with-example";
+    String PATH_TEST_WITH_RESULT_EXAMPLE = "/fake/response-with-example";
     /**
      * GET /fake/response-with-example
      * This endpoint defines an example value for its response schema.
@@ -654,7 +638,6 @@ public interface FakeApi {
         produces = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Integer> testWithResultExample(
         @ApiIgnore final ServerWebExchange exchange
     ) {
@@ -662,7 +645,7 @@ public interface FakeApi {
     }
 
 
-    public static final String PATH_UPLOAD_FILE_WITH_REQUIRED_FILE = "/fake/{petId}/uploadImageWithRequiredFile";
+    String PATH_UPLOAD_FILE_WITH_REQUIRED_FILE = "/fake/{petId}/uploadImageWithRequiredFile";
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
      * 
@@ -695,7 +678,6 @@ public interface FakeApi {
         consumes = { "multipart/form-data" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<ModelApiResponse> uploadFileWithRequiredFile(
         @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) Part requiredFile,

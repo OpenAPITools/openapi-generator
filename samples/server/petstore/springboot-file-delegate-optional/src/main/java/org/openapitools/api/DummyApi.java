@@ -39,7 +39,7 @@ public interface DummyApi {
         return new DummyApiDelegate() {};
     }
 
-    public static final String PATH_UPLOAD_FILE = "/dummy";
+    String PATH_UPLOAD_FILE = "/dummy";
     /**
      * POST /dummy
      * 
@@ -59,7 +59,6 @@ public interface DummyApi {
         value = DummyApi.PATH_UPLOAD_FILE,
         consumes = { "application/octet-stream" }
     )
-    
     default ResponseEntity<Void> uploadFile(
         @Parameter(name = "body", description = "") @Valid @RequestBody(required = false) Optional<org.springframework.core.io.Resource> body
     ) {

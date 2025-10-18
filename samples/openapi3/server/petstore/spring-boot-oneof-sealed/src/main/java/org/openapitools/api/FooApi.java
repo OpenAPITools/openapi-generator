@@ -44,7 +44,7 @@ public interface FooApi {
         return Optional.empty();
     }
 
-    public static final String PATH_CREATE_FOO = "/foo";
+    String PATH_CREATE_FOO = "/foo";
     /**
      * POST /foo : Create a Foo
      *
@@ -67,7 +67,6 @@ public interface FooApi {
         produces = { "application/json" },
         consumes = { "application/json;charset=utf-8" }
     )
-    
     default ResponseEntity<FooRefOrValue> createFoo(
         @Parameter(name = "Foo", description = "The Foo to be created") @Valid @RequestBody(required = false) @Nullable Foo foo
     ) {
@@ -85,7 +84,7 @@ public interface FooApi {
     }
 
 
-    public static final String PATH_GET_ALL_FOOS = "/foo";
+    String PATH_GET_ALL_FOOS = "/foo";
     /**
      * GET /foo : GET all Foos
      *
@@ -106,7 +105,6 @@ public interface FooApi {
         value = FooApi.PATH_GET_ALL_FOOS,
         produces = { "application/json;charset=utf-8" }
     )
-    
     default ResponseEntity<List<FooRefOrValue>> getAllFoos(
         
     ) {

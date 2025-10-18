@@ -49,6 +49,8 @@ nb-configuration.xml
 *.xml~
 *.t~
 
+**/.angular
+
 /target
 /generated-files
 test-output/

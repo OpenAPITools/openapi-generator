@@ -31,12 +31,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -51,7 +48,7 @@ import javax.annotation.Generated;
 @Tag(name = "fake", description = "the fake API")
 public interface FakeApi {
 
-    public static final String PATH_CREATE_XML_ITEM = "/fake/create_xml_item";
+    String PATH_CREATE_XML_ITEM = "/fake/create_xml_item";
     /**
      * POST /fake/create_xml_item : creates an XmlItem
      * this route creates an XmlItem
@@ -73,13 +70,12 @@ public interface FakeApi {
         value = FakeApi.PATH_CREATE_XML_ITEM,
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" }
     )
-    
     ResponseEntity<Void> createXmlItem(
         @Parameter(name = "XmlItem", description = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem
     ) throws Exception;
 
 
-    public static final String PATH_FAKE_OUTER_BOOLEAN_SERIALIZE = "/fake/outer/boolean";
+    String PATH_FAKE_OUTER_BOOLEAN_SERIALIZE = "/fake/outer/boolean";
     /**
      * POST /fake/outer/boolean
      * Test serialization of outer boolean types
@@ -103,13 +99,12 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    
     ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body
     ) throws Exception;
 
 
-    public static final String PATH_FAKE_OUTER_COMPOSITE_SERIALIZE = "/fake/outer/composite";
+    String PATH_FAKE_OUTER_COMPOSITE_SERIALIZE = "/fake/outer/composite";
     /**
      * POST /fake/outer/composite
      * Test serialization of object with outer number type
@@ -133,13 +128,12 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    
     ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
         @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterComposite outerComposite
     ) throws Exception;
 
 
-    public static final String PATH_FAKE_OUTER_NUMBER_SERIALIZE = "/fake/outer/number";
+    String PATH_FAKE_OUTER_NUMBER_SERIALIZE = "/fake/outer/number";
     /**
      * POST /fake/outer/number
      * Test serialization of outer number types
@@ -163,13 +157,12 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    
     ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body
     ) throws Exception;
 
 
-    public static final String PATH_FAKE_OUTER_STRING_SERIALIZE = "/fake/outer/string";
+    String PATH_FAKE_OUTER_STRING_SERIALIZE = "/fake/outer/string";
     /**
      * POST /fake/outer/string
      * Test serialization of outer string types
@@ -193,13 +186,12 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    
     ResponseEntity<String> fakeOuterStringSerialize(
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
     ) throws Exception;
 
 
-    public static final String PATH_RESPONSE_OBJECT_DIFFERENT_NAMES = "/fake/{petId}/response-object-different-names";
+    String PATH_RESPONSE_OBJECT_DIFFERENT_NAMES = "/fake/{petId}/response-object-different-names";
     /**
      * GET /fake/{petId}/response-object-different-names
      *
@@ -220,13 +212,12 @@ public interface FakeApi {
         value = FakeApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
         produces = { "application/json" }
     )
-    
     ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
         @NotNull @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) throws Exception;
 
 
-    public static final String PATH_TEST_BODY_WITH_FILE_SCHEMA = "/fake/body-with-file-schema";
+    String PATH_TEST_BODY_WITH_FILE_SCHEMA = "/fake/body-with-file-schema";
     /**
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -247,13 +238,12 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_BODY_WITH_FILE_SCHEMA,
         consumes = { "application/json" }
     )
-    
     ResponseEntity<Void> testBodyWithFileSchema(
         @Parameter(name = "FileSchemaTestClass", description = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
     ) throws Exception;
 
 
-    public static final String PATH_TEST_BODY_WITH_QUERY_PARAMS = "/fake/body-with-query-params";
+    String PATH_TEST_BODY_WITH_QUERY_PARAMS = "/fake/body-with-query-params";
     /**
      * PUT /fake/body-with-query-params
      *
@@ -273,14 +263,13 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_BODY_WITH_QUERY_PARAMS,
         consumes = { "application/json" }
     )
-    
     ResponseEntity<Void> testBodyWithQueryParams(
         @NotNull @Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = true) String query,
         @Parameter(name = "User", description = "", required = true) @Valid @RequestBody User user
     ) throws Exception;
 
 
-    public static final String PATH_TEST_CLIENT_MODEL = "/fake";
+    String PATH_TEST_CLIENT_MODEL = "/fake";
     /**
      * PATCH /fake : To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -305,13 +294,12 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     ResponseEntity<Client> testClientModel(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     ) throws Exception;
 
 
-    public static final String PATH_TEST_ENDPOINT_PARAMETERS = "/fake";
+    String PATH_TEST_ENDPOINT_PARAMETERS = "/fake";
     /**
      * POST /fake : Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -351,7 +339,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_ENDPOINT_PARAMETERS,
         consumes = { "application/x-www-form-urlencoded" }
     )
-    
     ResponseEntity<Void> testEndpointParameters(
         @Parameter(name = "number", description = "None", required = true) @DecimalMin("32.1") @DecimalMax("543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
         @Parameter(name = "double", description = "None", required = true) @DecimalMin("67.8") @DecimalMax("123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
@@ -370,7 +357,7 @@ public interface FakeApi {
     ) throws Exception;
 
 
-    public static final String PATH_TEST_ENUM_PARAMETERS = "/fake";
+    String PATH_TEST_ENUM_PARAMETERS = "/fake";
     /**
      * GET /fake : To test enum parameters
      * To test enum parameters
@@ -401,7 +388,6 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_ENUM_PARAMETERS,
         consumes = { "application/x-www-form-urlencoded" }
     )
-    
     ResponseEntity<Void> testEnumParameters(
         @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)", in = ParameterIn.HEADER) @RequestHeader(value = "enum_header_string_array", required = false) @Nullable List<String> enumHeaderStringArray,
         @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)", in = ParameterIn.HEADER) @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
@@ -414,7 +400,7 @@ public interface FakeApi {
     ) throws Exception;
 
 
-    public static final String PATH_TEST_GROUP_PARAMETERS = "/fake";
+    String PATH_TEST_GROUP_PARAMETERS = "/fake";
     /**
      * DELETE /fake : Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -440,7 +426,6 @@ public interface FakeApi {
         method = RequestMethod.DELETE,
         value = FakeApi.PATH_TEST_GROUP_PARAMETERS
     )
-    
     ResponseEntity<Void> testGroupParameters(
         @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
         @NotNull @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
@@ -451,7 +436,7 @@ public interface FakeApi {
     ) throws Exception;
 
 
-    public static final String PATH_TEST_INLINE_ADDITIONAL_PROPERTIES = "/fake/inline-additionalProperties";
+    String PATH_TEST_INLINE_ADDITIONAL_PROPERTIES = "/fake/inline-additionalProperties";
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
      * 
@@ -473,13 +458,12 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_INLINE_ADDITIONAL_PROPERTIES,
         consumes = { "application/json" }
     )
-    
     ResponseEntity<Void> testInlineAdditionalProperties(
         @Parameter(name = "request_body", description = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
     ) throws Exception;
 
 
-    public static final String PATH_TEST_JSON_FORM_DATA = "/fake/jsonFormData";
+    String PATH_TEST_JSON_FORM_DATA = "/fake/jsonFormData";
     /**
      * GET /fake/jsonFormData : test json serialization of form data
      * 
@@ -502,14 +486,13 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_JSON_FORM_DATA,
         consumes = { "application/x-www-form-urlencoded" }
     )
-    
     ResponseEntity<Void> testJsonFormData(
         @Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
         @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
     ) throws Exception;
 
 
-    public static final String PATH_TEST_NULLABLE = "/fake/nullable";
+    String PATH_TEST_NULLABLE = "/fake/nullable";
     /**
      * POST /fake/nullable : test nullable parent property
      * 
@@ -531,13 +514,12 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_NULLABLE,
         consumes = { "application/json" }
     )
-    
     ResponseEntity<Void> testNullable(
         @Parameter(name = "ChildWithNullable", description = "request body", required = true) @Valid @RequestBody ChildWithNullable childWithNullable
     ) throws Exception;
 
 
-    public static final String PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT = "/fake/test-query-parameters";
+    String PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT = "/fake/test-query-parameters";
     /**
      * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
@@ -560,7 +542,6 @@ public interface FakeApi {
         method = RequestMethod.PUT,
         value = FakeApi.PATH_TEST_QUERY_PARAMETER_COLLECTION_FORMAT
     )
-    
     ResponseEntity<Void> testQueryParameterCollectionFormat(
         @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
         @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "http", required = true) List<String> http,
@@ -569,7 +550,7 @@ public interface FakeApi {
     ) throws Exception;
 
 
-    public static final String PATH_TEST_WITH_RESULT_EXAMPLE = "/fake/response-with-example";
+    String PATH_TEST_WITH_RESULT_EXAMPLE = "/fake/response-with-example";
     /**
      * GET /fake/response-with-example
      * This endpoint defines an example value for its response schema.
@@ -591,13 +572,12 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_WITH_RESULT_EXAMPLE,
         produces = { "application/json" }
     )
-    
     ResponseEntity<Integer> testWithResultExample(
         
     ) throws Exception;
 
 
-    public static final String PATH_UPLOAD_FILE_WITH_REQUIRED_FILE = "/fake/{petId}/uploadImageWithRequiredFile";
+    String PATH_UPLOAD_FILE_WITH_REQUIRED_FILE = "/fake/{petId}/uploadImageWithRequiredFile";
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
      * 
@@ -627,7 +607,6 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    
     ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
         @NotNull @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,

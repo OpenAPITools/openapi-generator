@@ -33,7 +33,7 @@ public interface StoreApi {
         return new StoreApiDelegate() {};
     }
 
-    public static final String PATH_DELETE_ORDER = "/store/order/{order_id}";
+    String PATH_DELETE_ORDER = "/store/order/{order_id}";
     /**
      * DELETE /store/order/{order_id} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -56,7 +56,6 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = StoreApi.PATH_DELETE_ORDER
     )
-    
     default Mono<ResponseEntity<Void>> deleteOrder(
         @NotNull @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId,
         @ApiIgnore final ServerWebExchange exchange
@@ -65,7 +64,7 @@ public interface StoreApi {
     }
 
 
-    public static final String PATH_GET_INVENTORY = "/store/inventory";
+    String PATH_GET_INVENTORY = "/store/inventory";
     /**
      * GET /store/inventory : Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -91,7 +90,6 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
-    
     default Mono<ResponseEntity<Map<String, Integer>>> getInventory(
         @ApiIgnore final ServerWebExchange exchange
     ) {
@@ -99,7 +97,7 @@ public interface StoreApi {
     }
 
 
-    public static final String PATH_GET_ORDER_BY_ID = "/store/order/{order_id}";
+    String PATH_GET_ORDER_BY_ID = "/store/order/{order_id}";
     /**
      * GET /store/order/{order_id} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -126,7 +124,6 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/xml", "application/json" }
     )
-    
     default Mono<ResponseEntity<Order>> getOrderById(
         @NotNull @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId,
         @ApiIgnore final ServerWebExchange exchange
@@ -135,7 +132,7 @@ public interface StoreApi {
     }
 
 
-    public static final String PATH_PLACE_ORDER = "/store/order";
+    String PATH_PLACE_ORDER = "/store/order";
     /**
      * POST /store/order : Place an order for a pet
      * 
@@ -161,7 +158,6 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
     )
-    
     default Mono<ResponseEntity<Order>> placeOrder(
         @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order,
         @ApiIgnore final ServerWebExchange exchange

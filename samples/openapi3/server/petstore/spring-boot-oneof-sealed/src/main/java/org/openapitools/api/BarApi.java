@@ -43,7 +43,7 @@ public interface BarApi {
         return Optional.empty();
     }
 
-    public static final String PATH_CREATE_BAR = "/bar";
+    String PATH_CREATE_BAR = "/bar";
     /**
      * POST /bar : Create a Bar
      *
@@ -66,7 +66,6 @@ public interface BarApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Bar> createBar(
         @Parameter(name = "BarCreate", description = "", required = true) @Valid @RequestBody BarCreate barCreate
     ) {

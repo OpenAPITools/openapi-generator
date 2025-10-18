@@ -47,7 +47,7 @@ public interface UserApi {
         return Optional.empty();
     }
 
-    public static final String PATH_LOGIN_USER = "/user/login";
+    String PATH_LOGIN_USER = "/user/login";
     /**
      * GET /user/login : Logs user into the system
      *
@@ -72,7 +72,6 @@ public interface UserApi {
         value = UserApi.PATH_LOGIN_USER,
         produces = { "application/json" }
     )
-    
     default ResponseEntity<String> loginUser(
         @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password,
@@ -87,7 +86,7 @@ public interface UserApi {
     }
 
 
-    public static final String PATH_LOGOUT_USER = "/user/logout";
+    String PATH_LOGOUT_USER = "/user/logout";
     /**
      * GET /user/logout : Logs out current logged in user session
      *
@@ -105,7 +104,6 @@ public interface UserApi {
         method = RequestMethod.GET,
         value = UserApi.PATH_LOGOUT_USER
     )
-    
     default ResponseEntity<Void> logoutUser(
         @Parameter(hidden = true) @Value("${server.port}") String somePropertyValue,
         @Parameter(hidden = true) @RequestHeader(value="x-project-id", required = false) String someHeaderValue,

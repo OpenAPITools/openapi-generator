@@ -38,6 +38,7 @@ export class UserService extends BaseService {
     /**
      * Create user
      * This can only be done by the logged in user.
+     * @endpoint post /user
      * @param body Created user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -97,6 +98,7 @@ export class UserService extends BaseService {
 
     /**
      * Creates list of users with given input array
+     * @endpoint post /user/createWithArray
      * @param body List of user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -156,6 +158,7 @@ export class UserService extends BaseService {
 
     /**
      * Creates list of users with given input array
+     * @endpoint post /user/createWithList
      * @param body List of user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -216,6 +219,7 @@ export class UserService extends BaseService {
     /**
      * Delete user
      * This can only be done by the logged in user.
+     * @endpoint delete /user/${this.configuration.encodeParam({name: "username", value: username, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}
      * @param username The name that needs to be deleted
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -266,6 +270,7 @@ export class UserService extends BaseService {
 
     /**
      * Get user by user name
+     * @endpoint get /user/${this.configuration.encodeParam({name: "username", value: username, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}
      * @param username The name that needs to be fetched. Use user1 for testing.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -318,6 +323,7 @@ export class UserService extends BaseService {
 
     /**
      * Logs user into the system
+     * @endpoint get /user/login
      * @param username The user name for login
      * @param password The password for login in clear text
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -381,6 +387,7 @@ export class UserService extends BaseService {
 
     /**
      * Logs out current logged in user session
+     * @endpoint get /user/logout
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -428,6 +435,7 @@ export class UserService extends BaseService {
     /**
      * Updated user
      * This can only be done by the logged in user.
+     * @endpoint put /user/${this.configuration.encodeParam({name: "username", value: username, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}
      * @param username name that need to be deleted
      * @param body Updated user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.

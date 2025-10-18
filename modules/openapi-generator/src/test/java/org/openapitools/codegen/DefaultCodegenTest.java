@@ -5036,6 +5036,19 @@ public class DefaultCodegenTest {
         assertTrue(codegenOperation.queryParams.stream().allMatch(p -> p.queryIsJsonMimeType));
     }
 
+    @Test
+    public void testDefaultOauthIsNotNull() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/issue_20662.yaml");
+        codegen.setOpenAPI(openAPI);
+        List<CodegenSecurity> securitySchemes = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes());
+        assertThat(securitySchemes.size()).isEqualTo(1);
+        CodegenSecurity openIdScheme = securitySchemes.get(0);
+        assertNotNull(openIdScheme.isOAuth);
+        assertFalse(openIdScheme.isOAuth);
+        assertTrue(openIdScheme.isOpenId);
+    }
+
     private List<String> getRequiredVars(CodegenModel model) {
         return getNames(model.getRequiredVars());
     }

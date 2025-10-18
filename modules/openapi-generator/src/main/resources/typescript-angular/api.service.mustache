@@ -74,6 +74,7 @@ export class {{classname}} extends BaseService {
 {{#notes}}
      * {{.}}
 {{/notes}}
+     * @endpoint {{httpMethod}} {{{path}}}
      {{^useSingleRequestParameter}}
      {{#allParams}}
      * @param {{paramName}} {{description}}

@@ -19,12 +19,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -39,7 +36,7 @@ import javax.annotation.Generated;
 @Tag(name = "store", description = "Access to Petstore orders")
 public interface StoreApi {
 
-    public static final String PATH_DELETE_ORDER = "/store/order/{orderId}";
+    String PATH_DELETE_ORDER = "/store/order/{orderId}";
     /**
      * DELETE /store/order/{orderId} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -62,13 +59,12 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = StoreApi.PATH_DELETE_ORDER
     )
-    
     ResponseEntity<Void> deleteOrder(
         @NotNull @Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("orderId") String orderId
     );
 
 
-    public static final String PATH_GET_INVENTORY = "/store/inventory";
+    String PATH_GET_INVENTORY = "/store/inventory";
     /**
      * GET /store/inventory : Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -94,13 +90,12 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
-    
     ResponseEntity<Map<String, Integer>> getInventory(
         
     );
 
 
-    public static final String PATH_GET_ORDER_BY_ID = "/store/order/{orderId}";
+    String PATH_GET_ORDER_BY_ID = "/store/order/{orderId}";
     /**
      * GET /store/order/{orderId} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -129,13 +124,12 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/json", "application/xml" }
     )
-    
     ResponseEntity<Order> getOrderById(
         @NotNull @Min(1L) @Max(5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId
     );
 
 
-    public static final String PATH_PLACE_ORDER = "/store/order";
+    String PATH_PLACE_ORDER = "/store/order";
     /**
      * POST /store/order : Place an order for a pet
      *
@@ -160,7 +154,6 @@ public interface StoreApi {
         value = StoreApi.PATH_PLACE_ORDER,
         produces = { "application/json", "application/xml" }
     )
-    
     ResponseEntity<Order> placeOrder(
         @Parameter(name = "body", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body
     );

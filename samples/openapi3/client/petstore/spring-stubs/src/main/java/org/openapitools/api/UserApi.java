@@ -43,7 +43,7 @@ public interface UserApi {
         return Optional.empty();
     }
 
-    public static final String PATH_CREATE_USER = "/user";
+    String PATH_CREATE_USER = "/user";
     /**
      * POST /user : Create user
      * This can only be done by the logged in user.
@@ -68,7 +68,6 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USER,
         consumes = "application/json"
     )
-    
     default ResponseEntity<Void> createUser(
         @Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody User user
     ) {
@@ -77,7 +76,7 @@ public interface UserApi {
     }
 
 
-    public static final String PATH_CREATE_USERS_WITH_ARRAY_INPUT = "/user/createWithArray";
+    String PATH_CREATE_USERS_WITH_ARRAY_INPUT = "/user/createWithArray";
     /**
      * POST /user/createWithArray : Creates list of users with given input array
      * 
@@ -102,7 +101,6 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_ARRAY_INPUT,
         consumes = "application/json"
     )
-    
     default ResponseEntity<Void> createUsersWithArrayInput(
         @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     ) {
@@ -111,7 +109,7 @@ public interface UserApi {
     }
 
 
-    public static final String PATH_CREATE_USERS_WITH_LIST_INPUT = "/user/createWithList";
+    String PATH_CREATE_USERS_WITH_LIST_INPUT = "/user/createWithList";
     /**
      * POST /user/createWithList : Creates list of users with given input array
      * 
@@ -136,7 +134,6 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_LIST_INPUT,
         consumes = "application/json"
     )
-    
     default ResponseEntity<Void> createUsersWithListInput(
         @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     ) {
@@ -145,7 +142,7 @@ public interface UserApi {
     }
 
 
-    public static final String PATH_DELETE_USER = "/user/{username}";
+    String PATH_DELETE_USER = "/user/{username}";
     /**
      * DELETE /user/{username} : Delete user
      * This can only be done by the logged in user.
@@ -171,7 +168,6 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = UserApi.PATH_DELETE_USER
     )
-    
     default ResponseEntity<Void> deleteUser(
         @NotNull @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
@@ -180,7 +176,7 @@ public interface UserApi {
     }
 
 
-    public static final String PATH_GET_USER_BY_NAME = "/user/{username}";
+    String PATH_GET_USER_BY_NAME = "/user/{username}";
     /**
      * GET /user/{username} : Get user by user name
      * 
@@ -209,7 +205,6 @@ public interface UserApi {
         value = UserApi.PATH_GET_USER_BY_NAME,
         produces = { "application/json", "application/xml" }
     )
-    
     default ResponseEntity<User> getUserByName(
         @NotNull @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
@@ -232,7 +227,7 @@ public interface UserApi {
     }
 
 
-    public static final String PATH_LOGIN_USER = "/user/login";
+    String PATH_LOGIN_USER = "/user/login";
     /**
      * GET /user/login : Logs user into the system
      * 
@@ -260,7 +255,6 @@ public interface UserApi {
         value = UserApi.PATH_LOGIN_USER,
         produces = { "application/json", "application/xml" }
     )
-    
     default ResponseEntity<String> loginUser(
         @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
@@ -270,7 +264,7 @@ public interface UserApi {
     }
 
 
-    public static final String PATH_LOGOUT_USER = "/user/logout";
+    String PATH_LOGOUT_USER = "/user/logout";
     /**
      * GET /user/logout : Logs out current logged in user session
      * 
@@ -293,7 +287,6 @@ public interface UserApi {
         method = RequestMethod.GET,
         value = UserApi.PATH_LOGOUT_USER
     )
-    
     default ResponseEntity<Void> logoutUser(
         
     ) {
@@ -302,7 +295,7 @@ public interface UserApi {
     }
 
 
-    public static final String PATH_UPDATE_USER = "/user/{username}";
+    String PATH_UPDATE_USER = "/user/{username}";
     /**
      * PUT /user/{username} : Updated user
      * This can only be done by the logged in user.
@@ -330,7 +323,6 @@ public interface UserApi {
         value = UserApi.PATH_UPDATE_USER,
         consumes = "application/json"
     )
-    
     default ResponseEntity<Void> updateUser(
         @NotNull @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
         @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody User user

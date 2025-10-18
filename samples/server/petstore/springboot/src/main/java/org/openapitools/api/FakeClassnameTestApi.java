@@ -31,7 +31,7 @@ public interface FakeClassnameTestApi {
         return Optional.empty();
     }
 
-    public static final String PATH_TEST_CLASSNAME = "/fake_classname_test";
+    String PATH_TEST_CLASSNAME = "/fake_classname_test";
     /**
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
@@ -58,7 +58,6 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<ClientDto> testClassname(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto clientDto
     ) {

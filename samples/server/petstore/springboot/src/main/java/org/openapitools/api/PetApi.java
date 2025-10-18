@@ -34,7 +34,7 @@ public interface PetApi {
         return Optional.empty();
     }
 
-    public static final String PATH_ADD_PET = "/pet";
+    String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
      * 
@@ -64,7 +64,6 @@ public interface PetApi {
         value = PetApi.PATH_ADD_PET,
         consumes = { "application/json", "application/xml" }
     )
-    
     default ResponseEntity<Void> addPet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody PetDto petDto
     ) {
@@ -73,7 +72,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_DELETE_PET = "/pet/{petId}";
+    String PATH_DELETE_PET = "/pet/{petId}";
     /**
      * DELETE /pet/{petId} : Deletes a pet
      * 
@@ -103,7 +102,6 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = PetApi.PATH_DELETE_PET
     )
-    
     default ResponseEntity<Void> deletePet(
         @NotNull @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
@@ -113,7 +111,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_FIND_PETS_BY_STATUS = "/pet/findByStatus";
+    String PATH_FIND_PETS_BY_STATUS = "/pet/findByStatus";
     /**
      * GET /pet/findByStatus : Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -145,7 +143,6 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/xml", "application/json" }
     )
-    
     default ResponseEntity<List<PetDto>> findPetsByStatus(
         @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status
     ) {
@@ -168,7 +165,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_FIND_PETS_BY_TAGS = "/pet/findByTags";
+    String PATH_FIND_PETS_BY_TAGS = "/pet/findByTags";
     /**
      * GET /pet/findByTags : Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -202,7 +199,6 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/xml", "application/json" }
     )
-    
     default ResponseEntity<Set<PetDto>> findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags
     ) {
@@ -225,7 +221,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_GET_PET_BY_ID = "/pet/{petId}";
+    String PATH_GET_PET_BY_ID = "/pet/{petId}";
     /**
      * GET /pet/{petId} : Find pet by ID
      * Returns a single pet
@@ -255,7 +251,6 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         produces = { "application/xml", "application/json" }
     )
-    
     default ResponseEntity<PetDto> getPetById(
         @NotNull @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
     ) {
@@ -278,7 +273,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_UPDATE_PET = "/pet";
+    String PATH_UPDATE_PET = "/pet";
     /**
      * PUT /pet : Update an existing pet
      * 
@@ -312,7 +307,6 @@ public interface PetApi {
         value = PetApi.PATH_UPDATE_PET,
         consumes = { "application/json", "application/xml" }
     )
-    
     default ResponseEntity<Void> updatePet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody PetDto petDto
     ) {
@@ -321,7 +315,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_UPDATE_PET_WITH_FORM = "/pet/{petId}";
+    String PATH_UPDATE_PET_WITH_FORM = "/pet/{petId}";
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
      * 
@@ -351,7 +345,6 @@ public interface PetApi {
         value = PetApi.PATH_UPDATE_PET_WITH_FORM,
         consumes = { "application/x-www-form-urlencoded" }
     )
-    
     default ResponseEntity<Void> updatePetWithForm(
         @NotNull @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
@@ -362,7 +355,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_UPLOAD_FILE = "/pet/{petId}/uploadImage";
+    String PATH_UPLOAD_FILE = "/pet/{petId}/uploadImage";
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
      * 
@@ -394,7 +387,6 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    
     default ResponseEntity<ApiResponseDto> uploadFile(
         @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
