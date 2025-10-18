@@ -30,6 +30,8 @@ import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -45,35 +47,50 @@ import org.openapitools.client.JSON;
   Pet.JSON_PROPERTY_STATUS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "Pet")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Pet")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
+  @XmlElement(name = "id")
   @javax.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
+  @XmlElement(name = "Category")
   @javax.annotation.Nullable
   private Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
+  @XmlElement(name = "name")
   @javax.annotation.Nonnull
   private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
+  @XmlElement(name = "photoUrl")
+  @XmlElementWrapper(name = "photoUrl")
   @javax.annotation.Nonnull
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
+  @XmlElement(name = "Tag")
+  @XmlElementWrapper(name = "tag")
   @javax.annotation.Nullable
   private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
    */
+  @XmlType(name="StatusEnum")
+  @XmlEnum(String.class)
   public enum StatusEnum {
+    @XmlEnumValue("available")
     AVAILABLE(String.valueOf("available")),
     
+    @XmlEnumValue("pending")
     PENDING(String.valueOf("pending")),
     
+    @XmlEnumValue("sold")
     SOLD(String.valueOf("sold"));
 
     private String value;
@@ -104,6 +121,7 @@ public class Pet {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
+  @XmlElement(name = "status")
   @javax.annotation.Nullable
   private StatusEnum status;
 
@@ -122,6 +140,7 @@ public class Pet {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
 
   public Long getId() {
     return id;
@@ -130,6 +149,7 @@ public class Pet {
 
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
   public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
@@ -147,6 +167,7 @@ public class Pet {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_CATEGORY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "Category")
 
   public Category getCategory() {
     return category;
@@ -155,6 +176,7 @@ public class Pet {
 
   @JsonProperty(value = JSON_PROPERTY_CATEGORY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "Category")
   public void setCategory(@javax.annotation.Nullable Category category) {
     this.category = category;
   }
@@ -172,6 +194,7 @@ public class Pet {
   @javax.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "name")
 
   public String getName() {
     return name;
@@ -180,6 +203,7 @@ public class Pet {
 
   @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "name")
   public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
@@ -205,6 +229,8 @@ public class Pet {
   @javax.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "photoUrl")
+  @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
 
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -213,6 +239,8 @@ public class Pet {
 
   @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "photoUrl")
+  @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
   public void setPhotoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -238,6 +266,8 @@ public class Pet {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_TAGS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "Tag")
+  @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
 
   public List<Tag> getTags() {
     return tags;
@@ -246,6 +276,8 @@ public class Pet {
 
   @JsonProperty(value = JSON_PROPERTY_TAGS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "Tag")
+  @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
   public void setTags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
   }
@@ -263,6 +295,7 @@ public class Pet {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "status")
 
   public StatusEnum getStatus() {
     return status;
@@ -271,6 +304,7 @@ public class Pet {
 
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "status")
   public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }

@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -39,24 +41,21 @@ import org.openapitools.client.JSON;
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "ReadOnlyFirst")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ReadOnlyFirst")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
+  @XmlElement(name = "bar")
   @jakarta.annotation.Nullable
   private String bar;
 
   public static final String JSON_PROPERTY_BAZ = "baz";
+  @XmlElement(name = "baz")
   @jakarta.annotation.Nullable
   private String baz;
 
   public ReadOnlyFirst() { 
-  }
-
-  @JsonCreator
-  public ReadOnlyFirst(
-    @JsonProperty(JSON_PROPERTY_BAR) String bar
-  ) {
-    this();
-    this.bar = bar;
   }
 
   /**
@@ -67,6 +66,7 @@ public class ReadOnlyFirst {
 
   @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "bar")
 
   public String getBar() {
     return bar;
@@ -88,6 +88,7 @@ public class ReadOnlyFirst {
 
   @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "baz")
 
   public String getBaz() {
     return baz;
@@ -96,6 +97,7 @@ public class ReadOnlyFirst {
 
   @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "baz")
   public void setBaz(@jakarta.annotation.Nullable String baz) {
     this.baz = baz;
   }

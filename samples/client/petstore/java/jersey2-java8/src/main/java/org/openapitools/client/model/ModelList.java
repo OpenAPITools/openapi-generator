@@ -24,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -35,8 +37,12 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("List")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "ModelList")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ModelList")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
+  @XmlElement(name = "123-list")
   @javax.annotation.Nullable
   private String _123list;
 
@@ -55,6 +61,7 @@ public class ModelList {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "123-list")
 
   public String get123list() {
     return _123list;
@@ -63,6 +70,7 @@ public class ModelList {
 
   @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "123-list")
   public void set123list(@javax.annotation.Nullable String _123list) {
     this._123list = _123list;
   }

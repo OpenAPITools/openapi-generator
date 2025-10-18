@@ -36,6 +36,8 @@ import org.openapitools.client.model.ParentPet;
 import java.util.Set;
 import java.util.HashSet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -55,12 +57,17 @@ import org.openapitools.client.JSON;
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "pet_type", visible = true)
 
+@XmlRootElement(name = "ChildCat")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ChildCat")
 public class ChildCat extends ParentPet {
   public static final String JSON_PROPERTY_NAME = "name";
+  @XmlElement(name = "name")
   @jakarta.annotation.Nullable
   private String name;
 
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
+  @XmlElement(name = "pet_type")
   @jakarta.annotation.Nullable
   private String petType = "ChildCat";
 
@@ -80,6 +87,7 @@ public class ChildCat extends ParentPet {
 
   @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "name")
 
   public String getName() {
     return name;
@@ -88,6 +96,7 @@ public class ChildCat extends ParentPet {
 
   @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "name")
   public void setName(@jakarta.annotation.Nullable String name) {
     this.name = name;
   }
@@ -114,6 +123,7 @@ public class ChildCat extends ParentPet {
 
   @JsonProperty(value = JSON_PROPERTY_PET_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "pet_type")
 
   public String getPetType() {
     return petType;
@@ -122,6 +132,7 @@ public class ChildCat extends ParentPet {
 
   @JsonProperty(value = JSON_PROPERTY_PET_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "pet_type")
   public void setPetType(@jakarta.annotation.Nullable String petType) {
     if (!PET_TYPE_VALUES.contains(petType)) {
       throw new IllegalArgumentException(petType + " is invalid. Possible values for petType: " + String.join(", ", PET_TYPE_VALUES));

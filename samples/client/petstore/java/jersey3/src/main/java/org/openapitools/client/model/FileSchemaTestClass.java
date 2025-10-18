@@ -29,6 +29,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ModelFile;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -42,12 +44,17 @@ import org.openapitools.client.JSON;
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "FileSchemaTestClass")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "FileSchemaTestClass")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
+  @XmlElement(name = "file")
   @jakarta.annotation.Nullable
   private ModelFile _file;
 
   public static final String JSON_PROPERTY_FILES = "files";
+  @XmlElement(name = "files")
   @jakarta.annotation.Nullable
   private List<@Valid ModelFile> files = new ArrayList<>();
 
@@ -68,6 +75,7 @@ public class FileSchemaTestClass {
 
   @JsonProperty(value = JSON_PROPERTY_FILE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "file")
 
   public ModelFile getFile() {
     return _file;
@@ -76,6 +84,7 @@ public class FileSchemaTestClass {
 
   @JsonProperty(value = JSON_PROPERTY_FILE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "file")
   public void setFile(@jakarta.annotation.Nullable ModelFile _file) {
     this._file = _file;
   }
@@ -103,6 +112,8 @@ public class FileSchemaTestClass {
 
   @JsonProperty(value = JSON_PROPERTY_FILES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "files")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<@Valid ModelFile> getFiles() {
     return files;
@@ -111,6 +122,8 @@ public class FileSchemaTestClass {
 
   @JsonProperty(value = JSON_PROPERTY_FILES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "files")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setFiles(@jakarta.annotation.Nullable List<@Valid ModelFile> files) {
     this.files = files;
   }

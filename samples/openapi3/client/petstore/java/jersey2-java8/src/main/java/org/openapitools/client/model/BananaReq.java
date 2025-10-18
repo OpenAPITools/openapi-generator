@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -39,12 +41,17 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("bananaReq")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "BananaReq")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "BananaReq")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
+  @XmlElement(name = "lengthCm")
   @javax.annotation.Nonnull
   private BigDecimal lengthCm;
 
   public static final String JSON_PROPERTY_SWEET = "sweet";
+  @XmlElement(name = "sweet")
   @javax.annotation.Nullable
   private Boolean sweet;
 
@@ -63,6 +70,7 @@ public class BananaReq {
   @javax.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "lengthCm")
 
   public BigDecimal getLengthCm() {
     return lengthCm;
@@ -71,6 +79,7 @@ public class BananaReq {
 
   @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "lengthCm")
   public void setLengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
@@ -88,6 +97,7 @@ public class BananaReq {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "sweet")
 
   public Boolean getSweet() {
     return sweet;
@@ -96,6 +106,7 @@ public class BananaReq {
 
   @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "sweet")
   public void setSweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
   }

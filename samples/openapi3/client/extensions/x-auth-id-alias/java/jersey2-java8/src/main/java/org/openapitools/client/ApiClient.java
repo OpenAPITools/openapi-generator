@@ -59,6 +59,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
@@ -749,8 +750,7 @@ public class ApiClient extends JavaTimeFormatter {
 
   /**
    * Select the Accept header's value from the given accepts array:
-   *   if JSON exists in the given array, use it;
-   *   otherwise use all of them (joining into a string)
+   *   if JSON exists in the given array, makes sure there is only one entry of it.
    *
    * @param accepts The accepts array to select from
    * @return The Accept header to use. If the given array is empty,
@@ -760,12 +760,19 @@ public class ApiClient extends JavaTimeFormatter {
     if (accepts == null || accepts.length == 0) {
       return null;
     }
+    Set<String> acceptHeaders = new LinkedHashSet<>();
+    boolean foundJsonMime = false;
     for (String accept : accepts) {
       if (isJsonMime(accept)) {
-        return accept;
+        if (foundJsonMime) { 
+          continue;
+        } else {
+          foundJsonMime = true; 
+        }
       }
+      acceptHeaders.add(accept);
     }
-    return StringUtil.join(accepts, ",");
+    return StringUtil.join(acceptHeaders, ",");
   }
 
   /**

@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -40,26 +42,21 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("hasOnlyReadOnly")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "HasOnlyReadOnly")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "HasOnlyReadOnly")
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
+  @XmlElement(name = "bar")
   @jakarta.annotation.Nullable
   private String bar;
 
   public static final String JSON_PROPERTY_FOO = "foo";
+  @XmlElement(name = "foo")
   @jakarta.annotation.Nullable
   private String foo;
 
   public HasOnlyReadOnly() { 
-  }
-
-  @JsonCreator
-  public HasOnlyReadOnly(
-    @JsonProperty(JSON_PROPERTY_BAR) String bar, 
-    @JsonProperty(JSON_PROPERTY_FOO) String foo
-  ) {
-    this();
-    this.bar = bar;
-    this.foo = foo;
   }
 
   /**
@@ -70,6 +67,7 @@ public class HasOnlyReadOnly {
 
   @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "bar")
 
   public String getBar() {
     return bar;
@@ -86,6 +84,7 @@ public class HasOnlyReadOnly {
 
   @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "foo")
 
   public String getFoo() {
     return foo;

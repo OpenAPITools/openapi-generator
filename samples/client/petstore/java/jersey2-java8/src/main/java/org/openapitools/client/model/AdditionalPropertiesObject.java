@@ -29,6 +29,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -39,8 +41,12 @@ import org.openapitools.client.JSON;
   AdditionalPropertiesObject.JSON_PROPERTY_NAME
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "AdditionalPropertiesObject")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "AdditionalPropertiesObject")
 public class AdditionalPropertiesObject {
   public static final String JSON_PROPERTY_NAME = "name";
+  @XmlElement(name = "name")
   @javax.annotation.Nullable
   private String name;
 
@@ -59,6 +65,7 @@ public class AdditionalPropertiesObject {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "name")
 
   public String getName() {
     return name;
@@ -67,6 +74,7 @@ public class AdditionalPropertiesObject {
 
   @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "name")
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }

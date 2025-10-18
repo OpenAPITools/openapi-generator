@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -36,8 +38,12 @@ import org.openapitools.client.JSON;
   Foo.JSON_PROPERTY_BAR
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "Foo")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Foo")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
+  @XmlElement(name = "bar")
   @javax.annotation.Nullable
   private String bar = "bar";
 
@@ -56,6 +62,7 @@ public class Foo {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "bar")
 
   public String getBar() {
     return bar;
@@ -64,6 +71,7 @@ public class Foo {
 
   @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "bar")
   public void setBar(@javax.annotation.Nullable String bar) {
     this.bar = bar;
   }
