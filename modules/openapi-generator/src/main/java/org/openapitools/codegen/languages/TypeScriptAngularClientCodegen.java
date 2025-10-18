@@ -83,7 +83,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String RXJS_VERSION = "rxjsVersion";
     public static final String NGPACKAGR_VERSION = "ngPackagrVersion";
     public static final String ZONEJS_VERSION = "zonejsVersion";
-    public static final String INCLUDE_ENDPOINT_URL = "includeEndpointUrl";
 
     protected String ngVersion = "20.0.0";
     @Getter @Setter
@@ -156,7 +155,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(RXJS_VERSION, "The version of RxJS compatible with Angular (see ngVersion option)."));
         this.cliOptions.add(new CliOption(NGPACKAGR_VERSION, "The version of ng-packagr compatible with Angular (see ngVersion option)."));
         this.cliOptions.add(new CliOption(ZONEJS_VERSION, "The version of zone.js compatible with Angular (see ngVersion option)."));
-        this.cliOptions.add(CliOption.newBoolean(INCLUDE_ENDPOINT_URL, "Include endpoint URL as comment in generated service methods.", false));
     }
 
     @Override
@@ -310,11 +308,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("isQueryParamObjectFormatDot", getQueryParamObjectFormatDot());
         additionalProperties.put("isQueryParamObjectFormatJson", getQueryParamObjectFormatJson());
         additionalProperties.put("isQueryParamObjectFormatKey", getQueryParamObjectFormatKey());
-
-        if (additionalProperties.containsKey(INCLUDE_ENDPOINT_URL)) {
-            boolean includeEndpointUrl = Boolean.parseBoolean(additionalProperties.get(INCLUDE_ENDPOINT_URL).toString());
-            additionalProperties.put(INCLUDE_ENDPOINT_URL, includeEndpointUrl);
-        }
 
     }
 
