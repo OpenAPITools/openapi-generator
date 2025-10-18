@@ -8,8 +8,8 @@
      * @return {{{message}}}
      {{/responses}}
      */
-    @{{httpMethod}}{{#subresourceOperation}}
-    @Path("{{{path}}}"){{/subresourceOperation}}{{#hasConsumes}}
+    @{{httpMethod}}
+    @Path("{{commonPath}}{{{path}}}"){{#hasConsumes}}
     @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
     @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}{{#useSwaggerAnnotations}}
     @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}"{{#hasAuthMethods}}, authorizations = {
