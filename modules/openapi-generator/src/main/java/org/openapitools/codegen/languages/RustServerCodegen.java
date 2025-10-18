@@ -1408,6 +1408,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
      *
      * @deprecated Avoid using this - use a different mechanism instead.
      */
+    @Deprecated
     private static String stripNullable(String type) {
         if (type.startsWith("swagger::Nullable<") && type.endsWith(">")) {
             return type.substring("swagger::Nullable<".length(), type.length() - 1);
