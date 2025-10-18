@@ -99,48 +99,6 @@ async def create_users_with_list_input(
     return await BaseUserApi.subclasses[0]().create_users_with_list_input(user)
 
 
-@router.delete(
-    "/user/{username}",
-    responses={
-        400: {"description": "Invalid username supplied"},
-        404: {"description": "User not found"},
-    },
-    tags=["user"],
-    summary="Delete user",
-    response_model_by_alias=True,
-)
-async def delete_user(
-    username: Annotated[StrictStr, Field(description="The name that needs to be deleted")] = Path(..., description="The name that needs to be deleted"),
-    token_api_key: TokenModel = Security(
-        get_token_api_key
-    ),
-) -> None:
-    """This can only be done by the logged in user."""
-    if not BaseUserApi.subclasses:
-        raise HTTPException(status_code=500, detail="Not implemented")
-    return await BaseUserApi.subclasses[0]().delete_user(username)
-
-
-@router.get(
-    "/user/{username}",
-    responses={
-        200: {"model": User, "description": "successful operation"},
-        400: {"description": "Invalid username supplied"},
-        404: {"description": "User not found"},
-    },
-    tags=["user"],
-    summary="Get user by user name",
-    response_model_by_alias=True,
-)
-async def get_user_by_name(
-    username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")] = Path(..., description="The name that needs to be fetched. Use user1 for testing."),
-) -> User:
-    """"""
-    if not BaseUserApi.subclasses:
-        raise HTTPException(status_code=500, detail="Not implemented")
-    return await BaseUserApi.subclasses[0]().get_user_by_name(username)
-
-
 @router.get(
     "/user/login",
     responses={
@@ -181,6 +139,26 @@ async def logout_user(
     return await BaseUserApi.subclasses[0]().logout_user()
 
 
+@router.get(
+    "/user/{username}",
+    responses={
+        200: {"model": User, "description": "successful operation"},
+        400: {"description": "Invalid username supplied"},
+        404: {"description": "User not found"},
+    },
+    tags=["user"],
+    summary="Get user by user name",
+    response_model_by_alias=True,
+)
+async def get_user_by_name(
+    username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")] = Path(..., description="The name that needs to be fetched. Use user1 for testing."),
+) -> User:
+    """"""
+    if not BaseUserApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
+    return await BaseUserApi.subclasses[0]().get_user_by_name(username)
+
+
 @router.put(
     "/user/{username}",
     responses={
@@ -202,3 +180,25 @@ async def update_user(
     if not BaseUserApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
     return await BaseUserApi.subclasses[0]().update_user(username, user)
+
+
+@router.delete(
+    "/user/{username}",
+    responses={
+        400: {"description": "Invalid username supplied"},
+        404: {"description": "User not found"},
+    },
+    tags=["user"],
+    summary="Delete user",
+    response_model_by_alias=True,
+)
+async def delete_user(
+    username: Annotated[StrictStr, Field(description="The name that needs to be deleted")] = Path(..., description="The name that needs to be deleted"),
+    token_api_key: TokenModel = Security(
+        get_token_api_key
+    ),
+) -> None:
+    """This can only be done by the logged in user."""
+    if not BaseUserApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
+    return await BaseUserApi.subclasses[0]().delete_user(username)
