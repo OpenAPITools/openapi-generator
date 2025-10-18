@@ -43,7 +43,6 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USER,
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Void> createUser(
          @Valid @RequestBody User user
     ) {
@@ -65,7 +64,6 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_ARRAY_INPUT,
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Void> createUsersWithArrayInput(
          @Valid @RequestBody List<@Valid User> user
     ) {
@@ -87,7 +85,6 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_LIST_INPUT,
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Void> createUsersWithListInput(
          @Valid @RequestBody List<@Valid User> user
     ) {
@@ -109,7 +106,6 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = UserApi.PATH_DELETE_USER
     )
-    
     default ResponseEntity<Void> deleteUser(
         @NotNull  @PathVariable("username") String username
     ) {
@@ -133,7 +129,6 @@ public interface UserApi {
         value = UserApi.PATH_GET_USER_BY_NAME,
         produces = { "application/xml", "application/json" }
     )
-    
     default ResponseEntity<User> getUserByName(
         @NotNull  @PathVariable("username") String username
     ) {
@@ -171,7 +166,6 @@ public interface UserApi {
         value = UserApi.PATH_LOGIN_USER,
         produces = { "application/xml", "application/json" }
     )
-    
     default ResponseEntity<String> loginUser(
         @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull  @Valid @RequestParam(value = "password", required = true) String password
@@ -192,7 +186,6 @@ public interface UserApi {
         method = RequestMethod.GET,
         value = UserApi.PATH_LOGOUT_USER
     )
-    
     default ResponseEntity<Void> logoutUser(
         
     ) {
@@ -216,7 +209,6 @@ public interface UserApi {
         value = UserApi.PATH_UPDATE_USER,
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Void> updateUser(
         @NotNull  @PathVariable("username") String username,
          @Valid @RequestBody User user

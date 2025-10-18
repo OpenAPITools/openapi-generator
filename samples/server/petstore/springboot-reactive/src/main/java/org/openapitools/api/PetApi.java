@@ -65,7 +65,6 @@ public interface PetApi {
         value = PetApi.PATH_ADD_PET,
         consumes = { "application/json", "application/xml" }
     )
-    
     default Mono<ResponseEntity<Void>> addPet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
         @ApiIgnore final ServerWebExchange exchange
@@ -104,7 +103,6 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = PetApi.PATH_DELETE_PET
     )
-    
     default Mono<ResponseEntity<Void>> deletePet(
         @NotNull @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) @Nullable String apiKey,
@@ -146,7 +144,6 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/xml", "application/json" }
     )
-    
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
         @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status,
         @ApiIgnore final ServerWebExchange exchange
@@ -189,7 +186,6 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/xml", "application/json" }
     )
-    
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags,
         @ApiIgnore final ServerWebExchange exchange
@@ -228,7 +224,6 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         produces = { "application/xml", "application/json" }
     )
-    
     default Mono<ResponseEntity<Pet>> getPetById(
         @NotNull @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId,
         @ApiIgnore final ServerWebExchange exchange
@@ -271,7 +266,6 @@ public interface PetApi {
         value = PetApi.PATH_UPDATE_PET,
         consumes = { "application/json", "application/xml" }
     )
-    
     default Mono<ResponseEntity<Void>> updatePet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
         @ApiIgnore final ServerWebExchange exchange
@@ -310,7 +304,6 @@ public interface PetApi {
         value = PetApi.PATH_UPDATE_PET_WITH_FORM,
         consumes = { "application/x-www-form-urlencoded" }
     )
-    
     default Mono<ResponseEntity<Void>> updatePetWithForm(
         @NotNull @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,
@@ -353,7 +346,6 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    
     default Mono<ResponseEntity<ModelApiResponse>> uploadFile(
         @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,

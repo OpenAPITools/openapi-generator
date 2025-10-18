@@ -59,7 +59,6 @@ public interface DummyApi {
         value = DummyApi.PATH_UPLOAD_FILE,
         consumes = { "application/octet-stream" }
     )
-    
     default ResponseEntity<Void> uploadFile(
         @Parameter(name = "body", description = "") @Valid @RequestBody(required = false) Optional<org.springframework.core.io.Resource> body
     ) {

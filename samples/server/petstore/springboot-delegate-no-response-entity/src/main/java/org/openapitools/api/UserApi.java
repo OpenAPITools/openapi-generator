@@ -54,7 +54,6 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default void createUser(
         @ApiParam(value = "Created user object", required = true) @Valid @RequestBody User user
     ) {
@@ -88,7 +87,6 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default void createUsersWithArrayInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     ) {
@@ -122,7 +120,6 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default void createUsersWithListInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     ) {
@@ -157,7 +154,6 @@ public interface UserApi {
         value = UserApi.PATH_DELETE_USER
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    
     default void deleteUser(
         @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     ) {
@@ -193,7 +189,6 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default User getUserByName(
         @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
     ) {
@@ -228,7 +223,6 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default String loginUser(
         @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password
@@ -261,7 +255,6 @@ public interface UserApi {
         value = UserApi.PATH_LOGOUT_USER
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default void logoutUser(
         
     ) {
@@ -298,7 +291,6 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    
     default void updateUser(
         @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User user

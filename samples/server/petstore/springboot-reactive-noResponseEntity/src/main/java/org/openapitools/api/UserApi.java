@@ -56,7 +56,6 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Void> createUser(
         @ApiParam(value = "Created user object", required = true) @Valid @RequestBody Mono<User> user,
         @ApiIgnore final ServerWebExchange exchange
@@ -88,7 +87,6 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Void> createUsersWithArrayInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
         @ApiIgnore final ServerWebExchange exchange
@@ -120,7 +118,6 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Void> createUsersWithListInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
         @ApiIgnore final ServerWebExchange exchange
@@ -153,7 +150,6 @@ public interface UserApi {
         value = UserApi.PATH_DELETE_USER
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    
     default Mono<Void> deleteUser(
         @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username,
         @ApiIgnore final ServerWebExchange exchange
@@ -190,7 +186,6 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<User> getUserByName(
         @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username,
         @ApiIgnore final ServerWebExchange exchange
@@ -226,7 +221,6 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<String> loginUser(
         @NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password,
@@ -257,7 +251,6 @@ public interface UserApi {
         value = UserApi.PATH_LOGOUT_USER
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Mono<Void> logoutUser(
         @ApiIgnore final ServerWebExchange exchange
     ) {
@@ -291,7 +284,6 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    
     default Mono<Void> updateUser(
         @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody Mono<User> user,

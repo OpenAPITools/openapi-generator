@@ -67,7 +67,6 @@ public interface FooApi {
         produces = { "application/json" },
         consumes = { "application/json;charset=utf-8" }
     )
-    
     default ResponseEntity<FooRefOrValue> createFoo(
         @Parameter(name = "Foo", description = "The Foo to be created") @Valid @RequestBody(required = false) @Nullable Foo foo
     ) {
@@ -106,7 +105,6 @@ public interface FooApi {
         value = FooApi.PATH_GET_ALL_FOOS,
         produces = { "application/json;charset=utf-8" }
     )
-    
     default ResponseEntity<List<FooRefOrValue>> getAllFoos(
         
     ) {

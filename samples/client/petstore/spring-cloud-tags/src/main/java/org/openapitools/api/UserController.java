@@ -8,12 +8,9 @@ package org.openapitools.api;
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import io.swagger.annotations.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -49,7 +46,6 @@ public interface UserController {
         method = RequestMethod.POST,
         value = UserController.PATH_CREATE_USER
     )
-    
     ResponseEntity<Void> createUser(
         @ApiParam(value = "Created user object", required = true) @Valid @RequestBody User body
     );
@@ -75,7 +71,6 @@ public interface UserController {
         method = RequestMethod.POST,
         value = UserController.PATH_CREATE_USERS_WITH_ARRAY_INPUT
     )
-    
     ResponseEntity<Void> createUsersWithArrayInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
     );
@@ -101,7 +96,6 @@ public interface UserController {
         method = RequestMethod.POST,
         value = UserController.PATH_CREATE_USERS_WITH_LIST_INPUT
     )
-    
     ResponseEntity<Void> createUsersWithListInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
     );
@@ -130,7 +124,6 @@ public interface UserController {
         method = RequestMethod.DELETE,
         value = UserController.PATH_DELETE_USER
     )
-    
     ResponseEntity<Void> deleteUser(
         @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     );
@@ -162,7 +155,6 @@ public interface UserController {
         value = UserController.PATH_GET_USER_BY_NAME,
         produces = { "application/json", "application/xml" }
     )
-    
     ResponseEntity<User> getUserByName(
         @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
     );
@@ -193,7 +185,6 @@ public interface UserController {
         value = UserController.PATH_LOGIN_USER,
         produces = { "application/json", "application/xml" }
     )
-    
     ResponseEntity<String> loginUser(
         @NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password
@@ -219,7 +210,6 @@ public interface UserController {
         method = RequestMethod.GET,
         value = UserController.PATH_LOGOUT_USER
     )
-    
     ResponseEntity<Void> logoutUser(
         
     );
@@ -244,7 +234,6 @@ public interface UserController {
         method = RequestMethod.OPTIONS,
         value = UserController.PATH_LOGOUT_USER_OPTIONS
     )
-    
     ResponseEntity<Void> logoutUserOptions(
         
     );
@@ -274,7 +263,6 @@ public interface UserController {
         method = RequestMethod.PUT,
         value = UserController.PATH_UPDATE_USER
     )
-    
     ResponseEntity<Void> updateUser(
         @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body

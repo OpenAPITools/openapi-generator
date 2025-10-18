@@ -10,12 +10,9 @@ import java.time.LocalDate;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import io.swagger.annotations.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -52,7 +49,6 @@ public interface DefaultApi {
         method = RequestMethod.GET,
         value = DefaultApi.PATH_GET
     )
-    
     ResponseEntity<Void> get(
         @NotNull @ApiParam(value = "A date path parameter", required = true, defaultValue = "1972-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @NotNull @ApiParam(value = "A date-time query parameter", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @Valid @RequestParam(value = "dateTime", required = true, defaultValue = "1973-12-19T03:39:57-08:00") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
@@ -83,7 +79,6 @@ public interface DefaultApi {
         value = DefaultApi.PATH_UPDATE_PET_WITH_FORM,
         consumes = "application/x-www-form-urlencoded"
     )
-    
     ResponseEntity<Void> updatePetWithForm(
         @NotNull @ApiParam(value = "A date path parameter", required = true, defaultValue = "1970-01-01") @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @ApiParam(value = "Updated last visit timestamp", defaultValue = "1971-12-19T03:39:57-08:00") @Valid @RequestParam(value = "visitDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate

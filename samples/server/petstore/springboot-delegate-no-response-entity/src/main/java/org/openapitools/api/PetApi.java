@@ -62,7 +62,6 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Pet addPet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
@@ -99,7 +98,6 @@ public interface PetApi {
         value = PetApi.PATH_DELETE_PET
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    
     default void deletePet(
         @NotNull @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
@@ -140,7 +138,6 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default List<Pet> findPetsByStatus(
         @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
     ) {
@@ -182,7 +179,6 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default List<Pet> findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags
     ) {
@@ -221,7 +217,6 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Pet getPetById(
         @NotNull @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
     ) {
@@ -268,7 +263,6 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default Pet updatePet(
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
@@ -307,7 +301,6 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    
     default void updatePetWithForm(
         @NotNull @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
@@ -350,7 +343,6 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     @ResponseStatus(HttpStatus.OK)
-    
     default ModelApiResponse uploadFile(
         @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,

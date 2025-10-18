@@ -58,7 +58,6 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<ClientDto> testClassname(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto clientDto
     ) {
