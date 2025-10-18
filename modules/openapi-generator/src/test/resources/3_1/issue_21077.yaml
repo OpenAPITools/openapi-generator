@@ -1,0 +1,29 @@
+openapi: 3.1.0
+
+info:
+  title: Test
+  version: "1.0"
+
+paths:
+  /a:
+    post:
+      summary: Test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      parameters:
+        - name: "arrayparam"
+          in: query
+          schema:
+            type: array
+            default: ["test1", "test2", 1]
+        - name: "stringparam"
+          in: query
+          schema:
+            type: string
+            default: "test3"
+      responses:
+        200:
+          description: Ok
