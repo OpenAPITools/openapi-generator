@@ -40,7 +40,7 @@ public interface DogsApi {
         return new DogsApiDelegate() {};
     }
 
-    public static final String PATH_CREATE_DOG = "/dogs";
+    String PATH_CREATE_DOG = "/dogs";
     /**
      * POST /dogs : Create a dog
      *

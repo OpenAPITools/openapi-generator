@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @Api(value = "Default", description = "the Default API")
 public interface DefaultApi {
 
-    public static final String PATH_GET = "/thingy/{date}";
+    String PATH_GET = "/thingy/{date}";
     /**
      * GET /thingy/{date}
      *
@@ -57,7 +57,7 @@ public interface DefaultApi {
     );
 
 
-    public static final String PATH_UPDATE_PET_WITH_FORM = "/thingy/{date}";
+    String PATH_UPDATE_PET_WITH_FORM = "/thingy/{date}";
     /**
      * POST /thingy/{date}
      * update with form data

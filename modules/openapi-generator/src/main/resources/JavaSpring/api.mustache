@@ -132,7 +132,7 @@ public interface {{classname}} {
 {{/jdk8-default-interface}}
 {{#operation}}
 
-    public static final String PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = "{{{path}}}";
+    String PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} = "{{{path}}}";
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
     {{#notes}}

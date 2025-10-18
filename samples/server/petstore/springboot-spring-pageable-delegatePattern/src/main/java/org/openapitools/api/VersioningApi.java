@@ -27,7 +27,7 @@ public interface VersioningApi {
         return new VersioningApiDelegate() {};
     }
 
-    public static final String PATH_VERSIONING_HEADERS = "/versioning/headers";
+    String PATH_VERSIONING_HEADERS = "/versioning/headers";
     /**
      * POST /versioning/headers
      *
@@ -61,7 +61,7 @@ public interface VersioningApi {
     }
 
 
-    public static final String PATH_VERSIONING_MIX = "/versioning/mix";
+    String PATH_VERSIONING_MIX = "/versioning/mix";
     /**
      * POST /versioning/mix
      *
@@ -100,7 +100,7 @@ public interface VersioningApi {
     }
 
 
-    public static final String PATH_VERSIONING_QUERY_PARAMS = "/versioning/query-params";
+    String PATH_VERSIONING_QUERY_PARAMS = "/versioning/query-params";
     /**
      * POST /versioning/query-params
      *

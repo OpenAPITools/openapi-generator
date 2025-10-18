@@ -35,7 +35,7 @@ import javax.annotation.Generated;
 @Tag(name = "fake_classname_tags 123#$%^", description = "the fake_classname_tags 123#$%^ API")
 public interface FakeClassnameTestApi {
 
-    public static final String PATH_TEST_CLASSNAME = "/fake_classname_test";
+    String PATH_TEST_CLASSNAME = "/fake_classname_test";
     /**
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case

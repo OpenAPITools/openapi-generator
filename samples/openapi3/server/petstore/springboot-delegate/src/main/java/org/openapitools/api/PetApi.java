@@ -41,7 +41,7 @@ public interface PetApi {
         return new PetApiDelegate() {};
     }
 
-    public static final String PATH_ADD_PET = "/pet";
+    String PATH_ADD_PET = "/pet";
     /**
      * POST /pet : Add a new pet to the store
      * 
@@ -75,7 +75,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_DELETE_PET = "/pet/{petId}";
+    String PATH_DELETE_PET = "/pet/{petId}";
     /**
      * DELETE /pet/{petId} : Deletes a pet
      * 
@@ -110,7 +110,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_FIND_PETS_BY_STATUS = "/pet/findByStatus";
+    String PATH_FIND_PETS_BY_STATUS = "/pet/findByStatus";
     /**
      * GET /pet/findByStatus : Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -147,7 +147,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_FIND_PETS_BY_TAGS = "/pet/findByTags";
+    String PATH_FIND_PETS_BY_TAGS = "/pet/findByTags";
     /**
      * GET /pet/findByTags : Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -187,7 +187,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_GET_PET_BY_ID = "/pet/{petId}";
+    String PATH_GET_PET_BY_ID = "/pet/{petId}";
     /**
      * GET /pet/{petId} : Find pet by ID
      * Returns a single pet
@@ -226,7 +226,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_UPDATE_PET = "/pet";
+    String PATH_UPDATE_PET = "/pet";
     /**
      * PUT /pet : Update an existing pet
      * 
@@ -264,7 +264,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_UPDATE_PET_WITH_FORM = "/pet/{petId}";
+    String PATH_UPDATE_PET_WITH_FORM = "/pet/{petId}";
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
      * 
@@ -300,7 +300,7 @@ public interface PetApi {
     }
 
 
-    public static final String PATH_UPLOAD_FILE = "/pet/{petId}/uploadImage";
+    String PATH_UPLOAD_FILE = "/pet/{petId}/uploadImage";
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
      * 

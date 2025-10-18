@@ -47,7 +47,7 @@ public interface UserApi {
         return Optional.empty();
     }
 
-    public static final String PATH_LOGIN_USER = "/user/login";
+    String PATH_LOGIN_USER = "/user/login";
     /**
      * GET /user/login : Logs user into the system
      *
@@ -86,7 +86,7 @@ public interface UserApi {
     }
 
 
-    public static final String PATH_LOGOUT_USER = "/user/logout";
+    String PATH_LOGOUT_USER = "/user/logout";
     /**
      * GET /user/logout : Logs out current logged in user session
      *

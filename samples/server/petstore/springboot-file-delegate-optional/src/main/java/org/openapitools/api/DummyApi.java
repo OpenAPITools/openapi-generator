@@ -39,7 +39,7 @@ public interface DummyApi {
         return new DummyApiDelegate() {};
     }
 
-    public static final String PATH_UPLOAD_FILE = "/dummy";
+    String PATH_UPLOAD_FILE = "/dummy";
     /**
      * POST /dummy
      * 

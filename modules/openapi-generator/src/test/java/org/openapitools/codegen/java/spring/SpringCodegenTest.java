@@ -1171,7 +1171,7 @@ public class SpringCodegenTest {
         // Check that the @RequestMapping annotation is generated in the Api file
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .fileContains("@RequestMapping(\"${openapi.openAPIPetstore.base-path:/v2}\")",
-                        "public static final String PATH_ADD_PET = \"/pet\";",
+                        "String PATH_ADD_PET = \"/pet\";",
                         "value = PetApi.PATH_ADD_PET");
 
         // Check that the @RequestMapping annotation is not generated in the Controller file
