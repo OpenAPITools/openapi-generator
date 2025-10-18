@@ -630,7 +630,7 @@ impl std::convert::From<{{{dataType}}}> for {{{classname}}} {
 
 impl std::fmt::Display for {{{classname}}} {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-       write!(f, "{:?}", self.0)
+       write!(f, "{}", self.0)
     }
 }
 
