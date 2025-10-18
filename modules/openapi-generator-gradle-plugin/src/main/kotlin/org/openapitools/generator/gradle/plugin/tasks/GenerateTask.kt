@@ -55,7 +55,6 @@ import org.openapitools.codegen.config.MergedSpecBuilder
  *
  * @author Jim Schubert
  */
-@Suppress("UnstableApiUsage")
 @CacheableTask
 open class GenerateTask @Inject constructor(private val objectFactory: ObjectFactory) : DefaultTask() {
 
@@ -154,14 +153,14 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @get:Optional
     @get:InputDirectory
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    val templateDir = project.objects.property<String?>()
+    val templateDir = project.objects.property<String>()
 
     /**
      * Resource path containing template files.
      */
     @get:Optional
     @get:Input
-    val templateResourcePath = project.objects.property<String?>()
+    val templateResourcePath = project.objects.property<String>()
 
     /**
      * Adds authorization headers when fetching the OpenAPI definitions remotely.
@@ -193,7 +192,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val skipOverwrite = project.objects.property<Boolean?>()
+    val skipOverwrite = project.objects.property<Boolean>()
 
     /**
      * Package for generated classes (where supported)
@@ -384,42 +383,42 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val library = project.objects.property<String?>()
+    val library = project.objects.property<String>()
 
     /**
      * Git host, e.g. gitlab.com.
      */
     @get:Optional
     @get:Input
-    val gitHost = project.objects.property<String?>()
+    val gitHost = project.objects.property<String>()
 
     /**
      * Git user ID, e.g. openapitools.
      */
     @get:Optional
     @get:Input
-    val gitUserId = project.objects.property<String?>()
+    val gitUserId = project.objects.property<String>()
 
     /**
      * Git repo ID, e.g. openapi-generator.
      */
     @get:Optional
     @get:Input
-    val gitRepoId = project.objects.property<String?>()
+    val gitRepoId = project.objects.property<String>()
 
     /**
      * Release note, default to 'Minor update'.
      */
     @get:Optional
     @get:Input
-    val releaseNote = project.objects.property<String?>()
+    val releaseNote = project.objects.property<String>()
 
     /**
      * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}/{language}'
      */
     @get:Optional
     @get:Input
-    val httpUserAgent = project.objects.property<String?>()
+    val httpUserAgent = project.objects.property<String>()
 
     /**
      * Specifies how a reserved name should be escaped to.
@@ -434,21 +433,21 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @get:Optional
     @get:InputFile
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    val ignoreFileOverride = project.objects.property<String?>()
+    val ignoreFileOverride = project.objects.property<String>()
 
     /**
      * Remove prefix of operationId, e.g. config_getId => getId
      */
     @get:Optional
     @get:Input
-    val removeOperationIdPrefix = project.objects.property<Boolean?>()
+    val removeOperationIdPrefix = project.objects.property<Boolean>()
 
     /**
      * Remove examples defined in the operation
      */
     @get:Optional
     @get:Input
-    val skipOperationExample = project.objects.property<Boolean?>()
+    val skipOperationExample = project.objects.property<Boolean>()
 
     /**
      * Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all).
@@ -581,7 +580,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val engine = project.objects.property<String?>()
+    val engine = project.objects.property<String>()
 
     /**
      * Defines whether the output dir should be cleaned up before generating the output.
@@ -598,19 +597,11 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @get:Input
     val dryRun = project.objects.property<Boolean>()
 
-    private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
+    private fun <T> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
-            val item: T? = get()
-            if (item != null) {
-                when (get()) {
-                    is String -> if ((get() as String).isNotEmpty()) {
-                        block(get())
-                    }
-                    is String? -> if (true == (get() as String?)?.isNotEmpty()) {
-                        block(get())
-                    }
-                    else -> block(get())
-                }
+            when (val value = get()) {
+                is String -> if (value.isNotEmpty()) block(value)
+                else -> block(value)
             }
         }
     }
@@ -725,7 +716,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             }
 
             skipOverwrite.ifNotEmpty { value ->
-                configurator.setSkipOverwrite(value ?: false)
+                configurator.setSkipOverwrite(value)
             }
 
             generatorName.ifNotEmpty { value ->
@@ -820,11 +811,11 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             }
 
             removeOperationIdPrefix.ifNotEmpty { value ->
-                configurator.setRemoveOperationIdPrefix(value!!)
+                configurator.setRemoveOperationIdPrefix(value)
             }
 
             skipOperationExample.ifNotEmpty { value ->
-                configurator.setSkipOperationExample(value!!)
+                configurator.setSkipOperationExample(value)
             }
 
             logToStderr.ifNotEmpty { value ->
