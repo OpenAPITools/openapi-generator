@@ -53,7 +53,7 @@ interface StoreApi {
             value = ["/store/order/{orderId}"],
             produces = ["application/json"]
     )
-    fun getOrderById(@Min(1) @Max(5)  @PathVariable("orderId") orderId: kotlin.Int): ResponseEntity<Order>
+    fun getOrderById(@Min(value=1) @Max(value=5)  @PathVariable("orderId") orderId: kotlin.Int): ResponseEntity<Order>
 
 
     @RequestMapping(

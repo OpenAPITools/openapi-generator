@@ -74,7 +74,7 @@ public interface StoreApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<Order> getOrderById(
-        @NotNull @Min(1L) @Max(5L)  @PathVariable("orderId") Long orderId
+        @NotNull @Min(value = 1L) @Max(value = 5L)  @PathVariable("orderId") Long orderId
     );
 
 

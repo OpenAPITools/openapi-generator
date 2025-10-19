@@ -92,7 +92,7 @@ interface StoreApi {
             value = ["/store/order/{orderId}"],
             produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(@Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
         return getDelegate().getOrderById(orderId)
     }
 

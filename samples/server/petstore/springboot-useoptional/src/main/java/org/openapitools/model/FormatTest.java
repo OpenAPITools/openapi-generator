@@ -31,17 +31,17 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class FormatTest {
 
-  private Optional<@Min(10) @Max(100) Integer> integer = Optional.empty();
+  private Optional<@Min(value = 10) @Max(value = 100) Integer> integer = Optional.empty();
 
-  private Optional<@Min(20) @Max(200) Integer> int32 = Optional.empty();
+  private Optional<@Min(value = 20) @Max(value = 200) Integer> int32 = Optional.empty();
 
   private Optional<Long> int64 = Optional.empty();
 
   private BigDecimal number;
 
-  private Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> _float = Optional.empty();
+  private Optional<@DecimalMin(value = "54.3") @DecimalMax(value = "987.6") Float> _float = Optional.empty();
 
-  private Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> _double = Optional.empty();
+  private Optional<@DecimalMin(value = "67.8") @DecimalMax(value = "123.4") Double> _double = Optional.empty();
 
   private Optional<@Pattern(regexp = "/[a-z]/i") String> string = Optional.empty();
 
@@ -89,7 +89,7 @@ public class FormatTest {
   
   @ApiModelProperty(value = "")
   @JsonProperty("integer")
-  public Optional<@Min(10) @Max(100) Integer> getInteger() {
+  public Optional<@Min(value = 10) @Max(value = 100) Integer> getInteger() {
     return integer;
   }
 
@@ -111,7 +111,7 @@ public class FormatTest {
   
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
-  public Optional<@Min(20) @Max(200) Integer> getInt32() {
+  public Optional<@Min(value = 20) @Max(value = 200) Integer> getInt32() {
     return int32;
   }
 
@@ -150,7 +150,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
    */
-  @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
+  @NotNull @Valid @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number")
   public BigDecimal getNumber() {
@@ -175,7 +175,7 @@ public class FormatTest {
   
   @ApiModelProperty(value = "")
   @JsonProperty("float")
-  public Optional<@DecimalMin("54.3") @DecimalMax("987.6") Float> getFloat() {
+  public Optional<@DecimalMin(value = "54.3") @DecimalMax(value = "987.6") Float> getFloat() {
     return _float;
   }
 
@@ -197,7 +197,7 @@ public class FormatTest {
   
   @ApiModelProperty(value = "")
   @JsonProperty("double")
-  public Optional<@DecimalMin("67.8") @DecimalMax("123.4") Double> getDouble() {
+  public Optional<@DecimalMin(value = "67.8") @DecimalMax(value = "123.4") Double> getDouble() {
     return _double;
   }
 
