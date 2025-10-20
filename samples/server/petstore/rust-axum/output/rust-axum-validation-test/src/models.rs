@@ -86,7 +86,7 @@ impl std::convert::From<String> for Email {
 
 impl std::fmt::Display for Email {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.0)
+        write!(f, "{}", self.0)
     }
 }
 
