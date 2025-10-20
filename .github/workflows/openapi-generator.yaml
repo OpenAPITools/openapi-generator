@@ -21,6 +21,7 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
+          cache: gradle
       - name: Cache maven dependencies
         uses: actions/cache@v4
         env:
@@ -59,6 +60,7 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
+          cache: gradle
       - name: Cache maven dependencies
         uses: actions/cache@v4
         env:
