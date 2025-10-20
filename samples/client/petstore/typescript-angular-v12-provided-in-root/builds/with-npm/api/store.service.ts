@@ -38,6 +38,7 @@ export class StoreService extends BaseService {
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * @endpoint delete /store/order/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}
      * @param orderId ID of the order that needs to be deleted
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -89,6 +90,7 @@ export class StoreService extends BaseService {
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
+     * @endpoint get /store/inventory
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -140,6 +142,7 @@ export class StoreService extends BaseService {
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+     * @endpoint get /store/order/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}
      * @param orderId ID of pet that needs to be fetched
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -192,6 +195,7 @@ export class StoreService extends BaseService {
 
     /**
      * Place an order for a pet
+     * @endpoint post /store/order
      * @param body order placed for purchasing the pet
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

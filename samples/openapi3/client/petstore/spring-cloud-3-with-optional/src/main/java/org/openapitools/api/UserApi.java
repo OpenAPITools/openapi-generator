@@ -7,12 +7,9 @@ package org.openapitools.api;
 
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
@@ -26,7 +23,7 @@ import jakarta.annotation.Generated;
 @Validated
 public interface UserApi {
 
-    public static final String PATH_CREATE_USER = "/user";
+    String PATH_CREATE_USER = "/user";
     /**
      * POST /user : Create user
      * This can only be done by the logged in user.
@@ -39,13 +36,12 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USER,
         consumes = "application/json"
     )
-    
     ResponseEntity<Void> createUser(
          @Valid @RequestBody User user
     );
 
 
-    public static final String PATH_CREATE_USERS_WITH_ARRAY_INPUT = "/user/createWithArray";
+    String PATH_CREATE_USERS_WITH_ARRAY_INPUT = "/user/createWithArray";
     /**
      * POST /user/createWithArray : Creates list of users with given input array
      * 
@@ -58,13 +54,12 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_ARRAY_INPUT,
         consumes = "application/json"
     )
-    
     ResponseEntity<Void> createUsersWithArrayInput(
          @Valid @RequestBody List<@Valid User> user
     );
 
 
-    public static final String PATH_CREATE_USERS_WITH_LIST_INPUT = "/user/createWithList";
+    String PATH_CREATE_USERS_WITH_LIST_INPUT = "/user/createWithList";
     /**
      * POST /user/createWithList : Creates list of users with given input array
      * 
@@ -77,13 +72,12 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_LIST_INPUT,
         consumes = "application/json"
     )
-    
     ResponseEntity<Void> createUsersWithListInput(
          @Valid @RequestBody List<@Valid User> user
     );
 
 
-    public static final String PATH_DELETE_USER = "/user/{username}";
+    String PATH_DELETE_USER = "/user/{username}";
     /**
      * DELETE /user/{username} : Delete user
      * This can only be done by the logged in user.
@@ -96,13 +90,12 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = UserApi.PATH_DELETE_USER
     )
-    
     ResponseEntity<Void> deleteUser(
         @NotNull  @PathVariable("username") String username
     );
 
 
-    public static final String PATH_GET_USER_BY_NAME = "/user/{username}";
+    String PATH_GET_USER_BY_NAME = "/user/{username}";
     /**
      * GET /user/{username} : Get user by user name
      * 
@@ -117,13 +110,12 @@ public interface UserApi {
         value = UserApi.PATH_GET_USER_BY_NAME,
         produces = { "application/json", "application/xml" }
     )
-    
     ResponseEntity<User> getUserByName(
         @NotNull  @PathVariable("username") String username
     );
 
 
-    public static final String PATH_LOGIN_USER = "/user/login";
+    String PATH_LOGIN_USER = "/user/login";
     /**
      * GET /user/login : Logs user into the system
      * 
@@ -138,14 +130,13 @@ public interface UserApi {
         value = UserApi.PATH_LOGIN_USER,
         produces = { "application/json", "application/xml" }
     )
-    
     ResponseEntity<String> loginUser(
         @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull  @Valid @RequestParam(value = "password", required = true) String password
     );
 
 
-    public static final String PATH_LOGOUT_USER = "/user/logout";
+    String PATH_LOGOUT_USER = "/user/logout";
     /**
      * GET /user/logout : Logs out current logged in user session
      * 
@@ -156,13 +147,12 @@ public interface UserApi {
         method = RequestMethod.GET,
         value = UserApi.PATH_LOGOUT_USER
     )
-    
     ResponseEntity<Void> logoutUser(
         
     );
 
 
-    public static final String PATH_UPDATE_USER = "/user/{username}";
+    String PATH_UPDATE_USER = "/user/{username}";
     /**
      * PUT /user/{username} : Updated user
      * This can only be done by the logged in user.
@@ -177,7 +167,6 @@ public interface UserApi {
         value = UserApi.PATH_UPDATE_USER,
         consumes = "application/json"
     )
-    
     ResponseEntity<Void> updateUser(
         @NotNull  @PathVariable("username") String username,
          @Valid @RequestBody User user

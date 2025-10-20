@@ -5,12 +5,9 @@
  */
 package org.openapitools.api;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -24,7 +21,7 @@ import javax.annotation.Generated;
 @Validated
 public interface SomeApi {
 
-    public static final String PATH_SOME_ENDPOINT_GET = "/some/endpoint";
+    String PATH_SOME_ENDPOINT_GET = "/some/endpoint";
     /**
      * GET /some/endpoint
      *
@@ -34,7 +31,6 @@ public interface SomeApi {
         method = RequestMethod.GET,
         value = SomeApi.PATH_SOME_ENDPOINT_GET
     )
-    
     ResponseEntity<Void> someEndpointGet(
         
     );

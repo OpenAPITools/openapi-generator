@@ -35,7 +35,7 @@ public class Dog {
    * Get name
    * @return name
    */
-  @Pattern(regexp = "^[a-zA-Z]+$", message="Name must contain only letters") @Size(max = 50) 
+  @Pattern(regexp = "^[a-zA-Z]+$", message = "Name must contain only letters") @Size(max = 50) 
   @Schema(name = "name", example = "Rex", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public @Nullable String getName() {
@@ -56,7 +56,7 @@ public class Dog {
    * minimum: 0
    * @return age
    */
-  @Min(0) 
+  @Min(value = 0) 
   @Schema(name = "age", example = "5", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("age")
   public @Nullable Integer getAge() {

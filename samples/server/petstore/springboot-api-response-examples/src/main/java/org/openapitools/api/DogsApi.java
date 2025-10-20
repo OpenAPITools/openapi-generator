@@ -40,7 +40,7 @@ public interface DogsApi {
         return new DogsApiDelegate() {};
     }
 
-    public static final String PATH_CREATE_DOG = "/dogs";
+    String PATH_CREATE_DOG = "/dogs";
     /**
      * POST /dogs : Create a dog
      *
@@ -80,7 +80,6 @@ public interface DogsApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Dog> createDog(
         @Parameter(name = "Dog", description = "") @Valid @RequestBody(required = false) @Nullable Dog dog
     ) {

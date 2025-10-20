@@ -3,6 +3,7 @@ id: generators
 title: Generators List
 ---
 
+[main] INFO  o.o.c.l.PythonFastAPIServerCodegen - Skipping sorting of path operations, order matters, let the developer decide via their specification file.
 The following generators are available:
 
 ## CLIENT generators

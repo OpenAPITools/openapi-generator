@@ -18,12 +18,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -38,7 +35,7 @@ import javax.annotation.Generated;
 @Tag(name = "$another-fake?", description = "the $another-fake? API")
 public interface AnotherFakeApi {
 
-    public static final String PATH_CALL123TEST_SPECIAL_TAGS = "/another-fake/dummy";
+    String PATH_CALL123TEST_SPECIAL_TAGS = "/another-fake/dummy";
     /**
      * PATCH /another-fake/dummy : To test special tags
      * To test special tags and operation ID starting with number
@@ -63,7 +60,6 @@ public interface AnotherFakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     ResponseEntity<Client> call123testSpecialTags(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     ) throws Exception;

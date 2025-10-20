@@ -43,7 +43,7 @@ public interface BarApi {
         return Optional.empty();
     }
 
-    public static final String PATH_CREATE_BAR = "/bar";
+    String PATH_CREATE_BAR = "/bar";
     /**
      * POST /bar : Create a Bar
      *
@@ -66,14 +66,13 @@ public interface BarApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Bar> createBar(
         @Parameter(name = "BarCreate", description = "", required = true) @Valid @RequestBody BarCreate barCreate
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"foo\" : { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }, \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"barPropA\" : \"barPropA\" }";
+                    String exampleString = "{ \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"foo\" : { \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"fooPropA\" : \"fooPropA\", \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\" }, \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\", \"barPropA\" : \"barPropA\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

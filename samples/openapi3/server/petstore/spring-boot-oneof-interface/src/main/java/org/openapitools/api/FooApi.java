@@ -44,7 +44,7 @@ public interface FooApi {
         return Optional.empty();
     }
 
-    public static final String PATH_CREATE_FOO = "/foo";
+    String PATH_CREATE_FOO = "/foo";
     /**
      * POST /foo : Create a Foo
      *
@@ -67,14 +67,13 @@ public interface FooApi {
         produces = { "application/json" },
         consumes = { "application/json;charset=utf-8" }
     )
-    
     default ResponseEntity<FooRefOrValue> createFoo(
         @Parameter(name = "Foo", description = "The Foo to be created") @Valid @RequestBody(required = false) @Nullable Foo foo
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }";
+                    String exampleString = "{ \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"fooPropA\" : \"fooPropA\", \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -85,7 +84,7 @@ public interface FooApi {
     }
 
 
-    public static final String PATH_GET_ALL_FOOS = "/foo";
+    String PATH_GET_ALL_FOOS = "/foo";
     /**
      * GET /foo : GET all Foos
      *
@@ -106,14 +105,13 @@ public interface FooApi {
         value = FooApi.PATH_GET_ALL_FOOS,
         produces = { "application/json;charset=utf-8" }
     )
-    
     default ResponseEntity<List<FooRefOrValue>> getAllFoos(
         
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json;charset=utf-8"))) {
-                    String exampleString = "[ { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }, { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" } ]";
+                    String exampleString = "[ { \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"fooPropA\" : \"fooPropA\", \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\" }, { \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"fooPropA\" : \"fooPropA\", \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json;charset=utf-8", exampleString);
                     break;
                 }

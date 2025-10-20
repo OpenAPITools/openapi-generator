@@ -43,7 +43,7 @@ public interface NullableApi {
         return Optional.empty();
     }
 
-    public static final String PATH_NULLABLE_TEST = "/nullable";
+    String PATH_NULLABLE_TEST = "/nullable";
     /**
      * POST /nullable
      * nullable test
@@ -65,7 +65,6 @@ public interface NullableApi {
         value = NullableApi.PATH_NULLABLE_TEST,
         consumes = "application/json"
     )
-    
     default ResponseEntity<Void> nullableTest(
         @Parameter(name = "ObjectWithUniqueItems", description = "") @Valid @RequestBody(required = false) @Nullable ObjectWithUniqueItems objectWithUniqueItems
     ) {

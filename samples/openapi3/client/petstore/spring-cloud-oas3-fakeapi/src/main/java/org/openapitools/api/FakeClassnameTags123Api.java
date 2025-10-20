@@ -18,12 +18,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -38,7 +35,7 @@ import javax.annotation.Generated;
 @Tag(name = "fake_classname_tags 123#$%^", description = "the fake_classname_tags 123#$%^ API")
 public interface FakeClassnameTags123Api {
 
-    public static final String PATH_TEST_CLASSNAME = "/fake_classname_test";
+    String PATH_TEST_CLASSNAME = "/fake_classname_test";
     /**
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
@@ -66,7 +63,6 @@ public interface FakeClassnameTags123Api {
         produces = { "application/json" },
         consumes = "application/json"
     )
-    
     ResponseEntity<Client> testClassname(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     );

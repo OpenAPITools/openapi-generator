@@ -38,7 +38,7 @@ public interface AnotherFakeApi {
         return new AnotherFakeApiDelegate() {};
     }
 
-    public static final String PATH_CALL123TEST_SPECIAL_TAGS = "/another-fake/dummy";
+    String PATH_CALL123TEST_SPECIAL_TAGS = "/another-fake/dummy";
     /**
      * PATCH /another-fake/dummy : To test special tags
      * To test special tags and operation ID starting with number
@@ -63,7 +63,6 @@ public interface AnotherFakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    
     default ResponseEntity<Client> call123testSpecialTags(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     ) {

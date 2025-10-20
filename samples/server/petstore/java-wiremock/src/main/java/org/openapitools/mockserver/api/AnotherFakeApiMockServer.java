@@ -13,7 +13,7 @@ public class AnotherFakeApiMockServer {
 
     public static MappingBuilder stubCall123testSpecialTags200(@javax.annotation.Nonnull String body, String response) {
         MappingBuilder stub = patch(urlPathEqualTo("/another-fake/dummy"))
-            .withHeader("Accept", havingExactly("application/json"))
+            .withHeader("Accept", containing("application/json"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -27,7 +27,7 @@ public class AnotherFakeApiMockServer {
 
     public static MappingBuilder stubCall123testSpecialTagsFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = patch(urlPathEqualTo("/another-fake/dummy"))
-            .withHeader("Accept", havingExactly("application/json"))
+            .withHeader("Accept", containing("application/json"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)

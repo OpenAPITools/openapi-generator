@@ -38,6 +38,7 @@ export interface {{classname}}Interface {
     /**
      * {{summary}}
      * {{notes}}
+     * @endpoint {{httpMethod}} {{{path}}}
      {{^useSingleRequestParameter}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}* @param requestParameters

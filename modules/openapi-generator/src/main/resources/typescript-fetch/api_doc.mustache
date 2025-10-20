@@ -1,0 +1,63 @@
+# {{classname}}{{#description}}
+
+{{.}}{{/description}}
+
+All URIs are relative to *{{basePath}}*
+
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+{{#operations}}{{#operation}}| [**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{commonPath}}{{path}} | {{summary}} |
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+
+## {{operationId}}
+
+> {{#returnType}}{{.}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+
+{{summary}}{{#notes}}
+
+{{.}}{{/notes}}
+
+### Example
+
+```ts
+{{>api_example}}
+```
+
+### Parameters
+
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|{{/-last}}{{/allParams}}
+{{#allParams}}| **{{paramName}}** | {{#isEnum}}{{#allowableValues}}{{#values}}`{{{.}}}`{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}{{/isEnum}}{{^isEnum}}{{#isModel}}[{{baseType}}]({{baseType}}.md){{/isModel}}{{^isModel}}`{{{dataType}}}`{{/isModel}}{{/isEnum}} | {{description}} |{{^required}} [Optional]{{/required}}{{^isContainer}}{{#defaultValue}} [Defaults to `{{.}}`]{{/defaultValue}}{{/isContainer}}{{#allowableValues}} [Enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}} |
+{{/allParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}`void` (Empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{{name}}}{{#isOAuth}} {{flow}}{{/isOAuth}}](../README.md#{{{name}}}{{#isOAuth}}-{{flow}}{{/isOAuth}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+- **Content-Type**: {{#consumes}}`{{{mediaType}}}`{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+- **Accept**: {{#produces}}`{{{mediaType}}}`{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{#responses.0}}
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+{{#responses}}
+| **{{code}}** | {{message}} | {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} |
+{{/responses}}
+{{/responses.0}}
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+{{/operation}}
+{{/operations}}

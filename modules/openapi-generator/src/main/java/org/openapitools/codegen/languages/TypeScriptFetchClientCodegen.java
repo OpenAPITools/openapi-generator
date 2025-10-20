@@ -73,6 +73,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean withoutRuntimeChecks = false;
     protected boolean stringEnums = false;
     protected String fileNaming = PASCAL_CASE;
+    protected String apiDocPath = "docs";
+    protected String modelDocPath = "docs";
 
     // "Saga and Record" mode.
     public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
@@ -107,10 +109,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // at the moment
         importMapping.clear();
 
-        outputFolder = "generated-code/typescript-fetch";
+        outputFolder = "generated-code" + File.separator + "typescript-fetch";
         embeddedTemplateDir = templateDir = "typescript-fetch";
 
         this.apiTemplateFiles.put("apis.mustache", ".ts");
+        this.apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        this.modelDocTemplateFiles.put("model_doc.mustache", ".md");
 
         this.addExtraReservedWords();
 
@@ -136,6 +140,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public String toModelFilename(String name) {
         return convertUsingFileNamingConvention(super.toModelFilename(name));
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
     }
 
     /**
@@ -242,6 +251,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.apiPackage = sourceDir + "apis";
         this.modelPackage = sourceDir + "models";
 
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
         supportingFiles.add(new SupportingFile("index.mustache", sourceDir, "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", sourceDir, "runtime.ts"));
 
@@ -314,6 +327,16 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         convertPropertyToBooleanAndWriteBack(VALIDATION_ATTRIBUTES, this::setGenerateValidationAttributes);
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + File.separator + apiDocPath);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + File.separator + modelDocPath);
     }
 
     @Override

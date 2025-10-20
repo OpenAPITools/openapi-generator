@@ -13,8 +13,8 @@ public class FakeClassnameTags123ApiMockServer {
 
     public static MappingBuilder stubTestClassname200(@javax.annotation.Nonnull String body, String response) {
         MappingBuilder stub = patch(urlPathEqualTo("/fake_classname_test"))
-            .withHeader("Accept", havingExactly("application/json"))
-            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Accept", containing("application/json"))
+            .withHeader("Content-Type", havingExactly(equalToIgnoreCase("application/json")))
             .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -29,8 +29,8 @@ public class FakeClassnameTags123ApiMockServer {
 
     public static MappingBuilder stubTestClassnameFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = patch(urlPathEqualTo("/fake_classname_test"))
-            .withHeader("Accept", havingExactly("application/json"))
-            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Accept", containing("application/json"))
+            .withHeader("Content-Type", havingExactly(equalToIgnoreCase("application/json")))
             .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()

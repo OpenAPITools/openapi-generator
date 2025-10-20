@@ -2,10 +2,12 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-
 import type { Configuration } from "./configuration{{importFileExtension}}";
 import type { RequestArgs } from "./base{{importFileExtension}}";
 import type { AxiosInstance, AxiosResponse } from 'axios';
+{{#withAWSV4Signature}}
+import { aws4Interceptor } from "aws4-axios";
+{{/withAWSV4Signature}}
 import { RequiredError } from "./base{{importFileExtension}}";
 {{#withNodeImports}}
 import { URL, URLSearchParams } from 'url';
@@ -55,6 +57,25 @@ export const setOAuthToObject = async function (object: any, name: string, scope
         object["Authorization"] = "Bearer " + localVarAccessTokenValue;
     }
 }
+
+{{#withAWSV4Signature}}
+export const setAWS4SignatureInterceptor = async function (globalAxios: AxiosInstance, configuration?: Configuration) {
+    if (configuration && configuration.awsv4) {
+        const interceptor = aws4Interceptor({
+            options: {
+                region: configuration.awsv4?.options?.region ?? process.env.AWS_REGION ?? 'us-east-1',
+                service: configuration.awsv4?.options?.service ?? 'execute-api',
+            },
+            credentials: {
+                accessKeyId: configuration.awsv4?.credentials?.accessKeyId ?? process.env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: configuration.awsv4?.credentials?.secretAccessKey ?? process.env.AWS_SECRET_ACCESS_KEY,
+                sessionToken: configuration.awsv4?.credentials?.sessionToken ?? process.env.AWS_SESSION_TOKEN
+            },
+        });
+        globalAxios.interceptors.request.use(interceptor);
+    }
+}
+{{/withAWSV4Signature}}
 
 function setFlattenedQueryParams(urlSearchParams: URLSearchParams, parameter: any, key: string = ""): void {
     if (parameter == null) return;
