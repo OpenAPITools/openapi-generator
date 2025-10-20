@@ -1,0 +1,47 @@
+{{>License}}
+
+#pragma once
+{{#models}}
+{{#model}}
+#include <nlohmann/json.hpp>
+
+{{#vendorExtensions.filteredImports}}
+{{.}}
+{{/vendorExtensions.filteredImports}}
+
+{{#vars}}
+{{#isPrimitiveType}}
+{{#dataType}}
+#include <{{#isNumeric}}cstdint{{/isNumeric}}{{#isString}}string{{/isString}}>
+{{/dataType}}
+{{/isPrimitiveType}}
+{{/vars}}
+
+namespace {{vendorExtensions.modelNamespace}} {
+
+class {{vendorExtensions.modelClassName}}
+{
+public:
+    {{vendorExtensions.modelClassName}}();
+    virtual ~{{vendorExtensions.modelClassName}}() = default;
+
+    // JSON serialization
+    static nlohmann::json toJson(const {{vendorExtensions.modelClassName}}& obj);
+    static {{vendorExtensions.modelClassName}} fromJson(const nlohmann::json& json);
+
+    // Getters and setters
+    {{#vars}}
+    [[nodiscard]] {{{vendorExtensions.getterType}}} {{vendorExtensions.getter}}() const;
+    void {{vendorExtensions.setter}}(const {{{vendorExtensions.setterType}}}& {{nameInCamelCase}});
+    {{/vars}}
+
+private:
+    // Member variables
+    {{#vars}}
+    {{{datatypeWithEnum}}} m_{{nameInCamelCase}};
+    {{/vars}}
+};
+
+} // namespace {{vendorExtensions.modelNamespace}}
+{{/model}}
+{{/models}}
