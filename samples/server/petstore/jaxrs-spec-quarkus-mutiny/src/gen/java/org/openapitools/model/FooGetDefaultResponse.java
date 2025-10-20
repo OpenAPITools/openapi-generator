@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("_foo_get_default_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
