@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Drawing
     /// </summary>
-    public partial class Drawing : IValidatableObject
+    public partial class Drawing : IEquatable<Drawing?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Drawing" /> class.
@@ -124,6 +124,53 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Drawing).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if Drawing instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Drawing to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Drawing? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (MainShape != null)
+                    hashCode = (hashCode * 59) + MainShape.GetHashCode();
+
+                if (NullableShape != null)
+                    hashCode = (hashCode * 59) + NullableShape.GetHashCode();
+
+                if (ShapeOrNull != null)
+                    hashCode = (hashCode * 59) + ShapeOrNull.GetHashCode();
+
+                if (Shapes != null)
+                    hashCode = (hashCode * 59) + Shapes.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

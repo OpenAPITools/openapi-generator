@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ChildCat
     /// </summary>
-    public partial class ChildCat : ParentPet, IValidatableObject
+    public partial class ChildCat : ParentPet, IEquatable<ChildCat?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
@@ -130,6 +130,44 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as ChildCat).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if ChildCat instances are equal
+        /// </summary>
+        /// <param name="input">Instance of ChildCat to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(ChildCat? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = base.GetHashCode();
+                hashCode = (hashCode * 59) + PetType.GetHashCode();
+                if (Name != null)
+                    hashCode = (hashCode * 59) + Name.GetHashCode();
+
+
+                return hashCode;
+            }
         }
     }
 
