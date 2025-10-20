@@ -27,6 +27,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
+          cache: gradle
 
       - uses: actions/cache@v4
         with:
@@ -95,6 +96,7 @@ jobs:
         with:
           java-version: 11
           maven-version: 3.8.8
+          cache: gradle
       - name: Download build artifact
         uses: actions/download-artifact@v5
         with:
