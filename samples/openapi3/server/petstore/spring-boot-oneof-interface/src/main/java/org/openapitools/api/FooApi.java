@@ -73,7 +73,7 @@ public interface FooApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }";
+                    String exampleString = "{ \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"fooPropA\" : \"fooPropA\", \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -111,7 +111,7 @@ public interface FooApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json;charset=utf-8"))) {
-                    String exampleString = "[ { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }, { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" } ]";
+                    String exampleString = "[ { \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"fooPropA\" : \"fooPropA\", \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\" }, { \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"fooPropA\" : \"fooPropA\", \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json;charset=utf-8", exampleString);
                     break;
                 }

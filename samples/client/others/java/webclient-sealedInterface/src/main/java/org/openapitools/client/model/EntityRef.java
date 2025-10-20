@@ -28,16 +28,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Entity reference schema to be use for all entityRef class.
+ * EntityRef
  */
 @JsonPropertyOrder({
-  EntityRef.JSON_PROPERTY_NAME,
-  EntityRef.JSON_PROPERTY_AT_REFERRED_TYPE,
   EntityRef.JSON_PROPERTY_HREF,
   EntityRef.JSON_PROPERTY_ID,
   EntityRef.JSON_PROPERTY_AT_SCHEMA_LOCATION,
   EntityRef.JSON_PROPERTY_AT_BASE_TYPE,
-  EntityRef.JSON_PROPERTY_AT_TYPE
+  EntityRef.JSON_PROPERTY_AT_TYPE,
+  EntityRef.JSON_PROPERTY_NAME,
+  EntityRef.JSON_PROPERTY_AT_REFERRED_TYPE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 @JsonIgnoreProperties(
@@ -51,14 +51,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 
 public class EntityRef {
-  public static final String JSON_PROPERTY_NAME = "name";
-  @javax.annotation.Nullable
-  protected String name;
-
-  public static final String JSON_PROPERTY_AT_REFERRED_TYPE = "@referredType";
-  @javax.annotation.Nullable
-  protected String atReferredType;
-
   public static final String JSON_PROPERTY_HREF = "href";
   @javax.annotation.Nullable
   protected String href;
@@ -79,57 +71,15 @@ public class EntityRef {
   // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
   protected String atType;
 
+  public static final String JSON_PROPERTY_NAME = "name";
+  @javax.annotation.Nullable
+  protected String name;
+
+  public static final String JSON_PROPERTY_AT_REFERRED_TYPE = "@referredType";
+  @javax.annotation.Nullable
+  protected String atReferredType;
+
   public EntityRef() {
-  }
-
-  public EntityRef name(@javax.annotation.Nullable String name) {
-    
-    this.name = name;
-    return this;
-  }
-
-  /**
-   * Name of the related entity.
-   * @return name
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getName() {
-    return name;
-  }
-
-
-  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(@javax.annotation.Nullable String name) {
-    this.name = name;
-  }
-
-  public EntityRef atReferredType(@javax.annotation.Nullable String atReferredType) {
-    
-    this.atReferredType = atReferredType;
-    return this;
-  }
-
-  /**
-   * The actual type of the target instance when needed for disambiguation.
-   * @return atReferredType
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(value = JSON_PROPERTY_AT_REFERRED_TYPE, required = false)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getAtReferredType() {
-    return atReferredType;
-  }
-
-
-  @JsonProperty(value = JSON_PROPERTY_AT_REFERRED_TYPE, required = false)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAtReferredType(@javax.annotation.Nullable String atReferredType) {
-    this.atReferredType = atReferredType;
   }
 
   public EntityRef href(@javax.annotation.Nullable String href) {
@@ -257,6 +207,56 @@ public class EntityRef {
     this.atType = atType;
   }
 
+  public EntityRef name(@javax.annotation.Nullable String name) {
+    
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Name of the related entity.
+   * @return name
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getName() {
+    return name;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setName(@javax.annotation.Nullable String name) {
+    this.name = name;
+  }
+
+  public EntityRef atReferredType(@javax.annotation.Nullable String atReferredType) {
+    
+    this.atReferredType = atReferredType;
+    return this;
+  }
+
+  /**
+   * The actual type of the target instance when needed for disambiguation.
+   * @return atReferredType
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(value = JSON_PROPERTY_AT_REFERRED_TYPE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getAtReferredType() {
+    return atReferredType;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_AT_REFERRED_TYPE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAtReferredType(@javax.annotation.Nullable String atReferredType) {
+    this.atReferredType = atReferredType;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -267,31 +267,31 @@ public class EntityRef {
       return false;
     }
     EntityRef entityRef = (EntityRef) o;
-    return Objects.equals(this.name, entityRef.name) &&
-        Objects.equals(this.atReferredType, entityRef.atReferredType) &&
-        Objects.equals(this.href, entityRef.href) &&
+    return Objects.equals(this.href, entityRef.href) &&
         Objects.equals(this.id, entityRef.id) &&
         Objects.equals(this.atSchemaLocation, entityRef.atSchemaLocation) &&
         Objects.equals(this.atBaseType, entityRef.atBaseType) &&
-        Objects.equals(this.atType, entityRef.atType);
+        Objects.equals(this.atType, entityRef.atType) &&
+        Objects.equals(this.name, entityRef.name) &&
+        Objects.equals(this.atReferredType, entityRef.atReferredType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, atReferredType, href, id, atSchemaLocation, atBaseType, atType);
+    return Objects.hash(href, id, atSchemaLocation, atBaseType, atType, name, atReferredType);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EntityRef {\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    atReferredType: ").append(toIndentedString(atReferredType)).append("\n");
     sb.append("    href: ").append(toIndentedString(href)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    atSchemaLocation: ").append(toIndentedString(atSchemaLocation)).append("\n");
     sb.append("    atBaseType: ").append(toIndentedString(atBaseType)).append("\n");
     sb.append("    atType: ").append(toIndentedString(atType)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    atReferredType: ").append(toIndentedString(atReferredType)).append("\n");
     sb.append("}");
     return sb.toString();
   }

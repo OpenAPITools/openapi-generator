@@ -38,8 +38,8 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public CopyActivity(string copyActivitytt) : base()
         {
-            Schema = (SchemaEnum)Enum.Parse(typeof(SchemaEnum), this.GetType().Name);
             CopyActivitytt = copyActivitytt;
+            Schema = (SchemaEnum)Enum.Parse(typeof(SchemaEnum), this.GetType().Name);
             OnCreated();
         }
 
@@ -98,17 +98,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets or Sets CopyActivitytt
+        /// </summary>
+        [JsonPropertyName("copyActivitytt")]
+        public string CopyActivitytt { get; set; }
+
+        /// <summary>
         /// The discriminator
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public new SchemaEnum Schema { get; }
-
-        /// <summary>
-        /// Gets or Sets CopyActivitytt
-        /// </summary>
-        [JsonPropertyName("copyActivitytt")]
-        public string CopyActivitytt { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -147,8 +147,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<CopyActivity.SchemaEnum?> schema = default;
             Option<string?> copyActivitytt = default;
+            Option<CopyActivity.SchemaEnum?> schema = default;
 
             while (utf8JsonReader.Read())
             {
@@ -165,13 +165,13 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "copyActivitytt":
+                            copyActivitytt = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         case "$schema":
                             string? schemaRawValue = utf8JsonReader.GetString();
                             if (schemaRawValue != null)
                                 schema = new Option<CopyActivity.SchemaEnum?>(CopyActivity.SchemaEnumFromStringOrDefault(schemaRawValue));
-                            break;
-                        case "copyActivitytt":
-                            copyActivitytt = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -179,17 +179,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!schema.IsSet)
-                throw new ArgumentException("Property is required for class CopyActivity.", nameof(schema));
-
             if (!copyActivitytt.IsSet)
                 throw new ArgumentException("Property is required for class CopyActivity.", nameof(copyActivitytt));
 
-            if (schema.IsSet && schema.Value == null)
-                throw new ArgumentNullException(nameof(schema), "Property is not nullable for class CopyActivity.");
+            if (!schema.IsSet)
+                throw new ArgumentException("Property is required for class CopyActivity.", nameof(schema));
 
             if (copyActivitytt.IsSet && copyActivitytt.Value == null)
                 throw new ArgumentNullException(nameof(copyActivitytt), "Property is not nullable for class CopyActivity.");
+
+            if (schema.IsSet && schema.Value == null)
+                throw new ArgumentNullException(nameof(schema), "Property is not nullable for class CopyActivity.");
 
             return new CopyActivity(copyActivitytt.Value!);
         }
@@ -221,9 +221,9 @@ namespace Org.OpenAPITools.Model
             if (copyActivity.CopyActivitytt == null)
                 throw new ArgumentNullException(nameof(copyActivity.CopyActivitytt), "Property is required for class CopyActivity.");
 
-            writer.WriteString("$schema", CopyActivity.SchemaEnumToJsonValue(copyActivity.Schema));
-
             writer.WriteString("copyActivitytt", copyActivity.CopyActivitytt);
+
+            writer.WriteString("$schema", CopyActivity.SchemaEnumToJsonValue(copyActivity.Schema));
         }
     }
 }

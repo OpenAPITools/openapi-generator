@@ -211,6 +211,7 @@ public class OpenAPINormalizer {
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
         rules.put(SIMPLIFY_ONEOF_ANYOF_ENUM, true);
+        rules.put(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY, true);
 
         processRules(inputRules);
 
