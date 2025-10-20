@@ -4812,7 +4812,7 @@ public class SpringCodegenTest {
         //            super(responseType, requestId, success, pageInfo);
         //        }
         JavaFileAssert.assertThat(output.get("Object4.java"))
-                .assertConstructor("Type1", "String", "String", "Boolean")
+                .assertConstructor("String", "String", "Boolean", "Type1")
                 .hasParameter("responseType").toConstructor()
                 .hasParameter("requestId").toConstructor()
                 .hasParameter("success").toConstructor()

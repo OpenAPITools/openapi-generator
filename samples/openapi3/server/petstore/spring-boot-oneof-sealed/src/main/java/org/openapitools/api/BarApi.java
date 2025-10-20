@@ -72,7 +72,7 @@ public interface BarApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"foo\" : { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }, \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"barPropA\" : \"barPropA\" }";
+                    String exampleString = "{ \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"foo\" : { \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"fooPropA\" : \"fooPropA\", \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\" }, \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\", \"barPropA\" : \"barPropA\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
