@@ -28,6 +28,7 @@ export interface ConfigurationParameters {
     username?: string | undefined;
     password?: string | undefined;
     accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string) | ((name?: string, scopes?: string[]) => Promise<string>) | undefined;
+    awsv4?: AWSv4Configuration | undefined;
     basePath?: string | undefined;
     serverIndex?: number | undefined;
     baseOptions?: any | undefined;
