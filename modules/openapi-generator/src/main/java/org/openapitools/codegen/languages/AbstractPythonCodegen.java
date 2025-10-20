@@ -671,7 +671,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return getSchemaType(p) + "[str, " + getCollectionItemTypeDeclaration(inner) + "]";
         }
 
-        String openAPIType = getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         if (typeMapping.containsKey(openAPIType)) {
             return typeMapping.get(openAPIType);
         }
