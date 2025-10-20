@@ -31,7 +31,7 @@ export interface ConfigurationParameters {
     awsv4?: AWSv4Configuration | undefined;
     basePath?: string | undefined;
     serverIndex?: number | undefined;
-    baseOptions?: any | undefined;
+    baseOptions?: any;
     formDataCtor?: (new () => any) | undefined;
 }
 
@@ -65,7 +65,7 @@ export class Configuration {
      * @param {string} credentials.sessionToken - aws session token
      * @memberof Configuration
      */
-    awsv4?: AWSv4Configuration;
+    awsv4?: AWSv4Configuration | undefined;
     /**
      * override base path
      */
