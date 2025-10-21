@@ -353,16 +353,20 @@ public class InlineModelResolver {
                     }
                 }
             }
-        } else if (schema.getProperties() != null) {
-            // If non-object type is specified but also properties
-            LOGGER.warn("Illegal schema found with non-object type ({}) combined with properties. Properties automatically removed.", schema.getType());
-            schema.setProperties(null);
-            return;
-        } else if (schema.getAdditionalProperties() != null) {
-            // If non-object type is specified but also additionalProperties
-            LOGGER.error("Illegal schema found with non-object type ({}) combined with additionalProperties. AdditionalProperties automatically removed.", schema.getType());
-            schema.setAdditionalProperties(null);
-            return;
+        } else {
+            if (schema.getProperties() != null) {
+                // If non-object type is specified but also properties
+                LOGGER.warn("Illegal schema found with non-object type ({}) combined with properties. Properties automatically removed.", schema.getType());
+                schema.setProperties(null);
+                return;
+            }
+
+            if (schema.getAdditionalProperties() != null) {
+                // If non-object type is specified but also additionalProperties
+                LOGGER.error("Illegal schema found with non-object type ({}) combined with additionalProperties. AdditionalProperties automatically removed.", schema.getType());
+                schema.setAdditionalProperties(null);
+                return;
+            }
         }
 
         // Check array items
