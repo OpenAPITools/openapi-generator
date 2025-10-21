@@ -89,7 +89,7 @@ end
 {{/summary.length}}{{#notes.length}}{{{notes}}}
 
 {{/notes.length}}Params:
-{{#allParams}}- {{paramName}}::{{#isBinary}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}Vector{UInt8}{{/isFile}}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{#required}} (required){{/required}}
+{{#allParams}}- `{{paramName}}`::{{#isBinary}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}Vector{UInt8}{{/isFile}}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{#required}} (required){{/required}}
 {{/allParams}}
 
 Return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Nothing{{/returnType}}, OpenAPI.Clients.ApiResponse
