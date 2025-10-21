@@ -13,6 +13,7 @@ Generator version: 7.17.0-SNAPSHOT
 # Common files
 require 'petstore/api_client'
 require 'petstore/api_error'
+require 'petstore/api_model_base'
 require 'petstore/version'
 require 'petstore/configuration'
 
