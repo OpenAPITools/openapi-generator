@@ -21,24 +21,27 @@ export class NumberPropertiesOnly {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "number",
             "baseName": "number",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "_float",
             "baseName": "float",
             "type": "number",
-            "format": "float"
+            "format": "float",
+            "required": false
         },
         {
             "name": "_double",
             "baseName": "double",
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

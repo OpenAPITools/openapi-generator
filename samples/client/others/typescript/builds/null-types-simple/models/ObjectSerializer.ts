@@ -103,7 +103,15 @@ export class ObjectSerializer {
             // Check the discriminator
             let discriminatorProperty = typeMap[expectedType].discriminator;
             if (discriminatorProperty == null) {
-                return expectedType; // the type does not have a discriminator. use it.
+                if (this.hasFindMatchingTypeMethod(typeMap[expectedType])) {
+                    const foundType = typeMap[expectedType].findMatchingType(data);
+                    if (foundType == undefined) {
+                        throw new Error("Unable to determine a unique type for the provided object: oneOf type resolution failed. The object does not match exactly one schema. Consider adding a discriminator or making schemas mutually exclusive.");
+                    }
+
+                    return foundType;
+                }
+                return expectedType; // the type does not have a discriminator and findMatchingType method. use it.
             } else {
                 if (data[discriminatorProperty]) {
                     var discriminatorType = data[discriminatorProperty];
@@ -120,6 +128,13 @@ export class ObjectSerializer {
                 }
             }
         }
+    }
+
+    public static hasFindMatchingTypeMethod(klass: any): boolean {
+        if (typeof klass.findMatchingType === 'function') {
+            return true;
+        }
+        return false;
     }
 
     public static serialize(data: any, type: string, format: string): any {

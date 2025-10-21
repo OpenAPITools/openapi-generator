@@ -30,54 +30,62 @@ export class DefaultValue {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "arrayStringEnumRefDefault",
             "baseName": "array_string_enum_ref_default",
             "type": "Array<StringEnumRef>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "arrayStringEnumDefault",
             "baseName": "array_string_enum_default",
             "type": "Array<DefaultValueArrayStringEnumDefaultEnum>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "arrayStringDefault",
             "baseName": "array_string_default",
             "type": "Array<string>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "arrayIntegerDefault",
             "baseName": "array_integer_default",
             "type": "Array<number>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "arrayString",
             "baseName": "array_string",
             "type": "Array<string>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "arrayStringNullable",
             "baseName": "array_string_nullable",
             "type": "Array<string>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "arrayStringExtensionNullable",
             "baseName": "array_string_extension_nullable",
             "type": "Array<string>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "stringNullable",
             "baseName": "string_nullable",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

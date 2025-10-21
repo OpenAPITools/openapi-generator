@@ -58,6 +58,7 @@ models/NullableClass.ts
 models/NumberOnly.ts
 models/ObjectSerializer.ts
 models/ObjectWithDeprecatedFields.ts
+models/OneOfClass.ts
 models/Order.ts
 models/OuterComposite.ts
 models/OuterEnum.ts

@@ -22,24 +22,27 @@ export class ArrayTest {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "arrayOfString",
             "baseName": "array_of_string",
             "type": "Array<string>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "arrayArrayOfInteger",
             "baseName": "array_array_of_integer",
             "type": "Array<Array<number>>",
-            "format": "int64"
+            "format": "int64",
+            "required": false
         },
         {
             "name": "arrayArrayOfModel",
             "baseName": "array_array_of_model",
             "type": "Array<Array<ReadOnlyFirst>>",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

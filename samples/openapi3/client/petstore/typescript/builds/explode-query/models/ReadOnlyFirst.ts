@@ -20,18 +20,20 @@ export class ReadOnlyFirst {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "bar",
             "baseName": "bar",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "baz",
             "baseName": "baz",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

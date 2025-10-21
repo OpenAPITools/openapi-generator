@@ -32,54 +32,62 @@ export class User {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "id",
             "baseName": "id",
             "type": "number",
-            "format": "int64"
+            "format": "int64",
+            "required": false
         },
         {
             "name": "username",
             "baseName": "username",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "firstName",
             "baseName": "firstName",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "lastName",
             "baseName": "lastName",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "email",
             "baseName": "email",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "password",
             "baseName": "password",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "phone",
             "baseName": "phone",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "userStatus",
             "baseName": "userStatus",
             "type": "number",
-            "format": "int32"
+            "format": "int32",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

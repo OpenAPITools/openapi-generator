@@ -22,30 +22,34 @@ export class MapTest {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "mapMapOfString",
             "baseName": "map_map_of_string",
             "type": "{ [key: string]: { [key: string]: string; }; }",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "mapOfEnumString",
             "baseName": "map_of_enum_string",
             "type": "{ [key: string]: string; }",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "directMap",
             "baseName": "direct_map",
             "type": "{ [key: string]: boolean; }",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "indirectMap",
             "baseName": "indirect_map",
             "type": "{ [key: string]: boolean; }",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

@@ -20,18 +20,20 @@ export class FakeBigDecimalMap200Response {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "someId",
             "baseName": "someId",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "someMap",
             "baseName": "someMap",
             "type": "{ [key: string]: number; }",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

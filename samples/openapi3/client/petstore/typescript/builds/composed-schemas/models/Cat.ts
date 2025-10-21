@@ -20,18 +20,20 @@ export class Cat {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "hunts",
             "baseName": "hunts",
             "type": "boolean",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "age",
             "baseName": "age",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

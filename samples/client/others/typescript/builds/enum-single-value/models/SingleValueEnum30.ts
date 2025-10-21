@@ -19,12 +19,13 @@ export class SingleValueEnum30 {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "type",
             "baseName": "type",
             "type": "SingleValueEnum30TypeEnum",
-            "format": ""
+            "format": "",
+            "required": true
         }    ];
 
     static getAttributeTypeMap() {

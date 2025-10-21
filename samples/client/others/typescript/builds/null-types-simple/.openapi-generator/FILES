@@ -11,6 +11,7 @@ http/isomorphic-fetch.ts
 index.ts
 middleware.ts
 models/ObjectSerializer.ts
+models/OneOfClass.ts
 models/SomeObject.ts
 models/WithNullableType.ts
 models/all.ts

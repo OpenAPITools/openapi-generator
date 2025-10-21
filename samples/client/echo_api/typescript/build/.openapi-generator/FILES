@@ -28,6 +28,7 @@ models/DataQuery.ts
 models/DefaultValue.ts
 models/NumberPropertiesOnly.ts
 models/ObjectSerializer.ts
+models/OneOfClass.ts
 models/Pet.ts
 models/Query.ts
 models/StringEnumRef.ts

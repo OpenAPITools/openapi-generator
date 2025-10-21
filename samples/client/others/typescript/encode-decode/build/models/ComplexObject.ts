@@ -22,30 +22,34 @@ export class ComplexObject {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "requiredProperty",
             "baseName": "required_property",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": true
         },
         {
             "name": "requiredNullableProperty",
             "baseName": "required_nullable_property",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": true
         },
         {
             "name": "optionalProperty",
             "baseName": "optional_property",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "optionalNullableProperty",
             "baseName": "optional_nullable_property",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

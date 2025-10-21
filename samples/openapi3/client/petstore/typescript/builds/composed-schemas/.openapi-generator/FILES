@@ -16,6 +16,7 @@ models/Cat.ts
 models/Dog.ts
 models/FilePostRequest.ts
 models/ObjectSerializer.ts
+models/OneOfClass.ts
 models/PetByAge.ts
 models/PetByType.ts
 models/PetsFilteredPatchRequest.ts

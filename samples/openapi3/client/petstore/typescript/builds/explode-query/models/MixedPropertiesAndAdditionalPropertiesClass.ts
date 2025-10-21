@@ -22,24 +22,27 @@ export class MixedPropertiesAndAdditionalPropertiesClass {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "uuid",
             "baseName": "uuid",
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "required": false
         },
         {
             "name": "dateTime",
             "baseName": "dateTime",
             "type": "Date",
-            "format": "date-time"
+            "format": "date-time",
+            "required": false
         },
         {
             "name": "map",
             "baseName": "map",
             "type": "{ [key: string]: Animal; }",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

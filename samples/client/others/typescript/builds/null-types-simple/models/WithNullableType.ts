@@ -22,24 +22,27 @@ export class WithNullableType {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "arrayDataOrNull",
             "baseName": "arrayDataOrNull",
             "type": "Array<SomeObject>",
-            "format": ""
+            "format": "",
+            "required": true
         },
         {
             "name": "stringDataOrNull",
             "baseName": "stringDataOrNull",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": true
         },
         {
             "name": "oneofOrNull",
             "baseName": "oneofOrNull",
             "type": "SomeObject",
-            "format": ""
+            "format": "",
+            "required": true
         }    ];
 
     static getAttributeTypeMap() {

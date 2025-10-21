@@ -19,12 +19,13 @@ export class SpecialModelName {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "specialPropertyName",
             "baseName": "$special[property.name]",
             "type": "number",
-            "format": "int64"
+            "format": "int64",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

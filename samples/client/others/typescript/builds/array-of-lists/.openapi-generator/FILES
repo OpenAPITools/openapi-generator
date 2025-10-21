@@ -15,6 +15,7 @@ middleware.ts
 models/List.ts
 models/ListPaged.ts
 models/ObjectSerializer.ts
+models/OneOfClass.ts
 models/all.ts
 package.json
 rxjsStub.ts

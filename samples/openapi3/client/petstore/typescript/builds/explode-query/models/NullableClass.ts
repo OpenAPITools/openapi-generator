@@ -30,78 +30,90 @@ export class NullableClass {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "integerProp",
             "baseName": "integer_prop",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "numberProp",
             "baseName": "number_prop",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "booleanProp",
             "baseName": "boolean_prop",
             "type": "boolean",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "stringProp",
             "baseName": "string_prop",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "dateProp",
             "baseName": "date_prop",
             "type": "string",
-            "format": "date"
+            "format": "date",
+            "required": false
         },
         {
             "name": "datetimeProp",
             "baseName": "datetime_prop",
             "type": "Date",
-            "format": "date-time"
+            "format": "date-time",
+            "required": false
         },
         {
             "name": "arrayNullableProp",
             "baseName": "array_nullable_prop",
             "type": "Array<any>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "arrayAndItemsNullableProp",
             "baseName": "array_and_items_nullable_prop",
             "type": "Array<any | null>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "arrayItemsNullable",
             "baseName": "array_items_nullable",
             "type": "Array<any | null>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "objectNullableProp",
             "baseName": "object_nullable_prop",
             "type": "{ [key: string]: any; }",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "objectAndItemsNullableProp",
             "baseName": "object_and_items_nullable_prop",
             "type": "{ [key: string]: any | null; }",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "objectItemsNullable",
             "baseName": "object_items_nullable",
             "type": "{ [key: string]: any | null; }",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

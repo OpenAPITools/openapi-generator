@@ -20,18 +20,20 @@ export class PetByType {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "petType",
             "baseName": "pet_type",
             "type": "PetByTypePetTypeEnum",
-            "format": ""
+            "format": "",
+            "required": true
         },
         {
             "name": "hunts",
             "baseName": "hunts",
             "type": "boolean",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

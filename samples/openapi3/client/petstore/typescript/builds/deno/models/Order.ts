@@ -30,42 +30,48 @@ export class Order {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "id",
             "baseName": "id",
             "type": "number",
-            "format": "int64"
+            "format": "int64",
+            "required": false
         },
         {
             "name": "petId",
             "baseName": "petId",
             "type": "number",
-            "format": "int64"
+            "format": "int64",
+            "required": false
         },
         {
             "name": "quantity",
             "baseName": "quantity",
             "type": "number",
-            "format": "int32"
+            "format": "int32",
+            "required": false
         },
         {
             "name": "shipDate",
             "baseName": "shipDate",
             "type": "Date",
-            "format": "date-time"
+            "format": "date-time",
+            "required": false
         },
         {
             "name": "status",
             "baseName": "status",
             "type": "OrderStatusEnum",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "complete",
             "baseName": "complete",
             "type": "boolean",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

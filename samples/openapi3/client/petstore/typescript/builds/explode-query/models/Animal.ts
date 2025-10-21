@@ -23,18 +23,20 @@ export class Animal {
         "DOG": "Dog",
     };
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "className",
             "baseName": "class_name",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": true
         },
         {
             "name": "color",
             "baseName": "color",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

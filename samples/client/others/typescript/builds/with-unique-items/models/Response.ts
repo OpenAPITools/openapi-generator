@@ -20,18 +20,20 @@ export class Response {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "nonUniqueArray",
             "baseName": "non-unique-array",
             "type": "Array<string>",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "uniqueArray",
             "baseName": "unique-array",
             "type": "Set<string>",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

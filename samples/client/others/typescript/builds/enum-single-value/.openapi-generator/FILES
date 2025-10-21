@@ -11,6 +11,7 @@ http/isomorphic-fetch.ts
 index.ts
 middleware.ts
 models/ObjectSerializer.ts
+models/OneOfClass.ts
 models/SingleValueEnum30.ts
 models/SingleValueEnum31.ts
 models/all.ts

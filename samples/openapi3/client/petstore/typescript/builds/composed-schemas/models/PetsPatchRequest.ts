@@ -12,7 +12,7 @@
 
 import { Cat } from '../models/Cat';
 import { Dog } from '../models/Dog';
-import { HttpFile } from '../http/http';
+import { OneOfClass } from '../models/OneOfClass';
 
 /**
  * @type PetsPatchRequest
@@ -25,10 +25,22 @@ export type PetsPatchRequest = Cat | Dog | any;
 * @type PetsPatchRequestClass
 * @export
 */
-export class PetsPatchRequestClass {
+export class PetsPatchRequestClass extends OneOfClass {
     static readonly discriminator: string | undefined = "petType";
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
+
+    static readonly arrayOfTypes: Array<typeof Cat | typeof Dog | typeof any> = [Cat, Dog, any];
+
+    public static findMatchingType(data:any): string | undefined {
+        for(const type of this.arrayOfTypes) {
+            if (this.instanceOf(data, type.getAttributeTypeMap())) {
+                return type.name;
+            }
+        }
+
+        return undefined;
+    }
 }
 
 

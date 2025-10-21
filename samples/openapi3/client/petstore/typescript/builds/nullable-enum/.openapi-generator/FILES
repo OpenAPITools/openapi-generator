@@ -13,6 +13,7 @@ http/isomorphic-fetch.ts
 index.ts
 middleware.ts
 models/ObjectSerializer.ts
+models/OneOfClass.ts
 models/Response.ts
 models/all.ts
 package.json
