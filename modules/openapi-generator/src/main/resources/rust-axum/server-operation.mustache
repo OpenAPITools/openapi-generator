@@ -293,10 +293,10 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
 {{#x-response-content-types}}
                                                 apis::{{classFilename}}::{{{operationId}}}Response::{{{x-variant-name}}}
 {{#dataType}}
-{{^hasHeaders}}
+{{^headers}}
                                                     (body)
-{{/hasHeaders}}
-{{#hasHeaders}}
+{{/headers}}
+{{#headers}}
 {{#-first}}
                                                     {
                                                         body,
@@ -305,10 +305,10 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
 {{#-last}}
                                                     }
 {{/-last}}
-{{/hasHeaders}}
+{{/headers}}
 {{/dataType}}
 {{^dataType}}
-{{#hasHeaders}}
+{{#headers}}
 {{#-first}}
                                                     {
 {{/-first}}
@@ -316,7 +316,7 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
 {{#-last}}
                                                     }
 {{/-last}}
-{{/hasHeaders}}
+{{/headers}}
 {{/dataType}}
                                                 => {
 {{#dataType}}

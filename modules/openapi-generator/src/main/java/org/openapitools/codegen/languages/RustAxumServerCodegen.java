@@ -541,15 +541,27 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 rsp.vendorExtensions.put("x-response-id", responseId);
             }
 
-            if (rsp.dataType != null) {
-                List<String> producesTypes = new ArrayList<>();
+            List<String> producesTypes = new ArrayList<>();
 
-                if (original.getContent() != null) {
-                    producesTypes.addAll(original.getContent().keySet());
+            if (original.getContent() != null) {
+                producesTypes.addAll(original.getContent().keySet());
+            }
+
+            List<Map<String, Object>> responseContentTypes = new ArrayList<>();
+
+            // If there are no content types (no body), create a single variant without content
+            if (producesTypes.isEmpty()) {
+                Map<String, Object> contentTypeInfo = new HashMap<>();
+                
+                // Use the response-id directly as the variant name for responses without content
+                if (rsp.vendorExtensions.containsKey("x-response-id")) {
+                    String baseId = (String) rsp.vendorExtensions.get("x-response-id");
+                    contentTypeInfo.put("x-variant-name", baseId);
                 }
-
-                List<Map<String, Object>> responseContentTypes = new ArrayList<>();
-
+                
+                responseContentTypes.add(contentTypeInfo);
+            } else {
+                // Process each content type
                 for (String contentType : producesTypes) {
                     Map<String, Object> contentTypeInfo = new HashMap<>();
                     contentTypeInfo.put("mediaType", contentType);
@@ -576,11 +588,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     } else {
                         // Everything else is plain-text
                         contentTypeInfo.put("x-content-suffix", "PlainText");
-                        if (bytesType.equals(rsp.dataType)) {
-                            contentTypeInfo.put("x-serializer-bytes", true);
-                        } else {
-                            contentTypeInfo.put("x-serializer-plain", true);
-                        }
+                        // Note: serializer flags will be set after determining the actual body type
                     }
 
                     // Group together the x-response-id and x-content-suffix created above in order to produce
@@ -599,6 +607,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                             bodyType = stringType;
                         } else if (contentTypeInfo.get("x-output-mime-type").equals(plainTextMimeType)) {
                             bodyType = bytesType.equals(rsp.dataType) ? bytesType : stringType;
+                        } else if (contentTypeInfo.get("x-output-mime-type").equals(octetMimeType)) {
+                            // For octet-stream, always use ByteArray
+                            bodyType = bytesType;
                         } else if (contentTypeInfo.get("x-output-mime-type").equals(eventStreamMimeType)) {
                             Schema<?> ctSchema = Optional.ofNullable(original.getContent())
                                     .map(c -> c.get(contentType))
@@ -619,13 +630,25 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                             bodyType = stringType;
                         }
                         contentTypeInfo.put("x-body-type", bodyType);
+                        contentTypeInfo.put("dataType", bodyType); // Also set dataType for template conditionals
+                        
+                        // Set serializer flags based on the actual body type for plain-text/octet-stream
+                        if (!contentTypeInfo.containsKey("x-serializer-json") &&
+                            !contentTypeInfo.containsKey("x-serializer-form") &&
+                            !contentTypeInfo.containsKey("x-serializer-event-stream")) {
+                            if (bytesType.equals(bodyType)) {
+                                contentTypeInfo.put("x-serializer-bytes", true);
+                            } else {
+                                contentTypeInfo.put("x-serializer-plain", true);
+                            }
+                        }
                     }
 
                     responseContentTypes.add(contentTypeInfo);
                 }
-
-                rsp.vendorExtensions.put("x-response-content-types", responseContentTypes);
             }
+
+            rsp.vendorExtensions.put("x-response-content-types", responseContentTypes);
 
             for (CodegenProperty header : rsp.headers) {
                 if (uuidType.equals(header.dataType)) {
