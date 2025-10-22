@@ -1,0 +1,40 @@
+openapi: 3.1.0
+
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+
+paths:
+  /example:
+    get:
+      responses:
+        "200":
+          description: "A successful response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+
+components:
+  schemas:
+    Vehicle:
+      type: object
+      additionalProperties: false
+      discriminator: { propertyName: objectType }
+      required: [ objectType, requiredProperty ]
+      properties:
+        objectType: { type: string }
+        requiredProperty: { type: object }
+        optionalProperty: { type: object }
+
+    Car:
+      allOf:
+        - $ref: '#/components/schemas/Vehicle'
+        - type: object
+          additionalProperties: false
+          required: [ objectType, requiredProperty ]
+          properties:
+            color: { type: string }
+            requiredProperty: { type: string }
+            optionalProperty: { type: string }
