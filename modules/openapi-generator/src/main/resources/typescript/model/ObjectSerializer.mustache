@@ -155,7 +155,7 @@ export class ObjectSerializer {
         }
     }
 
-    public static hasFindMatchingTypeMethod(klass: any): boolean {
+    private static hasFindMatchingTypeMethod(klass: any): boolean {
         if (typeof klass.findMatchingType === 'function') {
             return true;
         }

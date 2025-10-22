@@ -30,10 +30,10 @@ export class {{classname}}Class extends OneOfClass {
     static readonly mapping: {[index: string]: string} | undefined = undefined;
     {{/hasDiscriminatorWithNonEmptyMapping}}
 
-    static readonly arrayOfTypes: Array<{{#oneOf}}typeof {{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}> = [{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}];
+    private static readonly arrayOfTypes: Array<{{#oneOf}}typeof {{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}> = [{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}];
 
-    public static findMatchingType(data:any): string | undefined {
-        for(const type of this.arrayOfTypes) {
+    public static findMatchingType(data: any): string | undefined {
+        for (const type of this.arrayOfTypes) {
             if (this.instanceOf(data, type.getAttributeTypeMap())) {
                 return type.name;
             }
