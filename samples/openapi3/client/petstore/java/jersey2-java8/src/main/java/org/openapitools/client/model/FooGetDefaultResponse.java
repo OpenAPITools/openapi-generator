@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import org.openapitools.client.model.Foo;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -38,8 +40,12 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("_foo_get_default_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "FooGetDefaultResponse")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "FooGetDefaultResponse")
 public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
+  @XmlElement(name = "string")
   @javax.annotation.Nullable
   private Foo string;
 
@@ -58,6 +64,7 @@ public class FooGetDefaultResponse {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "string")
 
   public Foo getString() {
     return string;
@@ -66,6 +73,7 @@ public class FooGetDefaultResponse {
 
   @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "string")
   public void setString(@javax.annotation.Nullable Foo string) {
     this.string = string;
   }

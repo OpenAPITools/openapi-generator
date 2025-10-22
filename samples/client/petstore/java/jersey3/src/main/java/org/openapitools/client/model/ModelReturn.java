@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -39,8 +41,12 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("Return")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "Return")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Return")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
+  @XmlElement(name = "return")
   @jakarta.annotation.Nullable
   private Integer _return;
 
@@ -60,6 +66,7 @@ public class ModelReturn {
 
   @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "return")
 
   public Integer getReturn() {
     return _return;
@@ -68,6 +75,7 @@ public class ModelReturn {
 
   @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "return")
   public void setReturn(@jakarta.annotation.Nullable Integer _return) {
     this._return = _return;
   }

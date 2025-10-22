@@ -31,6 +31,8 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -57,68 +59,87 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("format_test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "FormatTest")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "FormatTest")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
+  @XmlElement(name = "integer")
   @javax.annotation.Nullable
   private Integer integer;
 
   public static final String JSON_PROPERTY_INT32 = "int32";
+  @XmlElement(name = "int32")
   @javax.annotation.Nullable
   private Integer int32;
 
   public static final String JSON_PROPERTY_INT64 = "int64";
+  @XmlElement(name = "int64")
   @javax.annotation.Nullable
   private Long int64;
 
   public static final String JSON_PROPERTY_NUMBER = "number";
+  @XmlElement(name = "number")
   @javax.annotation.Nonnull
   private BigDecimal number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
+  @XmlElement(name = "float")
   @javax.annotation.Nullable
   private Float _float;
 
   public static final String JSON_PROPERTY_DOUBLE = "double";
+  @XmlElement(name = "double")
   @javax.annotation.Nullable
   private Double _double;
 
   public static final String JSON_PROPERTY_DECIMAL = "decimal";
+  @XmlElement(name = "decimal")
   @javax.annotation.Nullable
   private BigDecimal decimal;
 
   public static final String JSON_PROPERTY_STRING = "string";
+  @XmlElement(name = "string")
   @javax.annotation.Nullable
   private String string;
 
   public static final String JSON_PROPERTY_BYTE = "byte";
+  @XmlElement(name = "byte")
   @javax.annotation.Nonnull
   private byte[] _byte;
 
   public static final String JSON_PROPERTY_BINARY = "binary";
+  @XmlElement(name = "binary")
   @javax.annotation.Nullable
   private File binary;
 
   public static final String JSON_PROPERTY_DATE = "date";
+  @XmlElement(name = "date")
   @javax.annotation.Nonnull
   private LocalDate date;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @XmlElement(name = "dateTime")
   @javax.annotation.Nullable
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_UUID = "uuid";
+  @XmlElement(name = "uuid")
   @javax.annotation.Nullable
   private UUID uuid;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
+  @XmlElement(name = "password")
   @javax.annotation.Nonnull
   private String password;
 
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS = "pattern_with_digits";
+  @XmlElement(name = "pattern_with_digits")
   @javax.annotation.Nullable
   private String patternWithDigits;
 
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
+  @XmlElement(name = "pattern_with_digits_and_delimiter")
   @javax.annotation.Nullable
   private String patternWithDigitsAndDelimiter;
 
@@ -139,6 +160,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "integer")
 
   public Integer getInteger() {
     return integer;
@@ -147,6 +169,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "integer")
   public void setInteger(@javax.annotation.Nullable Integer integer) {
     this.integer = integer;
   }
@@ -166,6 +189,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_INT32, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "int32")
 
   public Integer getInt32() {
     return int32;
@@ -174,6 +198,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_INT32, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "int32")
   public void setInt32(@javax.annotation.Nullable Integer int32) {
     this.int32 = int32;
   }
@@ -191,6 +216,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_INT64, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "int64")
 
   public Long getInt64() {
     return int64;
@@ -199,6 +225,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_INT64, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "int64")
   public void setInt64(@javax.annotation.Nullable Long int64) {
     this.int64 = int64;
   }
@@ -218,6 +245,7 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_NUMBER, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "number")
 
   public BigDecimal getNumber() {
     return number;
@@ -226,6 +254,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_NUMBER, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "number")
   public void setNumber(@javax.annotation.Nonnull BigDecimal number) {
     this.number = number;
   }
@@ -245,6 +274,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "float")
 
   public Float getFloat() {
     return _float;
@@ -253,6 +283,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "float")
   public void setFloat(@javax.annotation.Nullable Float _float) {
     this._float = _float;
   }
@@ -272,6 +303,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "double")
 
   public Double getDouble() {
     return _double;
@@ -280,6 +312,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "double")
   public void setDouble(@javax.annotation.Nullable Double _double) {
     this._double = _double;
   }
@@ -297,6 +330,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_DECIMAL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "decimal")
 
   public BigDecimal getDecimal() {
     return decimal;
@@ -305,6 +339,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_DECIMAL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "decimal")
   public void setDecimal(@javax.annotation.Nullable BigDecimal decimal) {
     this.decimal = decimal;
   }
@@ -322,6 +357,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "string")
 
   public String getString() {
     return string;
@@ -330,6 +366,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "string")
   public void setString(@javax.annotation.Nullable String string) {
     this.string = string;
   }
@@ -347,6 +384,7 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_BYTE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "byte")
 
   public byte[] getByte() {
     return _byte;
@@ -355,6 +393,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_BYTE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "byte")
   public void setByte(@javax.annotation.Nonnull byte[] _byte) {
     this._byte = _byte;
   }
@@ -372,6 +411,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_BINARY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "binary")
 
   public File getBinary() {
     return binary;
@@ -380,6 +420,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_BINARY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "binary")
   public void setBinary(@javax.annotation.Nullable File binary) {
     this.binary = binary;
   }
@@ -397,6 +438,7 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_DATE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "date")
 
   public LocalDate getDate() {
     return date;
@@ -405,6 +447,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_DATE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "date")
   public void setDate(@javax.annotation.Nonnull LocalDate date) {
     this.date = date;
   }
@@ -422,6 +465,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "dateTime")
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -430,6 +474,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "dateTime")
   public void setDateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -447,6 +492,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "uuid")
 
   public UUID getUuid() {
     return uuid;
@@ -455,6 +501,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "uuid")
   public void setUuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
   }
@@ -472,6 +519,7 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "password")
 
   public String getPassword() {
     return password;
@@ -480,6 +528,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "password")
   public void setPassword(@javax.annotation.Nonnull String password) {
     this.password = password;
   }
@@ -497,6 +546,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "pattern_with_digits")
 
   public String getPatternWithDigits() {
     return patternWithDigits;
@@ -505,6 +555,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "pattern_with_digits")
   public void setPatternWithDigits(@javax.annotation.Nullable String patternWithDigits) {
     this.patternWithDigits = patternWithDigits;
   }
@@ -522,6 +573,7 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "pattern_with_digits_and_delimiter")
 
   public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;
@@ -530,6 +582,7 @@ public class FormatTest {
 
   @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "pattern_with_digits_and_delimiter")
   public void setPatternWithDigitsAndDelimiter(@javax.annotation.Nullable String patternWithDigitsAndDelimiter) {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }

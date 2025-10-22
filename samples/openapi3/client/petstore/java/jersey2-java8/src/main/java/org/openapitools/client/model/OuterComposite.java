@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -39,16 +41,22 @@ import org.openapitools.client.JSON;
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "OuterComposite")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "OuterComposite")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
+  @XmlElement(name = "my_number")
   @javax.annotation.Nullable
   private BigDecimal myNumber;
 
   public static final String JSON_PROPERTY_MY_STRING = "my_string";
+  @XmlElement(name = "my_string")
   @javax.annotation.Nullable
   private String myString;
 
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
+  @XmlElement(name = "my_boolean")
   @javax.annotation.Nullable
   private Boolean myBoolean;
 
@@ -67,6 +75,7 @@ public class OuterComposite {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_MY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_number")
 
   public BigDecimal getMyNumber() {
     return myNumber;
@@ -75,6 +84,7 @@ public class OuterComposite {
 
   @JsonProperty(value = JSON_PROPERTY_MY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_number")
   public void setMyNumber(@javax.annotation.Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
@@ -92,6 +102,7 @@ public class OuterComposite {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_MY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_string")
 
   public String getMyString() {
     return myString;
@@ -100,6 +111,7 @@ public class OuterComposite {
 
   @JsonProperty(value = JSON_PROPERTY_MY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_string")
   public void setMyString(@javax.annotation.Nullable String myString) {
     this.myString = myString;
   }
@@ -117,6 +129,7 @@ public class OuterComposite {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_boolean")
 
   public Boolean getMyBoolean() {
     return myBoolean;
@@ -125,6 +138,7 @@ public class OuterComposite {
 
   @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_boolean")
   public void setMyBoolean(@javax.annotation.Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }

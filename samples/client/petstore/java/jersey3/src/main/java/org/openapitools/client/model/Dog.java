@@ -34,6 +34,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -52,8 +54,12 @@ import org.openapitools.client.JSON;
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 
+@XmlRootElement(name = "Dog")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Dog")
 public class Dog extends Animal {
   public static final String JSON_PROPERTY_BREED = "breed";
+  @XmlElement(name = "breed")
   @jakarta.annotation.Nullable
   private String breed;
 
@@ -73,6 +79,7 @@ public class Dog extends Animal {
 
   @JsonProperty(value = JSON_PROPERTY_BREED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "breed")
 
   public String getBreed() {
     return breed;
@@ -81,6 +88,7 @@ public class Dog extends Animal {
 
   @JsonProperty(value = JSON_PROPERTY_BREED, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "breed")
   public void setBreed(@jakarta.annotation.Nullable String breed) {
     this.breed = breed;
   }

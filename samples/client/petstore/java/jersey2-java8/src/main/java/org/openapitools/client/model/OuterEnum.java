@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -30,10 +32,13 @@ import java.util.Locale;
  */
 public enum OuterEnum {
   
+  @XmlEnumValue("placed")
   PLACED("placed"),
   
+  @XmlEnumValue("approved")
   APPROVED("approved"),
   
+  @XmlEnumValue("delivered")
   DELIVERED("delivered");
 
   private String value;

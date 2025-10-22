@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -36,8 +38,12 @@ import org.openapitools.client.JSON;
   Client.JSON_PROPERTY_CLIENT
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "Client")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Client")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
+  @XmlElement(name = "client")
   @javax.annotation.Nullable
   private String client;
 
@@ -56,6 +62,7 @@ public class Client {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_CLIENT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "client")
 
   public String getClient() {
     return client;
@@ -64,6 +71,7 @@ public class Client {
 
   @JsonProperty(value = JSON_PROPERTY_CLIENT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "client")
   public void setClient(@javax.annotation.Nullable String client) {
     this.client = client;
   }

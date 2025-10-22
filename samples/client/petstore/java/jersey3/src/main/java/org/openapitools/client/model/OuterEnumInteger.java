@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -34,10 +36,13 @@ import java.util.Locale;
  */
 public enum OuterEnumInteger {
   
+  @XmlEnumValue("0")
   NUMBER_0(0),
   
+  @XmlEnumValue("1")
   NUMBER_1(1),
   
+  @XmlEnumValue("2")
   NUMBER_2(2);
 
   private Integer value;

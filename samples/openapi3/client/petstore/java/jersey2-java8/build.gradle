@@ -107,6 +107,7 @@ ext {
     scribejava_apis_version = "8.3.1"
     tomitribe_http_signatures_version = "1.7"
     commons_lang3_version = "3.17.0"
+    jaxb_version = "2.3.9"
 }
 
 dependencies {
@@ -119,6 +120,11 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    implementation "org.glassfish.jersey.media:jersey-media-jaxb:$jersey_version"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_databind_version"
+    if (JavaVersion.current().isJava11Compatible()) {
+        implementation "org.glassfish.jaxb:jaxb-runtime:$jaxb_version"
+    }
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     implementation "com.github.scribejava:scribejava-apis:$scribejava_apis_version"

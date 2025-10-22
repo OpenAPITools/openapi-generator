@@ -34,6 +34,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import org.openapitools.client.model.GrandparentAnimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -52,6 +54,9 @@ import org.openapitools.client.JSON;
   @JsonSubTypes.Type(value = ChildCat.class, name = "ChildCat"),
 })
 
+@XmlRootElement(name = "ParentPet")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ParentPet")
 public class ParentPet extends GrandparentAnimal {
   public ParentPet() { 
   }

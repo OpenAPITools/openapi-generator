@@ -30,6 +30,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -43,22 +45,29 @@ import org.openapitools.client.JSON;
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "ObjectWithDeprecatedFields")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ObjectWithDeprecatedFields")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
+  @XmlElement(name = "uuid")
   @javax.annotation.Nullable
   private String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
+  @XmlElement(name = "id")
   @Deprecated
   @javax.annotation.Nullable
   private BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
+  @XmlElement(name = "deprecatedRef")
   @Deprecated
   @javax.annotation.Nullable
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
+  @XmlElement(name = "bars")
   @Deprecated
   @javax.annotation.Nullable
   private List<String> bars = new ArrayList<>();
@@ -78,6 +87,7 @@ public class ObjectWithDeprecatedFields {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "uuid")
 
   public String getUuid() {
     return uuid;
@@ -86,6 +96,7 @@ public class ObjectWithDeprecatedFields {
 
   @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "uuid")
   public void setUuid(@javax.annotation.Nullable String uuid) {
     this.uuid = uuid;
   }
@@ -106,6 +117,7 @@ public class ObjectWithDeprecatedFields {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
 
   public BigDecimal getId() {
     return id;
@@ -115,6 +127,7 @@ public class ObjectWithDeprecatedFields {
   @Deprecated
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
   public void setId(@javax.annotation.Nullable BigDecimal id) {
     this.id = id;
   }
@@ -135,6 +148,7 @@ public class ObjectWithDeprecatedFields {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_DEPRECATED_REF, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "deprecatedRef")
 
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
@@ -144,6 +158,7 @@ public class ObjectWithDeprecatedFields {
   @Deprecated
   @JsonProperty(value = JSON_PROPERTY_DEPRECATED_REF, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "deprecatedRef")
   public void setDeprecatedRef(@javax.annotation.Nullable DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
@@ -172,6 +187,8 @@ public class ObjectWithDeprecatedFields {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_BARS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "bars")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<String> getBars() {
     return bars;
@@ -181,6 +198,8 @@ public class ObjectWithDeprecatedFields {
   @Deprecated
   @JsonProperty(value = JSON_PROPERTY_BARS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "bars")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setBars(@javax.annotation.Nullable List<String> bars) {
     this.bars = bars;
   }

@@ -40,6 +40,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -53,18 +55,25 @@ import org.openapitools.client.JSON;
   Drawing.JSON_PROPERTY_SHAPES
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "Drawing")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Drawing")
 public class Drawing {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
+  @XmlElement(name = "mainShape")
   @javax.annotation.Nullable
   private Shape mainShape;
 
   public static final String JSON_PROPERTY_SHAPE_OR_NULL = "shapeOrNull";
+  @XmlElement(name = "shapeOrNull")
   private JsonNullable<ShapeOrNull> shapeOrNull = JsonNullable.<ShapeOrNull>undefined();
 
   public static final String JSON_PROPERTY_NULLABLE_SHAPE = "nullableShape";
+  @XmlElement(name = "nullableShape")
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
+  @XmlElement(name = "shapes")
   @javax.annotation.Nullable
   private List<Shape> shapes = new ArrayList<>();
 
@@ -83,6 +92,7 @@ public class Drawing {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_MAIN_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "mainShape")
 
   public Shape getMainShape() {
     return mainShape;
@@ -91,6 +101,7 @@ public class Drawing {
 
   @JsonProperty(value = JSON_PROPERTY_MAIN_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "mainShape")
   public void setMainShape(@javax.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
   }
@@ -114,6 +125,7 @@ public class Drawing {
 
   @JsonProperty(value = JSON_PROPERTY_SHAPE_OR_NULL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "shapeOrNull")
 
   public JsonNullable<ShapeOrNull> getShapeOrNull_JsonNullable() {
     return shapeOrNull;
@@ -147,6 +159,7 @@ public class Drawing {
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "nullableShape")
 
   public JsonNullable<NullableShape> getNullableShape_JsonNullable() {
     return nullableShape;
@@ -182,6 +195,8 @@ public class Drawing {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_SHAPES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "shapes")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<Shape> getShapes() {
     return shapes;
@@ -190,6 +205,8 @@ public class Drawing {
 
   @JsonProperty(value = JSON_PROPERTY_SHAPES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "shapes")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setShapes(@javax.annotation.Nullable List<Shape> shapes) {
     this.shapes = shapes;
   }
