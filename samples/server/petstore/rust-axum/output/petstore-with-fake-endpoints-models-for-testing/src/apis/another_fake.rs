@@ -7,12 +7,12 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum TestSpecialTagsResponse {
-    /// successful operation
-    Status200_SuccessfulOperation(models::Client),
+    /// successful operation (application/json)
+    Status200_SuccessfulOperation_Json(models::Client),
 }
 
 /// AnotherFake

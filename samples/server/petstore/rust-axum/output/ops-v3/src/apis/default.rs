@@ -7,299 +7,299 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op10GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op11GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op12GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op13GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op14GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op15GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op16GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op17GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op18GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op19GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op1GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op20GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op21GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op22GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op23GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op24GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op25GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op26GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op27GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op28GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op29GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op2GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op30GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op31GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op32GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op33GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op34GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op35GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op36GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op37GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op3GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op4GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op5GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op6GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op7GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op8GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op9GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 

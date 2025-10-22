@@ -7,43 +7,47 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteOrderResponse {
-    /// Invalid ID supplied
+    /// Invalid ID supplied ()
     Status400_InvalidIDSupplied,
-    /// Order not found
+    /// Order not found ()
     Status404_OrderNotFound,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetInventoryResponse {
-    /// successful operation
-    Status200_SuccessfulOperation(std::collections::HashMap<String, i32>),
+    /// successful operation (application/json)
+    Status200_SuccessfulOperation_Json(std::collections::HashMap<String, i32>),
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetOrderByIdResponse {
-    /// successful operation
-    Status200_SuccessfulOperation(String),
-    /// Invalid ID supplied
+    /// successful operation (application/xml)
+    Status200_SuccessfulOperation_PlainText(String),
+    /// successful operation (application/json)
+    Status200_SuccessfulOperation_Json(models::Order),
+    /// Invalid ID supplied ()
     Status400_InvalidIDSupplied,
-    /// Order not found
+    /// Order not found ()
     Status404_OrderNotFound,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum PlaceOrderResponse {
-    /// successful operation
-    Status200_SuccessfulOperation(String),
-    /// Invalid Order
+    /// successful operation (application/xml)
+    Status200_SuccessfulOperation_PlainText(String),
+    /// successful operation (application/json)
+    Status200_SuccessfulOperation_Json(models::Order),
+    /// Invalid Order ()
     Status400_InvalidOrder,
 }
 

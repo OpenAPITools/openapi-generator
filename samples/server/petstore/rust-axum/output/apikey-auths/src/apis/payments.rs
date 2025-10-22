@@ -7,32 +7,32 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetPaymentMethodByIdResponse {
-    /// OK - the request has succeeded.
-    Status200_OK(models::PaymentMethod),
-    /// Unprocessable Entity - a request validation error.
-    Status422_UnprocessableEntity(models::CheckoutError),
+    /// OK - the request has succeeded. (application/json)
+    Status200_OK_Json(models::PaymentMethod),
+    /// Unprocessable Entity - a request validation error. (application/json)
+    Status422_UnprocessableEntity_Json(models::CheckoutError),
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetPaymentMethodsResponse {
-    /// OK - the request has succeeded.
-    Status200_OK(Vec<models::PaymentMethod>),
+    /// OK - the request has succeeded. (application/json)
+    Status200_OK_Json(Vec<models::PaymentMethod>),
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum PostMakePaymentResponse {
-    /// OK - the request has succeeded.
-    Status200_OK(models::PaymentResult),
-    /// Unprocessable Entity - a request validation error.
-    Status422_UnprocessableEntity(models::CheckoutError),
+    /// OK - the request has succeeded. (application/json)
+    Status200_OK_Json(models::PaymentResult),
+    /// Unprocessable Entity - a request validation error. (application/json)
+    Status422_UnprocessableEntity_Json(models::CheckoutError),
 }
 
 /// Payments

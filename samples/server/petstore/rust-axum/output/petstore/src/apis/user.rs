@@ -7,82 +7,91 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUserResponse {
-    /// successful operation
+    /// successful operation ()
     Status0_SuccessfulOperation,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithArrayInputResponse {
-    /// successful operation
+    /// successful operation ()
     Status0_SuccessfulOperation,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithListInputResponse {
-    /// successful operation
+    /// successful operation ()
     Status0_SuccessfulOperation,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteUserResponse {
-    /// Invalid username supplied
+    /// Invalid username supplied ()
     Status400_InvalidUsernameSupplied,
-    /// User not found
+    /// User not found ()
     Status404_UserNotFound,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetUserByNameResponse {
-    /// successful operation
-    Status200_SuccessfulOperation(String),
-    /// Invalid username supplied
+    /// successful operation (application/xml)
+    Status200_SuccessfulOperation_PlainText(String),
+    /// successful operation (application/json)
+    Status200_SuccessfulOperation_Json(models::User),
+    /// Invalid username supplied ()
     Status400_InvalidUsernameSupplied,
-    /// User not found
+    /// User not found ()
     Status404_UserNotFound,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum LoginUserResponse {
-    /// successful operation
-    Status200_SuccessfulOperation {
+    /// successful operation (application/xml)
+    Status200_SuccessfulOperation_PlainText {
         body: String,
         set_cookie: Option<String>,
         x_rate_limit: Option<i32>,
         x_expires_after: Option<chrono::DateTime<chrono::Utc>>,
     },
-    /// Invalid username/password supplied
+    /// successful operation (application/json)
+    Status200_SuccessfulOperation_Json {
+        body: String,
+        set_cookie: Option<String>,
+        x_rate_limit: Option<i32>,
+        x_expires_after: Option<chrono::DateTime<chrono::Utc>>,
+    },
+    /// Invalid username/password supplied ()
     Status400_InvalidUsername,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum LogoutUserResponse {
-    /// successful operation
+    /// successful operation ()
     Status0_SuccessfulOperation,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum UpdateUserResponse {
-    /// Invalid user supplied
+    /// Invalid user supplied ()
     Status400_InvalidUserSupplied,
-    /// User not found
+    /// User not found ()
     Status404_UserNotFound,
 }
 

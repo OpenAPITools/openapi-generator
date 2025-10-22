@@ -70,21 +70,13 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::AllOfGetResponse::Status200_OK(body) => {
+            apis::default::AllOfGetResponse::Status200_OK_PlainText(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("*/*"));
                 }
-
-                let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
-                        error!(error = ?e);
-                        StatusCode::INTERNAL_SERVER_ERROR
-                    })
-                })
-                .await
-                .unwrap()?;
+                let body_content = body;
                 response.body(Body::from(body_content))
             }
         },
@@ -270,16 +262,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::FileResponseGetResponse::Status200_Success(body) => {
+            apis::default::FileResponseGetResponse::Status200_Success_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -343,14 +335,13 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::GetStructuredYamlResponse::Status200_OK(body) => {
+            apis::default::GetStructuredYamlResponse::Status200_OK_PlainText(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/yaml"));
                 }
-
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
@@ -416,13 +407,12 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::HtmlPostResponse::Status200_Success(body) => {
+            apis::default::HtmlPostResponse::Status200_Success_PlainText(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/html"));
                 }
-
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
@@ -547,21 +537,13 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::RawJsonGetResponse::Status200_Success(body) => {
+            apis::default::RawJsonGetResponse::Status200_Success_PlainText(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("*/*"));
                 }
-
-                let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
-                        error!(error = ?e);
-                        StatusCode::INTERNAL_SERVER_ERROR
-                    })
-                })
-                .await
-                .unwrap()?;
+                let body_content = body;
                 response.body(Body::from(body_content))
             }
         },

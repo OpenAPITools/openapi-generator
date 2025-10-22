@@ -179,16 +179,18 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::another_fake::TestSpecialTagsResponse::Status200_SuccessfulOperation(body) => {
+            apis::another_fake::TestSpecialTagsResponse::Status200_SuccessfulOperation_Json(
+                body,
+            ) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -327,21 +329,15 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::fake::FakeOuterBooleanSerializeResponse::Status200_OutputBoolean(body) => {
+            apis::fake::FakeOuterBooleanSerializeResponse::Status200_OutputBoolean_PlainText(
+                body,
+            ) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("*/*"));
                 }
-
-                let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
-                        error!(error = ?e);
-                        StatusCode::INTERNAL_SERVER_ERROR
-                    })
-                })
-                .await
-                .unwrap()?;
+                let body_content = body;
                 response.body(Body::from(body_content))
             }
         },
@@ -414,34 +410,27 @@ where
     let mut response = Response::builder();
 
     let resp = match result {
-        Ok(rsp) => match rsp {
-            apis::fake::FakeOuterCompositeSerializeResponse::Status200_OutputComposite(body) => {
-                let mut response = response.status(200);
-                {
-                    let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("*/*"));
-                }
-
-                let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
-                        error!(error = ?e);
-                        StatusCode::INTERNAL_SERVER_ERROR
-                    })
-                })
-                .await
-                .unwrap()?;
-                response.body(Body::from(body_content))
-            }
-        },
-        Err(why) => {
-            // Application code returned an error. This should not happen, as the implementation should
-            // return a valid response.
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
-        }
-    };
+                                            Ok(rsp) => match rsp {
+                                                apis::fake::FakeOuterCompositeSerializeResponse::Status200_OutputComposite_PlainText
+                                                    (body)
+                                                => {
+                                                  let mut response = response.status(200);
+                                                  {
+                                                    let mut response_headers = response.headers_mut().unwrap();
+                                                    response_headers.insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("*/*"));
+                                                  }
+                                                  let body_content = body;
+                                                  response.body(Body::from(body_content))
+                                                },
+                                            },
+                                            Err(why) => {
+                                                    // Application code returned an error. This should not happen, as the implementation should
+                                                    // return a valid response.
+                                                    return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+                                            },
+                                        };
 
     resp.map_err(|e| {
         error!(error = ?e);
@@ -503,21 +492,15 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::fake::FakeOuterNumberSerializeResponse::Status200_OutputNumber(body) => {
+            apis::fake::FakeOuterNumberSerializeResponse::Status200_OutputNumber_PlainText(
+                body,
+            ) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("*/*"));
                 }
-
-                let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
-                        error!(error = ?e);
-                        StatusCode::INTERNAL_SERVER_ERROR
-                    })
-                })
-                .await
-                .unwrap()?;
+                let body_content = body;
                 response.body(Body::from(body_content))
             }
         },
@@ -591,21 +574,15 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::fake::FakeOuterStringSerializeResponse::Status200_OutputString(body) => {
+            apis::fake::FakeOuterStringSerializeResponse::Status200_OutputString_PlainText(
+                body,
+            ) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("*/*"));
                 }
-
-                let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
-                        error!(error = ?e);
-                        StatusCode::INTERNAL_SERVER_ERROR
-                    })
-                })
-                .await
-                .unwrap()?;
+                let body_content = body;
                 response.body(Body::from(body_content))
             }
         },
@@ -879,16 +856,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::fake::TestClientModelResponse::Status200_SuccessfulOperation(body) => {
+            apis::fake::TestClientModelResponse::Status200_SuccessfulOperation_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -1343,37 +1320,32 @@ where
     let mut response = Response::builder();
 
     let resp = match result {
-        Ok(rsp) => match rsp {
-            apis::fake_classname_tags123::TestClassnameResponse::Status200_SuccessfulOperation(
-                body,
-            ) => {
-                let mut response = response.status(200);
-                {
-                    let mut response_headers = response.headers_mut().unwrap();
-                    response_headers
-                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
-                }
-
-                let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
-                        error!(error = ?e);
-                        StatusCode::INTERNAL_SERVER_ERROR
-                    })
-                })
-                .await
-                .unwrap()?;
-                response.body(Body::from(body_content))
-            }
-        },
-        Err(why) => {
-            // Application code returned an error. This should not happen, as the implementation should
-            // return a valid response.
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
-        }
-    };
+                                            Ok(rsp) => match rsp {
+                                                apis::fake_classname_tags123::TestClassnameResponse::Status200_SuccessfulOperation_Json
+                                                    (body)
+                                                => {
+                                                  let mut response = response.status(200);
+                                                  {
+                                                    let mut response_headers = response.headers_mut().unwrap();
+                                                    response_headers.insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("application/json"));
+                                                  }
+                                                  let body_clone = body.clone();
+                                                  let body_content =  tokio::task::spawn_blocking(move ||
+                                                      serde_json::to_vec(&body_clone).map_err(|e| {
+                                                        error!(error = ?e);
+                                                        StatusCode::INTERNAL_SERVER_ERROR
+                                                      })).await.unwrap()?;
+                                                  response.body(Body::from(body_content))
+                                                },
+                                            },
+                                            Err(why) => {
+                                                    // Application code returned an error. This should not happen, as the implementation should
+                                                    // return a valid response.
+                                                    return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+                                            },
+                                        };
 
     resp.map_err(|e| {
         error!(error = ?e);
@@ -1591,14 +1563,31 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::pet::FindPetsByStatusResponse::Status200_SuccessfulOperation(body) => {
+            apis::pet::FindPetsByStatusResponse::Status200_SuccessfulOperation_PlainText(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
-
                 let body_content = body;
+                response.body(Body::from(body_content))
+            }
+            apis::pet::FindPetsByStatusResponse::Status200_SuccessfulOperation_Json(body) => {
+                let mut response = response.status(200);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                }
+                let body_clone = body.clone();
+                let body_content = tokio::task::spawn_blocking(move || {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
+                        error!(error = ?e);
+                        StatusCode::INTERNAL_SERVER_ERROR
+                    })
+                })
+                .await
+                .unwrap()?;
                 response.body(Body::from(body_content))
             }
             apis::pet::FindPetsByStatusResponse::Status400_InvalidStatusValue => {
@@ -1666,14 +1655,31 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::pet::FindPetsByTagsResponse::Status200_SuccessfulOperation(body) => {
+            apis::pet::FindPetsByTagsResponse::Status200_SuccessfulOperation_PlainText(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
-
                 let body_content = body;
+                response.body(Body::from(body_content))
+            }
+            apis::pet::FindPetsByTagsResponse::Status200_SuccessfulOperation_Json(body) => {
+                let mut response = response.status(200);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                }
+                let body_clone = body.clone();
+                let body_content = tokio::task::spawn_blocking(move || {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
+                        error!(error = ?e);
+                        StatusCode::INTERNAL_SERVER_ERROR
+                    })
+                })
+                .await
+                .unwrap()?;
                 response.body(Body::from(body_content))
             }
             apis::pet::FindPetsByTagsResponse::Status400_InvalidTagValue => {
@@ -1751,14 +1757,31 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::pet::GetPetByIdResponse::Status200_SuccessfulOperation(body) => {
+            apis::pet::GetPetByIdResponse::Status200_SuccessfulOperation_PlainText(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
-
                 let body_content = body;
+                response.body(Body::from(body_content))
+            }
+            apis::pet::GetPetByIdResponse::Status200_SuccessfulOperation_Json(body) => {
+                let mut response = response.status(200);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                }
+                let body_clone = body.clone();
+                let body_content = tokio::task::spawn_blocking(move || {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
+                        error!(error = ?e);
+                        StatusCode::INTERNAL_SERVER_ERROR
+                    })
+                })
+                .await
+                .unwrap()?;
                 response.body(Body::from(body_content))
             }
             apis::pet::GetPetByIdResponse::Status400_InvalidIDSupplied => {
@@ -1994,16 +2017,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::pet::UploadFileResponse::Status200_SuccessfulOperation(body) => {
+            apis::pet::UploadFileResponse::Status200_SuccessfulOperation_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -2146,16 +2169,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::store::GetInventoryResponse::Status200_SuccessfulOperation(body) => {
+            apis::store::GetInventoryResponse::Status200_SuccessfulOperation_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -2224,14 +2247,31 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::store::GetOrderByIdResponse::Status200_SuccessfulOperation(body) => {
+            apis::store::GetOrderByIdResponse::Status200_SuccessfulOperation_PlainText(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
-
                 let body_content = body;
+                response.body(Body::from(body_content))
+            }
+            apis::store::GetOrderByIdResponse::Status200_SuccessfulOperation_Json(body) => {
+                let mut response = response.status(200);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                }
+                let body_clone = body.clone();
+                let body_content = tokio::task::spawn_blocking(move || {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
+                        error!(error = ?e);
+                        StatusCode::INTERNAL_SERVER_ERROR
+                    })
+                })
+                .await
+                .unwrap()?;
                 response.body(Body::from(body_content))
             }
             apis::store::GetOrderByIdResponse::Status400_InvalidIDSupplied => {
@@ -2310,14 +2350,31 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::store::PlaceOrderResponse::Status200_SuccessfulOperation(body) => {
+            apis::store::PlaceOrderResponse::Status200_SuccessfulOperation_PlainText(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
-
                 let body_content = body;
+                response.body(Body::from(body_content))
+            }
+            apis::store::PlaceOrderResponse::Status200_SuccessfulOperation_Json(body) => {
+                let mut response = response.status(200);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                }
+                let body_clone = body.clone();
+                let body_content = tokio::task::spawn_blocking(move || {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
+                        error!(error = ?e);
+                        StatusCode::INTERNAL_SERVER_ERROR
+                    })
+                })
+                .await
+                .unwrap()?;
                 response.body(Body::from(body_content))
             }
             apis::store::PlaceOrderResponse::Status400_InvalidOrder => {
@@ -2670,14 +2727,31 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::user::GetUserByNameResponse::Status200_SuccessfulOperation(body) => {
+            apis::user::GetUserByNameResponse::Status200_SuccessfulOperation_PlainText(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
-
                 let body_content = body;
+                response.body(Body::from(body_content))
+            }
+            apis::user::GetUserByNameResponse::Status200_SuccessfulOperation_Json(body) => {
+                let mut response = response.status(200);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                }
+                let body_clone = body.clone();
+                let body_content = tokio::task::spawn_blocking(move || {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
+                        error!(error = ?e);
+                        StatusCode::INTERNAL_SERVER_ERROR
+                    })
+                })
+                .await
+                .unwrap()?;
                 response.body(Body::from(body_content))
             }
             apis::user::GetUserByNameResponse::Status400_InvalidUsernameSupplied => {
@@ -2748,7 +2822,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::user::LoginUserResponse::Status200_SuccessfulOperation {
+            apis::user::LoginUserResponse::Status200_SuccessfulOperation_PlainText {
                 body,
                 x_rate_limit,
                 x_expires_after,
@@ -2791,8 +2865,62 @@ where
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
-
                 let body_content = body;
+                response.body(Body::from(body_content))
+            }
+            apis::user::LoginUserResponse::Status200_SuccessfulOperation_Json {
+                body,
+                x_rate_limit,
+                x_expires_after,
+            } => {
+                if let Some(x_rate_limit) = x_rate_limit {
+                    let x_rate_limit = match header::IntoHeaderValue(x_rate_limit).try_into() {
+                        Ok(val) => val,
+                        Err(e) => {
+                            return Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(Body::from(format!("An internal server error occurred handling x_rate_limit header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                        }
+                    };
+
+                    {
+                        let mut response_headers = response.headers_mut().unwrap();
+                        response_headers
+                            .insert(HeaderName::from_static("x-rate-limit"), x_rate_limit);
+                    }
+                }
+                if let Some(x_expires_after) = x_expires_after {
+                    let x_expires_after = match header::IntoHeaderValue(x_expires_after).try_into()
+                    {
+                        Ok(val) => val,
+                        Err(e) => {
+                            return Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(Body::from(format!("An internal server error occurred handling x_expires_after header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                        }
+                    };
+
+                    {
+                        let mut response_headers = response.headers_mut().unwrap();
+                        response_headers
+                            .insert(HeaderName::from_static("x-expires-after"), x_expires_after);
+                    }
+                }
+                let mut response = response.status(200);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                }
+                let body_clone = body.clone();
+                let body_content = tokio::task::spawn_blocking(move || {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
+                        error!(error = ?e);
+                        StatusCode::INTERNAL_SERVER_ERROR
+                    })
+                })
+                .await
+                .unwrap()?;
                 response.body(Body::from(body_content))
             }
             apis::user::LoginUserResponse::Status400_InvalidUsername => {

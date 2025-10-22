@@ -30,6 +30,7 @@ frunk-enum-core = { version = "0.3", optional = true }
 frunk-enum-derive = { version = "0.3", optional = true }
 frunk_core = { version = "0.4", optional = true }
 frunk_derives = { version = "0.4", optional = true }
+futures = "0.3.31"
 http = "1"
 lazy_static = "1"
 regex = "1"

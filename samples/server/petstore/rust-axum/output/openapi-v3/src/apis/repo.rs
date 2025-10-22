@@ -7,11 +7,11 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateRepoResponse {
-    /// Success
+    /// Success ()
     Status200_Success,
 }
 

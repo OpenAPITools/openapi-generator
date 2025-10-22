@@ -7,12 +7,12 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum UsersPostResponse {
-    /// Added row to table!
-    Status201_AddedRowToTable(String),
+    /// Added row to table! (application/json)
+    Status201_AddedRowToTable_Json(String),
 }
 
 /// Default
