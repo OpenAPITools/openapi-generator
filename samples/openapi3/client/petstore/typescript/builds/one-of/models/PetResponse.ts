@@ -30,10 +30,10 @@ export class PetResponseClass extends OneOfClass {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly arrayOfTypes: Array<typeof Cat | typeof Dog> = [Cat, Dog];
+    private static readonly arrayOfTypes: Array<typeof Cat | typeof Dog> = [Cat, Dog];
 
-    public static findMatchingType(data:any): string | undefined {
-        for(const type of this.arrayOfTypes) {
+    public static findMatchingType(data: any): string | undefined {
+        for (const type of this.arrayOfTypes) {
             if (this.instanceOf(data, type.getAttributeTypeMap())) {
                 return type.name;
             }

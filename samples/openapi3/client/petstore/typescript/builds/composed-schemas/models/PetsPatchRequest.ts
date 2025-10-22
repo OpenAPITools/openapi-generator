@@ -30,10 +30,10 @@ export class PetsPatchRequestClass extends OneOfClass {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly arrayOfTypes: Array<typeof Cat | typeof Dog | typeof any> = [Cat, Dog, any];
+    private static readonly arrayOfTypes: Array<typeof Cat | typeof Dog | typeof any> = [Cat, Dog, any];
 
-    public static findMatchingType(data:any): string | undefined {
-        for(const type of this.arrayOfTypes) {
+    public static findMatchingType(data: any): string | undefined {
+        for (const type of this.arrayOfTypes) {
             if (this.instanceOf(data, type.getAttributeTypeMap())) {
                 return type.name;
             }
