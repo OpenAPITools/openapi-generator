@@ -58,6 +58,8 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.X_PARENT;
 import static org.openapitools.codegen.utils.OnceLogger.once;
+import java.util.Arrays;
+
 
 public class ModelUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
@@ -2261,8 +2263,19 @@ public class ModelUtils {
      */
     public static Schema simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(OpenAPI openAPI, Schema schema, List<Schema> subSchemas) {
         if (subSchemas.removeIf(subSchema -> isNullTypeSchema(openAPI, subSchema))) {
-            schema.setNullable(true);
+           if (subSchemas.size() == 1) {
+               Schema<?> nonNull = subSchemas.get(0);
+               schema.setOneOf(Arrays.asList(
+               nonNull,
+               new Schema<>().type("null")
+            ));
+            return schema;
+            } else {
+                    schema.setOneOf(subSchemas);
+                    return schema;
+            }
         }
+
 
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
