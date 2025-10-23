@@ -2272,8 +2272,12 @@ public class SpringCodegenTest {
             additionalProperties.put(RETURN_SUCCESS_CODE, "true");
             Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_12524.json", SPRING_BOOT, additionalProperties);
 
-            JavaFileAssert.assertThat(files.get("API01ListOfStuff.java"))
-                    .hasImports("com.fasterxml.jackson.annotation.JsonTypeName");
+            // class extending array is no longer generated as it's automatically fixed by inline resolver
+            // by removing the properties for array type
+            //JavaFileAssert.assertThat(files.get("API01ListOfStuff.java"))
+            //        .hasImports("com.fasterxml.jackson.annotation.JsonTypeName");
+            File notExisting = files.get("API01ListOfStuff.java");
+            assertThat(notExisting).isNull();
         } finally {
             GlobalSettings.reset();
         }

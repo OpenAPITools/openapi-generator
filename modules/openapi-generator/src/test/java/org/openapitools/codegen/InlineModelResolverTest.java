@@ -1205,4 +1205,13 @@ public class InlineModelResolverTest {
         assertNotNull(allOfRefWithDescriptionAndReadonly.getAllOf());
         assertEquals(numberRangeRef, ((Schema) allOfRefWithDescriptionAndReadonly.getAllOf().get(0)).get$ref());
     }
+
+    @Test
+    public void testNonNullTypeWithProperties() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_21680_array_with_properties.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        Schema<?> schema = (Schema<?>) openAPI.getComponents().getSchemas().get("errors");
+        assertNotNull(schema);
+        assertNull(schema.getProperties());
+    }
 }
