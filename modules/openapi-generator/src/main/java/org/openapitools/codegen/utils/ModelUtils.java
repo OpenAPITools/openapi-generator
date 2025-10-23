@@ -2273,8 +2273,6 @@ public class ModelUtils {
                     return schema;
             }
         }
-
-
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
             Schema<?> subSchema = subSchemas.get(0);
