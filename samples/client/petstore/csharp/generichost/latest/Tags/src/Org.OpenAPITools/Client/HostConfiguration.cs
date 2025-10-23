@@ -66,9 +66,9 @@ namespace Org.OpenAPITools.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<IAPIKEYSApi, APIKEYSApi>(client));
-            builders.Add(_services.AddHttpClient<IAPIKeysApi, APIKeysApi>(client));
-            builders.Add(_services.AddHttpClient<IApiKeysApi, ApiKeysApi>(client));
+            builders.Add(_services.AddHttpClient<IAPIKEYSApi, APIKEYSApi>("Org.OpenAPITools.Api.IAPIKEYSApi", client));
+            builders.Add(_services.AddHttpClient<IAPIKeysApi, APIKeysApi>("Org.OpenAPITools.Api.IAPIKeysApi", client));
+            builders.Add(_services.AddHttpClient<IApiKeysApi, ApiKeysApi>("Org.OpenAPITools.Api.IApiKeysApi", client));
             
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)
