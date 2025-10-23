@@ -18,6 +18,7 @@
     {{/useUnityWebRequest}}
     {{>visibility}} partial class {{classname}}{{#lambda.firstDot}}{{#parent}} : .{{/parent}}{{#validatable}} : .{{/validatable}}{{#equatable}} : .{{/equatable}}{{/lambda.firstDot}}{{#lambda.joinWithComma}}{{#parent}}{{{.}}}  {{/parent}}{{#equatable}}IEquatable<{{classname}}>  {{/equatable}}{{#validatable}}IValidatableObject  {{/validatable}}{{/lambda.joinWithComma}}
     {
+        {{! Inner enums definition }}
         {{#vars}}
         {{#items.isEnum}}
         {{#items}}
@@ -31,6 +32,7 @@
 {{>modelInnerEnum}}
         {{/complexType}}
         {{/isEnum}}
+        {{! Inner enum fields }}
         {{#isEnum}}
 
         /// <summary>
@@ -47,7 +49,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
+        public {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}} { get; set; }
         {{#isReadOnly}}
 
         /// <summary>
@@ -62,11 +64,11 @@
         {{/conditionalSerialization}}
         {{#conditionalSerialization}}
         {{#isReadOnly}}
-        [DataMember(Name = "{{baseName}}"{{#required}}, IsRequired = true{{/required}}, EmitDefaultValue = {{#vendorExtensions.x-emit-default-value}}true{{/vendorExtensions.x-emit-default-value}}{{^vendorExtensions.x-emit-default-value}}{{#required}}true{{/required}}{{^required}}{{#isBoolean}}true{{/isBoolean}}{{^isBoolean}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/isBoolean}}{{/required}}{{/vendorExtensions.x-emit-default-value}})]
+        [DataMember(Name = "{{baseName}}"{{#required}}, IsRequired = true{{/required}}, EmitDefaultValue = {{#vendorExtensions.x-emit-default-value}}true{{/vendorExtensions.x-emit-default-value}}{{^vendorExtensions.x-emit-default-value}}{{#required}}true{{/required}}{{^required}}false{{/required}}{{/vendorExtensions.x-emit-default-value}})]
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
+        public {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}} { get; set; }
 
 
         /// <summary>
@@ -84,7 +86,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}}
+        public {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}}
         {
             get{ return _{{name}};}
             set
@@ -93,7 +95,7 @@
                 _flag{{name}} = true;
             }
         }
-        private {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} _{{name}};
+        private {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{>NullConditionalProperty}}{{^required}}>{{/required}} _{{name}};
         private bool _flag{{name}};
 
         /// <summary>
@@ -129,74 +131,64 @@
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
         {{#readWriteVars}}
-        /// <param name="{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}">{{description}}{{^description}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}.</param>
+        /// <param name="{{>CamelCaseSanitizedParamName}}">{{description}}{{^description}}{{>CamelCaseSanitizedParamName}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}.</param>
         {{/readWriteVars}}
     {{#hasOnlyReadOnly}}
         [JsonConstructorAttribute]
     {{/hasOnlyReadOnly}}
-        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}} {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{#defaultValue}}{{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default({{{datatypeWithEnum}}}){{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
+        public {{classname}}({{#readWriteVars}}{{^required}}Option<{{/required}}{{{datatypeWithEnum}}}{{^required}}>{{/required}} {{>CamelCaseSanitizedParamName}} = {{#required}}{{#defaultValue}}{{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default{{/defaultValue}}{{/required}}{{^required}}default{{/required}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{>CamelCaseSanitizedParamName}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
         {
             {{#vars}}
             {{^isInherited}}
             {{^isReadOnly}}
-            {{#required}}
-            {{^conditionalSerialization}}
+            {{^isNullable}} {{! Push all sanity tests on top }}
             {{^vendorExtensions.x-csharp-value-type}}
-            // to ensure "{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}" is required (not null)
-            if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} == null)
+            // to ensure "{{>CamelCaseSanitizedParamName}}" is required (not null)
+            if ({{^required}}{{>CamelCaseSanitizedParamName}}.IsSet && {{/required}}{{>CamelCaseSanitizedParamName}}{{^required}}.Value{{/required}} == null)
             {
-                throw new ArgumentNullException("{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} is a required property for {{classname}} and cannot be null");
+                throw new ArgumentNullException("{{>CamelCaseSanitizedParamName}} isn't a nullable property for {{classname}} and cannot be null");
             }
-            this.{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
             {{/vendorExtensions.x-csharp-value-type}}
-            {{#vendorExtensions.x-csharp-value-type}}
-            this.{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
-            {{/vendorExtensions.x-csharp-value-type}}
-            {{/conditionalSerialization}}
-            {{#conditionalSerialization}}
-            {{^vendorExtensions.x-csharp-value-type}}
-            // to ensure "{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}" is required (not null)
-            if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} == null)
-            {
-                throw new ArgumentNullException("{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} is a required property for {{classname}} and cannot be null");
-            }
-            this._{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
-            {{/vendorExtensions.x-csharp-value-type}}
-            {{#vendorExtensions.x-csharp-value-type}}
-            this._{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
-            {{/vendorExtensions.x-csharp-value-type}}
-            {{/conditionalSerialization}}
-            {{/required}}
+            {{/isNullable}}
             {{/isReadOnly}}
             {{/isInherited}}
             {{/vars}}
-            {{#vars}}
+            {{#vars}} {{! Assign all values }}
             {{^isInherited}}
             {{^isReadOnly}}
             {{^required}}
             {{#defaultValue}}
             {{^conditionalSerialization}}
-            {{^vendorExtensions.x-csharp-value-type}}
-            // use default value if no "{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}" provided
-            this.{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} ?? {{#isString}}@{{/isString}}{{{defaultValue}}};
-            {{/vendorExtensions.x-csharp-value-type}}
-            {{#vendorExtensions.x-csharp-value-type}}
-            this.{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
-            {{/vendorExtensions.x-csharp-value-type}}
+            this.{{name}} = {{>CamelCaseSanitizedParamName}}.IsSet ? {{>CamelCaseSanitizedParamName}}.Value : new Option({{#isString}}@{{/isString}}{{{defaultValue}}});
+            {{/conditionalSerialization}}
+            {{#conditionalSerialization}}
+            this._{{name}} = {{>CamelCaseSanitizedParamName}}.IsSet ? {{>CamelCaseSanitizedParamName}}.Value : new Option({{#isString}}@{{/isString}}{{{defaultValue}}});
             {{/conditionalSerialization}}
             {{/defaultValue}}
             {{^defaultValue}}
             {{^conditionalSerialization}}
-            this.{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
+            this.{{name}} = {{>CamelCaseSanitizedParamName}};
             {{/conditionalSerialization}}
             {{#conditionalSerialization}}
-            this._{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
-            if (this.{{name}} != null)
+            this._{{name}} = {{>CamelCaseSanitizedParamName}};
+            if (this.{{name}}.IsSet)
             {
                 this._flag{{name}} = true;
             }
             {{/conditionalSerialization}}
             {{/defaultValue}}
+            {{/required}}
+            {{#required}}
+            {{^conditionalSerialization}}
+            this.{{name}} = {{>CamelCaseSanitizedParamName}};
+            {{/conditionalSerialization}}
+            {{#conditionalSerialization}}
+            this._{{name}} = {{>CamelCaseSanitizedParamName}};
+            if (this.{{name}}.IsSet)
+            {
+                this._flag{{name}} = true;
+            }
+            {{/conditionalSerialization}}                
             {{/required}}
             {{/isReadOnly}}
             {{/isInherited}}
@@ -226,7 +218,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+        public {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
 
         {{#isReadOnly}}
         /// <summary>
@@ -248,7 +240,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{dataType}}} {{name}} { get; private set; }
+        public {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}} { get; private set; }
 
         /// <summary>
         /// Returns false as {{name}} should not be serialized given that it's read-only.
@@ -267,7 +259,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{dataType}}} {{name}}
+        public {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}}
         {
             get{ return _{{name}};}
             set
@@ -276,7 +268,7 @@
                 _flag{{name}} = true;
             }
         }
-        private {{{dataType}}} _{{name}};
+        private {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} _{{name}};
         private bool _flag{{name}};
 
         /// <summary>

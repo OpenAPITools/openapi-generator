@@ -394,20 +394,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
-        if (GENERICHOST.equals(getLibrary())) {
-            super.updateCodegenParameterEnum(parameter, model);
-            return;
-        }
-
-        super.updateCodegenParameterEnumLegacy(parameter, model);
-
-        if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
-            parameter.dataType = parameter.dataType + "?";
-        }
-    }
-
-    @Override
     public String apiDocFileFolder() {
         if (GENERICHOST.equals(getLibrary())) {
             return (outputFolder + "/" + apiDocPath + File.separatorChar + "apis").replace('/', File.separatorChar);
@@ -986,6 +972,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void addSupportingFiles(final String clientPackageDir, final String packageFolder,
                                    final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir, final String authPackageDir) {
+            supportingFiles.add(new SupportingFile("Option.mustache", clientPackageDir, "Option.cs"));
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
@@ -994,6 +981,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ExceptionFactory.mustache", clientPackageDir, "ExceptionFactory.cs"));
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
+        supportingFiles.add(new SupportingFile("Option.mustache", clientPackageDir, "Option.cs"));
+ 
         if (needsCustomHttpMethod) {
             supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
         }
