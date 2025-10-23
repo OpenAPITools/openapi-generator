@@ -28,7 +28,7 @@ from typing import Any, Optional
 from typing_extensions import Annotated
 
 
-router = APIRouter()
+router = APIRouter(prefix="/v2")
 
 ns_pkg = openapi_server.impl
 for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):

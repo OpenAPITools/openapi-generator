@@ -30,7 +30,7 @@ from openapi_server.models.api_response import ApiResponse
 from openapi_server.models.pet import Pet
 from openapi_server.security_api import get_token_petstore_auth, get_token_api_key
 
-router = APIRouter()
+router = APIRouter(prefix="/v2")
 
 ns_pkg = openapi_server.impl
 for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
