@@ -359,8 +359,8 @@
                 (
                     this.{{name}} == input.{{name}} ||
                     {{^vendorExtensions.x-is-value-type}}
-                    (this.{{name}} != null &&
-                    this.{{name}}.Equals(input.{{name}}))
+                    {{#required}}(this.{{name}} != null &&{{/required}}
+                    this.{{name}}.Equals(input.{{name}}){{#required}}){{/required}}
                     {{/vendorExtensions.x-is-value-type}}
                     {{#vendorExtensions.x-is-value-type}}
                     this.{{name}}.Equals(input.{{name}})
@@ -368,9 +368,9 @@
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
                 (
                     this.{{name}} == input.{{name}} ||
-                    {{^vendorExtensions.x-is-value-type}}this.{{name}} != null &&
-                    input.{{name}} != null &&
-                    {{/vendorExtensions.x-is-value-type}}this.{{name}}.SequenceEqual(input.{{name}})
+                    {{^vendorExtensions.x-is-value-type}}{{^required}}this.{{name}}.IsSet && {{/required}}this.{{name}}{{^required}}.Value{{/required}} != null &&
+                    {{^required}}input.{{name}}.IsSet && {{/required}}input.{{name}}{{^required}}.Value{{/required}} != null &&
+                    {{/vendorExtensions.x-is-value-type}}this.{{name}}{{^required}}.Value{{/required}}.SequenceEqual(input.{{name}}{{^required}}.Value{{/required}})
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
                 {{#isAdditionalPropertiesTrue}}
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
@@ -394,13 +394,20 @@
                 {{/parent}}
                 {{#vars}}
                 {{^vendorExtensions.x-is-value-type}}
-                if (this.{{name}} != null)
+                if ({{^required}}this.{{name}}.IsSet && {{/required}}this.{{name}}{{^required}}.Value{{/required}} != null)
                 {
-                    hashCode = (hashCode * 59) + this.{{name}}.GetHashCode();
+                    hashCode = (hashCode * 59) + this.{{name}}{{^required}}.Value{{/required}}.GetHashCode();
                 }
                 {{/vendorExtensions.x-is-value-type}}
                 {{#vendorExtensions.x-is-value-type}}
-                hashCode = (hashCode * 59) + this.{{name}}.GetHashCode();
+                {{^required}}
+                if (this.{{name}}.IsSet)
+                {
+                {{/required}}
+                hashCode = (hashCode * 59) + this.{{name}}{{^required}}.Value{{/required}}.GetHashCode();
+                {{^required}}
+                }
+                {{/required}}
                 {{/vendorExtensions.x-is-value-type}}
                 {{/vars}}
                 {{#isAdditionalPropertiesTrue}}
