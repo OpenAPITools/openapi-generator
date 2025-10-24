@@ -138,10 +138,11 @@
     {{/hasOnlyReadOnly}}
         public {{classname}}({{#readWriteVars}}{{^required}}Option<{{/required}}{{{datatypeWithEnum}}}{{^required}}>{{/required}} {{>CamelCaseSanitizedParamName}} = {{#required}}{{#defaultValue}}{{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default{{/defaultValue}}{{/required}}{{^required}}default{{/required}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{>CamelCaseSanitizedParamName}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
         {
+            {{! Push all sanity tests on top }}
             {{#vars}}
             {{^isInherited}}
             {{^isReadOnly}}
-            {{^isNullable}} {{! Push all sanity tests on top }}
+            {{^isNullable}}
             {{^vendorExtensions.x-csharp-value-type}}
             // to ensure "{{>CamelCaseSanitizedParamName}}" is required (not null)
             if ({{^required}}{{>CamelCaseSanitizedParamName}}.IsSet && {{/required}}{{>CamelCaseSanitizedParamName}}{{^required}}.Value{{/required}} == null)
@@ -153,7 +154,8 @@
             {{/isReadOnly}}
             {{/isInherited}}
             {{/vars}}
-            {{#vars}} {{! Assign all values }}
+            {{! Assign all values }}
+            {{#vars}}
             {{^isInherited}}
             {{^isReadOnly}}
             {{^required}}
@@ -188,7 +190,7 @@
             {
                 this._flag{{name}} = true;
             }
-            {{/conditionalSerialization}}                
+            {{/conditionalSerialization}}
             {{/required}}
             {{/isReadOnly}}
             {{/isInherited}}
