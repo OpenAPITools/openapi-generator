@@ -98,7 +98,7 @@ jobs:
           maven-version: 3.8.8
           cache: gradle
       - name: Download build artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: artifact
       - name: Run Ensures Script
