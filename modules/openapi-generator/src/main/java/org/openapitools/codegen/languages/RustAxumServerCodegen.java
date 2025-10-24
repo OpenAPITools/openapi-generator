@@ -656,15 +656,17 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             final CodegenComposedSchemas cs = cm.getComposedSchemas();
             if (cs != null) {
                 final List<CodegenProperty> csOneOf = cs.getOneOf();
+                CodegenDiscriminator discriminator = cm.getDiscriminator();
+
                 if (csOneOf != null) {
-                    processPolymorphismDataType(csOneOf);
+                    processPolymorphismDataType(csOneOf, discriminator);
                     cs.setOneOf(csOneOf);
                     cm.setComposedSchemas(cs);
                 }
 
                 final List<CodegenProperty> csAnyOf = cs.getAnyOf();
                 if (csAnyOf != null) {
-                    processPolymorphismDataType(csAnyOf);
+                    processPolymorphismDataType(csAnyOf, discriminator);
                     cs.setAnyOf(csAnyOf);
                     cm.setComposedSchemas(cs);
                 }
@@ -721,6 +723,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
                     // Attributes based on the model name
                     property.defaultValue = String.format(Locale.ROOT, "r#\"%s\"#.to_string()", cm.getSchemaName());
+                    property.discriminatorValue = getDiscriminatorValue(cm.getClassname(), discriminator);
                     property.jsonSchema = String.format(Locale.ROOT, "{ \"default\":\"%s\"; \"type\":\"string\" }", cm.getSchemaName());
 
                     cm.vars.add(property);
@@ -741,6 +744,19 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 }
             }
         }
+    }
+
+    private static String getDiscriminatorValue(String modelName, CodegenDiscriminator discriminator) {
+        if (discriminator == null || discriminator.getMappedModels() == null) {
+            return modelName;
+        }
+        return discriminator
+                .getMappedModels()
+                .stream()
+                .filter(m -> m.getModelName().equals(modelName) && m.getMappingName() != null)
+                .map(CodegenDiscriminator.MappedModel::getMappingName)
+                .findFirst()
+                .orElse(modelName);
     }
 
     private static boolean discriminating(final List<CodegenDiscriminator> discriminatorsForModel, final CodegenModel cm) {
@@ -773,7 +789,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
     }
 
-    private static void processPolymorphismDataType(final List<CodegenProperty> cp) {
+    private static void processPolymorphismDataType(final List<CodegenProperty> cp, CodegenDiscriminator discriminator) {
         final HashSet<String> dedupDataTypeWithEnum = new HashSet<>();
         final HashMap<String, Integer> dedupDataType = new HashMap<>();
 
@@ -783,6 +799,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             // Mainly needed for primitive types.
             model.datatypeWithEnum = camelize(model.dataType.replaceAll("(?:\\w+::)+(\\w+)", "$1")
                     .replace("<", "Of").replace(">", "")).replace(" ", "").replace(",", "");
+            model.discriminatorValue = getDiscriminatorValue(model.datatypeWithEnum, discriminator);
             if (!dedupDataTypeWithEnum.add(model.datatypeWithEnum)) {
                 model.datatypeWithEnum += ++idx;
             }

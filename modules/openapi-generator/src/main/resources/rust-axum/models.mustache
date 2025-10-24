@@ -796,6 +796,9 @@ impl std::str::FromStr for {{{classname}}} {
 pub enum {{{classname}}} {
     {{#composedSchemas}}
     {{#anyOf}}
+    {{#discriminator}}
+    #[serde(alias = "{{{discriminatorValue}}}")]
+    {{/discriminator}}
     {{{datatypeWithEnum}}}({{{dataType}}}),
     {{/anyOf}}
     {{/composedSchemas}}
@@ -871,6 +874,9 @@ impl From<{{{dataType}}}> for {{{classname}}} {
 pub enum {{{classname}}} {
     {{#composedSchemas}}
     {{#oneOf}}
+    {{#discriminator}}
+    #[serde(alias = "{{{discriminatorValue}}}")]
+    {{/discriminator}}
     {{{datatypeWithEnum}}}({{{dataType}}}),
     {{/oneOf}}
     {{/composedSchemas}}
@@ -1071,7 +1077,7 @@ pub struct {{{classname}}} {
 {{#isString}}
 impl {{{classname}}} {
     fn _name_for_{{{name}}}() -> String {
-        String::from("{{{classname}}}")
+        String::from("{{#discriminatorValue}}{{{discriminatorValue}}}{{/discriminatorValue}}{{^discriminatorValue}}{{classname}}{{/discriminatorValue}}")
     }
 
     fn _serialize_{{{name}}}<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
