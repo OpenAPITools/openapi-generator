@@ -7,6 +7,7 @@ import json
 import os
 import time
 import unittest
+import uuid
 
 from pydantic import ValidationError, SecretStr, BaseModel, StrictStr, Field
 import pytest
@@ -636,6 +637,11 @@ class ModelTests(unittest.TestCase):
         # shouldn't throw ValueError("BaseDiscriminator failed to lookup discriminator value...")
         assert user_info is not None
         self.assertEqual(user_info.to_json(), user_info_json)
+
+    def test_uuid(self):
+        a = petstore_api.MixedPropertiesAndAdditionalPropertiesClass(uuid=uuid.UUID('16ce5deb-4464-4712-bff9-1e795a43cc75'))
+        self.assertEqual(a.to_dict(), {'uuid': uuid.UUID('16ce5deb-4464-4712-bff9-1e795a43cc75')})
+        self.assertEqual(json.loads(a.to_json()), {'uuid': '16ce5deb-4464-4712-bff9-1e795a43cc75'})
 
 class TestdditionalPropertiesAnyType(unittest.TestCase):
     def test_additional_properties(self):

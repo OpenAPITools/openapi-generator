@@ -6,6 +6,7 @@
 import os
 import time
 import unittest
+import json
 
 import petstore_api
 
@@ -236,3 +237,8 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(False) # this line shouldn't execute
         except ValueError as e:
             self.assertTrue("must be one of enum values ('available', 'pending', 'sold')" in str(e))
+
+    def test_uuid(self):
+        a = petstore_api.MixedPropertiesAndAdditionalPropertiesClass(uuid='16ce5deb-4464-4712-bff9-1e795a43cc75')
+        self.assertEqual(a.to_dict(), {'uuid': '16ce5deb-4464-4712-bff9-1e795a43cc75'})
+        self.assertEqual(json.loads(a.to_json()), {'uuid': '16ce5deb-4464-4712-bff9-1e795a43cc75'})
