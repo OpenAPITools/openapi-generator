@@ -144,7 +144,7 @@
             {{^isReadOnly}}
             {{^isNullable}}
             {{^vendorExtensions.x-csharp-value-type}}
-            // to ensure "{{>CamelCaseSanitizedParamName}}" is required (not null)
+            // to ensure "{{>CamelCaseSanitizedParamName}}" (not nullable) is not null
             if ({{^required}}{{>CamelCaseSanitizedParamName}}.IsSet && {{/required}}{{>CamelCaseSanitizedParamName}}{{^required}}.Value{{/required}} == null)
             {
                 throw new ArgumentNullException("{{>CamelCaseSanitizedParamName}} isn't a nullable property for {{classname}} and cannot be null");
