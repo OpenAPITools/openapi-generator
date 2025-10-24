@@ -58,7 +58,6 @@ models/NullableClass.ts
 models/NumberOnly.ts
 models/ObjectSerializer.ts
 models/ObjectWithDeprecatedFields.ts
-models/OneOfClass.ts
 models/Order.ts
 models/OuterComposite.ts
 models/OuterEnum.ts
@@ -72,6 +71,7 @@ models/Return.ts
 models/SingleRefType.ts
 models/SpecialModelName.ts
 models/Tag.ts
+models/TypeMatcher.ts
 models/User.ts
 models/all.ts
 package.json

@@ -19,10 +19,10 @@ middleware.ts
 models/ApiResponse.ts
 models/Category.ts
 models/ObjectSerializer.ts
-models/OneOfClass.ts
 models/Order.ts
 models/Pet.ts
 models/Tag.ts
+models/TypeMatcher.ts
 models/User.ts
 models/all.ts
 package.json

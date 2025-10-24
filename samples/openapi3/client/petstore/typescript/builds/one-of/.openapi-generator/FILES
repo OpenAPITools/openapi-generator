@@ -1,5 +1,6 @@
 .gitattributes
 .gitignore
+.openapi-generator-ignore
 DefaultApi.md
 README.md
 apis/DefaultApi.ts
@@ -15,9 +16,9 @@ middleware.ts
 models/Cat.ts
 models/Dog.ts
 models/ObjectSerializer.ts
-models/OneOfClass.ts
 models/PetDiscriminatorResponse.ts
 models/PetResponse.ts
+models/TypeMatcher.ts
 models/all.ts
 package.json
 rxjsStub.ts

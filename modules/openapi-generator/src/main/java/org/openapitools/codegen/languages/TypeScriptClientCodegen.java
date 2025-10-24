@@ -174,7 +174,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         // models
         setModelPackage("models");
         supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
-        supportingFiles.add(new SupportingFile("model" + File.separator + "OneOfClass.mustache", "models", "OneOfClass.ts"));
+        supportingFiles.add(new SupportingFile("model" + File.separator + "TypeMatcher.mustache", "models", "TypeMatcher.ts"));
 
         modelTemplateFiles.put("model" + File.separator + "model.mustache", ".ts");
 

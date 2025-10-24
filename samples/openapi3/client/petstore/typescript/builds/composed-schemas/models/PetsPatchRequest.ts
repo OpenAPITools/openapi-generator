@@ -12,7 +12,7 @@
 
 import { Cat } from '../models/Cat';
 import { Dog } from '../models/Dog';
-import { OneOfClass } from '../models/OneOfClass';
+import { findMatchingType } from '../models/TypeMatcher';
 
 /**
  * @type PetsPatchRequest
@@ -25,21 +25,21 @@ export type PetsPatchRequest = Cat | Dog | any;
 * @type PetsPatchRequestClass
 * @export
 */
-export class PetsPatchRequestClass extends OneOfClass {
+export class PetsPatchRequestClass {
     static readonly discriminator: string | undefined = "petType";
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
     private static readonly arrayOfTypes: Array<typeof Cat | typeof Dog | typeof any> = [Cat, Dog, any];
 
+    /**
+     * Determines which oneOf schema matches the provided data.
+     *
+     * @param data - The data object to match against oneOf schemas
+     * @returns The name of the matching type, or undefined if no unique match is found
+     */
     public static findMatchingType(data: any): string | undefined {
-        for (const type of this.arrayOfTypes) {
-            if (this.instanceOf(data, type.getAttributeTypeMap())) {
-                return type.name;
-            }
-        }
-
-        return undefined;
+        return findMatchingType(data, this.arrayOfTypes);
     }
 }
 

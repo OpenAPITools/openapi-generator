@@ -28,7 +28,6 @@ models/DataQuery.ts
 models/DefaultValue.ts
 models/NumberPropertiesOnly.ts
 models/ObjectSerializer.ts
-models/OneOfClass.ts
 models/Pet.ts
 models/Query.ts
 models/StringEnumRef.ts
@@ -36,6 +35,7 @@ models/Tag.ts
 models/TestFormObjectMultipartRequestMarker.ts
 models/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.ts
 models/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.ts
+models/TypeMatcher.ts
 models/all.ts
 package.json
 rxjsStub.ts

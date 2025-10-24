@@ -6,7 +6,7 @@ import { {{classname}} } from '{{filename}}{{importFileExtension}}';
 {{/tsImports}}
 {{#oneOf}}
     {{#-first}}
-import { OneOfClass } from '../models/OneOfClass{{importFileExtension}}';
+import { findMatchingType } from '../models/TypeMatcher{{importFileExtension}}';
     {{/-first}}
 {{/oneOf}}
 {{^oneOf}}
