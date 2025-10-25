@@ -4043,7 +4043,15 @@ public class DefaultCodegen implements CodegenConfig {
             property.isWriteOnly = p.getWriteOnly();
         }
         if (p.getNullable() != null) {
-            property.isNullable = p.getNullable();
+        if (Boolean.TRUE.equals(p.getNullable())) {
+            property.isNullable = true;
+        } else if (p.getOneOf() != null && p.getOneOf().stream().anyMatch(
+            s -> "null".equals(s.getType()))) {
+            property.isNullable = true;
+        } else {
+            property.isNullable = false;
+        }
+
         }
 
         if (p.getExtensions() != null && !p.getExtensions().isEmpty()) {
