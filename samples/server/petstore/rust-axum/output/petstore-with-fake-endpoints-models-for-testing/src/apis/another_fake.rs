@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum TestSpecialTagsResponse {

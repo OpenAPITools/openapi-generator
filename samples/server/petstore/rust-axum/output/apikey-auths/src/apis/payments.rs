@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetPaymentMethodByIdResponse {
@@ -17,7 +17,7 @@ pub enum GetPaymentMethodByIdResponse {
     Status422_UnprocessableEntity_Json(models::CheckoutError),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetPaymentMethodsResponse {
@@ -25,7 +25,7 @@ pub enum GetPaymentMethodsResponse {
     Status200_OK_Json(Vec<models::PaymentMethod>),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum PostMakePaymentResponse {

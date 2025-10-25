@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum MultipartRelatedRequestPostResponse {
@@ -15,7 +15,7 @@ pub enum MultipartRelatedRequestPostResponse {
     Status201_OK,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum MultipartRequestPostResponse {
@@ -23,7 +23,7 @@ pub enum MultipartRequestPostResponse {
     Status201_OK,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum MultipleIdenticalMimeTypesPostResponse {

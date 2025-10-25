@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteOrderResponse {
@@ -17,7 +17,7 @@ pub enum DeleteOrderResponse {
     Status404_OrderNotFound,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetInventoryResponse {
@@ -25,7 +25,7 @@ pub enum GetInventoryResponse {
     Status200_SuccessfulOperation_Json(std::collections::HashMap<String, i32>),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetOrderByIdResponse {
@@ -39,7 +39,7 @@ pub enum GetOrderByIdResponse {
     Status404_OrderNotFound,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum PlaceOrderResponse {

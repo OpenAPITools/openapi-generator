@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum AddPetResponse {
@@ -15,7 +15,7 @@ pub enum AddPetResponse {
     Status405_InvalidInput,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum DeletePetResponse {
@@ -23,7 +23,7 @@ pub enum DeletePetResponse {
     Status400_InvalidPetValue,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum FindPetsByStatusResponse {
@@ -35,7 +35,7 @@ pub enum FindPetsByStatusResponse {
     Status400_InvalidStatusValue,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum FindPetsByTagsResponse {
@@ -47,7 +47,7 @@ pub enum FindPetsByTagsResponse {
     Status400_InvalidTagValue,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetPetByIdResponse {
@@ -61,7 +61,7 @@ pub enum GetPetByIdResponse {
     Status404_PetNotFound,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum UpdatePetResponse {
@@ -73,7 +73,7 @@ pub enum UpdatePetResponse {
     Status405_ValidationException,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum UpdatePetWithFormResponse {
@@ -81,7 +81,7 @@ pub enum UpdatePetWithFormResponse {
     Status405_InvalidInput,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum UploadFileResponse {

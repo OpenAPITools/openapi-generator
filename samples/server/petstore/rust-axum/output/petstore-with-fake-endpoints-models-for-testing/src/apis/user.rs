@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUserResponse {
@@ -15,7 +15,7 @@ pub enum CreateUserResponse {
     Status0_SuccessfulOperation,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithArrayInputResponse {
@@ -23,7 +23,7 @@ pub enum CreateUsersWithArrayInputResponse {
     Status0_SuccessfulOperation,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithListInputResponse {
@@ -31,7 +31,7 @@ pub enum CreateUsersWithListInputResponse {
     Status0_SuccessfulOperation,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteUserResponse {
@@ -41,7 +41,7 @@ pub enum DeleteUserResponse {
     Status404_UserNotFound,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetUserByNameResponse {
@@ -55,7 +55,7 @@ pub enum GetUserByNameResponse {
     Status404_UserNotFound,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum LoginUserResponse {
@@ -75,7 +75,7 @@ pub enum LoginUserResponse {
     Status400_InvalidUsername,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum LogoutUserResponse {
@@ -83,7 +83,7 @@ pub enum LogoutUserResponse {
     Status0_SuccessfulOperation,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum UpdateUserResponse {

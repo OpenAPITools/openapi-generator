@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{models, types::*};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum AllOfGetResponse {
@@ -15,7 +15,7 @@ pub enum AllOfGetResponse {
     Status200_OK_PlainText(String),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum DummyGetResponse {
@@ -23,7 +23,7 @@ pub enum DummyGetResponse {
     Status200_Success,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum DummyPutResponse {
@@ -31,7 +31,7 @@ pub enum DummyPutResponse {
     Status200_Success,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum FileResponseGetResponse {
@@ -39,7 +39,7 @@ pub enum FileResponseGetResponse {
     Status200_Success_Json(ByteArray),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetStructuredYamlResponse {
@@ -47,7 +47,7 @@ pub enum GetStructuredYamlResponse {
     Status200_OK_PlainText(String),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum HtmlPostResponse {
@@ -55,7 +55,7 @@ pub enum HtmlPostResponse {
     Status200_Success_PlainText(String),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum PostYamlResponse {
@@ -63,7 +63,7 @@ pub enum PostYamlResponse {
     Status204_OK,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum RawJsonGetResponse {
@@ -71,7 +71,7 @@ pub enum RawJsonGetResponse {
     Status200_Success_PlainText(String),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum SoloObjectPostResponse {
