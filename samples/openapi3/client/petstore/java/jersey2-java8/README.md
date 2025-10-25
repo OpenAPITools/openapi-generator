@@ -188,6 +188,9 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [AllOfRefToDouble](docs/AllOfRefToDouble.md)
+ - [AllOfRefToFloat](docs/AllOfRefToFloat.md)
+ - [AllOfRefToLong](docs/AllOfRefToLong.md)
  - [Animal](docs/Animal.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
