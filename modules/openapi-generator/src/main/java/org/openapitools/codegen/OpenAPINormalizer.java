@@ -150,6 +150,7 @@ public class OpenAPINormalizer {
     boolean updateNumberToNullable;
     boolean updateBooleanToNullable;
 
+    // when set (e.g. internal:unused), remove the x-internalt:true elements and remove the unused elements
     final String REMOVE_FILTER = "REMOVE_FILTER";
     RemoveFilter removeFilter = new RemoveFilter();
 
