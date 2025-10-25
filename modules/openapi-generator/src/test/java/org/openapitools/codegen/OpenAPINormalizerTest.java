@@ -1251,6 +1251,60 @@ public class OpenAPINormalizerTest {
         assertNotNull(inlinePropertyAfter.getProperties().get("nestedNumber"));
     }
 
+    @Test
+    public void testSimplifyNullableOneOf() {
+         // 1. Define the OpenAPI spec string that contains the bug pattern
+         final String yaml =
+                "openapi: 3.0.0\n" +
+                "info:\n" +
+                "  version: 1.0.0\n" +
+                "  title: API\n" +
+                "paths:\n" +
+                "  /test:\n" +
+                "    get:\n" +
+                "      responses:\n" +
+                "        '200':\n" +
+                "          description: OK\n" +
+                "          content:\n" +
+                "            application/json:\n" +
+                "              schema:\n" +
+                "                $ref: '#/components/schemas/Recipe'\n" +
+                "components:\n" +
+                "  schemas:\n" +
+                "    Category:\n" +
+                "      type: object\n" +
+                "      properties:\n" +
+                "        name:\n" +
+                "          type: string\n" +
+                "    Recipe:\n" +
+                "      type: object\n" +
+                "      properties:\n" +
+                "        category:\n" + // This is the property with the nullable oneOf
+                "          description: 'This should become nullable'\n" +
+                "          oneOf:\n" +
+                "            - $ref: '#/components/schemas/Category'\n" +
+                "            - type: 'null'\n";
+
+         // 2. Load the spec and run the normalizer (with default rules)
+          final OpenAPI openAPI = TestUtils.parseSpec(yaml);
+         new OpenAPINormalizer(openAPI, Collections.emptyMap()).normalize();
+
+         // 3. Get the specific schema property that should have been fixed
+         Schema recipeSchema = openAPI.getComponents().getSchemas().get("Recipe");
+         Schema categoryProperty = (Schema) recipeSchema.getProperties().get("category");
+
+         // 4. Assert that the fix worked as expected
+         assertNotNull(categoryProperty, "The category property should not be null.");
+        
+         // Key Assertions:
+         assertTrue(categoryProperty.getNullable(), "The property should be marked as nullable.");
+         assertNull(categoryProperty.getOneOf(), "The oneOf should have been removed.");
+         assertEquals(categoryProperty.get$ref(), "#/components/schemas/Category", "The $ref should be preserved.");
+        
+         // Also check that metadata was preserved
+         assertEquals(categoryProperty.getDescription(), "This should become nullable'");
+    }
+
     public static class RemoveRequiredNormalizer extends OpenAPINormalizer {
 
         public RemoveRequiredNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {

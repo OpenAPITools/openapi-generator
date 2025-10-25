@@ -963,36 +963,75 @@ public class OpenAPINormalizer {
         return schema;
     }
 
+    protected Schema simplifyNullableOneOf(Schema schema) {
+    
+        if (schema.getOneOf() == null || schema.getOneOf().size() != 2) {
+           // Not the pattern we are looking for, so do nothing.
+           return schema;
+        }
+
+           List<Schema> subSchemas = new ArrayList<>(schema.getOneOf());
+           Schema nullSchema = null;
+           Schema mainSchema = null;
+
+          // Identify the null schema and the main schema
+        if (ModelUtils.isNullTypeSchema(openAPI, subSchemas.get(0))) {
+          nullSchema = subSchemas.get(0);
+          mainSchema = subSchemas.get(1);
+        } else if (ModelUtils.isNullTypeSchema(openAPI, subSchemas.get(1))) {
+          nullSchema = subSchemas.get(1);
+          mainSchema = subSchemas.get(0);
+        } else {
+          // Pattern does not contain a null type, so do nothing.
+         return schema;
+        }
+
+     // Clone the main schema to avoid modifying the original component
+     Schema result = ModelUtils.cloneSchema(mainSchema);
+
+     // Set nullable to true on the result
+     result.setNullable(true);
+    
+     // Copy metadata from the original container schema to the result
+     ModelUtils.copyMetadata(schema, result);
+
+     LOGGER.debug("Simplified nullable oneOf schema.");
+     return result;
+    }
+
     protected Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
         // Remove duplicate oneOf entries
         ModelUtils.deduplicateOneOfSchema(schema);
 
-        schema = processSimplifyOneOfEnum(schema);
+        // Try to simplify oneOf with a nullable type first
+        schema = simplifyNullableOneOf(schema);
 
-        // simplify first as the schema may no longer be a oneOf after processing the rule below
-        schema = processSimplifyOneOf(schema);
-
-        // if it's still a oneOf, loop through the sub-schemas
+        // if it's still a oneOf after simplification, continue with other rules
         if (schema.getOneOf() != null) {
-            for (int i = 0; i < schema.getOneOf().size(); i++) {
-                // normalize oneOf sub schemas one by one
-                Object item = schema.getOneOf().get(i);
+            schema = processSimplifyOneOfEnum(schema);
+                // simplify first as the schema may no longer be a oneOf after processing the rule below
+               schema = processSimplifyOneOf(schema);
 
+               if (schema.getOneOf() != null) {
+                   for (int i = 0; i < schema.getOneOf().size(); i++) {
+                   // normalize oneOf sub schemas one by one
+                   Object item = schema.getOneOf().get(i);
+                }
                 if (item == null) {
-                    continue;
+                   continue;
                 }
                 if (!(item instanceof Schema)) {
-                    throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
-                }
-
-                // update sub-schema with the updated schema
+                throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
                 schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
             }
         } else {
-            // normalize it as it's no longer an oneOf
+            // normalize it as it's no longer a oneOf
             schema = normalizeSchema(schema, visitedSchemas);
         }
-
+        } else {
+            // It was simplified and is no longer a oneOf, so normalize it as a simple schema
+            return normalizeSchema(schema, visitedSchemas);
+        }
         return schema;
     }
 
