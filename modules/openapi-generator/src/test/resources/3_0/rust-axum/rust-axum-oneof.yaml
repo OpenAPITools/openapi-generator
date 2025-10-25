@@ -76,11 +76,14 @@ components:
       additionalProperties: false
       discriminator:
         propertyName: op
+        mapping:
+          yo: "#/components/schemas/YoMessage"
       oneOf:
         - "$ref": "#/components/schemas/Hello"
         - "$ref": "#/components/schemas/Greeting"
         - "$ref": "#/components/schemas/Goodbye"
         - "$ref": "#/components/schemas/SomethingCompletelyDifferent"
+        - "$ref": "#/components/schemas/YoMessage"
       title: Message
     Hello:
       type: object
@@ -141,3 +144,17 @@ components:
             type: object
           type: array
         - type: object
+    YoMessage:
+      type: object
+      title: Yo
+      properties:
+        d:
+          type: object
+          properties:
+            nickname:
+              type: string
+          required:
+            - nickname
+      required:
+        - op
+        - d

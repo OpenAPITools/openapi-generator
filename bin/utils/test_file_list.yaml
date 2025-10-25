@@ -59,6 +59,6 @@
   sha256: 45cdaba3d2adc212cd4f0184ad475419a95e2326254c2ef84175e210c922b2f3
 # rust axum test files
 - filename: "samples/server/petstore/rust-axum/output/rust-axum-oneof/tests/oneof_with_discriminator.rs"
-  sha256: 2d4f5a069fdcb3057bb078d5e75b3de63cd477b97725e457079df24bd2c30600
+  sha256: b2093528aac971193f2863a70f46eea45cf8bda79120b133a614599e80d8b46d
 - filename: "samples/server/petstore/rust-axum/output/openapi-v3/tests/oneof_untagged.rs"
   sha256: 1d3fb01f65e98290b1d3eece28014c7d3e3f2fdf18e7110249d3c591cc4642ab
